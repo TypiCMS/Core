@@ -1,0 +1,23 @@
+{
+    "name": "typicms/core",
+    "description": "",
+    "authors": [
+        {
+            "name": "Samuel De Backer",
+            "email": "sdebacker@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "migrations"
+        ],
+        "psr-4": {
+            "TypiCMS\\": ""
+        }
+    },
+    "minimum-stability": "stable"
+}
