@@ -33,9 +33,6 @@
         "typicms/translatablebootforms": "~1.0.0"
     },
     "autoload": {
-        "classmap": [
-            "migrations"
-        ],
         "psr-4": {
             "TypiCMS\\": ""
         }
