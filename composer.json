@@ -20,6 +20,16 @@
         "jenssegers/rollbar": "~1.3",
         "laracasts/utilities": "~1.0",
         "vlucas/phpdotenv": "~1.0",
+        "typicms/pages": "dev-master",
+        "typicms/menus": "dev-master",
+        "typicms/settings": "dev-master",
+        "typicms/dashboard": "dev-master",
+        "typicms/users": "dev-master",
+        "typicms/groups": "dev-master",
+        "typicms/history": "dev-master",
+        "typicms/sitemap": "dev-master",
+        "typicms/translations": "dev-master",
+        "typicms/tags": "dev-master",
         "typicms/translatablebootforms": "~1.0.0"
     },
     "autoload": {
