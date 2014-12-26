@@ -30,7 +30,7 @@
         "typicms/sitemap": "dev-master",
         "typicms/translations": "dev-master",
         "typicms/tags": "dev-master",
-        "typicms/translatablebootforms": "~1.0.0"
+        "typicms/translatablebootforms": "~1.1.0"
     },
     "autoload": {
         "psr-4": {
