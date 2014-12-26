@@ -28,6 +28,9 @@
         "typicms/groups": "dev-master",
         "typicms/history": "dev-master",
         "typicms/sitemap": "dev-master",
+        "typicms/blocks": "dev-master",
+        "typicms/files": "dev-master",
+        "typicms/galleries": "dev-master",
         "typicms/translations": "dev-master",
         "typicms/tags": "dev-master",
         "typicms/translatablebootforms": "~1.1.0"
