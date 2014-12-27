@@ -8,6 +8,7 @@
         }
     ],
     "require": {
+        "barryvdh/laravel-debugbar": "~1.8",
         "bkwld/croppa": "~3.4.2",
         "cartalyst/sentry": "~2.1.4",
         "cviebrock/image-validator": "~1.0.4",
@@ -37,14 +38,13 @@
     },
     "require-dev": {
         "way/generators": "~3.0",
-        "barryvdh/laravel-debugbar": "~1.8",
         "mockery/mockery": "~0.9.2",
         "phpspec/phpspec": "~2.0",
         "raveren/kint": "~0.9.1"
     },
     "autoload": {
         "psr-4": {
-            "TypiCMS\\": ""
+            "TypiCMS\\": "src/"
         }
     },
     "minimum-stability": "stable"
