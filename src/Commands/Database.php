@@ -84,8 +84,17 @@ class Database extends Command
 
         // Migrate DB
         if (! Schema::hasTable('migrations')) {
-            $this->call('migrate');
-            $this->call('db:seed');
+            $this->call('migrate', ['--package' => 'typicms/blocks']);
+            $this->call('migrate', ['--package' => 'typicms/files']);
+            $this->call('migrate', ['--package' => 'typicms/galleries']);
+            $this->call('migrate', ['--package' => 'typicms/groups']);
+            $this->call('migrate', ['--package' => 'typicms/history']);
+            $this->call('migrate', ['--package' => 'typicms/menus']);
+            $this->call('migrate', ['--package' => 'typicms/pages']);
+            $this->call('migrate', ['--package' => 'typicms/settings']);
+            $this->call('migrate', ['--package' => 'typicms/tags']);
+            $this->call('migrate', ['--package' => 'typicms/translations']);
+            $this->call('migrate', ['--package' => 'typicms/users']);
         } else {
             $this->error('A migrations table was found in database ['.$dbName.'], no migrate and seed were done.');
         }
