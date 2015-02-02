@@ -48,5 +48,10 @@
             "TypiCMS\\": "src/"
         }
     },
+    "scripts": {
+        "post-install-cmd": [
+            "php artisan view:publish typicms/core"
+        ]
+    },
     "minimum-stability": "stable"
 }
