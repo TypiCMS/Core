@@ -95,6 +95,7 @@ class Database extends Command
             $this->call('migrate', ['--package' => 'typicms/tags']);
             $this->call('migrate', ['--package' => 'typicms/translations']);
             $this->call('migrate', ['--package' => 'typicms/users']);
+            $this->call('db:seed', ['--class' => 'SettingsSeeder']);
         } else {
             $this->error('A migrations table was found in database ['.$dbName.'], no migrate and seed were done.');
         }
