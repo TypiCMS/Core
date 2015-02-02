@@ -25,5 +25,5 @@ Route::when('admin',   'admin.setLocale|user.auth|user.hasAccess');
 Route::when('admin/*', 'admin.setLocale|user.auth|user.hasAccess');
 Route::when('api',     'admin.setLocale');
 Route::when('api/*',   'admin.setLocale');
-Route::when('api',     'user.auth', ['post', 'put', 'patch', 'delete']);
-Route::when('api/*',   'user.auth', ['post', 'put', 'patch', 'delete']);
+Route::when('api',     'user.auth|user.hasAccess', ['post', 'put', 'patch', 'delete']);
+Route::when('api/*',   'user.auth|user.hasAccess', ['post', 'put', 'patch', 'delete']);
