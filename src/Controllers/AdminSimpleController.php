@@ -16,7 +16,7 @@ abstract class AdminSimpleController extends BaseAdminController
      */
     public function index()
     {
-        $this->layout->content = View::make('core::admin.index');
+        return view('core::admin.index');
     }
 
     /**
@@ -27,7 +27,7 @@ abstract class AdminSimpleController extends BaseAdminController
     public function create()
     {
         $model = $this->repository->getModel();
-        $this->layout->content = View::make('core::admin.create')
+        return view('core::admin.create')
             ->withModel($model);
     }
 
@@ -39,7 +39,7 @@ abstract class AdminSimpleController extends BaseAdminController
      */
     public function edit(Model $model)
     {
-        $this->layout->content = View::make('core::admin.edit')
+        return view('core::admin.edit')
             ->withModel($model);
     }
 

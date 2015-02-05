@@ -1,12 +1,14 @@
 <?php
 namespace TypiCMS\Controllers;
 
-use Controller;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 use Input;
 use Response;
 
-abstract class BaseApiController extends Controller
+abstract class BaseApiController extends BaseController
 {
 
     protected $repository;

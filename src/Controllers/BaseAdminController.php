@@ -2,20 +2,17 @@
 namespace TypiCMS\Controllers;
 
 use Config;
-use Controller;
+use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 use Input;
 use Lang;
 use Patchwork\Utf8;
 use Response;
 use View;
 
-abstract class BaseAdminController extends Controller
+abstract class BaseAdminController extends BaseController
 {
-
-    /**
-     * The layout that should be used for responses.
-     */
-    protected $layout = 'core::admin/master';
 
     protected $repository;
     protected $form;
@@ -37,9 +34,9 @@ abstract class BaseAdminController extends Controller
         $this->applicationName = Config::get('typicms.' . Lang::getLocale() . '.websiteTitle');
 
         $instance = $this;
-        View::composer($this->layout, function (\Illuminate\View\View $view) use ($instance) {
-            $view->with('title', $instance->getTitle());
-        });
+        // View::composer($this->layout, function (\Illuminate\View\View $view) use ($instance) {
+        //     $view->with('title', $instance->getTitle());
+        // });
 
         View::share('locales', Config::get('translatable.locales'));
         View::share('locale', Config::get('app.locale'));
@@ -54,18 +51,6 @@ abstract class BaseAdminController extends Controller
         $title .= ' – ' . $this->applicationName;
 
         return $title;
-    }
-
-    /**
-     * Setup the layout used by the controller.
-     *
-     * @return void
-     */
-    protected function setupLayout()
-    {
-        if (! is_null($this->layout)) {
-            $this->layout = View::make($this->layout);
-        }
     }
 
     /**

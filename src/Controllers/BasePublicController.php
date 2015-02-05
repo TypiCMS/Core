@@ -2,20 +2,17 @@
 namespace TypiCMS\Controllers;
 
 use App;
-use View;
-use Input;
-use Sentry;
 use Config;
-use Controller;
+use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
+use Input;
 use Patchwork\Utf8;
+use Sentry;
+use View;
 
-abstract class BasePublicController extends Controller
+abstract class BasePublicController extends BaseController
 {
-
-    /**
-     * The layout that should be used for responses.
-     */
-    protected $layout = 'core::public/master';
 
     protected $repository;
 
@@ -35,9 +32,9 @@ abstract class BasePublicController extends Controller
         $this->applicationName = Config::get('typicms.' . App::getLocale() . '.websiteTitle');
 
         $instance = $this;
-        View::composer($this->layout, function (\Illuminate\View\View $view) use ($instance) {
-            $view->withTitle(Utf8::ucfirst(implode(' ', $instance->title)) . ' – ' . $instance->applicationName);
-        });
+        // View::composer($this->layout, function (\Illuminate\View\View $view) use ($instance) {
+        //     $view->withTitle(Utf8::ucfirst(implode(' ', $instance->title)) . ' – ' . $instance->applicationName);
+        // });
 
         $bodyClass = ['lang-' . App::getLocale(), $repository->getModel()->getTable()];
         if (Sentry::getUser() && ! Input::get('preview')) {
@@ -45,17 +42,5 @@ abstract class BasePublicController extends Controller
         }
         View::share('lang', App::getLocale());
         View::share('bodyClass', implode(' ', $bodyClass));
-    }
-
-    /**
-     * Setup the layout used by the controller.
-     *
-     * @return void
-     */
-    protected function setupLayout()
-    {
-        if (! is_null($this->layout)) {
-            $this->layout = View::make($this->layout);
-        }
     }
 }

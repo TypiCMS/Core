@@ -17,7 +17,7 @@ abstract class AdminNestedController extends BaseAdminController
      */
     public function index(Model $parent = null)
     {
-        $this->layout->content = View::make('core::admin.index');
+        return view('core::admin.index');
     }
 
     /**
@@ -29,7 +29,7 @@ abstract class AdminNestedController extends BaseAdminController
     public function create(Model $parent = null)
     {
         $model = $this->repository->getModel();
-        $this->layout->content = View::make('core::admin.create')
+        return view('core::admin.create')
             ->withModel($model);
     }
 
@@ -42,7 +42,7 @@ abstract class AdminNestedController extends BaseAdminController
      */
     public function edit(Model $parent = null, Model $model)
     {
-        $this->layout->content = View::make('core::admin.edit')
+        return view('core::admin.edit')
             ->withModel($model);
     }
 
