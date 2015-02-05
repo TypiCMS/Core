@@ -60,62 +60,54 @@ class Install extends Command
     public function fire()
     {
 
+        $this->line('------------------');
         $this->line('Welcome to TypiCMS');
+        $this->line('------------------');
+
+        $this->info('Publishing vendor packages...');
+        $this->call('vendor:publish');
+        $this->line('------------------');
 
         $this->laravel['env'] = 'local';
-
-        $this->checkThatEnvTemplateExists();
 
         // Ask for database name
         $this->info('Setting up database...');
         $dbName = $this->ask('What is your database name? ');
 
-        // Set database credentials in env.local.php and migrate
+        // Set database credentials in .env and migrate
         $this->call('typicms:database', array('database' => $dbName));
-        $this->line('----------------------');
+        $this->line('------------------');
 
         // Create a super user
         $this->createSuperUser();
 
         // Set cache key prefix
         $this->call('cache:prefix', array('prefix' => $dbName));
-        $this->line('----------------------');
+        $this->line('------------------');
 
         // Composer install
         if (function_exists('system')) {
             $this->info('Running npm install...');
             system('npm install');
             $this->info('npm packages installed.');
-            $this->line('----------------------');
+            $this->line('------------------');
             $this->info('Running bower install...');
             system('bower install');
             $this->info('Bower packages installed.');
-            $this->line('----------------------');
-            system('chmod -R 777 app/storage');
-            $this->info('app/storage is now writable.');
+            $this->line('------------------');
+            system('chmod -R 777 storage');
+            $this->info('Directory storage is now writable.');
             system('chmod -R 777 public/uploads');
-            $this->info('public/uploads is now writable.');
+            $this->info('Directory public/uploads is now writable.');
         } else {
-            $this->line('You can now make app/storage and public/uploads writable');
+            $this->line('You can now make /storage and /public/uploads directories writable');
             $this->line('and run composer install, npm install and bower install.');
         }
 
         // Done
-        $this->line('----------------------');
+        $this->line('------------------');
         $this->line('Done. Enjoy TypiCMS!');
 
-    }
-
-    /**
-     * Check that .env.example exists
-     *
-     * @return void|Exception when .env.example is not found
-     */
-    public function checkThatEnvTemplateExists()
-    {
-        if (! $this->files->exists('.env.example')) {
-            throw new Exception('No .env.example file found.');
-        }
     }
 
     /**
@@ -146,6 +138,6 @@ class Install extends Command
         } else {
             $this->error('User could not be created.');
         }
-        $this->line('----------------------');
+        $this->line('------------------');
     }
 }

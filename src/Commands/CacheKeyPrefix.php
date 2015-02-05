@@ -81,7 +81,7 @@ class CacheKeyPrefix extends Command
      */
     protected function getKeyFile()
     {
-        $contents = $this->files->get($path = $this->laravel['path']."/config/cache.php");
+        $contents = $this->files->get($path = "config/cache.php");
 
         return array($path, $contents);
     }

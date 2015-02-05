@@ -57,22 +57,21 @@ class Database extends Command
         $dbUserName = $this->ask('What is your MySQL username?');
         $dbPassword = $this->secret('What is your MySQL password?');
 
-        // Replace DB credentials taken from .env.example file
-        $keys = ['DB_NAME', 'DB_USERNAME', 'DB_PASSWORD'];
+        // Update DB credentials in .env file.
         $search = [
-            "$keys[0]=typicms",
-            "$keys[1]=homestead",
-            "$keys[2]=homestead",
+            '/(' . preg_quote('DB_DATABASE=') . ')(.*)/',
+            '/(' . preg_quote('DB_USERNAME=') . ')(.*)/',
+            '/(' . preg_quote('DB_PASSWORD=') . ')(.*)/',
         ];
         $replace = [
-            "$keys[0]=$dbName",
-            "$keys[1]=$dbUserName",
-            "$keys[2]=$dbPassword",
+            '$1' . $dbName,
+            '$1' . $dbUserName,
+            '$1' . $dbPassword,
         ];
-        $contents = str_replace($search, $replace, $contents, $count);
+        $contents = preg_replace($search, $replace, $contents);
 
-        if ($count != 3) {
-            throw new Exception('Error while writing credentials to .env.');
+        if (! $contents) {
+            throw new Exception('Error while writing credentials to .env file.');
         }
 
         // Set DB credentials to laravel config
@@ -84,17 +83,7 @@ class Database extends Command
 
         // Migrate DB
         if (! Schema::hasTable('migrations')) {
-            $this->call('migrate', ['--package' => 'typicms/blocks']);
-            $this->call('migrate', ['--package' => 'typicms/files']);
-            $this->call('migrate', ['--package' => 'typicms/galleries']);
-            $this->call('migrate', ['--package' => 'typicms/groups']);
-            $this->call('migrate', ['--package' => 'typicms/history']);
-            $this->call('migrate', ['--package' => 'typicms/menus']);
-            $this->call('migrate', ['--package' => 'typicms/pages']);
-            $this->call('migrate', ['--package' => 'typicms/settings']);
-            $this->call('migrate', ['--package' => 'typicms/tags']);
-            $this->call('migrate', ['--package' => 'typicms/translations']);
-            $this->call('migrate', ['--package' => 'typicms/users']);
+            $this->call('migrate');
             $this->call('db:seed', ['--class' => 'SettingsSeeder']);
         } else {
             $this->error('A migrations table was found in database ['.$dbName.'], no migrate and seed were done.');
@@ -123,6 +112,6 @@ class Database extends Command
      */
     protected function getKeyFile()
     {
-        return $this->files->get('.env.example');
+        return $this->files->get('.env');
     }
 }
