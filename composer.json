@@ -20,7 +20,6 @@
         "typicms/settings": "~1.8.0",
         "typicms/sitemap": "~1.8.0",
         "typicms/tags": "~1.8.0",
-        "typicms/translatablebootforms": "~1.1.0",
         "typicms/translations": "~1.8.0",
         "typicms/users": "~1.8.0"
     },
