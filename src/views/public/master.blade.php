@@ -104,10 +104,10 @@
 
     @endif
 
-    {{ HTML::script(asset('js/public/components.min.js')) }}
-    {{ HTML::script(asset('js/public/master.js')) }}
+    <script src="{{ asset('js/public/components.min.js') }}"></script>
+    <script src="{{ asset('js/public/master.js') }}"></script>
     @if (Input::get('preview'))
-    {{ HTML::script(asset('js/public/previewmode.js')) }}
+    <script src="{{ asset('js/public/previewmode.js') }}"></script>
     @endif
     
     @yield('js')

@@ -22,14 +22,18 @@
                         <a href="{{ route('admin.users.index') }}" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user fa-fw"></span> {{ Sentry::getUser()->first_name.' '.Sentry::getUser()->last_name }} <b class="caret"></b></a>
                         <div class="dropdown-menu dropdown-user">
                             <div class="img pull-left">
-                                <img src="{{ Gravatar::src(Sentry::getUser()->email, 100) }}" class="pull-left">
+                                <img src="http://www.gravatar.com/avatar/{{ md5(Sentry::getUser()->email) }}" class="pull-left">
                             </div>
                             <div class="info">
                                 <p>{{ Sentry::getUser()->email }}</p>
                                 @if (Sentry::getUser()->hasAccess('users.edit'))
-                                <p>{{ link_to_route('admin.users.edit', ucFirst( trans_choice('users::global.profile', 2, array(), null, Config::get('typicms.adminLocale')) ), Sentry::getUser()->id ) }}</p>
+                                <p>
+                                    <a href="{{ route('admin.users.edit', Sentry::getUser()->id) }}">@choice('users::global.profile', 2, array(), null, Config::get('typicms.adminLocale'))</a>
+                                </p>
                                 @endif
-                                <p>{{ link_to_route('logout', ucfirst(trans('users::global.log out', array(), null, Config::get('typicms.adminLocale'))), null, array('class' => 'btn btn-default btn-xs') ) }}</p>
+                                <p>
+                                    <a href="{{ route('logout') }}">{{ ucfirst(trans('users::global.log out', array(), null, Config::get('typicms.adminLocale'))) }}</a>
+                                </p>
                             </div>
                         </div>
                     </li>
