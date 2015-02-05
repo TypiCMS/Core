@@ -1,6 +1,5 @@
 <?php
 
-View::addNamespace('core', __DIR__ . '/views/');
 Lang::addNamespace('core', __DIR__ . '/lang/');
 Config::addNamespace('core', __DIR__ . '/config/');
 

@@ -13,6 +13,7 @@ use TypiCMS\Commands\Install;
 use TypiCMS\Modules\Users\Repositories\SentryUser;
 use TypiCMS\Services\TypiCMS;
 use TypiCMS\Services\Upload\FileUpload;
+use View;
 
 class CoreServiceProvider extends ServiceProvider {
 
@@ -30,10 +31,11 @@ class CoreServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        include __DIR__ . '/../start.php';
+        View::addNamespace('core', __DIR__ . '/../views/');
+        // include __DIR__ . '/../start.php';
         // Bring in the routes
         require __DIR__ . '/../routes.php';
-        $this->package('typicms/core');
+        // $this->package('typicms/core');
         $this->commands('command.install');
         $this->commands('command.cachekeyprefix');
         $this->commands('command.database');
@@ -54,7 +56,7 @@ class CoreServiceProvider extends ServiceProvider {
         if (Request::segment(1) != 'admin') {
 
             $firstSegment = Request::segment(1);
-            if (in_array($firstSegment, Config::get('app.locales'))) {
+            if (in_array($firstSegment, Config::get('translatable.locales'))) {
                 Config::set('app.locale', $firstSegment);
             }
             // Not very reliable, need to be refactored
