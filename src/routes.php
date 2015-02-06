@@ -19,7 +19,7 @@ foreach (Config::get('translatable.locales') as $locale) {
 }
 
 /**
- * Route filter admin side
+ * Route filter back office
  */
 Route::when('admin',   'admin.setLocale|user.auth|user.hasAccess');
 Route::when('admin/*', 'admin.setLocale|user.auth|user.hasAccess');

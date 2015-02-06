@@ -47,7 +47,7 @@ abstract class BaseApiController extends BaseController
      * @param  Model    $model
      * @return Response
      */
-    public function edit(Model $model)
+    public function edit($model)
     {
         return Response::json($model, 200);
     }
@@ -73,7 +73,7 @@ abstract class BaseApiController extends BaseController
      * @param  Model    $model
      * @return Response
      */
-    public function update(Model $model)
+    public function update($model)
     {
         $this->repository->update(Input::all());
         return Response::json([

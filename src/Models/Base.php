@@ -155,7 +155,7 @@ abstract class Base extends Model
                         $query->where('status', 1);
                     }
                     $query->where('locale', App::getLocale());
-                    $query->where('slug', '!=', '');
+                    // $query->where('slug', '!=', '');
                 }
             );
         } else {

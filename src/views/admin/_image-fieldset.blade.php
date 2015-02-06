@@ -6,10 +6,10 @@
             </div>
             @endif
             <div class="media-body">
-                {{ BootForm::file(trans('validation.attributes.' . $field), $field) }}
+                {!! BootForm::file(trans('validation.attributes.' . $field), $field) !!}
                 <span class="help-block">
                     @lang('validation.attributes.max :size MB', array('size' => 2))
                 </span>
-                {{ $errors->first($field, '<p class="help-block">:message</p>') }}
+                {!! $errors->first($field, '<p class="help-block">:message</p>') !!}
             </div>
         </div>

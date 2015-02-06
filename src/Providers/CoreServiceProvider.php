@@ -34,15 +34,11 @@ class CoreServiceProvider extends ServiceProvider {
         // include __DIR__ . '/../start.php';
 
         // Add dirs
-        // View::addLocation(__DIR__ . '/../Views');
         View::addNamespace('core', __DIR__ . '/../views/');
         $this->loadTranslationsFrom(__DIR__ . '/../lang', 'core');
         $this->publishes([
             __DIR__ . '/../config/' => config_path('typicms/core'),
         ], 'config');
-
-        // Bring in the routes
-        require __DIR__ . '/../routes.php';
 
         /*
         |--------------------------------------------------------------------------
@@ -78,9 +74,17 @@ class CoreServiceProvider extends ServiceProvider {
      */
     public function register()
     {
+
+        $app = $this->app;
+
+        /**
+         * Register route service provider
+         */
+        $app->register('TypiCMS\Providers\RouteServiceProvider');
+
         /*
         |--------------------------------------------------------------------------
-        | Set app locale on public side.
+        | Set app locale on front office.
         |--------------------------------------------------------------------------
         */
         if (Request::segment(1) != 'admin') {
@@ -139,7 +143,7 @@ class CoreServiceProvider extends ServiceProvider {
 
         /*
         |--------------------------------------------------------------------------
-        | Get custom routes for public side modules.
+        | Get custom routes for front office modules.
         |--------------------------------------------------------------------------
         */
         $this->app->singleton('TypiCMS.routes', function (Application $app) {

@@ -1,7 +1,6 @@
 <?php
 namespace TypiCMS\Controllers;
 
-use Illuminate\Database\Eloquent\Model;
 use Input;
 use Redirect;
 use View;
@@ -12,7 +11,7 @@ abstract class AdminSimpleController extends BaseAdminController
     /**
      * List models
      * 
-     * @return void
+     * @return View
      */
     public function index()
     {
@@ -22,7 +21,7 @@ abstract class AdminSimpleController extends BaseAdminController
     /**
      * Show the form for creating a new resource.
      *
-     * @return void
+     * @return View
      */
     public function create()
     {
@@ -34,10 +33,10 @@ abstract class AdminSimpleController extends BaseAdminController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Model $model
+     * @param  $model
      * @return void
      */
-    public function edit(Model $model)
+    public function edit($model)
     {
         return view('core::admin.edit')
             ->with(compact('model'));
@@ -46,10 +45,10 @@ abstract class AdminSimpleController extends BaseAdminController
     /**
      * Show resource.
      *
-     * @param  Model $model
+     * @param  $model
      * @return Redirect
      */
-    public function show(Model $model)
+    public function show($model)
     {
         return Redirect::to($model->editUrl());
     }
@@ -57,7 +56,6 @@ abstract class AdminSimpleController extends BaseAdminController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Model    $model
      * @return Redirect
      */
     public function store()
@@ -77,10 +75,10 @@ abstract class AdminSimpleController extends BaseAdminController
     /**
      * Update the specified resource in storage.
      *
-     * @param  Model    $model
+     * @param  $model
      * @return Redirect
      */
-    public function update(Model $model)
+    public function update($model)
     {
 
         if ($this->form->update(Input::all())) {
@@ -97,10 +95,10 @@ abstract class AdminSimpleController extends BaseAdminController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Model    $model
+     * @param  $model
      * @return Redirect
      */
-    public function destroy(Model $model)
+    public function destroy($model)
     {
         if ($this->repository->delete($model)) {
             return Redirect::back();
