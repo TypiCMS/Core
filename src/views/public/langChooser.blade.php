@@ -1,3 +1,5 @@
+@extends('core::public.master')
+
 @section('languagesMenu') @stop
 @section('header')        @stop
 @section('mainMenu')      @stop
