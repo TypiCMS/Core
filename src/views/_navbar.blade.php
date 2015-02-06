@@ -15,7 +15,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         @section('otherSideLink')
-                        {{ TypiCMS::otherSideLink() }}
+                        {!! TypiCMS::otherSideLink() !!}
                         @show
                     </li>
                     <li class="dropdown">
