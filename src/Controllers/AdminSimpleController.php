@@ -28,7 +28,7 @@ abstract class AdminSimpleController extends BaseAdminController
     {
         $model = $this->repository->getModel();
         return view('core::admin.create')
-            ->withModel($model);
+            ->with(compact('model'));
     }
 
     /**
@@ -40,7 +40,7 @@ abstract class AdminSimpleController extends BaseAdminController
     public function edit(Model $model)
     {
         return view('core::admin.edit')
-            ->withModel($model);
+            ->with(compact('model'));
     }
 
     /**

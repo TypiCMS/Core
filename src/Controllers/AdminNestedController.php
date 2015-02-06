@@ -30,7 +30,7 @@ abstract class AdminNestedController extends BaseAdminController
     {
         $model = $this->repository->getModel();
         return view('core::admin.create')
-            ->withModel($model);
+            ->with(compact('model'));
     }
 
     /**
@@ -43,7 +43,7 @@ abstract class AdminNestedController extends BaseAdminController
     public function edit(Model $parent = null, Model $model)
     {
         return view('core::admin.edit')
-            ->withModel($model);
+            ->with(compact('model'));
     }
 
     /**
