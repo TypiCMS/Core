@@ -159,6 +159,7 @@ class CoreServiceProvider extends ServiceProvider {
         $this->app->register('TypiCMS\Modules\Groups\Providers\ModuleProvider');
         $this->app->register('TypiCMS\Modules\Files\Providers\ModuleProvider');
         $this->app->register('TypiCMS\Modules\Galleries\Providers\ModuleProvider');
+        $this->app->register('TypiCMS\Modules\Tags\Providers\ModuleProvider');
         $this->app->register('TypiCMS\Modules\Dashboard\Providers\ModuleProvider');
         $this->app->register('TypiCMS\Modules\Menus\Providers\ModuleProvider');
         $this->app->register('TypiCMS\Modules\Sitemap\Providers\ModuleProvider');
