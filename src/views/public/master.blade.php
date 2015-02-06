@@ -44,13 +44,13 @@
 
         @section('languagesMenu')
         <nav role="navigation">
-            {{ TypiCMS::languagesMenu(array('class' => 'nav nav-pills pull-right')) }}
+            {!! TypiCMS::languagesMenu(array('class' => 'nav nav-pills pull-right')) !!}
         </nav>
         @show
 
         @section('mainMenu')
         <nav role="navigation">
-            {{ Menus::build('main') }}
+            {!! Menus::build('main') !!}
         </nav>
         @show
 
@@ -67,7 +67,7 @@
                 @foreach ($partners as $partner)
                 <li>
                     <a href="{{ $partner->website }}" title="{{ $partner->title }}" target="_blank">
-                        {{ $partner->present()->thumb(null, 50, array(), 'logo') }}
+                        {!! $partner->present()->thumb(null, 50, array(), 'logo') !!}
                     </a>
                 </li>
                 @endforeach
@@ -79,11 +79,11 @@
         <div class="row">
 
             <div class="col-sm-4">
-                {{ Menus::build('social') }}
+                {!! Menus::build('social') !!}
             </div>
 
             <nav class="col-sm-8" role="navigation">
-                {{ Menus::build('footer') }}
+                {!! Menus::build('footer') !!}
             </nav>
 
         </div>
