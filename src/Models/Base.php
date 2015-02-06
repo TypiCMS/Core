@@ -73,6 +73,10 @@ abstract class Base extends Model
      */
     public function getPublicUri($preview = false, $index = false, $lang = null)
     {
+        if (! $this->hasTranslation($lang)) {
+            return null;
+        }
+
         $lang = $lang ? : App::getlocale() ;
 
         // Route parameters
