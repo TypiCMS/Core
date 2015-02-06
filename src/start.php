@@ -1,8 +1,5 @@
 <?php
 
-Lang::addNamespace('core', __DIR__ . '/lang/');
-Config::addNamespace('core', __DIR__ . '/config/');
-
 App::error(function(Exception $exception, $code)
 {
 	// Throw 404 error on ModelNotFoundException
@@ -30,29 +27,13 @@ App::error(function(Exception $exception, $code)
 				], $code
 			);
 	}
-	// return Response::view(
-	// 	'core::errors.500', [
-	// 		'title' => 'Erreur 500 – ' . Config::get('typicms.' . App::getLocale() . '.websiteTitle'), 
-	// 		'lang' => App::getLocale(),
-	// 		'bodyClass' => 'error-500'
-	// 	], 500
-	// );
+	if (! App::isLocal()) {
+		return Response::view(
+			'errors.500', [
+				'title' => 'Erreur 500 – ' . Config::get('typicms.' . App::getLocale() . '.websiteTitle'), 
+				'lang' => App::getLocale(),
+				'bodyClass' => 'error-500'
+			], 500
+		);
+	}
 });
-
-/*
-|--------------------------------------------------------------------------
-| New Relic app name
-|--------------------------------------------------------------------------
-*/
-
-if (extension_loaded('newrelic')) {
-	newrelic_set_appname('');
-}
-
-/*
-|--------------------------------------------------------------------------
-| HTML macros.
-|--------------------------------------------------------------------------|
-*/
-
-require __DIR__ . '/Macros.php';

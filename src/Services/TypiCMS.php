@@ -2,6 +2,7 @@
 namespace TypiCMS\Services;
 
 use App;
+use HTML;
 use Route;
 use Config;
 use Request;
@@ -63,8 +64,7 @@ class TypiCMS
     {
         $locales = $this->getPublicLocales();
         $langsArray = $this->buildLangsArray($locales);
-        // return HTML::languagesMenu($langsArray, $attributes);
-        return 'language menu';
+        return HTML::languagesMenu($langsArray, $attributes);
     }
 
     /**
@@ -145,8 +145,7 @@ class TypiCMS
     {
         $url = $this->getPublicUrl();
         $title = ucfirst(trans('global.view website', array(), null, Config::get('typicms.adminLocale')));
-        // return HTML::link($url, $title, $attributes);
-        return '<a href="' . $url . '">' . $title . '</a>';
+        return HTML::link($url, $title, $attributes);
     }
 
     /**
@@ -167,8 +166,7 @@ class TypiCMS
             }
             $url .= '?locale=' . App::getLocale();
         }
-        // return HTML::link($url, $title, $attributes);
-        return '<a href="' . $url . '">' . $title . '</a>';
+        return HTML::link($url, $title, $attributes);
     }
 
     /**

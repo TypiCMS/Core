@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Input;
 use stdClass;
-use Str;
+use Illuminate\Support\Str;
 use TypiCMS\Modules\Pages\Models\Page;
 use TypiCMS\NestedCollection;
 

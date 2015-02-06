@@ -10,7 +10,7 @@
 
     @yield('css')
 
-    <link href="/css/admin.css" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -36,12 +36,6 @@
         @show
 
         <div class="@section('mainClass')col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main @show">
-
-            @section('breadcrumbs')
-                @if (Config::get('typicms.breadcrumb'))
-                    {{ Breadcrumbs::renderIfExists() }}
-                @endif
-            @show
 
             @yield('main')
 

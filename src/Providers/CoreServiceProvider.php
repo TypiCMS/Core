@@ -31,14 +31,44 @@ class CoreServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        View::addNamespace('core', __DIR__ . '/../views/');
         // include __DIR__ . '/../start.php';
+
+        // Add dirs
+        // View::addLocation(__DIR__ . '/../Views');
+        View::addNamespace('core', __DIR__ . '/../views/');
+        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'core');
+        $this->publishes([
+            __DIR__ . '/../config/' => config_path('typicms/core'),
+        ], 'config');
+
         // Bring in the routes
         require __DIR__ . '/../routes.php';
-        // $this->package('typicms/core');
+
+        /*
+        |--------------------------------------------------------------------------
+        | New Relic app name
+        |--------------------------------------------------------------------------
+        */
+        if (extension_loaded('newrelic')) {
+            newrelic_set_appname('');
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | HTML macros.
+        |--------------------------------------------------------------------------|
+        */
+        require __DIR__ . '/../Macros.php';
+
+        /*
+        |--------------------------------------------------------------------------
+        | Commands.
+        |--------------------------------------------------------------------------|
+        */
         $this->commands('command.install');
         $this->commands('command.cachekeyprefix');
         $this->commands('command.database');
+
     }
 
     /**
