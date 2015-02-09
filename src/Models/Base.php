@@ -199,7 +199,7 @@ abstract class Base extends Model
      */
     public function scopeOrder(Builder $query)
     {
-        if ($order = Config::get($this->getTable() . '::order')) {
+        if ($order = config($this->getTable() . '.order')) {
             foreach ($order as $column => $direction) {
                 $query->orderBy($column, $direction);
             }
@@ -273,5 +273,16 @@ abstract class Base extends Model
         } catch (InvalidArgumentException $e) {
             Log::error($e->getMessage());
         }
+    }
+
+    /**
+     * Models without translatable trait doesn’t have translation.
+     * 
+     * @param  string  $locale
+     * @return boolean
+     */
+    public function hasTranslation($locale)
+    {
+        return false;
     }
 }

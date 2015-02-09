@@ -84,7 +84,7 @@ class NestableCollection extends Collection
      *
      * @return int
      */
-    public function getTotal()
+    public function total()
     {
         return $this->total;
     }

@@ -31,14 +31,10 @@ class CoreServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        // include __DIR__ . '/../start.php';
 
         // Add dirs
         View::addNamespace('core', __DIR__ . '/../views/');
         $this->loadTranslationsFrom(__DIR__ . '/../lang', 'core');
-        $this->publishes([
-            __DIR__ . '/../config/' => config_path('typicms/core'),
-        ], 'config');
 
         /*
         |--------------------------------------------------------------------------
