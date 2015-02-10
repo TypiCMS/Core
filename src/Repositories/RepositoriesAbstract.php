@@ -2,13 +2,12 @@
 namespace TypiCMS\Repositories;
 
 use App;
-use Config;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Input;
 use stdClass;
-use Illuminate\Support\Str;
 use TypiCMS\Modules\Pages\Models\Page;
 use TypiCMS\NestedCollection;
 
@@ -393,7 +392,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      */
     public function getModulesForSelect()
     {
-        $modulesArray = Config::get('modules');
+        $modulesArray = config('typicms.modules_for_menu_items');
         $selectModules = array('' => '');
         foreach ($modulesArray as $module) {
             $selectModules[strtolower($module)] = Str::title(trans(strtolower($module) . '::global.name'));

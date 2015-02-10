@@ -1,7 +1,6 @@
 <?php
 namespace TypiCMS\Controllers;
 
-use Illuminate\Database\Eloquent\Model;
 use Input;
 use Redirect;
 use View;
@@ -15,7 +14,7 @@ abstract class AdminNestedController extends BaseAdminController
      * @param  Model $parent
      * @return void
      */
-    public function index(Model $parent = null)
+    public function index($parent = null)
     {
         return view('core::admin.index');
     }
@@ -23,10 +22,10 @@ abstract class AdminNestedController extends BaseAdminController
     /**
      * Show the form for creating a new resource.
      *
-     * @param  Model $parent
+     * @param  $parent
      * @return void
      */
-    public function create(Model $parent = null)
+    public function create($parent = null)
     {
         $model = $this->repository->getModel();
         return view('core::admin.create')
@@ -36,11 +35,11 @@ abstract class AdminNestedController extends BaseAdminController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Model $parent
-     * @param  Model $model
+     * @param  $parent
+     * @param  $model
      * @return void
      */
-    public function edit(Model $parent = null, Model $model)
+    public function edit($parent = null, $model)
     {
         return view('core::admin.edit')
             ->with(compact('model'));
@@ -49,11 +48,11 @@ abstract class AdminNestedController extends BaseAdminController
     /**
      * Show resource.
      *
-     * @param  Model $parent
-     * @param  Model $model
+     * @param  $parent
+     * @param  $model
      * @return Redirect
      */
-    public function show(Model $parent = null, Model $model)
+    public function show($parent = null, $model)
     {
         return Redirect::to($model->editUrl());
     }
@@ -61,10 +60,10 @@ abstract class AdminNestedController extends BaseAdminController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Model $parent
+     * @param  $parent
      * @return Redirect
      */
-    public function store(Model $parent = null)
+    public function store($parent = null)
     {
 
         if ($model = $this->form->save(Input::all())) {
@@ -81,11 +80,11 @@ abstract class AdminNestedController extends BaseAdminController
     /**
      * Update the specified resource in storage.
      *
-     * @param  Model $parent
-     * @param  Model $model
+     * @param  $parent
+     * @param  $model
      * @return Redirect
      */
-    public function update(Model $parent = null, Model $model)
+    public function update($parent = null, $model)
     {
 
         if ($this->form->update(Input::all())) {
@@ -101,11 +100,11 @@ abstract class AdminNestedController extends BaseAdminController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Model $parent
-     * @param  Model $model
+     * @param  $parent
+     * @param  $model
      * @return Redirect
      */
-    public function destroy(Model $parent = null, Model $model)
+    public function destroy($parent = null, $model)
     {
         if ($this->repository->delete($model)) {
             return Redirect::back();
