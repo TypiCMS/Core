@@ -1,1 +1,1 @@
-{{ link_to($model->getPublicUri(), ucfirst(trans('global.view website'))) }}
+<a href="{{ $model->getPublicUri() }}">{{ ucfirst(trans('global.view website')) }}</a>
