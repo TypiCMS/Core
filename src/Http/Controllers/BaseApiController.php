@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Controllers;
+namespace TypiCMS\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesCommands;

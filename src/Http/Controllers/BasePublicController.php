@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Controllers;
+namespace TypiCMS\Http\Controllers;
 
 use App;
 use Config;

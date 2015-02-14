@@ -1,19 +1,20 @@
 <?php
-namespace TypiCMS\Controllers;
+namespace TypiCMS\Http\Controllers;
 
 use Input;
 use Redirect;
 use View;
 
-abstract class AdminSimpleController extends BaseAdminController
+abstract class AdminNestedController extends BaseAdminController
 {
 
     /**
      * List models
      * 
-     * @return View
+     * @param  Model $parent
+     * @return void
      */
-    public function index()
+    public function index($parent = null)
     {
         return view('core::admin.index');
     }
@@ -21,9 +22,10 @@ abstract class AdminSimpleController extends BaseAdminController
     /**
      * Show the form for creating a new resource.
      *
-     * @return View
+     * @param  $parent
+     * @return void
      */
-    public function create()
+    public function create($parent = null)
     {
         $model = $this->repository->getModel();
         return view('core::admin.create')
@@ -33,10 +35,11 @@ abstract class AdminSimpleController extends BaseAdminController
     /**
      * Show the form for editing the specified resource.
      *
+     * @param  $parent
      * @param  $model
      * @return void
      */
-    public function edit($model)
+    public function edit($parent = null, $model)
     {
         return view('core::admin.edit')
             ->with(compact('model'));
@@ -45,10 +48,11 @@ abstract class AdminSimpleController extends BaseAdminController
     /**
      * Show resource.
      *
+     * @param  $parent
      * @param  $model
      * @return Redirect
      */
-    public function show($model)
+    public function show($parent = null, $model)
     {
         return Redirect::to($model->editUrl());
     }
@@ -56,9 +60,10 @@ abstract class AdminSimpleController extends BaseAdminController
     /**
      * Store a newly created resource in storage.
      *
+     * @param  $parent
      * @return Redirect
      */
-    public function store()
+    public function store($parent = null)
     {
 
         if ($model = $this->form->save(Input::all())) {
@@ -75,10 +80,11 @@ abstract class AdminSimpleController extends BaseAdminController
     /**
      * Update the specified resource in storage.
      *
+     * @param  $parent
      * @param  $model
      * @return Redirect
      */
-    public function update($model)
+    public function update($parent = null, $model)
     {
 
         if ($this->form->update(Input::all())) {
@@ -89,16 +95,16 @@ abstract class AdminSimpleController extends BaseAdminController
         return Redirect::to($model->editUrl())
             ->withInput()
             ->withErrors($this->form->errors());
-
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param  $parent
      * @param  $model
      * @return Redirect
      */
-    public function destroy($model)
+    public function destroy($parent = null, $model)
     {
         if ($this->repository->delete($model)) {
             return Redirect::back();
