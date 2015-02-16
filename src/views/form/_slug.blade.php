@@ -1,4 +1,4 @@
-<div class="col-md-6 form-group @if($errors->has($lang.'.slug'))has-error @endif">
+<div class="col-md-6 @if($errors->has($lang.'.slug'))has-error @endif">
     {!! Form::label(trans('validation.attributes.slug'))->addClass('control-label')->forId($lang . '[slug]') !!}
     <div class="input-group">
         {!! Form::text($lang . '[slug]')->addClass('form-control')->id($lang . '[slug]') !!}
