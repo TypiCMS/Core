@@ -85,10 +85,10 @@ abstract class BaseApiController extends BaseController
     /**
      * Remove the specified resource from storage.
      * 
-     * @param  Model    $model
+     * @param  $model
      * @return Response
      */
-    public function destroy(Model $model)
+    public function destroy($model)
     {
         $this->repository->delete($model);
         return Response::json([

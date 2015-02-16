@@ -15,7 +15,6 @@ abstract class BaseAdminController extends BaseController
 {
 
     protected $repository;
-    protected $form;
 
     // The cool kids’ way of handling page titles.
     // https://gisglobal.github.com/jonathanmarvens/6017139
@@ -26,10 +25,9 @@ abstract class BaseAdminController extends BaseController
         'h1'       => '',
     );
 
-    public function __construct($repository = null, $form = null)
+    public function __construct($repository = null)
     {
         $this->repository = $repository;
-        $this->form = $form;
 
         $this->applicationName = Config::get('typicms.' . Lang::getLocale() . '.websiteTitle');
 
@@ -65,5 +63,18 @@ abstract class BaseAdminController extends BaseController
             'error'   => false,
             'message' => trans('global.Items sorted')
         ], 200);
+    }
+
+    /**
+     * Redirect after a form is saved
+     * 
+     * @param  $request
+     * @param  $model
+     * @return \Illuminate\Routing\Redirector
+     */
+    protected function redirect($request, $model)
+    {
+        $redirectUrl = $request->get('exit') ? $model->indexUrl() : $model->editUrl() ;
+        return redirect($redirectUrl);
     }
 }
