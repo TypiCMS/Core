@@ -25,7 +25,7 @@
             </tr>
         </thead>
         <tbody>
-        @foreach (Config::get('modules') as $module)
+        @foreach (config('typicms.modules_for_permissions_table') as $module)
             <tr>
                 <td>{{ $module }}
                     <input type="hidden" value="0" name="permissions[{{ strtolower($module) }}.index]">
