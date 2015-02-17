@@ -18,6 +18,7 @@ class TypiCMSSeeder extends Seeder {
 		$this->call('TranslationSeeder');
 		$this->call('PageSeeder');
 		$this->call('MenuSeeder');
+		$this->call('GroupSeeder');
 	}
 
 }
