@@ -29,7 +29,7 @@ abstract class BaseAdminController extends BaseController
     {
         $this->repository = $repository;
 
-        $this->applicationName = Config::get('typicms.' . Lang::getLocale() . '.websiteTitle');
+        $this->applicationName = Config::get('typicms.' . Lang::getLocale() . '.website_title');
 
         $instance = $this;
         // View::composer($this->layout, function (\Illuminate\View\View $view) use ($instance) {

@@ -32,7 +32,7 @@ class TypiCMS
     public function homepage()
     {
         $uri = '/';
-        if (Config::get('app.main_locale_in_url') || Config::get('app.fallback_locale') != App::getLocale()) {
+        if (config('typicms.main_locale_in_url') || Config::get('app.fallback_locale') != App::getLocale()) {
             $uri .= App::getLocale();
         }
         return $uri;
@@ -126,9 +126,9 @@ class TypiCMS
             return route($route);
         }
         if (
-            ! Config::get('typicms.langChooser') &&
+            ! Config::get('typicms.lang_chooser') &&
             Config::get('app.fallback_locale') == $lang &&
-            ! Config::get('app.main_locale_in_url')
+            ! config('typicms.main_locale_in_url')
         ) {
             return '/';
         }
@@ -144,7 +144,7 @@ class TypiCMS
     public function publicLink(array $attributes = array())
     {
         $url = $this->getPublicUrl();
-        $title = ucfirst(trans('global.view website', array(), null, Config::get('typicms.adminLocale')));
+        $title = ucfirst(trans('global.view website', array(), null, Config::get('typicms.admin_locale')));
         return HTML::link($url, $title, $attributes);
     }
 
@@ -157,7 +157,7 @@ class TypiCMS
     public function adminLink(array $attributes = array())
     {
         $url = route('dashboard');
-        $title = ucfirst(trans('global.admin side', array(), null, Config::get('typicms.adminLocale')));
+        $title = ucfirst(trans('global.admin side', array(), null, Config::get('typicms.admin_locale')));
         if ($this->model) {
             if (! $this->model->id) {
                 $url = $this->model->indexUrl();

@@ -17,7 +17,7 @@ class AdminFilter
     public function setLocale()
     {
         $locale      = config('app.locale');
-        $adminLocale = config('typicms.adminLocale');
+        $adminLocale = config('typicms.admin_locale');
         $locales     = config('translatable.locales');
         // If locale is present in app.locales…
         if (in_array(Input::get('locale'), $locales)) {
@@ -26,7 +26,7 @@ class AdminFilter
         }
         // Set app.locale
         Config::set('app.locale', Session::get('locale', $locale));
-        // Set Translator locale to typicms.adminLocale config
+        // Set Translator locale to typicms.admin_locale config
         Lang::setLocale($adminLocale);
 
         $localesForJS = [];  
@@ -38,7 +38,7 @@ class AdminFilter
         }
         // Set Locales to JS.
         JavaScript::put([
-            'adminLocale' => $adminLocale,
+            'admin_locale' => $adminLocale,
             'locales'     => $localesForJS,
             'locale'      => config('app.locale'),
         ]);

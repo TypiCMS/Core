@@ -1,7 +1,6 @@
 <?php
 namespace TypiCMS\Filters;
 
-use App;
 use Cartalyst\Sentry\Groups\GroupNotFoundException;
 use Cartalyst\Sentry\Users\UserNotFoundException;
 use Config;
@@ -23,7 +22,7 @@ class UsersFilter
     public function mayRegister()
     {
         if (! Config::get('typicms.register')) {
-            App::abort(404);
+            abort(404);
         }
     }
 
@@ -32,7 +31,7 @@ class UsersFilter
      */
     public function publicAccess()
     {
-        if (! Config::get('typicms.authPublic')) {
+        if (! Config::get('typicms.auth_public')) {
             return;
         }
         return $this->auth();
@@ -65,7 +64,7 @@ class UsersFilter
         try {
             $user = Sentry::getUser();
             if (! $user->hasAccess($value)) {
-                App::abort(403);
+                abort(403);
             }
         } catch (UserNotFoundException $e) {
             Notification::error($e->getMessage() . '\n' .  $request->fullUrl());
@@ -82,7 +81,7 @@ class UsersFilter
             $user = Sentry::getUser();
             $group = Sentry::findGroupByName($value);
             if (! $user->inGroup($group)) {
-                App::abort(403);
+                abort(403);
             }
         } catch (UserNotFoundException $e) {
             Notification::error($e->getMessage());

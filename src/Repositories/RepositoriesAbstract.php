@@ -239,7 +239,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
             ->firstOrFail();
 
         if (! count($model->translations)) {
-            App::abort(404);
+            abort(404);
         }
 
         return $model;
