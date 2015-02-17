@@ -58,46 +58,6 @@ abstract class AdminNestedController extends BaseAdminController
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  $parent
-     * @return Redirect
-     */
-    public function store($parent = null)
-    {
-
-        if ($model = $this->form->save(Input::all())) {
-            $redirectUrl = Input::get('exit') ? $model->indexUrl() : $model->editUrl() ;
-            return Redirect::to($redirectUrl);
-        }
-
-        return Redirect::route('admin.' . $this->repository->getTable() . '.create')
-            ->withInput()
-            ->withErrors($this->form->errors());
-
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  $parent
-     * @param  $model
-     * @return Redirect
-     */
-    public function update($parent = null, $model)
-    {
-
-        if ($this->form->update(Input::all())) {
-            $redirectUrl = Input::get('exit') ? $model->indexUrl() : $model->editUrl() ;
-            return Redirect::to($redirectUrl);
-        }
-
-        return Redirect::to($model->editUrl())
-            ->withInput()
-            ->withErrors($this->form->errors());
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  $parent
