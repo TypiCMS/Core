@@ -374,14 +374,15 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Sync tags for model
+     * Sync related items for model
      *
-     * @param  \Illuminate\Database\Eloquent\Model $model
-     * @param  array                               $tags
-     * @return void
+     * @param  Model $model
+     * @param  array                               $data
+     * @param  string                              $table
+     * @return false|null
      */
-    protected function syncTags($model, array $tags)
+    protected function syncRelation($model, array $data, $table = null)
     {
-        return $this->repo->syncTags($model, $tags);
+        return $this->repo->syncRelation($model, $data, $table);
     }
 }

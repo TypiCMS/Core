@@ -416,33 +416,6 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     }
 
     /**
-     * Sync tags for model
-     *
-     * @param  Model $model
-     * @param  array                               $tags
-     * @return false|null false or void
-     */
-    protected function syncTags($model, array $tags)
-    {
-        if (! method_exists($model, 'tags')) {
-            return false;
-        }
-
-        // Create or add tags
-        $tagIds = array();
-
-        if ($tags) {
-            $found = $this->tag->findOrCreate($tags);
-            foreach ($found as $tag) {
-                $tagIds[] = $tag->id;
-            }
-        }
-
-        // Assign set tags to model
-        $model->tags()->sync($tagIds);
-    }
-
-    /**
      * Sync related items for model
      *
      * @param  Model $model

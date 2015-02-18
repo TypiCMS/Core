@@ -37,6 +37,8 @@ return array(
     'Edit' => 'Modifier',
     'Not found' => 'Introuvable',
 
+    'The form contains errors' => 'Le formulaire contient des erreurs',
+
     'Yes' => 'Oui',
     'No' => 'Non',
 

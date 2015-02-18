@@ -37,6 +37,8 @@ return array(
     'Edit' => 'Edit',
     'Not found' => 'Not found',
 
+    'The form contains errors' => 'The form contains errors',
+
     'Yes' => 'Yes',
     'No' => 'No',
 
