@@ -38,7 +38,7 @@ class AdminFilter
         }
         // Set Locales to JS.
         JavaScript::put([
-            'admin_locale' => $adminLocale,
+            'adminLocale' => $adminLocale,
             'locales'     => $localesForJS,
             'locale'      => config('app.locale'),
         ]);
