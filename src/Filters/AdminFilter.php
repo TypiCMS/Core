@@ -1,11 +1,12 @@
 <?php
 namespace TypiCMS\Filters;
 
-use Lang;
-use Input;
 use Config;
-use Session;
+use Crypt;
+use Input;
 use JavaScript;
+use Lang;
+use Session;
 
 /**
 * Public filter
@@ -38,9 +39,11 @@ class AdminFilter
         }
         // Set Locales to JS.
         JavaScript::put([
-            'adminLocale' => $adminLocale,
-            'locales'     => $localesForJS,
-            'locale'      => config('app.locale'),
+            '_token'          => csrf_token(),
+            'encrypted_token' => Crypt::encrypt(csrf_token()),
+            'adminLocale'     => $adminLocale,
+            'locales'         => $localesForJS,
+            'locale'          => config('app.locale'),
         ]);
     }
 }
