@@ -199,7 +199,7 @@ abstract class Base extends Model
      */
     public function scopeOrder(Builder $query)
     {
-        if ($order = config($this->getTable() . '.order')) {
+        if ($order = config('typicms.' . $this->getTable() . '.order')) {
             foreach ($order as $column => $direction) {
                 $query->orderBy($column, $direction);
             }
