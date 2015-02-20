@@ -1,9 +1,10 @@
 <?php
 namespace TypiCMS\Presenters;
 
-use Croppa;
 use Carbon\Carbon;
+use Croppa;
 use Illuminate\Database\Eloquent\Model;
+use URL;
 
 abstract class Presenter
 {
@@ -94,6 +95,21 @@ abstract class Presenter
             $src = Croppa::url($src, $width, $height, $options);
         }
         return $src;
+    }
+
+    /**
+     * Return absolute url of a thumb
+     *
+     * @param  int $width      width of image, null for auto
+     * @param  int $height     height of image, null for auto
+     * @param  array $options  see Croppa doc for options (https://github.com/BKWLD/croppa)
+     * @param  string $field   column name
+     * @return string          HTML markup of an image
+     */
+    public function thumbAbsoluteSrc($width = null, $height = null, array $options = array(), $field = 'image')
+    {
+        $src = $this->thumbSrc($width, $height, $options, $field);
+        return URL::to($src);
     }
 
     /**
