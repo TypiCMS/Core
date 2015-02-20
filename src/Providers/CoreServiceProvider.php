@@ -124,9 +124,11 @@ class CoreServiceProvider extends ServiceProvider {
         | View composers.
         |--------------------------------------------------------------------------|
         */
-        $app->view->composer('core::public.master', 'TypiCMS\Composers\MasterViewComposer');
-        $app->view->composer('core::admin.master', 'TypiCMS\Composers\MasterViewComposer');
-        $app->view->composer('*', 'TypiCMS\Composers\LocaleComposer');
+        $app->view->composers([
+            'TypiCMS\Composers\MasterViewComposer' => ['core::public.master', 'core::admin.master'],
+            'TypiCMS\Composers\LocaleComposer' => '*::public.*',
+            'TypiCMS\Composers\LocalesComposer' => ['*::*._form'],
+        ]);
 
         /*
         |--------------------------------------------------------------------------
