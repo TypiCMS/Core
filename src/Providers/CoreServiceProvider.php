@@ -99,7 +99,7 @@ class CoreServiceProvider extends ServiceProvider {
         | TypiCMS utilities.
         |--------------------------------------------------------------------------
         */
-        $this->app['typicms'] = $this->app->share(function ($app) {
+        $app['typicms'] = $this->app->share(function ($app) {
             return new TypiCMS;
         });
 
@@ -108,7 +108,7 @@ class CoreServiceProvider extends ServiceProvider {
         | TypiCMS upload service.
         |--------------------------------------------------------------------------
         */
-        $this->app['upload.file'] = $this->app->share(function ($app) {
+        $app['upload.file'] = $this->app->share(function ($app) {
             return new FileUpload;
         });
 
@@ -117,23 +117,32 @@ class CoreServiceProvider extends ServiceProvider {
         | Sidebar view creator.
         |--------------------------------------------------------------------------
         */
-        $this->app->view->creator('core::admin._sidebar', 'TypiCMS\SideBarViewCreator');
+        $app->view->creator('core::admin._sidebar', 'TypiCMS\Composers\SideBarViewCreator');
+
+        /*
+        |--------------------------------------------------------------------------
+        | View composers.
+        |--------------------------------------------------------------------------|
+        */
+        $app->view->composer('core::public.master', 'TypiCMS\Composers\MasterViewComposer');
+        $app->view->composer('core::admin.master', 'TypiCMS\Composers\MasterViewComposer');
+        $app->view->composer('*', 'TypiCMS\Composers\LocaleComposer');
 
         /*
         |--------------------------------------------------------------------------
         | Bind commands.
         |--------------------------------------------------------------------------
         */
-        $this->app->bind('command.install', function (Application $app) {
+        $app->bind('command.install', function (Application $app) {
             return new Install(
                 new SentryUser($app['sentry']),
                 new Filesystem
             );
         });
-        $this->app->bind('command.cachekeyprefix', function () {
+        $app->bind('command.cachekeyprefix', function () {
             return new CacheKeyPrefix(new Filesystem);
         });
-        $this->app->bind('command.database', function () {
+        $app->bind('command.database', function () {
             return new Database(new Filesystem);
         });
 
@@ -142,7 +151,7 @@ class CoreServiceProvider extends ServiceProvider {
         | Get custom routes for front office modules.
         |--------------------------------------------------------------------------
         */
-        $this->app->singleton('TypiCMS.routes', function (Application $app) {
+        $app->singleton('TypiCMS.routes', function (Application $app) {
             return $app->make('TypiCMS\Modules\Menulinks\Repositories\MenulinkInterface')->getForRoutes();
         });
 
@@ -151,21 +160,21 @@ class CoreServiceProvider extends ServiceProvider {
         | Register core modules.
         |--------------------------------------------------------------------------
         */
-        $this->app->register('TypiCMS\Modules\Translations\Providers\ModuleProvider');
-        $this->app->register('TypiCMS\Modules\Blocks\Providers\ModuleProvider');
-        $this->app->register('TypiCMS\Modules\Settings\Providers\ModuleProvider');
-        $this->app->register('TypiCMS\Modules\History\Providers\ModuleProvider');
-        $this->app->register('TypiCMS\Modules\Users\Providers\ModuleProvider');
-        $this->app->register('TypiCMS\Modules\Groups\Providers\ModuleProvider');
-        $this->app->register('TypiCMS\Modules\Files\Providers\ModuleProvider');
-        $this->app->register('TypiCMS\Modules\Galleries\Providers\ModuleProvider');
-        $this->app->register('TypiCMS\Modules\Tags\Providers\ModuleProvider');
-        $this->app->register('TypiCMS\Modules\Dashboard\Providers\ModuleProvider');
-        $this->app->register('TypiCMS\Modules\Menus\Providers\ModuleProvider');
-        $this->app->register('TypiCMS\Modules\Sitemap\Providers\ModuleProvider');
+        $app->register('TypiCMS\Modules\Translations\Providers\ModuleProvider');
+        $app->register('TypiCMS\Modules\Blocks\Providers\ModuleProvider');
+        $app->register('TypiCMS\Modules\Settings\Providers\ModuleProvider');
+        $app->register('TypiCMS\Modules\History\Providers\ModuleProvider');
+        $app->register('TypiCMS\Modules\Users\Providers\ModuleProvider');
+        $app->register('TypiCMS\Modules\Groups\Providers\ModuleProvider');
+        $app->register('TypiCMS\Modules\Files\Providers\ModuleProvider');
+        $app->register('TypiCMS\Modules\Galleries\Providers\ModuleProvider');
+        $app->register('TypiCMS\Modules\Tags\Providers\ModuleProvider');
+        $app->register('TypiCMS\Modules\Dashboard\Providers\ModuleProvider');
+        $app->register('TypiCMS\Modules\Menus\Providers\ModuleProvider');
+        $app->register('TypiCMS\Modules\Sitemap\Providers\ModuleProvider');
         // Pages and menulinks need to be at last for routing to work.
-        $this->app->register('TypiCMS\Modules\Menulinks\Providers\ModuleProvider');
-        $this->app->register('TypiCMS\Modules\Pages\Providers\ModuleProvider');
+        $app->register('TypiCMS\Modules\Menulinks\Providers\ModuleProvider');
+        $app->register('TypiCMS\Modules\Pages\Providers\ModuleProvider');
     }
 
     /**
