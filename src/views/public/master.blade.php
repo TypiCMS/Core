@@ -6,7 +6,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>{{ $websiteTitle }}</title>
+    <title>@yield('title')</title>
+    <meta name="description" content="@yield('description')">
+
+    <meta property="og:site_name" content="{{ $websiteTitle }}">
+    <meta property="og:title" content="@yield('ogTitle')">
+    <meta property="og:description" content="@yield('description')">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ URL::full() }}">
+    <meta property="og:image" content="@yield('image')">
 
     <link href="{{ asset('css/public.css') }}" rel="stylesheet">
 
