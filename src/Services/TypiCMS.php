@@ -15,20 +15,20 @@ class TypiCMS
     private $model;
 
     /**
-    * Set model
-    *
-    * @param Model $model
-    */
+     * Set model
+     *
+     * @param Model $model
+     */
     public function setModel($model)
     {
         $this->model = $model;
     }
 
     /**
-    * Get Homepage URI
-    *
-    * @return string
-    */
+     * Get Homepage URI
+     *
+     * @return string
+     */
     public function homepage()
     {
         $uri = '/';
@@ -39,10 +39,10 @@ class TypiCMS
     }
 
     /**
-    * Return online public locales
-    *
-    * @return array
-    */
+     * Return online public locales
+     *
+     * @return array
+     */
     public function getPublicLocales()
     {
         $locales = Config::get('translatable.locales');
@@ -55,11 +55,11 @@ class TypiCMS
     }
 
     /**
-    * Build languages menu
-    *
-    * @param array $attributes
-    * @return string
-    */
+     * Build languages menu
+     *
+     * @param array $attributes
+     * @return string
+     */
     public function languagesMenu(array $attributes = array())
     {
         $locales = $this->getPublicLocales();
@@ -68,11 +68,11 @@ class TypiCMS
     }
 
     /**
-    * Build langs array
-    *
-    * @param array $locales
-    * @return array
-    */
+     * Build langs array
+     *
+     * @param array $locales
+     * @return array
+     */
     private function buildLangsArray(array $locales = array())
     {
         $langsArray = array();
@@ -87,11 +87,11 @@ class TypiCMS
     }
 
     /**
-    * Get url from model
-    *
-    * @param string $lang
-    * @return string
-    */
+     * Get url from model
+     *
+     * @param string $lang
+     * @return string
+     */
     private function getTranslatedUrl($lang)
     {
         if ($this->model && $this->model->id) {
@@ -110,10 +110,10 @@ class TypiCMS
     }
 
     /**
-    * Get public url when no model loaded
-    *
-    * @return string
-    */
+     * Get public url when no model loaded
+     *
+     * @return string
+     */
     public function getPublicUrl()
     {
         $lang = Config::get('app.locale');
@@ -136,11 +136,11 @@ class TypiCMS
     }
 
     /**
-    * Build public link
-    *
-    * @param array $attributes
-    * @return string
-    */
+     * Build public link
+     *
+     * @param array $attributes
+     * @return string
+     */
     public function publicLink(array $attributes = array())
     {
         $url = $this->getPublicUrl();
@@ -149,11 +149,11 @@ class TypiCMS
     }
 
     /**
-    * Build admin link
-    *
-    * @param array $attributes
-    * @return string
-    */
+     * Build admin link
+     *
+     * @param array $attributes
+     * @return string
+     */
     public function adminLink(array $attributes = array())
     {
         $url = route('dashboard');
@@ -170,11 +170,11 @@ class TypiCMS
     }
 
     /**
-    * Build admin or public link
-    *
-    * @param array $attributes
-    * @return string
-    */
+     * Build admin or public link
+     *
+     * @param array $attributes
+     * @return string
+     */
     public function otherSideLink(array $attributes = array())
     {
         if ($this->isAdmin()) {
@@ -184,10 +184,10 @@ class TypiCMS
     }
 
     /**
-    * Check if we are on back office
-    *
-    * @return boolean true if we are on backend
-    */
+     * Check if we are on back office
+     *
+     * @return boolean true if we are on backend
+     */
     public function isAdmin()
     {
         if (Request::segment(1) == 'admin') {

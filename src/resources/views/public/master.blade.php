@@ -32,7 +32,7 @@
 
 </head>
 
-<body class="@yield('bodyClass')">
+<body class="body-{{ $lang }} @yield('bodyClass') @if(Sentry::getUser() and Sentry::getUser()->hasAccess('admin') and ! Input::get('preview'))has-navbar @endif">
 
     <a href="#content" class="sr-only">@lang('db.Skip to content')</a>
 
