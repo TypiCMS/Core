@@ -3,11 +3,11 @@ namespace TypiCMS\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Routing\Controller;
 use Input;
 use Response;
 
-abstract class BaseApiController extends BaseController
+abstract class BaseApiController extends Controller
 {
 
     protected $repository;

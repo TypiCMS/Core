@@ -1,9 +1,9 @@
 <?php
 namespace TypiCMS\Http\Controllers;
 
-use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Routing\Controller;
 
-abstract class BasePublicController extends BaseController
+abstract class BasePublicController extends Controller
 {
 
     protected $repository;
