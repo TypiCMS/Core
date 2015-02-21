@@ -15,7 +15,10 @@ abstract class AdminSimpleController extends BaseAdminController
      */
     public function index()
     {
-        return view('core::admin.index');
+        $module = $this->repository->getTable();
+        $title = trans($module . '::global.name');
+        return view('core::admin.index')
+            ->with(compact('title', 'module'));
     }
 
     /**

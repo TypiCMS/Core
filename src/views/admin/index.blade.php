@@ -1,7 +1,9 @@
 @extends('core::admin.master')
 
+@section('title', $title)
+
 @section('main')
 
-@include(Request::segment(2) . '::admin.index')
+@include($module . '::admin.index')
 
 @stop

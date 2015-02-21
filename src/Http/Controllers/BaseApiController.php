@@ -1,7 +1,6 @@
 <?php
 namespace TypiCMS\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
@@ -33,10 +32,10 @@ abstract class BaseApiController extends BaseController
     /**
      * Update the specified resource in storage.
      * 
-     * @param  Model    $model
+     * @param  $model
      * @return Response
      */
-    public function show(Model $model)
+    public function show($model)
     {
         return Response::json($model, 200);
     }
@@ -44,7 +43,7 @@ abstract class BaseApiController extends BaseController
     /**
      * Update the specified resource in storage.
      * 
-     * @param  Model    $model
+     * @param  $model
      * @return Response
      */
     public function edit($model)
@@ -70,7 +69,7 @@ abstract class BaseApiController extends BaseController
     /**
      * Update the specified resource in storage.
      * 
-     * @param  Model    $model
+     * @param  $model
      * @return Response
      */
     public function update($model)

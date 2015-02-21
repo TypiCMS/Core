@@ -1,5 +1,7 @@
 @extends('core::admin.master')
 
+@section('title', $model->title)
+
 @section('main')
 
     <h1>

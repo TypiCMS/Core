@@ -1,5 +1,7 @@
 @extends('core::admin.master')
 
+@section('title', trans($model->getTable() . '::global.New'))
+
 @section('main')
 
     <h1>
