@@ -32,7 +32,7 @@
 
 </head>
 
-<body class="@section('bodyClass'){{ $bodyClass }}@show">
+<body class="@yield('bodyClass')">
 
     <a href="#content" class="sr-only">@lang('db.Skip to content')</a>
 

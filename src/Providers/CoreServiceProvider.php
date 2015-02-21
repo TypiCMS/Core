@@ -33,13 +33,16 @@ class CoreServiceProvider extends ServiceProvider {
     {
 
         // Views
-        View::addNamespace('core', __DIR__ . '/../views/');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views/', 'core');
+        $this->publishes([
+            __DIR__ . '/../views' => base_path('resources/views/vendor/core'),
+        ], 'views');
         $this->publishes([
             __DIR__ . '/../views/errors' => base_path('resources/views/errors'),
         ]);
 
         // translations
-        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'core');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'core');
 
         /*
         |--------------------------------------------------------------------------
