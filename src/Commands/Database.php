@@ -84,7 +84,7 @@ class Database extends Command
         // Migrate DB
         if (! Schema::hasTable('migrations')) {
             $this->call('migrate');
-            $this->call('db:seed', ['--class' => 'TypiCMSSeeder']);
+            $this->call('db:seed');
         } else {
             $this->error('A migrations table was found in database ['.$dbName.'], no migrate and seed were done.');
         }

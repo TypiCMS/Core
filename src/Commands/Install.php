@@ -75,14 +75,14 @@ class Install extends Command
         $dbName = $this->ask('What is your database name? ');
 
         // Set database credentials in .env and migrate
-        $this->call('typicms:database', array('database' => $dbName));
+        $this->call('typicms:database', ['database' => $dbName]);
         $this->line('------------------');
 
         // Create a super user
         $this->createSuperUser();
 
         // Set cache key prefix
-        $this->call('cache:prefix', array('prefix' => $dbName));
+        $this->call('cache:prefix', ['prefix' => $dbName]);
         $this->line('------------------');
 
         // Composer install

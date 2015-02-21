@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class TypiCMSSeeder extends Seeder {
+class DatabaseSeeder extends Seeder {
 
 	/**
 	 * Run the database seeds.
@@ -18,6 +18,7 @@ class TypiCMSSeeder extends Seeder {
 		$this->call('TranslationSeeder');
 		$this->call('PageSeeder');
 		$this->call('MenuSeeder');
+		$this->call('MenulinkSeeder');
 		$this->call('GroupSeeder');
 	}
 
