@@ -1,5 +1,9 @@
 @extends('core::public.master')
 
+@section('title', 'Error 403 – ' . $websiteTitle)
+
+@section('bodyClass', 'error-403')
+
 @section('main')
 
     <article class="http-error-message">

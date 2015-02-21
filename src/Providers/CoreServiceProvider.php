@@ -32,8 +32,13 @@ class CoreServiceProvider extends ServiceProvider {
     public function boot()
     {
 
-        // Add dirs
+        // Views
         View::addNamespace('core', __DIR__ . '/../views/');
+        $this->publishes([
+            __DIR__ . '/../views/errors' => base_path('resources/views/errors'),
+        ]);
+
+        // translations
         $this->loadTranslationsFrom(__DIR__ . '/../lang', 'core');
 
         /*

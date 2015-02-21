@@ -1,5 +1,9 @@
 @extends('core::public.master')
 
+@section('title', 'Error 500 – ' . $websiteTitle)
+
+@section('bodyClass', 'error-500')
+
 @section('languagesMenu') @stop
 
 @section('main')

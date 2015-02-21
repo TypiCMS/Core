@@ -1,5 +1,9 @@
 @extends('core::public.master')
 
+@section('title', 'Error 404 – ' . $websiteTitle)
+
+@section('bodyClass', 'error-404')
+
 @section('main')
 
     <article class="http-error-message">
