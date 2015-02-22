@@ -95,9 +95,9 @@ class Install extends Command
             system('bower install');
             $this->info('Bower packages installed.');
             $this->line('------------------');
-            system('chmod -R 777 storage');
+            system('find storage -type d -exec chmod 777 {} \;');
             $this->info('Directory storage is now writable.');
-            system('chmod -R 777 public/uploads');
+            system('find public/uploads -type d -exec chmod 777 {} \;');
             $this->info('Directory public/uploads is now writable.');
         } else {
             $this->line('You can now make /storage and /public/uploads directories writable');
