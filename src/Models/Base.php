@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use InvalidArgumentException;
 use Input;
 use Log;
-use Mockery;
 use Route;
 
 abstract class Base extends Model
@@ -26,20 +25,6 @@ abstract class Base extends Model
     public function translate($lang = null)
     {
         return $this;
-    }
-
-    /**
-     * For testing
-     */
-    public static function shouldReceive()
-    {
-        $class = class_basename(get_called_class());
-        $repo = 'TypiCMS\\Modules\\'.str_plural($class).'\\Repositories\\'.$class.'Interface';
-        $mock = Mockery::mock($repo);
-
-        App::instance($repo, $mock);
-
-        return call_user_func_array(array($mock, 'shouldReceive'), func_get_args());
     }
 
     /**

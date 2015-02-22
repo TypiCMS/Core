@@ -1,6 +1,7 @@
 <?php
-namespace TypiCMS\Filters;
+namespace TypiCMS\Http\Middleware;
 
+use Closure;
 use Config;
 use Crypt;
 use Input;
@@ -8,14 +9,17 @@ use JavaScript;
 use Lang;
 use Session;
 
-/**
-* Public filter
-*/
-class AdminFilter
+class Admin
 {
 
-    // Set App and Translator locale
-    public function setLocale()
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
     {
         $locale      = config('app.locale');
         $adminLocale = config('typicms.admin_locale');
@@ -45,5 +49,8 @@ class AdminFilter
             'locales'         => $localesForJS,
             'locale'          => config('app.locale'),
         ]);
+
+        return $next($request);
     }
+
 }

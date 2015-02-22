@@ -11,10 +11,11 @@ abstract class BaseApiController extends Controller
 {
 
     protected $repository;
-    protected $form;
 
     public function __construct($repository = null)
     {
+        $this->middleware('TypiCMS\Http\Middleware\Admin');
+        $this->middleware('auth', ['post', 'put', 'patch', 'delete']);
         $this->repository = $repository;
     }
 

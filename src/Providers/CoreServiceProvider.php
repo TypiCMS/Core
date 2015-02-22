@@ -5,6 +5,7 @@ use App;
 use Config;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Request;
 use TypiCMS\Commands\CacheKeyPrefix;
@@ -25,6 +26,19 @@ class CoreServiceProvider extends ServiceProvider {
     protected $defer = false;
 
     /**
+     * Some route middleware.
+     *
+     * @var array
+     */
+    protected $middleware = [
+        'admin'        => 'TypiCMS\Http\Middleware\Admin',
+        'auth'         => 'TypiCMS\Http\Middleware\Auth',
+        'publicAccess' => 'TypiCMS\Http\Middleware\PublicAccess',
+        'publicLocale' => 'TypiCMS\Http\Middleware\PublicLocale',
+        'registration' => 'TypiCMS\Http\Middleware\Registration',
+    ];
+
+    /**
      * Bootstrap the application events.
      *
      * @return void
@@ -35,12 +49,15 @@ class CoreServiceProvider extends ServiceProvider {
         $this->loadViewsFrom(__DIR__ . '/../resources/views/', 'core');
 
         $this->publishes([
-            __DIR__ . '/../views' => base_path('resources/views/vendor/core'),
-            __DIR__ . '/../views/errors' => base_path('resources/views/errors'),
+            __DIR__ . '/../resources/views' => base_path('resources/views/vendor/core'),
+            __DIR__ . '/../resources/views/errors' => base_path('resources/views/errors'),
         ], 'views');
         $this->publishes([
             __DIR__ . '/../database' => base_path('database'),
         ], 'migrations');
+        $this->publishes([
+            __DIR__ . '/../../tests' => base_path('tests'),
+        ], 'tests');
 
         // translations
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'core');
@@ -82,14 +99,11 @@ class CoreServiceProvider extends ServiceProvider {
 
         $app = $this->app;
 
-        /**
-         * Register route service provider
-         */
-        $app->register('TypiCMS\Providers\RouteServiceProvider');
+        $this->registerMiddleware($app['router']);
 
         /*
         |--------------------------------------------------------------------------
-        | Set app locale on front office.
+        | Set app locale in front office.
         |--------------------------------------------------------------------------
         */
         if (Request::segment(1) != 'admin') {
@@ -139,38 +153,76 @@ class CoreServiceProvider extends ServiceProvider {
             'TypiCMS\Composers\LocalesComposer' => ['*::*._form'],
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Bind commands.
-        |--------------------------------------------------------------------------
-        */
-        $app->bind('command.install', function (Application $app) {
+        $this->registerCommands();
+        $this->registerMenuRoutes();
+        $this->registerCoreModules();
+
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return array();
+    }
+
+    /**
+     * Register middleware.
+     *
+     * @param  Router $router
+     * @return void
+     */
+    private function registerMiddleware(Router $router)
+    {
+        foreach ($this->middleware as $name => $class) {
+            $router->middleware($name, $class);
+        }
+    }
+
+    /**
+     * Register artisan commands.
+     *
+     * @return void
+     */
+    private function registerCommands()
+    {
+        $this->app->bind('command.install', function (Application $app) {
             return new Install(
                 new SentryUser($app['sentry']),
                 new Filesystem
             );
         });
-        $app->bind('command.cachekeyprefix', function () {
+        $this->app->bind('command.cachekeyprefix', function () {
             return new CacheKeyPrefix(new Filesystem);
         });
-        $app->bind('command.database', function () {
+        $this->app->bind('command.database', function () {
             return new Database(new Filesystem);
         });
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Get custom routes for front office modules.
-        |--------------------------------------------------------------------------
-        */
-        $app->singleton('TypiCMS.routes', function (Application $app) {
+    /**
+     * Get routes from menu links.
+     *
+     * @return void
+     */
+    private function registerMenuRoutes()
+    {
+        $this->app->singleton('TypiCMS.routes', function (Application $app) {
             return $app->make('TypiCMS\Modules\Menulinks\Repositories\MenulinkInterface')->getForRoutes();
         });
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Register core modules.
-        |--------------------------------------------------------------------------
-        */
+    /**
+     * Register core modules.
+     *
+     * @return void
+     */
+    private function registerCoreModules()
+    {
+        $app = $this->app;
         $app->register('TypiCMS\Modules\Translations\Providers\ModuleProvider');
         $app->register('TypiCMS\Modules\Blocks\Providers\ModuleProvider');
         $app->register('TypiCMS\Modules\Settings\Providers\ModuleProvider');
@@ -186,16 +238,6 @@ class CoreServiceProvider extends ServiceProvider {
         // Pages and menulinks need to be at last for routing to work.
         $app->register('TypiCMS\Modules\Menulinks\Providers\ModuleProvider');
         $app->register('TypiCMS\Modules\Pages\Providers\ModuleProvider');
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return array();
     }
 
 }

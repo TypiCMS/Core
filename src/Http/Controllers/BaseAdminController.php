@@ -12,6 +12,8 @@ abstract class BaseAdminController extends Controller
 
     public function __construct($repository = null)
     {
+        $this->middleware('admin');
+        $this->middleware('auth');
         $this->repository = $repository;
     }
 
@@ -33,7 +35,7 @@ abstract class BaseAdminController extends Controller
      *
      * @return View
      */
-    public function create()
+    public function create($parent = null)
     {
         $model = $this->repository->getModel();
         return view('core::admin.create')
@@ -46,7 +48,7 @@ abstract class BaseAdminController extends Controller
      * @param  $model
      * @return void
      */
-    public function edit($model)
+    public function edit($model, $child = null)
     {
         return view('core::admin.edit')
             ->with(compact('model'));
@@ -58,7 +60,7 @@ abstract class BaseAdminController extends Controller
      * @param  $model
      * @return \Illuminate\Routing\Redirector
      */
-    public function show($model)
+    public function show($model, $child = null)
     {
         return redirect($model->editUrl());
     }
@@ -69,7 +71,7 @@ abstract class BaseAdminController extends Controller
      * @param  $model
      * @return \Illuminate\Routing\Redirector
      */
-    public function destroy($model)
+    public function destroy($model, $child = null)
     {
         if ($this->repository->delete($model)) {
             return back();
