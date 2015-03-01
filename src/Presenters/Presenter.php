@@ -62,6 +62,28 @@ abstract class Presenter
     }
 
     /**
+     * Get url without http://
+     * 
+     * @param  string $column
+     * @return string
+     */
+    public function urlWithoutScheme($column = 'website')
+    {
+        return str_replace('http://', '', $this->entity->$column);
+    }
+
+    /**
+     * Generate an external link
+     * 
+     * @param  string $column
+     * @return string
+     */
+    public function link($column = 'website')
+    {
+        return '<a href="' . $this->entity->$column . '" target="_blank">' . $this->urlWithoutScheme($column) . '</a>';
+    }
+
+    /**
      * Get the path of files linked to this model
      * 
      * @param  Model  $model
