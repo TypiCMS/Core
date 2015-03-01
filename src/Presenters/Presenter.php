@@ -69,7 +69,7 @@ abstract class Presenter
      */
     public function urlWithoutScheme($column = 'website')
     {
-        return str_replace('http://', '', $this->entity->$column);
+        return str_replace(['http://', 'https://'], '', $this->entity->$column);
     }
 
     /**
