@@ -380,8 +380,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
             ->getAll([], true)
             ->nest()
             ->listsFlattened();
-        $pages = array_merge(['' => '0'], $pages);
-        $pages = array_flip($pages);
+        $pages = array_merge(['0' => '<none>'], $pages);
         return $pages;
     }
 
