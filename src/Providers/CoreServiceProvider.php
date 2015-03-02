@@ -53,9 +53,6 @@ class CoreServiceProvider extends ServiceProvider {
             __DIR__ . '/../resources/views/errors' => base_path('resources/views/errors'),
         ], 'views');
         $this->publishes([
-            __DIR__ . '/../database' => base_path('database'),
-        ], 'migrations');
-        $this->publishes([
             __DIR__ . '/../../tests' => base_path('tests'),
         ], 'tests');
 
@@ -154,7 +151,7 @@ class CoreServiceProvider extends ServiceProvider {
         ]);
 
         $this->registerCommands();
-        $this->registerMenuRoutes();
+        $this->registerModuleRoutes();
         $this->registerCoreModules();
 
     }
@@ -208,10 +205,10 @@ class CoreServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    private function registerMenuRoutes()
+    private function registerModuleRoutes()
     {
         $this->app->singleton('TypiCMS.routes', function (Application $app) {
-            return $app->make('TypiCMS\Modules\Menulinks\Repositories\MenulinkInterface')->getForRoutes();
+            return $app->make('TypiCMS\Modules\Pages\Repositories\PageInterface')->getForRoutes();
         });
     }
 
