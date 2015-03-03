@@ -110,7 +110,7 @@ class CoreServiceProvider extends ServiceProvider {
                 Config::set('app.locale', $firstSegment);
             }
             // Not very reliable, need to be refactored
-            setlocale(LC_ALL, App::getLocale() . '_' . ucfirst(App::getLocale()));
+            setlocale(LC_ALL, App::getLocale() . '_' . strtoupper(App::getLocale()) . '.utf8');
 
         }
 
