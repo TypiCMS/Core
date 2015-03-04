@@ -1,10 +1,11 @@
 <?php
 namespace TypiCMS\Commands;
 
+use DB;
 use Exception;
-use Schema;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Schema;
 use Symfony\Component\Console\Input\InputArgument;
 
 class Database extends Command
@@ -74,16 +75,22 @@ class Database extends Command
             throw new Exception('Error while writing credentials to .env file.');
         }
 
-        // Set DB credentials to laravel config
-        $this->laravel['config']['database.connections.mysql.database'] = $dbName;
+        // Set DB username and password in config
         $this->laravel['config']['database.connections.mysql.username'] = $dbUserName;
         $this->laravel['config']['database.connections.mysql.password'] = $dbPassword;
 
+        // Create database if not exists
+        DB::connection()->getPdo()->exec('CREATE DATABASE IF NOT EXISTS ' . $dbName);
+        DB::connection()->getPdo()->exec('USE ' . $dbName);
+
+        // Set DB name in config
+        $this->laravel['config']['database.connections.mysql.database'] = $dbName;
+        
         $this->error($this->laravel['config']['local.database.connections.mysql.database']);
 
         // Migrate DB
         if (Schema::hasTable('migrations')) {
-            $this->error('A migrations table was found in database ['.$dbName.'], no migrate and seed were done.');
+            $this->error('A migrations table was found in database ['.$dbName.'], no migration and seed were done.');
         } else {
             $this->call('migrate');
             $this->call('db:seed');
