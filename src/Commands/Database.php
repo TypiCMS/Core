@@ -79,6 +79,9 @@ class Database extends Command
         $this->laravel['config']['database.connections.mysql.username'] = $dbUserName;
         $this->laravel['config']['database.connections.mysql.password'] = $dbPassword;
 
+        // Clear DB name in config
+        $this->laravel['config']['database.connections.mysql.database'] = '';
+
         // Create database if not exists
         DB::connection()->getPdo()->exec('CREATE DATABASE IF NOT EXISTS ' . $dbName);
         DB::connection()->getPdo()->exec('USE ' . $dbName);
