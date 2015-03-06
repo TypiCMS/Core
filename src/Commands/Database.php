@@ -83,8 +83,8 @@ class Database extends Command
         $this->laravel['config']['database.connections.mysql.database'] = '';
 
         // Create database if not exists
-        DB::connection()->getPdo()->exec('CREATE DATABASE IF NOT EXISTS ' . $dbName);
-        DB::connection()->getPdo()->exec('USE ' . $dbName);
+        DB::connection()->getPdo()->exec('CREATE DATABASE IF NOT EXISTS `' . $dbName . '`');
+        DB::connection()->getPdo()->exec('USE `' . $dbName . '`');
 
         // Set DB name in config
         $this->laravel['config']['database.connections.mysql.database'] = $dbName;
