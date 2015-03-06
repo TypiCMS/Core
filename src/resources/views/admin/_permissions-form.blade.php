@@ -1,3 +1,5 @@
+<input type="hidden" value="1" name="permissions[user.updatepreferences]">
+
 <div class="checkbox">
     <input type="hidden" value="0" name="permissions[dashboard]">
     <input type="hidden" value="1" name="permissions[history]">
