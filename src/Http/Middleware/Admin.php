@@ -7,6 +7,7 @@ use Crypt;
 use Input;
 use JavaScript;
 use Lang;
+use Users;
 use Session;
 
 class Admin
@@ -49,6 +50,10 @@ class Admin
             'locales'         => $localesForJS,
             'locale'          => config('app.locale'),
         ]);
+
+        // set curent user preferences to Config
+        $prefs = Users::getPreferences();
+        Config::set('typicms.user', $prefs);
 
         return $next($request);
     }
