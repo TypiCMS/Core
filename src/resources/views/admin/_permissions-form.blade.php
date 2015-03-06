@@ -1,5 +1,6 @@
 <div class="checkbox">
     <input type="hidden" value="0" name="permissions[dashboard]">
+    <input type="hidden" value="1" name="permissions[history]">
     <label>
         <input type="checkbox" value="1" @if(isset($permissions['dashboard']) && $permissions['dashboard'])checked="checked"@endif name="permissions[dashboard]"> Dashboard
     </label>
