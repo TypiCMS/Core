@@ -83,13 +83,9 @@ class Database extends Command
         $this->laravel['config']['database.connections.mysql.database'] = '';
 
         // Create database if not exists
-        DB::connection()->getPdo()->exec('CREATE DATABASE IF NOT EXISTS `' . $dbName . '`');
-        DB::connection()->getPdo()->exec('USE `' . $dbName . '`');
-
-        // Set DB name in config
-        $this->laravel['config']['database.connections.mysql.database'] = $dbName;
-        
-        $this->error($this->laravel['config']['local.database.connections.mysql.database']);
+        DB::unprepared('CREATE DATABASE IF NOT EXISTS `' . $dbName . '`');
+        DB::unprepared('USE `' . $dbName . '`');
+        DB::connection()->setDatabaseName($dbName);
 
         // Migrate DB
         if (Schema::hasTable('migrations')) {
@@ -116,12 +112,12 @@ class Database extends Command
     }
 
     /**
-     * Get the key file and contents.
+     * Get the key file and return its content.
      *
      * @return string
      */
     protected function getKeyFile()
     {
-        return $this->files->get('.env');
+        return $this->files->exists('.env') ? $this->files->get('.env') : $this->files->get('.env.example') ;
     }
 }
