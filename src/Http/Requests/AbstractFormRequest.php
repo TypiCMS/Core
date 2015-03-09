@@ -6,12 +6,11 @@ use Illuminate\Foundation\Http\FormRequest as BaseFormRequest;
 abstract class AbstractFormRequest extends BaseFormRequest {
 
     /**
-     * The sanitized input.
+     * Validate the input.
      *
-     * @var array
+     * @param  \Illuminate\Validation\Factory  $factory
+     * @return \Illuminate\Validation\Validator
      */
-    protected $sanitized;
-
     public function validator($factory)
     {
         return $factory->make(
@@ -28,22 +27,9 @@ abstract class AbstractFormRequest extends BaseFormRequest {
     {
         if (method_exists($this, 'sanitize'))
         {
-            return $this->sanitized = $this->container->call([$this, 'sanitize']);
+            return $this->container->call([$this, 'sanitize']);
         }
         return $this->all();
-    }
-
-    /**
-     * Get sanitized input.
-     *
-     * @param  string  $key
-     * @param  mixed   $default
-     * @return mixed
-     */
-    public function sanitized($key = null, $default = null)
-    {
-        $input = is_null($this->sanitized) ? $this->all() : $this->sanitized;
-        return array_get($input, $key, $default);
     }
 
     /**
