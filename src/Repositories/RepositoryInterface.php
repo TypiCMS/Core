@@ -65,7 +65,7 @@ interface RepositoryInterface
      * @param  boolean     $all  Show published or all
      * @return Collection|NestedCollection
      */
-    public function getAll(array $with = array(), $all = false);
+    public function all(array $with = array(), $all = false);
 
     /**
      * Get all models and nest
@@ -74,7 +74,7 @@ interface RepositoryInterface
      * @param  array             $with Eager load related models
      * @return NestedCollection
      */
-    public function getAllNested(array $with = array(), $all = false);
+    public function allNested(array $with = array(), $all = false);
 
     /**
      * Get all models by key/value
@@ -85,7 +85,7 @@ interface RepositoryInterface
      * @param  boolean    $all
      * @return Collection
      */
-    public function getAllBy($key, $value, array $with = array(), $all = false);
+    public function allBy($key, $value, array $with = array(), $all = false);
 
     /**
      * Get all models by key/value and nest collection
@@ -96,7 +96,7 @@ interface RepositoryInterface
      * @param  boolean    $all
      * @return Collection
      */
-    public function getAllByNested($key, $value, array $with = array(), $all = false);
+    public function allNestedBy($key, $value, array $with = array(), $all = false);
 
     /**
      * Get latest models
@@ -158,7 +158,7 @@ interface RepositoryInterface
      * @param  string  $key        witch column as key ?
      * @return array               array with key = $key and value = $value
      */
-    public function select($method = 'getAll', $firstEmpty = false, $value = 'title', $key = 'id');
+    public function select($method = 'all', $firstEmpty = false, $value = 'title', $key = 'id');
 
     /**
      * Get all translated pages for a select/options

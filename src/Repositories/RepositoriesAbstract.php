@@ -61,8 +61,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     {
         $query = $this->make($with);
         if (! $all) {
-            // take only translated items that are online
-            $query->whereHasOnlineTranslation();
+            $query->online();
         }
         return $query->where($key, '=', $value)->first();
     }
@@ -103,8 +102,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
         $query = $this->make($with);
 
         if (! $all) {
-            // take only translated items that are online
-            $query->whereHasOnlineTranslation();
+            $query->online();
         }
 
         $totalItems = $query->count();
@@ -129,13 +127,12 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      * @param  boolean     $all  Show published or all
      * @return Collection|NestedCollection
      */
-    public function getAll(array $with = array(), $all = false)
+    public function all(array $with = array(), $all = false)
     {
         $query = $this->make($with);
         
         if (! $all) {
-            // take only translated items that are online
-            $query->whereHasOnlineTranslation();
+            $query->online();
         }
 
         // Query ORDER BY
@@ -152,10 +149,10 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      * @param  array                      $with Eager load related models
      * @return NestedCollection
      */
-    public function getAllNested(array $with = array(), $all = false)
+    public function allNested(array $with = array(), $all = false)
     {
         // Get
-        return $this->getAll($with, $all)->nest();
+        return $this->all($with, $all)->nest();
     }
 
     /**
@@ -167,13 +164,12 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      * @param  boolean    $all
      * @return Collection
      */
-    public function getAllBy($key, $value, array $with = array(), $all = false)
+    public function allBy($key, $value, array $with = array(), $all = false)
     {
         $query = $this->make($with);
 
         if (! $all) {
-            // Take only online and translated items
-            $query->whereHasOnlineTranslation();
+            $query->online();
         }
 
         $query->where($key, $value);
@@ -196,10 +192,10 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      * @param  boolean    $all
      * @return Collection
      */
-    public function getAllByNested($key, $value, array $with = array(), $all = false)
+    public function allNestedBy($key, $value, array $with = array(), $all = false)
     {
         // Get
-        return $this->getAllBy($key, $value, $with, $all)->nest();
+        return $this->allBy($key, $value, $with, $all)->nest();
     }
 
     /**
@@ -212,7 +208,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     public function latest($number = 10, array $with = array())
     {
         $query = $this->make($with);
-        return $query->whereHasOnlineTranslation()->order()->take($number)->get();
+        return $query->online()->order()->take($number)->get();
     }
 
     /**
@@ -235,7 +231,6 @@ abstract class RepositoriesAbstract implements RepositoryInterface
                     $query->where('slug', '=', $slug);
                 }
             )
-            ->withOnlineGalleries()
             ->firstOrFail();
 
         if (! count($model->translations)) {
@@ -360,7 +355,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      * @param  string  $key        witch column as key ?
      * @return array               array with key = $key and value = $value
      */
-    public function select($method = 'getAll', $firstEmpty = false, $value = 'title', $key = 'id')
+    public function select($method = 'all', $firstEmpty = false, $value = 'title', $key = 'id')
     {
         $items = $this->$method()->lists($value, $key);
         if ($firstEmpty) {
@@ -377,7 +372,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     public function getPagesForSelect()
     {
         $pages = App::make('TypiCMS\Modules\Pages\Repositories\PageInterface')
-            ->getAll([], true)
+            ->all([], true)
             ->nest()
             ->listsFlattened();
         $pages = ['' => ' '] + $pages;

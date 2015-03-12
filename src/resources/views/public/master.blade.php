@@ -67,7 +67,7 @@
         @yield('main')
 
         <div class="partners">
-            @if($partners = Partners::getAllBy('homepage', 1) and $partners->count())
+            @if($partners = Partners::allBy('homepage', 1) and $partners->count())
             <h3>
                 <a href="{{ route($lang . '.partners') }}">@lang('db.Partners')</a>
             </h3>

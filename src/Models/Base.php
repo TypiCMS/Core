@@ -130,7 +130,7 @@ abstract class Base extends Model
      * @param  Builder $query
      * @return Builder $query
      */
-    public function scopeWhereHasOnlineTranslation(Builder $query)
+    public function scopeOnline(Builder $query)
     {
         if (method_exists($this, 'translations')) {
             return $query->whereHas(
@@ -140,11 +140,10 @@ abstract class Base extends Model
                         $query->where('status', 1);
                     }
                     $query->where('locale', App::getLocale());
-                    // $query->where('slug', '!=', '');
                 }
             );
         } else {
-            return $query->where('status', 1)->where('slug', '!=', '');
+            return $query->where('status', 1);
         }
     }
 
