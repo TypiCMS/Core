@@ -14,19 +14,6 @@ use Route;
 abstract class Base extends Model
 {
 
-    protected $appends = ['status', 'title', 'thumb'];
-
-    /**
-     * Generic Translate method to maintain compatibility 
-     * when a model doesn't have Translatable trait.
-     * @param  string $lang
-     * @return $this
-     */
-    public function translate($lang = null)
-    {
-        return $this;
-    }
-
     /**
      * Get preview uri
      *
@@ -206,7 +193,7 @@ abstract class Base extends Model
      * and append it to main model attributes
      * @return string title
      */
-    public function getStatusAttribute()
+    public function getStatusAttribute($value)
     {
         return $this->status;
     }
@@ -216,7 +203,7 @@ abstract class Base extends Model
      * and append it to main model attributes
      * @return string title
      */
-    public function getThumbAttribute()
+    public function getThumbAttribute($value)
     {
         return $this->present()->thumbSrc(null, 22);
     }
@@ -259,6 +246,17 @@ abstract class Base extends Model
         } catch (InvalidArgumentException $e) {
             Log::error($e->getMessage());
         }
+    }
+
+    /**
+     * Generic Translate method to maintain compatibility 
+     * when a model doesn't have Translatable trait.
+     * @param  string $lang
+     * @return $this
+     */
+    public function translate($lang = null)
+    {
+        return $this;
     }
 
     /**

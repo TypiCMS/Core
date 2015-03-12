@@ -1,6 +1,6 @@
 @extends('core::admin.master')
 
-@section('title', $model->title)
+@section('title', $model->present()->title)
 
 @section('main')
 
