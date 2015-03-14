@@ -52,9 +52,6 @@ class CoreServiceProvider extends ServiceProvider {
             __DIR__ . '/../resources/views' => base_path('resources/views/vendor/core'),
             __DIR__ . '/../resources/views/errors' => base_path('resources/views/errors'),
         ], 'views');
-        $this->publishes([
-            __DIR__ . '/../../tests' => base_path('tests'),
-        ], 'tests');
 
         // translations
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'core');
