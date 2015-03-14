@@ -37,6 +37,11 @@ class FileUpload
 
         $fileTypes = Config::get('file.types');
         $input['type'] = $fileTypes[strtolower($file->getClientOriginalExtension())];
+        try {
+            $input['type'] = $fileTypes[strtolower($file->getClientOriginalExtension())];
+        } catch (Exception $e) {
+            $input['type'] = 'd';
+        }
 
         $filecounter = 1;
         while (file_exists($input['path'] . '/' . $input['filename'])) {
