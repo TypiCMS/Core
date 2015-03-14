@@ -134,7 +134,7 @@ class CoreServiceProvider extends ServiceProvider {
         | Sidebar view creator.
         |--------------------------------------------------------------------------
         */
-        $app->view->creator('core::admin._sidebar', 'TypiCMS\Composers\SideBarViewCreator');
+        $app->view->creator('core::admin._sidebar', 'TypiCMS\Composers\SidebarViewCreator');
 
         /*
         |--------------------------------------------------------------------------
