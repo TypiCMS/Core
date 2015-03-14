@@ -66,6 +66,7 @@
 
         @yield('main')
 
+{{--
         <div class="partners">
             @if($partners = Partners::allBy('homepage', 1) and $partners->count())
             <h3>
@@ -82,6 +83,7 @@
             </ul>
             @endif
         </div>
+--}}
 
         @section('footer')
         <div class="row">
