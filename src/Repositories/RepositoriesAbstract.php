@@ -423,15 +423,13 @@ abstract class RepositoriesAbstract implements RepositoryInterface
             return false;
         }
 
-        if (! isset($data[$table])) {
-            return false;
-        }
-
         // add related items
         $pivotData = array();
         $position = 0;
-        foreach ($data[$table] as $id) {
-            $pivotData[$id] = ['position' => $position++];
+        if (isset($data[$table])) {
+            foreach ($data[$table] as $id) {
+                $pivotData[$id] = ['position' => $position++];
+            }
         }
 
         // Sync related items
