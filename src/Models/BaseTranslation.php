@@ -2,7 +2,7 @@
 namespace TypiCMS\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use TypiCMS\Traits\Historable;
+use TypiCMS\Modules\History\Traits\Historable;
 
 abstract class BaseTranslation extends Model
 {
