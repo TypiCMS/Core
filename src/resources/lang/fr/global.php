@@ -39,6 +39,9 @@ return array(
 
     'The form contains errors' => 'Le formulaire contient des erreurs',
 
+    'Previous' => 'Précédent',
+    'Next' => 'Suivant',
+
     'Yes' => 'Oui',
     'No' => 'Non',
 

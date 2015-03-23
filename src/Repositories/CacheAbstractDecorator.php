@@ -67,6 +67,52 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
+     * Get next model
+     *
+     * @param  Model      $model
+     * @param  array      $with
+     * @param  boolean    $all
+     * @return Collection
+     */
+    public function next($model, array $with = [], $all = false)
+    {
+        // Build the cache key, unique per model slug
+        $cacheKey = md5(App::getLocale() . 'next.' . $model->id . $all . implode('.', $with));
+        if ($this->cache->has($cacheKey)) {
+            return $this->cache->get($cacheKey);
+        }
+        // Item not cached, retrieve it
+        $next = $this->repo->next($model, $with);
+
+        $this->cache->put($cacheKey, $next);
+
+        return $next;
+    }
+
+    /**
+     * Get prev model
+     *
+     * @param  Model      $model
+     * @param  array      $with
+     * @param  boolean    $all
+     * @return Collection
+     */
+    public function prev($model, array $with = [], $all = false)
+    {
+        // Build the cache key, unique per model slug
+        $cacheKey = md5(App::getLocale() . 'prev.' . $model->id . $all . implode('.', $with));
+        if ($this->cache->has($cacheKey)) {
+            return $this->cache->get($cacheKey);
+        }
+        // Item not cached, retrieve it
+        $prev = $this->repo->prev($model, $with);
+
+        $this->cache->put($cacheKey, $prev);
+
+        return $prev;
+    }
+
+    /**
      * Find a single entity by key value
      *
      * @param string $key

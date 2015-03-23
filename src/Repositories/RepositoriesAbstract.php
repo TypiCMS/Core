@@ -83,6 +83,52 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     }
 
     /**
+     * Get next model
+     *
+     * @param  Model      $model
+     * @param  array      $with
+     * @param  boolean    $all
+     * @return Collection
+     */
+    public function next($model, array $with = [], $all = false)
+    {
+        return $this->adjacent(1, $model, $with, $all);
+    }
+
+    /**
+     * Get prev model
+     *
+     * @param  Model      $model
+     * @param  array      $with
+     * @param  boolean    $all
+     * @return Collection
+     */
+    public function prev($model, array $with = [], $all = false)
+    {
+        return $this->adjacent(-1, $model, $with, $all);
+    }
+
+    /**
+     * Get prev model
+     *
+     * @param  Model      $model
+     * @param  array      $with
+     * @return Collection
+     */
+    private function adjacent($direction, $model, array $with = [], $all = false)
+    {
+        $currentModel = $model;
+        $models = $this->all($with, $all);
+        foreach ($models as $key => $model) {
+            if ($currentModel->id == $model->id) {
+                $adjacentKey = $key + $direction;
+                return isset($models[$adjacentKey]) ? $models[$adjacentKey] : null ;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Get paginated models
      *
      * @param  int      $page  Number of models per page

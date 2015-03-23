@@ -48,6 +48,26 @@ interface RepositoryInterface
     public function byId($id, array $with = array());
 
     /**
+     * Get next model
+     *
+     * @param  Model      $model
+     * @param  array      $with
+     * @param  boolean    $all
+     * @return Collection
+     */
+    public function next($model, array $with = [], $all = false);
+
+    /**
+     * Get prev model
+     *
+     * @param  Model      $model
+     * @param  array      $with
+     * @param  boolean    $all
+     * @return Collection
+     */
+    public function prev($model, array $with = [], $all = false);
+
+    /**
      * Get paginated models
      *
      * @param  int      $page  Number of models per page
