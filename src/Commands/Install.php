@@ -78,6 +78,10 @@ class Install extends Command
         $this->call('typicms:database', ['database' => $dbName]);
         $this->line('------------------');
 
+        // Set app key in .env
+        $this->call('key:generate');
+        $this->line('------------------');
+
         // Create a super user
         $this->createSuperUser();
 
