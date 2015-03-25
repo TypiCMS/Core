@@ -37,6 +37,28 @@ abstract class Presenter
     }
 
     /**
+     * Return a localized date
+     *
+     * @param  string $column
+     * @return Carbon
+     */
+    public function dateLocalized($column = 'date')
+    {
+        return $this->entity->$column->formatLocalized('%d %B %Y %H:%M');
+    }
+
+    /**
+     * Return a localized date and time
+     *
+     * @param  string $column
+     * @return Carbon
+     */
+    public function dateTimeLocalized($column = 'datetime')
+    {
+        return $this->entity->$column->formatLocalized('%d %B %Y %H:%M');
+    }
+
+    /**
      * Return resource's datetime or curent date and time if empty
      *
      * @param  string $column
