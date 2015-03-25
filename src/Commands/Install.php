@@ -91,6 +91,11 @@ class Install extends Command
 
         // Composer install
         if (function_exists('system')) {
+            system('find storage -type d -exec chmod 777 {} \;');
+            $this->info('Directory storage is now writable.');
+            system('find public/uploads -type d -exec chmod 777 {} \;');
+            $this->info('Directory public/uploads is now writable.');
+            $this->line('------------------');
             $this->info('Running npm install...');
             system('npm install');
             $this->info('npm packages installed.');
@@ -98,11 +103,6 @@ class Install extends Command
             $this->info('Running bower install...');
             system('bower install');
             $this->info('Bower packages installed.');
-            $this->line('------------------');
-            system('find storage -type d -exec chmod 777 {} \;');
-            $this->info('Directory storage is now writable.');
-            system('find public/uploads -type d -exec chmod 777 {} \;');
-            $this->info('Directory public/uploads is now writable.');
         } else {
             $this->line('You can now make /storage and /public/uploads directories writable');
             $this->line('and run composer install, npm install and bower install.');
