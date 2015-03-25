@@ -67,7 +67,7 @@ HTML::macro('languagesMenu', function (array $langsArray = array(), array $attri
     $html[] = '<ul ' . $attributes . '>';
     foreach ($langsArray as $item) {
         $html[] = '<li class="' . $item->class . '" role="menuitem">';
-        $html[] = '<a href="' . $item->url . '">' . $item->lang . '</a>';
+        $html[] = '<a href="' . url($item->url) . '">' . $item->lang . '</a>';
         $html[] = '</li>';
     }
     $html[] = '</ul>';
