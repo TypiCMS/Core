@@ -4,7 +4,6 @@ namespace TypiCMS\Presenters;
 use Carbon\Carbon;
 use Croppa;
 use Illuminate\Database\Eloquent\Model;
-use URL;
 
 abstract class Presenter
 {
@@ -143,7 +142,7 @@ abstract class Presenter
     public function thumbAbsoluteSrc($width = null, $height = null, array $options = array(), $field = 'image')
     {
         $src = $this->thumbSrc($width, $height, $options, $field);
-        return URL::to($src);
+        return url($src);
     }
 
     /**
