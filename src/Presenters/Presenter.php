@@ -44,7 +44,7 @@ abstract class Presenter
      */
     public function dateLocalized($column = 'date')
     {
-        return $this->entity->$column->formatLocalized('%d %B %Y %H:%M');
+        return $this->entity->$column->formatLocalized('%d %B %Y');
     }
 
     /**
