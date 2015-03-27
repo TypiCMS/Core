@@ -82,6 +82,9 @@ class Database extends Command
         // Clear DB name in config
         $this->laravel['config']['database.connections.mysql.database'] = '';
 
+        // Force the new login to be used
+        DB::purge();
+
         // Create database if not exists
         DB::unprepared('CREATE DATABASE IF NOT EXISTS `' . $dbName . '`');
         DB::unprepared('USE `' . $dbName . '`');
