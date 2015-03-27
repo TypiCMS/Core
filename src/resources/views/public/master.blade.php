@@ -34,7 +34,7 @@
 
 <body class="body-{{ $lang }} @yield('bodyClass') @if(Sentry::getUser() and Sentry::getUser()->hasAccess('admin') and ! Input::get('preview'))has-navbar @endif">
 
-    <a href="#content" class="sr-only">@lang('db.Skip to content')</a>
+    <a href="#content" class="skip-to-content">@lang('db.Skip to content')</a>
 
 @if(Sentry::getUser() and Sentry::getUser()->hasAccess('admin') and ! Input::get('preview'))
     @include('core::_navbar')
@@ -51,13 +51,13 @@
         @show
 
         @section('languagesMenu')
-        <nav role="navigation">
+        <nav class="nav-languages" role="navigation">
             {!! TypiCMS::languagesMenu(array('class' => 'nav nav-pills pull-right')) !!}
         </nav>
         @show
 
         @section('mainMenu')
-        <nav role="navigation">
+        <nav class="nav-main" role="navigation">
             {!! Menus::build('main') !!}
         </nav>
         @show
@@ -66,36 +66,14 @@
 
         @yield('main')
 
-{{--
-        <div class="partners">
-            @if($partners = Partners::allBy('homepage', 1) and $partners->count())
-            <h3>
-                <a href="{{ route($lang . '.partners') }}">@lang('db.Partners')</a>
-            </h3>
-            <ul class="list-unstyled">
-                @foreach ($partners as $partner)
-                <li>
-                    <a href="{{ $partner->website }}" title="{{ $partner->title }}" target="_blank">
-                        {!! $partner->present()->thumb(null, 50, array(), 'logo') !!}
-                    </a>
-                </li>
-                @endforeach
-            </ul>
-            @endif
-        </div>
---}}
-
         @section('footer')
-        <div class="row">
-
-            <div class="col-sm-4">
+        <footer class="footer-main">
+            <nav class="nav-social">
                 {!! Menus::build('social') !!}
-            </div>
-
-            <nav class="col-sm-8" role="navigation">
+            </nav>
+            <nav class="nav-footer" role="navigation">
                 {!! Menus::build('footer') !!}
             </nav>
-
         </div>
         @show
 
