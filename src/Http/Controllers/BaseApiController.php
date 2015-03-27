@@ -15,7 +15,7 @@ abstract class BaseApiController extends Controller
     public function __construct($repository = null)
     {
         $this->middleware('TypiCMS\Http\Middleware\Admin');
-        $this->middleware('auth', ['post', 'put', 'patch', 'delete']);
+        $this->middleware('auth', ['except' => ['index', 'show']]);
         $this->repository = $repository;
     }
 
