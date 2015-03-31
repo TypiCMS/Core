@@ -74,7 +74,7 @@
             <nav class="nav-footer" role="navigation">
                 {!! Menus::build('footer') !!}
             </nav>
-        </div>
+        </footer>
         @show
 
     </div>
