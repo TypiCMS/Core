@@ -43,7 +43,7 @@
     <div class="container" id="content">
 
         @section('header')
-        <header>
+        <header class="header-main">
             <h1>
                 <a href="{{ TypiCMS::homepage() }}">{{ config('typicms.' . $lang . '.website_title') }}</a>
             </h1>
