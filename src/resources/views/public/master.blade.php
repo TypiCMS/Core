@@ -58,7 +58,7 @@
 
         @section('mainMenu')
         <nav class="nav-main" role="navigation">
-            {!! Menus::build('main') !!}
+            {!! Menus::render('main') !!}
         </nav>
         @show
 
@@ -69,10 +69,10 @@
         @section('footer')
         <footer class="footer-main">
             <nav class="nav-social">
-                {!! Menus::build('social') !!}
+                {!! Menus::render('social') !!}
             </nav>
             <nav class="nav-footer" role="navigation">
-                {!! Menus::build('footer') !!}
+                {!! Menus::render('footer') !!}
             </nav>
         </footer>
         @show
@@ -97,7 +97,7 @@
     @if (Input::get('preview'))
     <script src="{{ asset('js/public/previewmode.js') }}"></script>
     @endif
-    
+
     @yield('js')
 
 </body>
