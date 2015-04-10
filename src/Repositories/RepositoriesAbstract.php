@@ -17,7 +17,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
 
     /**
      * Get empty model
-     * 
+     *
      * @return Model
      */
     public function getModel()
@@ -27,7 +27,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
 
     /**
      * Get table name
-     * 
+     *
      * @return string
      */
     public function getTable()
@@ -176,7 +176,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     public function all(array $with = array(), $all = false)
     {
         $query = $this->make($with);
-        
+
         if (! $all) {
             $query->online();
         }
@@ -354,21 +354,21 @@ abstract class RepositoriesAbstract implements RepositoryInterface
 
             $page = $this->model->find($item['id']);
 
-            $sortData = $this->getSortData($position, $item);
-            
+            $sortData = $this->getSortData($position + 1, $item);
+
             $page->update($sortData);
 
             if ($data['moved'] == $item['id']) {
                 $this->fireResetChildrenUriEvent($page);
             }
-            
+
         }
-        
+
     }
 
     /**
      * Get sort data
-     * 
+     *
      * @param  integer $position
      * @param  array   $item
      * @return array
@@ -383,7 +383,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     /**
      * Fire event to reset children’s uri
      * Only applicable on nestable collections
-     * 
+     *
      * @param  Page    $page
      * @return void|null
      */
