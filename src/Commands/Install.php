@@ -91,10 +91,10 @@ class Install extends Command
 
         // Composer install
         if (function_exists('system')) {
-            system('find storage -type d -exec chmod 777 {} \;');
-            $this->info('Directory storage is now writable.');
-            system('find public/uploads -type d -exec chmod 777 {} \;');
-            $this->info('Directory public/uploads is now writable.');
+            system('find storage -type d -exec chmod 755 {} \;');
+            $this->info('Directory storage is now writable (755).');
+            system('find public/uploads -type d -exec chmod 755 {} \;');
+            $this->info('Directory public/uploads is now writable (755).');
             $this->line('------------------');
             $this->info('Running npm install...');
             system('npm install');
