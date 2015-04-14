@@ -2,10 +2,12 @@
 namespace TypiCMS\Observers;
 
 use Croppa;
+use Exception;
 use File;
 use FileUpload;
 use Illuminate\Database\Eloquent\Model;
 use Input;
+use Log;
 
 class FileObserver
 {
@@ -29,19 +31,23 @@ class FileObserver
 
     /**
      * Delete file and thumbs
-     * 
+     *
      * @param  string $file
      * @return void
      */
     public function delete($file)
     {
-        Croppa::delete($file);
-        File::delete(public_path() . $file);
+        try {
+            Croppa::delete($file);
+            File::delete(public_path() . $file);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
     }
 
     /**
      * On save, upload files
-     * 
+     *
      * @param  Model $model eloquent
      * @return mixed false or void
      */
@@ -72,7 +78,7 @@ class FileObserver
 
     /**
      * On update, delete previous file if changed
-     * 
+     *
      * @param  Model $model eloquent
      * @return mixed false or void
      */
