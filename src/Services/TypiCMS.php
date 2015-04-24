@@ -195,4 +195,35 @@ class TypiCMS
         }
         return false;
     }
+
+    /**
+     * Get all modules for permissions table.
+     *
+     * @return array
+     */
+    public function modules()
+    {
+        $modules = config('typicms.modules');
+        ksort($modules);
+        return $modules;
+    }
+
+    /**
+     * Get all modules for a select/options
+     *
+     * @return array
+     */
+    public function getModulesForSelect()
+    {
+        $modules = config('typicms.modules');
+        $options = ['' => ''];
+        foreach ($modules as $module => $properties) {
+            if (in_array('linkable_to_page', $properties)) {
+                $options[$module] = trans($module . '::global.name');
+            }
+        }
+        asort($options);
+        return $options;
+    }
+
 }

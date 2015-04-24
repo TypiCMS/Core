@@ -10,14 +10,14 @@ interface RepositoryInterface
 {
     /**
      * Get empty model
-     * 
+     *
      * @return Model
      */
     public function getModel();
 
     /**
      * Get table name
-     * 
+     *
      * @return string
      */
     public function getTable();
@@ -186,13 +186,6 @@ interface RepositoryInterface
      * @return array
      */
     public function getPagesForSelect();
-
-    /**
-     * Get all modules for a select/options
-     *
-     * @return array
-     */
-    public function getModulesForSelect();
 
     /**
      * Delete model

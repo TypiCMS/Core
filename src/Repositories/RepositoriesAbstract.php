@@ -426,22 +426,6 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     }
 
     /**
-     * Get all modules for a select/options
-     *
-     * @return array
-     */
-    public function getModulesForSelect()
-    {
-        $modulesArray = config('typicms.modules_for_menu_items');
-        $selectModules = array('' => '');
-        foreach ($modulesArray as $module) {
-            $selectModules[strtolower($module)] = Str::title(trans(strtolower($module) . '::global.name'));
-        }
-
-        return $selectModules;
-    }
-
-    /**
      * Delete model
      *
      * @return boolean

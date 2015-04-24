@@ -14,7 +14,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
 
     /**
      * Get empty model
-     * 
+     *
      * @return Model
      */
     public function getModel()
@@ -24,7 +24,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
 
     /**
      * Get table name
-     * 
+     *
      * @return string
      */
     public function getTable()
@@ -395,16 +395,6 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     public function getPagesForSelect()
     {
         return $this->repo->getPagesForSelect();
-    }
-
-    /**
-     * Get all modules for a select/options
-     *
-     * @return array
-     */
-    public function getModulesForSelect()
-    {
-        return $this->repo->getModulesForSelect();
     }
 
     /**
