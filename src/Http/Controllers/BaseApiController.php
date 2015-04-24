@@ -14,14 +14,14 @@ abstract class BaseApiController extends Controller
 
     public function __construct($repository = null)
     {
-        $this->middleware('TypiCMS\Http\Middleware\Admin');
+        $this->middleware('admin');
         $this->middleware('auth', ['except' => ['index', 'show']]);
         $this->repository = $repository;
     }
 
     /**
      * Get models
-     * 
+     *
      * @return Response
      */
     public function index()
@@ -32,7 +32,7 @@ abstract class BaseApiController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * 
+     *
      * @param  $model
      * @return Response
      */
@@ -43,7 +43,7 @@ abstract class BaseApiController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * 
+     *
      * @param  $model
      * @return Response
      */
@@ -54,7 +54,7 @@ abstract class BaseApiController extends Controller
 
     /**
      * Store a new resource in storage.
-     * 
+     *
      * @return Response
      */
     public function store()
@@ -69,7 +69,7 @@ abstract class BaseApiController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * 
+     *
      * @param  $model
      * @return Response
      */
@@ -84,7 +84,7 @@ abstract class BaseApiController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * 
+     *
      * @param  $model
      * @return Response
      */
