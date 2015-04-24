@@ -45,7 +45,9 @@
         @section('header')
         <header class="header-main">
             <h1>
-                <a href="{{ TypiCMS::homepage() }}">{{ config('typicms.' . $lang . '.website_title') }}</a>
+                <a href="{{ TypiCMS::homepage() }}">
+                    {!! TypiCMS::logoOrTitle() !!}
+                </a>
             </h1>
         </header>
         @show

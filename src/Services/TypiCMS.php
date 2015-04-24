@@ -6,10 +6,8 @@ use HTML;
 use Route;
 use Config;
 use Request;
+use Url;
 
-/**
-* LangSwitcher
-*/
 class TypiCMS
 {
     private $model;
@@ -224,6 +222,39 @@ class TypiCMS
         }
         asort($options);
         return $options;
+    }
+
+    /**
+     * Get logo from settings
+     *
+     * @return string
+     */
+    public function logo()
+    {
+        if (config('typicms.image')) {
+            return '<img src="' . Url::to('uploads/settings/' . config('typicms.image')) . '" alt="' . $this->title() . '">';
+        }
+        return null;
+    }
+
+    /**
+     * Get title from settings
+     *
+     * @return string
+     */
+    public function title()
+    {
+        return config('typicms.' . config('app.locale') . '.website_title');
+    }
+
+    /**
+     * Get title from settings
+     *
+     * @return string
+     */
+    public function logoOrTitle()
+    {
+        return $this->logo() ? : $this->title();
     }
 
 }
