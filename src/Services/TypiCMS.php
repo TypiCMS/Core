@@ -2,8 +2,9 @@
 namespace TypiCMS\Services;
 
 use HTML;
-use Route;
+use Illuminate\Support\Facades\File;
 use Request;
+use Route;
 
 class TypiCMS
 {
@@ -279,6 +280,22 @@ class TypiCMS
             return $routes[$module];
         }
         return null;
+    }
+
+    /**
+     * List templates files from directory
+     * @return array
+     */
+    public function getPageTemplates($directory = 'resources/views/vendor/pages/public')
+    {
+        $templates = [];
+        foreach (File::allFiles(base_path($directory)) as $key => $file) {
+            $name = str_replace('.blade.php', '', $file->getRelativePathname());
+            if ($name[0] != '_' && $name != 'master') {
+                $templates[$name] = ucfirst($name);
+            }
+        }
+        return $templates;
     }
 
 }
