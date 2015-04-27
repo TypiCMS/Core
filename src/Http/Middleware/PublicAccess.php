@@ -2,10 +2,12 @@
 namespace TypiCMS\Http\Middleware;
 
 use Closure;
-use Sentry;
+use Illuminate\Support\Facades\File;
+use Illuminate\View\View;
+use Redirect;
 use Request;
 use Response;
-use Redirect;
+use Sentry;
 
 class PublicAccess
 {
@@ -25,7 +27,24 @@ class PublicAccess
             }
             return Redirect::guest(route('login'));
         }
-        return $next($request);
+
+        $response = $next($request);
+
+        if (
+            $response instanceof View &&
+            $request->method() == 'GET' &&
+            ! Sentry::check() &&
+            config('typicms.html_cache') &&
+            ! config('app.debug')
+        ) {
+            $directory = public_path() . '/cache/html' . $request->getRequestUri();
+            if ( ! File::isDirectory($directory)) {
+                File::makeDirectory($directory, 0777, true);
+            }
+            File::put($directory.'/index.html', $response->render());
+        }
+
+        return $response;
     }
 
 }
