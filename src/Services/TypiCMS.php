@@ -1,6 +1,7 @@
 <?php
 namespace TypiCMS\Services;
 
+use Exception;
 use HTML;
 use Illuminate\Support\Facades\File;
 use Request;
@@ -289,7 +290,12 @@ class TypiCMS
     public function getPageTemplates($directory = 'resources/views/vendor/pages/public')
     {
         $templates = [];
-        foreach (File::allFiles(base_path($directory)) as $key => $file) {
+        try {
+            $files = File::allFiles(base_path($directory));
+        } catch (Exception $e) {
+            $files = File::allFiles(base_path('vendor/typicms/pages/src/resources/views/public'));
+        }
+        foreach ($files as $key => $file) {
             $name = str_replace('.blade.php', '', $file->getRelativePathname());
             if ($name[0] != '_' && $name != 'master') {
                 $templates[$name] = ucfirst($name);
