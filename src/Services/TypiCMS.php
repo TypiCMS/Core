@@ -254,4 +254,31 @@ class TypiCMS
         return $this->logo() ? : $this->title();
     }
 
+    /**
+     * Return an array of pages linked to modules
+     *
+     * @param  string $module
+     * @return array|Model
+     */
+    public function routes()
+    {
+        return app('TypiCMS.routes');
+    }
+
+    /**
+     * Return an array of pages linked to modules
+     *
+     * @param  string $module
+     * @return array|Model
+     */
+    public function getPageLinkedToModule($module = null)
+    {
+        $module = strtolower($module);
+        $routes = $this->routes();
+        if (isset($routes[$module])) {
+            return $routes[$module];
+        }
+        return null;
+    }
+
 }
