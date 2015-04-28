@@ -1,9 +1,7 @@
 <?php
 namespace TypiCMS\Http\Middleware;
 
-use App;
 use Closure;
-use Config;
 use Input;
 use Redirect;
 use Request;
@@ -23,14 +21,14 @@ class PublicLocale
     {
 
         $firstSegment = Request::segment(1);
-        $locale = App::getLocale();
+        $locale = config('app.locale');
 
         if (in_array($firstSegment, config('translatable.locales'))) {
             $locale = $firstSegment;
         }
 
         // Throw a 404 if website in this language is offline
-        if (! Config::get('typicms.' . $locale . '.status')) {
+        if (! config('typicms.' . $locale . '.status')) {
             abort(404);
         }
 

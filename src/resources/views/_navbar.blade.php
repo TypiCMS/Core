@@ -15,7 +15,11 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         @section('otherSideLink')
-                        {!! TypiCMS::otherSideLink() !!}
+                            @if (Request::segment(1) == 'admin')
+                                @include('core::admin._navbar-public-link')
+                            @else
+                                @include('core::public._navbar-admin-link')
+                            @endif
                         @show
                     </li>
                     <li class="dropdown">

@@ -8,7 +8,7 @@ HTML::macro('langButton', function ($locale = null, $attributes = []) {
     $inputs['locale'] = $locale;
 
     $attributes['class'] = 'btn btn-default btn-xs';
-    if ($locale == Config::get('app.locale')) {
+    if ($locale == config('app.locale')) {
         $attributes['class'] .= ' active';
     }
     $label = trans('global.languages.' . $locale);

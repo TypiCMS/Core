@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ Config::get('typicms.admin_locale') }}">
+<html lang="{{ config('typicms.admin_locale') }}">
 
 <head>
 
@@ -26,6 +26,10 @@
         @include('core::_navbar')
     @endif
 @show
+
+@section('otherSideLink')
+    @include('core::admin._navbar-public-link')
+@stop
 
 <div class="container-fluid">
 

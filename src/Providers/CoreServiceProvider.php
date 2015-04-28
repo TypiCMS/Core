@@ -103,7 +103,7 @@ class CoreServiceProvider extends ServiceProvider {
         if (Request::segment(1) != 'admin') {
 
             $firstSegment = Request::segment(1);
-            if (in_array($firstSegment, Config::get('translatable.locales'))) {
+            if (in_array($firstSegment, config('translatable.locales'))) {
                 Config::set('app.locale', $firstSegment);
             }
             // Not very reliable, need to be refactored
