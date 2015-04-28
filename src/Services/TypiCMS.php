@@ -148,7 +148,7 @@ class TypiCMS
                 $templates[$name] = ucfirst($name);
             }
         }
-        return $templates;
+        return ['' => ''] + $templates;
     }
 
 }
