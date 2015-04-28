@@ -30,6 +30,7 @@ class PublicAccess
 
         $response = $next($request);
 
+        // HTML cache (beta)
         if (
             $response instanceof View &&
             $request->method() == 'GET' &&
