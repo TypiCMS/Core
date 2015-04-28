@@ -22,7 +22,7 @@
 
                 @foreach ($locales as $locale)
 
-                <a href="{{ url($homepage->translate($locale)->uri) }}" class="btn btn-default btn-lg">{{ trans('db.languages.'.$locale) }}</a>
+                <a href="{{ url($homepage->uri($locale)) }}" class="btn btn-default btn-lg">{{ trans('db.languages.'.$locale) }}</a>
 
                 @endforeach
 
