@@ -54,9 +54,7 @@
         @show
 
         @section('languagesMenu')
-        <nav class="nav-languages" role="navigation">
-            {!! TypiCMS::languagesMenu(array('class' => 'nav nav-pills pull-right')) !!}
-        </nav>
+            @include('core::public._languages-menu')
         @show
 
         @section('mainMenu')

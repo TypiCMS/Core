@@ -6,10 +6,11 @@ use Config;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use InvalidArgumentException;
 use Input;
+use InvalidArgumentException;
 use Log;
 use Route;
+use TypiCMS\Facades\TypiCMS;
 
 abstract class Base extends Model
 {
@@ -24,65 +25,19 @@ abstract class Base extends Model
         if (! $this->id) {
             return null;
         }
-        return $this->getPublicUri(true);
+        return url($this->uri(config('app.locale')));
     }
 
     /**
      * Get public uri
      *
-     * @return string|null string or null
+     * @return string|null
      */
-    public function getPublicUriIndex()
+    public function uri($locale)
     {
-        $uri = $this->getPublicUri(false, true);
-        return $uri;
-    }
-
-    /**
-     * Get public uri
-     *
-     * @return string|null string or null
-     */
-    public function getPublicUri($preview = false, $index = false, $lang = null)
-    {
-        if (! $this->hasTranslation($lang)) {
-            return null;
-        }
-
-        $lang = $lang ? : App::getlocale() ;
-
-        // Route parameters
-        $parameters = [$this->translate($lang)->slug];
-
-        // If index of module is asked
-        if ($index) {
-            $parameters = [null];
-        }
-
-        // If model is offline and we are not in preview mode
-        if (! $preview && ! $this->translate($lang)->status) {
-            $parameters = [null];
-        }
-
-        $route = array();
-
-        // Route name
-        $route['lang'] = $lang;
-        $route['table'] = $this->getTable();
-
-        // if there is a category
-        if (method_exists($this, 'category')) {
-            if ($this->category) {
-                array_unshift($parameters, $this->category->translate($lang)->slug);
-                $route['category'] = 'categories';
-            }
-        }
-        $route['suffix'] = 'slug';
-        $routeName = implode('.', $route);
-
-        // Does route exists ?
-        if (Route::has($routeName)) {
-            return route($routeName, $parameters);
+        $page = TypiCMS::getPageLinkedToModule($this->getTable());
+        if ($page) {
+            return $page->uri($locale) . '/' . $this->translate($locale)->slug;
         }
         return null;
     }
@@ -222,7 +177,7 @@ abstract class Base extends Model
 
     /**
      * Get back office’s edit url of model
-     * 
+     *
      * @return string|void
      */
     public function editUrl()
@@ -236,7 +191,7 @@ abstract class Base extends Model
 
     /**
      * Get back office’s index of models url
-     * 
+     *
      * @return string|void
      */
     public function indexUrl()
@@ -249,7 +204,7 @@ abstract class Base extends Model
     }
 
     /**
-     * Generic Translate method to maintain compatibility 
+     * Generic Translate method to maintain compatibility
      * when a model doesn't have Translatable trait.
      * @param  string $lang
      * @return $this
@@ -261,7 +216,7 @@ abstract class Base extends Model
 
     /**
      * Models without translatable trait doesn’t have translation.
-     * 
+     *
      * @param  string  $locale
      * @return boolean
      */

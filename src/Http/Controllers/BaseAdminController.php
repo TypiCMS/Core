@@ -19,7 +19,7 @@ abstract class BaseAdminController extends Controller
 
     /**
      * List models
-     * 
+     *
      * @return View
      */
     public function index()
@@ -37,9 +37,10 @@ abstract class BaseAdminController extends Controller
      */
     public function create($parent = null)
     {
+        $module = $this->repository->getTable();
         $model = $this->repository->getModel();
         return view('core::admin.create')
-            ->with(compact('model'));
+            ->with(compact('model', 'module'));
     }
 
     /**
@@ -94,7 +95,7 @@ abstract class BaseAdminController extends Controller
 
     /**
      * Redirect after a form is saved
-     * 
+     *
      * @param  $request
      * @param  $model
      * @return \Illuminate\Routing\Redirector

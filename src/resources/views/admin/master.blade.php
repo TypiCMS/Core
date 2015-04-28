@@ -27,6 +27,10 @@
     @endif
 @show
 
+@section('otherSideLink')
+    @include('core::admin._navbar-public-link')
+@stop
+
 <div class="container-fluid">
 
     <div class="row row-offcanvas row-offcanvas-left">
