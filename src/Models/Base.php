@@ -9,9 +9,12 @@ use InvalidArgumentException;
 use Log;
 use Route;
 use TypiCMS\Facades\TypiCMS;
+use TypiCMS\Traits\HtmlCacheEvents;
 
 abstract class Base extends Model
 {
+
+    use HtmlCacheEvents;
 
     /**
      * Get preview uri
