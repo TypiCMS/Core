@@ -1,7 +1,6 @@
 <?php
 namespace TypiCMS\Providers;
 
-use App;
 use Config;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
@@ -100,7 +99,7 @@ class CoreServiceProvider extends ServiceProvider {
                 Config::set('app.locale', $firstSegment);
             }
             // Not very reliable, need to be refactored
-            setlocale(LC_ALL, App::getLocale() . '_' . strtoupper(App::getLocale()) . '.utf8');
+            setlocale(LC_ALL, config('app.locale') . '_' . strtoupper(config('app.locale')) . '.utf8');
 
         }
 

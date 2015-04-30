@@ -1,8 +1,6 @@
 <?php
 namespace TypiCMS\Models;
 
-use App;
-use Config;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -54,11 +52,11 @@ abstract class Base extends Model
         return $query->with(
             array('files' => function (Builder $query) use ($all) {
                 $query->with(array('translations' => function (Builder $query) use ($all) {
-                    $query->where('locale', App::getLocale());
+                    $query->where('locale', config('app.locale'));
                     ! $all && $query->where('status', 1);
                 }));
                 $query->whereHas('translations', function (Builder $query) use ($all) {
-                    $query->where('locale', App::getLocale());
+                    $query->where('locale', config('app.locale'));
                     ! $all && $query->where('status', 1);
                 });
                 $query->orderBy('position', 'asc');
@@ -81,7 +79,7 @@ abstract class Base extends Model
                     if (! Input::get('preview')) {
                         $query->where('status', 1);
                     }
-                    $query->where('locale', App::getLocale());
+                    $query->where('locale', config('app.locale'));
                 }
             );
         } else {
@@ -109,7 +107,7 @@ abstract class Base extends Model
                         'translations',
                         function (Builder $query) {
                             $query->where('status', 1);
-                            $query->where('locale', App::getLocale());
+                            $query->where('locale', config('app.locale'));
                         }
                     );
                 }
