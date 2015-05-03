@@ -57,11 +57,11 @@ class PublicAccess
      */
     private function queryStringIsEmptyOrOnlyPage($request)
     {
-        $input = $request->input();
-        if (count($input) == 0) {
+        $nbInputs = count($request->input());
+        if ($nbInputs == 0) {
             return true;
         }
-        if ($input['page'] && count($input) == 1) {
+        if ($request->input('page') && $nbInputs == 1) {
             return true;
         }
         return false;
