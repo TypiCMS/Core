@@ -30,22 +30,41 @@ class PublicAccess
 
         $response = $next($request);
 
-        // HTML cache (beta)
+        // HTML cache
         if (
             $response instanceof View &&
             $request->method() == 'GET' &&
             ! Sentry::check() &&
-            config('typicms.html_cache') &&
-            ! config('app.debug')
+            $this->queryStringIsEmptyOrOnlyPage($request) &&
+            ! config('app.debug') &&
+            config('typicms.html_cache')
         ) {
-            $directory = public_path() . '/cache/html' . $request->getRequestUri();
-            if ( ! File::isDirectory($directory)) {
+            $directory = public_path() . '/cache/html' . $request->getPathInfo();
+            if (! File::isDirectory($directory)) {
                 File::makeDirectory($directory, 0777, true);
             }
-            File::put($directory.'/index.html', $response->render());
+            File::put($directory.'/index' . $request->getQueryString() . '.html', $response->render());
         }
 
         return $response;
+    }
+
+    /**
+     * Return false if there is query param other than page=
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return boolean
+     */
+    private function queryStringIsEmptyOrOnlyPage($request)
+    {
+        $input = $request->input();
+        if (count($input) == 0) {
+            return true;
+        }
+        if ($input['page'] && count($input) == 1) {
+            return true;
+        }
+        return false;
     }
 
 }
