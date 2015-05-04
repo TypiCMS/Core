@@ -39,7 +39,7 @@ class PublicAccess
             ! config('app.debug') &&
             config('typicms.html_cache')
         ) {
-            $directory = public_path() . '/cache/html' . $request->getPathInfo();
+            $directory = public_path() . '/html' . $request->getPathInfo();
             if (! File::isDirectory($directory)) {
                 File::makeDirectory($directory, 0777, true);
             }

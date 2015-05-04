@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\File;
 trait HtmlCacheEvents {
 
     /**
-     * Event to delete files in public/cache folder
+     * Event to delete files in public/html folder
      *
      * @return void
      */
@@ -17,11 +17,11 @@ trait HtmlCacheEvents {
         if (config('typicms.html_cache')) {
 
             static::saved(function($model) {
-                File::deleteDirectory(public_path() . '/cache/html');
+                File::deleteDirectory(public_path() . '/html');
             });
 
             static::deleted(function($model) {
-                File::deleteDirectory(public_path() . '/cache/html');
+                File::deleteDirectory(public_path() . '/html');
             });
 
         }
