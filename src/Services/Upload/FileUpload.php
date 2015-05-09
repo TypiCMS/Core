@@ -1,10 +1,11 @@
 <?php
 namespace TypiCMS\Services\Upload;
 
+use Exception;
 use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Notification;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
 * FileUpload
