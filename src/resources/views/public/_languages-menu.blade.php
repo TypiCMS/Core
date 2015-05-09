@@ -2,7 +2,7 @@
     <ul role="menu">
         @foreach (TypiCMS::getPublicLocales() as $locale)
         <li class="@if($locale == config('app.locale'))active @endif" role="menuitem">
-            @if (isset($model))
+            @if (isset($model) and isset($page) and $model->hasTranslation())
             <a href="{{ url($page->uri($locale) . '/' . $model->translate($locale)->slug) }}">{{ $locale }}</a>
             @elseif (isset($page))
             <a href="{{ url($page->uri($locale)) }}">{{ $locale }}</a>
