@@ -13,7 +13,6 @@ use TypiCMS\Commands\Install;
 use TypiCMS\Modules\Users\Repositories\SentryUser;
 use TypiCMS\Services\TypiCMS;
 use TypiCMS\Services\Upload\FileUpload;
-use View;
 
 class CoreServiceProvider extends ServiceProvider {
 

@@ -1,10 +1,8 @@
 <?php
 namespace TypiCMS\Http\Middleware;
 
-use Cartalyst\Sentry\Groups\GroupNotFoundException;
 use Cartalyst\Sentry\Users\UserNotFoundException;
 use Closure;
-use Config;
 use Log;
 use Redirect;
 use Request;

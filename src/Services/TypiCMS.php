@@ -2,10 +2,7 @@
 namespace TypiCMS\Services;
 
 use Exception;
-use HTML;
 use Illuminate\Support\Facades\File;
-use Request;
-use Route;
 
 class TypiCMS
 {
