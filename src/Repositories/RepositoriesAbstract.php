@@ -1,11 +1,10 @@
 <?php
 namespace TypiCMS\Modules\Core\Repositories;
 
-use App;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Input;
+use Illuminate\Support\Facades\Input;
 use stdClass;
 use TypiCMS\Modules\Pages\Models\Page;
 use TypiCMS\NestedCollection;
@@ -272,7 +271,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
                     if (! Input::get('preview')) {
                         $query->where('status', 1);
                     }
-                    $query->where('locale', App::getLocale());
+                    $query->where('locale', config('app.locale'));
                     $query->where('slug', '=', $slug);
                 }
             )
@@ -416,7 +415,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      */
     public function getPagesForSelect()
     {
-        $pages = App::make('TypiCMS\Modules\Pages\Repositories\PageInterface')
+        $pages = app('TypiCMS\Modules\Pages\Repositories\PageInterface')
             ->all([], true)
             ->nest()
             ->listsFlattened();

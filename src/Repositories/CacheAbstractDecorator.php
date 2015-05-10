@@ -1,11 +1,10 @@
 <?php
 namespace TypiCMS\Modules\Core\Repositories;
 
-use App;
 use Illuminate\Database\Eloquent\Collection;
-use Input;
-use TypiCMS\NestedCollection;
+use Illuminate\Support\Facades\Input;
 use TypiCMS\Modules\Core\Repositories\RepositoryInterface;
+use TypiCMS\NestedCollection;
 
 abstract class CacheAbstractDecorator implements RepositoryInterface
 {
@@ -52,7 +51,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     public function byId($id, array $with = array())
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(App::getLocale() . 'id.' . implode('.', $with) . $id . implode('.', Input::all()));
+        $cacheKey = md5(config('app.locale') . 'id.' . implode('.', $with) . $id . implode('.', Input::all()));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -77,7 +76,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     public function next($model, array $with = [], $all = false)
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(App::getLocale() . 'next.' . $model->id . $all . implode('.', $with));
+        $cacheKey = md5(config('app.locale') . 'next.' . $model->id . $all . implode('.', $with));
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
         }
@@ -100,7 +99,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     public function prev($model, array $with = [], $all = false)
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(App::getLocale() . 'prev.' . $model->id . $all . implode('.', $with));
+        $cacheKey = md5(config('app.locale') . 'prev.' . $model->id . $all . implode('.', $with));
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
         }
@@ -122,7 +121,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     public function getFirstBy($key, $value, array $with = array(), $all = false)
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(App::getLocale().'getFirstBy'.$key.$value.implode('.', $with).$all.implode('.', Input::all()));
+        $cacheKey = md5(config('app.locale').'getFirstBy'.$key.$value.implode('.', $with).$all.implode('.', Input::all()));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -147,7 +146,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
      */
     public function byPage($page = 1, $limit = 10, array $with = array(), $all = false)
     {
-        $cacheKey = md5(App::getLocale().'byPage'.$page.$limit.implode('.', $with).$all.implode('.', Input::except('page')));
+        $cacheKey = md5(config('app.locale').'byPage'.$page.$limit.implode('.', $with).$all.implode('.', Input::except('page')));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -170,7 +169,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
      */
     public function all(array $with = array(), $all = false)
     {
-        $cacheKey = md5(App::getLocale() . 'all' . implode('.', $with) . $all . implode('.', Input::except('page')));
+        $cacheKey = md5(config('app.locale') . 'all' . implode('.', $with) . $all . implode('.', Input::except('page')));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -194,7 +193,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
      */
     public function allNested(array $with = array(), $all = false)
     {
-        $cacheKey = md5(App::getLocale() . 'allNested' . implode('.', $with) . $all . implode('.', Input::except('page')));
+        $cacheKey = md5(config('app.locale') . 'allNested' . implode('.', $with) . $all . implode('.', Input::except('page')));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -220,7 +219,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
      */
     public function allBy($key, $value, array $with = array(), $all = false)
     {
-        $cacheKey = md5(App::getLocale().'allBy'.$key.$value.implode('.', $with).$all.implode('.', Input::all()));
+        $cacheKey = md5(config('app.locale').'allBy'.$key.$value.implode('.', $with).$all.implode('.', Input::all()));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -246,7 +245,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
      */
     public function allNestedBy($key, $value, array $with = array(), $all = false)
     {
-        $cacheKey = md5(App::getLocale().'allNestedBy'.$key.$value.implode('.', $with).$all.implode('.', Input::all()));
+        $cacheKey = md5(config('app.locale').'allNestedBy'.$key.$value.implode('.', $with).$all.implode('.', Input::all()));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -270,7 +269,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
      */
     public function latest($number = 10, array $with = array())
     {
-        $cacheKey = md5(App::getLocale() . 'latest' . $number . implode('.', $with) . implode('.', Input::all()));
+        $cacheKey = md5(config('app.locale') . 'latest' . $number . implode('.', $with) . implode('.', Input::all()));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -295,7 +294,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     public function bySlug($slug, array $with = array())
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(App::getLocale() . 'bySlug' . $slug . implode('.', $with) . implode('.', Input::all()));
+        $cacheKey = md5(config('app.locale') . 'bySlug' . $slug . implode('.', $with) . implode('.', Input::all()));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -320,7 +319,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     public function has($relation, array $with = array())
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(App::getLocale() . 'has' . implode('.', $with) . $relation);
+        $cacheKey = md5(config('app.locale') . 'has' . implode('.', $with) . $relation);
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);

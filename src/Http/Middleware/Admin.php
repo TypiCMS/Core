@@ -7,8 +7,8 @@ use Crypt;
 use Input;
 use JavaScript;
 use Lang;
-use Users;
 use Session;
+use Users;
 
 class Admin
 {
