@@ -3,7 +3,9 @@ namespace TypiCMS\Modules\Core\Presenters;
 
 use Carbon\Carbon;
 use Croppa;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Laracasts\Presenter\Presenter as BasePresenter;
 
 abstract class Presenter extends BasePresenter
@@ -124,12 +126,15 @@ abstract class Presenter extends BasePresenter
      * @param  string $field
      * @return string path
      */
-    protected function getPath(Model $model = null, $field = null)
+    protected function getPath(Model $model, $field = null)
     {
-        if (! $model || ! $field) {
-            return null;
+        $path = '';
+        try {
+            $path = '/uploads/' . $model->getTable() . '/' . $model->$field;
+        } catch (Exception $e) {
+            Log::info($e->getMessage());
         }
-        return '/uploads/' . $model->getTable() . '/' . $model->$field;
+        return $path;
     }
 
     /**
@@ -147,10 +152,7 @@ abstract class Presenter extends BasePresenter
         if (! is_file(public_path() . $src)) {
             $src = $this->imgNotFound();
         }
-        if ($width || $height) {
-            $src = Croppa::url($src, $width, $height, $options);
-        }
-        return $src;
+        return Croppa::url($src, $width, $height, $options);
     }
 
     /**
