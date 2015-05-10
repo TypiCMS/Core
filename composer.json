@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "TypiCMS\\": "src/"
+            "TypiCMS\\Modules\\Core\\": "src/"
         }
     },
     "minimum-stability": "dev",
