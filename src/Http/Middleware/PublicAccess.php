@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Http\Middleware;
+namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\File;

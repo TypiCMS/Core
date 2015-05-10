@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Services;
+namespace TypiCMS\Modules\Core\Services;
 
 use Carbon\Carbon;
 

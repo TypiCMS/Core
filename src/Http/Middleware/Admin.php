@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Http\Middleware;
+namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
 use Config;
@@ -35,7 +35,7 @@ class Admin
         // Set Translator locale to typicms.admin_locale config
         Lang::setLocale($adminLocale);
 
-        $localesForJS = [];  
+        $localesForJS = [];
         foreach ($locales as $key => $locale) {
             $localesForJS[] = [
                 'short' => $locale,

@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Models;
+namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use TypiCMS\Modules\History\Traits\Historable;

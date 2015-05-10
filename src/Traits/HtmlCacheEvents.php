@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Traits;
+namespace TypiCMS\Modules\Core\Traits;
 
 use Illuminate\Support\Facades\File;
 

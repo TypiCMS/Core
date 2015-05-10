@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Services\Cache;
+namespace TypiCMS\Modules\Core\Services\Cache;
 
 use stdClass;
 use Illuminate\Cache\CacheManager;

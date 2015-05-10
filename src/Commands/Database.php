@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Commands;
+namespace TypiCMS\Modules\Core\Commands;
 
 use DB;
 use Exception;

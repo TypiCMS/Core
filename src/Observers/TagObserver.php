@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Observers;
+namespace TypiCMS\Modules\Core\Observers;
 
 use Illuminate\Database\Eloquent\Model;
 use Input;
@@ -11,7 +11,7 @@ class TagObserver
 
     /**
      * On save, process tags
-     * 
+     *
      * @param  Model $model eloquent
      * @return mixed false or void
      */

@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Services\Cache;
+namespace TypiCMS\Modules\Core\Services\Cache;
 
 interface CacheInterface
 {

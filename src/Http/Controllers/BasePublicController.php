@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Http\Controllers;
+namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 

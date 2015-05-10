@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Observers;
+namespace TypiCMS\Modules\Core\Observers;
 
 class SlugObserver
 {

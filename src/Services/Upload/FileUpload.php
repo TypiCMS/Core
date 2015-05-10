@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Services\Upload;
+namespace TypiCMS\Modules\Core\Services\Upload;
 
 use Exception;
 use Illuminate\Support\Str;

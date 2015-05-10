@@ -1,4 +1,4 @@
-<?php namespace TypiCMS\Composers;
+<?php namespace TypiCMS\Modules\Core\Composers;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\App;

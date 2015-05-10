@@ -1,20 +1,20 @@
 <?php
-namespace TypiCMS\Providers;
+namespace TypiCMS\Modules\Core\Providers;
 
-use Config;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
-use Request;
-use TypiCMS\Commands\CacheKeyPrefix;
-use TypiCMS\Commands\Database;
-use TypiCMS\Commands\Install;
+use TypiCMS\Modules\Core\Commands\CacheKeyPrefix;
+use TypiCMS\Modules\Core\Commands\Database;
+use TypiCMS\Modules\Core\Commands\Install;
+use TypiCMS\Modules\Core\Services\TypiCMS;
+use TypiCMS\Modules\Core\Services\Upload\FileUpload;
 use TypiCMS\Modules\Users\Repositories\SentryUser;
-use TypiCMS\Services\TypiCMS;
-use TypiCMS\Services\Upload\FileUpload;
 
-class CoreServiceProvider extends ServiceProvider {
+class ModuleProvider extends ServiceProvider {
 
     /**
      * Indicates if loading of the provider is deferred.
@@ -29,11 +29,11 @@ class CoreServiceProvider extends ServiceProvider {
      * @var array
      */
     protected $middleware = [
-        'admin'        => 'TypiCMS\Http\Middleware\Admin',
-        'auth'         => 'TypiCMS\Http\Middleware\Auth',
-        'publicAccess' => 'TypiCMS\Http\Middleware\PublicAccess',
-        'publicLocale' => 'TypiCMS\Http\Middleware\PublicLocale',
-        'registration' => 'TypiCMS\Http\Middleware\Registration',
+        'admin'        => 'TypiCMS\Modules\Core\Http\Middleware\Admin',
+        'auth'         => 'TypiCMS\Modules\Core\Http\Middleware\Auth',
+        'publicAccess' => 'TypiCMS\Modules\Core\Http\Middleware\PublicAccess',
+        'publicLocale' => 'TypiCMS\Modules\Core\Http\Middleware\PublicLocale',
+        'registration' => 'TypiCMS\Modules\Core\Http\Middleware\Registration',
     ];
 
     /**
@@ -132,7 +132,7 @@ class CoreServiceProvider extends ServiceProvider {
         | Sidebar view creator.
         |--------------------------------------------------------------------------
         */
-        $app->view->creator('core::admin._sidebar', 'TypiCMS\Composers\SidebarViewCreator');
+        $app->view->creator('core::admin._sidebar', 'TypiCMS\Modules\Core\Composers\SidebarViewCreator');
 
         /*
         |--------------------------------------------------------------------------
@@ -140,9 +140,9 @@ class CoreServiceProvider extends ServiceProvider {
         |--------------------------------------------------------------------------|
         */
         $app->view->composers([
-            'TypiCMS\Composers\MasterViewComposer' => '*',
-            'TypiCMS\Composers\LocaleComposer' => '*::public.*',
-            'TypiCMS\Composers\LocalesComposer' => ['*::*._form'],
+            'TypiCMS\Modules\Core\Composers\MasterViewComposer' => '*',
+            'TypiCMS\Modules\Core\Composers\LocaleComposer' => '*::public.*',
+            'TypiCMS\Modules\Core\Composers\LocalesComposer' => ['*::*._form'],
         ]);
 
         $this->registerCommands();

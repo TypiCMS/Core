@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Composers;
+namespace TypiCMS\Modules\Core\Composers;
 
 use Illuminate\View\View;
 use Maatwebsite\Sidebar\SidebarManager;

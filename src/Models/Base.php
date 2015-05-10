@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Models;
+namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -8,8 +8,8 @@ use Input;
 use InvalidArgumentException;
 use Log;
 use Route;
-use TypiCMS\Facades\TypiCMS;
-use TypiCMS\Traits\HtmlCacheEvents;
+use TypiCMS\Modules\Core\Facades\TypiCMS;
+use TypiCMS\Modules\Core\Traits\HtmlCacheEvents;
 
 abstract class Base extends Model
 {

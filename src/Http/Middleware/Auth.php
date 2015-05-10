@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Http\Middleware;
+namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Cartalyst\Sentry\Users\UserNotFoundException;
 use Closure;

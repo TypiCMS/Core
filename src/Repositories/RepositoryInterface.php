@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Repositories;
+namespace TypiCMS\Modules\Core\Repositories;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;

@@ -1,5 +1,5 @@
 <?php
-namespace TypiCMS\Facades;
+namespace TypiCMS\Modules\Core\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

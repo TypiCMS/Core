@@ -1,11 +1,11 @@
 <?php
-namespace TypiCMS\Repositories;
+namespace TypiCMS\Modules\Core\Repositories;
 
 use App;
 use Illuminate\Database\Eloquent\Collection;
 use Input;
 use TypiCMS\NestedCollection;
-use TypiCMS\Repositories\RepositoryInterface;
+use TypiCMS\Modules\Core\Repositories\RepositoryInterface;
 
 abstract class CacheAbstractDecorator implements RepositoryInterface
 {
