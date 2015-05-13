@@ -2,8 +2,8 @@
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Input;
-use Response;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Response;
 
 abstract class BaseApiController extends Controller
 {

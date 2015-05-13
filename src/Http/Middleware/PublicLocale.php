@@ -2,9 +2,9 @@
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
-use Input;
-use Redirect;
-use Request;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
 use Sentry;
 
 class PublicLocale

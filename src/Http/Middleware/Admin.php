@@ -2,12 +2,12 @@
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
-use Config;
-use Crypt;
-use Input;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Session;
 use JavaScript;
-use Lang;
-use Session;
 use Users;
 
 class Admin

@@ -2,8 +2,8 @@
 namespace TypiCMS\Modules\Core\Observers;
 
 use Illuminate\Database\Eloquent\Model;
-use Input;
-use Log;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use Tags;
 
 class TagObserver

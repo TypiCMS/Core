@@ -6,8 +6,8 @@ use Exception;
 use File;
 use FileUpload;
 use Illuminate\Database\Eloquent\Model;
-use Input;
-use Log;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 
 class FileObserver
 {

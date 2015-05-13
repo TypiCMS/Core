@@ -4,10 +4,9 @@ namespace TypiCMS\Modules\Core\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Input;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
-use Log;
-use Route;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
 use TypiCMS\Modules\Core\Traits\HtmlCacheEvents;
 
