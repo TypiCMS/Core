@@ -196,7 +196,7 @@ class ModuleProvider extends ServiceProvider {
     }
 
     /**
-     * Get routes from menu links.
+     * Get routes from pages.
      *
      * @return void
      */
