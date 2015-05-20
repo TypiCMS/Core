@@ -95,8 +95,10 @@ class FileObserver
                 continue;
             }
 
-            $file = '/uploads/' . $model->getTable() . '/' . $model->getOriginal($fieldname);
-            $this->delete($file);
+            if ($model->getOriginal($fieldname)) {
+                $file = '/uploads/' . $model->getTable() . '/' . $model->getOriginal($fieldname);
+                $this->delete($file);
+            }
 
         }
     }
