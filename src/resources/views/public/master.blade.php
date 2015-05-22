@@ -33,11 +33,11 @@
 
 </head>
 
-<body class="body-{{ $lang }} @yield('bodyClass') @if(Sentry::getUser() and Sentry::getUser()->hasAccess('admin') and ! Input::get('preview'))has-navbar @endif">
+<body class="body-{{ $lang }} @yield('bodyClass') @if(Auth::user() and Auth::user()->hasAccess('admin') and ! Input::get('preview'))has-navbar @endif">
 
     <a href="#content" class="skip-to-content">@lang('db.Skip to content')</a>
 
-@if(Sentry::getUser() and Sentry::getUser()->hasAccess('admin') and ! Input::get('preview'))
+@if(Auth::user() and Auth::user()->hasAccess('admin') and ! Input::get('preview'))
     @include('core::_navbar')
 @endif
 

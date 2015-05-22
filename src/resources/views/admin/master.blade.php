@@ -22,7 +22,7 @@
 <body class="@section('bodyClass')has-navbar @show">
 
 @section('navbar')
-    @if (Sentry::getUser())
+    @if (Auth::user())
         @include('core::_navbar')
     @endif
 @show

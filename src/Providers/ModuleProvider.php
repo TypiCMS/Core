@@ -3,7 +3,6 @@ namespace TypiCMS\Modules\Core\Providers;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
@@ -12,7 +11,8 @@ use TypiCMS\Modules\Core\Commands\Database;
 use TypiCMS\Modules\Core\Commands\Install;
 use TypiCMS\Modules\Core\Services\TypiCMS;
 use TypiCMS\Modules\Core\Services\Upload\FileUpload;
-use TypiCMS\Modules\Users\Repositories\SentryUser;
+use TypiCMS\Modules\Users\Models\User;
+use TypiCMS\Modules\Users\Services\Registrar;
 
 class ModuleProvider extends ServiceProvider {
 
@@ -22,19 +22,6 @@ class ModuleProvider extends ServiceProvider {
      * @var bool
      */
     protected $defer = false;
-
-    /**
-     * Some route middleware.
-     *
-     * @var array
-     */
-    protected $middleware = [
-        'admin'        => 'TypiCMS\Modules\Core\Http\Middleware\Admin',
-        'auth'         => 'TypiCMS\Modules\Core\Http\Middleware\Auth',
-        'publicAccess' => 'TypiCMS\Modules\Core\Http\Middleware\PublicAccess',
-        'publicLocale' => 'TypiCMS\Modules\Core\Http\Middleware\PublicLocale',
-        'registration' => 'TypiCMS\Modules\Core\Http\Middleware\Registration',
-    ];
 
     /**
      * Bootstrap the application events.
@@ -83,8 +70,6 @@ class ModuleProvider extends ServiceProvider {
     {
 
         $app = $this->app;
-
-        $this->registerMiddleware($app['router']);
 
         /*
         |--------------------------------------------------------------------------
@@ -162,19 +147,6 @@ class ModuleProvider extends ServiceProvider {
     }
 
     /**
-     * Register middleware.
-     *
-     * @param  Router $router
-     * @return void
-     */
-    private function registerMiddleware(Router $router)
-    {
-        foreach ($this->middleware as $name => $class) {
-            $router->middleware($name, $class);
-        }
-    }
-
-    /**
      * Register artisan commands.
      *
      * @return void
@@ -183,7 +155,7 @@ class ModuleProvider extends ServiceProvider {
     {
         $this->app->bind('command.install', function (Application $app) {
             return new Install(
-                new SentryUser($app['sentry']),
+                new Registrar(),
                 new Filesystem
             );
         });

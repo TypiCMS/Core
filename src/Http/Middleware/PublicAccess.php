@@ -2,12 +2,12 @@
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\View\View;
-use Redirect;
-use Request;
-use Response;
-use Sentry;
 
 class PublicAccess
 {
@@ -21,7 +21,7 @@ class PublicAccess
      */
     public function handle($request, Closure $next)
     {
-        if (config('typicms.auth_public') && ! Sentry::check()) {
+        if (config('typicms.auth_public') && ! Auth::check()) {
             if (Request::ajax()) {
                 return Response::make('Unauthorized', 401);
             }
@@ -34,7 +34,7 @@ class PublicAccess
         if (
             $response instanceof View &&
             $request->method() == 'GET' &&
-            ! Sentry::check() &&
+            ! Auth::check() &&
             $this->queryStringIsEmptyOrOnlyPage($request) &&
             ! config('app.debug') &&
             config('typicms.html_cache')

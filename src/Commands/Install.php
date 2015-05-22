@@ -3,7 +3,7 @@ namespace TypiCMS\Modules\Core\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use TypiCMS\Modules\Users\Repositories\SentryUser;
+use TypiCMS\Modules\Users\Services\Registrar;
 
 class Install extends Command
 {
@@ -30,24 +30,24 @@ class Install extends Command
     protected $files;
 
     /**
-     * The user repository.
+     * The registrar implementation.
      *
-     * @var SentryUser
+     * @var \TypiCMS\Modules\Users\Services\Registrar
      */
-    protected $user;
+    protected $registrar;
 
     /**
      * Create a new key generator command.
      *
-     * @param  SentryUser  $user
-     * @param  Filesystem  $files
+     * @param  \TypiCMS\Modules\Users\Services\Registrar $registrar
+     * @param  Filesystem $files
      * @return void
      */
-    public function __construct(SentryUser $user, Filesystem $files)
+    public function __construct(Registrar $registrar, Filesystem $files)
     {
         parent::__construct();
 
-        $this->user = $user;
+        $this->registrar = $registrar;
         $this->files = $files;
     }
 
@@ -125,16 +125,15 @@ class Install extends Command
         $email     = $this->ask('Enter your email address');
         $password  = $this->secret('Enter a password        ');
 
-        $user = [
+        $data = [
             'first_name'  => $firstname,
             'last_name'   => $lastname,
             'email'       => $email,
-            'permissions' => ['superuser' => 1],
-            'groups'      => [1 => 1],
+            'superuser'   => 1,
             'activated'   => 1,
             'password'    => $password,
         ];
-        $user = $this->user->create($user);
+        $user = $this->registrar->create($data);
 
         if ($user) {
             $this->info('Superuser created.');

@@ -2,10 +2,10 @@
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
-use Sentry;
 
 class PublicLocale
 {
@@ -33,7 +33,7 @@ class PublicLocale
         }
 
         // Remove preview param if no admin user connected
-        if (Input::get('preview') && ! Sentry::check()) {
+        if (Input::get('preview') && ! Auth::check()) {
             return Redirect::to(Request::path());
         }
 

@@ -23,16 +23,16 @@
                         @show
                     </li>
                     <li class="dropdown">
-                        <a href="{{ route('admin.users.index') }}" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user fa-fw"></span> {{ Sentry::getUser()->first_name.' '.Sentry::getUser()->last_name }} <b class="caret"></b></a>
+                        <a href="{{ route('admin.users.index') }}" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user fa-fw"></span> {{ Auth::user()->first_name.' '.Auth::user()->last_name }} <b class="caret"></b></a>
                         <div class="dropdown-menu dropdown-user">
                             <div class="img pull-left">
-                                <img src="http://www.gravatar.com/avatar/{{ md5(Sentry::getUser()->email) }}" class="pull-left">
+                                <img src="http://www.gravatar.com/avatar/{{ md5(Auth::user()->email) }}" class="pull-left">
                             </div>
                             <div class="info">
-                                <p>{{ Sentry::getUser()->email }}</p>
-                                @if (Sentry::getUser()->hasAccess('users.edit'))
+                                <p>{{ Auth::user()->email }}</p>
+                                @if (Auth::user()->hasAccess('users.edit'))
                                 <p>
-                                    <a href="{{ route('admin.users.edit', Sentry::getUser()->id) }}">@choice('users::global.profile', 2, [], null, config('typicms.admin_locale'))</a>
+                                    <a href="{{ route('admin.users.edit', Auth::user()->id) }}">@choice('users::global.profile', 2, [], null, config('typicms.admin_locale'))</a>
                                 </p>
                                 @endif
                                 <p>
@@ -41,7 +41,7 @@
                             </div>
                         </div>
                     </li>
-                    @if (Sentry::getUser()->hasAccess('settings.index'))
+                    @if (Auth::user()->hasAccess('settings.index'))
                         <li><a href="{{ route('admin.settings.index') }}"><span class="fa fa-cog fa-fw"></span> <span class="hidden-sm">{{ ucfirst(trans('global.settings', [], null, config('typicms.admin_locale'))) }}</span></a></li>
                     @endif
                 </ul>
