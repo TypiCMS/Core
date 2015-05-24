@@ -1,6 +1,6 @@
 <?php namespace TypiCMS\Modules\Core\Composers;
 
-use Illuminate\Contracts\Auth\Guard as Auth;
+use TypiCMS\Modules\Users\Repositories\UserInterface as Auth;
 
 abstract class BaseSidebarViewComposer
 {
@@ -14,6 +14,6 @@ abstract class BaseSidebarViewComposer
      */
     public function __construct(Auth $auth)
     {
-        $this->user = $auth->user();
+        $this->auth = $auth;
     }
 }

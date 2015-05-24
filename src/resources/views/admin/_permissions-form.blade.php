@@ -1,14 +1,12 @@
 <input type="hidden" value="1" name="permissions[user.updatepreferences]">
+<input type="hidden" value="1" name="permissions[history]">
 
 <div class="checkbox">
-    <input type="hidden" value="0" name="permissions[dashboard]">
-    <input type="hidden" value="1" name="permissions[history]">
     <label>
         <input type="checkbox" value="1" @if(isset($permissions['dashboard']) && $permissions['dashboard'])checked="checked"@endif name="permissions[dashboard]"> Dashboard
     </label>
 </div>
 <div class="checkbox">
-    <input type="hidden" value="0" name="permissions[settings.index]">
     <label>
         <input type="checkbox" value="1" @if(isset($permissions['settings.index']) && $permissions['settings.index'])checked="checked"@endif name="permissions[settings.index]"> Settings
     </label>
@@ -31,16 +29,7 @@
         <tbody>
         @foreach (TypiCMS::modules() as $module => $properties)
             <tr>
-                <td>@lang($module.'::global.name')
-                    <input type="hidden" value="0" name="permissions[{{ $module }}.index]">
-                    <input type="hidden" value="0" name="permissions[{{ $module }}.show]">
-                    <input type="hidden" value="0" name="permissions[{{ $module }}.create]">
-                    <input type="hidden" value="0" name="permissions[{{ $module }}.store]">
-                    <input type="hidden" value="0" name="permissions[{{ $module }}.edit]">
-                    <input type="hidden" value="0" name="permissions[{{ $module }}.update]">
-                    <input type="hidden" value="0" name="permissions[{{ $module }}.sort]">
-                    <input type="hidden" value="0" name="permissions[{{ $module }}.destroy]">
-                </td>
+                <td>@lang($module.'::global.name')</td>
                 <td><input type="checkbox" value="1" @if(isset($permissions[$module.'.index']) && $permissions[$module.'.index'])checked="checked"@endif name="permissions[{{ $module }}.index]"></td>
                 <td><input type="checkbox" value="1" @if(isset($permissions[$module.'.show']) && $permissions[$module.'.show'])checked="checked"@endif name="permissions[{{ $module }}.show]"></td>
                 <td><input type="checkbox" value="1" @if(isset($permissions[$module.'.create']) && $permissions[$module.'.create'])checked="checked"@endif name="permissions[{{ $module }}.create]"></td>
