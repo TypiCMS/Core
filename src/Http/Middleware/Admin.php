@@ -2,7 +2,6 @@
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
@@ -31,7 +30,7 @@ class Admin
             Session::put('locale', Input::get('locale'));
         }
         // Set app.locale
-        Config::set('app.locale', Session::get('locale', $locale));
+        config(['app.locale' => Session::get('locale', $locale)]);
         // Set Translator locale to typicms.admin_locale config
         Lang::setLocale($adminLocale);
 
@@ -52,8 +51,10 @@ class Admin
         ]);
 
         // set curent user preferences to Config
-        $prefs = Users::getPreferences();
-        Config::set('typicms.user', $prefs);
+        if ($request->user()) {
+            $prefs = $request->user()->preferences;
+            config(['typicms.user' => $prefs]);
+        }
 
         return $next($request);
     }
