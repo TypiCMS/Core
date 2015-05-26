@@ -1,6 +1,7 @@
 <?php
 namespace TypiCMS\Modules\Core\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use TypiCMS\Modules\Users\Services\Registrar;
@@ -133,13 +134,14 @@ class Install extends Command
             'activated'   => 1,
             'password'    => $password,
         ];
-        $user = $this->registrar->create($data);
 
-        if ($user) {
+        try {
+            $user = $this->registrar->create($data);
             $this->info('Superuser created.');
-        } else {
+        } catch (Exception $e) {
             $this->error('User could not be created.');
         }
+
         $this->line('------------------');
     }
 }
