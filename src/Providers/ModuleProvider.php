@@ -195,7 +195,6 @@ class ModuleProvider extends ServiceProvider {
         $app->register('TypiCMS\Modules\Groups\Providers\ModuleProvider');
         $app->register('TypiCMS\Modules\Files\Providers\ModuleProvider');
         $app->register('TypiCMS\Modules\Galleries\Providers\ModuleProvider');
-        $app->register('TypiCMS\Modules\Tags\Providers\ModuleProvider');
         $app->register('TypiCMS\Modules\Dashboard\Providers\ModuleProvider');
         $app->register('TypiCMS\Modules\Menus\Providers\ModuleProvider');
         $app->register('TypiCMS\Modules\Sitemap\Providers\ModuleProvider');
