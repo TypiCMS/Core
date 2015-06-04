@@ -104,23 +104,12 @@ class TypiCMS
      * Return an array of pages linked to modules
      *
      * @param  string $module
-     * @return array|Model
-     */
-    public function routes()
-    {
-        return app('typicms.routes');
-    }
-
-    /**
-     * Return an array of pages linked to modules
-     *
-     * @param  string $module
-     * @return array|Model
+     * @return array|null
      */
     public function getPageLinkedToModule($module = null)
     {
         $module = strtolower($module);
-        $routes = $this->routes();
+        $routes = app('typicms.routes');
         if (isset($routes[$module])) {
             return $routes[$module];
         }
