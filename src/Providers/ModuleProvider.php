@@ -174,7 +174,7 @@ class ModuleProvider extends ServiceProvider {
      */
     private function registerModuleRoutes()
     {
-        $this->app->singleton('TypiCMS.routes', function (Application $app) {
+        $this->app->singleton('typicms.routes', function (Application $app) {
             return $app->make('TypiCMS\Modules\Pages\Repositories\PageInterface')->getForRoutes();
         });
     }

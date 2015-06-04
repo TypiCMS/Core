@@ -108,7 +108,7 @@ class TypiCMS
      */
     public function routes()
     {
-        return app('TypiCMS.routes');
+        return app('typicms.routes');
     }
 
     /**
