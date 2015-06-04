@@ -4,10 +4,10 @@ namespace TypiCMS\Modules\Core\Observers;
 use Croppa;
 use Exception;
 use File;
-use FileUpload;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
+use TypiCMS\Modules\Core\Facades\FileUpload;
 
 class FileObserver
 {
