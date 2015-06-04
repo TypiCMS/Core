@@ -99,7 +99,7 @@ class ModuleProvider extends ServiceProvider {
         | TypiCMS utilities.
         |--------------------------------------------------------------------------
         */
-        $app['typicms'] = $this->app->share(function ($app) {
+        $this->app->singleton('typicms', function (Application $app) {
             return new TypiCMS;
         });
 
@@ -108,7 +108,7 @@ class ModuleProvider extends ServiceProvider {
         | TypiCMS upload service.
         |--------------------------------------------------------------------------
         */
-        $app['upload.file'] = $this->app->share(function ($app) {
+        $this->app->singleton('upload.file', function (Application $app) {
             return new FileUpload;
         });
 
