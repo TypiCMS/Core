@@ -72,7 +72,7 @@ class Install extends Command
 
         // Ask for database name
         $this->info('Setting up database...');
-        $dbName = $this->ask('What is your database name? ');
+        $dbName = $this->ask('Enter a database name');
 
         // Set database credentials in .env and migrate
         $this->call('typicms:database', ['database' => $dbName]);
@@ -121,10 +121,10 @@ class Install extends Command
     {
         $this->info('Creating a Super User...');
 
-        $firstname = $this->ask('Enter your first name   ');
-        $lastname  = $this->ask('Enter your last name    ');
+        $firstname = $this->ask('Enter your first name');
+        $lastname  = $this->ask('Enter your last name');
         $email     = $this->ask('Enter your email address');
-        $password  = $this->secret('Enter a password        ');
+        $password  = $this->secret('Enter a password');
 
         $data = [
             'first_name'  => $firstname,
