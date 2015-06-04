@@ -3,7 +3,6 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Response;
 
 abstract class BaseAdminController extends Controller
 {
@@ -82,12 +81,12 @@ abstract class BaseAdminController extends Controller
     /**
      * Sort list.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function sort()
     {
         $this->repository->sort(Input::all());
-        return Response::json([
+        return response()->json([
             'error'   => false,
             'message' => trans('global.Items sorted')
         ], 200);

@@ -3,7 +3,6 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Response;
 
 abstract class BaseApiController extends Controller
 {
@@ -20,45 +19,45 @@ abstract class BaseApiController extends Controller
     /**
      * Get models
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function index()
     {
         $models = $this->repository->all([], true);
-        return Response::json($models, 200);
+        return response()->json($models, 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  $model
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function show($model)
     {
-        return Response::json($model, 200);
+        return response()->json($model, 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  $model
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function edit($model)
     {
-        return Response::json($model, 200);
+        return response()->json($model, 200);
     }
 
     /**
      * Store a new resource in storage.
      *
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function store()
     {
         $model = $this->repository->create(Input::all());
-        return Response::json([
+        return response()->json([
             'error'   => false,
             'message' => 'Item saved',
             'model'   => $model
@@ -69,12 +68,12 @@ abstract class BaseApiController extends Controller
      * Update the specified resource in storage.
      *
      * @param  $model
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function update($model)
     {
         $this->repository->update(Input::all());
-        return Response::json([
+        return response()->json([
             'error'   => false,
             'message' => 'Item updated'
         ], 200);
@@ -84,12 +83,12 @@ abstract class BaseApiController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  $model
-     * @return Response
+     * @return \Illuminate\Support\Facades\Response
      */
     public function destroy($model)
     {
         $this->repository->delete($model);
-        return Response::json([
+        return response()->json([
             'error'   => false,
             'message' => 'Item deleted'
         ], 200);
