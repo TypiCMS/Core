@@ -401,7 +401,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      */
     public function select($method = 'all', $firstEmpty = false, $value = 'title', $key = 'id')
     {
-        $items = $this->$method()->lists($value, $key);
+        $items = $this->$method()->lists($value, $key)->all();
         if ($firstEmpty) {
             $items = ['' => ''] + $items;
         }
