@@ -13,7 +13,6 @@ use TypiCMS\Modules\Core\Services\TypiCMS;
 use TypiCMS\Modules\Core\Services\Upload\FileUpload;
 use TypiCMS\Modules\Users\Models\User;
 use TypiCMS\Modules\Users\Repositories\EloquentUser;
-use TypiCMS\Modules\Users\Repositories\UserInterface;
 
 class ModuleProvider extends ServiceProvider {
 
