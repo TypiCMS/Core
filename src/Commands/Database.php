@@ -6,7 +6,9 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Schema;
+use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Question\Question;
 
 class Database extends Command
 {
@@ -55,8 +57,14 @@ class Database extends Command
         $contents = $this->getKeyFile();
 
         $dbName = $this->argument('database');
-        $dbUserName = $this->ask('What is your MySQL username?');
-        $dbPassword = $this->secret('What is your MySQL password?');
+        $dbUserName = $this->ask('What is your MySQL username?', 'root');
+
+        $question = new Question('What is your MySQL password?', '<none>');
+        $question->setHidden(true)->setHiddenFallback(true);
+        $dbPassword = (new SymfonyQuestionHelper())->ask($this->input, $this->output, $question);
+        if ($dbPassword === '<none>') {
+            $dbPassword = '';
+        }
 
         // Update DB credentials in .env file.
         $search = [

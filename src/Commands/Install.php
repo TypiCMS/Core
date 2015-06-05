@@ -72,7 +72,7 @@ class Install extends Command
 
         // Ask for database name
         $this->info('Setting up database...');
-        $dbName = $this->ask('Enter a database name');
+        $dbName = $this->ask('Enter a database name', $this->guessDatabaseName());
 
         // Set database credentials in .env and migrate
         $this->call('typicms:database', ['database' => $dbName]);
@@ -112,6 +112,18 @@ class Install extends Command
         $this->line('------------------');
         $this->line('Done. Enjoy TypiCMS!');
 
+    }
+
+    /**
+     * Guess database name from app folder
+     *
+     * @return string
+     */
+    public function guessDatabaseName()
+    {
+        $segments = array_reverse(explode('/', app_path()));
+        $name = explode('.', $segments[1])[0];
+        return str_slug($name);
     }
 
     /**
