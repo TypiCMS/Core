@@ -120,7 +120,7 @@ class TypiCMS
      * List templates files from directory
      * @return array
      */
-    public function template($directory = 'resources/views/vendor/pages/public')
+    public function templates($directory = 'resources/views/vendor/pages/public')
     {
         $templates = [];
         try {
