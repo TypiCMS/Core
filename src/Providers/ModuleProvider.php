@@ -12,7 +12,8 @@ use TypiCMS\Modules\Core\Commands\Install;
 use TypiCMS\Modules\Core\Services\TypiCMS;
 use TypiCMS\Modules\Core\Services\Upload\FileUpload;
 use TypiCMS\Modules\Users\Models\User;
-use TypiCMS\Modules\Users\Services\Registrar;
+use TypiCMS\Modules\Users\Repositories\EloquentUser;
+use TypiCMS\Modules\Users\Repositories\UserInterface;
 
 class ModuleProvider extends ServiceProvider {
 
@@ -155,7 +156,7 @@ class ModuleProvider extends ServiceProvider {
     {
         $this->app->bind('command.install', function (Application $app) {
             return new Install(
-                new Registrar(),
+                new EloquentUser(new User),
                 new Filesystem
             );
         });

@@ -4,7 +4,7 @@ namespace TypiCMS\Modules\Core\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use TypiCMS\Modules\Users\Services\Registrar;
+use TypiCMS\Modules\Users\Repositories\UserInterface;
 
 class Install extends Command
 {
@@ -31,24 +31,24 @@ class Install extends Command
     protected $files;
 
     /**
-     * The registrar implementation.
+     * The user model.
      *
-     * @var \TypiCMS\Modules\Users\Services\Registrar
+     * @var \TypiCMS\Modules\Users\Repositories\UserInterface
      */
-    protected $registrar;
+    protected $user;
 
     /**
      * Create a new key generator command.
      *
-     * @param  \TypiCMS\Modules\Users\Services\Registrar $registrar
+     * @param  \TypiCMS\Modules\Users\Repositories\UserInterface $user
      * @param  Filesystem $files
      * @return void
      */
-    public function __construct(Registrar $registrar, Filesystem $files)
+    public function __construct(UserInterface $user, Filesystem $files)
     {
         parent::__construct();
 
-        $this->registrar = $registrar;
+        $this->user = $user;
         $this->files = $files;
     }
 
@@ -148,7 +148,7 @@ class Install extends Command
         ];
 
         try {
-            $user = $this->registrar->create($data);
+            $user = $this->user->create($data);
             $this->info('Superuser created.');
         } catch (Exception $e) {
             $this->error('User could not be created.');
