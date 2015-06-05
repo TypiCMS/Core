@@ -93,6 +93,8 @@ class Install extends Command
         if (function_exists('system')) {
             system('find storage -type d -exec chmod 755 {} \;');
             $this->info('Directory storage is now writable (755).');
+            system('find bootstrap/cache -type d -exec chmod 755 {} \;');
+            $this->info('Directory bootstrap/cache is now writable (755).');
             system('find public/uploads -type d -exec chmod 755 {} \;');
             $this->info('Directory public/uploads is now writable (755).');
             $this->line('------------------');
