@@ -33,11 +33,11 @@
 
 </head>
 
-<body class="body-{{ $lang }} @yield('bodyClass') @if(Auth::user() and Auth::user()->inGroup('Admin') and ! Input::get('preview'))has-navbar @endif">
+<body class="body-{{ $lang }} @yield('bodyClass') @if(Auth::user() and Auth::user()->hasRole('Admin') and ! Input::get('preview'))has-navbar @endif">
 
     <a href="#content" class="skip-to-content">@lang('db.Skip to content')</a>
 
-@if(Auth::user() and Auth::user()->inGroup('Admin') and ! Input::get('preview'))
+@if(Auth::user() and Auth::user()->hasRole('Admin') and ! Input::get('preview'))
     @include('core::_navbar')
 @endif
 
