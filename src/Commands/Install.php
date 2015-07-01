@@ -123,9 +123,13 @@ class Install extends Command
      */
     public function guessDatabaseName()
     {
-        $segments = array_reverse(explode('/', app_path()));
-        $name = explode('.', $segments[1])[0];
-        return str_slug($name);
+        try {
+            $segments = array_reverse(explode(DIRECTORY_SEPARATOR, app_path()));
+            $name = explode('.', $segments[1])[0];
+            return str_slug($name);
+        } catch (Exception $e) {
+            return '';
+        }
     }
 
     /**
