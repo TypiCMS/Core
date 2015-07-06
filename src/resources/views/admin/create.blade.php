@@ -10,7 +10,6 @@
     </h1>
 
     {!! BootForm::open()->action(route('admin.' . $model->getTable() . '.index'))->multipart()->role('form') !!}
-    {!! BootForm::token() !!}
         @include($model->getTable() . '::admin._form')
     {!! BootForm::close() !!}
 

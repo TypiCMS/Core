@@ -11,7 +11,6 @@
 
     {!! BootForm::open()->put()->action(route('admin.' . $model->getTable() . '.update', $model->id))->multipart()->role('form') !!}
     {!! BootForm::bind($model) !!}
-    {!! BootForm::token() !!}
         @include($model->getTable() . '::admin._form')
     {!! BootForm::close() !!}
 
