@@ -154,7 +154,7 @@ class Install extends Command
         ];
 
         try {
-            $user = $this->user->create($data);
+            $this->user->create($data);
             $this->info('Superuser created.');
         } catch (Exception $e) {
             $this->error('User could not be created.');
