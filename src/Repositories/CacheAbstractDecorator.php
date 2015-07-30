@@ -69,19 +69,20 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
      * Get next model
      *
      * @param  Model      $model
+     * @param  int        $category_id
      * @param  array      $with
      * @param  boolean    $all
      * @return Collection
      */
-    public function next($model, array $with = [], $all = false)
+    public function next($model, $category_id = null, array $with = [], $all = false)
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(config('app.locale') . 'next.' . $model->id . $all . implode('.', $with));
+        $cacheKey = md5(config('app.locale') . 'next.' . $model->id . $all . $category_id . implode('.', $with));
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
         }
         // Item not cached, retrieve it
-        $next = $this->repo->next($model, $with);
+        $next = $this->repo->next($model, $category_id, $with, $all);
 
         $this->cache->put($cacheKey, $next);
 
@@ -92,19 +93,20 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
      * Get prev model
      *
      * @param  Model      $model
+     * @param  int        $category_id
      * @param  array      $with
      * @param  boolean    $all
      * @return Collection
      */
-    public function prev($model, array $with = [], $all = false)
+    public function prev($model, $category_id = null, array $with = [], $all = false)
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(config('app.locale') . 'prev.' . $model->id . $all . implode('.', $with));
+        $cacheKey = md5(config('app.locale') . 'prev.' . $model->id . $all . $category_id . implode('.', $with));
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
         }
         // Item not cached, retrieve it
-        $prev = $this->repo->prev($model, $with);
+        $prev = $this->repo->prev($model, $category_id, $with, $all);
 
         $this->cache->put($cacheKey, $prev);
 

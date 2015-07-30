@@ -84,39 +84,48 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      * Get next model
      *
      * @param  Model      $model
+     * @param  int        $category_id
      * @param  array      $with
      * @param  boolean    $all
      * @return Collection
      */
-    public function next($model, array $with = [], $all = false)
+    public function next($model, $category_id = null, array $with = [], $all = false)
     {
-        return $this->adjacent(1, $model, $with, $all);
+        return $this->adjacent(1, $model, $category_id, $with, $all);
     }
 
     /**
      * Get prev model
      *
      * @param  Model      $model
+     * @param  int        $category_id
      * @param  array      $with
      * @param  boolean    $all
      * @return Collection
      */
-    public function prev($model, array $with = [], $all = false)
+    public function prev($model, $category_id = null, array $with = [], $all = false)
     {
-        return $this->adjacent(-1, $model, $with, $all);
+        return $this->adjacent(-1, $model, $category_id, $with, $all);
     }
 
     /**
      * Get prev model
      *
+     * @param  int        $direction
      * @param  Model      $model
+     * @param  int        $category_id
      * @param  array      $with
+     * @param  boolean    $all
      * @return Collection
      */
-    private function adjacent($direction, $model, array $with = [], $all = false)
+    private function adjacent($direction, $model, $category_id = null, array $with = [], $all = false)
     {
         $currentModel = $model;
-        $models = $this->all($with, $all);
+        if ($category_id) {
+            $models = $this->allBy('category_id', $category_id, $with, $all);
+        } else {
+            $models = $this->all($with, $all);
+        }
         foreach ($models as $key => $model) {
             if ($currentModel->id == $model->id) {
                 $adjacentKey = $key + $direction;

@@ -51,21 +51,23 @@ interface RepositoryInterface
      * Get next model
      *
      * @param  Model      $model
+     * @param  int        $category_id
      * @param  array      $with
      * @param  boolean    $all
      * @return Collection
      */
-    public function next($model, array $with = [], $all = false);
+    public function next($model, $category_id = null, array $with = [], $all = false);
 
     /**
      * Get prev model
      *
      * @param  Model      $model
+     * @param  int        $category_id
      * @param  array      $with
      * @param  boolean    $all
      * @return Collection
      */
-    public function prev($model, array $with = [], $all = false);
+    public function prev($model, $category_id = null, array $with = [], $all = false);
 
     /**
      * Get paginated models
