@@ -19,7 +19,7 @@
 
 </head>
 
-<body class="@section('bodyClass')has-navbar @show">
+<body class="@if (Auth::user())has-navbar @endif @yield('bodyClass')">
 
 @section('navbar')
     @if (Auth::user())
