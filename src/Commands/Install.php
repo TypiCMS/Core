@@ -106,7 +106,7 @@ class Install extends Command
             system('bower install');
             $this->info('Bower packages installed.');
         } else {
-            $this->line('You can now make /storage and /public/uploads directories writable');
+            $this->line('You can now make /storage, /bootstrap/cache and /public/uploads directories writable.');
             $this->line('and run composer install, npm install and bower install.');
         }
 
