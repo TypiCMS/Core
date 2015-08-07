@@ -126,7 +126,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     public function adjacent($direction, $model, $category_id = null, array $with = [], $all = false)
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(config('app.locale') . 'adjacent.' . $direction . $model->id, . $category_id . implode('.', $with) . $all);
+        $cacheKey = md5(config('app.locale') . 'adjacent.' . $direction . $model->id . $category_id . implode('.', $with) . $all);
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
         }
