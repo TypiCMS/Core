@@ -118,7 +118,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      * @param  boolean    $all
      * @return Collection
      */
-    private function adjacent($direction, $model, $category_id = null, array $with = [], $all = false)
+    public function adjacent($direction, $model, $category_id = null, array $with = [], $all = false)
     {
         $currentModel = $model;
         if ($category_id) {

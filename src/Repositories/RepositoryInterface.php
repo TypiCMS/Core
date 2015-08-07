@@ -70,6 +70,18 @@ interface RepositoryInterface
     public function prev($model, $category_id = null, array $with = [], $all = false);
 
     /**
+     * Get prev model
+     *
+     * @param  int        $direction
+     * @param  Model      $model
+     * @param  int        $category_id
+     * @param  array      $with
+     * @param  boolean    $all
+     * @return Collection
+     */
+    public function adjacent($direction, $model, $category_id = null, array $with = [], $all = false);
+
+    /**
      * Get paginated models
      *
      * @param  int      $page  Number of models per page
