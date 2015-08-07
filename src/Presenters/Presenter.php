@@ -225,19 +225,19 @@ abstract class Presenter extends BasePresenter
     public function body()
     {
         $text = $this->entity->body;
-        $lang = config('app.locale');
-        preg_match_all('/{!! ([a-z]+):([0-9]+) !!}/', $text, $matches);
-        $patterns = $matches[0];
-        $modules = $matches[1];
-        $ids = $matches[2];
+        preg_match_all('/{!! ([a-z]+):([0-9]+) !!}/', $text, $matches, PREG_SET_ORDER);
+        $patterns = [];
         $replacements = [];
-        foreach ($matches as $key => $match) {
-            $repository = app('TypiCMS\Modules\\' . ucfirst(str_plural($modules[$key])) . '\Repositories\\' . ucfirst($modules[$key]) . 'Interface');
-            $model = $repository->byId($ids[$key]);
-            if ($modules[$key] == 'page') {
+        $lang = config('app.locale');
+        foreach ($matches as $match) {
+            $patterns[] = $match[0];
+            $module = $match[1];
+            $repository = app('TypiCMS\Modules\\' . ucfirst(str_plural($module)) . '\Repositories\\' . ucfirst($module) . 'Interface');
+            $model = $repository->byId($match[2]);
+            if ($module == 'page') {
                 $replacements[] = url($model->uri($lang));
             } else {
-                $replacements[] = route($lang . '.' . $modules[$key] . '.slug', $model->slug);
+                $replacements[] = route($lang . '.' . $module . '.slug', $model->slug);
             }
         }
         return str_replace($patterns, $replacements, $text);
