@@ -184,7 +184,7 @@ class ModuleProvider extends ServiceProvider {
      *
      * @return void
      */
-    private function registerCoreModules()
+    protected function registerCoreModules()
     {
         $app = $this->app;
         $app->register('TypiCMS\Modules\Translations\Providers\ModuleProvider');
