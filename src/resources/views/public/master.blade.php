@@ -17,7 +17,7 @@
     <meta property="og:url" content="{{ URL::full() }}">
     <meta property="og:image" content="@yield('image')">
 
-    <link href="{{ elixir('css/public.css') }}" rel="stylesheet">
+    <link href="@if(env('production')){{ asset(elixir('css/public.css')) }}@else{{ asset('css/public.css') }}@endif" rel="stylesheet">
 
     @yield('css')
 
@@ -93,8 +93,8 @@
 
     @endif
 
-    <script src="{{ elixir('js/public/components.min.js') }}"></script>
-    <script src="{{ elixir('js/public/master.js') }}"></script>
+    <script src="@if(env('production')){{ asset(elixir('js/public/components.min.js')) }}@else{{ asset('js/public/components.min.js') }}@endif"></script>
+    <script src="@if(env('production')){{ asset(elixir('js/public/master.js')) }}@else{{ asset('js/public/master.js') }}@endif"></script>
     @if (Input::get('preview'))
     <script src="{{ asset('js/public/previewmode.js') }}"></script>
     @endif
