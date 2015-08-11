@@ -15,7 +15,7 @@ class Registration
      */
     public function handle($request, Closure $next)
     {
-        if (! config('typicms.register')) {
+        if (!config('typicms.register')) {
             abort(404);
         }
 

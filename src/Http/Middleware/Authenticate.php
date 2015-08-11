@@ -48,11 +48,11 @@ class Authenticate
 
         try {
             $user = $this->auth->user();
-            if (! $user->hasAccess($value)) {
+            if (!$user->hasAccess($value)) {
                 abort(403);
             }
         } catch (Exception $e) {
-            Log::error($e->getMessage() . '\n' .  $request->fullUrl());
+            Log::error($e->getMessage() . '\n' . $request->fullUrl());
             return redirect()->guest(route('login'));
         }
 

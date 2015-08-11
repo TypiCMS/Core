@@ -28,12 +28,12 @@ class PublicLocale
         }
 
         // Throw a 404 if website in this language is offline
-        if (! config('typicms.' . $locale . '.status')) {
+        if (!config('typicms.' . $locale . '.status')) {
             abort(404);
         }
 
         // Remove preview param if no admin user connected
-        if (Input::get('preview') && ! Auth::check()) {
+        if (Input::get('preview') && !Auth::check()) {
             return Redirect::to(Request::path());
         }
 

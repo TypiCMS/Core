@@ -19,7 +19,7 @@ abstract class BaseAdminController extends Controller
     /**
      * List models
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -32,7 +32,7 @@ abstract class BaseAdminController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function create($parent = null)
     {
@@ -46,7 +46,7 @@ abstract class BaseAdminController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  $model
-     * @return void
+     * @return \Illuminate\View\View
      */
     public function edit($model, $child = null)
     {
@@ -58,7 +58,7 @@ abstract class BaseAdminController extends Controller
      * Show resource.
      *
      * @param  $model
-     * @return \Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function show($model, $child = null)
     {
@@ -69,7 +69,7 @@ abstract class BaseAdminController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  $model
-     * @return \Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\RedirectResponse|null
      */
     public function destroy($model, $child = null)
     {
@@ -81,7 +81,7 @@ abstract class BaseAdminController extends Controller
     /**
      * Sort list.
      *
-     * @return \Illuminate\Support\Facades\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function sort()
     {
@@ -97,11 +97,11 @@ abstract class BaseAdminController extends Controller
      *
      * @param  $request
      * @param  $model
-     * @return \Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\RedirectResponse
      */
     protected function redirect($request, $model)
     {
-        $redirectUrl = $request->get('exit') ? $model->indexUrl() : $model->editUrl() ;
+        $redirectUrl = $request->get('exit') ? $model->indexUrl() : $model->editUrl();
         return redirect($redirectUrl);
     }
 }

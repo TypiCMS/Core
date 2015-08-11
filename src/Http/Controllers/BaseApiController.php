@@ -19,7 +19,7 @@ abstract class BaseApiController extends Controller
     /**
      * Get models
      *
-     * @return \Illuminate\Support\Facades\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index()
     {
@@ -31,7 +31,7 @@ abstract class BaseApiController extends Controller
      * Update the specified resource in storage.
      *
      * @param  $model
-     * @return \Illuminate\Support\Facades\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function show($model)
     {
@@ -42,7 +42,7 @@ abstract class BaseApiController extends Controller
      * Update the specified resource in storage.
      *
      * @param  $model
-     * @return \Illuminate\Support\Facades\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function edit($model)
     {
@@ -52,7 +52,7 @@ abstract class BaseApiController extends Controller
     /**
      * Store a new resource in storage.
      *
-     * @return \Illuminate\Support\Facades\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function store()
     {
@@ -68,7 +68,7 @@ abstract class BaseApiController extends Controller
      * Update the specified resource in storage.
      *
      * @param  $model
-     * @return \Illuminate\Support\Facades\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function update($model)
     {
@@ -83,7 +83,7 @@ abstract class BaseApiController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  $model
-     * @return \Illuminate\Support\Facades\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function destroy($model)
     {

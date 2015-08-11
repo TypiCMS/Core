@@ -79,7 +79,7 @@ class Database extends Command
         ];
         $contents = preg_replace($search, $replace, $contents);
 
-        if (! $contents) {
+        if (!$contents) {
             throw new Exception('Error while writing credentials to .env file.');
         }
 
@@ -100,7 +100,7 @@ class Database extends Command
 
         // Migrate DB
         if (Schema::hasTable('migrations')) {
-            $this->error('A migrations table was found in database ['.$dbName.'], no migration and seed were done.');
+            $this->error('A migrations table was found in database [' . $dbName . '], no migration and seed were done.');
         } else {
             $this->call('migrate');
             $this->call('db:seed');
@@ -129,6 +129,6 @@ class Database extends Command
      */
     protected function getKeyFile()
     {
-        return $this->files->exists('.env') ? $this->files->get('.env') : $this->files->get('.env.example') ;
+        return $this->files->exists('.env') ? $this->files->get('.env') : $this->files->get('.env.example');
     }
 }
