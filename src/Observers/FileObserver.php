@@ -24,8 +24,10 @@ class FileObserver
         }
 
         foreach ($attachments as $fieldname) {
-            $file = '/uploads/' . $model->getTable() . '/' . $model->getOriginal($fieldname);
-            $this->delete($file);
+            if ($model->getOriginal($fieldname)) {
+                $file = '/uploads/' . $model->getTable() . '/' . $model->getOriginal($fieldname);
+                $this->delete($file);
+            }
         }
     }
 
