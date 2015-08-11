@@ -3,8 +3,8 @@ namespace TypiCMS\Modules\Core\Observers;
 
 use Croppa;
 use Exception;
-use File;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use TypiCMS\Modules\Core\Facades\FileUpload;
@@ -31,13 +31,14 @@ class FileObserver
     /**
      * Delete file and thumbs
      *
-     * @param  string $file
+     * @param  string $fieldname
+     * @param  Model $model
      * @return void
      */
     private function deleteFile($fieldname, Model $model)
     {
         $filename = $model->getOriginal($fieldname);
-        if (! $filename) {
+        if (empty($filename)) {
             return;
         }
         $file = '/uploads/' . $model->getTable() . '/' . $filename;
