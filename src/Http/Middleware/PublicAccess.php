@@ -21,7 +21,7 @@ class PublicAccess
      */
     public function handle($request, Closure $next)
     {
-        if (config('typicms.auth_public') && ! Auth::check()) {
+        if (config('typicms.auth_public') && !Auth::check()) {
             if (Request::ajax()) {
                 return Response::make('Unauthorized', 401);
             }
@@ -34,16 +34,16 @@ class PublicAccess
         if (
             $response instanceof View &&
             $request->method() == 'GET' &&
-            ! Auth::check() &&
+            !Auth::check() &&
             $this->queryStringIsEmptyOrOnlyPage($request) &&
-            ! config('app.debug') &&
+            !config('app.debug') &&
             config('typicms.html_cache')
         ) {
             $directory = public_path() . '/html' . $request->getPathInfo();
-            if (! File::isDirectory($directory)) {
+            if (!File::isDirectory($directory)) {
                 File::makeDirectory($directory, 0777, true);
             }
-            File::put($directory.'/index' . $request->getQueryString() . '.html', $response->render());
+            File::put($directory . '/index' . $request->getQueryString() . '.html', $response->render());
         }
 
         return $response;

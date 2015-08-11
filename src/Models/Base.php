@@ -22,7 +22,7 @@ abstract class Base extends Model
      */
     public function previewUri()
     {
-        if (! $this->id) {
+        if (!$this->id) {
             return null;
         }
         return url($this->uri(config('app.locale')));
@@ -52,14 +52,14 @@ abstract class Base extends Model
     public function scopeFiles(Builder $query, $all = false)
     {
         return $query->with(
-            array('files' => function (Builder $query) use ($all) {
-                $query->with(array('translations' => function (Builder $query) use ($all) {
+            array('files' => function(Builder $query) use ($all) {
+                $query->with(array('translations' => function(Builder $query) use ($all) {
                     $query->where('locale', config('app.locale'));
-                    ! $all && $query->where('status', 1);
+                    !$all && $query->where('status', 1);
                 }));
-                $query->whereHas('translations', function (Builder $query) use ($all) {
+                $query->whereHas('translations', function(Builder $query) use ($all) {
                     $query->where('locale', config('app.locale'));
-                    ! $all && $query->where('status', 1);
+                    !$all && $query->where('status', 1);
                 });
                 $query->orderBy('position', 'asc');
             })
@@ -77,8 +77,8 @@ abstract class Base extends Model
         if (method_exists($this, 'translations')) {
             return $query->whereHas(
                 'translations',
-                function (Builder $query) {
-                    if (! Input::get('preview')) {
+                function(Builder $query) {
+                    if (!Input::get('preview')) {
                         $query->where('status', 1);
                     }
                     $query->where('locale', config('app.locale'));
@@ -97,17 +97,17 @@ abstract class Base extends Model
      */
     public function scopeWithOnlineGalleries(Builder $query)
     {
-        if (! method_exists($this, 'galleries')) {
+        if (!method_exists($this, 'galleries')) {
             return $query;
         }
         return $query->with(
             array(
                 'galleries.translations',
                 'galleries.files.translations',
-                'galleries' => function (MorphToMany $query) {
+                'galleries' => function(MorphToMany $query) {
                     $query->whereHas(
                         'translations',
-                        function (Builder $query) {
+                        function(Builder $query) {
                             $query->where('status', 1);
                             $query->where('locale', config('app.locale'));
                         }

@@ -19,7 +19,7 @@ class FileObserver
      */
     public function deleted(Model $model)
     {
-        if (! $attachments = $model->attachments) {
+        if (!$attachments = $model->attachments) {
             return;
         }
 
@@ -59,7 +59,7 @@ class FileObserver
     public function saving(Model $model)
     {
 
-        if (! $attachments = $model->attachments) {
+        if (!$attachments = $model->attachments) {
             return;
         }
 
@@ -89,14 +89,14 @@ class FileObserver
      */
     public function updated(Model $model)
     {
-        if (! $attachments = $model->attachments) {
+        if (!$attachments = $model->attachments) {
             return;
         }
 
         foreach ($attachments as $fieldname) {
 
             // Nothing to do if file did not change
-            if (! $model->isDirty($fieldname)) {
+            if (!$model->isDirty($fieldname)) {
                 continue;
             }
             $this->deleteFile($fieldname, $model);
