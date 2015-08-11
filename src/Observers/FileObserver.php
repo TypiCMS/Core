@@ -24,10 +24,7 @@ class FileObserver
         }
 
         foreach ($attachments as $fieldname) {
-            if ($model->getOriginal($fieldname)) {
-                $file = '/uploads/' . $model->getTable() . '/' . $model->getOriginal($fieldname);
-                $this->delete($file);
-            }
+            $this->deleteFile($fieldname, $model);
         }
     }
 
@@ -37,8 +34,13 @@ class FileObserver
      * @param  string $file
      * @return void
      */
-    public function delete($file)
+    private function deleteFile($fieldname, Model $model)
     {
+        $filename = $model->getOriginal($fieldname);
+        if (! $filename) {
+            return;
+        }
+        $file = '/uploads/' . $model->getTable() . '/' . $filename;
         try {
             Croppa::delete($file);
             File::delete(public_path() . $file);
@@ -96,11 +98,7 @@ class FileObserver
             if (! $model->isDirty($fieldname)) {
                 continue;
             }
-
-            if ($model->getOriginal($fieldname)) {
-                $file = '/uploads/' . $model->getTable() . '/' . $model->getOriginal($fieldname);
-                $this->delete($file);
-            }
+            $this->deleteFile($fieldname, $model);
 
         }
     }
