@@ -1,3 +1,8 @@
+{{--
+We need an empty element to allow to deselect all items
+and have a galleries key in the post data
+--}}
+<input type="hidden" name="galleries" value="">
 {!! BootForm::select(
         trans('validation.attributes.galleries'),
         'galleries[]',

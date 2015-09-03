@@ -460,10 +460,14 @@ abstract class RepositoriesAbstract implements RepositoryInterface
             return false;
         }
 
+        if (! isset($data[$table])) {
+            return false;
+        }
+
         // add related items
-        $pivotData = array();
+        $pivotData = [];
         $position = 0;
-        if (isset($data[$table])) {
+        if (is_array($data[$table])) {
             foreach ($data[$table] as $id) {
                 $pivotData[$id] = ['position' => $position++];
             }
