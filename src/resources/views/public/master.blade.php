@@ -17,7 +17,7 @@
     <meta property="og:url" content="{{ URL::full() }}">
     <meta property="og:image" content="@yield('image')">
 
-    <link href="@if(env('production')){{ asset(elixir('css/public.css')) }}@else{{ asset('css/public.css') }}@endif" rel="stylesheet">
+    <link href="@if(app()->environment('production')){{ asset(elixir('css/public.css')) }}@else{{ asset('css/public.css') }}@endif" rel="stylesheet">
 
     @yield('css')
 
@@ -75,7 +75,7 @@
 
     </div>
 
-    @if(env('production') and config('typicms.google_analytics_code'))
+    @if(app()->environment('production') and config('typicms.google_analytics_code'))
 
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -88,8 +88,8 @@
 
     @endif
 
-    <script src="@if(env('production')){{ asset(elixir('js/public/components.min.js')) }}@else{{ asset('js/public/components.min.js') }}@endif"></script>
-    <script src="@if(env('production')){{ asset(elixir('js/public/master.js')) }}@else{{ asset('js/public/master.js') }}@endif"></script>
+    <script src="@if(app()->environment('production')){{ asset(elixir('js/public/components.min.js')) }}@else{{ asset('js/public/components.min.js') }}@endif"></script>
+    <script src="@if(app()->environment('production')){{ asset(elixir('js/public/master.js')) }}@else{{ asset('js/public/master.js') }}@endif"></script>
     @if (Input::get('preview'))
     <script src="{{ asset('js/public/previewmode.js') }}"></script>
     @endif
