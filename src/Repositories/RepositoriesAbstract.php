@@ -122,6 +122,8 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     {
         $currentModel = $model;
         if ($category_id) {
+            $with[] = 'category';
+            $with[] = 'category.translations';
             $models = $this->allBy('category_id', $category_id, $with, $all);
         } else {
             $models = $this->all($with, $all);
