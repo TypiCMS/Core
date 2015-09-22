@@ -8,17 +8,28 @@ class TypiCMS
 {
 
     /**
-     * Get Homepage URI
+     * Get Homepage URL
      *
      * @return string
      */
-    public function homepage()
+    public function homeUrl()
     {
         $uri = '/';
         if (config('typicms.main_locale_in_url') || config('app.fallback_locale') != config('app.locale')) {
             $uri .= config('app.locale');
         }
-        return $uri;
+        return url($uri);
+    }
+
+    /**
+     * Get Homepage URL
+     *
+     * @deprecated
+     * @return string
+     */
+    public function homepage()
+    {
+        return $this->homeUrl();
     }
 
     /**

@@ -41,7 +41,7 @@
         @section('header')
         <header class="header-main">
             <h1>
-                <a href="{{ TypiCMS::homepage() }}">
+                <a href="{{ TypiCMS::homeUrl() }}">
                     {!! TypiCMS::logoOrTitle() !!}
                 </a>
             </h1>
