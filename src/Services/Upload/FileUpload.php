@@ -36,7 +36,6 @@ class FileUpload
         $input['filename']  = $fileName . $input['extension'];
 
         $fileTypes = config('file.types');
-        $input['type'] = $fileTypes[strtolower($file->getClientOriginalExtension())];
         try {
             $input['type'] = $fileTypes[strtolower($file->getClientOriginalExtension())];
         } catch (Exception $e) {
