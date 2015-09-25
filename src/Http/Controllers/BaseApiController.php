@@ -2,7 +2,6 @@
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Input;
 
 abstract class BaseApiController extends Controller
 {
@@ -47,36 +46,6 @@ abstract class BaseApiController extends Controller
     public function edit($model)
     {
         return response()->json($model, 200);
-    }
-
-    /**
-     * Store a new resource in storage.
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function store()
-    {
-        $model = $this->repository->create(Input::all());
-        return response()->json([
-            'error'   => false,
-            'message' => 'Item saved',
-            'model'   => $model
-        ], 200);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  $model
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function update($model)
-    {
-        $this->repository->update(Input::all());
-        return response()->json([
-            'error'   => false,
-            'message' => 'Item updated'
-        ], 200);
     }
 
     /**
