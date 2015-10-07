@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return array(
 
@@ -49,9 +49,9 @@ return array(
     'En ligne/Hors ligne' => 'En ligne/Hors ligne',
     'No default page found' => 'Aucune page d’accueil trouvée',
     'No file' => 'Aucun fichier',
-    'settings'  => 'configuration',
-    'admin side' => 'administration',
-    'view website' => 'voir le site',
+    'Settings'  => 'Configuration',
+    'Admin side' => 'Administration',
+    'View website' => 'Voir le site',
 
     'Mandatory fields' => 'Champs obligatoires',
 

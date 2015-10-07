@@ -7,4 +7,4 @@
 @else
 <a href="{{ route('dashboard') }}">
 @endif
-{{ ucfirst(trans('global.admin side', [], null, config('typicms.admin_locale'))) }}</a>
+@lang('global.Admin side', [], config('typicms.admin_locale'))</a>

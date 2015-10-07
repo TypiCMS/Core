@@ -5,4 +5,4 @@
 @else
 <a href="{{ url('/') }}">
 @endif
-{{ ucfirst(trans('global.view website', [], null, config('typicms.admin_locale'))) }}</a>
+@lang('global.View website', [], config('typicms.admin_locale'))</a>

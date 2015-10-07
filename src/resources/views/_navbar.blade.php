@@ -32,17 +32,17 @@
                                 <p>{{ Auth::user()->email }}</p>
                                 @if (Auth::user()->hasAccess('users.edit'))
                                 <p>
-                                    <a href="{{ route('admin.users.edit', Auth::user()->id) }}">@choice('users::global.profile', 2, [], null, config('typicms.admin_locale'))</a>
+                                    <a href="{{ route('admin.users.edit', Auth::user()->id) }}">@lang('users::global.Profile', [], config('typicms.admin_locale'))</a>
                                 </p>
                                 @endif
                                 <p>
-                                    <a href="{{ route('logout') }}">{{ ucfirst(trans('users::global.log out', [], null, config('typicms.admin_locale'))) }}</a>
+                                    <a href="{{ route('logout') }}">@lang('users::global.Log out', [], config('typicms.admin_locale'))</a>
                                 </p>
                             </div>
                         </div>
                     </li>
                     @if (Auth::user()->hasAccess('settings.index'))
-                        <li><a href="{{ route('admin.settings.index') }}"><span class="fa fa-cog fa-fw"></span> <span class="hidden-sm">{{ ucfirst(trans('global.settings', [], null, config('typicms.admin_locale'))) }}</span></a></li>
+                        <li><a href="{{ route('admin.settings.index') }}"><span class="fa fa-cog fa-fw"></span> <span class="hidden-sm">@lang('global.Settings', [], config('typicms.admin_locale'))</span></a></li>
                     @endif
                 </ul>
             </div>
