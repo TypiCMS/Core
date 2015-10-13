@@ -25,7 +25,7 @@ abstract class Base extends Model
         if (!$this->id) {
             return null;
         }
-        return url($this->uri(config('app.locale')));
+        return url($this->uri());
     }
 
     /**
@@ -33,8 +33,9 @@ abstract class Base extends Model
      *
      * @return string|null
      */
-    public function uri($locale)
+    public function uri($locale = null)
     {
+        $locale = $locale ? : config('app.locale');
         $page = TypiCMS::getPageLinkedToModule($this->getTable());
         if ($page) {
             return $page->uri($locale) . '/' . $this->translate($locale)->slug;
