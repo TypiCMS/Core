@@ -28,8 +28,8 @@ class PublicCache
 
         // HTML cache
         if (
-            // $response instanceof View &&
-            $request->method() == 'GET' &&
+            !$response->isRedirection() &&
+            $request->isMethod('get') &&
             !Auth::check() &&
             $this->queryStringIsEmptyOrOnlyPage($request) &&
             !config('app.debug') &&
