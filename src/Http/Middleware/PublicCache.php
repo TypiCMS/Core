@@ -2,6 +2,7 @@
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\View\View;
@@ -21,22 +22,13 @@ class PublicCache
     {
         $response = $next($request);
 
-        // Get page from uri
-        $patterns = [];
-        foreach (config('translatable.locales') as $locale) {
-            $patterns[] = '#^' . $locale . '/#';
-            $patterns[] = '#^' . $locale . '$#';
+        if ($this->uncacheablePage($request->path())) {
+            return $response;
         }
-        $uri = trim(preg_replace($patterns, '', $request->path()), '/');
-        if ($uri === '') {
-            $uri = null;
-        }
-        $page = Pages::getFirstByUri($uri, config('app.locale'), ['translations']);
 
         // HTML cache
         if (
             // $response instanceof View &&
-            $page->cacheable() &&
             $request->method() == 'GET' &&
             !Auth::check() &&
             $this->queryStringIsEmptyOrOnlyPage($request) &&
@@ -71,4 +63,29 @@ class PublicCache
         return false;
     }
 
+    /**
+     * Check if request is pointing to a page and it's cacheable
+     *
+     * @param  string $path
+     * @return boolean
+     */
+    private function uncacheablePage($path)
+    {
+        // Get page from uri
+        $patterns = [];
+        foreach (config('translatable.locales') as $locale) {
+            $patterns[] = '#^' . $locale . '/#';
+            $patterns[] = '#^' . $locale . '$#';
+        }
+        $uri = trim(preg_replace($patterns, '', $path), '/');
+        if ($uri === '') {
+            $uri = null;
+        }
+        try {
+            $page = Pages::getFirstByUri($uri, config('app.locale'), ['translations']);
+            return (bool) $page->no_cache;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
 }
