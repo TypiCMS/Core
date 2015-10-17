@@ -2,6 +2,8 @@
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
@@ -20,18 +22,19 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        $locale      = config('app.locale');
-        $adminLocale = config('typicms.admin_locale');
-        $locales     = config('translatable.locales');
+        $locales = config('translatable.locales');
+
         // If locale is present in app.locales…
         if (in_array(Input::get('locale'), $locales)) {
             // …store locale in session
             Session::put('locale', Input::get('locale'));
         }
+
         // Set app.locale
-        config(['app.locale' => Session::get('locale', $locale)]);
+        App::setLocale(config('typicms.admin_locale'));
+
         // Set Translator locale to typicms.admin_locale config
-        Lang::setLocale($adminLocale);
+        Config::set('translatable.locale', Session::get('locale', config('app.locale')));
 
         $localesForJS = [];
         foreach ($locales as $key => $locale) {
@@ -40,19 +43,18 @@ class Admin
                 'long' => trans('global.languages.' . $locale)
             ];
         }
+
         // Set Locales to JS.
         JavaScript::put([
-            '_token'          => csrf_token(),
+            '_token' => csrf_token(),
             'encrypted_token' => Crypt::encrypt(csrf_token()),
-            'adminLocale'     => $adminLocale,
-            'locales'         => $localesForJS,
-            'locale'          => config('app.locale'),
+            'locales' => $localesForJS,
         ]);
 
         // set curent user preferences to Config
         if ($request->user()) {
             $prefs = $request->user()->preferences;
-            config(['typicms.user' => $prefs]);
+            Config::set('typicms.user', $prefs);
         }
 
         return $next($request);
