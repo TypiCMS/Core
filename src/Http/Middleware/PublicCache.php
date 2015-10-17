@@ -20,9 +20,13 @@ class PublicCache
      */
     public function handle($request, Closure $next)
     {
+        // dd($request);
         $response = $next($request);
 
-        if ($this->uncacheablePage($request->path())) {
+        /**
+         * If page is not cacheable, don’t generate static html.
+         */
+        if (isset($response->original->page) && $response->original->page->no_cache) {
             return $response;
         }
 
@@ -63,29 +67,4 @@ class PublicCache
         return false;
     }
 
-    /**
-     * Check if request is pointing to a page and it's cacheable
-     *
-     * @param  string $path
-     * @return boolean
-     */
-    private function uncacheablePage($path)
-    {
-        // Get page from uri
-        $patterns = [];
-        foreach (config('translatable.locales') as $locale) {
-            $patterns[] = '#^' . $locale . '/#';
-            $patterns[] = '#^' . $locale . '$#';
-        }
-        $uri = trim(preg_replace($patterns, '', $path), '/');
-        if ($uri === '') {
-            $uri = null;
-        }
-        try {
-            $page = Pages::getFirstByUri($uri, config('app.locale'), ['translations']);
-            return (bool) $page->no_cache;
-        } catch (Exception $e) {
-            return false;
-        }
-    }
 }
