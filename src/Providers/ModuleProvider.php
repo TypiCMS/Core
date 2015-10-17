@@ -73,22 +73,6 @@ class ModuleProvider extends ServiceProvider {
 
         /*
         |--------------------------------------------------------------------------
-        | Set app locale in front office.
-        |--------------------------------------------------------------------------
-        */
-        if (Request::segment(1) != 'admin') {
-
-            $firstSegment = Request::segment(1);
-            if (in_array($firstSegment, config('translatable.locales'))) {
-                Config::set('app.locale', $firstSegment);
-            }
-            // Not very reliable, need to be refactored
-            setlocale(LC_ALL, config('app.locale') . '_' . strtoupper(config('app.locale')) . '.utf8');
-
-        }
-
-        /*
-        |--------------------------------------------------------------------------
         | Init list of modules.
         |--------------------------------------------------------------------------
         */

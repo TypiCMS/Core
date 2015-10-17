@@ -12,7 +12,6 @@ abstract class BasePublicController extends Controller
     {
         $this->middleware('publicAccess');
         $this->middleware('publicCache');
-        $this->middleware('publicLocale');
         $this->repository = $repository;
     }
 }

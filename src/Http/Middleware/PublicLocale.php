@@ -2,6 +2,7 @@
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -21,11 +22,15 @@ class PublicLocale
     {
 
         $firstSegment = Request::segment(1);
-        $locale = config('app.locale');
 
         if (in_array($firstSegment, config('translatable.locales'))) {
-            $locale = $firstSegment;
+            App::setlocale($firstSegment);
         }
+
+        $locale = config('app.locale');
+
+        // Not very reliable, need to be refactored
+        setlocale(LC_ALL, $locale . '_' . strtoupper($locale) . '.utf8');
 
         // Throw a 404 if website in this language is offline
         if (!config('typicms.' . $locale . '.status')) {
