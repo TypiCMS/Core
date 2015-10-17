@@ -1,12 +1,12 @@
 <?php
+
 namespace TypiCMS\Modules\Core\Services\Cache;
 
-use stdClass;
 use Illuminate\Cache\CacheManager;
+use stdClass;
 
 class LaravelCache implements CacheInterface
 {
-
     protected $cache;
     protected $tags;
     protected $minutes;
@@ -14,7 +14,7 @@ class LaravelCache implements CacheInterface
     /**
      * @param CacheManager $cache
      * @param array|string $tags
-     * @param integer      $minutes
+     * @param int          $minutes
      */
     public function __construct(CacheManager $cache, $tags, $minutes = null)
     {
@@ -24,9 +24,10 @@ class LaravelCache implements CacheInterface
     }
 
     /**
-     * Retrieve data from cache
+     * Retrieve data from cache.
      *
      * @param string    Cache item key
+     *
      * @return mixed PHP data result of cache
      */
     public function get($key)
@@ -35,11 +36,12 @@ class LaravelCache implements CacheInterface
     }
 
     /**
-     * Add data to the cache
+     * Add data to the cache.
      *
      * @param string    Cache item key
      * @param mixed     The data to store
-     * @param integer   The number of minutes to store the item
+     * @param int   The number of minutes to store the item
+     *
      * @return mixed $value variable returned for convenience
      */
     public function put($key, $value, $minutes = null)
@@ -53,19 +55,20 @@ class LaravelCache implements CacheInterface
 
     /**
      * Add data to the cache
-     * taking pagination data into account
+     * taking pagination data into account.
      *
-     * @param  integer  Page of the cached items
-     * @param  integer  Number of results per page
-     * @param  integer  Total number of possible items
+     * @param  int  Page of the cached items
+     * @param  int  Number of results per page
+     * @param  int  Total number of possible items
      * @param  mixed    The actual items for this page
      * @param  string   Cache item key
-     * @param  integer  The number of minutes to store the item
+     * @param  int  The number of minutes to store the item
+     *
      * @return stdClass $items variable returned for convenience
      */
     public function putPaginated($currentPage, $perPage, $totalItems, $items, $key, $minutes = null)
     {
-        $cached = new stdClass;
+        $cached = new stdClass();
 
         $cached->currentPage = $currentPage;
         $cached->items = $items;
@@ -79,9 +82,10 @@ class LaravelCache implements CacheInterface
 
     /**
      * Test if item exists in cache
-     * Only returns true if exists && is not expired
+     * Only returns true if exists && is not expired.
      *
      * @param string    Cache item key
+     *
      * @return bool If cache item exists
      */
     public function has($key)
@@ -90,9 +94,10 @@ class LaravelCache implements CacheInterface
     }
 
     /**
-     * Set tags
+     * Set tags.
      *
      * @param array    tags
+     *
      * @return false|null If cache item exists
      */
     public function addTags($tags = null)
@@ -105,9 +110,10 @@ class LaravelCache implements CacheInterface
     }
 
     /**
-     * Flush cache for tags
+     * Flush cache for tags.
      *
      * @param string    Cache tags
+     *
      * @return bool If cache is flushed
      */
     public function flush($tags = null)

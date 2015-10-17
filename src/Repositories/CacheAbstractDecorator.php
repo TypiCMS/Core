@@ -1,9 +1,9 @@
 <?php
+
 namespace TypiCMS\Modules\Core\Repositories;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Input;
-use TypiCMS\Modules\Core\Repositories\RepositoryInterface;
 use TypiCMS\NestedCollection;
 
 abstract class CacheAbstractDecorator implements RepositoryInterface
@@ -12,7 +12,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     protected $cache;
 
     /**
-     * Get empty model
+     * Get empty model.
      *
      * @return Model
      */
@@ -22,7 +22,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Get table name
+     * Get table name.
      *
      * @return string
      */
@@ -32,26 +32,27 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Make a new instance of the entity to query on
+     * Make a new instance of the entity to query on.
      *
      * @param array $with
      */
-    public function make(array $with = array())
+    public function make(array $with = [])
     {
         return $this->repo->make($with);
     }
 
     /**
      * Retrieve model by id
-     * regardless of status
+     * regardless of status.
      *
-     * @param  int       $id model ID
+     * @param int $id model ID
+     *
      * @return stdObject object of model information
      */
-    public function byId($id, array $with = array())
+    public function byId($id, array $with = [])
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(config('app.locale') . 'id.' . implode('.', $with) . $id . implode('.', Input::all()));
+        $cacheKey = md5(config('app.locale').'id.'.implode('.', $with).$id.implode('.', Input::all()));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -66,18 +67,19 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Get next model
+     * Get next model.
      *
-     * @param  Model      $model
-     * @param  int        $category_id
-     * @param  array      $with
-     * @param  boolean    $all
+     * @param Model $model
+     * @param int   $category_id
+     * @param array $with
+     * @param bool  $all
+     *
      * @return Collection
      */
     public function next($model, $category_id = null, array $with = [], $all = false)
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(config('app.locale') . 'next.' . $model->id . $all . $category_id . implode('.', $with));
+        $cacheKey = md5(config('app.locale').'next.'.$model->id.$all.$category_id.implode('.', $with));
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
         }
@@ -90,18 +92,19 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Get prev model
+     * Get prev model.
      *
-     * @param  Model      $model
-     * @param  int        $category_id
-     * @param  array      $with
-     * @param  boolean    $all
+     * @param Model $model
+     * @param int   $category_id
+     * @param array $with
+     * @param bool  $all
+     *
      * @return Collection
      */
     public function prev($model, $category_id = null, array $with = [], $all = false)
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(config('app.locale') . 'prev.' . $model->id . $all . $category_id . implode('.', $with));
+        $cacheKey = md5(config('app.locale').'prev.'.$model->id.$all.$category_id.implode('.', $with));
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
         }
@@ -114,19 +117,20 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Get prev model
+     * Get prev model.
      *
-     * @param  int        $direction
-     * @param  Model      $model
-     * @param  int        $category_id
-     * @param  array      $with
-     * @param  boolean    $all
+     * @param int   $direction
+     * @param Model $model
+     * @param int   $category_id
+     * @param array $with
+     * @param bool  $all
+     *
      * @return Collection
      */
     public function adjacent($direction, $model, $category_id = null, array $with = [], $all = false)
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(config('app.locale') . 'adjacent.' . $direction . $model->id . $category_id . implode('.', $with) . $all);
+        $cacheKey = md5(config('app.locale').'adjacent.'.$direction.$model->id.$category_id.implode('.', $with).$all);
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
         }
@@ -139,13 +143,13 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Find a single entity by key value
+     * Find a single entity by key value.
      *
      * @param string $key
      * @param string $value
      * @param array  $with
      */
-    public function getFirstBy($key, $value, array $with = array(), $all = false)
+    public function getFirstBy($key, $value, array $with = [], $all = false)
     {
         // Build the cache key, unique per model slug
         $cacheKey = md5(config('app.locale').'getFirstBy'.$key.$value.implode('.', $with).$all.implode('.', Input::all()));
@@ -163,15 +167,16 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Get paginated models
+     * Get paginated models.
      *
-     * @param  int      $page  Number of models per page
-     * @param  int      $limit Results per page
-     * @param  boolean  $all   get published models or all
-     * @param  array    $with  Eager load related models
+     * @param int   $page  Number of models per page
+     * @param int   $limit Results per page
+     * @param bool  $all   get published models or all
+     * @param array $with  Eager load related models
+     *
      * @return stdClass Object with $items && $totalItems for pagination
      */
-    public function byPage($page = 1, $limit = 10, array $with = array(), $all = false)
+    public function byPage($page = 1, $limit = 10, array $with = [], $all = false)
     {
         $cacheKey = md5(config('app.locale').'byPage'.$page.$limit.implode('.', $with).$all.implode('.', Input::except('page')));
 
@@ -188,15 +193,16 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Get all models
+     * Get all models.
      *
-     * @param  boolean  $all  Show published or all
-     * @param  array    $with Eager load related models
+     * @param bool  $all  Show published or all
+     * @param array $with Eager load related models
+     *
      * @return Collection
      */
-    public function all(array $with = array(), $all = false)
+    public function all(array $with = [], $all = false)
     {
-        $cacheKey = md5(config('app.locale') . 'all' . implode('.', $with) . $all . implode('.', Input::except('page')));
+        $cacheKey = md5(config('app.locale').'all'.implode('.', $with).$all.implode('.', Input::except('page')));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -212,15 +218,16 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Get all models and nest
+     * Get all models and nest.
      *
-     * @param  boolean          $all  Show published or all
-     * @param  array            $with Eager load related models
+     * @param bool  $all  Show published or all
+     * @param array $with Eager load related models
+     *
      * @return NestedCollection
      */
-    public function allNested(array $with = array(), $all = false)
+    public function allNested(array $with = [], $all = false)
     {
-        $cacheKey = md5(config('app.locale') . 'allNested' . implode('.', $with) . $all . implode('.', Input::except('page')));
+        $cacheKey = md5(config('app.locale').'allNested'.implode('.', $with).$all.implode('.', Input::except('page')));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -236,15 +243,16 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Get all models by key/value
+     * Get all models by key/value.
      *
-     * @param  string     $key
-     * @param  string     $value
-     * @param  array      $with
-     * @param  boolean    $all
+     * @param string $key
+     * @param string $value
+     * @param array  $with
+     * @param bool   $all
+     *
      * @return stdClass Object with $items
      */
-    public function allBy($key, $value, array $with = array(), $all = false)
+    public function allBy($key, $value, array $with = [], $all = false)
     {
         $cacheKey = md5(config('app.locale').'allBy'.$key.$value.implode('.', $with).$all.implode('.', Input::all()));
 
@@ -262,15 +270,16 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Get all models by key/value and nest collection
+     * Get all models by key/value and nest collection.
      *
-     * @param  string     $key
-     * @param  string     $value
-     * @param  array      $with
-     * @param  boolean    $all
+     * @param string $key
+     * @param string $value
+     * @param array  $with
+     * @param bool   $all
+     *
      * @return stdClass Object with $items
      */
-    public function allNestedBy($key, $value, array $with = array(), $all = false)
+    public function allNestedBy($key, $value, array $with = [], $all = false)
     {
         $cacheKey = md5(config('app.locale').'allNestedBy'.$key.$value.implode('.', $with).$all.implode('.', Input::all()));
 
@@ -288,15 +297,16 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Get latest models
+     * Get latest models.
      *
-     * @param  integer      $number number of items to take
-     * @param  array        $with array of related items
+     * @param int   $number number of items to take
+     * @param array $with   array of related items
+     *
      * @return Collection
      */
-    public function latest($number = 10, array $with = array())
+    public function latest($number = 10, array $with = [])
     {
-        $cacheKey = md5(config('app.locale') . 'latest' . $number . implode('.', $with) . implode('.', Input::all()));
+        $cacheKey = md5(config('app.locale').'latest'.$number.implode('.', $with).implode('.', Input::all()));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -312,16 +322,17 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Get single model by slug
+     * Get single model by slug.
      *
-     * @param  string $slug of model
-     * @param  array  $with
+     * @param string $slug of model
+     * @param array  $with
+     *
      * @return object object of model information
      */
-    public function bySlug($slug, array $with = array())
+    public function bySlug($slug, array $with = [])
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(config('app.locale') . 'bySlug' . $slug . implode('.', $with) . implode('.', Input::all()));
+        $cacheKey = md5(config('app.locale').'bySlug'.$slug.implode('.', $with).implode('.', Input::all()));
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -334,19 +345,18 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
         $this->cache->put($cacheKey, $model);
 
         return $model;
-
     }
 
     /**
-     * Return all results that have a required relationship
+     * Return all results that have a required relationship.
      *
      * @param string $relation
      * @param array  $with
      */
-    public function has($relation, array $with = array())
+    public function has($relation, array $with = [])
     {
         // Build the cache key, unique per model slug
-        $cacheKey = md5(config('app.locale') . 'has' . implode('.', $with) . $relation);
+        $cacheKey = md5(config('app.locale').'has'.implode('.', $with).$relation);
 
         if ($this->cache->has($cacheKey)) {
             return $this->cache->get($cacheKey);
@@ -359,39 +369,43 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
         $this->cache->put($cacheKey, $model);
 
         return $model;
-
     }
 
     /**
-     * Create a new model
+     * Create a new model.
      *
      * @param array  Data needed for model creation
+     *
      * @return mixed Model or false on error during save
      */
     public function create(array $data)
     {
         $this->cache->flush();
         $this->cache->flush('dashboard');
+
         return $this->repo->create($data);
     }
 
     /**
-     * Update an existing model
+     * Update an existing model.
      *
      * @param array  Data needed for model update
-     * @return boolean
+     *
+     * @return bool
      */
     public function update(array $data)
     {
         $this->cache->flush();
+
         return $this->repo->update($data);
     }
 
     /**
-     * Sort models
+     * Sort models.
      *
      * @param array  Data to update Pages
-     * @return boolean|null
+     *
+     * @return bool|null
      */
     public function sort(array $data)
     {
@@ -400,13 +414,14 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Build a select menu for a module
+     * Build a select menu for a module.
      *
-     * @param  string  $method     with method to call from the repository ?
-     * @param  boolean $firstEmpty generate an empty item
-     * @param  string  $value      witch column as value ?
-     * @param  string  $key        witch column as key ?
-     * @return array               array with key = $key and value = $value
+     * @param string $method     with method to call from the repository ?
+     * @param bool   $firstEmpty generate an empty item
+     * @param string $value      witch column as value ?
+     * @param string $key        witch column as key ?
+     *
+     * @return array array with key = $key and value = $value
      */
     public function select($method = 'all', $firstEmpty = false, $value = 'title', $key = 'id')
     {
@@ -414,7 +429,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Get all translated pages for a select/options
+     * Get all translated pages for a select/options.
      *
      * @return array
      */
@@ -424,23 +439,25 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Delete model
+     * Delete model.
      *
-     * @return boolean
+     * @return bool
      */
     public function delete($model)
     {
         $this->cache->flush();
         $this->cache->flush('dashboard');
+
         return $this->repo->delete($model);
     }
 
     /**
-     * Sync related items for model
+     * Sync related items for model.
      *
-     * @param  Model $model
-     * @param  array                               $data
-     * @param  string                              $table
+     * @param Model  $model
+     * @param array  $data
+     * @param string $table
+     *
      * @return false|null
      */
     protected function syncRelation($model, array $data, $table = null)

@@ -1,12 +1,13 @@
 <?php
+
 namespace TypiCMS\Modules\Core\Traits;
 
 use Illuminate\Support\Facades\File;
 
-trait HtmlCacheEvents {
-
+trait HtmlCacheEvents
+{
     /**
-     * Event to delete files in public/html folder
+     * Event to delete files in public/html folder.
      *
      * @return void
      */
@@ -15,16 +16,13 @@ trait HtmlCacheEvents {
         parent::boot();
 
         if (config('typicms.html_cache')) {
-
-            static::saved(function($model) {
-                File::deleteDirectory(public_path() . '/html');
+            static::saved(function ($model) {
+                File::deleteDirectory(public_path().'/html');
             });
 
-            static::deleted(function($model) {
-                File::deleteDirectory(public_path() . '/html');
+            static::deleted(function ($model) {
+                File::deleteDirectory(public_path().'/html');
             });
-
         }
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
@@ -9,12 +10,12 @@ use Illuminate\Support\Facades\Response;
 
 class PublicAccess
 {
-
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -23,6 +24,7 @@ class PublicAccess
             if (Request::ajax()) {
                 return Response::make('Unauthorized', 401);
             }
+
             return Redirect::guest(route('login'));
         }
 
@@ -30,5 +32,4 @@ class PublicAccess
 
         return $response;
     }
-
 }

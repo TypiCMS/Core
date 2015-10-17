@@ -1,4 +1,5 @@
 <?php
+
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
@@ -6,18 +7,17 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Session;
 use JavaScript;
 
 class Admin
 {
-
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -40,15 +40,15 @@ class Admin
         foreach ($locales as $key => $locale) {
             $localesForJS[] = [
                 'short' => $locale,
-                'long' => trans('global.languages.' . $locale)
+                'long'  => trans('global.languages.'.$locale),
             ];
         }
 
         // Set Locales to JS.
         JavaScript::put([
-            '_token' => csrf_token(),
+            '_token'          => csrf_token(),
             'encrypted_token' => Crypt::encrypt(csrf_token()),
-            'locales' => $localesForJS,
+            'locales'         => $localesForJS,
         ]);
 
         // set curent user preferences to Config
@@ -59,5 +59,4 @@ class Admin
 
         return $next($request);
     }
-
 }

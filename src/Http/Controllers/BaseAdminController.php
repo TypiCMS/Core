@@ -1,4 +1,5 @@
 <?php
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Routing\Controller;
@@ -6,7 +7,6 @@ use Illuminate\Support\Facades\Input;
 
 abstract class BaseAdminController extends Controller
 {
-
     protected $repository;
 
     public function __construct($repository = null)
@@ -17,14 +17,15 @@ abstract class BaseAdminController extends Controller
     }
 
     /**
-     * List models
+     * List models.
      *
      * @return \Illuminate\View\View
      */
     public function index()
     {
         $module = $this->repository->getTable();
-        $title = trans($module . '::global.name');
+        $title = trans($module.'::global.name');
+
         return view('core::admin.index')
             ->with(compact('title', 'module'));
     }
@@ -38,6 +39,7 @@ abstract class BaseAdminController extends Controller
     {
         $module = $this->repository->getTable();
         $model = $this->repository->getModel();
+
         return view('core::admin.create')
             ->with(compact('model', 'module'));
     }
@@ -46,6 +48,7 @@ abstract class BaseAdminController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  $model
+     *
      * @return \Illuminate\View\View
      */
     public function edit($model, $child = null)
@@ -58,6 +61,7 @@ abstract class BaseAdminController extends Controller
      * Show resource.
      *
      * @param  $model
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function show($model, $child = null)
@@ -69,6 +73,7 @@ abstract class BaseAdminController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  $model
+     *
      * @return \Illuminate\Http\RedirectResponse|null
      */
     public function destroy($model, $child = null)
@@ -86,22 +91,25 @@ abstract class BaseAdminController extends Controller
     public function sort()
     {
         $this->repository->sort(Input::all());
+
         return response()->json([
             'error'   => false,
-            'message' => trans('global.Items sorted')
+            'message' => trans('global.Items sorted'),
         ], 200);
     }
 
     /**
-     * Redirect after a form is saved
+     * Redirect after a form is saved.
      *
      * @param  $request
      * @param  $model
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     protected function redirect($request, $model)
     {
         $redirectUrl = $request->get('exit') ? $model->indexUrl() : $model->editUrl();
+
         return redirect($redirectUrl);
     }
 }

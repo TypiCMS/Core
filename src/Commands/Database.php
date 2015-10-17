@@ -1,4 +1,5 @@
 <?php
+
 namespace TypiCMS\Modules\Core\Commands;
 
 use DB;
@@ -12,7 +13,6 @@ use Symfony\Component\Console\Question\Question;
 
 class Database extends Command
 {
-
     /**
      * The console command name.
      *
@@ -25,7 +25,7 @@ class Database extends Command
      *
      * @var string
      */
-    protected $description = "Set database credentials in .env file";
+    protected $description = 'Set database credentials in .env file';
 
     /**
      * The filesystem instance.
@@ -37,7 +37,8 @@ class Database extends Command
     /**
      * Create a new key generator command.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param \Illuminate\Filesystem\Filesystem $files
+     *
      * @return void
      */
     public function __construct(Filesystem $files)
@@ -68,14 +69,14 @@ class Database extends Command
 
         // Update DB credentials in .env file.
         $search = [
-            '/(' . preg_quote('DB_DATABASE=') . ')(.*)/',
-            '/(' . preg_quote('DB_USERNAME=') . ')(.*)/',
-            '/(' . preg_quote('DB_PASSWORD=') . ')(.*)/',
+            '/('.preg_quote('DB_DATABASE=').')(.*)/',
+            '/('.preg_quote('DB_USERNAME=').')(.*)/',
+            '/('.preg_quote('DB_PASSWORD=').')(.*)/',
         ];
         $replace = [
-            '$1' . $dbName,
-            '$1' . $dbUserName,
-            '$1' . $dbPassword,
+            '$1'.$dbName,
+            '$1'.$dbUserName,
+            '$1'.$dbPassword,
         ];
         $contents = preg_replace($search, $replace, $contents);
 
@@ -94,13 +95,13 @@ class Database extends Command
         DB::purge();
 
         // Create database if not exists
-        DB::unprepared('CREATE DATABASE IF NOT EXISTS `' . $dbName . '`');
-        DB::unprepared('USE `' . $dbName . '`');
+        DB::unprepared('CREATE DATABASE IF NOT EXISTS `'.$dbName.'`');
+        DB::unprepared('USE `'.$dbName.'`');
         DB::connection()->setDatabaseName($dbName);
 
         // Migrate DB
         if (Schema::hasTable('migrations')) {
-            $this->error('A migrations table was found in database [' . $dbName . '], no migration and seed were done.');
+            $this->error('A migrations table was found in database ['.$dbName.'], no migration and seed were done.');
         } else {
             $this->call('migrate');
             $this->call('db:seed');
@@ -117,9 +118,9 @@ class Database extends Command
      */
     protected function getArguments()
     {
-        return array(
-            array('database', InputArgument::REQUIRED, 'The database name'),
-        );
+        return [
+            ['database', InputArgument::REQUIRED, 'The database name'],
+        ];
     }
 
     /**

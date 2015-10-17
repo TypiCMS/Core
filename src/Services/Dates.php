@@ -1,4 +1,5 @@
 <?php
+
 namespace TypiCMS\Modules\Core\Services;
 
 use Carbon\Carbon;
@@ -6,15 +7,15 @@ use Carbon\Carbon;
 class Dates
 {
     /**
-     * Concat two dates
+     * Concat two dates.
      *
      * @param string $startingDate
      * @param string $endingDate
+     *
      * @return string
      */
     public static function concat($startingDate, $endingDate)
     {
-
         $startingDateArray = explode('-', $startingDate);
         $endingDateArray = explode('-', $endingDate);
         $endingDateFormat = '%A %d %B %Y';
@@ -36,8 +37,7 @@ class Dates
         }
 
         return Carbon::createFromFormat('Y-m-d', $startingDate)
-            ->formatLocalized($startingDateFormat) . ' to ' . Carbon::createFromFormat('Y-m-d', $endingDate)
+            ->formatLocalized($startingDateFormat).' to '.Carbon::createFromFormat('Y-m-d', $endingDate)
             ->formatLocalized($endingDateFormat);
-
     }
 }

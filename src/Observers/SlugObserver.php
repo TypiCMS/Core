@@ -1,13 +1,13 @@
 <?php
+
 namespace TypiCMS\Modules\Core\Observers;
 
 class SlugObserver
 {
-
     public function creating($model)
     {
         // slug = null si vide
-        $slug = ($model->slug) ? $model->slug : null ;
+        $slug = ($model->slug) ? $model->slug : null;
         $model->slug = $slug;
 
         if ($slug) {
@@ -24,7 +24,7 @@ class SlugObserver
     public function updating($model)
     {
         // slug = null si vide
-        $slug = ($model->slug) ? $model->slug : null ;
+        $slug = ($model->slug) ? $model->slug : null;
         $model->slug = $slug;
 
         if ($slug) {

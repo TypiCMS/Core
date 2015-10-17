@@ -1,4 +1,5 @@
 <?php
+
 namespace TypiCMS\Modules\Core\Commands;
 
 use Exception;
@@ -8,7 +9,6 @@ use TypiCMS\Modules\Users\Repositories\UserInterface;
 
 class Install extends Command
 {
-
     /**
      * The console command name.
      *
@@ -40,8 +40,9 @@ class Install extends Command
     /**
      * Create a new key generator command.
      *
-     * @param  \TypiCMS\Modules\Users\Repositories\UserInterface $user
-     * @param  Filesystem $files
+     * @param \TypiCMS\Modules\Users\Repositories\UserInterface $user
+     * @param Filesystem                                        $files
+     *
      * @return void
      */
     public function __construct(UserInterface $user, Filesystem $files)
@@ -59,7 +60,6 @@ class Install extends Command
      */
     public function fire()
     {
-
         $this->line('------------------');
         $this->line('Welcome to TypiCMS');
         $this->line('------------------');
@@ -113,11 +113,10 @@ class Install extends Command
         // Done
         $this->line('------------------');
         $this->line('Done. Enjoy TypiCMS!');
-
     }
 
     /**
-     * Guess database name from app folder
+     * Guess database name from app folder.
      *
      * @return string
      */
@@ -126,6 +125,7 @@ class Install extends Command
         try {
             $segments = array_reverse(explode(DIRECTORY_SEPARATOR, app_path()));
             $name = explode('.', $segments[1])[0];
+
             return str_slug($name);
         } catch (Exception $e) {
             return '';
@@ -133,16 +133,16 @@ class Install extends Command
     }
 
     /**
-     * Create a superuser
+     * Create a superuser.
      */
     private function createSuperUser()
     {
         $this->info('Creating a Super User...');
 
         $firstname = $this->ask('Enter your first name');
-        $lastname  = $this->ask('Enter your last name');
-        $email     = $this->ask('Enter your email address');
-        $password  = $this->secret('Enter a password');
+        $lastname = $this->ask('Enter your last name');
+        $email = $this->ask('Enter your email address');
+        $password = $this->secret('Enter a password');
 
         $data = [
             'first_name'  => $firstname,

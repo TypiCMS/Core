@@ -1,4 +1,5 @@
 <?php
+
 namespace TypiCMS\Modules\Core\Providers;
 
 use Illuminate\Filesystem\Filesystem;
@@ -13,8 +14,8 @@ use TypiCMS\Modules\Core\Services\Upload\FileUpload;
 use TypiCMS\Modules\Users\Models\User;
 use TypiCMS\Modules\Users\Repositories\EloquentUser;
 
-class ModuleProvider extends ServiceProvider {
-
+class ModuleProvider extends ServiceProvider
+{
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -29,16 +30,15 @@ class ModuleProvider extends ServiceProvider {
      */
     public function boot()
     {
-
-        $this->loadViewsFrom(__DIR__ . '/../resources/views/', 'core');
+        $this->loadViewsFrom(__DIR__.'/../resources/views/', 'core');
 
         $this->publishes([
-            __DIR__ . '/../resources/views' => base_path('resources/views/vendor/core'),
-            __DIR__ . '/../resources/views/errors' => base_path('resources/views/errors'),
+            __DIR__.'/../resources/views'        => base_path('resources/views/vendor/core'),
+            __DIR__.'/../resources/views/errors' => base_path('resources/views/errors'),
         ], 'views');
 
         // translations
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'core');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'core');
 
         /*
         |--------------------------------------------------------------------------
@@ -57,7 +57,6 @@ class ModuleProvider extends ServiceProvider {
         $this->commands('command.install');
         $this->commands('command.cachekeyprefix');
         $this->commands('command.database');
-
     }
 
     /**
@@ -67,7 +66,6 @@ class ModuleProvider extends ServiceProvider {
      */
     public function register()
     {
-
         $app = $this->app;
 
         /*
@@ -83,7 +81,7 @@ class ModuleProvider extends ServiceProvider {
         |--------------------------------------------------------------------------
         */
         $this->app->singleton('typicms', function (Application $app) {
-            return new TypiCMS;
+            return new TypiCMS();
         });
 
         /*
@@ -92,7 +90,7 @@ class ModuleProvider extends ServiceProvider {
         |--------------------------------------------------------------------------
         */
         $this->app->singleton('upload.file', function (Application $app) {
-            return new FileUpload;
+            return new FileUpload();
         });
 
         /*
@@ -109,14 +107,13 @@ class ModuleProvider extends ServiceProvider {
         */
         $app->view->composers([
             'TypiCMS\Modules\Core\Composers\MasterViewComposer' => '*',
-            'TypiCMS\Modules\Core\Composers\LocaleComposer' => '*::public.*',
-            'TypiCMS\Modules\Core\Composers\LocalesComposer' => ['*::*._form'],
+            'TypiCMS\Modules\Core\Composers\LocaleComposer'     => '*::public.*',
+            'TypiCMS\Modules\Core\Composers\LocalesComposer'    => ['*::*._form'],
         ]);
 
         $this->registerCommands();
         $this->registerModuleRoutes();
         $this->registerCoreModules();
-
     }
 
     /**
@@ -126,7 +123,7 @@ class ModuleProvider extends ServiceProvider {
      */
     public function provides()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -138,15 +135,15 @@ class ModuleProvider extends ServiceProvider {
     {
         $this->app->bind('command.install', function (Application $app) {
             return new Install(
-                new EloquentUser(new User),
-                new Filesystem
+                new EloquentUser(new User()),
+                new Filesystem()
             );
         });
         $this->app->bind('command.cachekeyprefix', function () {
-            return new CacheKeyPrefix(new Filesystem);
+            return new CacheKeyPrefix(new Filesystem());
         });
         $this->app->bind('command.database', function () {
-            return new Database(new Filesystem);
+            return new Database(new Filesystem());
         });
     }
 
@@ -185,5 +182,4 @@ class ModuleProvider extends ServiceProvider {
         $app->register('TypiCMS\Modules\Menulinks\Providers\ModuleProvider');
         $app->register('TypiCMS\Modules\Pages\Providers\ModuleProvider');
     }
-
 }
