@@ -1,4 +1,5 @@
 <?php
+
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
@@ -8,7 +9,6 @@ use Illuminate\Support\Facades\Log;
 
 class Authenticate
 {
-
     /**
      * The Guard implementation.
      *
@@ -19,7 +19,8 @@ class Authenticate
     /**
      * Create a new filter instance.
      *
-     * @param  Guard  $auth
+     * @param Guard $auth
+     *
      * @return void
      */
     public function __construct(Guard $auth)
@@ -30,8 +31,9 @@ class Authenticate
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -52,11 +54,11 @@ class Authenticate
                 abort(403);
             }
         } catch (Exception $e) {
-            Log::error($e->getMessage() . '\n' . $request->fullUrl());
+            Log::error($e->getMessage().'\n'.$request->fullUrl());
+
             return redirect()->guest(route('login'));
         }
 
         return $next($request);
     }
-
 }

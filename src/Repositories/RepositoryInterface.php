@@ -1,4 +1,5 @@
 <?php
+
 namespace TypiCMS\Modules\Core\Repositories;
 
 use Illuminate\Database\Eloquent\Collection;
@@ -9,202 +10,218 @@ use TypiCMS\NestedCollection;
 interface RepositoryInterface
 {
     /**
-     * Get empty model
+     * Get empty model.
      *
      * @return Model
      */
     public function getModel();
 
     /**
-     * Get table name
+     * Get table name.
      *
      * @return string
      */
     public function getTable();
 
     /**
-     * Make a new instance of the entity to query on
+     * Make a new instance of the entity to query on.
      *
      * @param array $with
      */
-    public function make(array $with = array());
+    public function make(array $with = []);
 
     /**
-     * Find a single entity by key value
+     * Find a single entity by key value.
      *
      * @param string $key
      * @param string $value
      * @param array  $with
      */
-    public function getFirstBy($key, $value, array $with = array(), $all = false);
+    public function getFirstBy($key, $value, array $with = [], $all = false);
 
     /**
      * Retrieve model by id
-     * regardless of status
+     * regardless of status.
      *
-     * @param  int       $id model ID
+     * @param int $id model ID
+     *
      * @return Model
      */
-    public function byId($id, array $with = array());
+    public function byId($id, array $with = []);
 
     /**
-     * Get next model
+     * Get next model.
      *
-     * @param  Model      $model
-     * @param  int        $category_id
-     * @param  array      $with
-     * @param  boolean    $all
+     * @param Model $model
+     * @param int   $category_id
+     * @param array $with
+     * @param bool  $all
+     *
      * @return Collection
      */
     public function next($model, $category_id = null, array $with = [], $all = false);
 
     /**
-     * Get prev model
+     * Get prev model.
      *
-     * @param  Model      $model
-     * @param  int        $category_id
-     * @param  array      $with
-     * @param  boolean    $all
+     * @param Model $model
+     * @param int   $category_id
+     * @param array $with
+     * @param bool  $all
+     *
      * @return Collection
      */
     public function prev($model, $category_id = null, array $with = [], $all = false);
 
     /**
-     * Get prev model
+     * Get prev model.
      *
-     * @param  int        $direction
-     * @param  Model      $model
-     * @param  int        $category_id
-     * @param  array      $with
-     * @param  boolean    $all
+     * @param int   $direction
+     * @param Model $model
+     * @param int   $category_id
+     * @param array $with
+     * @param bool  $all
+     *
      * @return Collection
      */
     public function adjacent($direction, $model, $category_id = null, array $with = [], $all = false);
 
     /**
-     * Get paginated models
+     * Get paginated models.
      *
-     * @param  int      $page  Number of models per page
-     * @param  int      $limit Results per page
-     * @param  boolean  $all   get published models or all
-     * @param  array    $with  Eager load related models
+     * @param int   $page  Number of models per page
+     * @param int   $limit Results per page
+     * @param bool  $all   get published models or all
+     * @param array $with  Eager load related models
+     *
      * @return stdClass Object with $items && $totalItems for pagination
      */
-    public function byPage($page = 1, $limit = 10, array $with = array(), $all = false);
+    public function byPage($page = 1, $limit = 10, array $with = [], $all = false);
 
     /**
-     * Get all models
+     * Get all models.
      *
-     * @param  array       $with Eager load related models
-     * @param  boolean     $all  Show published or all
+     * @param array $with Eager load related models
+     * @param bool  $all  Show published or all
+     *
      * @return Collection|NestedCollection
      */
-    public function all(array $with = array(), $all = false);
+    public function all(array $with = [], $all = false);
 
     /**
-     * Get all models and nest
+     * Get all models and nest.
      *
-     * @param  boolean           $all  Show published or all
-     * @param  array             $with Eager load related models
+     * @param bool  $all  Show published or all
+     * @param array $with Eager load related models
+     *
      * @return NestedCollection
      */
-    public function allNested(array $with = array(), $all = false);
+    public function allNested(array $with = [], $all = false);
 
     /**
-     * Get all models by key/value
+     * Get all models by key/value.
      *
-     * @param  string     $key
-     * @param  string     $value
-     * @param  array      $with
-     * @param  boolean    $all
+     * @param string $key
+     * @param string $value
+     * @param array  $with
+     * @param bool   $all
+     *
      * @return Collection
      */
-    public function allBy($key, $value, array $with = array(), $all = false);
+    public function allBy($key, $value, array $with = [], $all = false);
 
     /**
-     * Get all models by key/value and nest collection
+     * Get all models by key/value and nest collection.
      *
-     * @param  string     $key
-     * @param  string     $value
-     * @param  array      $with
-     * @param  boolean    $all
+     * @param string $key
+     * @param string $value
+     * @param array  $with
+     * @param bool   $all
+     *
      * @return Collection
      */
-    public function allNestedBy($key, $value, array $with = array(), $all = false);
+    public function allNestedBy($key, $value, array $with = [], $all = false);
 
     /**
-     * Get latest models
+     * Get latest models.
      *
-     * @param  integer      $number number of items to take
-     * @param  array        $with array of related items
+     * @param int   $number number of items to take
+     * @param array $with   array of related items
+     *
      * @return Collection
      */
-    public function latest($number = 10, array $with = array());
+    public function latest($number = 10, array $with = []);
 
     /**
-     * Get single model by Slug
+     * Get single model by Slug.
      *
-     * @param  string $slug slug
-     * @param  array  $with related tables
+     * @param string $slug slug
+     * @param array  $with related tables
+     *
      * @return mixed
      */
-    public function bySlug($slug, array $with = array());
+    public function bySlug($slug, array $with = []);
 
     /**
-     * Return all results that have a required relationship
+     * Return all results that have a required relationship.
      *
-     * @param  string $relation
-     * @param  array  $with
+     * @param string $relation
+     * @param array  $with
+     *
      * @return Collection
      */
-    public function has($relation, array $with = array());
+    public function has($relation, array $with = []);
 
     /**
-     * Create a new model
+     * Create a new model.
      *
      * @param  array  Data needed for model creation
+     *
      * @return mixed Model or false on error during save
      */
     public function create(array $data);
 
     /**
-     * Update an existing model
+     * Update an existing model.
      *
      * @param  array  Data needed for model update
-     * @return boolean
+     *
+     * @return bool
      */
     public function update(array $data);
 
     /**
-     * Sort models
+     * Sort models.
      *
      * @param  array  Data to update Pages
-     * @return boolean
+     *
+     * @return bool
      */
     public function sort(array $data);
 
     /**
-     * Build a select menu for a module
+     * Build a select menu for a module.
      *
-     * @param  string  $method     with method to call from the repository ?
-     * @param  boolean $firstEmpty generate an empty item
-     * @param  string  $value      witch column as value ?
-     * @param  string  $key        witch column as key ?
-     * @return array               array with key = $key and value = $value
+     * @param string $method     with method to call from the repository ?
+     * @param bool   $firstEmpty generate an empty item
+     * @param string $value      witch column as value ?
+     * @param string $key        witch column as key ?
+     *
+     * @return array array with key = $key and value = $value
      */
     public function select($method = 'all', $firstEmpty = false, $value = 'title', $key = 'id');
 
     /**
-     * Get all translated pages for a select/options
+     * Get all translated pages for a select/options.
      *
      * @return array
      */
     public function getPagesForSelect();
 
     /**
-     * Delete model
+     * Delete model.
      *
-     * @return boolean
+     * @return bool
      */
     public function delete($model);
 }

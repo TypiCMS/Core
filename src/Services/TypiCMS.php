@@ -1,4 +1,5 @@
 <?php
+
 namespace TypiCMS\Modules\Core\Services;
 
 use Exception;
@@ -6,9 +7,8 @@ use Illuminate\Support\Facades\File;
 
 class TypiCMS
 {
-
     /**
-     * Get Homepage URL
+     * Get Homepage URL.
      *
      * @return string
      */
@@ -18,13 +18,15 @@ class TypiCMS
         if (config('typicms.main_locale_in_url') || config('app.fallback_locale') != config('app.locale')) {
             $uri .= config('app.locale');
         }
+
         return url($uri);
     }
 
     /**
-     * Get Homepage URL
+     * Get Homepage URL.
      *
      * @deprecated
+     *
      * @return string
      */
     public function homepage()
@@ -33,7 +35,7 @@ class TypiCMS
     }
 
     /**
-     * Return online public locales
+     * Return online public locales.
      *
      * @return array
      */
@@ -41,10 +43,11 @@ class TypiCMS
     {
         $locales = config('translatable.locales');
         foreach ($locales as $key => $locale) {
-            if (! config('typicms.' . $locale . '.status')) {
+            if (!config('typicms.'.$locale.'.status')) {
                 unset($locales[$key]);
             }
         }
+
         return $locales;
     }
 
@@ -57,11 +60,12 @@ class TypiCMS
     {
         $modules = config('typicms.modules');
         ksort($modules);
+
         return $modules;
     }
 
     /**
-     * Get all modules for a select/options
+     * Get all modules for a select/options.
      *
      * @return array
      */
@@ -71,38 +75,40 @@ class TypiCMS
         $options = ['' => ''];
         foreach ($modules as $module => $properties) {
             if (in_array('linkable_to_page', $properties)) {
-                $options[$module] = trans($module . '::global.name');
+                $options[$module] = trans($module.'::global.name');
             }
         }
         asort($options);
+
         return $options;
     }
 
     /**
-     * Get logo from settings
+     * Get logo from settings.
      *
      * @return string
      */
     public function logo()
     {
         if (config('typicms.image')) {
-            return '<img src="' . url('uploads/settings/' . config('typicms.image')) . '" alt="' . $this->title() . '">';
+            return '<img src="'.url('uploads/settings/'.config('typicms.image')).'" alt="'.$this->title().'">';
         }
-        return null;
+
+        return;
     }
 
     /**
-     * Get title from settings
+     * Get title from settings.
      *
      * @return string
      */
     public function title()
     {
-        return config('typicms.' . config('app.locale') . '.website_title');
+        return config('typicms.'.config('app.locale').'.website_title');
     }
 
     /**
-     * Get title from settings
+     * Get title from settings.
      *
      * @return string
      */
@@ -112,9 +118,10 @@ class TypiCMS
     }
 
     /**
-     * Return an array of pages linked to modules
+     * Return an array of pages linked to modules.
      *
-     * @param  string $module
+     * @param string $module
+     *
      * @return array|null
      */
     public function getPageLinkedToModule($module = null)
@@ -124,11 +131,13 @@ class TypiCMS
         if (isset($routes[$module])) {
             return $routes[$module];
         }
-        return null;
+
+        return;
     }
 
     /**
-     * List templates files from directory
+     * List templates files from directory.
+     *
      * @return array
      */
     public function templates($directory = 'resources/views/vendor/pages/public')
@@ -145,7 +154,7 @@ class TypiCMS
                 $templates[$name] = ucfirst($name);
             }
         }
+
         return ['' => ''] + $templates;
     }
-
 }

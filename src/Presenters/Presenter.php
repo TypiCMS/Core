@@ -1,4 +1,5 @@
 <?php
+
 namespace TypiCMS\Modules\Core\Presenters;
 
 use Carbon\Carbon;
@@ -10,7 +11,6 @@ use Laracasts\Presenter\Presenter as BasePresenter;
 
 abstract class Presenter extends BasePresenter
 {
-
     /**
      * @var mixed
      */
@@ -25,9 +25,10 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Allow for property-style retrieval
+     * Allow for property-style retrieval.
      *
      * @param $property
+     *
      * @return mixed
      */
     public function __get($property)
@@ -40,9 +41,10 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Return a localized date
+     * Return a localized date.
      *
-     * @param  string $column
+     * @param string $column
+     *
      * @return Carbon
      */
     public function dateLocalized($column = 'date')
@@ -51,9 +53,10 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Return a localized date and time
+     * Return a localized date and time.
      *
-     * @param  string $column
+     * @param string $column
+     *
      * @return Carbon
      */
     public function dateTimeLocalized($column = 'datetime')
@@ -62,45 +65,52 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Return resource's datetime or curent date and time if empty
+     * Return resource's datetime or curent date and time if empty.
      *
-     * @param  string $column
+     * @param string $column
+     *
      * @return Carbon
      */
     public function datetimeOrNow($column = 'date')
     {
         $date = $this->entity->$column ?: Carbon::now();
+
         return $date->format('Y-m-d G:i:s');
     }
 
     /**
-     * Return resource's date or curent date if empty
+     * Return resource's date or curent date if empty.
      *
-     * @param  string $column
+     * @param string $column
+     *
      * @return Carbon
      */
     public function dateOrNow($column = 'date')
     {
-        $date = $this->entity->$column ?: Carbon::now() ;
+        $date = $this->entity->$column ?: Carbon::now();
+
         return $date->format('Y-m-d');
     }
 
     /**
-     * Return resource's time or curent time if empty
+     * Return resource's time or curent time if empty.
      *
-     * @param  string $column
+     * @param string $column
+     *
      * @return Carbon
      */
     public function timeOrNow($column = 'date')
     {
-        $date = $this->entity->$column ?: Carbon::now() ;
+        $date = $this->entity->$column ?: Carbon::now();
+
         return $date->format('G:i');
     }
 
     /**
-     * Get url without http://
+     * Get url without http://.
      *
-     * @param  string $column
+     * @param string $column
+     *
      * @return string
      */
     public function urlWithoutScheme($column = 'website')
@@ -109,85 +119,96 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Generate an external link
+     * Generate an external link.
      *
-     * @param  string $column
+     * @param string $column
+     *
      * @return string
      */
     public function link($column = 'website')
     {
-        return '<a href="' . $this->entity->$column . '" target="_blank">' . $this->urlWithoutScheme($column) . '</a>';
+        return '<a href="'.$this->entity->$column.'" target="_blank">'.$this->urlWithoutScheme($column).'</a>';
     }
 
     /**
-     * Get the path of files linked to this model
+     * Get the path of files linked to this model.
      *
-     * @param  Model  $model
-     * @param  string $field
+     * @param Model  $model
+     * @param string $field
+     *
      * @return string path
      */
     protected function getPath(Model $model, $field = null)
     {
         $path = '';
         try {
-            $path = '/uploads/' . $model->getTable() . '/' . $model->$field;
+            $path = '/uploads/'.$model->getTable().'/'.$model->$field;
         } catch (Exception $e) {
             Log::info($e->getMessage());
         }
+
         return $path;
     }
 
     /**
-     * Return src string of a resized or cropped image
+     * Return src string of a resized or cropped image.
      *
-     * @param  int $width      width of image, null for auto
-     * @param  int $height     height of image, null for auto
-     * @param  array $options  see Croppa doc for options (https://github.com/BKWLD/croppa)
-     * @param  string $field   column name
-     * @return string          HTML markup of an image
+     * @param int    $width   width of image, null for auto
+     * @param int    $height  height of image, null for auto
+     * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
+     * @param string $field   column name
+     *
+     * @return string HTML markup of an image
      */
-    public function thumbSrc($width = null, $height = null, array $options = array(), $field = 'image')
+    public function thumbSrc($width = null, $height = null, array $options = [], $field = 'image')
     {
         $src = $this->getPath($this->entity, $field);
-        if (! is_file(public_path() . $src)) {
+        if (!is_file(public_path().$src)) {
             $src = $this->imgNotFound();
         }
+
         return Croppa::url($src, $width, $height, $options);
     }
 
     /**
-     * Return absolute url of a thumb
+     * Return absolute url of a thumb.
      *
-     * @param  int $width      width of image, null for auto
-     * @param  int $height     height of image, null for auto
-     * @param  array $options  see Croppa doc for options (https://github.com/BKWLD/croppa)
-     * @param  string $field   column name
-     * @return string          HTML markup of an image
+     * @param int    $width   width of image, null for auto
+     * @param int    $height  height of image, null for auto
+     * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
+     * @param string $field   column name
+     *
+     * @return string HTML markup of an image
      */
-    public function thumbAbsoluteSrc($width = null, $height = null, array $options = array(), $field = 'image')
+    public function thumbAbsoluteSrc($width = null, $height = null, array $options = [], $field = 'image')
     {
         $src = $this->thumbSrc($width, $height, $options, $field);
+
         return url($src);
     }
 
     /**
-     * Return a resized or cropped img tag
+     * Return a resized or cropped img tag.
      *
-     * @param  int $width      width of image, null for auto
-     * @param  int $height     height of image, null for auto
-     * @param  array $options  see Croppa doc for options (https://github.com/BKWLD/croppa)
-     * @param  string $field   column name
-     * @return string          img HTML tag
+     * @param int    $width   width of image, null for auto
+     * @param int    $height  height of image, null for auto
+     * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
+     * @param string $field   column name
+     *
+     * @return string img HTML tag
      */
-    public function thumb($width = null, $height = null, array $options = array(), $field = 'image')
+    public function thumb($width = null, $height = null, array $options = [], $field = 'image')
     {
         $src = $this->thumbSrc($width, $height, $options, $field);
-        return '<img class="img-responsive" src="' . $src . '" alt="">';
+
+        return '<img class="img-responsive" src="'.$src.'" alt="">';
     }
 
     /**
-     * Get default image when not found
-     * @param  string $file
+     * Get default image when not found.
+     *
+     * @param string $file
+     *
      * @return string
      */
     public function imgNotFound($file = '/uploads/img-not-found.png')
@@ -196,31 +217,33 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Return an icon and file name
+     * Return an icon and file name.
      *
-     * @param  int $size       icon size
-     * @param  string $field   column name
-     * @return string          HTML markup of an image
+     * @param int    $size  icon size
+     * @param string $field column name
+     *
+     * @return string HTML markup of an image
      */
     public function icon($size = 2, $field = 'document')
     {
         $file = $this->getPath($this->entity, $field);
-        if (! is_file(public_path() . $file)) {
+        if (!is_file(public_path().$file)) {
             $file = '/uploads/img-not-found.png';
         }
         $html = '<div class="doc">';
-        $html .= '<span class="text-center fa fa-file-text-o fa-' . $size . 'x"></span>';
-        $html .= '<a href="' . $file . '">';
+        $html .= '<span class="text-center fa fa-file-text-o fa-'.$size.'x"></span>';
+        $html .= '<a href="'.$file.'">';
         $html .= $this->entity->$field;
         $html .= '</a>';
         $html .= '</div>';
+
         return $html;
     }
 
     /**
-     * Return body content with dynamic links
+     * Return body content with dynamic links.
      *
-     * @return string          HTML markup of an image
+     * @return string HTML markup of an image
      */
     public function body()
     {
@@ -232,14 +255,15 @@ abstract class Presenter extends BasePresenter
         foreach ($matches as $match) {
             $patterns[] = $match[0];
             $module = $match[1];
-            $repository = app('TypiCMS\Modules\\' . ucfirst(str_plural($module)) . '\Repositories\\' . ucfirst($module) . 'Interface');
+            $repository = app('TypiCMS\Modules\\'.ucfirst(str_plural($module)).'\Repositories\\'.ucfirst($module).'Interface');
             $model = $repository->byId($match[2]);
             if ($module == 'page') {
                 $replacements[] = url($model->uri($lang));
             } else {
-                $replacements[] = route($lang . '.' . $module . '.slug', $model->slug);
+                $replacements[] = route($lang.'.'.$module.'.slug', $model->slug);
             }
         }
+
         return str_replace($patterns, $replacements, $text);
     }
 }

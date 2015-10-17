@@ -1,4 +1,5 @@
 <?php
+
 namespace TypiCMS\Modules\Core\Observers;
 
 use Croppa;
@@ -11,10 +12,11 @@ use TypiCMS\Modules\Core\Facades\FileUpload;
 
 class FileObserver
 {
-
     /**
-     * On delete, unlink files and thumbs
-     * @param  Model $model eloquent
+     * On delete, unlink files and thumbs.
+     *
+     * @param Model $model eloquent
+     *
      * @return mixed false or void
      */
     public function deleted(Model $model)
@@ -29,10 +31,11 @@ class FileObserver
     }
 
     /**
-     * Delete file and thumbs
+     * Delete file and thumbs.
      *
-     * @param  string $fieldname
-     * @param  Model $model
+     * @param string $fieldname
+     * @param Model  $model
+     *
      * @return void
      */
     private function deleteFile($fieldname, Model $model)
@@ -41,24 +44,24 @@ class FileObserver
         if (empty($filename)) {
             return;
         }
-        $file = '/uploads/' . $model->getTable() . '/' . $filename;
+        $file = '/uploads/'.$model->getTable().'/'.$filename;
         try {
             Croppa::delete($file);
-            File::delete(public_path() . $file);
+            File::delete(public_path().$file);
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
     }
 
     /**
-     * On save, upload files
+     * On save, upload files.
      *
-     * @param  Model $model eloquent
+     * @param Model $model eloquent
+     *
      * @return mixed false or void
      */
     public function saving(Model $model)
     {
-
         if (!$attachments = $model->attachments) {
             return;
         }
@@ -66,7 +69,7 @@ class FileObserver
         foreach ($attachments as $fieldname) {
             if (Input::hasFile($fieldname)) {
                 // delete prev image
-                $file = FileUpload::handle(Input::file($fieldname), 'uploads/' . $model->getTable());
+                $file = FileUpload::handle(Input::file($fieldname), 'uploads/'.$model->getTable());
                 $model->$fieldname = $file['filename'];
                 if ($model->getTable() == 'files') {
                     $model->fill($file);
@@ -82,9 +85,10 @@ class FileObserver
     }
 
     /**
-     * On update, delete previous file if changed
+     * On update, delete previous file if changed.
      *
-     * @param  Model $model eloquent
+     * @param Model $model eloquent
+     *
      * @return mixed false or void
      */
     public function updated(Model $model)
@@ -100,7 +104,6 @@ class FileObserver
                 continue;
             }
             $this->deleteFile($fieldname, $model);
-
         }
     }
 }

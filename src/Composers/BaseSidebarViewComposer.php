@@ -1,4 +1,6 @@
-<?php namespace TypiCMS\Modules\Core\Composers;
+<?php
+
+namespace TypiCMS\Modules\Core\Composers;
 
 use TypiCMS\Modules\Users\Repositories\UserInterface as Auth;
 
