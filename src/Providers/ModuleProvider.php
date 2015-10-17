@@ -4,7 +4,6 @@ namespace TypiCMS\Modules\Core\Providers;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use TypiCMS\Modules\Core\Commands\CacheKeyPrefix;
 use TypiCMS\Modules\Core\Commands\Database;
