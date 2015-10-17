@@ -41,7 +41,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     public function make(array $with = array())
     {
         if (method_exists($this->model, 'translations')) {
-            if (! in_array('translations', $with)) {
+            if (!in_array('translations', $with)) {
                 $with[] = 'translations';
             }
         }
@@ -58,7 +58,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     public function getFirstBy($key, $value, array $with = array(), $all = false)
     {
         $query = $this->make($with);
-        if (! $all) {
+        if (!$all) {
             $query->online();
         }
         return $query->where($key, '=', $value)->first();
@@ -156,7 +156,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
 
         $query = $this->make($with);
 
-        if (! $all) {
+        if (!$all) {
             $query->online();
         }
 
@@ -186,7 +186,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     {
         $query = $this->make($with);
 
-        if (! $all) {
+        if (!$all) {
             $query->online();
         }
 
@@ -223,7 +223,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     {
         $query = $this->make($with);
 
-        if (! $all) {
+        if (!$all) {
             $query->online();
         }
 
@@ -279,7 +279,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
             ->whereHas(
                 'translations',
                 function (Builder $query) use ($slug) {
-                    if (! Input::get('preview')) {
+                    if (!Input::get('preview')) {
                         $query->where('status', 1);
                     }
                     $query->where('locale', config('app.locale'));
@@ -288,7 +288,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
             )
             ->firstOrFail();
 
-        if (! count($model->translations)) {
+        if (!count($model->translations)) {
             abort(404);
         }
 
@@ -458,11 +458,11 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      */
     protected function syncRelation($model, array $data, $table = null)
     {
-        if (! method_exists($model, $table)) {
+        if (!method_exists($model, $table)) {
             return false;
         }
 
-        if (! isset($data[$table])) {
+        if (!isset($data[$table])) {
             return false;
         }
 

@@ -97,7 +97,7 @@ class LaravelCache implements CacheInterface
      */
     public function addTags($tags = null)
     {
-        if (! $tags) {
+        if (!$tags) {
             return false;
         }
         $tags = is_array($tags) ? $tags : func_get_args();

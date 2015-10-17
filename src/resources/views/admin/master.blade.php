@@ -42,7 +42,7 @@
         <div class="@section('mainClass')col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main @show">
 
             @section('errors')
-                @if (! $errors->isEmpty())
+                @if (!$errors->isEmpty())
                     <div class="alert alert-danger alert-dismissable">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         @lang('core::global.The form contains errors').
