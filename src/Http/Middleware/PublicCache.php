@@ -20,7 +20,6 @@ class PublicCache
      */
     public function handle($request, Closure $next)
     {
-        // dd($request);
         $response = $next($request);
 
         /**
