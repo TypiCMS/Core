@@ -69,7 +69,7 @@ abstract class Presenter extends BasePresenter
      */
     public function datetimeOrNow($column = 'date')
     {
-        $date = $this->entity->$column ? : Carbon::now() ;
+        $date = $this->entity->$column ?: Carbon::now();
         return $date->format('Y-m-d G:i:s');
     }
 
@@ -81,7 +81,7 @@ abstract class Presenter extends BasePresenter
      */
     public function dateOrNow($column = 'date')
     {
-        $date = $this->entity->$column ? : Carbon::now() ;
+        $date = $this->entity->$column ?: Carbon::now() ;
         return $date->format('Y-m-d');
     }
 
@@ -93,7 +93,7 @@ abstract class Presenter extends BasePresenter
      */
     public function timeOrNow($column = 'date')
     {
-        $date = $this->entity->$column ? : Carbon::now() ;
+        $date = $this->entity->$column ?: Carbon::now() ;
         return $date->format('G:i');
     }
 

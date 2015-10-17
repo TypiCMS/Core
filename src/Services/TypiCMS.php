@@ -108,7 +108,7 @@ class TypiCMS
      */
     public function logoOrTitle()
     {
-        return $this->logo() ? : $this->title();
+        return $this->logo() ?: $this->title();
     }
 
     /**
