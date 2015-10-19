@@ -24,10 +24,12 @@ class PublicLocale
         $firstSegment = Request::segment(1);
 
         if (in_array($firstSegment, config('translatable.locales'))) {
-            App::setlocale($firstSegment);
+            $locale = $firstSegment;
+        } else {
+            $locale = config('app.fallback_locale');
         }
 
-        $locale = config('app.locale');
+        App::setlocale($locale);
 
         // Not very reliable, need to be refactored
         setlocale(LC_ALL, $locale.'_'.strtoupper($locale).'.utf8');
