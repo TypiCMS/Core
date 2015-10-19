@@ -7,6 +7,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use TypiCMS\Modules\Core\Commands\CacheKeyPrefix;
+use TypiCMS\Modules\Core\Commands\ClearHtml;
 use TypiCMS\Modules\Core\Commands\Database;
 use TypiCMS\Modules\Core\Commands\Install;
 use TypiCMS\Modules\Core\Services\TypiCMS;
@@ -52,11 +53,12 @@ class ModuleProvider extends ServiceProvider
         /*
         |--------------------------------------------------------------------------
         | Commands.
-        |--------------------------------------------------------------------------|
+        |--------------------------------------------------------------------------
         */
         $this->commands('command.install');
         $this->commands('command.cachekeyprefix');
         $this->commands('command.database');
+        $this->commands('command.clearhtml');
     }
 
     /**
@@ -103,7 +105,7 @@ class ModuleProvider extends ServiceProvider
         /*
         |--------------------------------------------------------------------------
         | View composers.
-        |--------------------------------------------------------------------------|
+        |--------------------------------------------------------------------------
         */
         $app->view->composers([
             'TypiCMS\Modules\Core\Composers\MasterViewComposer' => '*',
@@ -144,6 +146,9 @@ class ModuleProvider extends ServiceProvider
         });
         $this->app->bind('command.database', function () {
             return new Database(new Filesystem());
+        });
+        $this->app->bind('command.clearhtml', function () {
+            return new ClearHtml();
         });
     }
 

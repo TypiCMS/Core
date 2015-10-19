@@ -2,7 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Traits;
 
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Artisan;
 
 trait HtmlCacheEvents
 {
@@ -17,11 +17,11 @@ trait HtmlCacheEvents
 
         if (config('typicms.html_cache')) {
             static::saved(function ($model) {
-                File::deleteDirectory(public_path().'/html');
+                Artisan::call('clear-html');
             });
 
             static::deleted(function ($model) {
-                File::deleteDirectory(public_path().'/html');
+                Artisan::call('clear-html');
             });
         }
     }
