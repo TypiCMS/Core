@@ -62,9 +62,9 @@
         @include('core::admin._footer')
 
         <script type="text/javascript">
-            {{ Notification::showError('alertify.error(\':message\');') }}
-            {{ Notification::showInfo('alertify.log(\':message\');') }}
-            {{ Notification::showSuccess('alertify.success(\':message\');') }}
+            {!! Notification::showError('alertify.error(\':message\');') !!}
+            {!! Notification::showInfo('alertify.log(\':message\');') !!}
+            {!! Notification::showSuccess('alertify.success(\':message\');') !!}
         </script>
 
     </div>
