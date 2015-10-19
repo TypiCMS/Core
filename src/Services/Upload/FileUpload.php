@@ -51,9 +51,11 @@ class FileUpload
         try {
             $file->move($input['path'], $input['filename']);
             list($input['width'], $input['height']) = getimagesize($input['path'].'/'.$input['filename']);
+
             return $input;
         } catch (FileException $e) {
             Notification::error($e->getmessage());
+
             return false;
         }
     }
