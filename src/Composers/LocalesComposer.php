@@ -6,9 +6,12 @@ use Illuminate\Contracts\View\View;
 
 class LocalesComposer
 {
+    /*
+     * For back end forms
+     */
     public function compose(View $view)
     {
         $view->with('locales', config('translatable.locales'));
-        $view->with('locale', config('app.locale'));
+        $view->with('locale', config('translatable.locale'));
     }
 }

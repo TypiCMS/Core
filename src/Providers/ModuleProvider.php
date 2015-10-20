@@ -110,7 +110,7 @@ class ModuleProvider extends ServiceProvider
         $app->view->composers([
             'TypiCMS\Modules\Core\Composers\MasterViewComposer' => '*',
             'TypiCMS\Modules\Core\Composers\LocaleComposer'     => '*::public.*',
-            'TypiCMS\Modules\Core\Composers\LocalesComposer'    => ['*::*._form'],
+            'TypiCMS\Modules\Core\Composers\LocalesComposer'    => '*::admin.*',
         ]);
 
         $this->registerCommands();

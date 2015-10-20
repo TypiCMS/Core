@@ -30,14 +30,14 @@ class Admin
             Session::put('locale', Input::get('locale'));
         }
 
-        // Set app.locale
+        // Set app.locale to admin_locale
         App::setLocale(config('typicms.admin_locale'));
 
-        // Set Translator locale to typicms.admin_locale config
+        // Set translatable locale to locale
         Config::set('translatable.locale', Session::get('locale', config('app.locale')));
 
         $localesForJS = [];
-        foreach ($locales as $key => $locale) {
+        foreach ($locales as $locale) {
             $localesForJS[] = [
                 'short' => $locale,
                 'long'  => trans('global.languages.'.$locale),
