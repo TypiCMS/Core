@@ -54,7 +54,7 @@ class TypiCMS
     /**
      * Check if locale is online.
      *
-     * @return boolean
+     * @return bool
      */
     public function isLocaleOnline($locale)
     {
