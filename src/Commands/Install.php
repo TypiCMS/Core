@@ -97,6 +97,8 @@ class Install extends Command
             $this->info('Directory bootstrap/cache is now writable (755).');
             system('find public/uploads -type d -exec chmod 755 {} \;');
             $this->info('Directory public/uploads is now writable (755).');
+            system('find public/html -type d -exec chmod 755 {} \;');
+            $this->info('Directory public/html is now writable (755).');
             $this->line('------------------');
             $this->info('Running npm install...');
             system('npm install');
