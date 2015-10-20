@@ -3,8 +3,12 @@
     <ul role="menu">
         @foreach ($onlineLocales as $locale)
         <li class="@if($locale == config('app.locale'))active @endif" role="menuitem">
-            @if (isset($model) and isset($page) and $model->hasTranslation())
-            <a href="{{ url($page->uri($locale) . '/' . $model->translate($locale)->slug) }}">{{ $locale }}</a>
+            @if (isset($model) and isset($page) and $model->hasTranslation($locale))
+                @if ($model->translate($locale)->status)
+                    <a href="{{ url($page->uri($locale).'/'.$model->translate($locale)->slug) }}">{{ $locale }}</a>
+                @else
+                    <a href="{{ url($page->uri($locale)) }}">{{ $locale }}</a>
+                @endif
             @elseif (isset($page))
             <a href="{{ url($page->uri($locale)) }}">{{ $locale }}</a>
             @else
