@@ -39,7 +39,7 @@ class TypiCMS
      *
      * @return array
      */
-    public function getPublicLocales()
+    public function getOnlineLocales()
     {
         $locales = config('translatable.locales');
         foreach ($locales as $key => $locale) {
