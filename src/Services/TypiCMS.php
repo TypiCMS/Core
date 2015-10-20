@@ -52,6 +52,16 @@ class TypiCMS
     }
 
     /**
+     * Check if locale is online.
+     *
+     * @return boolean
+     */
+    public function isLocaleOnline($locale)
+    {
+        return in_array($locale, $this->getOnlineLocales());
+    }
+
+    /**
      * Get all modules for permissions table.
      *
      * @return array
