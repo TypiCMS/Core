@@ -53,7 +53,7 @@
         @show
 
         @section('mainMenu')
-        <nav class="nav-main" role="navigation">
+        <nav class="nav-main">
             {!! Menus::render('main') !!}
         </nav>
         @show
@@ -67,7 +67,7 @@
             <nav class="nav-social">
                 {!! Menus::render('social') !!}
             </nav>
-            <nav class="nav-footer" role="navigation">
+            <nav class="nav-footer">
                 {!! Menus::render('footer') !!}
             </nav>
         </footer>

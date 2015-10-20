@@ -1,5 +1,4 @@
 @if ($onlineLocales = TypiCMS::getPublicLocales() and count($onlineLocales) > 1)
-<nav class="nav-languages" role="navigation">
     <ul role="menu">
         @foreach ($onlineLocales as $locale)
         <li class="@if($locale == config('app.locale'))active @endif" role="menuitem">
