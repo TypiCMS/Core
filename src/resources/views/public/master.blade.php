@@ -17,7 +17,7 @@
     <meta property="og:url" content="{{ URL::full() }}">
     <meta property="og:image" content="@yield('image')">
 
-    <link href="@if(app()->environment('production')){{ asset(elixir('css/public.css')) }}@else{{ asset('css/public.css') }}@endif" rel="stylesheet">
+    <link href="{{ app()->isLocal() ? asset('css/public.css') : asset(elixir('css/public.css')) }}" rel="stylesheet">
 
     @yield('css')
 
