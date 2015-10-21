@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-    <title>[admin] @yield('title') – {{ config('typicms.' . config('typicms.admin_locale') . '.website_title') }}</title>
+    <title>[admin] @yield('title') – {{ config('typicms.'.config('typicms.admin_locale').'.website_title') }}</title>
 
     @yield('css')
 
-    <link href="{{ asset(elixir('css/admin.css')) }}" rel="stylesheet">
+    <link href="{{ app()->isLocal() ? asset('css/admin.css') : asset(elixir('css/admin.css')) }}" rel="stylesheet">
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
