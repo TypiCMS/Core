@@ -16,9 +16,9 @@ abstract class BaseApiController extends Controller
     }
 
     /**
-     * Get models.
+     * List resources
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -32,7 +32,7 @@ abstract class BaseApiController extends Controller
      *
      * @param  $model
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($model)
     {
@@ -44,7 +44,7 @@ abstract class BaseApiController extends Controller
      *
      * @param  $model
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function edit($model)
     {
