@@ -1,1 +1,1 @@
-{{ Notification::showAll('<div class="alert alert-:type">:message</div>') }}
+{!! Notification::showAll('<div class="alert alert-:type">:message</div>') !!}
