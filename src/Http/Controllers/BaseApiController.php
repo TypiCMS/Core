@@ -16,7 +16,7 @@ abstract class BaseApiController extends Controller
     }
 
     /**
-     * List resources
+     * List resources.
      *
      * @return \Illuminate\Http\JsonResponse
      */
