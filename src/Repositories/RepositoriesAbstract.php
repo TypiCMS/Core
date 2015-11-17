@@ -476,10 +476,8 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      * @param Model  $model
      * @param array  $data
      * @param string $table
-     *
-     * @return false|null
      */
-    protected function syncRelation($model, array $data, $table = null)
+    public function syncRelation($model, array $data, $table = null)
     {
         if (!method_exists($model, $table)) {
             return false;

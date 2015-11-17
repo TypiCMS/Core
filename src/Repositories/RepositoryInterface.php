@@ -224,4 +224,13 @@ interface RepositoryInterface
      * @return bool
      */
     public function delete($model);
+
+    /**
+     * Sync related items for model.
+     *
+     * @param Model  $model
+     * @param array  $data
+     * @param string $table
+     */
+    public function syncRelation($model, array $data, $table = null);
 }
