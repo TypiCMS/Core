@@ -421,7 +421,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
      * @param string $value      witch column as value ?
      * @param string $key        witch column as key ?
      *
-     * @return array array with key = $key and value = $value
+     * @return array
      */
     public function select($method = 'all', $firstEmpty = false, $value = 'title', $key = 'id')
     {
