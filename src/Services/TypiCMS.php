@@ -79,12 +79,12 @@ class TypiCMS
      *
      * @return array
      */
-    public function getModulesForSelect()
+    public function getModulesForSelect($resource = 'page')
     {
         $modules = config('typicms.modules');
         $options = ['' => ''];
         foreach ($modules as $module => $properties) {
-            if (in_array('linkable_to_page', $properties)) {
+            if (in_array('linkable_to_'.$resource, $properties)) {
                 $options[$module] = trans($module.'::global.name');
             }
         }
