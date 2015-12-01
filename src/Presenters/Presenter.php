@@ -173,6 +173,16 @@ abstract class Presenter extends BasePresenter
     /**
      * Return absolute url of a thumb.
      *
+     * @deprecated
+     */
+    public function thumbAbsoluteSrc($width = null, $height = null, array $options = [], $field = 'image')
+    {
+        return $this->thumbUrl($width, $height, $options, $field);
+    }
+
+    /**
+     * Return url of a thumb.
+     *
      * @param int    $width   width of image, null for auto
      * @param int    $height  height of image, null for auto
      * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
@@ -180,7 +190,7 @@ abstract class Presenter extends BasePresenter
      *
      * @return string HTML markup of an image
      */
-    public function thumbAbsoluteSrc($width = null, $height = null, array $options = [], $field = 'image')
+    public function thumbUrl($width = null, $height = null, array $options = [], $field = 'image')
     {
         $src = $this->thumbSrc($width, $height, $options, $field);
 
