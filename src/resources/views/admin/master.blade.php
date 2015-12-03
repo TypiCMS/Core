@@ -59,7 +59,13 @@
 
         </div>
 
-        @include('core::admin._footer')
+        <script src="{{ asset(elixir('js/admin/components.min.js')) }}"></script>
+
+        @if(config('typicms.admin_locale') != 'en')
+            <script src="@if(app()->environment('production')){{ asset(elixir('js/admin/components.min.js')) }}@else{{ asset('js/admin/components.min.js') }}@endif"></script>
+        @endif
+
+        @yield('js')
 
         <script type="text/javascript">
             {!! Notification::showError('alertify.error(\':message\');') !!}
