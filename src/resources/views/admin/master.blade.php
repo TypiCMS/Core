@@ -59,10 +59,10 @@
 
         </div>
 
-        <script src="{{ asset(elixir('js/admin/components.min.js')) }}"></script>
+        <script src="@if(app()->environment('production')){{ asset(elixir('js/admin/components.min.js')) }}@else{{ asset('js/admin/components.min.js') }}@endif"></script>
 
         @if(config('typicms.admin_locale') != 'en')
-            <script src="@if(app()->environment('production')){{ asset(elixir('js/admin/components.min.js')) }}@else{{ asset('js/admin/components.min.js') }}@endif"></script>
+            <script src="{{ asset('js/angular-locales/angular-locale_' . config('typicms.admin_locale') . '-' . config('typicms.admin_locale') . '.js') }}"></script>
         @endif
 
         @yield('js')
