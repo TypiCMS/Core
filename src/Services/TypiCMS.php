@@ -137,6 +137,7 @@ class TypiCMS
     public function getPageLinkedToModule($module = null)
     {
         $pages = $this->getPagesLinkedToModule($module);
+
         return reset($pages);
     }
 
