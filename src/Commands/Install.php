@@ -14,14 +14,14 @@ class Install extends Command
      *
      * @var string
      */
-    protected $name = 'typicms:install';
+    protected $name = 'admintool:install';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Installation of TypiCMS: initial Laravel setup, composer, bower, npm';
+    protected $description = 'Installation of Admintool4: initial Laravel setup, composer, bower, npm';
 
     /**
      * The filesystem instance.
@@ -61,7 +61,7 @@ class Install extends Command
     public function fire()
     {
         $this->line('------------------');
-        $this->line('Welcome to TypiCMS');
+        $this->line('Welcome to Admintool4');
         $this->line('------------------');
 
         $this->info('Publishing vendor packages...');
@@ -114,7 +114,7 @@ class Install extends Command
 
         // Done
         $this->line('------------------');
-        $this->line('Done. Enjoy TypiCMS!');
+        $this->line('Done. Enjoy Admintool4!');
     }
 
     /**
