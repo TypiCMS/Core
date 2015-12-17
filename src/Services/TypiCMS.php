@@ -128,21 +128,39 @@ class TypiCMS
     }
 
     /**
-     * Return an array of pages linked to modules.
+     * Return the first page found linked to a module.
      *
      * @param string $module
      *
-     * @return array|null
+     * @return \TypiCMS\Modules\Pages\Models\Page
      */
     public function getPageLinkedToModule($module = null)
     {
+        $pages = $this->getPagesLinkedToModule($module);
+
+        return reset($pages);
+    }
+
+    /**
+     * Return an array of pages linked to a module.
+     *
+     * @param string $module
+     *
+     * @return array
+     */
+    public function getPagesLinkedToModule($module = null)
+    {
         $module = strtolower($module);
         $routes = app('typicms.routes');
-        if (isset($routes[$module])) {
-            return $routes[$module];
+
+        $pages = [];
+        foreach ($routes as $page) {
+            if ($page->module == $module) {
+                $pages[] = $page;
+            }
         }
 
-        return;
+        return $pages;
     }
 
     /**
