@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Providers;
 
+use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Config;
@@ -165,7 +166,11 @@ class ModuleProvider extends ServiceProvider
     private function registerModuleRoutes()
     {
         $this->app->singleton('typicms.routes', function (Application $app) {
-            return $app->make('TypiCMS\Modules\Pages\Repositories\PageInterface')->getForRoutes();
+            try {
+                return $app->make('TypiCMS\Modules\Pages\Repositories\PageInterface')->getForRoutes();
+            } catch (Exception $e) {
+                return [];
+            }
         });
     }
 
