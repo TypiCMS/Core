@@ -32,7 +32,9 @@ class PublicLocale
         App::setlocale($locale);
 
         // Not very reliable, need to be refactored
-        setlocale(LC_ALL, $locale.'_'.strtoupper($locale).'.utf8');
+        $combinedLocale = $locale.'_'.strtoupper($locale);
+
+        setlocale(LC_ALL, $combinedLocale.'.utf8', $combinedLocale.'.utf-8', $combinedLocale);
 
         // Throw a 404 if website in this language is offline
         if (!config('typicms.'.$locale.'.status')) {
