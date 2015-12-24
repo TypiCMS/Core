@@ -22,6 +22,7 @@ class Authorization
         if (!$user->hasAccess($value)) {
             abort(403);
         }
+
         return $next($request);
     }
 }
