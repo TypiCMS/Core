@@ -28,8 +28,6 @@ class PublicAccess
             return Redirect::guest(route('login'));
         }
 
-        $response = $next($request);
-
-        return $response;
+        return $next($request);
     }
 }
