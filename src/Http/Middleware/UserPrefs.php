@@ -3,9 +3,9 @@
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
-class Authorization
+class UserPrefs
 {
     /**
      * Handle an incoming request.
@@ -17,10 +17,9 @@ class Authorization
      */
     public function handle($request, Closure $next)
     {
-        $value = str_replace(['api.', 'admin.'], '', $request->route()->getName());
-        $user = Auth::user();
-        if ($user && !$user->hasAccess($value)) {
-            abort(403);
+        // set curent user preferences to Config
+        if ($user = $request->user()) {
+            Config::set('typicms.user', $user->preferences);
         }
 
         return $next($request);
