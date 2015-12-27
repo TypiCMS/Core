@@ -59,6 +59,8 @@
 
         </div>
 
+        @include('core::admin._javascript')
+
         <script src="@if(app()->environment('production')){{ asset(elixir('js/admin/components.min.js')) }}@else{{ asset('js/admin/components.min.js') }}@endif"></script>
 
         @if(config('typicms.admin_locale') != 'en')
