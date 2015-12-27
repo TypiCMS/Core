@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Support\Facades\Crypt;
 use JavaScript;
 
-class JavaScript
+class JavaScriptData
 {
     /**
      * Handle an incoming request.
