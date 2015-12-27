@@ -4,7 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
 
-class Registration
+class RegistrationAllowed
 {
     /**
      * Handle an incoming request.
