@@ -23,7 +23,7 @@ abstract class Base extends Model
     public function previewUri()
     {
         if (!$this->id) {
-            return;
+            return '/';
         }
 
         return url($this->uri());
@@ -32,7 +32,7 @@ abstract class Base extends Model
     /**
      * Get public uri.
      *
-     * @return string|null
+     * @return string
      */
     public function uri($locale = null)
     {
@@ -42,7 +42,7 @@ abstract class Base extends Model
             return $page->uri($locale).'/'.$this->translate($locale)->slug;
         }
 
-        return;
+        return '/';
     }
 
     /**
