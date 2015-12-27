@@ -414,21 +414,6 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Build a select menu for a module.
-     *
-     * @param string $method     with method to call from the repository ?
-     * @param bool   $firstEmpty generate an empty item
-     * @param string $value      witch column as value ?
-     * @param string $key        witch column as key ?
-     *
-     * @return array
-     */
-    public function select($method = 'all', $firstEmpty = false, $value = 'title', $key = 'id')
-    {
-        return $this->repo->select($method, $firstEmpty, $value, $key);
-    }
-
-    /**
      * Get all translated pages for a select/options.
      *
      * @return array
