@@ -421,22 +421,6 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     }
 
     /**
-     * Get all translated pages for a select/options.
-     *
-     * @return array
-     */
-    public function getPagesForSelect()
-    {
-        $pages = app('TypiCMS\Modules\Pages\Repositories\PageInterface')
-            ->all([], true)
-            ->nest()
-            ->listsFlattened();
-        $pages = ['' => ' '] + $pages;
-
-        return $pages;
-    }
-
-    /**
      * Delete model.
      *
      * @return bool

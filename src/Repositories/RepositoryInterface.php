@@ -200,13 +200,6 @@ interface RepositoryInterface
     public function sort(array $data);
 
     /**
-     * Get all translated pages for a select/options.
-     *
-     * @return array
-     */
-    public function getPagesForSelect();
-
-    /**
      * Delete model.
      *
      * @return bool

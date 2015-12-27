@@ -414,16 +414,6 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
-     * Get all translated pages for a select/options.
-     *
-     * @return array
-     */
-    public function getPagesForSelect()
-    {
-        return $this->repo->getPagesForSelect();
-    }
-
-    /**
      * Delete model.
      *
      * @return bool
