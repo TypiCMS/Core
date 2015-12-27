@@ -23,18 +23,6 @@ class TypiCMS
     }
 
     /**
-     * Get Homepage URL.
-     *
-     * @deprecated
-     *
-     * @return string
-     */
-    public function homepage()
-    {
-        return $this->homeUrl();
-    }
-
-    /**
      * Return online public locales.
      *
      * @return array
