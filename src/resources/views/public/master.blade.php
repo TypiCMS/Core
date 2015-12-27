@@ -41,11 +41,11 @@
 
 </head>
 
-<body class="body-{{ $lang }} @yield('bodyClass') @if(Auth::user() and Auth::user()->hasRole('Admin') and ! Input::get('preview'))has-navbar @endif">
+<body class="body-{{ $lang }} @yield('bodyClass') @if(Auth::user() and Auth::user()->hasRole('Admin') and ! Request::input('preview'))has-navbar @endif">
 
     <a href="#content" class="skip-to-content">@lang('db.Skip to content')</a>
 
-@if(Auth::user() and Auth::user()->hasRole('Admin') and ! Input::get('preview'))
+@if(Auth::user() and Auth::user()->hasRole('Admin') and ! Request::input('preview'))
     @include('core::_navbar')
 @endif
 
@@ -90,7 +90,7 @@
 
     <script src="@if(app()->environment('production')){{ asset(elixir('js/public/components.min.js')) }}@else{{ asset('js/public/components.min.js') }}@endif"></script>
     <script src="@if(app()->environment('production')){{ asset(elixir('js/public/master.js')) }}@else{{ asset('js/public/master.js') }}@endif"></script>
-    @if (Input::get('preview'))
+    @if (Request::input('preview'))
     <script src="{{ asset('js/public/previewmode.js') }}"></script>
     @endif
 
