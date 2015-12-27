@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 abstract class AbstractFormRequest extends FormRequest
 {
     /**
-     * Authorize.
+     * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
