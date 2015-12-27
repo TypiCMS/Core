@@ -171,16 +171,6 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Return absolute url of a thumb.
-     *
-     * @deprecated
-     */
-    public function thumbAbsoluteSrc($width = null, $height = null, array $options = [], $field = 'image')
-    {
-        return $this->thumbUrl($width, $height, $options, $field);
-    }
-
-    /**
      * Return url of a thumb.
      *
      * @param int    $width   width of image, null for auto
