@@ -5,7 +5,6 @@ namespace TypiCMS\Modules\Core\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
 class AdminLocale
@@ -20,10 +19,11 @@ class AdminLocale
      */
     public function handle($request, Closure $next)
     {
-        // If locale is present in app.locales…
-        if (in_array(Request::input('locale'), config('translatable.locales'))) {
-            // …store locale in session
-            Session::put('locale', Request::input('locale'));
+        $locale = $request->input('locale');
+
+        // If requested locale is present in app.locales, store locale in session.
+        if (in_array($locale, config('translatable.locales'))) {
+            Session::put('locale', $locale);
         }
 
         // Set app.locale to admin_locale

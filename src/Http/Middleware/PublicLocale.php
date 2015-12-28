@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Request;
 
 class PublicLocale
 {
@@ -20,7 +19,7 @@ class PublicLocale
      */
     public function handle($request, Closure $next)
     {
-        $firstSegment = Request::segment(1);
+        $firstSegment = $request->segment(1);
 
         if (in_array($firstSegment, config('translatable.locales'))) {
             $locale = $firstSegment;
@@ -41,8 +40,8 @@ class PublicLocale
         }
 
         // Remove preview param if no admin user connected
-        if (Request::input('preview') && !Auth::check()) {
-            return Redirect::to(Request::path());
+        if ($request->input('preview') && !Auth::check()) {
+            return Redirect::to($request->path());
         }
 
         return $next($request);
