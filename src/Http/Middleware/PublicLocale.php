@@ -21,18 +21,18 @@ class PublicLocale
     {
         $firstSegment = $request->segment(1);
 
-        if (in_array($firstSegment, config('translatable.locales'))) {
-            $locale = $firstSegment;
-        } else {
-            $locale = config('app.fallback_locale');
+        if (!in_array($firstSegment, config('translatable.locales'))) {
+            return $next($request);
         }
+
+        $locale = $firstSegment;
 
         App::setlocale($locale);
 
         // Not very reliable, need to be refactored
-        $combinedLocale = $locale.'_'.strtoupper($locale);
+        $localeAndCountry = $locale.'_'.strtoupper($locale);
 
-        setlocale(LC_ALL, $combinedLocale.'.utf8', $combinedLocale.'.utf-8', $combinedLocale);
+        setlocale(LC_ALL, $localeAndCountry.'.utf8', $localeAndCountry.'.utf-8', $localeAndCountry);
 
         // Throw a 404 if website in this language is offline
         if (!config('typicms.'.$locale.'.status')) {
