@@ -3,9 +3,7 @@
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Session;
 
 class AdminLocale
 {
@@ -23,14 +21,14 @@ class AdminLocale
 
         // If requested locale is present in app.locales, store locale in session.
         if (in_array($locale, config('translatable.locales'))) {
-            Session::put('locale', $locale);
+            $request->session()->put('locale', $locale);
         }
 
         // Set app.locale to admin_locale
-        App::setLocale(config('typicms.admin_locale'));
+        app()->setLocale(config('typicms.admin_locale'));
 
         // Set translatable locale to locale
-        Config::set('translatable.locale', Session::get('locale', config('app.locale')));
+        Config::set('translatable.locale', $request->session()->get('locale', config('app.locale')));
 
         return $next($request);
     }
