@@ -4,7 +4,7 @@
 
 @section('bodyClass', 'error-500')
 
-@section('languagesMenu') @stop
+@section('langSwitcher') @stop
 
 @section('main')
 

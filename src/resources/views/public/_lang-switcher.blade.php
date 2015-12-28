@@ -1,5 +1,5 @@
 @if ($onlineLocales = TypiCMS::getOnlineLocales() and count($onlineLocales) > 1)
-<nav class="nav-languages dropdown">
+<nav class="lang-switcher dropdown">
     <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
         {{ $lang }}
         <span class="caret"></span>

@@ -49,14 +49,14 @@
     @include('core::_navbar')
 @endif
 
-    <div class="container" id="content">
+    <div class="main-container" id="content">
 
-        @section('header')
-        <header class="header-main">
+        @section('mainHeader')
+        <header class="main-header">
             <h1>
                 <a href="{{ TypiCMS::homeUrl() }}">
                     @if (TypiCMS::hasLogo())
-                        <img src="{{ url('uploads/settings/'.config('typicms.image')) }}" width="" height="150" alt="{{ TypiCMS::title() }}">
+                        <img class="logo" src="{{ url('uploads/settings/'.config('typicms.image')) }}" width="" height="150" alt="{{ TypiCMS::title() }}">
                     @else
                         {{ TypiCMS::title() }}
                     @endif
@@ -65,12 +65,12 @@
         </header>
         @show
 
-        @section('languagesMenu')
-            @include('core::public._languages-menu')
+        @section('langSwitcher')
+            @include('core::public._lang-switcher')
         @show
 
-        @section('mainMenu')
-        <nav class="nav-main">
+        @section('mainNav')
+        <nav class="main-nav">
             {!! Menus::render('main') !!}
         </nav>
         @show
@@ -79,12 +79,12 @@
 
         @yield('main')
 
-        @section('footer')
-        <footer class="footer-main">
-            <nav class="nav-social">
+        @section('mainFooter')
+        <footer class="main-footer">
+            <nav class="social-nav">
                 {!! Menus::render('social') !!}
             </nav>
-            <nav class="nav-footer">
+            <nav class="footer-nav">
                 {!! Menus::render('footer') !!}
             </nav>
         </footer>

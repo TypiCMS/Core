@@ -1,35 +1,23 @@
 @extends('core::public.master')
 
-@section('languagesMenu') @stop
-@section('header')        @stop
-@section('mainMenu')      @stop
-@section('footer')        @stop
+@section('langSwitcher') @stop
+@section('mainHeader') @stop
+@section('mainNav') @stop
+@section('mainFooter') @stop
+@section('bodyClass') lang-chooser @stop
 
 @section('main')
 
-    <div class="row">
-
-        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-
-            <div class="page-header">
-
-                <h1 class="text-center">Choose language</h1>
-
-            </div>
-
-
-            <div class="btn-group btn-group-justified">
-
-                @foreach ($locales as $locale)
-
-                <a href="{{ url($homepage->uri($locale)) }}" class="btn btn-default btn-lg">{{ trans('db.languages.'.$locale) }}</a>
-
-                @endforeach
-
-            </div>
-
-        </div>
-
+    <div class="page-header lang-chooser-header">
+        <h1 class="lang-chooser-title">Choose language</h1>
     </div>
+
+    <ul class="lang-chooser-list">
+        @foreach ($locales as $locale)
+            <li class="lang-chooser-list-item">
+                <a class="lang-chooser-list-anchor" href="{{ url($homepage->uri($locale)) }}">{{ trans('db.languages.'.$locale) }}</a>
+            </li>
+        @endforeach
+    </ul>
 
 @stop
