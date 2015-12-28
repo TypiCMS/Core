@@ -11,8 +11,6 @@ abstract class BaseAdminController extends Controller
 
     public function __construct($repository = null)
     {
-        $this->middleware('web');
-        $this->middleware('auth');
         $this->middleware('admin');
         $this->repository = $repository;
     }

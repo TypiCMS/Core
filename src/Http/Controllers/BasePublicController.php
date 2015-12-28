@@ -10,7 +10,6 @@ abstract class BasePublicController extends Controller
 
     public function __construct($repository = null)
     {
-        $this->middleware('web');
         $this->middleware('public');
         $this->repository = $repository;
     }
