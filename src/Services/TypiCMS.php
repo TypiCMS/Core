@@ -23,6 +23,18 @@ class TypiCMS
     }
 
     /**
+     * Get Homepage URL.
+     *
+     * @deprecated
+     *
+     * @return string
+     */
+    public function homepage()
+    {
+        return $this->homeUrl();
+    }
+
+    /**
      * Return online public locales.
      *
      * @return array
@@ -82,17 +94,13 @@ class TypiCMS
     }
 
     /**
-     * Get logo from settings.
+     * Check if there is a logo.
      *
-     * @return string
+     * @return bool
      */
-    public function logo()
+    public function hasLogo()
     {
-        if (config('typicms.image')) {
-            return '<img src="'.url('uploads/settings/'.config('typicms.image')).'" alt="'.$this->title().'">';
-        }
-
-        return;
+        return (bool) config('typicms.image');
     }
 
     /**
@@ -103,16 +111,6 @@ class TypiCMS
     public function title()
     {
         return config('typicms.'.config('app.locale').'.website_title');
-    }
-
-    /**
-     * Get title from settings.
-     *
-     * @return string
-     */
-    public function logoOrTitle()
-    {
-        return $this->logo() ?: $this->title();
     }
 
     /**

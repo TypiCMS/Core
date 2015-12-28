@@ -55,7 +55,11 @@
         <header class="header-main">
             <h1>
                 <a href="{{ TypiCMS::homeUrl() }}">
-                    {!! TypiCMS::logoOrTitle() !!}
+                    @if (TypiCMS::hasLogo())
+                        <img src="{{ url('uploads/settings/'.config('typicms.image')) }}" width="" height="150" alt="{{ TypiCMS::title() }}">
+                    @else
+                        {{ TypiCMS::title() }}
+                    @endif
                 </a>
             </h1>
         </header>
