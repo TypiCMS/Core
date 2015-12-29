@@ -193,8 +193,7 @@ class ModuleProvider extends ServiceProvider
         $app->register('TypiCMS\Modules\Dashboard\Providers\ModuleProvider');
         $app->register('TypiCMS\Modules\Menus\Providers\ModuleProvider');
         $app->register('TypiCMS\Modules\Sitemap\Providers\ModuleProvider');
-        // Pages and menulinks need to be at last for routing to work.
-        $app->register('TypiCMS\Modules\Menulinks\Providers\ModuleProvider');
+        // Pages module needs to be at last for routing to work.
         $app->register('TypiCMS\Modules\Pages\Providers\ModuleProvider');
     }
 }
