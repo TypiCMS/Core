@@ -49,21 +49,4 @@ abstract class BaseApiController extends Controller
     {
         return response()->json($model, 200);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  $model
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function destroy($model)
-    {
-        $this->repository->delete($model);
-
-        return response()->json([
-            'error'   => false,
-            'message' => 'Item deleted',
-        ], 200);
-    }
 }
