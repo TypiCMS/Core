@@ -30,33 +30,6 @@ abstract class BaseAdminController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create($parent = null)
-    {
-        $module = $this->repository->getTable();
-        $model = $this->repository->getModel();
-
-        return view('core::admin.create')
-            ->with(compact('model', 'module'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  $model
-     *
-     * @return \Illuminate\View\View
-     */
-    public function edit($model, $child = null)
-    {
-        return view('core::admin.edit')
-            ->with(compact('model'));
-    }
-
-    /**
      * Show resource.
      *
      * @param  $model
