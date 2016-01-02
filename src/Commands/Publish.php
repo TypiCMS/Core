@@ -133,7 +133,7 @@ class Publish extends Command
     }
 
     /**
-     * Run composer remove for a module.
+     * Remove a module from composer.
      *
      * @param string $module
      */
