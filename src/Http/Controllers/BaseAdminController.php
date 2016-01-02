@@ -30,32 +30,6 @@ abstract class BaseAdminController extends Controller
     }
 
     /**
-     * Show resource.
-     *
-     * @param  $model
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function show($model, $child = null)
-    {
-        return redirect($model->editUrl());
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  $model
-     *
-     * @return \Illuminate\Http\RedirectResponse|null
-     */
-    public function destroy($model, $child = null)
-    {
-        if ($this->repository->delete($model)) {
-            return back();
-        }
-    }
-
-    /**
      * Sort list.
      *
      * @return \Symfony\Component\HttpFoundation\Response
