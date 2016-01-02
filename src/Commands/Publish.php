@@ -22,16 +22,15 @@ class Publish extends Command
      *
      * @var string
      */
-    protected $signature = 'typicms:publish {module : The name of the module}
-            {--force : Overwrite any existing files.}
-            {--module=* : One or many modules that you want to publish.}';
+    protected $signature = 'typicms:publish {module : The module that you want to publish}
+            {--force : Overwrite any existing files.}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Publish a module from its vendor directory to the Modules directory.';
+    protected $description = 'Move a module from the vendor directory to the /Modules directory.';
 
     /**
      * Create a new key generator command.
