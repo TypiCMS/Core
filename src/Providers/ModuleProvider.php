@@ -11,6 +11,7 @@ use TypiCMS\Modules\Core\Commands\CacheKeyPrefix;
 use TypiCMS\Modules\Core\Commands\ClearHtml;
 use TypiCMS\Modules\Core\Commands\Database;
 use TypiCMS\Modules\Core\Commands\Install;
+use TypiCMS\Modules\Core\Commands\Publish;
 use TypiCMS\Modules\Core\Services\TypiCMS;
 use TypiCMS\Modules\Core\Services\Upload\FileUpload;
 use TypiCMS\Modules\Users\Models\User;
@@ -57,6 +58,7 @@ class ModuleProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
         $this->commands('command.install');
+        $this->commands('command.publish');
         $this->commands('command.cachekeyprefix');
         $this->commands('command.database');
         $this->commands('command.clearhtml');
@@ -144,6 +146,11 @@ class ModuleProvider extends ServiceProvider
         $this->app->bind('command.install', function (Application $app) {
             return new Install(
                 new EloquentUser(new User()),
+                new Filesystem()
+            );
+        });
+        $this->app->bind('command.publish', function (Application $app) {
+            return new Publish(
                 new Filesystem()
             );
         });
