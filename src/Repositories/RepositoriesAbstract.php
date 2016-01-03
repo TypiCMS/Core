@@ -128,7 +128,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     public function adjacent($direction, $model, $category_id = null, array $with = [], $all = false)
     {
         $currentModel = $model;
-        if ($category_id) {
+        if ($category_id !== null) {
             $with[] = 'category';
             $with[] = 'category.translations';
             $models = $this->allBy('category_id', $category_id, $with, $all);
