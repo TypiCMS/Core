@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class Authorization
@@ -15,7 +16,7 @@ class Authorization
      *
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         $value = str_replace(['api.', 'admin.'], '', $request->route()->getName());
         $user = Auth::user();

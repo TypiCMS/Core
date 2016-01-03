@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 
 class UserPrefs
@@ -15,7 +16,7 @@ class UserPrefs
      *
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         // set curent user preferences to Config
         if ($user = $request->user()) {

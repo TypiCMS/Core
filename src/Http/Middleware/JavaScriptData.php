@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use JavaScript;
 
@@ -16,7 +17,7 @@ class JavaScriptData
      *
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         $locales = [];
         foreach (config('translatable.locales') as $locale) {
