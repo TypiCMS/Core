@@ -41,14 +41,14 @@ abstract class BaseAdminController extends Controller
         return response()->json([
             'error'   => false,
             'message' => trans('global.Items sorted'),
-        ], 200);
+        ]);
     }
 
     /**
      * Redirect after a form is saved.
      *
-     * @param  $request
-     * @param  $model
+     * @param $request
+     * @param $model
      *
      * @return \Illuminate\Http\RedirectResponse
      */
