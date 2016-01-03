@@ -54,7 +54,7 @@ class PublicCache
      *
      * @return bool
      */
-    private function queryStringIsEmptyOrOnlyPage($request)
+    private function queryStringIsEmptyOrOnlyPage(Request $request)
     {
         $nbInputs = count($request->input());
         if ($nbInputs == 0) {
