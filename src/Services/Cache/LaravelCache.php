@@ -26,7 +26,7 @@ class LaravelCache implements CacheInterface
     /**
      * Retrieve data from cache.
      *
-     * @param string    Cache item key
+     * @param string $key Cache item key
      *
      * @return mixed PHP data result of cache
      */
@@ -38,10 +38,9 @@ class LaravelCache implements CacheInterface
     /**
      * Add data to the cache.
      *
-     * @param string    Cache item key
-     * @param mixed     The data to store
-     * @param int   The number of minutes to store the item
-     * @param stdClass $value
+     * @param string $key     Cache item key
+     * @param mixed  $value   The data to store
+     * @param int    $minutes The number of minutes to store the item
      *
      * @return mixed $value variable returned for convenience
      */
