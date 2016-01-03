@@ -36,8 +36,6 @@ class Publish extends Command
      * Create a new key generator command.
      *
      * @param \Illuminate\Filesystem\Filesystem $files
-     *
-     * @return void
      */
     public function __construct(Filesystem $files)
     {

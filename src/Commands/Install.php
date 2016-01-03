@@ -26,7 +26,7 @@ class Install extends Command
     /**
      * The filesystem instance.
      *
-     * @var Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
@@ -41,9 +41,7 @@ class Install extends Command
      * Create a new key generator command.
      *
      * @param \TypiCMS\Modules\Users\Repositories\UserInterface $user
-     * @param Filesystem                                        $files
-     *
-     * @return void
+     * @param \Illuminate\Filesystem\Filesystem                 $files
      */
     public function __construct(UserInterface $user, Filesystem $files)
     {
