@@ -222,7 +222,7 @@ abstract class Presenter extends BasePresenter
      * @param int    $size  icon size
      * @param string $field column name
      *
-     * @return string HTML markup of an image
+     * @return string
      */
     public function icon($size = 2, $field = 'document')
     {
@@ -243,7 +243,7 @@ abstract class Presenter extends BasePresenter
     /**
      * Return body content with dynamic links.
      *
-     * @return string HTML markup of an image
+     * @return string
      */
     public function body()
     {
@@ -252,15 +252,17 @@ abstract class Presenter extends BasePresenter
         $patterns = [];
         $replacements = [];
         $lang = config('app.locale');
-        foreach ($matches as $match) {
-            $patterns[] = $match[0];
-            $module = $match[1];
-            $repository = app('TypiCMS\Modules\\'.ucfirst(str_plural($module)).'\Repositories\\'.ucfirst($module).'Interface');
-            $model = $repository->byId($match[2]);
-            if ($module == 'page') {
-                $replacements[] = url($model->uri($lang));
-            } else {
-                $replacements[] = route($lang.'.'.$module.'.slug', $model->slug);
+        if (is_array($matches)) {
+            foreach ($matches as $match) {
+                $patterns[] = $match[0];
+                $module = $match[1];
+                $repository = app('TypiCMS\Modules\\'.ucfirst(str_plural($module)).'\Repositories\\'.ucfirst($module).'Interface');
+                $model = $repository->byId($match[2]);
+                if ($module == 'page') {
+                    $replacements[] = url($model->uri($lang));
+                } else {
+                    $replacements[] = route($lang.'.'.$module.'.slug', $model->slug);
+                }
             }
         }
 
