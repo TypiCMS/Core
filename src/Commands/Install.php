@@ -38,7 +38,7 @@ class Install extends Command
     protected $user;
 
     /**
-     * Create a new key generator command.
+     * Create a new command.
      *
      * @param \TypiCMS\Modules\Users\Repositories\UserInterface $user
      * @param \Illuminate\Filesystem\Filesystem                 $files
@@ -74,10 +74,6 @@ class Install extends Command
 
         // Set database credentials in .env and migrate
         $this->call('typicms:database', ['database' => $dbName]);
-        $this->line('------------------');
-
-        // Set app key in .env
-        $this->call('key:generate');
         $this->line('------------------');
 
         // Create a super user
