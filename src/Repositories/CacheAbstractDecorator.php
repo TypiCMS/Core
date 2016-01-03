@@ -137,7 +137,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
         // Item not cached, retrieve it
         $model = $this->repo->adjacent($direction, $model, $category_id, $with, $all);
 
-        $this->cache->put($cacheKey, $prev);
+        $this->cache->put($cacheKey, $model);
 
         return $model;
     }
