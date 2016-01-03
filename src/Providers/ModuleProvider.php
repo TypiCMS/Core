@@ -90,7 +90,7 @@ class ModuleProvider extends ServiceProvider
         | TypiCMS utilities.
         |--------------------------------------------------------------------------
         */
-        $this->app->singleton('typicms', function (Application $app) {
+        $this->app->singleton('typicms', function () {
             return new TypiCMS();
         });
 
@@ -99,7 +99,7 @@ class ModuleProvider extends ServiceProvider
         | TypiCMS upload service.
         |--------------------------------------------------------------------------
         */
-        $this->app->singleton('upload.file', function (Application $app) {
+        $this->app->singleton('upload.file', function () {
             return new FileUpload();
         });
 
@@ -143,13 +143,13 @@ class ModuleProvider extends ServiceProvider
      */
     private function registerCommands()
     {
-        $this->app->bind('command.install', function (Application $app) {
+        $this->app->bind('command.install', function () {
             return new Install(
                 new EloquentUser(new User()),
                 new Filesystem()
             );
         });
-        $this->app->bind('command.publish', function (Application $app) {
+        $this->app->bind('command.publish', function () {
             return new Publish(
                 new Filesystem()
             );
