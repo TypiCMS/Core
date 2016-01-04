@@ -41,32 +41,36 @@
 
 </head>
 
-<body class="body-{{ $lang }} @yield('bodyClass') @if(Auth::user() and Auth::user()->hasRole('Admin') and ! Input::get('preview'))has-navbar @endif">
+<body class="body-{{ $lang }} @yield('bodyClass') @if(Auth::user() and Auth::user()->hasRole('Admin') and ! Request::input('preview'))has-navbar @endif">
 
     <a href="#content" class="skip-to-content">@lang('db.Skip to content')</a>
 
-@if(Auth::user() and Auth::user()->hasRole('Admin') and ! Input::get('preview'))
+@if(Auth::user() and Auth::user()->hasRole('Admin') and ! Request::input('preview'))
     @include('core::_navbar')
 @endif
 
-    <div class="container" id="content">
+    <div class="main-container" id="content">
 
-        @section('header')
-        <header class="header-main">
+        @section('mainHeader')
+        <header class="main-header">
             <h1>
                 <a href="{{ TypiCMS::homeUrl() }}">
-                    {!! TypiCMS::logoOrTitle() !!}
+                    @if (TypiCMS::hasLogo())
+                        <img class="logo" src="{{ url('uploads/settings/'.config('typicms.image')) }}" width="" height="150" alt="{{ TypiCMS::title() }}">
+                    @else
+                        {{ TypiCMS::title() }}
+                    @endif
                 </a>
             </h1>
         </header>
         @show
 
-        @section('languagesMenu')
-            @include('core::public._languages-menu')
+        @section('langSwitcher')
+            @include('core::public._lang-switcher')
         @show
 
-        @section('mainMenu')
-        <nav class="nav-main">
+        @section('mainNav')
+        <nav class="main-nav">
             {!! Menus::render('main') !!}
         </nav>
         @show
@@ -75,12 +79,12 @@
 
         @yield('main')
 
-        @section('footer')
-        <footer class="footer-main">
-            <nav class="nav-social">
+        @section('mainFooter')
+        <footer class="main-footer">
+            <nav class="social-nav">
                 {!! Menus::render('social') !!}
             </nav>
-            <nav class="nav-footer">
+            <nav class="footer-nav">
                 {!! Menus::render('footer') !!}
             </nav>
         </footer>
@@ -90,7 +94,7 @@
 
     <script src="@if(app()->environment('production')){{ asset(elixir('js/public/components.min.js')) }}@else{{ asset('js/public/components.min.js') }}@endif"></script>
     <script src="@if(app()->environment('production')){{ asset(elixir('js/public/master.js')) }}@else{{ asset('js/public/master.js') }}@endif"></script>
-    @if (Input::get('preview'))
+    @if (Request::input('preview'))
     <script src="{{ asset('js/public/previewmode.js') }}"></script>
     @endif
 

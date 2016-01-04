@@ -4,8 +4,8 @@
 
 @section('main')
 
+    @include('core::admin._button-back', ['table' => $model->getTable()])
     <h1>
-        @include('core::admin._button-back', ['table' => $model->getTable()])
         @lang($model->getTable() . '::global.New')
     </h1>
 

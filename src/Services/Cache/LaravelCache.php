@@ -26,9 +26,9 @@ class LaravelCache implements CacheInterface
     /**
      * Retrieve data from cache.
      *
-     * @param string    Cache item key
+     * @param string $key Cache item key
      *
-     * @return mixed PHP data result of cache
+     * @return mixed
      */
     public function get($key)
     {
@@ -38,11 +38,11 @@ class LaravelCache implements CacheInterface
     /**
      * Add data to the cache.
      *
-     * @param string    Cache item key
-     * @param mixed     The data to store
-     * @param int   The number of minutes to store the item
+     * @param string $key     Cache item key
+     * @param mixed  $value   The data to store
+     * @param int    $minutes The number of minutes to store the item
      *
-     * @return mixed $value variable returned for convenience
+     * @return mixed
      */
     public function put($key, $value, $minutes = null)
     {
@@ -57,12 +57,12 @@ class LaravelCache implements CacheInterface
      * Add data to the cache
      * taking pagination data into account.
      *
-     * @param  int  Page of the cached items
-     * @param  int  Number of results per page
-     * @param  int  Total number of possible items
-     * @param  mixed    The actual items for this page
-     * @param  string   Cache item key
-     * @param  int  The number of minutes to store the item
+     * @param int    $currentPage Page of the cached items
+     * @param int    $perPage     Number of results per page
+     * @param int    $totalItems  Total number of possible items
+     * @param mixed  $items       The actual items for this page
+     * @param string $key         Cache item key
+     * @param int    $minutes     The number of minutes to store the item
      *
      * @return stdClass $items variable returned for convenience
      */
@@ -84,7 +84,7 @@ class LaravelCache implements CacheInterface
      * Test if item exists in cache
      * Only returns true if exists && is not expired.
      *
-     * @param string    Cache item key
+     * @param string $key Cache item key
      *
      * @return bool If cache item exists
      */
@@ -96,7 +96,7 @@ class LaravelCache implements CacheInterface
     /**
      * Set tags.
      *
-     * @param array    tags
+     * @param array $tags tags
      *
      * @return false|null If cache item exists
      */
@@ -112,13 +112,13 @@ class LaravelCache implements CacheInterface
     /**
      * Flush cache for tags.
      *
-     * @param string    Cache tags
+     * @param string $tags Cache tags
      *
      * @return bool If cache is flushed
      */
     public function flush($tags = null)
     {
-        if ($tags) {
+        if ($tags !== null) {
             $tags = is_array($tags) ? $tags : func_get_args();
         } else {
             $tags = $this->tags;

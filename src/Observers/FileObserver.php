@@ -6,8 +6,8 @@ use Croppa;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 use TypiCMS\Modules\Core\Facades\FileUpload;
 
 class FileObserver
@@ -67,9 +67,9 @@ class FileObserver
         }
 
         foreach ($attachments as $fieldname) {
-            if (Input::hasFile($fieldname)) {
+            if (Request::hasFile($fieldname)) {
                 // delete prev image
-                $file = FileUpload::handle(Input::file($fieldname), 'uploads/'.$model->getTable());
+                $file = FileUpload::handle(Request::file($fieldname), 'uploads/'.$model->getTable());
                 $model->$fieldname = $file['filename'];
                 if ($model->getTable() == 'files') {
                     $model->fill($file);

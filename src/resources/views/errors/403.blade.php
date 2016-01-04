@@ -7,9 +7,8 @@
 @section('main')
 
     <article class="http-error-message">
-        <h1>@lang('db.Error :code', ['code' => '403'])</h1>
+        <h2>@lang('db.Sorry, you are not authorized to view this page').</h2>
         <p>
-            @lang('db.Sorry, you are not authorized to view this page').<br>
             @lang('db.Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>'])
         </p>
     </article>

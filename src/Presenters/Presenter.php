@@ -171,16 +171,6 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Return absolute url of a thumb.
-     *
-     * @deprecated
-     */
-    public function thumbAbsoluteSrc($width = null, $height = null, array $options = [], $field = 'image')
-    {
-        return $this->thumbUrl($width, $height, $options, $field);
-    }
-
-    /**
      * Return url of a thumb.
      *
      * @param int    $width   width of image, null for auto
@@ -232,7 +222,7 @@ abstract class Presenter extends BasePresenter
      * @param int    $size  icon size
      * @param string $field column name
      *
-     * @return string HTML markup of an image
+     * @return string
      */
     public function icon($size = 2, $field = 'document')
     {
@@ -253,7 +243,7 @@ abstract class Presenter extends BasePresenter
     /**
      * Return body content with dynamic links.
      *
-     * @return string HTML markup of an image
+     * @return string
      */
     public function body()
     {
@@ -262,15 +252,17 @@ abstract class Presenter extends BasePresenter
         $patterns = [];
         $replacements = [];
         $lang = config('app.locale');
-        foreach ($matches as $match) {
-            $patterns[] = $match[0];
-            $module = $match[1];
-            $repository = app('TypiCMS\Modules\\'.ucfirst(str_plural($module)).'\Repositories\\'.ucfirst($module).'Interface');
-            $model = $repository->byId($match[2]);
-            if ($module == 'page') {
-                $replacements[] = url($model->uri($lang));
-            } else {
-                $replacements[] = route($lang.'.'.$module.'.slug', $model->slug);
+        if (is_array($matches)) {
+            foreach ($matches as $match) {
+                $patterns[] = $match[0];
+                $module = $match[1];
+                $repository = app('TypiCMS\Modules\\'.ucfirst(str_plural($module)).'\Repositories\\'.ucfirst($module).'Interface');
+                $model = $repository->byId($match[2]);
+                if ($module == 'page') {
+                    $replacements[] = url($model->uri($lang));
+                } else {
+                    $replacements[] = route($lang.'.'.$module.'.slug', $model->slug);
+                }
             }
         }
 

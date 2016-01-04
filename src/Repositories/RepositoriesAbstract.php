@@ -5,7 +5,7 @@ namespace TypiCMS\Modules\Core\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
 use stdClass;
 use TypiCMS\Modules\Pages\Models\Page;
 use TypiCMS\NestedCollection;
@@ -128,7 +128,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     public function adjacent($direction, $model, $category_id = null, array $with = [], $all = false)
     {
         $currentModel = $model;
-        if ($category_id) {
+        if ($category_id !== null) {
             $with[] = 'category';
             $with[] = 'category.translations';
             $models = $this->allBy('category_id', $category_id, $with, $all);
@@ -296,7 +296,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
             ->whereHas(
                 'translations',
                 function (Builder $query) use ($slug) {
-                    if (!Input::get('preview')) {
+                    if (!Request::input('preview')) {
                         $query->where('status', 1);
                     }
                     $query->where('locale', config('app.locale'));
@@ -421,53 +421,13 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     }
 
     /**
-     * Build a select menu for a module.
-     *
-     * @param string $method     with method to call from the repository ?
-     * @param bool   $firstEmpty generate an empty item
-     * @param string $value      witch column as value ?
-     * @param string $key        witch column as key ?
-     *
-     * @return array
-     */
-    public function select($method = 'all', $firstEmpty = false, $value = 'title', $key = 'id')
-    {
-        $items = $this->$method()->lists($value, $key)->all();
-        if ($firstEmpty) {
-            $items = ['' => ''] + $items;
-        }
-
-        return $items;
-    }
-
-    /**
-     * Get all translated pages for a select/options.
-     *
-     * @return array
-     */
-    public function getPagesForSelect()
-    {
-        $pages = app('TypiCMS\Modules\Pages\Repositories\PageInterface')
-            ->all([], true)
-            ->nest()
-            ->listsFlattened();
-        $pages = ['' => ' '] + $pages;
-
-        return $pages;
-    }
-
-    /**
      * Delete model.
      *
      * @return bool
      */
     public function delete($model)
     {
-        if ($model->delete()) {
-            return true;
-        }
-
-        return false;
+        return $model->delete();
     }
 
     /**

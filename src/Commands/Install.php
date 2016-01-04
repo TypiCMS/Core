@@ -26,7 +26,7 @@ class Install extends Command
     /**
      * The filesystem instance.
      *
-     * @var Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
@@ -38,12 +38,10 @@ class Install extends Command
     protected $user;
 
     /**
-     * Create a new key generator command.
+     * Create a new command.
      *
      * @param \TypiCMS\Modules\Users\Repositories\UserInterface $user
-     * @param Filesystem                                        $files
-     *
-     * @return void
+     * @param \Illuminate\Filesystem\Filesystem                 $files
      */
     public function __construct(UserInterface $user, Filesystem $files)
     {
@@ -76,10 +74,6 @@ class Install extends Command
 
         // Set database credentials in .env and migrate
         $this->call('typicms:database', ['database' => $dbName]);
-        $this->line('------------------');
-
-        // Set app key in .env
-        $this->call('key:generate');
         $this->line('------------------');
 
         // Create a super user

@@ -4,14 +4,14 @@
 
 @section('bodyClass', 'error-500')
 
-@section('languagesMenu') @stop
+@section('langSwitcher') @stop
 
 @section('main')
 
     <article class="http-error-message">
-        <h1>@lang('db.Error :code', ['code' => '500'])</h1>
+        <h2>@lang('db.Sorry, a server error occurred').</h2>
         <p>
-            @lang('db.Sorry, a server error occurred').
+            @lang('db.Error :code', ['code' => '500']).
         </p>
     </article>
 

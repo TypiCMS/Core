@@ -40,9 +40,9 @@ class ClearHtml extends Command
             }
             $path = $item->getRealPath();
             if ($item->isDir()) {
-                @rmdir($path);
-            } else {
-                @unlink($path);
+                rmdir($path);
+            } elseif ($item->isFile()) {
+                unlink($path);
             }
         }
     }

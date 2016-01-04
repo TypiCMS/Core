@@ -11,6 +11,7 @@ use TypiCMS\Modules\Core\Commands\CacheKeyPrefix;
 use TypiCMS\Modules\Core\Commands\ClearHtml;
 use TypiCMS\Modules\Core\Commands\Database;
 use TypiCMS\Modules\Core\Commands\Install;
+use TypiCMS\Modules\Core\Commands\Publish;
 use TypiCMS\Modules\Core\Services\TypiCMS;
 use TypiCMS\Modules\Core\Services\Upload\FileUpload;
 use TypiCMS\Modules\Users\Models\User;
@@ -57,6 +58,7 @@ class ModuleProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
         $this->commands('command.install');
+        $this->commands('command.publish');
         $this->commands('command.cachekeyprefix');
         $this->commands('command.database');
         $this->commands('command.clearhtml');
@@ -88,7 +90,7 @@ class ModuleProvider extends ServiceProvider
         | TypiCMS utilities.
         |--------------------------------------------------------------------------
         */
-        $this->app->singleton('typicms', function (Application $app) {
+        $this->app->singleton('typicms', function () {
             return new TypiCMS();
         });
 
@@ -97,7 +99,7 @@ class ModuleProvider extends ServiceProvider
         | TypiCMS upload service.
         |--------------------------------------------------------------------------
         */
-        $this->app->singleton('upload.file', function (Application $app) {
+        $this->app->singleton('upload.file', function () {
             return new FileUpload();
         });
 
@@ -141,9 +143,14 @@ class ModuleProvider extends ServiceProvider
      */
     private function registerCommands()
     {
-        $this->app->bind('command.install', function (Application $app) {
+        $this->app->bind('command.install', function () {
             return new Install(
                 new EloquentUser(new User()),
+                new Filesystem()
+            );
+        });
+        $this->app->bind('command.publish', function () {
+            return new Publish(
                 new Filesystem()
             );
         });
@@ -193,8 +200,7 @@ class ModuleProvider extends ServiceProvider
         $app->register('TypiCMS\Modules\Dashboard\Providers\ModuleProvider');
         $app->register('TypiCMS\Modules\Menus\Providers\ModuleProvider');
         $app->register('TypiCMS\Modules\Sitemap\Providers\ModuleProvider');
-        // Pages and menulinks need to be at last for routing to work.
-        $app->register('TypiCMS\Modules\Menulinks\Providers\ModuleProvider');
+        // Pages module needs to be at last for routing to work.
         $app->register('TypiCMS\Modules\Pages\Providers\ModuleProvider');
     }
 }

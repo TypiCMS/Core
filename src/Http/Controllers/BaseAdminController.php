@@ -3,7 +3,7 @@
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
 
 abstract class BaseAdminController extends Controller
 {
@@ -12,7 +12,6 @@ abstract class BaseAdminController extends Controller
     public function __construct($repository = null)
     {
         $this->middleware('admin');
-        $this->middleware('auth');
         $this->repository = $repository;
     }
 
@@ -31,78 +30,25 @@ abstract class BaseAdminController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create($parent = null)
-    {
-        $module = $this->repository->getTable();
-        $model = $this->repository->getModel();
-
-        return view('core::admin.create')
-            ->with(compact('model', 'module'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  $model
-     *
-     * @return \Illuminate\View\View
-     */
-    public function edit($model, $child = null)
-    {
-        return view('core::admin.edit')
-            ->with(compact('model'));
-    }
-
-    /**
-     * Show resource.
-     *
-     * @param  $model
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function show($model, $child = null)
-    {
-        return redirect($model->editUrl());
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  $model
-     *
-     * @return \Illuminate\Http\RedirectResponse|null
-     */
-    public function destroy($model, $child = null)
-    {
-        if ($this->repository->delete($model)) {
-            return back();
-        }
-    }
-
-    /**
      * Sort list.
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function sort()
     {
-        $this->repository->sort(Input::all());
+        $this->repository->sort(Request::all());
 
         return response()->json([
             'error'   => false,
             'message' => trans('global.Items sorted'),
-        ], 200);
+        ]);
     }
 
     /**
      * Redirect after a form is saved.
      *
-     * @param  $request
-     * @param  $model
+     * @param $request
+     * @param $model
      *
      * @return \Illuminate\Http\RedirectResponse
      */

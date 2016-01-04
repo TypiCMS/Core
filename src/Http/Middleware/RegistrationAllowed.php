@@ -3,8 +3,9 @@
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 
-class Registration
+class RegistrationAllowed
 {
     /**
      * Handle an incoming request.
@@ -14,7 +15,7 @@ class Registration
      *
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         if (!config('typicms.register')) {
             abort(404);

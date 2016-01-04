@@ -36,6 +36,7 @@ return [
     'Sort'         => 'Sort',
     'Edit'         => 'Edit',
     'Not found'    => 'Not found',
+    'Untitled'     => 'Untitled',
 
     'The form contains errors' => 'The form contains errors',
 

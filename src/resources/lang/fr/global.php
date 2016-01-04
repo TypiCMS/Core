@@ -36,6 +36,7 @@ return [
     'Sort'         => 'Ordonner',
     'Edit'         => 'Modifier',
     'Not found'    => 'Introuvable',
+    'Untitled'     => 'Sans titre',
 
     'The form contains errors' => 'Le formulaire contient des erreurs',
 

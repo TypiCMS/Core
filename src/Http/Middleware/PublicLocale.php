@@ -3,11 +3,10 @@
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Request;
 
 class PublicLocale
 {
@@ -19,20 +18,22 @@ class PublicLocale
      *
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        $firstSegment = Request::segment(1);
+        $firstSegment = $request->segment(1);
 
-        if (in_array($firstSegment, config('translatable.locales'))) {
-            $locale = $firstSegment;
-        } else {
-            $locale = config('app.fallback_locale');
+        if (!in_array($firstSegment, config('translatable.locales'))) {
+            return $next($request);
         }
+
+        $locale = $firstSegment;
 
         App::setlocale($locale);
 
         // Not very reliable, need to be refactored
-        setlocale(LC_ALL, $locale.'_'.strtoupper($locale).'.utf8');
+        $localeAndCountry = $locale.'_'.strtoupper($locale);
+
+        setlocale(LC_ALL, $localeAndCountry.'.utf8', $localeAndCountry.'.utf-8', $localeAndCountry);
 
         // Throw a 404 if website in this language is offline
         if (!config('typicms.'.$locale.'.status')) {
@@ -40,8 +41,8 @@ class PublicLocale
         }
 
         // Remove preview param if no admin user connected
-        if (Input::get('preview') && !Auth::check()) {
-            return Redirect::to(Request::path());
+        if ($request->input('preview') && !Auth::check()) {
+            return Redirect::to($request->path());
         }
 
         return $next($request);
