@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use TypiCMS\Modules\Core\Commands\CacheKeyPrefix;
 use TypiCMS\Modules\Core\Commands\ClearHtml;
+use TypiCMS\Modules\Core\Commands\Create;
 use TypiCMS\Modules\Core\Commands\Database;
 use TypiCMS\Modules\Core\Commands\Install;
 use TypiCMS\Modules\Core\Commands\Publish;
@@ -57,11 +58,12 @@ class ModuleProvider extends ServiceProvider
         | Commands.
         |--------------------------------------------------------------------------
         */
+        $this->commands('command.cachekeyprefix');
+        $this->commands('command.clearhtml');
+        $this->commands('command.create');
+        $this->commands('command.database');
         $this->commands('command.install');
         $this->commands('command.publish');
-        $this->commands('command.cachekeyprefix');
-        $this->commands('command.database');
-        $this->commands('command.clearhtml');
     }
 
     /**
@@ -143,6 +145,20 @@ class ModuleProvider extends ServiceProvider
      */
     private function registerCommands()
     {
+        $this->app->bind('command.cachekeyprefix', function () {
+            return new CacheKeyPrefix(new Filesystem());
+        });
+        $this->app->bind('command.clearhtml', function () {
+            return new ClearHtml();
+        });
+        $this->app->bind('command.create', function () {
+            return new Create(
+                new Filesystem()
+            );
+        });
+        $this->app->bind('command.database', function () {
+            return new Database(new Filesystem());
+        });
         $this->app->bind('command.install', function () {
             return new Install(
                 new EloquentUser(new User()),
@@ -153,15 +169,6 @@ class ModuleProvider extends ServiceProvider
             return new Publish(
                 new Filesystem()
             );
-        });
-        $this->app->bind('command.cachekeyprefix', function () {
-            return new CacheKeyPrefix(new Filesystem());
-        });
-        $this->app->bind('command.database', function () {
-            return new Database(new Filesystem());
-        });
-        $this->app->bind('command.clearhtml', function () {
-            return new ClearHtml();
         });
     }
 
