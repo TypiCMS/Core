@@ -77,10 +77,10 @@ class Publish extends Command
         if ($this->files->isDirectory($from)) {
             $this->publishDirectory($from, $to);
         } else {
-            $this->error("Can't locate path: <{$from}>");
+            $this->error("Can’t locate path: <{$from}>");
         }
 
-        $this->info("Publishing complete for module [{$module}]!");
+        $this->info('Publishing complete for module ['.ucfirst($module).']!');
     }
 
     /**
