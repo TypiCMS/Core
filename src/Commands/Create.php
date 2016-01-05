@@ -8,7 +8,7 @@ use League\Flysystem\Adapter\Local as LocalAdapter;
 use League\Flysystem\Filesystem as Flysystem;
 use League\Flysystem\MountManager;
 
-class Publish extends Command
+class Create extends Command
 {
     /**
      * The filesystem instance.
@@ -22,7 +22,7 @@ class Publish extends Command
      *
      * @var string
      */
-    protected $signature = 'typicms:publish {module : The module that you want to publish}
+    protected $signature = 'typicms:create {module : The module that you want to create}
             {--force : Overwrite any existing files.}';
 
     /**
@@ -30,7 +30,7 @@ class Publish extends Command
      *
      * @var string
      */
-    protected $description = 'Move a module from the vendor directory to the /Modules directory.';
+    protected $description = 'Create a module in the /Modules directory.';
 
     /**
      * Create a new key generator command.
@@ -51,27 +51,23 @@ class Publish extends Command
      */
     public function fire()
     {
-        $module = strtolower($this->argument('module'));
-        $provider = 'TypiCMS\Modules\\'.ucfirst($module).'\Providers\ModuleProvider';
-        if (class_exists($provider)) {
-            $this->call('vendor:publish', ['--provider' => $provider]);
-            $this->publishModule($module);
-            $this->uninstallFromComposer($module);
-        } else {
-            $this->error($provider.' not found, did you add it to config/app.php?');
+        $module = str_plural(strtolower($this->argument('module')));
+        if ($this->moduleExists($module)) {
+            return $this->error('A module named ['.ucfirst($module).'] already exists.');
         }
+        $this->generateModuleFromTemplate($module);
     }
 
     /**
-     * Publishes the module.
+     * Generate the module.
      *
      * @param string $module
      *
      * @return mixed
      */
-    private function publishModule($module)
+    private function generateModuleFromTemplate($module)
     {
-        $from = base_path('vendor/typicms/'.$module.'/src');
+        $from = base_path('vendor/typicms/objects/src');
         $to = base_path('Modules/'.ucfirst($module));
 
         if ($this->files->isDirectory($from)) {
@@ -80,7 +76,7 @@ class Publish extends Command
             $this->error("Can’t locate path: <{$from}>");
         }
 
-        $this->info('Publishing complete for module ['.ucfirst($module).']!');
+        $this->info('The module ['.ucfirst($module).'] was created, you can now customize it and edit the migration file.');
     }
 
     /**
@@ -111,6 +107,14 @@ class Publish extends Command
         $this->status($from, $to, 'Directory');
     }
 
+    public function moduleExists($module)
+    {
+        $location1 = $this->files->isDirectory(base_path('Modules/'.ucfirst($module)));
+        $location2 = $this->files->isDirectory(base_path('vendor/typicms/'.$module));
+
+        return $location1 || $location2;
+    }
+
     /**
      * Write a status message to the console.
      *
@@ -127,20 +131,5 @@ class Publish extends Command
         $to = str_replace(base_path(), '', realpath($to));
 
         $this->line('<info>Copied '.$type.'</info> <comment>['.$from.']</comment> <info>To</info> <comment>['.$to.']</comment>');
-    }
-
-    /**
-     * Remove a module from composer.
-     *
-     * @param string $module
-     */
-    private function uninstallFromComposer($module)
-    {
-        $uninstallCommand = 'composer remove typicms/'.$module;
-        if (function_exists('system')) {
-            system($uninstallCommand);
-        } else {
-            $this->line('You can now run '.$uninstallCommand.'.');
-        }
     }
 }
