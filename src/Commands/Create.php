@@ -125,8 +125,6 @@ class Create extends Command
 
     /**
      * Rename models and repositories.
-     *
-     * @param string $module
      */
     public function renameModelsAndRepositories()
     {
@@ -233,14 +231,12 @@ class Create extends Command
     /**
      * Check if the module exists.
      *
-     * @param string $module
-     *
      * @return bool
      */
-    public function moduleExists($module)
+    public function moduleExists()
     {
-        $location1 = $this->files->isDirectory(base_path('Modules/'.$module));
-        $location2 = $this->files->isDirectory(base_path('vendor/typicms/'.strtolower($module)));
+        $location1 = $this->files->isDirectory(base_path('Modules/'.$this->module));
+        $location2 = $this->files->isDirectory(base_path('vendor/typicms/'.strtolower($this->module)));
 
         return $location1 || $location2;
     }
