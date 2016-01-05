@@ -68,12 +68,11 @@ class Create extends Command
         $this->searchAndReplaceInFiles();
         $this->publishViews();
         $this->publishMigration();
-        $this->line('-------------------------------');
-        $this->line('<comment>['.$this->module.']</comment> <info>was created in</info> <comment>[/Modules]</comment><info>, customize it!</info>');
-        $this->line('<info>Run the migration with the command</info> <comment>[php artisan migrate]</comment><info>.</info>');
-        $this->line('<info>Add</info> <comment>[TypiCMS\Modules\\'.$this->module.'\Providers\ModuleProvider::class,]</comment>');
-        $this->line('<info>to the providers array in</info> <comment>[config/app.php]</comment><info>.</info>');
-        $this->line('-------------------------------');
+        $this->line('<info>The module</info> <comment>'.$this->module.'</comment> <info>was created in</info> <comment>/Modules</comment><info>, customize it!</info>');
+        $this->line('<info>Run the migration with the command</info> <comment>php artisan migrate</comment><info>.</info>');
+        $this->line('<info>Add</info> <comment>TypiCMS\Modules\\'.$this->module.'\Providers\ModuleProvider::class,</comment>');
+        $this->line('<info>to the providers array in</info> <comment>config/app.php</comment><info>.</info>');
+        $this->call('optimize');
     }
 
     /**
@@ -192,8 +191,6 @@ class Create extends Command
         $this->createParentDirectory(dirname($to));
 
         $this->files->copy($from, $to);
-
-        $this->status($from, $to, 'File');
     }
 
     /**
@@ -217,8 +214,6 @@ class Create extends Command
                 $manager->put('to://'.$file['path'], $manager->read('from://'.$file['path']));
             }
         }
-
-        $this->status($from, $to, 'Directory');
     }
 
     /**
@@ -247,23 +242,5 @@ class Create extends Command
         $location2 = $this->files->isDirectory(base_path('vendor/typicms/'.strtolower($module)));
 
         return $location1 || $location2;
-    }
-
-    /**
-     * Write a status message to the console.
-     *
-     * @param string $from
-     * @param string $to
-     * @param string $type
-     *
-     * @return void
-     */
-    protected function status($from, $to, $type)
-    {
-        $from = str_replace(base_path(), '', realpath($from));
-
-        $to = str_replace(base_path(), '', realpath($to));
-
-        $this->line('<info>Copied '.$type.'</info> <comment>['.$from.']</comment> <info>To</info> <comment>['.$to.']</comment>');
     }
 }
