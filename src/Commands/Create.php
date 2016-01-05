@@ -238,6 +238,7 @@ class Create extends Command
     {
         $location1 = $this->files->isDirectory(base_path('Modules/'.$module));
         $location2 = $this->files->isDirectory(base_path('vendor/typicms/'.strtolower($module)));
+
         return $location1 || $location2;
     }
 
