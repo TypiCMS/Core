@@ -234,6 +234,13 @@ class Create extends Command
         }
     }
 
+    /**
+     * Check if the module exists
+     *
+     * @param string $module
+     *
+     * @return bool
+     */
     public function moduleExists($module)
     {
         $location1 = $this->files->isDirectory(base_path('Modules/'.$module));
