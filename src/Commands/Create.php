@@ -100,7 +100,7 @@ class Create extends Command
         $directory = base_path('Modules/'.$this->module);
 
         $manager = new MountManager([
-            'directory' => new Flysystem(new LocalAdapter($directory))
+            'directory' => new Flysystem(new LocalAdapter($directory)),
         ]);
 
         $search = [
@@ -185,7 +185,7 @@ class Create extends Command
      */
     protected function publishFile($from, $to)
     {
-        if ($this->files->exists($to) && ! $this->option('force')) {
+        if ($this->files->exists($to) && !$this->option('force')) {
             return;
         }
 
@@ -225,11 +225,12 @@ class Create extends Command
      * Create the directory to house the published files if needed.
      *
      * @param string $directory
+     *
      * @return void
      */
     protected function createParentDirectory($directory)
     {
-        if (! $this->files->isDirectory($directory)) {
+        if (!$this->files->isDirectory($directory)) {
             $this->files->makeDirectory($directory, 0755, true);
         }
     }
