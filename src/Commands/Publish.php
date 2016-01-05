@@ -71,7 +71,7 @@ class Publish extends Command
      */
     private function publishModule($module)
     {
-        $from = base_path('vendor/typicms/'.$module.'/src');
+        $from = base_path('vendor/webfactorybulgaria/'.$module.'/src');
         $to = base_path('Modules/'.ucfirst($module));
 
         if ($this->files->isDirectory($from)) {
@@ -136,7 +136,7 @@ class Publish extends Command
      */
     private function uninstallFromComposer($module)
     {
-        $uninstallCommand = 'composer remove typicms/'.$module;
+        $uninstallCommand = 'composer remove webfactorybulgaria/'.$module;
         if (function_exists('system')) {
             system($uninstallCommand);
         } else {
