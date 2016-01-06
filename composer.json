@@ -10,7 +10,7 @@
     ],
     "require": {
         "laravel/framework": "~5.2.0",
-        "typicms/objects": "~2.6.0"
+        "webfactorybulgaria/objects": "~4.0.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
