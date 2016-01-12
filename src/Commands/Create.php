@@ -29,7 +29,7 @@ class Create extends Command
      *
      * @var string
      */
-    protected $signature = 'typicms:create {module : The module that you want to create}
+    protected $signature = 'admintool:create {module : The module that you want to create}
             {--force : Overwrite any existing files.}';
 
     /**
@@ -82,7 +82,7 @@ class Create extends Command
      */
     private function publishModule()
     {
-        $from = base_path('vendor/typicms/objects/src');
+        $from = base_path('vendor/webfactorybulgaria/objects/src');
         $to = base_path('Modules/'.$this->module);
 
         if ($this->files->isDirectory($from)) {
@@ -237,7 +237,7 @@ class Create extends Command
     public function moduleExists()
     {
         $location1 = $this->files->isDirectory(base_path('Modules/'.$this->module));
-        $location2 = $this->files->isDirectory(base_path('vendor/typicms/'.strtolower($this->module)));
+        $location2 = $this->files->isDirectory(base_path('vendor/webfactorybulgaria/'.strtolower($this->module)));
 
         return $location1 || $location2;
     }

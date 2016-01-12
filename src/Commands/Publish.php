@@ -22,7 +22,7 @@ class Publish extends Command
      *
      * @var string
      */
-    protected $signature = 'typicms:publish {module : The module that you want to publish}
+    protected $signature = 'admintool:publish {module : The module that you want to publish}
             {--force : Overwrite any existing files.}';
 
     /**
