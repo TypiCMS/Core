@@ -60,7 +60,7 @@ class Create extends Command
     {
         $this->module = str_plural(ucfirst($this->argument('module')));
 
-        if ($this->moduleExists($this->module)) {
+        if ($this->moduleExists()) {
             return $this->error('A module named ['.$this->module.'] already exists.');
         }
         $this->publishModule();
