@@ -1,6 +1,8 @@
 <div class="row">
     <div class="col-md-6">
-        {!! BootForm::text(trans('validation.attributes.title'), $lang.'[title]') !!}
+        {!! TranslatableBootForm::text(trans('validation.attributes.title'), 'title') !!}
     </div>
-    @include('core::form._slug')
+    <div class="col-sm-6">
+        @include('core::form._slug')
+    </div>
 </div>
