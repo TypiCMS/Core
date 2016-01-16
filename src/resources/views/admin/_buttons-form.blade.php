@@ -4,5 +4,5 @@
     @if (method_exists($model, 'previewUri') && $previewUri = $model->previewUri())
     <a class="btn btn-default btn-preview" href="{{ $previewUri }}?preview=true">@lang('validation.attributes.preview')</a>
     @endif
-    @include('core::admin._tabs-lang-form')
+    @include('core::admin._lang-switcher', ['js' => true])
 </div>
