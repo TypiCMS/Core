@@ -4,16 +4,16 @@ namespace TypiCMS\Modules\Core\Observers;
 
 class SlugObserver
 {
-    public function creating($model)
+    public function saving($model)
     {
-        // slug = null si vide
-        $slug = ($model->slug) ? $model->slug : null;
-        $model->slug = $slug;
+        $slug = $model->slug ?: str_slug($model->title);
+        // slug = null if empty string
+        $model->slug = $slug ?: null;
 
         if ($slug) {
             $i = 0;
             // Check uri is unique
-            while ($model::where('slug', $model->slug)->where('locale', $model->locale)->first()) {
+            while ($this->slugExists($model)) {
                 $i++;
                 // increment slug if exists
                 $model->slug = $slug.'-'.$i;
@@ -21,25 +21,15 @@ class SlugObserver
         }
     }
 
-    public function updating($model)
+    private function slugExists($model)
     {
-        // slug = null si vide
-        $slug = ($model->slug) ? $model->slug : null;
-        $model->slug = $slug;
-
-        if ($slug) {
-            $i = 0;
-            // Check uri is unique
-            while (
-                $model::where('slug', $model->slug)
-                    ->where('id', '!=', $model->id)
-                    ->where('locale', $model->locale)
-                    ->first()
-                ) {
-                $i++;
-                // increment slug if exists
-                $model->slug = $slug.'-'.$i;
-            }
+        $query = $model::where('slug', $model->slug);
+        if ($model->id) {
+            $query->where('id', '!=', $model->id);
         }
+        if ($model->locale) {
+            $query->where('locale', $model->locale);
+        }
+        return (bool) $query->count();
     }
 }
