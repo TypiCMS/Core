@@ -15,6 +15,8 @@
                 @else
                     <a href="{{ url($page->uri($locale)) }}">{{ $locale }}</a>
                 @endif
+            @elseif (isset($category))
+            <a href="{{ url($page->uri($locale).'/'.$category->translate($locale)->slug) }}">{{ $locale }}</a>
             @elseif (isset($page))
             <a href="{{ url($page->uri($locale)) }}">{{ $locale }}</a>
             @else
