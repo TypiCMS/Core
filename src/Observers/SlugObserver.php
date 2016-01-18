@@ -21,6 +21,12 @@ class SlugObserver
         }
     }
 
+    /**
+     * Search for item with same slug
+     *
+     * @param  mixed $model
+     * @return bool
+     */
     private function slugExists($model)
     {
         $query = $model::where('slug', $model->slug);
@@ -30,6 +36,7 @@ class SlugObserver
         if ($model->locale) {
             $query->where('locale', $model->locale);
         }
+
         return (bool) $query->count();
     }
 }
