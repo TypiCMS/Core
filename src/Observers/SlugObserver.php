@@ -22,9 +22,10 @@ class SlugObserver
     }
 
     /**
-     * Search for item with same slug
+     * Search for item with same slug.
      *
-     * @param  mixed $model
+     * @param mixed $model
+     *
      * @return bool
      */
     private function slugExists($model)
