@@ -30,6 +30,7 @@ class SlugObserver
         if ($model->locale) {
             $query->where('locale', $model->locale);
         }
+
         return (bool) $query->count();
     }
 }
