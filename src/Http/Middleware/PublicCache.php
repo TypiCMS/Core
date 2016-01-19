@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
@@ -24,7 +25,7 @@ class PublicCache
         /*
          * If page is not cacheable, don’t generate static html.
          */
-        if (!$response->original->page || $response->original->page->no_cache) {
+        if ($this->hasPage($response)) {
             return $response;
         }
 
@@ -45,6 +46,17 @@ class PublicCache
         }
 
         return $response;
+    }
+
+    /**
+     * Does the response has a page?
+     *
+     * @param  \Illuminate\Http\Response $response
+     * @return bool
+     */
+    public function hasPage(Response $response)
+    {
+        return !$response->original->page || isset($response->original->page) && $response->original->page->no_cache;
     }
 
     /**
