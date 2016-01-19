@@ -24,7 +24,7 @@ class PublicCache
         /*
          * If page is not cacheable, don’t generate static html.
          */
-        if (isset($response->original->page) && $response->original->page->no_cache) {
+        if (!$response->original->page || $response->original->page->no_cache) {
             return $response;
         }
 
