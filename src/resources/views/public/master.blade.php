@@ -49,28 +49,20 @@
     @include('core::_navbar')
 @endif
 
-    <div class="main-container" id="content">
+    <div class="site-container" id="content">
 
-        @section('mainHeader')
-        <header class="main-header">
-            <h1>
-                <a href="{{ TypiCMS::homeUrl() }}">
-                    @if (TypiCMS::hasLogo())
-                        <img class="logo" src="{{ url('uploads/settings/'.config('typicms.image')) }}" width="" height="150" alt="{{ TypiCMS::title() }}">
-                    @else
-                        {{ TypiCMS::title() }}
-                    @endif
-                </a>
-            </h1>
+        <header class="site-header">
+            @section('site-title')
+            <div class="site-title">@include('core::public._site-title')</div>
+            @show
         </header>
-        @show
 
-        @section('langSwitcher')
+        @section('lang-switcher')
             @include('core::public._lang-switcher')
         @show
 
-        @section('mainNav')
-        <nav class="main-nav">
+        @section('site-nav')
+        <nav class="site-nav">
             {!! Menus::render('main') !!}
         </nav>
         @show
@@ -79,8 +71,8 @@
 
         @yield('main')
 
-        @section('mainFooter')
-        <footer class="main-footer">
+        @section('site-footer')
+        <footer class="site-footer">
             <nav class="social-nav">
                 {!! Menus::render('social') !!}
             </nav>
