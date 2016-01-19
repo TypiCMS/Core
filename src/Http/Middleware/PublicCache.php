@@ -51,10 +51,10 @@ class PublicCache
     /**
      * Does the response has a page?
      *
-     * @param  \Illuminate\Http\Response $response
+     * @param \Illuminate\Http\Response $response
      * @return bool
      */
-    public function hasPage(Response $response)
+    private function hasPage(Response $response)
     {
         return !$response->original->page || isset($response->original->page) && $response->original->page->no_cache;
     }
