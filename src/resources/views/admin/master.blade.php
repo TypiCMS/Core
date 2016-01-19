@@ -29,7 +29,7 @@
 
 @section('otherSideLink')
     @include('core::admin._navbar-public-link')
-@stop
+@endsection
 
 <div class="container-fluid">
 

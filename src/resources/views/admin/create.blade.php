@@ -13,4 +13,4 @@
         @include($model->getTable() . '::admin._form')
     {!! BootForm::close() !!}
 
-@stop
+@endsection

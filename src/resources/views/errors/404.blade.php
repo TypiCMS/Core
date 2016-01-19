@@ -13,4 +13,4 @@
         </p>
     </article>
 
-@stop
+@endsection
