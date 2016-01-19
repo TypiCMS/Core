@@ -52,6 +52,7 @@ class PublicCache
      * Does the response has a page?
      *
      * @param \Illuminate\Http\Response $response
+     *
      * @return bool
      */
     private function hasPage(Response $response)
