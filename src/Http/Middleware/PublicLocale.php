@@ -52,7 +52,7 @@ class PublicLocale
     }
 
     /**
-     * Get the front office locale
+     * Get the front office locale.
      *
      * @return string|false
      */
