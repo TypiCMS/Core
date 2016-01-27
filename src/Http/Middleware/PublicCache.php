@@ -22,13 +22,6 @@ class PublicCache
     {
         $response = $next($request);
 
-        /*
-         * If page is not cacheable, don’t generate static html.
-         */
-        if ($this->hasPage($response)) {
-            return $response;
-        }
-
         // HTML cache
         if (
             !$response->isRedirection() &&
@@ -38,6 +31,9 @@ class PublicCache
             !config('app.debug') &&
             config('typicms.html_cache')
         ) {
+            if ($this->hasPageThatShouldNotBeCached($response)) {
+                return $response;
+            }
             $directory = public_path().'/html'.$request->getPathInfo();
             if (!File::isDirectory($directory)) {
                 File::makeDirectory($directory, 0777, true);
@@ -55,7 +51,7 @@ class PublicCache
      *
      * @return bool
      */
-    private function hasPage(Response $response)
+    private function hasPageThatShouldNotBeCached(Response $response)
     {
         return !$response->original->page || isset($response->original->page) && $response->original->page->no_cache;
     }
