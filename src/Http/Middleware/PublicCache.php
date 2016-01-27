@@ -45,7 +45,7 @@ class PublicCache
     }
 
     /**
-     * Does the response has a page?
+     * Does the response has a page that should not be cached?
      *
      * @param \Illuminate\Http\Response $response
      *
