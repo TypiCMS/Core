@@ -23,12 +23,11 @@ class PublicLocale
         $locale = $this->getLocaleFromDomainName();
 
         if (!$locale) {
+            $locale = config('app.locale');
             $firstSegment = $request->segment(1);
-            // If first segment is not the lang continue with current locale
-            if (!in_array($firstSegment, config('translatable.locales'))) {
-                return $next($request);
+            if (in_array($firstSegment, config('translatable.locales'))) {
+                $locale = $firstSegment;
             }
-            $locale = $firstSegment;
         }
 
         App::setlocale($locale);
