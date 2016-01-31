@@ -20,13 +20,12 @@ class PublicLocale
      */
     public function handle(Request $request, Closure $next)
     {
+        $locale = config('app.locale');
+
         $firstSegment = $request->segment(1);
-
-        if (!in_array($firstSegment, config('translatable.locales'))) {
-            return $next($request);
+        if (in_array($firstSegment, config('translatable.locales'))) {
+            $locale = $firstSegment;
         }
-
-        $locale = $firstSegment;
 
         App::setlocale($locale);
 
