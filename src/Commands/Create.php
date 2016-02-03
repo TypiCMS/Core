@@ -166,8 +166,6 @@ class Create extends Command
     /**
      * Delete unneeded directories.
      *
-     * @param string $value [description]
-     *
      * @return void
      */
     public function deleteViewsAndDatabaseDirs()
