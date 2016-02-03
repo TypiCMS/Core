@@ -164,7 +164,7 @@ class Create extends Command
     }
 
     /**
-     * Delete unneeded directories
+     * Delete unneeded directories.
      *
      * @param string $value [description]
      *
