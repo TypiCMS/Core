@@ -53,6 +53,10 @@ class Publish extends Command
     {
         $module = strtolower($this->argument('module'));
         $provider = 'TypiCMS\Modules\\'.ucfirst($module).'\Providers\ModuleProvider';
+        if (!is_file(base_path('vendor/typicms/'.$module))) {
+            $this->error('Module “'.$module.'” not found in vendor directory.');
+            exit();
+        }
         if (class_exists($provider)) {
             $this->call('vendor:publish', ['--provider' => $provider]);
             $this->publishModule($module);

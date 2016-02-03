@@ -68,6 +68,7 @@ class Create extends Command
         $this->searchAndReplaceInFiles();
         $this->publishViews();
         $this->publishMigration();
+        $this->deleteViewsAndDatabaseDirs();
         $this->line('------------------');
         $this->line('<info>The module</info> <comment>'.$this->module.'</comment> <info>was created in</info> <comment>/Modules</comment><info>, customize it!</info>');
         $this->line('<info>Add</info> <comment>TypiCMS\Modules\\'.$this->module.'\Providers\ModuleProvider::class,</comment>');
@@ -143,6 +144,16 @@ class Create extends Command
     }
 
     /**
+     * Publish views.
+     */
+    public function publishViews()
+    {
+        $from = base_path('Modules/'.$this->module.'/resources/views');
+        $to = resource_path('views/vendor/'.strtolower($this->module));
+        $this->publishDirectory($from, $to);
+    }
+
+    /**
      * Publish migration file.
      */
     public function publishMigration()
@@ -153,13 +164,16 @@ class Create extends Command
     }
 
     /**
-     * Publish views.
+     * Delete unneeded directories.
+     *
+     * @param string $value [description]
+     *
+     * @return void
      */
-    public function publishViews()
+    public function deleteViewsAndDatabaseDirs()
     {
-        $from = base_path('Modules/'.$this->module.'/resources/views');
-        $to = resource_path('views/vendor/'.strtolower($this->module));
-        $this->publishDirectory($from, $to);
+        $this->files->deleteDirectory(base_path('Modules/'.$this->module.'/database'));
+        $this->files->deleteDirectory(base_path('Modules/'.$this->module.'/resources/views'));
     }
 
     /**
