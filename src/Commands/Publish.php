@@ -57,8 +57,8 @@ class Publish extends Command
             throw new Exception('Module “'.$module.'” not found in vendor directory.');
         }
         $provider = 'TypiCMS\Modules\\'.ucfirst($module).'\Providers\ModuleProvider';
-        $published = $this->call('vendor:publish', ['--provider' => $provider]);
-        if ($published) {
+        if (class_exists($provider)) {
+            $this->call('vendor:publish', ['--provider' => $provider]);
             $this->publishModule($module);
             $this->uninstallFromComposer($module);
         } else {
