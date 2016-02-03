@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use League\Flysystem\Adapter\Local as LocalAdapter;
@@ -52,17 +53,16 @@ class Publish extends Command
     public function fire()
     {
         $module = strtolower($this->argument('module'));
-        $provider = 'TypiCMS\Modules\\'.ucfirst($module).'\Providers\ModuleProvider';
-        if (!is_file(base_path('vendor/typicms/'.$module))) {
-            $this->error('Module “'.$module.'” not found in vendor directory.');
-            exit();
+        if (!is_dir(base_path('vendor/typicms/'.$module))) {
+            throw new Exception('Module “'.$module.'” not found in vendor directory.');
         }
-        if (class_exists($provider)) {
-            $this->call('vendor:publish', ['--provider' => $provider]);
+        $provider = 'TypiCMS\Modules\\'.ucfirst($module).'\Providers\ModuleProvider';
+        $published = $this->call('vendor:publish', ['--provider' => $provider]);
+        if ($published) {
             $this->publishModule($module);
             $this->uninstallFromComposer($module);
         } else {
-            $this->error($provider.' not found, did you add it to config/app.php?');
+            throw new Exception($provider.' not found, did you add it to config/app.php?');
         }
     }
 
