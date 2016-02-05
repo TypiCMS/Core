@@ -51,11 +51,13 @@
 
     <div class="site-container" id="content">
 
+        @section('site-header')
         <header class="site-header">
             @section('site-title')
             <div class="site-title">@include('core::public._site-title')</div>
             @show
         </header>
+        @show
 
         @section('lang-switcher')
             @include('core::public._lang-switcher')
