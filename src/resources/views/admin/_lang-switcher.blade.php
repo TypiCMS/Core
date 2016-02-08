@@ -7,6 +7,10 @@
             @foreach ($locales as $lang)
             <li><a class="@if(isset($js) and $js)btn-lang-js @endif @if($lang == $locale)active @endif" href="?{{ http_build_query(Request::except('locale') + ['locale' => $lang]) }}" data-locale="{{ $lang }}">@lang('global.languages.'.$lang)</a></li>
             @endforeach
+            @if(isset($js))
+            <li class="divider"></li>
+            <li><a class="@if(isset($js) and $js)btn-lang-js @endif" href="#" data-locale="all">@lang('global.languages.all')</a></li>
+            @endif
         </ul>
     </div>
 @endif

@@ -21,11 +21,15 @@ class JavaScriptData
     {
         $locales = [];
         foreach (config('translatable.locales') as $locale) {
-            $locales[] = [
+            $locales[$locale] = [
                 'short' => $locale,
                 'long'  => trans('global.languages.'.$locale),
             ];
         }
+        $locales['all'] = [
+            'short' => 'all',
+            'long'  => trans('global.languages.all'),
+        ];
         JavaScript::put([
             '_token'          => csrf_token(),
             'encrypted_token' => Crypt::encrypt(csrf_token()),
