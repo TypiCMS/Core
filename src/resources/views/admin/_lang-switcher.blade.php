@@ -1,7 +1,7 @@
 @if (count($locales) > 1)
     <div class="btn-group pull-right">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span id="active-locale">@lang('global.languages.'.$locale)</span> <span class="caret"></span>
+            <span id="active-locale">@lang('global.languages.'.($locale?:'all'))</span> <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
             @foreach ($locales as $lang)

@@ -29,7 +29,11 @@ class AdminLocale
         app()->setLocale(config('typicms.admin_locale'));
 
         // Set translatable locale to locale
-        Config::set('translatable.locale', $request->session()->get('locale', config('app.locale')));
+        // Don’t set translatable locale if locale is 'all'
+        $localeInSession = $request->session()->get('locale', config('app.locale'));
+        if (in_array($localeInSession, config('translatable.locales'))) {
+            Config::set('translatable.locale', $localeInSession);
+        }
 
         return $next($request);
     }
