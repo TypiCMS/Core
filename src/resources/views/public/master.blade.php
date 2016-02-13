@@ -46,6 +46,8 @@
 
     <div class="site-container" id="content">
 
+        <a class="btn-offcanvas" data-toggle="offcanvas" href="#site-nav" title="@lang('global.Open navigation')" aria-label="@lang('global.Open navigation')" role="button" aria-controls="navigation" aria-expanded="false"><span class="fa fa-bars fa-fw"></span></a>
+
         @section('site-header')
         <header class="site-header">
             @section('site-title')
@@ -54,15 +56,21 @@
         </header>
         @show
 
-        @section('lang-switcher')
-            @include('core::public._lang-switcher')
-        @show
+        <div class="sidebar-offcanvas">
 
-        @section('site-nav')
-        <nav class="site-nav">
-            {!! Menus::render('main') !!}
-        </nav>
-        @show
+            <button class="btn-offcanvas btn-offcanvas-close" data-toggle="offcanvas" title="@lang('global.Close navigation')" aria-label="@lang('global.Close navigation')"><span class="fa fa-close fa-fw"></span></button>
+
+            @section('lang-switcher')
+                @include('core::public._lang-switcher')
+            @show
+
+            @section('site-nav')
+            <nav class="site-nav" id="site-nav">
+                {!! Menus::render('main') !!}
+            </nav>
+            @show
+
+        </div>
 
         @include('core::public._alert')
 
