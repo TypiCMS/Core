@@ -61,7 +61,7 @@ class PublicLocale
         $domainName = end($baseUrl);
         $domainNames = [];
         foreach (config('translatable.locales') as $locale) {
-            $domainNames[$locale] = config('typicms.domains.'.$locale);
+            $domainNames[$locale] = config('typicms.translated_domains.'.$locale);
         }
 
         $found = array_keys($domainNames, $domainName);
