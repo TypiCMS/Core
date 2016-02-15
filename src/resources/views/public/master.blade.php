@@ -39,14 +39,13 @@
 <body class="body-{{ $lang }} @yield('bodyClass') @if(Auth::user() and Auth::user()->hasRole('Admin') and ! Request::input('preview'))has-navbar @endif">
 
     <a href="#content" class="skip-to-content">@lang('db.Skip to content')</a>
+    <a href="#site-nav" class="btn-offcanvas" data-toggle="offcanvas" title="@lang('db.Open navigation')" aria-label="@lang('db.Open navigation')" role="button" aria-controls="navigation" aria-expanded="false"><span class="fa fa-bars fa-fw"></span></a>
 
 @if(Auth::user() and Auth::user()->hasRole('Admin') and ! Request::input('preview'))
     @include('core::_navbar')
 @endif
 
     <div class="site-container" id="content">
-
-        <a class="btn-offcanvas" data-toggle="offcanvas" href="#site-nav" title="@lang('global.Open navigation')" aria-label="@lang('global.Open navigation')" role="button" aria-controls="navigation" aria-expanded="false"><span class="fa fa-bars fa-fw"></span></a>
 
         @section('site-header')
         <header class="site-header">
