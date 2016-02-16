@@ -6,7 +6,6 @@ use Illuminate\Routing\Controller;
 
 abstract class BaseApiController extends Controller
 {
-
     /**
      *  Array of endpoints that do not require authorization.
      */
