@@ -38,14 +38,16 @@
 
 <body class="body-{{ $lang }} @yield('bodyClass') @if(Auth::user() and Auth::user()->hasRole('Admin') and ! Request::input('preview'))has-navbar @endif">
 
-    <a href="#content" class="skip-to-content">@lang('db.Skip to content')</a>
-    <a href="#site-nav" class="btn-offcanvas" data-toggle="offcanvas" title="@lang('db.Open navigation')" aria-label="@lang('db.Open navigation')" role="button" aria-controls="navigation" aria-expanded="false"><span class="fa fa-bars fa-fw"></span></a>
+    @section('skip-links')
+    <a href="#main" class="skip-to-content">@lang('db.Skip to content')</a>
+    <a href="#site-nav" class="btn-offcanvas" data-toggle="offcanvas" title="@lang('db.Open navigation')" aria-label="@lang('db.Open navigation')" role="button" aria-controls="navigation" aria-expanded="false"><span class="fa fa-bars fa-fw" aria-hidden="true"></span></a>
+    @show
 
 @if(Auth::user() and Auth::user()->hasRole('Admin') and ! Request::input('preview'))
     @include('core::_navbar')
 @endif
 
-    <div class="site-container" id="content">
+    <div class="site-container" id="main" role="main">
 
         @section('site-header')
         <header class="site-header">
@@ -57,7 +59,7 @@
 
         <div class="sidebar-offcanvas">
 
-            <button class="btn-offcanvas btn-offcanvas-close" data-toggle="offcanvas" title="@lang('global.Close navigation')" aria-label="@lang('global.Close navigation')"><span class="fa fa-close fa-fw"></span></button>
+            <button class="btn-offcanvas btn-offcanvas-close" data-toggle="offcanvas" title="@lang('global.Close navigation')" aria-label="@lang('global.Close navigation')"><span class="fa fa-close fa-fw" aria-hidden="true"></span></button>
 
             @section('lang-switcher')
                 @include('core::public._lang-switcher')

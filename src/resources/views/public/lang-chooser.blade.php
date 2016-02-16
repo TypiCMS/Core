@@ -5,6 +5,7 @@
 @section('site-nav') @endsection
 @section('site-footer') @endsection
 @section('bodyClass') lang-chooser @endsection
+@section('skip-links') @endsection
 
 @section('main')
 
