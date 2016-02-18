@@ -21,11 +21,6 @@
 
     @yield('css')
 
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
     @if(app()->environment('production') and config('typicms.google_analytics_code'))
 
     <script>
@@ -43,44 +38,47 @@
 
 <body class="body-{{ $lang }} @yield('bodyClass') @if(Auth::user() and Auth::user()->hasRole('Admin') and ! Request::input('preview'))has-navbar @endif">
 
-    <a href="#content" class="skip-to-content">@lang('db.Skip to content')</a>
+    @section('skip-links')
+    <a href="#main" class="skip-to-content">@lang('db.Skip to content')</a>
+    <a href="#site-nav" class="btn-offcanvas" data-toggle="offcanvas" title="@lang('db.Open navigation')" aria-label="@lang('db.Open navigation')" role="button" aria-controls="navigation" aria-expanded="false"><span class="fa fa-bars fa-fw" aria-hidden="true"></span></a>
+    @show
 
 @if(Auth::user() and Auth::user()->hasRole('Admin') and ! Request::input('preview'))
     @include('core::_navbar')
 @endif
 
-    <div class="main-container" id="content">
+    <div class="site-container" id="main" role="main">
 
-        @section('mainHeader')
-        <header class="main-header">
-            <h1>
-                <a href="{{ TypiCMS::homeUrl() }}">
-                    @if (TypiCMS::hasLogo())
-                        <img class="logo" src="{{ url('uploads/settings/'.config('typicms.image')) }}" width="" height="150" alt="{{ TypiCMS::title() }}">
-                    @else
-                        {{ TypiCMS::title() }}
-                    @endif
-                </a>
-            </h1>
+        @section('site-header')
+        <header class="site-header">
+            @section('site-title')
+            <div class="site-title">@include('core::public._site-title')</div>
+            @show
         </header>
         @show
 
-        @section('langSwitcher')
-            @include('core::public._lang-switcher')
-        @show
+        <div class="sidebar-offcanvas">
 
-        @section('mainNav')
-        <nav class="main-nav">
-            {!! Menus::render('main') !!}
-        </nav>
-        @show
+            <button class="btn-offcanvas btn-offcanvas-close" data-toggle="offcanvas" title="@lang('global.Close navigation')" aria-label="@lang('global.Close navigation')"><span class="fa fa-close fa-fw" aria-hidden="true"></span></button>
+
+            @section('lang-switcher')
+                @include('core::public._lang-switcher')
+            @show
+
+            @section('site-nav')
+            <nav class="site-nav" id="site-nav">
+                {!! Menus::render('main') !!}
+            </nav>
+            @show
+
+        </div>
 
         @include('core::public._alert')
 
         @yield('main')
 
-        @section('mainFooter')
-        <footer class="main-footer">
+        @section('site-footer')
+        <footer class="site-footer">
             <nav class="social-nav">
                 {!! Menus::render('social') !!}
             </nav>

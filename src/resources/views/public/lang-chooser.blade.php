@@ -1,10 +1,11 @@
 @extends('core::public.master')
 
-@section('langSwitcher') @stop
-@section('mainHeader') @stop
-@section('mainNav') @stop
-@section('mainFooter') @stop
-@section('bodyClass') lang-chooser @stop
+@section('lang-switcher') @endsection
+@section('site-header') @endsection
+@section('site-nav') @endsection
+@section('site-footer') @endsection
+@section('bodyClass') lang-chooser @endsection
+@section('skip-links') @endsection
 
 @section('main')
 
@@ -20,4 +21,4 @@
         @endforeach
     </ul>
 
-@stop
+@endsection

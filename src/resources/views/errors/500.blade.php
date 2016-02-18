@@ -4,7 +4,7 @@
 
 @section('bodyClass', 'error-500')
 
-@section('langSwitcher') @stop
+@section('langSwitcher') @endsection
 
 @section('main')
 
@@ -15,4 +15,4 @@
         </p>
     </article>
 
-@stop
+@endsection

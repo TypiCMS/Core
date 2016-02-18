@@ -20,13 +20,15 @@ class PublicLocale
      */
     public function handle(Request $request, Closure $next)
     {
-        $firstSegment = $request->segment(1);
+        $locale = $this->getLocaleFromDomainName();
 
-        if (!in_array($firstSegment, config('translatable.locales'))) {
-            return $next($request);
+        if (!$locale) {
+            $locale = config('app.locale');
+            $firstSegment = $request->segment(1);
+            if (in_array($firstSegment, config('translatable.locales'))) {
+                $locale = $firstSegment;
+            }
         }
-
-        $locale = $firstSegment;
 
         App::setlocale($locale);
 
@@ -46,5 +48,27 @@ class PublicLocale
         }
 
         return $next($request);
+    }
+
+    /**
+     * Get the front office locale.
+     *
+     * @return string|false
+     */
+    private function getLocaleFromDomainName()
+    {
+        $baseUrl = explode('/', url('/'));
+        $domainName = end($baseUrl);
+        $domainNames = [];
+        foreach (config('translatable.locales') as $locale) {
+            $domainNames[$locale] = config('typicms.translated_domains.'.$locale);
+        }
+
+        $found = array_keys($domainNames, $domainName);
+        if (count($found) == 1) {
+            return reset($found);
+        }
+
+        return false;
     }
 }

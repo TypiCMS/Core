@@ -6,4 +6,4 @@
 
 @include($module . '::admin._index')
 
-@stop
+@endsection

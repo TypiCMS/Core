@@ -21,7 +21,8 @@ class Install extends Command
      *
      * @var string
      */
-    protected $description = 'Installation of Admintool4: initial Laravel setup, composer, bower, npm';
+
+    protected $description = 'Installation of Admintool4: Laravel setup, installation of composer and npm packages';
 
     /**
      * The filesystem instance.
@@ -97,13 +98,9 @@ class Install extends Command
             $this->info('Running npm install...');
             system('npm install');
             $this->info('npm packages installed.');
-            $this->line('------------------');
-            $this->info('Running bower install...');
-            system('bower install');
-            $this->info('Bower packages installed.');
         } else {
             $this->line('You can now make /storage, /bootstrap/cache and /public/uploads directories writable.');
-            $this->line('and run composer install, npm install and bower install.');
+            $this->line('and run composer install and npm install.');
         }
 
         // Done
