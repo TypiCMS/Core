@@ -58,8 +58,8 @@ class Create extends Command
      */
     public function fire()
     {
-        if (!mb_check_encoding($this->argument('module'), 'ASCII')) {
-            return $this->error('Only ASCII characters are allowed.');
+        if (!preg_match("/^[a-z]+$/i", $this->argument('module'))) {
+            return $this->error('Only alphabetic characters are allowed.');
         }
 
         $this->module = str_plural(ucfirst(strtolower($this->argument('module'))));
