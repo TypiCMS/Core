@@ -58,7 +58,11 @@ class Create extends Command
      */
     public function fire()
     {
-        $this->module = str_plural(ucfirst($this->argument('module')));
+        if (!preg_match('/^[a-z]+$/i', $this->argument('module'))) {
+            return $this->error('Only alphabetic characters are allowed.');
+        }
+
+        $this->module = str_plural(ucfirst(strtolower($this->argument('module'))));
 
         if ($this->moduleExists()) {
             return $this->error('A module named ['.$this->module.'] already exists.');
