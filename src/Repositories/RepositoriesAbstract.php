@@ -92,7 +92,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      * @param array $with
      * @param bool  $all
      *
-     * @return Collection
+     * @return Model|null
      */
     public function next($model, $category_id = null, array $with = [], $all = false)
     {
@@ -107,7 +107,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      * @param array $with
      * @param bool  $all
      *
-     * @return Collection
+     * @return Model|null
      */
     public function prev($model, $category_id = null, array $with = [], $all = false)
     {
@@ -123,7 +123,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      * @param array $with
      * @param bool  $all
      *
-     * @return Collection
+     * @return Model|null
      */
     public function adjacent($direction, $model, $category_id = null, array $with = [], $all = false)
     {
@@ -142,8 +142,6 @@ abstract class RepositoriesAbstract implements RepositoryInterface
                 return isset($models[$adjacentKey]) ? $models[$adjacentKey] : null;
             }
         }
-
-        return;
     }
 
     /**
@@ -375,7 +373,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      *
      * @param array $data updated data
      *
-     * @return void
+     * @return null
      */
     public function sort(array $data)
     {
@@ -408,16 +406,15 @@ abstract class RepositoriesAbstract implements RepositoryInterface
     }
 
     /**
-     * Fire event to reset children’s uri
+     * Fire event to reset children’s uri.
      * Only applicable on nestable collections.
      *
      * @param Page $page
      *
-     * @return void|null
+     * @return null
      */
     protected function fireResetChildrenUriEvent($page)
     {
-        return;
     }
 
     /**
