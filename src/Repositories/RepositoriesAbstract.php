@@ -142,8 +142,6 @@ abstract class RepositoriesAbstract implements RepositoryInterface
                 return isset($models[$adjacentKey]) ? $models[$adjacentKey] : null;
             }
         }
-
-        return;
     }
 
     /**
@@ -417,7 +415,6 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      */
     protected function fireResetChildrenUriEvent($page)
     {
-        return;
     }
 
     /**
