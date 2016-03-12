@@ -74,7 +74,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
      * @param array $with
      * @param bool  $all
      *
-     * @return Collection
+     * @return Model|null
      */
     public function next($model, $category_id = null, array $with = [], $all = false)
     {
@@ -99,7 +99,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
      * @param array $with
      * @param bool  $all
      *
-     * @return Collection
+     * @return Model|null
      */
     public function prev($model, $category_id = null, array $with = [], $all = false)
     {
@@ -125,7 +125,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
      * @param array $with
      * @param bool  $all
      *
-     * @return Collection
+     * @return Model|null
      */
     public function adjacent($direction, $model, $category_id = null, array $with = [], $all = false)
     {

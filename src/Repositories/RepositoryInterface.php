@@ -57,7 +57,7 @@ interface RepositoryInterface
      * @param array $with
      * @param bool  $all
      *
-     * @return Collection
+     * @return Model|null
      */
     public function next($model, $category_id = null, array $with = [], $all = false);
 
@@ -69,7 +69,7 @@ interface RepositoryInterface
      * @param array $with
      * @param bool  $all
      *
-     * @return Collection
+     * @return Model|null
      */
     public function prev($model, $category_id = null, array $with = [], $all = false);
 
@@ -82,7 +82,7 @@ interface RepositoryInterface
      * @param array $with
      * @param bool  $all
      *
-     * @return Collection
+     * @return Model|null
      */
     public function adjacent($direction, $model, $category_id = null, array $with = [], $all = false);
 
