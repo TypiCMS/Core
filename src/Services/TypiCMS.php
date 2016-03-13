@@ -142,9 +142,8 @@ class TypiCMS
      *
      * @return array
      */
-    public function templates($directory = null)
+    public function templates($directory = 'resources/views/vendor/pages/public')
     {
-        $directory = $directory ?: config('typicms.template_dir', 'resources/views/vendor/pages/public');
         $templates = [];
         try {
             $files = File::allFiles(base_path($directory));
