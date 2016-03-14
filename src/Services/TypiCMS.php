@@ -142,21 +142,30 @@ class TypiCMS
      *
      * @return array
      */
-    public function templates($directory = 'resources/views/vendor/pages/public')
+    public function templates()
     {
-        $templates = [];
         try {
-            $files = File::allFiles(base_path($directory));
+            $directory = $this->getTemplateDir();
+            $files = File::files($directory);
         } catch (Exception $e) {
-            $files = File::allFiles(base_path('vendor/typicms/pages/src/resources/views/public'));
+            $files = File::files(base_path('vendor/typicms/pages/src/resources/views/public'));
         }
-        foreach ($files as $key => $file) {
-            $name = str_replace('.blade.php', '', $file->getRelativePathname());
+        $templates = [];
+        foreach ($files as $file) {
+            $filename = File::name($file);
+            $name = str_replace('.blade', '', $filename);
             if ($name[0] != '_' && $name != 'master') {
                 $templates[$name] = ucfirst($name);
             }
         }
 
         return ['' => ''] + $templates;
+    }
+
+    public function getTemplateDir()
+    {
+        $templateDir = config('typicms.template_dir');
+        $viewPath = app()['view']->getFinder()->getHints()['pages'][0];
+        return rtrim($viewPath.DIRECTORY_SEPARATOR.$templateDir, DIRECTORY_SEPARATOR);
     }
 }
