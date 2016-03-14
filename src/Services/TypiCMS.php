@@ -166,6 +166,7 @@ class TypiCMS
     {
         $templateDir = config('typicms.template_dir');
         $viewPath = app()['view']->getFinder()->getHints()['pages'][0];
+
         return rtrim($viewPath.DIRECTORY_SEPARATOR.$templateDir, DIRECTORY_SEPARATOR);
     }
 }
