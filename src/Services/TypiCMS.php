@@ -164,7 +164,7 @@ class TypiCMS
 
     public function getTemplateDir()
     {
-        $templateDir = config('typicms.template_dir');
+        $templateDir = config('typicms.template_dir', 'public');
         $viewPath = app()['view']->getFinder()->getHints()['pages'][0];
 
         return rtrim($viewPath.DIRECTORY_SEPARATOR.$templateDir, DIRECTORY_SEPARATOR);
