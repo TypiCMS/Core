@@ -11,6 +11,7 @@ return [
         'fr' => 'Français',
         'nl' => 'Néerlandais',
         'en' => 'Anglais',
+        'es' => 'Espagnol',
     ],
     'form' => [
         'page content' => 'contenu de la page',
