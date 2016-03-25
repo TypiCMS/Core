@@ -227,14 +227,14 @@ abstract class Presenter extends BasePresenter
     public function icon($size = 2, $field = 'document')
     {
         $file = $this->getPath($this->entity, $field);
-        if (!is_file(public_path().$file)) {
-            $file = '/uploads/img-not-found.png';
-        }
         $html = '<div class="doc">';
-        $html .= '<span class="text-center fa fa-file-text-o fa-'.$size.'x"></span>';
-        $html .= '<a href="'.$file.'">';
+        $html .= '<span class="doc-icon fa fa-file-text-o fa-'.$size.'x"></span>';
+        $html .= ' <a class="doc-anchor" href="'.$file.'">';
         $html .= $this->entity->$field;
         $html .= '</a>';
+        if (!is_file(public_path().$file)) {
+            $html .= ' <span class="doc-warning text-warning">('.trans('global.Not found').')</span>';
+        }
         $html .= '</div>';
 
         return $html;
