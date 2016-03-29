@@ -25,7 +25,7 @@ abstract class BaseAdminController extends Controller
     {
         $module = $this->repository->getTable();
         $title = trans($module.'::global.name');
-        $models = $this->repository->all();
+        $models = $this->repository->all([], true);
         JavaScript::put('models', $models);
 
         return view('core::admin.index')
