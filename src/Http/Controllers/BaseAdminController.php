@@ -2,9 +2,9 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use JavaScript;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Request;
+use JavaScript;
 
 abstract class BaseAdminController extends Controller
 {
