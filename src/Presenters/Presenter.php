@@ -201,7 +201,24 @@ abstract class Presenter extends BasePresenter
     {
         $src = $this->thumbSrc($width, $height, $options, $field);
 
-        return '<img class="img-responsive" src="'.$src.'" alt="">';
+        return '<img width="'.$width.'" height="'.$height.'" src="'.$src.'" alt="">';
+    }
+
+    /**
+     * Return a resized or cropped img tag for double resolution screens.
+     *
+     * @param int    $width   width of image, null for auto
+     * @param int    $height  height of image, null for auto
+     * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
+     * @param string $field   column name
+     *
+     * @return string img HTML tag
+     */
+    public function thumb2x($width = null, $height = null, array $options = [], $field = 'image')
+    {
+        $src = $this->thumbSrc($width, $height, $options, $field);
+
+        return '<img width="'.$width / 2.'" height="'.$height / 2.'" src="'.$src.'" alt="">';
     }
 
     /**
