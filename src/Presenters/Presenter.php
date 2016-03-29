@@ -201,7 +201,7 @@ abstract class Presenter extends BasePresenter
     {
         $src = $this->thumbSrc($width, $height, $options, $field);
 
-        return '<img width="'.$width.'" height="'.$height.'" src="'.$src.'" alt="">';
+        return '<img src="'.$src.'" alt="" width="'.$width.'" height="'.$height.'">';
     }
 
     /**
@@ -218,7 +218,7 @@ abstract class Presenter extends BasePresenter
     {
         $src = $this->thumbSrc($width, $height, $options, $field);
 
-        return '<img width="'.$width / 2.'" height="'.$height / 2.'" src="'.$src.'" alt="">';
+        return '<img src="'.$src.'" alt="" width="'.$width / 2.'" height="'.$height / 2.'">';
     }
 
     /**
