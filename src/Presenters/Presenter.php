@@ -201,7 +201,24 @@ abstract class Presenter extends BasePresenter
     {
         $src = $this->thumbSrc($width, $height, $options, $field);
 
-        return '<img class="img-responsive" src="'.$src.'" alt="">';
+        return '<img src="'.$src.'" alt="" width="'.$width.'" height="'.$height.'">';
+    }
+
+    /**
+     * Return a resized or cropped img tag for double resolution screens.
+     *
+     * @param int    $width   width of image, null for auto
+     * @param int    $height  height of image, null for auto
+     * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
+     * @param string $field   column name
+     *
+     * @return string img HTML tag
+     */
+    public function thumb2x($width = null, $height = null, array $options = [], $field = 'image')
+    {
+        $src = $this->thumbSrc($width, $height, $options, $field);
+
+        return '<img src="'.$src.'" alt="" width="'.($width / 2).'" height="'.($height / 2).'">';
     }
 
     /**
@@ -227,14 +244,14 @@ abstract class Presenter extends BasePresenter
     public function icon($size = 2, $field = 'document')
     {
         $file = $this->getPath($this->entity, $field);
-        if (!is_file(public_path().$file)) {
-            $file = '/uploads/img-not-found.png';
-        }
         $html = '<div class="doc">';
-        $html .= '<span class="text-center fa fa-file-text-o fa-'.$size.'x"></span>';
-        $html .= '<a href="'.$file.'">';
+        $html .= '<span class="doc-icon fa fa-file-text-o fa-'.$size.'x"></span>';
+        $html .= ' <a class="doc-anchor" href="'.$file.'">';
         $html .= $this->entity->$field;
         $html .= '</a>';
+        if (!is_file(public_path().$file)) {
+            $html .= ' <span class="doc-warning text-warning">('.trans('global.Not found').')</span>';
+        }
         $html .= '</div>';
 
         return $html;
