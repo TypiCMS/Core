@@ -69,7 +69,7 @@ class ModuleProvider extends ServiceProvider
         /*
          * Register route service provider
          */
-        $app->register('TypiCMS\Modules\Core\Providers\RouteServiceProvider');
+        $app->register(\TypiCMS\Modules\Core\Providers\RouteServiceProvider::class);
 
         /*
         |--------------------------------------------------------------------------
@@ -101,7 +101,7 @@ class ModuleProvider extends ServiceProvider
         | Sidebar view creator.
         |--------------------------------------------------------------------------
         */
-        $app->view->creator('core::admin._sidebar', 'TypiCMS\Modules\Core\Composers\SidebarViewCreator');
+        $app->view->creator('core::admin._sidebar', \TypiCMS\Modules\Core\Composers\SidebarViewCreator::class);
 
         /*
         |--------------------------------------------------------------------------
@@ -109,9 +109,9 @@ class ModuleProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
         $app->view->composers([
-            'TypiCMS\Modules\Core\Composers\MasterViewComposer' => '*',
-            'TypiCMS\Modules\Core\Composers\LocaleComposer'     => '*::public.*',
-            'TypiCMS\Modules\Core\Composers\LocalesComposer'    => '*::admin.*',
+            \TypiCMS\Modules\Core\Composers\MasterViewComposer::class => '*',
+            \TypiCMS\Modules\Core\Composers\LocaleComposer::class     => '*::public.*',
+            \TypiCMS\Modules\Core\Composers\LocalesComposer::class    => '*::admin.*',
         ]);
 
         $this->registerCommands();
@@ -172,7 +172,7 @@ class ModuleProvider extends ServiceProvider
     {
         $this->app->singleton('typicms.routes', function (Application $app) {
             try {
-                return $app->make('TypiCMS\Modules\Pages\Repositories\PageInterface')->getForRoutes();
+                return $app->make(\TypiCMS\Modules\Pages\Repositories\PageInterface::class)->getForRoutes();
             } catch (Exception $e) {
                 return [];
             }
@@ -187,18 +187,18 @@ class ModuleProvider extends ServiceProvider
     protected function registerCoreModules()
     {
         $app = $this->app;
-        $app->register('TypiCMS\Modules\Translations\Providers\ModuleProvider');
-        $app->register('TypiCMS\Modules\Blocks\Providers\ModuleProvider');
-        $app->register('TypiCMS\Modules\Settings\Providers\ModuleProvider');
-        $app->register('TypiCMS\Modules\History\Providers\ModuleProvider');
-        $app->register('TypiCMS\Modules\Users\Providers\ModuleProvider');
-        $app->register('TypiCMS\Modules\Groups\Providers\ModuleProvider');
-        $app->register('TypiCMS\Modules\Files\Providers\ModuleProvider');
-        $app->register('TypiCMS\Modules\Galleries\Providers\ModuleProvider');
-        $app->register('TypiCMS\Modules\Dashboard\Providers\ModuleProvider');
-        $app->register('TypiCMS\Modules\Menus\Providers\ModuleProvider');
-        $app->register('TypiCMS\Modules\Sitemap\Providers\ModuleProvider');
+        $app->register(\TypiCMS\Modules\Translations\Providers\ModuleProvider::class);
+        $app->register(\TypiCMS\Modules\Blocks\Providers\ModuleProvider::class);
+        $app->register(\TypiCMS\Modules\Settings\Providers\ModuleProvider::class);
+        $app->register(\TypiCMS\Modules\History\Providers\ModuleProvider::class);
+        $app->register(\TypiCMS\Modules\Users\Providers\ModuleProvider::class);
+        $app->register(\TypiCMS\Modules\Roles\Providers\ModuleProvider::class);
+        $app->register(\TypiCMS\Modules\Files\Providers\ModuleProvider::class);
+        $app->register(\TypiCMS\Modules\Galleries\Providers\ModuleProvider::class);
+        $app->register(\TypiCMS\Modules\Dashboard\Providers\ModuleProvider::class);
+        $app->register(\TypiCMS\Modules\Menus\Providers\ModuleProvider::class);
+        $app->register(\TypiCMS\Modules\Sitemap\Providers\ModuleProvider::class);
         // Pages module needs to be at last for routing to work.
-        $app->register('TypiCMS\Modules\Pages\Providers\ModuleProvider');
+        $app->register(\TypiCMS\Modules\Pages\Providers\ModuleProvider::class);
     }
 }
