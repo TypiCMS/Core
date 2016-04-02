@@ -36,14 +36,14 @@
 
 </head>
 
-<body class="body-{{ $lang }} @yield('bodyClass') @if(Auth::user() and Auth::user()->hasRole('Admin') and ! Request::input('preview'))has-navbar @endif">
+<body class="body-{{ $lang }} @yield('bodyClass') @if(auth()->user() and auth()->user()->hasRole('Admin') and ! Request::input('preview'))has-navbar @endif">
 
     @section('skip-links')
     <a href="#main" class="skip-to-content">@lang('db.Skip to content')</a>
     <a href="#site-nav" class="btn-offcanvas" data-toggle="offcanvas" title="@lang('db.Open navigation')" aria-label="@lang('db.Open navigation')" role="button" aria-controls="navigation" aria-expanded="false"><span class="fa fa-bars fa-fw" aria-hidden="true"></span></a>
     @show
 
-@if(Auth::user() and Auth::user()->hasRole('Admin') and ! Request::input('preview'))
+@if(auth()->user() and auth()->user()->hasRole('Admin') and ! Request::input('preview'))
     @include('core::_navbar')
 @endif
 

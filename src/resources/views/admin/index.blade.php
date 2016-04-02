@@ -4,6 +4,6 @@
 
 @section('main')
 
-@include($module . '::admin._index')
+@include($module.'::admin._index')
 
 @endsection
