@@ -14,7 +14,7 @@
 
 </head>
 
-<body class="@if (auth()->user())has-navbar @endif @yield('bodyClass')">
+<body class="@if(auth()->user())has-navbar @endif @yield('bodyClass')">
 
 @section('navbar')
     @if (auth()->user())
@@ -50,9 +50,6 @@
                 @endif
             @show
 
-            <div class="alert alert-info">
-                {{ auth()->user()->permissions }}
-            </div>
             @yield('main')
 
         </div>
