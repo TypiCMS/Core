@@ -195,7 +195,7 @@ abstract class Base extends Model
     public function editUrl()
     {
         try {
-            return route('admin::'.$this->getTable().'.edit', $this->id);
+            return route('admin::edit-'.$this->getTable(), $this->id);
         } catch (InvalidArgumentException $e) {
             Log::error($e->getMessage());
         }
@@ -209,7 +209,7 @@ abstract class Base extends Model
     public function indexUrl()
     {
         try {
-            return route('admin::index-'.$this->getTable().'');
+            return route('admin::index-'.$this->getTable());
         } catch (InvalidArgumentException $e) {
             Log::error($e->getMessage());
         }
