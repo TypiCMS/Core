@@ -26,18 +26,18 @@
                         <a href="{{ route('admin.users.index') }}" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user fa-fw"></span> {{ Auth::user()->first_name.' '.Auth::user()->last_name }} <b class="caret"></b></a>
                         <div class="dropdown-menu dropdown-user">
                             <div class="img pull-left">
-                                <img src="https://www.gravatar.com/avatar/{{ md5(Auth::user()->email) }}" class="pull-left">
+                                <span class="fa fa-user"></span>
+                                {{--<img src="https://www.gravatar.com/avatar/{{ md5(Auth::user()->email) }}" class="pull-left">--}}
                             </div>
                             <div class="info">
                                 <p>{{ Auth::user()->email }}</p>
+                                <div class="user-actions">
+
                                 @if (Auth::user()->hasAccess('users.edit'))
-                                <p>
-                                    <a href="{{ route('admin.users.edit', Auth::user()->id) }}">@lang('users::global.Profile', [], config('typicms.admin_locale'))</a>
-                                </p>
+                                    <a class="btn btn-secondary" href="{{ route('admin.users.edit', Auth::user()->id) }}">@lang('users::global.Profile', [], config('typicms.admin_locale'))</a>
                                 @endif
-                                <p>
-                                    <a href="{{ route('logout') }}">@lang('users::global.Log out', [], config('typicms.admin_locale'))</a>
-                                </p>
+                                    <a class="btn btn-danger" href="{{ route('logout') }}">@lang('users::global.Log out', [], config('typicms.admin_locale'))</a>
+                                </div>
                             </div>
                         </div>
                     </li>
