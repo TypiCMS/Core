@@ -1,5 +1,7 @@
 <input type="hidden" name="permissions[]" value="index-history">
 <input type="hidden" name="permissions[]" value="destroy-history">
+<input type="hidden" name="permissions[]" value="change-locale">
+<input type="hidden" name="permissions[]" value="update-preferences">
 
 <div class="checkbox">
     <label>
