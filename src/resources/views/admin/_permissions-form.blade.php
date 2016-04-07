@@ -1,14 +1,14 @@
-<input type="hidden" value="index-history" name="permissions[]">
-<input type="hidden" value="destroy-history" name="permissions[]">
+<input type="hidden" name="permissions[]" value="index-history">
+<input type="hidden" name="permissions[]" value="destroy-history">
 
 <div class="checkbox">
     <label>
-        <input type="checkbox" value="1" @if(isset($permissions['dashboard']) && $permissions['dashboard'])checked="checked"@endif name="permissions[dashboard]"> Dashboard
+        <input type="checkbox" name="permissions[]" value="dashboard" @if(in_array('dashboard', $permissions))checked="checked"@endif> Dashboard
     </label>
 </div>
 <div class="checkbox">
     <label>
-        <input type="checkbox" value="1" @if(isset($permissions['index-settings']) && $permissions['index-settings'])checked="checked"@endif name="permissions[index-settings]"> Settings
+        <input type="checkbox" name="permissions[]" value="index-settings" @if(in_array('index-settings', $permissions))checked="checked"@endif> Settings
     </label>
 </div>
 <div class="table-responsive">
@@ -27,7 +27,7 @@
             </tr>
         </thead>
         <tbody>
-        @foreach (TypiCMS::modules() as $module => $properties)
+            @foreach (TypiCMS::modules() as $module => $properties)
             <tr>
                 <td>@lang($module.'::global.name')</td>
                 <td><input type="checkbox" name="permissions[]" value="index-{{ $module }}" @if(in_array('index-'.$module, $permissions))checked="checked"@endif></td>
@@ -39,7 +39,7 @@
                 <td><input type="checkbox" name="permissions[]" value="sort-{{ $module }}" @if(in_array('sort-'.$module, $permissions))checked="checked"@endif></td>
                 <td><input type="checkbox" name="permissions[]" value="destroy-{{ $module }}" @if(in_array('destroy-'.$module, $permissions))checked="checked"@endif></td>
             </tr>
-        @endforeach
+            @endforeach
         </tbody>
     </table>
 </div>
