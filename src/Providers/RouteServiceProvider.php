@@ -29,7 +29,7 @@ class RouteServiceProvider extends ServiceProvider
             /*
              * Admin routes
              */
-            $router->get('admin/_locale/{locale}', 'LocaleController@setContentLocale');
+            $router->get('admin/_locale/{locale}', 'LocaleController@setContentLocale')->name('admin::change-locale');
         });
     }
 }
