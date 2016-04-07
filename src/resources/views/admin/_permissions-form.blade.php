@@ -1,5 +1,5 @@
-<input type="hidden" value="1" name="permissions[user.updatepreferences]">
-<input type="hidden" value="1" name="permissions[history]">
+<input type="hidden" value="index-history" name="permissions[]">
+<input type="hidden" value="destroy-history" name="permissions[]">
 
 <div class="checkbox">
     <label>
@@ -8,7 +8,7 @@
 </div>
 <div class="checkbox">
     <label>
-        <input type="checkbox" value="1" @if(isset($permissions['settings.index']) && $permissions['settings.index'])checked="checked"@endif name="permissions[settings.index]"> Settings
+        <input type="checkbox" value="1" @if(isset($permissions['index-settings']) && $permissions['index-settings'])checked="checked"@endif name="permissions[index-settings]"> Settings
     </label>
 </div>
 <div class="table-responsive">
@@ -30,14 +30,14 @@
         @foreach (TypiCMS::modules() as $module => $properties)
             <tr>
                 <td>@lang($module.'::global.name')</td>
-                <td><input type="checkbox" value="1" @if(isset($permissions[$module.'.index']) && $permissions[$module.'.index'])checked="checked"@endif name="permissions[{{ $module }}.index]"></td>
-                <td><input type="checkbox" value="1" @if(isset($permissions[$module.'.show']) && $permissions[$module.'.show'])checked="checked"@endif name="permissions[{{ $module }}.show]"></td>
-                <td><input type="checkbox" value="1" @if(isset($permissions[$module.'.create']) && $permissions[$module.'.create'])checked="checked"@endif name="permissions[{{ $module }}.create]"></td>
-                <td><input type="checkbox" value="1" @if(isset($permissions[$module.'.store']) && $permissions[$module.'.store'])checked="checked"@endif name="permissions[{{ $module }}.store]"></td>
-                <td><input type="checkbox" value="1" @if(isset($permissions[$module.'.edit']) && $permissions[$module.'.edit'])checked="checked"@endif name="permissions[{{ $module }}.edit]"></td>
-                <td><input type="checkbox" value="1" @if(isset($permissions[$module.'.update']) && $permissions[$module.'.update'])checked="checked"@endif name="permissions[{{ $module }}.update]"></td>
-                <td><input type="checkbox" value="1" @if(isset($permissions[$module.'.sort']) && $permissions[$module.'.sort'])checked="checked"@endif name="permissions[{{ $module }}.sort]"></td>
-                <td><input type="checkbox" value="1" @if(isset($permissions[$module.'.destroy']) && $permissions[$module.'.destroy'])checked="checked"@endif name="permissions[{{ $module }}.destroy]"></td>
+                <td><input type="checkbox" name="permissions[]" value="index-{{ $module }}" @if(in_array('index-'.$module, $permissions))checked="checked"@endif></td>
+                <td><input type="checkbox" name="permissions[]" value="show-{{ $module }}" @if(in_array('show-'.$module, $permissions))checked="checked"@endif></td>
+                <td><input type="checkbox" name="permissions[]" value="create-{{ $module }}" @if(in_array('create-'.$module, $permissions))checked="checked"@endif></td>
+                <td><input type="checkbox" name="permissions[]" value="store-{{ $module }}" @if(in_array('store-'.$module, $permissions))checked="checked"@endif></td>
+                <td><input type="checkbox" name="permissions[]" value="edit-{{ $module }}" @if(in_array('edit-'.$module, $permissions))checked="checked"@endif></td>
+                <td><input type="checkbox" name="permissions[]" value="update-{{ $module }}" @if(in_array('update-'.$module, $permissions))checked="checked"@endif></td>
+                <td><input type="checkbox" name="permissions[]" value="sort-{{ $module }}" @if(in_array('sort-'.$module, $permissions))checked="checked"@endif></td>
+                <td><input type="checkbox" name="permissions[]" value="destroy-{{ $module }}" @if(in_array('destroy-'.$module, $permissions))checked="checked"@endif></td>
             </tr>
         @endforeach
         </tbody>
