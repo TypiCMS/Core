@@ -143,39 +143,6 @@ abstract class Base extends Model
     }
 
     /**
-     * Get title attribute from translation table
-     * and append it to main model attributes.
-     *
-     * @return string title
-     */
-    public function getTitleAttribute($value)
-    {
-        return $this->title;
-    }
-
-    /**
-     * Get status attribute from translation table
-     * and append it to main model attributes.
-     *
-     * @return string title
-     */
-    public function getStatusAttribute($value)
-    {
-        return $this->status;
-    }
-
-    /**
-     * Get status attribute from translation table
-     * and append it to main model attributes.
-     *
-     * @return string title
-     */
-    public function getThumbAttribute($value)
-    {
-        return $this->present()->thumbSrc(null, 22);
-    }
-
-    /**
      * A model has many tags.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
