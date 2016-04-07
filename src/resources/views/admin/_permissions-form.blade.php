@@ -33,13 +33,13 @@
             <tr>
                 <td>@lang($module.'::global.name')</td>
                 <td><input type="checkbox" name="permissions[]" value="index-{{ $module }}" @if(in_array('index-'.$module, $permissions))checked="checked"@endif></td>
-                <td><input type="checkbox" name="permissions[]" value="show-{{ $module }}" @if(in_array('show-'.$module, $permissions))checked="checked"@endif></td>
-                <td><input type="checkbox" name="permissions[]" value="create-{{ $module }}" @if(in_array('create-'.$module, $permissions))checked="checked"@endif></td>
-                <td><input type="checkbox" name="permissions[]" value="store-{{ $module }}" @if(in_array('store-'.$module, $permissions))checked="checked"@endif></td>
-                <td><input type="checkbox" name="permissions[]" value="edit-{{ $module }}" @if(in_array('edit-'.$module, $permissions))checked="checked"@endif></td>
-                <td><input type="checkbox" name="permissions[]" value="update-{{ $module }}" @if(in_array('update-'.$module, $permissions))checked="checked"@endif></td>
+                <td><input type="checkbox" name="permissions[]" value="show-{{ str_singular($module) }}" @if(in_array('show-'.str_singular($module), $permissions))checked="checked"@endif></td>
+                <td><input type="checkbox" name="permissions[]" value="create-{{ str_singular($module) }}" @if(in_array('create-'.str_singular($module), $permissions))checked="checked"@endif></td>
+                <td><input type="checkbox" name="permissions[]" value="store-{{ str_singular($module) }}" @if(in_array('store-'.str_singular($module), $permissions))checked="checked"@endif></td>
+                <td><input type="checkbox" name="permissions[]" value="edit-{{ str_singular($module) }}" @if(in_array('edit-'.str_singular($module), $permissions))checked="checked"@endif></td>
+                <td><input type="checkbox" name="permissions[]" value="update-{{ str_singular($module) }}" @if(in_array('update-'.str_singular($module), $permissions))checked="checked"@endif></td>
                 <td><input type="checkbox" name="permissions[]" value="sort-{{ $module }}" @if(in_array('sort-'.$module, $permissions))checked="checked"@endif></td>
-                <td><input type="checkbox" name="permissions[]" value="destroy-{{ $module }}" @if(in_array('destroy-'.$module, $permissions))checked="checked"@endif></td>
+                <td><input type="checkbox" name="permissions[]" value="destroy-{{ str_singular($module) }}" @if(in_array('destroy-'.str_singular($module), $permissions))checked="checked"@endif></td>
             </tr>
             @endforeach
         </tbody>

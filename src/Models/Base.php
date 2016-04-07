@@ -195,7 +195,7 @@ abstract class Base extends Model
     public function editUrl()
     {
         try {
-            return route('admin::edit-'.$this->getTable(), $this->id);
+            return route('admin::edit-'.str_singular($this->getTable()), $this->id);
         } catch (InvalidArgumentException $e) {
             Log::error($e->getMessage());
         }
