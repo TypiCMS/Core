@@ -4,7 +4,6 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Request;
-use JavaScript;
 
 abstract class BaseAdminController extends Controller
 {
@@ -14,22 +13,6 @@ abstract class BaseAdminController extends Controller
     {
         $this->middleware('admin');
         $this->repository = $repository;
-    }
-
-    /**
-     * List models.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function index()
-    {
-        $module = $this->repository->getTable();
-        $title = trans($module.'::global.name');
-        $models = $this->repository->all([], true);
-        JavaScript::put('models', $models);
-
-        return view('core::admin.index')
-            ->with(compact('title', 'module', 'models'));
     }
 
     /**
