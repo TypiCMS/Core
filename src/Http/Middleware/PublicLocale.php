@@ -21,10 +21,10 @@ class PublicLocale
     public function handle(Request $request, Closure $next)
     {
         $locale = $this->getLocaleFromDomainName();
+        $firstSegment = $request->segment(1);
 
         if (!$locale) {
             $locale = config('app.locale');
-            $firstSegment = $request->segment(1);
             if (in_array($firstSegment, config('translatable.locales'))) {
                 $locale = $firstSegment;
             }
@@ -38,7 +38,7 @@ class PublicLocale
         setlocale(LC_ALL, $localeAndCountry.'.utf8', $localeAndCountry.'.utf-8', $localeAndCountry);
 
         // Throw a 404 if website in this language is offline
-        if (!config('typicms.'.$locale.'.status')) {
+        if ($firstSegment != 'admin' && !config('typicms.'.$locale.'.status')) {
             abort(404);
         }
 
