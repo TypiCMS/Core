@@ -43,7 +43,7 @@
     <a href="#site-nav" class="btn-offcanvas" data-toggle="offcanvas" title="@lang('db.Open navigation')" aria-label="@lang('db.Open navigation')" role="button" aria-controls="navigation" aria-expanded="false"><span class="fa fa-bars fa-fw" aria-hidden="true"></span></a>
     @show
 
-@if(auth()->user() and auth()->user()->hasRole('Admin') and ! Request::input('preview'))
+@if(auth()->user() and (auth()->user()->hasAnyRole(['administrator', 'editor']) || auth()->user()->isSuperUser()) and !Request::input('preview'))
     @include('core::_navbar')
 @endif
 
