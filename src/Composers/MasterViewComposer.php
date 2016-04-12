@@ -15,8 +15,7 @@ class MasterViewComposer
                 auth()->user()->hasAnyRole(['administrator', 'editor']) ||
                 auth()->user()->isSuperUser()
             ) &&
-            !request()->input('preview'))
-        {
+            !request()->input('preview')) {
             $view->with('navbar', true);
         }
     }
