@@ -195,30 +195,52 @@ abstract class Presenter extends BasePresenter
      * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
      * @param string $field   column name
      *
-     * @return string img HTML tag
+     * @return string HTML img tag
      */
     public function thumb($width = null, $height = null, array $options = [], $field = 'image')
     {
         $src = $this->thumbSrc($width, $height, $options, $field);
 
-        return '<img src="'.$src.'" alt="" width="'.$width.'" height="'.$height.'">';
+        return $this->img($src);
     }
 
     /**
-     * Return a resized or cropped img tag for double resolution screens.
+     * Alias of thumb method.
      *
      * @param int    $width   width of image, null for auto
      * @param int    $height  height of image, null for auto
      * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
      * @param string $field   column name
      *
-     * @return string img HTML tag
+     * @deprecated
+     *
+     * @return string HTML img tag
      */
     public function thumb2x($width = null, $height = null, array $options = [], $field = 'image')
     {
-        $src = $this->thumbSrc($width, $height, $options, $field);
+        return $this->thumb($width, $height, $options, $field);
+    }
 
-        return '<img src="'.$src.'" alt="" width="'.($width / 2).'" height="'.($height / 2).'">';
+    /**
+     * Build image tag
+     *
+     * @param string $src
+     * @param int $width
+     * @param int $height
+     *
+     * @return string HTML img tag
+     */
+    private function img($src, $width = null, $height = null)
+    {
+        $size = [];
+        if ($width !== null) {
+            $size[] = 'width="'.$width.'"';
+        }
+        if ($height !== null) {
+            $size[] = 'height="'.$height.'"';
+        }
+
+        return '<img src="'.$src.'" alt="" '.implode(' ', $size).'>';
     }
 
     /**
