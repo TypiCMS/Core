@@ -222,11 +222,11 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Build image tag
+     * Build image tag.
      *
      * @param string $src
-     * @param int $width
-     * @param int $height
+     * @param int    $width
+     * @param int    $height
      *
      * @return string HTML img tag
      */
