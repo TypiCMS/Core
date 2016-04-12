@@ -19,6 +19,8 @@
 
     <link href="{{ app()->isLocal() ? asset('css/public.css') : asset(elixir('css/public.css')) }}" rel="stylesheet">
 
+    @include('core::public._feed-links')
+
     @yield('css')
 
     @if(app()->environment('production') and config('typicms.google_analytics_code'))
