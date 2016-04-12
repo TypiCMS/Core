@@ -3,12 +3,21 @@
 namespace TypiCMS\Modules\Core\Composers;
 
 use Illuminate\Contracts\View\View;
-use TypiCMS\Modules\Core\Facades\TypiCMS;
 
 class MasterViewComposer
 {
     public function compose(View $view)
     {
-        $view->with('websiteTitle', TypiCMS::title());
+        $view->with('websiteTitle', app('typicms')->title());
+        if (
+            auth()->user() &&
+            (
+                auth()->user()->hasAnyRole(['administrator', 'editor']) ||
+                auth()->user()->isSuperUser()
+            ) &&
+            !request()->input('preview'))
+        {
+            $view->with('navbar', true);
+        }
     }
 }
