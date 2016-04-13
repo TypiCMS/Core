@@ -1,16 +1,24 @@
-<input type="hidden" name="permissions[]" value="index-history">
-<input type="hidden" name="permissions[]" value="destroy-history">
 <input type="hidden" name="permissions[]" value="change-locale">
 <input type="hidden" name="permissions[]" value="update-preferences">
 
 <div class="checkbox">
     <label>
-        <input type="checkbox" name="permissions[]" value="dashboard" @if(in_array('dashboard', $permissions))checked="checked"@endif> Dashboard
+        <input type="checkbox" name="permissions[]" value="dashboard" @if(in_array('dashboard', $permissions))checked="checked"@endif> @lang('roles::global.Access dashboard')
     </label>
 </div>
 <div class="checkbox">
     <label>
-        <input type="checkbox" name="permissions[]" value="index-settings" @if(in_array('index-settings', $permissions))checked="checked"@endif> Settings
+        <input type="checkbox" name="permissions[]" value="index-settings" @if(in_array('index-settings', $permissions))checked="checked"@endif> @lang('roles::global.Change settings')
+    </label>
+</div>
+<div class="checkbox">
+    <label>
+        <input type="checkbox" name="permissions[]" value="index-history" @if(in_array('index-history', $permissions))checked="checked"@endif> @lang('roles::global.View history')
+    </label>
+</div>
+<div class="checkbox">
+    <label>
+        <input type="checkbox" name="permissions[]" value="destroy-history" @if(in_array('destroy-history', $permissions))checked="checked"@endif> @lang('roles::global.Empty history')
     </label>
 </div>
 <div class="table-responsive">
