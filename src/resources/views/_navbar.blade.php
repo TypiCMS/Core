@@ -42,7 +42,7 @@
                             </div>
                         </div>
                     </li>
-                    @can('index-settings'))
+                    @can('index-settings')
                         <li><a href="{{ route('admin::index-settings') }}"><span class="fa fa-cog fa-fw"></span> <span class="hidden-sm">@lang('global.Settings', [], config('typicms.admin_locale'))</span></a></li>
                     @endcan
                 </ul>
