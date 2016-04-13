@@ -1,6 +1,6 @@
 <a href="{{ TypiCMS::homeUrl() }}">
     @if (TypiCMS::hasLogo())
-        <img class="logo" src="{{ url('uploads/settings/'.config('typicms.image')) }}" width="" height="150" alt="{{ TypiCMS::title() }}">
+        <img class="logo" src="{{ url('uploads/settings/'.config('typicms.image')) }}" alt="{{ TypiCMS::title() }}" height="150">
     @else
         {{ TypiCMS::title() }}
     @endif
