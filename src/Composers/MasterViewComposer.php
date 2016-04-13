@@ -9,6 +9,7 @@ class MasterViewComposer
     public function compose(View $view)
     {
         $view->with('websiteTitle', app('typicms')->title());
+        $navbar = false;
         if (
             auth()->user() &&
             (
@@ -16,7 +17,8 @@ class MasterViewComposer
                 auth()->user()->isSuperUser()
             ) &&
             !request()->input('preview')) {
-            $view->with('navbar', true);
+            $navbar = true;
         }
+        $view->with('navbar', $navbar);
     }
 }
