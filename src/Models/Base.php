@@ -181,29 +181,4 @@ abstract class Base extends Model
             Log::error($e->getMessage());
         }
     }
-
-    /**
-     * Generic Translate method to maintain compatibility
-     * when a model doesn't have Translatable trait.
-     *
-     * @param string $lang
-     *
-     * @return $this
-     */
-    public function translate($lang = null)
-    {
-        return $this;
-    }
-
-    /**
-     * Models without translatable trait doesn’t have translation.
-     *
-     * @param string $locale
-     *
-     * @return bool
-     */
-    public function hasTranslation($locale)
-    {
-        return false;
-    }
 }
