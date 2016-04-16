@@ -32,7 +32,7 @@ class AdminLocale
         // Don’t set translatable locale if locale is 'all'
         $localeInSession = $request->session()->get('locale', config('app.locale'));
         if (in_array($localeInSession, config('translatable-bootforms.locales'))) {
-            Config::set('translatable.locale', $localeInSession);
+            Config::set('typicms.content_locale', $localeInSession);
         }
 
         return $next($request);
