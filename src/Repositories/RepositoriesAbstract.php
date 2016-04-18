@@ -42,12 +42,6 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      */
     public function make(array $with = [])
     {
-        if (method_exists($this->model, 'translations')) {
-            if (!in_array('translations', $with)) {
-                $with[] = 'translations';
-            }
-        }
-
         return $this->model->with($with);
     }
 
@@ -211,13 +205,15 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      * Get all models sorted, filtered and paginated.
      *
      * @param array $columns
+     * @param array $with
      *
      * @return array
      */
-    public function allFiltered(array $columns = [])
+    public function allFiltered($columns = [], array $with = [])
     {
+        $columns = $columns ?: ['*'];
         $params = Request::all();
-        $data = $this->model->select($columns);
+        $data = $this->make($with)->select($columns);
 
         $orderBy = $params['orderBy'] ?? null;
         $query = $params['query'] ?? null;
