@@ -56,11 +56,7 @@
 
         @include('core::admin._javascript')
 
-        <script src="@if(app()->environment('production')){{ asset(elixir('js/admin/components.min.js')) }}@else{{ asset('js/admin/components.min.js') }}@endif"></script>
-
-        @if(config('typicms.admin_locale') != 'en')
-            <script src="{{ asset('js/angular-locales/angular-locale_'.config('typicms.admin_locale').'-'.config('typicms.admin_locale').'.js') }}"></script>
-        @endif
+        <script src="@if(app()->environment('production')){{ asset(elixir('js/admin/main.js')) }}@else{{ asset('js/admin/main.js') }}@endif"></script>
 
         @yield('js')
 
