@@ -79,19 +79,11 @@ abstract class Base extends Model
      */
     public function scopeOnline(Builder $query)
     {
-        if (method_exists($this, 'translations')) {
-            return $query->whereHas(
-                'translations',
-                function (Builder $query) {
-                    if (!Request::input('preview')) {
-                        $query->where('status', 1);
-                    }
-                    $query->where('locale', config('app.locale'));
-                }
-            );
-        } else {
-            return $query->where('status', 1);
+        $field = 'status';
+        if (in_array('status', $this->translatable)) {
+            $field .= '->'.config('typicms.content_locale');
         }
+        return $query->where($field, 1);
     }
 
     /**
