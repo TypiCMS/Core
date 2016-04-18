@@ -211,17 +211,17 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      * Get all models sorted, filtered and paginated.
      *
      * @param array $columns
-     * @param array $params
      *
      * @return array
      */
-    public function allFiltered(array $columns = [], array $params = [])
+    public function allFiltered(array $columns = [])
     {
+        $params = Request::all();
         $data = $this->model->select($columns);
 
         $orderBy = $params['orderBy'] ?? null;
         $query = $params['query'] ?? null;
-        $limit = $params['limit'] ?? 25;
+        $limit = $params['limit'] ?? null;
         $page = $params['page'] ?? 1;
         $ascending = $params['ascending'] ?? 1;
         $byColumn = $params['byColumn'] ?? 0;
@@ -233,15 +233,16 @@ abstract class RepositoriesAbstract implements RepositoryInterface
 
         $count = $data->count();
 
-        $data->limit($limit)->skip($limit * ($page-1));
+        if ($limit !== null) {
+            $data->limit($limit)->skip($limit * ($page-1));
+        }
         if ($orderBy !== null) {
             $orderBy .= $this->translatableOperator($orderBy);
             $direction = $ascending == 1 ? "ASC" : "DESC";
             $data->orderBy($orderBy, $direction);
         }
         $results = $data->get()
-            ->translate(config('typicms.content_locale'))
-            ->toArray();
+            ->translate(config('typicms.content_locale'));
 
         return [
             'data' => $results,

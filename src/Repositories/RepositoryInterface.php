@@ -112,11 +112,10 @@ interface RepositoryInterface
      * Get all models sorted, filtered and paginated.
      *
      * @param array $columns
-     * @param array $params
      *
      * @return array
      */
-    public function allFiltered(array $columns = [], array $params = []);
+    public function allFiltered(array $columns = []);
 
     /**
      * Get all models and nest.
