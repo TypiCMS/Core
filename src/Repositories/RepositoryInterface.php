@@ -109,6 +109,16 @@ interface RepositoryInterface
     public function all(array $with = [], $all = false);
 
     /**
+     * Get all models sorted, filtered and paginated.
+     *
+     * @param array $columns
+     * @param array $params
+     *
+     * @return array
+     */
+    public function allFiltered(array $columns = [], array $params = []);
+
+    /**
      * Get all models and nest.
      *
      * @param bool  $all  Show published or all

@@ -193,6 +193,31 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     }
 
     /**
+     * Get all models sorted, filtered and paginated.
+     *
+     * @param array $columns
+     * @param array $params
+     *
+     * @return array
+     */
+    public function allFiltered(array $columns = [], array $params = [])
+    {
+        $cacheKey = md5(config('app.locale').'allFiltered'.serialize($columns).serialize($params));
+
+        if ($this->cache->has($cacheKey)) {
+            return $this->cache->get($cacheKey);
+        }
+
+        // Item not cached, retrieve it
+        $models = $this->repo->allFiltered($columns, $params);
+
+        // Store in cache for next request
+        $this->cache->put($cacheKey, $models);
+
+        return $models;
+    }
+
+    /**
      * Get all models.
      *
      * @param bool  $all  Show published or all
