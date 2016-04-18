@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
 use InvalidArgumentException;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
 use TypiCMS\Modules\Core\Traits\HtmlCacheEvents;
@@ -83,6 +82,7 @@ abstract class Base extends Model
         if (in_array('status', $this->translatable)) {
             $field .= '->'.config('typicms.content_locale');
         }
+
         return $query->where($field, 1);
     }
 

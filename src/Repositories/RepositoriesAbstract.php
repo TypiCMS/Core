@@ -223,25 +223,25 @@ abstract class RepositoriesAbstract implements RepositoryInterface
         $byColumn = $params['byColumn'] ?? 0;
 
         if ($query !== null) {
-            $data = $byColumn == 1 ? $this->filterByColumn($data, $query):
+            $data = $byColumn == 1 ? $this->filterByColumn($data, $query) :
                                      $this->filter($data, $query, $columns);
         }
 
         $count = $data->count();
 
         if ($limit !== null) {
-            $data->limit($limit)->skip($limit * ($page-1));
+            $data->limit($limit)->skip($limit * ($page - 1));
         }
         if ($orderBy !== null) {
             $orderBy .= $this->translatableOperator($orderBy);
-            $direction = $ascending == 1 ? "ASC" : "DESC";
+            $direction = $ascending == 1 ? 'ASC' : 'DESC';
             $data->orderBy($orderBy, $direction);
         }
         $results = $data->get()
             ->translate(config('typicms.content_locale'));
 
         return [
-            'data' => $results,
+            'data'  => $results,
             'count' => $count,
         ];
     }
@@ -495,7 +495,8 @@ abstract class RepositoriesAbstract implements RepositoryInterface
         $model->$table()->sync($pivotData);
     }
 
-    private function filterByColumn($data, $query) {
+    private function filterByColumn($data, $query)
+    {
         foreach ($query as $column => $query) {
             if (!$query) {
                 continue;
@@ -509,15 +510,18 @@ abstract class RepositoriesAbstract implements RepositoryInterface
                 $data->whereBetween($column, [$start, $end]);
             }
         }
+
         return $data;
     }
 
-    private function filter($data, $query, $columns) {
+    private function filter($data, $query, $columns)
+    {
         foreach ($columns as $index => $column) {
             $column .= $this->translatableOperator($column);
-            $method = $index ? "orWhere" : "where";
-            $data->{$method}($column,'LIKE',"%{$query}%");
+            $method = $index ? 'orWhere' : 'where';
+            $data->{$method}($column, 'LIKE', "%{$query}%");
         }
+
         return $data;
     }
 
@@ -534,5 +538,4 @@ abstract class RepositoriesAbstract implements RepositoryInterface
             return '->'.config('typicms.content_locale');
         }
     }
-
 }
