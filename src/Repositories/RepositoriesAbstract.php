@@ -221,12 +221,12 @@ abstract class RepositoriesAbstract implements RepositoryInterface
 
         $orderBy = $params['orderBy'] ?? null;
         $query = $params['query'] ?? null;
-        $limit = $params['limit'] ?? 100;
+        $limit = $params['limit'] ?? 25;
         $page = $params['page'] ?? 1;
         $ascending = $params['ascending'] ?? 1;
         $byColumn = $params['byColumn'] ?? 0;
 
-        if (isset($query) && $query) {
+        if ($query !== null) {
             $data = $byColumn == 1 ? $this->filterByColumn($data, $query):
                                      $this->filter($data, $query, $columns);
         }
@@ -234,7 +234,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
         $count = $data->count();
 
         $data->limit($limit)->skip($limit * ($page-1));
-        if (isset($orderBy) && $orderBy) {
+        if ($orderBy !== null) {
             $orderBy .= $this->translatableOperator($orderBy);
             $direction = $ascending == 1 ? "ASC" : "DESC";
             $data->orderBy($orderBy, $direction);
