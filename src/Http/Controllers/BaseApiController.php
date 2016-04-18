@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Request;
 
 abstract class BaseApiController extends Controller
 {
@@ -26,7 +27,9 @@ abstract class BaseApiController extends Controller
      */
     public function index()
     {
-        $models = $this->repository->all([], true);
+        $module = Request::segment(2);
+        $columns = (array) config('typicms.'.$module.'.columns_in_list', '*');
+        $models = $this->repository->allFiltered($columns, Request::all());
 
         return response()->json($models, 200);
     }
