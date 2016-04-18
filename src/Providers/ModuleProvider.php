@@ -72,6 +72,11 @@ class ModuleProvider extends ServiceProvider
         $app->register(\TypiCMS\Modules\Core\Providers\RouteServiceProvider::class);
 
         /*
+         * Register route service provider
+         */
+        $app->register(\TypiCMS\Modules\Core\Providers\CollectionExtensions::class);
+
+        /*
         |--------------------------------------------------------------------------
         | Init list of modules.
         |--------------------------------------------------------------------------
