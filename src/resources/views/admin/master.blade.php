@@ -76,7 +76,7 @@
                 skin:'table-condensed'
             };
             options.templates = {
-                id: '<a href="javascript:void(0);" @click="$parent.deleteMe({id})"><span class="fa fa-remove"></span></a>&nbsp;&nbsp;&nbsp;<a class="btn btn-default btn-xs" href="news/{id}/edit">Edit</i></a>',
+                id: '<a href="javascript:void(0);" @click="$parent.deleteMe({id})"><span class="fa fa-remove"></span></a>&nbsp;&nbsp;&nbsp;<a class="btn btn-default btn-xs" href="{{ url()->current() }}/{id}/edit">Edit</i></a>',
                 status: '<div @click="$parent.toggle({id})">' +
                     '<span class="fa switch" :class="{status} ? \'fa-toggle-on\' : \'fa-toggle-off\'"></span>' +
                 '</div>',
