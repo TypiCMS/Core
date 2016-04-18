@@ -28,8 +28,8 @@ abstract class BaseApiController extends Controller
     public function index()
     {
         $module = Request::segment(2);
-        $columns = (array) config('typicms.'.$module.'.columns_in_list', '*');
-        $models = $this->repository->allFiltered($columns, Request::all());
+        $columns = (array) config('typicms.'.$module.'.select', '*');
+        $models = $this->repository->allFiltered($columns);
 
         return response()->json($models, 200);
     }
