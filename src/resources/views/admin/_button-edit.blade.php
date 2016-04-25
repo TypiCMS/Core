@@ -1,1 +1,1 @@
-<a class="btn btn-default btn-xs" href="{{ $module }}/@{{ model.id }}/edit">Edit</a>
+<a class="btn btn-default btn-xs" href="{{ $module }}/@{{ model.id }}/edit">@lang('global.Edit')</a>
