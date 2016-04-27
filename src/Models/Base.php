@@ -38,7 +38,7 @@ abstract class Base extends Model
         $locale = $locale ?: config('app.locale');
         $page = TypiCMS::getPageLinkedToModule($this->getTable());
         if ($page) {
-            return $page->uri($locale).'/'.$this->translate($locale)->slug;
+            return $page->uri($locale).'/'.$this->translate('slug', $locale);
         }
 
         return '/';
