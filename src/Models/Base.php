@@ -56,21 +56,14 @@ abstract class Base extends Model
     {
         return $query->with(
             ['files' => function (Builder $query) use ($all) {
-                $query->with(['translations' => function (Builder $query) use ($all) {
-                    $query->where('locale', config('app.locale'));
-                    !$all && $query->where('status', 1);
-                }]);
-                $query->whereHas('translations', function (Builder $query) use ($all) {
-                    $query->where('locale', config('app.locale'));
-                    !$all && $query->where('status', 1);
-                });
+                !$all && $query->where('status->'.config('app.locale'), 1);
                 $query->orderBy('position', 'asc');
             }]
         );
     }
 
     /**
-     * Get models that have online non empty translation.
+     * Get online models.
      *
      * @param Builder $query
      *
@@ -79,7 +72,7 @@ abstract class Base extends Model
     public function scopeOnline(Builder $query)
     {
         $field = 'status';
-        if (in_array('status', $this->translatable)) {
+        if (in_array($field, $this->translatable)) {
             $field .= '->'.config('typicms.content_locale');
         }
 
@@ -93,7 +86,7 @@ abstract class Base extends Model
      *
      * @return Builder $query
      */
-    public function scopeWithOnlineGalleries(Builder $query)
+    public function scopeWithOnlineGalleries(Builder $query, $all = false)
     {
         if (!method_exists($this, 'galleries')) {
             return $query;
@@ -101,23 +94,16 @@ abstract class Base extends Model
 
         return $query->with(
             [
-                'galleries.translations',
-                'galleries.files.translations',
+                'galleries.files',
                 'galleries' => function (MorphToMany $query) {
-                    $query->whereHas(
-                        'translations',
-                        function (Builder $query) {
-                            $query->where('status', 1);
-                            $query->where('locale', config('app.locale'));
-                        }
-                    );
+                    !$all && $query->where('status->'.config('app.locale'), 1);
                 },
             ]
         );
     }
 
     /**
-     * Order items according to GET value or model value, default is id asc.
+     * Order items.
      *
      * @param Builder $query
      *
