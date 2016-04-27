@@ -256,7 +256,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
      */
     public function allNested(array $with = [], $all = false)
     {
-        return $this->all($with, $all)->nest();
+        return $this->all($with, $all)->translate(config('typicms.content_locale'))->nest();
     }
 
     /**
