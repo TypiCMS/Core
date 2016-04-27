@@ -10,7 +10,7 @@
 
     @yield('css')
 
-    <link href="{{ app()->isLocal() ? asset('css/admin.css') : asset(elixir('css/admin.css')) }}" rel="stylesheet">
+    <link href="{{ asset(app()->isLocal() ? 'css/admin.css' : elixir('css/admin.css')) }}" rel="stylesheet">
 
 </head>
 
@@ -56,7 +56,7 @@
 
         @include('core::admin._javascript')
 
-        <script src="@if(app()->environment('production')){{ asset(elixir('js/admin/main.js')) }}@else{{ asset('js/admin/main.js') }}@endif"></script>
+        <script src="{{ asset(app()->isLocal() ? 'js/admin.js' : elixir('js/admin.js')) }}"></script>
 
         @yield('js')
 
