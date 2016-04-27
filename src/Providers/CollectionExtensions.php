@@ -12,7 +12,7 @@ class CollectionExtensions extends ServiceProvider
         Collection::macro('translate', function ($locale = null) {
             $locale = $locale ?: app()->getLocale();
 
-            return collect($this->items)->map(function ($item) use ($locale) {
+            return $this->map(function ($item) use ($locale) {
                 foreach ($item->getAttributes() as $key => $value) {
                     if (in_array($key, $item->translatable)) {
                         $item->$key = $item->translate($key, $locale);
