@@ -36,7 +36,7 @@ class FileObserver
      * @param string $fieldname
      * @param Model  $model
      *
-     * @return void
+     * @return null
      */
     private function deleteFile($fieldname, Model $model)
     {

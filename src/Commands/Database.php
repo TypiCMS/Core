@@ -49,7 +49,7 @@ class Database extends Command
     /**
      * Execute the console command.
      *
-     * @return void
+     * @return null
      */
     public function fire()
     {

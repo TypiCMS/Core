@@ -54,7 +54,7 @@ class Create extends Command
     /**
      * Execute the console command.
      *
-     * @return void
+     * @return null
      */
     public function fire()
     {
@@ -170,7 +170,7 @@ class Create extends Command
     /**
      * Delete unneeded directories.
      *
-     * @return void
+     * @return null
      */
     public function deleteViewsAndDatabaseDirs()
     {
@@ -196,7 +196,7 @@ class Create extends Command
      * @param string $from
      * @param string $to
      *
-     * @return void
+     * @return null
      */
     protected function publishFile($from, $to)
     {
@@ -215,7 +215,7 @@ class Create extends Command
      * @param string $from
      * @param string $to
      *
-     * @return void
+     * @return null
      */
     protected function publishDirectory($from, $to)
     {
@@ -236,7 +236,7 @@ class Create extends Command
      *
      * @param string $directory
      *
-     * @return void
+     * @return null
      */
     protected function createParentDirectory($directory)
     {

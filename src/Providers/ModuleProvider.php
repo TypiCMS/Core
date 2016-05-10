@@ -30,7 +30,7 @@ class ModuleProvider extends ServiceProvider
     /**
      * Bootstrap the application events.
      *
-     * @return void
+     * @return null
      */
     public function boot()
     {
@@ -60,7 +60,7 @@ class ModuleProvider extends ServiceProvider
     /**
      * Register the service provider.
      *
-     * @return void
+     * @return null
      */
     public function register()
     {
@@ -137,7 +137,7 @@ class ModuleProvider extends ServiceProvider
     /**
      * Register artisan commands.
      *
-     * @return void
+     * @return null
      */
     private function registerCommands()
     {
@@ -171,7 +171,7 @@ class ModuleProvider extends ServiceProvider
     /**
      * Get routes from pages.
      *
-     * @return void
+     * @return null
      */
     private function registerModuleRoutes()
     {
@@ -187,7 +187,7 @@ class ModuleProvider extends ServiceProvider
     /**
      * Register core modules.
      *
-     * @return void
+     * @return null
      */
     protected function registerCoreModules()
     {
