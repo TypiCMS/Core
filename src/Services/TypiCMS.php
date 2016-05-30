@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Services;
 
 use Exception;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
 
 class TypiCMS
 {
@@ -168,5 +169,21 @@ class TypiCMS
         $viewPath = app()['view']->getFinder()->getHints()['pages'][0];
 
         return rtrim($viewPath.DIRECTORY_SEPARATOR.$templateDir, DIRECTORY_SEPARATOR);
+    }
+
+    public function feeds()
+    {
+        $locale = config('app.locale');
+        $feeds = collect(config('typicms.modules'))
+            ->transform(function ($properties, $module) use ($locale) {
+                $routeName = $locale.'.'.$module.'.feed';
+                if (in_array('has_feed', $properties) && Route::has($routeName)) {
+                    return ['url' => route($routeName), 'title' => trans($module.'::global.feed').' – '.$this->title()];
+                }
+            })->reject(function ($value) {
+                return empty($value);
+            });
+
+        return $feeds;
     }
 }

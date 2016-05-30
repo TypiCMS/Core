@@ -1,3 +1,3 @@
-@foreach(config('typicms.feeds', []) as $feed)
-    {!! app('feed')->link(route($lang.'.'.$feed['module'].'.feed'), 'atom', trans($feed['module'].'::global.feed').' – '.$websiteTitle, $lang) !!}
+@foreach(TypiCMS::feeds() as $feed)
+    {!! app('feed')->link($feed['url'], 'atom', $feed['title'], $lang) !!}
 @endforeach
