@@ -87,7 +87,7 @@ class Database extends Command
         $this->laravel['config']['database.connections.mysql.password'] = $dbPassword;
 
         // Clear DB name in config
-        $this->laravel['config']['database.connections.mysql.database'] = '';
+        unset($this->laravel['config']['database.connections.mysql.database']);
 
         // Force the new login to be used
         DB::purge();
