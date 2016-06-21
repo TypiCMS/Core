@@ -72,7 +72,7 @@ class FileObserver
                 $file = FileUpload::handle(Request::file($fieldname), 'uploads/'.$model->getTable());
                 $model->$fieldname = $file['filename'];
                 if ($model->getTable() == 'files') {
-                    $model->fill($file);
+                    $model->fill(array_except($file, 'filename'));
                 }
             } else {
                 if ($model->$fieldname == 'delete') {
