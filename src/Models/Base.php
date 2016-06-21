@@ -73,7 +73,7 @@ abstract class Base extends Model
     {
         $field = 'status';
         if (in_array($field, $this->translatable)) {
-            $field .= '->'.config('typicms.content_locale');
+            $field .= '->'.config('app.locale');
         }
 
         return $query->where($field, 1);
