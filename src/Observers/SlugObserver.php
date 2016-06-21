@@ -12,8 +12,8 @@ class SlugObserver
         $slugs = $model->getTranslations('slug');
 
         foreach ($titles as $locale => $title) {
+            $slug = $model->slugs[$locale] ?: str_slug($title);
 
-            $slug = $slugs[$locale] ?: str_slug($title);
             // slug = null if empty string
             $model->setTranslation('slug', $locale, $slug ?: null);
 
