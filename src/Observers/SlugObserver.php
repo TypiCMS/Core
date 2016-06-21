@@ -6,17 +6,23 @@ class SlugObserver
 {
     public function saving($model)
     {
-        $slug = $model->slug ?: str_slug($model->title);
-        // slug = null if empty string
-        $model->slug = $slug ?: null;
+        $titles = $model->getTranslations('title');
+        $slugs = $model->getTranslations('slug');
 
-        if ($slug) {
-            $i = 0;
-            // Check uri is unique
-            while ($this->slugExists($model)) {
-                $i++;
-                // increment slug if exists
-                $model->slug = $slug.'-'.$i;
+        foreach ($titles as $locale => $title) {
+
+            $slug = $model->slugs[$locale] ?: str_slug($title);
+            // slug = null if empty string
+            $model->setTranslation('slug', $locale, $slug ?: null);
+
+            if ($slug) {
+                $i = 0;
+                // Check slug is unique
+                while ($this->slugExists($model, $locale)) {
+                    $i++;
+                    // increment slug if exists
+                    $model->setTranslation('slug', $locale, $slug.'-'.$i);
+                }
             }
         }
     }
@@ -28,14 +34,11 @@ class SlugObserver
      *
      * @return bool
      */
-    private function slugExists($model)
+    private function slugExists($model, $locale)
     {
-        $query = $model::where('slug', $model->slug);
+        $query = $model::where('slug->'.$locale, $model->getTranslation('slug', $locale));
         if ($model->id) {
             $query->where('id', '!=', $model->id);
-        }
-        if ($model->locale) {
-            $query->where('locale', $model->locale);
         }
 
         return (bool) $query->count();
