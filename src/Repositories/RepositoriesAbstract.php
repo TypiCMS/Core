@@ -59,7 +59,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
             $query->online();
         }
 
-        return $query->where($key, '=', $value)->first();
+        return $query->where($key, $value)->first();
     }
 
     /**
