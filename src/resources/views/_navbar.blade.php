@@ -27,7 +27,7 @@
                         <a href="{{ route('admin::index-users') }}" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user fa-fw"></span> {{ auth()->user()->first_name.' '.auth()->user()->last_name }} <b class="caret"></b></a>
                         <div class="dropdown-menu dropdown-user">
                             <div class="img pull-left">
-                                <img src="https://www.gravatar.com/avatar/{{ md5(auth()->user()->email) }}" class="pull-left">
+                                <img src="https://www.gravatar.com/avatar/{{ md5(auth()->user()->email) }}?d=mm" class="pull-left">
                             </div>
                             <div class="info">
                                 <p>{{ auth()->user()->email }}</p>
