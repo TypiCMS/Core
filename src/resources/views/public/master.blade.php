@@ -23,22 +23,13 @@
 
     @yield('css')
 
-    @if(app()->environment('production') and config('typicms.google_analytics_code'))
-
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', '{{ config('typicms.google_analytics_code') }}', 'auto');
-        ga('send', 'pageview');
-    </script>
-
-    @endif
+    @include('core::public._google_analytics_code')
 
 </head>
 
 <body class="body-{{ $lang }} @yield('bodyClass') @if($navbar)has-navbar @endif">
+
+    @include('core::public._google_tag_manager_code')
 
     @section('skip-links')
     <a href="#main" class="skip-to-content">@lang('db.Skip to content')</a>
