@@ -30,7 +30,7 @@ class TypiCMS
      */
     public function getOnlineLocales()
     {
-        $locales = config('translatable.locales');
+        $locales = config('translatable-bootforms.locales');
         foreach ($locales as $key => $locale) {
             if (!config('typicms.'.$locale.'.status')) {
                 unset($locales[$key]);

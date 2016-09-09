@@ -30,7 +30,7 @@ class ModuleProvider extends ServiceProvider
     /**
      * Bootstrap the application events.
      *
-     * @return void
+     * @return null
      */
     public function boot()
     {
@@ -60,7 +60,7 @@ class ModuleProvider extends ServiceProvider
     /**
      * Register the service provider.
      *
-     * @return void
+     * @return null
      */
     public function register()
     {
@@ -70,6 +70,11 @@ class ModuleProvider extends ServiceProvider
          * Register route service provider
          */
         $app->register(\TypiCMS\Modules\Core\Providers\RouteServiceProvider::class);
+
+        /*
+         * Collection extensions
+         */
+        $app->register(\TypiCMS\Modules\Core\Providers\CollectionExtensions::class);
 
         /*
         |--------------------------------------------------------------------------
@@ -116,7 +121,6 @@ class ModuleProvider extends ServiceProvider
 
         $this->registerCommands();
         $this->registerModuleRoutes();
-        $this->registerCoreModules();
     }
 
     /**
@@ -132,7 +136,7 @@ class ModuleProvider extends ServiceProvider
     /**
      * Register artisan commands.
      *
-     * @return void
+     * @return null
      */
     private function registerCommands()
     {
@@ -166,7 +170,7 @@ class ModuleProvider extends ServiceProvider
     /**
      * Get routes from pages.
      *
-     * @return void
+     * @return null
      */
     private function registerModuleRoutes()
     {
@@ -177,28 +181,5 @@ class ModuleProvider extends ServiceProvider
                 return [];
             }
         });
-    }
-
-    /**
-     * Register core modules.
-     *
-     * @return void
-     */
-    protected function registerCoreModules()
-    {
-        $app = $this->app;
-        $app->register(\TypiCMS\Modules\Translations\Providers\ModuleProvider::class);
-        $app->register(\TypiCMS\Modules\Blocks\Providers\ModuleProvider::class);
-        $app->register(\TypiCMS\Modules\Settings\Providers\ModuleProvider::class);
-        $app->register(\TypiCMS\Modules\History\Providers\ModuleProvider::class);
-        $app->register(\TypiCMS\Modules\Users\Providers\ModuleProvider::class);
-        $app->register(\TypiCMS\Modules\Roles\Providers\ModuleProvider::class);
-        $app->register(\TypiCMS\Modules\Files\Providers\ModuleProvider::class);
-        $app->register(\TypiCMS\Modules\Galleries\Providers\ModuleProvider::class);
-        $app->register(\TypiCMS\Modules\Dashboard\Providers\ModuleProvider::class);
-        $app->register(\TypiCMS\Modules\Menus\Providers\ModuleProvider::class);
-        $app->register(\TypiCMS\Modules\Sitemap\Providers\ModuleProvider::class);
-        // Pages module needs to be at last for routing to work.
-        $app->register(\TypiCMS\Modules\Pages\Providers\ModuleProvider::class);
     }
 }

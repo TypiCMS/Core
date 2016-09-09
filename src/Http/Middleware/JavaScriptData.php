@@ -20,7 +20,7 @@ class JavaScriptData
     public function handle(Request $request, Closure $next)
     {
         $locales = [];
-        foreach (config('translatable.locales') as $locale) {
+        foreach (config('translatable-bootforms.locales') as $locale) {
             $locales[$locale] = [
                 'short' => $locale,
                 'long'  => trans('global.languages.'.$locale),
@@ -34,6 +34,7 @@ class JavaScriptData
             '_token'          => csrf_token(),
             'encrypted_token' => Crypt::encrypt(csrf_token()),
             'locales'         => $locales,
+            'content_locale'  => config('typicms.content_locale'),
         ]);
 
         return $next($request);

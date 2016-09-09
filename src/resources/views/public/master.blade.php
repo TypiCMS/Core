@@ -28,6 +28,7 @@
 </head>
 
 <body class="body-{{ $lang }} @yield('bodyClass') @if($navbar)has-navbar @endif">
+    @include('core::public._google_tag_manager_code')
 
     @include('core::public._google_tag_manager_code')
 
@@ -81,8 +82,7 @@
 
     </div>
 
-    <script src="@if(app()->environment('production')){{ asset(elixir('js/public/components.min.js')) }}@else{{ asset('js/public/components.min.js') }}@endif"></script>
-    <script src="@if(app()->environment('production')){{ asset(elixir('js/public/master.js')) }}@else{{ asset('js/public/master.js') }}@endif"></script>
+    <script src="{{ asset(app()->isLocal() ? 'js/public.js' : elixir('js/public.js')) }}"></script>
     @if (Request::input('preview'))
     <script src="{{ asset('js/public/previewmode.js') }}"></script>
     @endif

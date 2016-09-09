@@ -48,7 +48,7 @@ class Publish extends Command
     /**
      * Execute the console command.
      *
-     * @return void
+     * @return null
      */
     public function fire()
     {
@@ -93,7 +93,7 @@ class Publish extends Command
      * @param string $from
      * @param string $to
      *
-     * @return void
+     * @return null
      */
     protected function publishDirectory($from, $to)
     {
@@ -122,7 +122,7 @@ class Publish extends Command
      * @param string $to
      * @param string $type
      *
-     * @return void
+     * @return null
      */
     protected function status($from, $to, $type)
     {

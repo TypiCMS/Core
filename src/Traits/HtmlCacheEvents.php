@@ -9,7 +9,7 @@ trait HtmlCacheEvents
     /**
      * Event to delete files in public/html folder.
      *
-     * @return void
+     * @return null
      */
     public static function bootHtmlCacheEvents()
     {

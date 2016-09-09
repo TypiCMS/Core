@@ -21,7 +21,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @param \Illuminate\Routing\Router $router
      *
-     * @return void
+     * @return null
      */
     public function map(Router $router)
     {
