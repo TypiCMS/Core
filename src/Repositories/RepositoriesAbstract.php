@@ -333,7 +333,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
                 'translations',
                 function (Builder $query) use ($slug) {
                     if (!Request::input('preview')) {
-                        $query->where('status', 1);
+                        $query->where('status', '1');
                     }
                     $query->where('locale', config('app.locale'));
                     $query->where('slug', '=', $slug);

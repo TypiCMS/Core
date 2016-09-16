@@ -56,7 +56,7 @@ abstract class Base extends Model
     {
         return $query->with(
             ['files' => function (Builder $query) use ($all) {
-                !$all && $query->where('status->'.config('app.locale'), 1);
+                !$all && $query->where('status->'.config('app.locale'), '1');
                 $query->orderBy('position', 'asc');
             }]
         );
@@ -76,7 +76,7 @@ abstract class Base extends Model
             $field .= '->'.config('app.locale');
         }
 
-        return $query->where($field, 1);
+        return $query->where($field, '1');
     }
 
     /**
@@ -96,7 +96,7 @@ abstract class Base extends Model
             [
                 'galleries.files',
                 'galleries' => function (MorphToMany $query) {
-                    !$all && $query->where('status->'.config('app.locale'), 1);
+                    !$all && $query->where('status->'.config('app.locale'), '1');
                 },
             ]
         );
