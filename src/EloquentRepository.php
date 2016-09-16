@@ -1,13 +1,11 @@
 <?php
 
-
 namespace TypiCMS\Modules\Core;
 
 use Rinvex\Repository\Repositories\EloquentRepository as BaseRepository;
 
 class EloquentRepository extends BaseRepository
 {
-
     /**
      * Make a new instance of the entity to query on.
      *
@@ -75,5 +73,4 @@ class EloquentRepository extends BaseRepository
             }
         }
     }
-
 }
