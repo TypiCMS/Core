@@ -176,7 +176,7 @@ class ModuleProvider extends ServiceProvider
     {
         $this->app->singleton('typicms.routes', function (Application $app) {
             try {
-                return $app->make(\TypiCMS\Modules\Pages\Repositories\PageInterface::class)->getForRoutes();
+                return $app->make('Pages')->getForRoutes();
             } catch (Exception $e) {
                 return [];
             }

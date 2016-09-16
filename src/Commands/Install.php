@@ -5,7 +5,7 @@ namespace TypiCMS\Modules\Core\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use TypiCMS\Modules\Users\Repositories\UserInterface;
+use TypiCMS\Modules\Users\Repositories\EloquentUser;
 
 class Install extends Command
 {
@@ -43,7 +43,7 @@ class Install extends Command
      * @param \TypiCMS\Modules\Users\Repositories\UserInterface $user
      * @param \Illuminate\Filesystem\Filesystem                 $files
      */
-    public function __construct(UserInterface $user, Filesystem $files)
+    public function __construct(EloquentUser $user, Filesystem $files)
     {
         parent::__construct();
 
