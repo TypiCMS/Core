@@ -189,7 +189,7 @@ interface RepositoryInterface
      *
      * @return mixed Model or false on error during save
      */
-    public function create(array $data);
+    public function create(array $data = []);
 
     /**
      * Update an existing model.
