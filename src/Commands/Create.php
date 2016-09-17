@@ -138,6 +138,7 @@ class Create extends Command
         $moduleDir = base_path('Modules/'.$this->module);
         $paths = [
             $moduleDir.'/Models/Object.php',
+            $moduleDir.'/Facades/Objects.php',
             $moduleDir.'/Models/ObjectTranslation.php',
             $moduleDir.'/Repositories/ObjectInterface.php',
             $moduleDir.'/Repositories/EloquentObject.php',
