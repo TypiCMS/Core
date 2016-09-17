@@ -76,4 +76,21 @@ class EloquentRepository extends BaseRepository
         }
     }
 
+    /**
+     * Get single model by Slug.
+     *
+     * @param string $slug
+     * @param array  $attributes
+     *
+     * @return mixed
+     */
+    public function bySlug($slug, array $attributes = ['*'])
+    {
+        $model = $this
+            ->where(column('status'), '1')
+            ->findBy(column('slug'), $slug, $attributes);
+
+        return $model;
+    }
+
 }
