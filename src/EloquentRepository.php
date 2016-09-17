@@ -65,7 +65,7 @@ class EloquentRepository extends BaseRepository
         if ($category_id !== null) {
             $models = $this->with(['category'])->findWhere(['category_id', $category_id], ['id', 'slug']);
         } else {
-            $models = $this->findAll(['id', 'slug']);
+            $models = $this->published()->findAll(['id', 'slug']);
         }
         foreach ($models as $key => $model) {
             if ($currentModel->id == $model->id) {
@@ -84,13 +84,20 @@ class EloquentRepository extends BaseRepository
      *
      * @return mixed
      */
-    public function bySlug($slug, array $attributes = ['*'])
+    public function bySlug($slug, $attributes = ['*'])
     {
         $model = $this
-            ->where(column('status'), '1')
             ->findBy(column('slug'), $slug, $attributes);
+
+        if (is_null($model)) {
+            abort(404);
+        }
 
         return $model;
     }
 
+    public function published()
+    {
+        return $this->where(column('status'), '1');
+    }
 }
