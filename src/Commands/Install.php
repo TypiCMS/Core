@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use TypiCMS\Modules\Users\Models\User;
-use TypiCMS\Modules\Users\Repositories\EloquentUser;
 
 class Install extends Command
 {

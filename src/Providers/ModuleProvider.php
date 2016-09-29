@@ -15,8 +15,6 @@ use TypiCMS\Modules\Core\Commands\Install;
 use TypiCMS\Modules\Core\Commands\Publish;
 use TypiCMS\Modules\Core\Services\TypiCMS;
 use TypiCMS\Modules\Core\Services\Upload\FileUpload;
-use TypiCMS\Modules\Users\Models\User;
-use TypiCMS\Modules\Users\Repositories\EloquentUser;
 
 class ModuleProvider extends ServiceProvider
 {
