@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Core\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use TypiCMS\Modules\Users\Models\User;
 use TypiCMS\Modules\Users\Repositories\EloquentUser;
 
 class Install extends Command
@@ -31,23 +32,14 @@ class Install extends Command
     protected $files;
 
     /**
-     * The user model.
-     *
-     * @var \TypiCMS\Modules\Users\Repositories\UserInterface
-     */
-    protected $user;
-
-    /**
      * Create a new command.
      *
-     * @param \TypiCMS\Modules\Users\Repositories\UserInterface $user
-     * @param \Illuminate\Filesystem\Filesystem                 $files
+     * @param \Illuminate\Filesystem\Filesystem $files
      */
-    public function __construct(EloquentUser $user, Filesystem $files)
+    public function __construct(Filesystem $files)
     {
         parent::__construct();
 
-        $this->user = $user;
         $this->files = $files;
     }
 
@@ -137,16 +129,16 @@ class Install extends Command
         $password = $this->secret('Enter a password');
 
         $data = [
-            'first_name'  => $firstname,
-            'last_name'   => $lastname,
-            'email'       => $email,
-            'superuser'   => 1,
-            'activated'   => 1,
-            'password'    => $password,
+            'first_name' => $firstname,
+            'last_name' => $lastname,
+            'email' => $email,
+            'superuser' => 1,
+            'activated' => 1,
+            'password' => $password,
         ];
 
         try {
-            $this->user->create($data);
+            User::create($data);
             $this->info('Superuser created.');
         } catch (Exception $e) {
             $this->error('User could not be created.');

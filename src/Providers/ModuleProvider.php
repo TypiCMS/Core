@@ -156,7 +156,6 @@ class ModuleProvider extends ServiceProvider
         });
         $this->app->bind('command.install', function () {
             return new Install(
-                new EloquentUser(new User()),
                 new Filesystem()
             );
         });
