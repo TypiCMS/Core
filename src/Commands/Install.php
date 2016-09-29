@@ -133,7 +133,7 @@ class Install extends Command
             'email' => $email,
             'superuser' => 1,
             'activated' => 1,
-            'password' => $password,
+            'password' => bcrypt($password),
         ];
 
         try {
