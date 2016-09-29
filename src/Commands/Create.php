@@ -139,8 +139,6 @@ class Create extends Command
         $paths = [
             $moduleDir.'/Models/Object.php',
             $moduleDir.'/Facades/Objects.php',
-            $moduleDir.'/Models/ObjectTranslation.php',
-            $moduleDir.'/Repositories/ObjectInterface.php',
             $moduleDir.'/Repositories/EloquentObject.php',
         ];
         foreach ($paths as $path) {
