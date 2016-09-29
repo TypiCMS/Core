@@ -1,6 +1,6 @@
 <?php
 
-namespace TypiCMS\Modules\Core;
+namespace TypiCMS\Modules\Core\Repositories;
 
 use Carbon\Carbon;
 use Rinvex\Repository\Repositories\EloquentRepository as BaseRepository;
@@ -197,8 +197,58 @@ class EloquentRepository extends BaseRepository
      *
      * @return NestedCollection
      */
-    public function allNested(array $with = [], $all = false)
+    public function allNested($attributes = ['*'])
     {
-        return $this->all($with, $all)->translate(config('typicms.content_locale'))->nest();
+        return $this->findAll($attributes)->translate(config('typicms.content_locale'))->nest();
+    }
+
+    /**
+     * Sort models.
+     *
+     * @param array $data updated data
+     *
+     * @return null
+     */
+    public function sort(array $data)
+    {
+        foreach ($data['item'] as $position => $item) {
+            $page = $this->find($item['id']);
+
+            $sortData = $this->getSortData($position + 1, $item);
+
+            $page->update($sortData);
+
+            if ($data['moved'] == $item['id']) {
+                $this->fireResetChildrenUriEvent($page);
+            }
+        }
+        $this->forgetCache();
+    }
+
+    /**
+     * Get sort data.
+     *
+     * @param int   $position
+     * @param array $item
+     *
+     * @return array
+     */
+    protected function getSortData($position, $item)
+    {
+        return [
+            'position' => $position,
+        ];
+    }
+
+    /**
+     * Fire event to reset children’s uri.
+     * Only applicable on nestable collections.
+     *
+     * @param Page $page
+     *
+     * @return null
+     */
+    protected function fireResetChildrenUriEvent($page)
+    {
     }
 }
