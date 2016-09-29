@@ -40,6 +40,7 @@ abstract class BaseAdminController extends Controller
      */
     protected function redirect($request, $model)
     {
+        $model = end($model);
         $redirectUrl = $request->get('exit') ? $model->indexUrl() : $model->editUrl();
 
         return redirect($redirectUrl);
