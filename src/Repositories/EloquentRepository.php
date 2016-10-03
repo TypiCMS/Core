@@ -110,7 +110,6 @@ class EloquentRepository extends BaseRepository
      */
     public function allFiltered($columns = [], array $with = [])
     {
-        $columns = $columns ?: ['*'];
         $params = request()->all();
         $data = $this->with($with)->select($columns);
 
@@ -136,11 +135,12 @@ class EloquentRepository extends BaseRepository
             $direction = $ascending == 1 ? 'ASC' : 'DESC';
             $data->orderBy($orderBy, $direction);
         }
+
         $results = $data->get()
             ->translate(config('typicms.content_locale'));
 
         return [
-            'data'  => $results,
+            'data' => $results,
             'count' => $count,
         ];
     }
