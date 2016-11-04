@@ -101,6 +101,20 @@ class EloquentRepository extends BaseRepository
     }
 
     /**
+     * Find all entities translated.
+     *
+     * @param array $attributes
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function findAllTranslated($attributes = ['*'])
+    {
+        $models = $this->findAll($attributes)->translate(config('typicms.content_locale'));
+
+        return $models;
+    }
+
+    /**
      * Get all models sorted, filtered and paginated.
      *
      * @param array $columns
@@ -199,7 +213,7 @@ class EloquentRepository extends BaseRepository
      */
     public function allNested($attributes = ['*'])
     {
-        return $this->findAll($attributes)->translate(config('typicms.content_locale'))->nest();
+        return $this->findAll($attributes)->nest();
     }
 
     /**
