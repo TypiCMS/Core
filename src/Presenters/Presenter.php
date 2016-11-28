@@ -167,6 +167,11 @@ abstract class Presenter extends BasePresenter
             $src = $this->imgNotFound();
         }
 
+        $extension = pathinfo($src, PATHINFO_EXTENSION);
+        if ($extension === 'svg') {
+            return url($src);
+        }
+
         return Croppa::url($src, $width, $height, $options);
     }
 
