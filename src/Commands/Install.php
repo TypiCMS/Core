@@ -80,16 +80,12 @@ class Install extends Command
             $this->info('Directory storage is now writable (755).');
             system('find bootstrap/cache -type d -exec chmod 755 {} \;');
             $this->info('Directory bootstrap/cache is now writable (755).');
-            system('find public/uploads -type d -exec chmod 755 {} \;');
-            $this->info('Directory public/uploads is now writable (755).');
-            system('find public/html -type d -exec chmod 755 {} \;');
-            $this->info('Directory public/html is now writable (755).');
             $this->line('------------------');
             $this->info('Running yarn...');
             system('yarn');
             $this->info('npm packages installed.');
         } else {
-            $this->line('You can now make /storage, /bootstrap/cache and /public/uploads directories writable.');
+            $this->line('You can now make /storage, /bootstrap/cache directories writable.');
             $this->line('and run composer install and npm install.');
         }
 
