@@ -8,12 +8,9 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
-use TypiCMS\Modules\Core\Traits\HtmlCacheEvents;
 
 abstract class Base extends Model
 {
-    use HtmlCacheEvents;
-
     /**
      * Get preview uri.
      *
