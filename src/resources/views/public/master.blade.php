@@ -73,8 +73,6 @@
 
         </div>
 
-        @include('core::public._alert')
-
         @yield('main')
 
         @section('site-footer')

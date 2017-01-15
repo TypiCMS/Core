@@ -60,12 +60,6 @@
 
         @yield('js')
 
-        <script type="text/javascript">
-            {!! Notification::showError('alertify.error(\':message\');') !!}
-            {!! Notification::showInfo('alertify.log(\':message\');') !!}
-            {!! Notification::showSuccess('alertify.success(\':message\');') !!}
-        </script>
-
     </div>
 
 </div>

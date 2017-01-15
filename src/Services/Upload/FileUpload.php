@@ -3,8 +3,8 @@
 namespace TypiCMS\Modules\Core\Services\Upload;
 
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Notification;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -54,7 +54,7 @@ class FileUpload
 
             return $input;
         } catch (FileException $e) {
-            Notification::error($e->getmessage());
+            Log::error($e->getmessage());
 
             return false;
         }
