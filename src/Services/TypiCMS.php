@@ -24,16 +24,16 @@ class TypiCMS
     }
 
     /**
-     * Return online public locales.
+     * Return enabled public locales.
      *
      * @return array
      */
-    public function getOnlineLocales()
+    public function enabledLocales()
     {
-        $locales = config('translatable-bootforms.locales');
-        foreach ($locales as $key => $locale) {
-            if (!config('typicms.'.$locale.'.status')) {
-                unset($locales[$key]);
+        $locales = [];
+        foreach (locales() as $locale) {
+            if (config('typicms.'.$locale.'.status')) {
+                $locales[] = $locale;
             }
         }
 
@@ -45,9 +45,9 @@ class TypiCMS
      *
      * @return bool
      */
-    public function isLocaleOnline($locale)
+    public function isLocaleEnabled($locale)
     {
-        return in_array($locale, $this->getOnlineLocales());
+        return in_array($locale, $this->enabledLocales());
     }
 
     /**

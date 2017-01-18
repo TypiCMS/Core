@@ -1,11 +1,11 @@
-@if ($onlineLocales = TypiCMS::getOnlineLocales() and count($onlineLocales) > 1)
+@if ($enabledLocales = TypiCMS::enabledLocales() and count($enabledLocales) > 1)
 <nav class="lang-switcher dropdown">
     <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
         {{ $lang }}
         <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" role="menu">
-        @foreach ($onlineLocales as $locale)
+        @foreach ($enabledLocales as $locale)
         <li class="@if($locale == config('app.locale'))active @endif" role="menuitem">
             @if (isset($model) and isset($page))
                 @if ($model->category and $model->translate('status', $locale))
