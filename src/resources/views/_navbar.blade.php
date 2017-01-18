@@ -10,7 +10,7 @@
                     <span class="fa fa-chevron-down fa-fw fa-inverse"></span>
                     <span class="sr-only">@lang('global.Toggle navigation')</span>
                 </button>
-                <a class="navbar-brand" href="{{ route('dashboard') }}">{{ TypiCMS::title() }}</a>
+                <a class="navbar-brand" href="{{ route('dashboard') }}">{{ str_limit(TypiCMS::title(), 50, '…') }}</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
