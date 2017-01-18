@@ -12,7 +12,7 @@ class LocalesComposer
 
     public function compose(View $view)
     {
-        $view->with('locales', config('translatable-bootforms.locales'));
+        $view->with('locales', locales());
         $view->with('locale', config('typicms.content_locale'));
     }
 }

@@ -20,7 +20,7 @@ class JavaScriptData
     public function handle(Request $request, Closure $next)
     {
         $locales = [];
-        foreach (config('translatable-bootforms.locales') as $locale) {
+        foreach (locales() as $locale) {
             $locales[$locale] = [
                 'short' => $locale,
                 'long'  => trans('global.languages.'.$locale),
