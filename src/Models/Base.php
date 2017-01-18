@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
+use TypiCMS\Modules\Tags\Models\Tag;
 
 abstract class Base extends Model
 {
@@ -124,7 +125,7 @@ abstract class Base extends Model
      */
     public function tags()
     {
-        return $this->morphToMany('TypiCMS\Modules\Tags\Models\Tag', 'taggable')
+        return $this->morphToMany(Tag::class, 'taggable')
             ->orderBy('tag')
             ->withTimestamps();
     }
