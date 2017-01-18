@@ -3,22 +3,22 @@
 
 <div class="checkbox">
     <label>
-        <input type="checkbox" name="permissions[]" value="dashboard" @if(in_array('dashboard', $permissions))checked="checked"@endif> @lang('roles::global.Access dashboard')
+        {!! Form::checkbox('permissions[]', 'dashboard') !!} @lang('roles::global.Access dashboard')
     </label>
 </div>
 <div class="checkbox">
     <label>
-        <input type="checkbox" name="permissions[]" value="index-settings" @if(in_array('index-settings', $permissions))checked="checked"@endif> @lang('roles::global.Change settings')
+        {!! Form::checkbox('permissions[]', 'index-settings') !!} @lang('roles::global.Change settings')
     </label>
 </div>
 <div class="checkbox">
     <label>
-        <input type="checkbox" name="permissions[]" value="index-history" @if(in_array('index-history', $permissions))checked="checked"@endif> @lang('roles::global.View history')
+        {!! Form::checkbox('permissions[]', 'index-history') !!} @lang('roles::global.View history')
     </label>
 </div>
 <div class="checkbox">
     <label>
-        <input type="checkbox" name="permissions[]" value="destroy-history" @if(in_array('destroy-history', $permissions))checked="checked"@endif> @lang('roles::global.Empty history')
+        {!! Form::checkbox('permissions[]', 'destroy-history') !!} @lang('roles::global.Empty history')
     </label>
 </div>
 <div class="table-responsive">
@@ -40,14 +40,14 @@
             @foreach (TypiCMS::modules() as $module => $properties)
             <tr>
                 <td>@lang($module.'::global.name')</td>
-                <td><input type="checkbox" name="permissions[]" value="index-{{ $module }}" @if(in_array('index-'.$module, $permissions))checked="checked"@endif></td>
-                <td><input type="checkbox" name="permissions[]" value="show-{{ str_singular($module) }}" @if(in_array('show-'.str_singular($module), $permissions))checked="checked"@endif></td>
-                <td><input type="checkbox" name="permissions[]" value="create-{{ str_singular($module) }}" @if(in_array('create-'.str_singular($module), $permissions))checked="checked"@endif></td>
-                <td><input type="checkbox" name="permissions[]" value="store-{{ str_singular($module) }}" @if(in_array('store-'.str_singular($module), $permissions))checked="checked"@endif></td>
-                <td><input type="checkbox" name="permissions[]" value="edit-{{ str_singular($module) }}" @if(in_array('edit-'.str_singular($module), $permissions))checked="checked"@endif></td>
-                <td><input type="checkbox" name="permissions[]" value="update-{{ str_singular($module) }}" @if(in_array('update-'.str_singular($module), $permissions))checked="checked"@endif></td>
-                <td><input type="checkbox" name="permissions[]" value="sort-{{ $module }}" @if(in_array('sort-'.$module, $permissions))checked="checked"@endif></td>
-                <td><input type="checkbox" name="permissions[]" value="destroy-{{ str_singular($module) }}" @if(in_array('destroy-'.str_singular($module), $permissions))checked="checked"@endif></td>
+                <td>{!! Form::checkbox('permissions[]', 'index-'.$module) !!}</td>
+                <td>{!! Form::checkbox('permissions[]', 'show-'.str_singular($module)) !!}</td>
+                <td>{!! Form::checkbox('permissions[]', 'create-'.str_singular($module)) !!}</td>
+                <td>{!! Form::checkbox('permissions[]', 'store-'.str_singular($module)) !!}</td>
+                <td>{!! Form::checkbox('permissions[]', 'edit-'.str_singular($module)) !!}</td>
+                <td>{!! Form::checkbox('permissions[]', 'update-'.str_singular($module)) !!}</td>
+                <td>{!! Form::checkbox('permissions[]', 'sort-'.$module) !!}</td>
+                <td>{!! Form::checkbox('permissions[]', 'destroy-'.str_singular($module)) !!}</td>
             </tr>
             @endforeach
         </tbody>
