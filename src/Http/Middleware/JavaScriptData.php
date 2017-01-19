@@ -23,18 +23,18 @@ class JavaScriptData
         foreach (locales() as $locale) {
             $locales[$locale] = [
                 'short' => $locale,
-                'long'  => trans('global.languages.'.$locale),
+                'long' => trans('global.languages.'.$locale),
             ];
         }
         $locales['all'] = [
             'short' => 'all',
-            'long'  => trans('global.languages.all'),
+            'long' => trans('global.languages.all'),
         ];
         JavaScript::put([
-            '_token'          => csrf_token(),
+            '_token' => csrf_token(),
             'encrypted_token' => Crypt::encrypt(csrf_token()),
-            'locales'         => $locales,
-            'content_locale'  => config('typicms.content_locale'),
+            'locales' => $locales,
+            'content_locale' => config('typicms.content_locale'),
         ]);
 
         return $next($request);

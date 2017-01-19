@@ -35,7 +35,7 @@ class ModuleProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views/', 'core');
 
         $this->publishes([
-            __DIR__.'/../resources/views'        => base_path('resources/views/vendor/core'),
+            __DIR__.'/../resources/views' => base_path('resources/views/vendor/core'),
             __DIR__.'/../resources/views/errors' => base_path('resources/views/errors'),
         ], 'views');
 
@@ -113,8 +113,8 @@ class ModuleProvider extends ServiceProvider
         */
         $app->view->composers([
             \TypiCMS\Modules\Core\Composers\MasterViewComposer::class => '*',
-            \TypiCMS\Modules\Core\Composers\LocaleComposer::class     => '*::public.*',
-            \TypiCMS\Modules\Core\Composers\LocalesComposer::class    => '*::admin.*',
+            \TypiCMS\Modules\Core\Composers\LocaleComposer::class => '*::public.*',
+            \TypiCMS\Modules\Core\Composers\LocalesComposer::class => '*::admin.*',
         ]);
 
         $this->registerCommands();

@@ -99,7 +99,7 @@ class Publish extends Command
     {
         $manager = new MountManager([
             'from' => new Flysystem(new LocalAdapter($from)),
-            'to'   => new Flysystem(new LocalAdapter($to)),
+            'to' => new Flysystem(new LocalAdapter($to)),
         ]);
 
         foreach ($manager->listContents('from://', true) as $file) {
