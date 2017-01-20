@@ -10,6 +10,6 @@
             </div>
             @endif
             <div class="fieldset-field">
-                {!! BootForm::file(__('validation.attributes.'.$field), $field) !!}
+                {!! BootForm::file(__(''.$field), $field) !!}
             </div>
         </div>
