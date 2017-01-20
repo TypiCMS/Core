@@ -4,7 +4,7 @@ and have a galleries key in the post data
 --}}
 {!! BootForm::hidden('galleries')->value('') !!}
 {!! BootForm::select(
-        trans('validation.attributes.galleries'),
+        __('validation.attributes.galleries'),
         'galleries[]',
         $model->galleries->pluck('name', 'id')->all() + Galleries::createModel()->pluck('name', 'id')->all()
     )

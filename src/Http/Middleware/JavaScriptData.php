@@ -23,12 +23,12 @@ class JavaScriptData
         foreach (locales() as $locale) {
             $locales[$locale] = [
                 'short' => $locale,
-                'long' => trans('global.languages.'.$locale),
+                'long' => __('global.languages.'.$locale),
             ];
         }
         $locales['all'] = [
             'short' => 'all',
-            'long' => trans('global.languages.all'),
+            'long' => __('global.languages.all'),
         ];
         JavaScript::put([
             '_token' => csrf_token(),

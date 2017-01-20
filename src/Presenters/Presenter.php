@@ -272,7 +272,7 @@ abstract class Presenter extends BasePresenter
         $html .= $this->entity->$field;
         $html .= '</a>';
         if (!is_file(public_path().$file)) {
-            $html .= ' <span class="doc-warning text-warning">('.trans('global.Not found').')</span>';
+            $html .= ' <span class="doc-warning text-warning">('.__('global.Not found').')</span>';
         }
         $html .= '</div>';
 

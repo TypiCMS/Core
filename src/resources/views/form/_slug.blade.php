@@ -1,6 +1,6 @@
 @foreach ($locales as $lang)
 <div class="form-group form-group-translation @if($errors->has('slug.'.$lang))has-error @endif">
-    {!! Form::label('<span>'.trans('validation.attributes.slug').'</span> <span>('.$lang.')</span>')->addClass('control-label')->forId('slug['.$lang.']') !!}
+    {!! Form::label('<span>'.__('validation.attributes.slug').'</span> <span>('.$lang.')</span>')->addClass('control-label')->forId('slug['.$lang.']') !!}
     <span></span>
     <div class="input-group">
         {!! Form::text('slug['.$lang.']')->addClass('form-control')->id('slug['.$lang.']')->data('slug', 'title['.$lang.']')->data('language', $lang) !!}

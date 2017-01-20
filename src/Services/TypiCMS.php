@@ -74,7 +74,7 @@ class TypiCMS
         $options = ['' => ''];
         foreach ($modules as $module => $properties) {
             if (in_array('linkable_to_page', $properties)) {
-                $options[$module] = trans($module.'::global.name');
+                $options[$module] = __($module.'::global.name');
             }
         }
         asort($options);
@@ -178,7 +178,7 @@ class TypiCMS
             ->transform(function ($properties, $module) use ($locale) {
                 $routeName = $locale.'.'.$module.'.feed';
                 if (in_array('has_feed', $properties) && Route::has($routeName)) {
-                    return ['url' => route($routeName), 'title' => trans($module.'::global.feed').' – '.$this->title()];
+                    return ['url' => route($routeName), 'title' => __($module.'::global.feed').' – '.$this->title()];
                 }
             })->reject(function ($value) {
                 return empty($value);
