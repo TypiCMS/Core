@@ -19,42 +19,4 @@ abstract class BaseApiController extends Controller
         $this->middleware('api', ['except' => $this->publicEndpoints]);
         $this->repository = $repository;
     }
-
-    /**
-     * List resources.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function index()
-    {
-        $module = Request::segment(2);
-        $columns = (array) config('typicms.'.$module.'.select', '*');
-        $models = $this->repository->allFiltered($columns);
-
-        return response()->json($models, 200);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  $model
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function show($model)
-    {
-        return response()->json($model, 200);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  $model
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function edit($model)
-    {
-        return response()->json($model, 200);
-    }
 }
