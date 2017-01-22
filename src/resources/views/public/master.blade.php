@@ -73,7 +73,7 @@
 
         </div>
 
-        @yield('main')
+        @yield('content')
 
         @section('site-footer')
         <footer class="site-footer">

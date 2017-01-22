@@ -50,7 +50,7 @@
                 @endif
             @show
 
-            @yield('main')
+            @yield('content')
 
         </div>
 

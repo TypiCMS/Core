@@ -7,7 +7,7 @@
 @section('bodyClass') lang-chooser @endsection
 @section('skip-links') @endsection
 
-@section('main')
+@section('content')
 
     <div class="page-header lang-chooser-header">
         <h1 class="lang-chooser-title">Choose language</h1>
