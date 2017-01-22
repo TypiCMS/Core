@@ -26,7 +26,7 @@ abstract class BaseAdminController extends Controller
 
         return response()->json([
             'error' => false,
-            'message' => __('global.Items sorted'),
+            'message' => __('Items sorted'),
         ]);
     }
 

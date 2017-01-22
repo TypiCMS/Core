@@ -39,9 +39,6 @@ class ModuleProvider extends ServiceProvider
             __DIR__.'/../resources/views/errors' => base_path('resources/views/errors'),
         ], 'views');
 
-        // translations
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'core');
-
         /*
         |--------------------------------------------------------------------------
         | Commands.
