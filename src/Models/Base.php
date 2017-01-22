@@ -46,7 +46,7 @@ abstract class Base extends Model
      * Attach files to model.
      *
      * @param Builder $query
-     * @param bool    $all   : all models or online models
+     * @param bool    $all   all models or published models
      *
      * @return Builder $query
      */
@@ -61,13 +61,13 @@ abstract class Base extends Model
     }
 
     /**
-     * Get online models.
+     * Get published models.
      *
      * @param Builder $query
      *
      * @return Builder $query
      */
-    public function scopeOnline(Builder $query)
+    public function scopePublished(Builder $query)
     {
         $field = 'status';
         if (in_array($field, $this->translatable)) {
@@ -78,13 +78,13 @@ abstract class Base extends Model
     }
 
     /**
-     * Get online galleries.
+     * Get published galleries.
      *
      * @param Builder $query
      *
      * @return Builder $query
      */
-    public function scopeWithOnlineGalleries(Builder $query, $all = false)
+    public function scopeWithPublishedGalleries(Builder $query, $all = false)
     {
         if (!method_exists($this, 'galleries')) {
             return $query;

@@ -26,14 +26,14 @@
         <thead>
             <tr>
                 <th></th>
-                <th>@lang('global.Index')</th>
-                <th>@lang('global.View')</th>
-                <th>@lang('global.Create')</th>
-                <th>@lang('global.Store')</th>
-                <th>@lang('global.Edit')</th>
-                <th>@lang('global.Update')</th>
-                <th>@lang('global.Sort')</th>
-                <th>@lang('global.Delete')</th>
+                <th>@lang('Index')</th>
+                <th>@lang('View')</th>
+                <th>@lang('Create')</th>
+                <th>@lang('Store')</th>
+                <th>@lang('Edit')</th>
+                <th>@lang('Update')</th>
+                <th>@lang('Sort')</th>
+                <th>@lang('Delete')</th>
             </tr>
         </thead>
         <tbody>

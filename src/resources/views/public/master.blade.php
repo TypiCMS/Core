@@ -59,7 +59,7 @@
 
         <div class="sidebar-offcanvas">
 
-            <button class="btn-offcanvas btn-offcanvas-close" data-toggle="offcanvas" title="@lang('global.Close navigation')" aria-label="@lang('global.Close navigation')"><span class="fa fa-close fa-fw" aria-hidden="true"></span></button>
+            <button class="btn-offcanvas btn-offcanvas-close" data-toggle="offcanvas" title="@lang('db.Close navigation')" aria-label="@lang('db.Close navigation')"><span class="fa fa-close fa-fw" aria-hidden="true"></span></button>
 
             @section('lang-switcher')
                 @include('core::public._lang-switcher')

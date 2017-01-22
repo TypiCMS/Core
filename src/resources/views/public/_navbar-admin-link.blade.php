@@ -7,5 +7,5 @@
 @else
 <a href="{{ route('dashboard') }}">
 @endif
-@lang('global.Admin side', [], config('typicms.admin_locale'))
+@lang('Admin side', [], config('typicms.admin_locale'))
 </a>

@@ -5,5 +5,5 @@
 @else
 <a href="{{ url('/') }}">
 @endif
-@lang('global.View website', [], config('typicms.admin_locale'))
+@lang('View website', [], config('typicms.admin_locale'))
 </a>
