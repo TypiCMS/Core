@@ -295,12 +295,12 @@ abstract class Presenter extends BasePresenter
             foreach ($matches as $match) {
                 $patterns[] = $match[0];
                 $module = $match[1];
-                $repository = app('TypiCMS\Modules\\'.ucfirst(str_plural($module)).'\Repositories\\'.ucfirst($module).'Interface');
+                $repository = app('TypiCMS\Modules\\'.ucfirst(str_plural($module)).'\Repositories\Eloquent'.ucfirst($module));
                 $model = $repository->byId($match[2]);
                 if ($module == 'page') {
                     $replacements[] = url($model->uri($lang));
                 } else {
-                    $replacements[] = route($lang.'.'.$module.'.slug', $model->slug);
+                    $replacements[] = route($lang.'::'.$module, $model->slug);
                 }
             }
         }
