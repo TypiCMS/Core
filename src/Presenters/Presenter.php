@@ -296,7 +296,7 @@ abstract class Presenter extends BasePresenter
                 $patterns[] = $match[0];
                 $module = $match[1];
                 $repository = app('TypiCMS\Modules\\'.ucfirst(str_plural($module)).'\Repositories\Eloquent'.ucfirst($module));
-                $model = $repository->byId($match[2]);
+                $model = $repository->find($match[2]);
                 if ($module == 'page') {
                     $replacements[] = url($model->uri($lang));
                 } else {
