@@ -17,7 +17,7 @@
     <meta property="og:url" content="{{ URL::full() }}">
     <meta property="og:image" content="@yield('image')">
 
-    <link href="{{ app()->isLocal() ? asset('css/public.css') : asset(elixir('css/public.css')) }}" rel="stylesheet">
+    <link href="{{ app()->isLocal() ? asset('css/public.css') : asset(mix('css/public.css')) }}" rel="stylesheet">
 
     @include('core::public._feed-links')
 
@@ -88,7 +88,7 @@
 
     </div>
 
-    <script src="{{ asset(app()->isLocal() ? 'js/public.js' : elixir('js/public.js')) }}"></script>
+    <script src="{{ asset(app()->isLocal() ? 'js/public.js' : mix('js/public.js')) }}"></script>
     @if (Request::input('preview'))
     <script src="{{ asset('js/public/previewmode.js') }}"></script>
     @endif
