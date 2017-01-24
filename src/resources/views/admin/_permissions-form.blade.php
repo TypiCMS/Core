@@ -26,14 +26,14 @@
         <thead>
             <tr>
                 <th></th>
-                <th>@lang('Index')</th>
-                <th>@lang('View')</th>
-                <th>@lang('Create')</th>
-                <th>@lang('Store')</th>
-                <th>@lang('Edit')</th>
-                <th>@lang('Update')</th>
-                <th>@lang('Sort')</th>
-                <th>@lang('Delete')</th>
+                <th>{{ __('Index') }}</th>
+                <th>{{ __('View') }}</th>
+                <th>{{ __('Create') }}</th>
+                <th>{{ __('Store') }}</th>
+                <th>{{ __('Edit') }}</th>
+                <th>{{ __('Update') }}</th>
+                <th>{{ __('Sort') }}</th>
+                <th>{{ __('Delete') }}</th>
             </tr>
         </thead>
         <tbody>
