@@ -12,6 +12,10 @@ use TypiCMS\Modules\Core\Commands\Create;
 use TypiCMS\Modules\Core\Commands\Database;
 use TypiCMS\Modules\Core\Commands\Install;
 use TypiCMS\Modules\Core\Commands\Publish;
+use TypiCMS\Modules\Core\Composers\LocaleComposer;
+use TypiCMS\Modules\Core\Composers\LocalesComposer;
+use TypiCMS\Modules\Core\Composers\MasterViewComposer;
+use TypiCMS\Modules\Core\Composers\SidebarViewCreator;
 use TypiCMS\Modules\Core\Services\TypiCMS;
 use TypiCMS\Modules\Core\Services\Upload\FileUpload;
 
@@ -63,12 +67,12 @@ class ModuleProvider extends ServiceProvider
         /*
          * Register route service provider
          */
-        $app->register(\TypiCMS\Modules\Core\Providers\RouteServiceProvider::class);
+        $app->register(RouteServiceProvider::class);
 
         /*
          * Collection extensions
          */
-        $app->register(\TypiCMS\Modules\Core\Providers\CollectionExtensions::class);
+        $app->register(CollectionExtensions::class);
 
         /*
         |--------------------------------------------------------------------------
@@ -100,7 +104,7 @@ class ModuleProvider extends ServiceProvider
         | Sidebar view creator.
         |--------------------------------------------------------------------------
         */
-        $app->view->creator('core::admin._sidebar', \TypiCMS\Modules\Core\Composers\SidebarViewCreator::class);
+        $app->view->creator('core::admin._sidebar', SidebarViewCreator::class);
 
         /*
         |--------------------------------------------------------------------------
@@ -108,9 +112,9 @@ class ModuleProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
         $app->view->composers([
-            \TypiCMS\Modules\Core\Composers\MasterViewComposer::class => '*',
-            \TypiCMS\Modules\Core\Composers\LocaleComposer::class => '*::public.*',
-            \TypiCMS\Modules\Core\Composers\LocalesComposer::class => '*::admin.*',
+            MasterViewComposer::class => '*',
+            LocaleComposer::class => '*::public.*',
+            LocalesComposer::class => '*::admin.*',
         ]);
 
         $this->registerCommands();
