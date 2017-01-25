@@ -48,7 +48,6 @@ class ModuleProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
         $this->commands('command.cachekeyprefix');
-        $this->commands('command.clearhtml');
         $this->commands('command.create');
         $this->commands('command.database');
         $this->commands('command.install');
