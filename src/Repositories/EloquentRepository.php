@@ -96,7 +96,7 @@ class EloquentRepository extends BaseRepository
     }
 
     /**
-     * Get models where status = 1
+     * Get models where status = 1.
      */
     public function published()
     {
