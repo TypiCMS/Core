@@ -95,6 +95,9 @@ class EloquentRepository extends BaseRepository
         return $model;
     }
 
+    /**
+     * Get models where status = 1
+     */
     public function published()
     {
         return $this->where(column('status'), '1');
