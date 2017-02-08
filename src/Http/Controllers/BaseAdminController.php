@@ -2,8 +2,8 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Request;
 
 abstract class BaseAdminController extends Controller
 {
@@ -16,13 +16,30 @@ abstract class BaseAdminController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param integer $id
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function ajaxUpdate($id, Request $request)
+    {
+        $updated = $this->repository->update($id, $request->all());
+
+        return response()->json([
+            'error' => !$updated,
+        ]);
+    }
+
+    /**
      * Sort list.
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function sort()
     {
-        $this->repository->sort(Request::all());
+        $this->repository->sort(request()->all());
 
         return response()->json([
             'error' => false,
