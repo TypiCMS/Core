@@ -60,6 +60,12 @@
 
         @yield('js')
 
+        <script type="text/javascript">
+            @if (session('message'))
+                alertify.success('{{ session('message') }}');
+            @endif
+        </script>
+
     </div>
 
 </div>
