@@ -89,8 +89,8 @@
     </div>
 
     <script src="{{ mix('/js/public.js') }}"></script>
-    @if (Request::input('preview'))
-    <script src="{{ asset('js/public/previewmode.js') }}"></script>
+    @if (request('preview'))
+    <script src="{{ asset('js/previewmode.js') }}"></script>
     @endif
 
     @yield('js')
