@@ -122,10 +122,10 @@ class EloquentRepository extends BaseRepository
     }
 
     /**
-     * Get latest models.
+     * Get all models by key/value.
      *
-     * @param int   $number number of items to take
-     * @param array $with   array of related items
+     * @param string $key
+     * @param string $value
      *
      * @return Collection
      */
