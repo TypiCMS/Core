@@ -17,7 +17,7 @@
     <meta property="og:url" content="{{ URL::full() }}">
     <meta property="og:image" content="@yield('image')">
 
-    <link href="{{ mix('/css/public.css') }}" rel="stylesheet">
+    <link href="{{ asset(app()->isLocal() ? 'css/public.css' : mix('/css/public.css')) }}" rel="stylesheet">
 
     @include('core::public._feed-links')
 
@@ -88,7 +88,7 @@
 
     </div>
 
-    <script src="{{ mix('/js/public.js') }}"></script>
+    <script src="{{ asset(app()->isLocal() ? 'js/public.js' : mix('/js/public.js')) }}"></script>
     @if (request('preview'))
     <script src="{{ asset('js/previewmode.js') }}"></script>
     @endif
