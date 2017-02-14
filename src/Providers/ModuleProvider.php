@@ -42,6 +42,10 @@ class ModuleProvider extends ServiceProvider
             __DIR__.'/../resources/views/errors' => base_path('resources/views/errors'),
         ], 'views');
 
+        $this->publishes([
+            __DIR__.'/../resources/assets' => base_path('resources/assets'),
+        ], 'assets');
+
         /*
         |--------------------------------------------------------------------------
         | Commands.
