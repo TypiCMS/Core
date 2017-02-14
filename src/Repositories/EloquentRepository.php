@@ -111,13 +111,32 @@ class EloquentRepository extends BaseRepository
      *
      * @return Collection
      */
-    public function latest($number = 10, array $with = [])
+    public function latest($number = 10)
     {
-        return $this->createModel()->with($with)
-            ->published()
-            ->order()
-            ->take($number)
-            ->get();
+        return $this->published()->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () use ($number) {
+            return $this->prepareQuery($this->createModel())
+                ->order()
+                ->take($number)
+                ->get();
+        });
+    }
+
+    /**
+     * Get latest models.
+     *
+     * @param int   $number number of items to take
+     * @param array $with   array of related items
+     *
+     * @return Collection
+     */
+    public function allBy($key, $value)
+    {
+        return $this->published()->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () use ($key, $value) {
+            return $this->prepareQuery($this->createModel())
+                ->where($key, $value)
+                ->order()
+                ->get();
+        });
     }
 
     /**
