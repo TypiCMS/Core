@@ -140,6 +140,23 @@ class EloquentRepository extends BaseRepository
     }
 
     /**
+     * Get all models.
+     *
+     * @param string $key
+     * @param string $value
+     *
+     * @return Collection
+     */
+    public function all()
+    {
+        return $this->published()->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () {
+            return $this->prepareQuery($this->createModel())
+                ->order()
+                ->get();
+        });
+    }
+
+    /**
      * Find all entities translated.
      *
      * @param array $attributes
