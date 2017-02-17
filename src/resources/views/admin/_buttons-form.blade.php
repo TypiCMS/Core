@@ -4,5 +4,5 @@
     @if ($model->getTable() == 'pages' || TypiCMS::getPageLinkedToModule($model->getTable()))
     <a class="btn btn-default btn-preview" href="{{ $model->previewUri() }}?preview=true">{{ __('Preview') }}</a>
     @endif
-    @include('core::admin._lang-switcher', ['js' => true])
+    @include('core::admin._lang-switcher-for-form')
 </div>

@@ -13,6 +13,11 @@ class LocaleController extends BaseAdminController
      */
     public function setContentLocale($locale)
     {
-        Session::put('locale', $locale);
+        Session::put('allLocalesInForm', false);
+        if ($locale === 'all') {
+            Session::put('allLocalesInForm', true);
+        } else {
+            Session::put('locale', $locale);
+        }
     }
 }
