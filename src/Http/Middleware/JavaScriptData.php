@@ -35,6 +35,7 @@ class JavaScriptData
             'encrypted_token' => Crypt::encrypt(csrf_token()),
             'locales' => $locales,
             'content_locale' => config('typicms.content_locale'),
+            'locale' => config('app.locale'),
         ]);
 
         return $next($request);
