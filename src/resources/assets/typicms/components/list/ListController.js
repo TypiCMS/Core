@@ -12,6 +12,9 @@
             moduleName = url.split('/')[4],
             $params = {};
 
+        if (TypiCMS.content_locale == null) {
+            TypiCMS.content_locale = TypiCMS.locale;
+        }
         $scope.TypiCMS = TypiCMS;
 
         // if we query files from a gallery, we need the gallery_id value :
