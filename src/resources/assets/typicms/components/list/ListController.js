@@ -265,6 +265,9 @@
 
         $scope.treeOptions = {
             collapsed: function(scope) {
+                if (!scope.hasChild()) {
+                    return false;
+                }
                 var pagesState = $cookies.getObject('pagesState') || {};
                 if (pagesState[scope.$id] === undefined) {
                     return true;
