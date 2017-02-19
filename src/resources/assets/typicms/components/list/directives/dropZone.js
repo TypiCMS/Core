@@ -1,6 +1,8 @@
 /**
  * Dropzone multi-upload
  */
+Dropzone.autoDiscover = false;
+
 angular.module('typicms').directive('dropzone', function () {
 
     $('#uploaderAddButton').on('click', function () {
@@ -32,64 +34,41 @@ angular.module('typicms').directive('dropzone', function () {
             'image/gif'
         ];
 
-        Dropzone.options.dropzone = {
+        element.dropzone({
+            url: '/admin/files',
             paramName: 'file',
             clickable: true,
             maxFilesize: 60, // MB
             acceptedFiles: acceptedFiles.join(),
-            init: function () {
+            success: function (file, response) {
 
-                this.on('success', function (file, response) {
-
-                    // Fade out and add file after 1 sec.
-                    var $this = this;
-                    window.setTimeout(function () {
-                        $(file.previewElement).fadeOut('fast', function () {
-                            $this.removeFile(file);
-                            scope.$apply(function () {
-                                scope.models.splice(0, 0, response.model);
-                            });
+                // Fade out and add file after 1 sec.
+                var $this = this;
+                window.setTimeout(function () {
+                    $(file.previewElement).fadeOut('fast', function () {
+                        $this.removeFile(file);
+                        scope.$apply(function () {
+                            scope.models.splice(0, 0, response.model);
                         });
-                    }, 1000);
+                    });
+                }, 1000);
 
-                });
+            },
 
-                this.on('error', function (file, response) {
-                    var _ref = file.previewElement.querySelectorAll("[data-dz-errormessage]"),
-                        _results = [],
-                        _i,
-                        message = response,
-                        _len,
-                        node;
-                    if($.type(response) !== "string") {
-                        message = response.file[0];
-                    }
-                    file.previewElement.classList.add("dz-error");
-                    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                        node = _ref[_i];
-                        _results.push(node.textContent = message);
-                    }
-                    return _results;
-                });
-
-                this.on('sending', function (file, xhr, formData) {
-                    var gallery_id = scope.gallery_id;
-                    if (gallery_id) {
-                        formData.append('gallery_id', gallery_id);
-                    }
-                    formData.append('_token', TypiCMS._token);
-                    for (var i = locales.length - 1; i >= 0; i--) {
-                        formData.append(locales[i].short + '[description]', '');
-                        formData.append(locales[i].short + '[alt_attribute]', '');
-                        formData.append(locales[i].short + '[keywords]', '');
-                        formData.append(locales[i].short + '[status]', 1);
-                    }
-
-                });
-
+            sending: function (file, xhr, formData) {
+                var gallery_id = scope.gallery_id;
+                if (gallery_id) {
+                    formData.append('gallery_id', gallery_id);
+                }
+                for (var i = locales.length - 1; i >= 0; i--) {
+                    formData.append('description['+locales[i].short+']', '');
+                    formData.append('alt_attribute['+locales[i].short+']', '');
+                    formData.append('keywords['+locales[i].short+']', '');
+                    formData.append('status['+locales[i].short+']', 1);
+                }
             }
 
-        };
+        });
 
     }
 
