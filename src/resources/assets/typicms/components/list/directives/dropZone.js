@@ -11,10 +11,7 @@ angular.module('typicms').directive('dropzone', function () {
 
     return function (scope, element, attrs) {
 
-        var acceptedFiles,
-            locales = scope.TypiCMS.locales;
-
-        acceptedFiles = [
+        var acceptedFiles = [
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             'application/vnd.openxmlformats-officedocument.presentationml.presentation',
@@ -60,11 +57,10 @@ angular.module('typicms').directive('dropzone', function () {
                 if (gallery_id) {
                     formData.append('gallery_id', gallery_id);
                 }
-                for (var i = locales.length - 1; i >= 0; i--) {
-                    formData.append('description['+locales[i].short+']', '');
-                    formData.append('alt_attribute['+locales[i].short+']', '');
-                    formData.append('keywords['+locales[i].short+']', '');
-                    formData.append('status['+locales[i].short+']', 1);
+                formData.append('_token', TypiCMS._token);
+                for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
+                    formData.append('description['+TypiCMS.locales[i]+']', '');
+                    formData.append('alt_attribute['+TypiCMS.locales[i]+']', '');
                 }
             }
 

@@ -14,18 +14,20 @@ $(function () {
         });
     }
 
-    $('.btn-lang-js').click(function (e) {
-        var locale = $(this).data('locale');
+    $('.btn-lang-js').on('click', function (e) {
+        var locale = $(this).data('locale'),
+            label = $(this).text();
         $(this).addClass('active').siblings().removeClass('active');
         if (locale == 'all') {
             $('.form-group-translation').show();
         } else {
             $('.form-group-translation').hide().has('[data-language="'+locale+'"]').show();
         }
-        $('#active-locale').text(window.TypiCMS.locales[locale].long);
+        $('#active-locale').text(label);
         setContentLocale(locale);
         e.preventDefault();
     });
+
     $('.btn-lang-js.active').trigger('click');
 
 });
