@@ -1,16 +1,13 @@
 /**
  * Dropzone multi-upload
  */
-angular.module('typicms').directive('dropZone', function () {
+angular.module('typicms').directive('dropzone', function () {
+
+    $('#uploaderAddButton').on('click', function () {
+        $('#dropzone').trigger('click');
+    });
 
     return function (scope, element, attrs) {
-
-        $('#uploaderAddButtonContainer').click(function (event) {
-            return false;
-        });
-        $('#uploaderAddButton').on('click', function () {
-            $('#dropzone').trigger('click');
-        });
 
         var acceptedFiles,
             locales = scope.TypiCMS.locales;
@@ -36,13 +33,10 @@ angular.module('typicms').directive('dropZone', function () {
         ];
 
         Dropzone.options.dropzone = {
-            url: '/api/files',
             paramName: 'file',
             clickable: true,
             maxFilesize: 60, // MB
             acceptedFiles: acceptedFiles.join(),
-            thumbnailWidth: 140,
-            thumbnailHeight: 140,
             init: function () {
 
                 this.on('success', function (file, response) {
