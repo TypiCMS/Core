@@ -296,6 +296,19 @@ class EloquentRepository extends BaseRepository
     }
 
     /**
+     * Delete multiple models.
+     *
+     * @return bool
+     */
+    public function deleteMultiple($ids)
+    {
+        $deleted = $this->createModel()->destroy($ids);
+        $this->forgetCache();
+
+        return $deleted;
+    }
+
+    /**
      * Get sort data.
      *
      * @param int   $position
