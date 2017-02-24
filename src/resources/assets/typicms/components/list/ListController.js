@@ -8,14 +8,17 @@
     angular.module('typicms').controller('ListController', ['$http', '$scope', '$location', '$api', '$cookies', function ($http, $scope, $location, $api, $cookies) {
 
         $scope.itemsByPage = 100;
+        $scope.allChecked = false;
+        $scope.deleteLimit = 1000;
         var url = $location.absUrl().split('?')[0],
             moduleName = url.split('/')[4],
             $params = {};
 
+        $scope.TypiCMS = TypiCMS;
+
         if (TypiCMS.content_locale == null) {
             TypiCMS.content_locale = TypiCMS.locale;
         }
-        $scope.TypiCMS = TypiCMS;
 
         // if we query files from a gallery, we need the gallery_id value :
         if (moduleName === 'galleries' && url.split('/')[5]) {
@@ -62,6 +65,7 @@
          * Check all items
          */
         $scope.checkAll = function () {
+            $scope.allChecked = true;
             $scope.checked.models = [];
             $scope.displayedModels.forEach(function (model) {
                 $scope.checked.models.push(model);
@@ -72,16 +76,53 @@
          * Uncheck all items
          */
         $scope.uncheckAll = function () {
+            $scope.allChecked = false;
             $scope.checked.models = [];
         };
 
         /**
-         * Check all online or offline items
+         * Set all checked items online or offline
          */
-        $scope.checkStatus = function (status) {
+        $scope.setItems = function (key, value, label) {
+            var ids = [],
+                models = $scope.checked.models,
+                number = models.length,
+                data = {};
+
+            data[key] = value;
+
+            if (!window.confirm('Are you sure you want to set ' + number + ' items ' + label + '?')) {
+                return false;
+            }
+
+            models.forEach(function (model) {
+                ids.push(model.id);
+                model[key] = value;
+            });
+
+            $api.update({id: ids.join()}, data).$promise.then(
+                function (data) {
+                    if (data.number < number) {
+                        alertify.error((number - data.number) + ' items could not be set ' + label + '.');
+                    } else {
+                        alertify.success(data.number + ' items set ' + label + '.');
+                    }
+                },
+                function (reason) {
+                    alertify.error('Error ' + reason.status + ' ' + reason.statusText);
+                }
+            );
+
+        };
+
+        /**
+         * Check all items that have a key equal to value
+         */
+        $scope.check = function (key, value) {
+            $scope.allChecked = false;
             $scope.checked.models = [];
             $scope.models.forEach(function (model) {
-                if (model.status == status) {
+                if (model[key] == value) {
                     $scope.checked.models.push(model);
                 }
             });
@@ -105,12 +146,19 @@
          * Delete checked items
          */
         $scope.deleteChecked = function () {
+
             var ids = [],
                 models = $scope.checked.models,
                 number = models.length;
+
+            if ($scope.checked.models.length > $scope.deleteLimit) {
+                alertify.error('Impossible to delete more than ' + $scope.deleteLimit + ' items in one go.');
+                return false;
+            }
             if (!window.confirm('Are you sure you want to delete ' + number + ' items?')) {
                 return false;
             }
+
             models.forEach(function (model) {
                 ids.push(model.id);
                 var index = $scope.models.indexOf(model);
@@ -119,16 +167,24 @@
 
             $scope.checked.models = [];
 
-            $api.delete({ids: ids.join()}).$promise.then(
+            $scope.loading = true;
+
+            $api.delete({id: ids.join()}).$promise.then(
                 function (data) {
+                    $scope.loading = false;
                     if (data.number < number) {
                         alertify.error((number - data.number) + ' items could not be deleted.');
                     }
+                    if (data.number > 0) {
+                        alertify.success(data.number + ' items deleted.');
+                    }
                 },
                 function (reason) {
+                    $scope.loading = false;
                     alertify.error('Error ' + reason.status + ' ' + reason.statusText);
                 }
             );
+
         };
 
         /**

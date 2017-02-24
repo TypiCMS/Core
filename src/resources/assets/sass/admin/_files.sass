@@ -4,23 +4,37 @@
 
     &-item
         float: left
-        margin: 10px
-        position: relative
         width: 135px
-        height: 135px
+        height: 160px
         display: flex
         overflow: hidden
         flex-direction: column
         align-items: center
         font-size: 12px
         text-align: center
+        padding: 5px
+        margin: 5px
+        border-radius: 2px
+
+        &-selected
+            background-color: #ccc
+
+        &-image
+            max-width: 100%
+            max-height: 100%
+            padding: 2px
+            border: 1px solid #ccc
+            pointer-events: none
+            border-radius: 3px
 
         &-icon
             width: 100px
             height: 100px
             display: flex
+            flex-shrink: 0
             align-items: center
             justify-content: center
+            margin-bottom: 5px
 
             &:before
                 @extend .fa
@@ -38,3 +52,8 @@
             &-f:before
                 content: "\f07b"
 
+.lvl-target
+    opacity: .3
+
+.lvl-over
+    background-color: #eee
