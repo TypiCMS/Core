@@ -1,61 +1,40 @@
-.fieldset-media
-    @extend .well
+.filemanager
+    margin-left: -10px
+    margin-right: -10px
 
-    div + div
-        margin-top: 20px
-
-.thumbnails
-    .thumbnails-title
-        margin-bottom: 0
-
-    .thumbnail
-        margin-top: 5px
-
-.thumbnail
-    cursor: default
-    float: left
-    margin: 10px
-    display: block
-    position: relative
-    width: 140px
-    transition: none
-
-    .caption
+    &-item
+        float: left
+        margin: 10px
+        position: relative
+        width: 135px
+        height: 135px
+        display: flex
+        overflow: hidden
+        flex-direction: column
+        align-items: center
         font-size: 12px
-        padding: 0
-        margin-top: 1px
-        height: 64px
-        overflow: scroll
-        line-height: 16px
-        text-overflow: ellipsis
-
-    input[type=checkbox]
-        position: absolute
-        top: 2px
-        left: 2px
-        margin: 0
-
-    &:hover
-        text-decoration: none
-
-    .container-doc
-        display: table
-        font-size: 11px
-        height: 130px
         text-align: center
 
-        .doc-info
-            display: table-cell
-            vertical-align: middle
+        &-icon
+            width: 100px
+            height: 100px
+            display: flex
+            align-items: center
+            justify-content: center
 
-        .fa
-            display: block
-            margin: 0 auto
-            margin-bottom: 5px
+            &:before
+                @extend .fa
+                font-size: 80px
 
-.container-filepicker
-    .thumbnail
-        cursor: pointer
+            &-a:before
+                content: "\f1c7"
 
-    .pagination
-        margin-bottom: 0
+            &-v:before
+                content: "\f1c8"
+
+            &-d:before
+                content: "\f016"
+
+            &-f:before
+                content: "\f07b"
+
