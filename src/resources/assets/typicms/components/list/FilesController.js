@@ -52,22 +52,24 @@
         }
 
         $scope.newFolder = function() {
+            let name = window.prompt('What is the name of the new folder?');
+            if (!name) {
+                return;
+            }
             let data = {
                 type: 'f',
-                name: window.prompt('Name ?'),
+                name: name,
                 description: {},
                 alt_attribute: {},
             }
             $api.save(data).$promise.then(
                 function (data) {
-                    alertify.success('Folder created.');
+                    $scope.models.push(data.model);
                 },
                 function (reason) {
                     alertify.error('Error ' + reason.status + ' ' + reason.statusText);
                 }
             );
-
-            return false;
         }
 
         /**
@@ -83,14 +85,12 @@
          * Check all items
          */
         $scope.toggleCheck = function (model) {
-            console.log(model);
             let index = $scope.checked.models.indexOf(model);
             if (index !== -1) {
                 $scope.checked.models.splice(index, 1);
             } else {
                 $scope.checked.models.push(model);
             }
-            // console.log($scope.checked.models);
         };
 
         /**
