@@ -18,7 +18,7 @@ abstract class BaseAdminController extends Controller
     /**
      * Update the specified resources in storage.
      *
-     * @param array $ids
+     * @param array   $ids
      * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse

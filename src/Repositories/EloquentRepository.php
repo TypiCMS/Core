@@ -299,9 +299,9 @@ class EloquentRepository extends BaseRepository
      * Update multiple models.
      *
      * @param string $ids
-     * @param array $data
+     * @param array  $data
      *
-     * @return integer
+     * @return int
      */
     public function updateMultiple(array $ids, array $data)
     {
