@@ -16,20 +16,36 @@ abstract class BaseAdminController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resources in storage.
      *
-     * @param int     $id
+     * @param array $ids
      * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function ajaxUpdate($id, Request $request)
+    protected function ajaxUpdate($ids, Request $request)
     {
-        $updated = $this->repository->update($id, $request->all());
+        $ids = explode(',', $ids);
+        $updated = $this->repository->updateMultiple($ids, $request->all());
 
         return response()->json([
             'error' => !$updated,
         ]);
+    }
+
+    /**
+     * Delete multiple resources.
+     *
+     * @param $ids
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroyMultiple($ids)
+    {
+        $ids = explode(',', $ids);
+        $number = $this->repository->deleteMultiple($ids);
+
+        return response()->json(compact('number'));
     }
 
     /**
