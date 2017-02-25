@@ -51,6 +51,9 @@
             }
         }
 
+        /**
+         * Create a new folder
+         */
         $scope.newFolder = function() {
             let name = window.prompt('What is the name of the new folder?');
             if (!name) {
