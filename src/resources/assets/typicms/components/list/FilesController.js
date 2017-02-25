@@ -51,7 +51,22 @@
             }
         }
 
-        $scope.allowDrop = function(e) {
+        $scope.newFolder = function() {
+            let data = {
+                type: 'f',
+                name: window.prompt('Name ?'),
+                description: {},
+                alt_attribute: {},
+            }
+            $api.save(data).$promise.then(
+                function (data) {
+                    alertify.success('Folder created.');
+                },
+                function (reason) {
+                    alertify.error('Error ' + reason.status + ' ' + reason.statusText);
+                }
+            );
+
             return false;
         }
 
