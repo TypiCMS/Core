@@ -162,22 +162,25 @@
 
             models.forEach(function (model) {
                 ids.push(model.id);
-                var index = $scope.models.indexOf(model);
-                $scope.models.splice(index, 1);
             });
-
-            $scope.checked.models = [];
 
             $scope.loading = true;
 
             $api.delete({id: ids.join()}).$promise.then(
                 function (data) {
                     $scope.loading = false;
-                    if (data.number < number) {
+                    if (data.number == 0) {
+                        alertify.error(data.message);
+                    } else if (data.number < number) {
                         alertify.error((number - data.number) + ' items could not be deleted.');
                     }
-                    if (data.number > 0) {
+                    if (data.number == number) {
                         alertify.success(data.number + ' items deleted.');
+                        models.forEach(function (model) {
+                            var index = $scope.models.indexOf(model);
+                            $scope.models.splice(index, 1);
+                        });
+                        $scope.checked.models = [];
                     }
                 },
                 function (reason) {
