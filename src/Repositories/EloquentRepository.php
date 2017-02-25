@@ -296,37 +296,6 @@ class EloquentRepository extends BaseRepository
     }
 
     /**
-     * Update multiple models.
-     *
-     * @param string $ids
-     * @param array  $data
-     *
-     * @return int
-     */
-    public function updateMultiple(array $ids, array $data)
-    {
-        $number = $this->createModel()
-            ->whereIn('id', $ids)
-            ->update($data);
-        $this->forgetCache();
-
-        return $number;
-    }
-
-    /**
-     * Delete multiple models.
-     *
-     * @return bool
-     */
-    public function deleteMultiple($ids)
-    {
-        $deleted = $this->createModel()->destroy($ids);
-        $this->forgetCache();
-
-        return $deleted;
-    }
-
-    /**
      * Get sort data.
      *
      * @param int   $position
