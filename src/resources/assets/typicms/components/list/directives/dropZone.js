@@ -33,7 +33,7 @@ angular.module('typicms').directive('dropzone', function () {
 
         element.dropzone({
             url: '/admin/files',
-            paramName: 'file',
+            paramName: 'name',
             clickable: true,
             maxFilesize: 60, // MB
             acceptedFiles: acceptedFiles.join(),
@@ -59,6 +59,7 @@ angular.module('typicms').directive('dropzone', function () {
                 }
                 formData.append('_token', TypiCMS._token);
                 for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
+                    formData.append('folder_id', attrs.folderId);
                     formData.append('description['+TypiCMS.locales[i]+']', '');
                     formData.append('alt_attribute['+TypiCMS.locales[i]+']', '');
                 }
