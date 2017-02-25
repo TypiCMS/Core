@@ -54,12 +54,13 @@
         /**
          * Create a new folder
          */
-        $scope.newFolder = function() {
+        $scope.newFolder = function(folderId) {
             let name = window.prompt('What is the name of the new folder?');
             if (!name) {
                 return;
             }
             let data = {
+                folder_id: folderId,
                 type: 'f',
                 name: name,
                 description: {},
