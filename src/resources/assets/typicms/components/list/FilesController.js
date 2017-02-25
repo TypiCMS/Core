@@ -34,7 +34,7 @@
         }
 
         $scope.dropped = function(draggedModel, droppedModel) {
-            if (droppedModel.type === 'f') {
+            if (droppedModel.type === 'f' && draggedModel.id != droppedModel.id) {
                 var index = $scope.models.indexOf(draggedModel);
                 $scope.models.splice(index, 1);
 
