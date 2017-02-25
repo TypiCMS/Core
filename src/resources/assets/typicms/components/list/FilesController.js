@@ -34,8 +34,21 @@
         }
 
         $scope.dropped = function(draggedModel, droppedModel) {
-            var index = $scope.models.indexOf(draggedModel);
-            $scope.models.splice(index, 1);
+            if (droppedModel.type === 'f') {
+                var index = $scope.models.indexOf(draggedModel);
+                $scope.models.splice(index, 1);
+
+                let data = {
+                    folder_id: droppedModel.id
+                }
+                $api.update({id: draggedModel.id}, data).$promise.then(
+                    function (data) {},
+                    function (reason) {
+                        alertify.error('Error ' + reason.status + ' ' + reason.statusText);
+                    }
+                );
+
+            }
         }
 
         $scope.allowDrop = function(e) {
