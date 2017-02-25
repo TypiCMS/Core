@@ -97,6 +97,52 @@
         };
 
         /**
+         * Put items in parent folder
+         */
+        $scope.moveToParentFolder = function () {
+
+            var ids = [],
+                models = $scope.checked.models,
+                number = models.length;
+
+            if ($scope.checked.models.length > $scope.deleteLimit) {
+                alertify.error('Too much elements (max ' + $scope.deleteLimit + ' items.)');
+                return false;
+            }
+
+            models.forEach(function (model) {
+                ids.push(model.id);
+                var index = $scope.models.indexOf(model);
+                $scope.models.splice(index, 1);
+            });
+
+            $scope.checked.models = [];
+
+            $scope.loading = true;
+
+            let data = {
+                folder_id: 0
+            }
+
+            $api.update({id: ids.join()}, data).$promise.then(
+                function (data) {
+                    $scope.loading = false;
+                    if (data.number < number) {
+                        alertify.error((number - data.number) + ' items could not be moved.');
+                    }
+                    if (data.number > 0) {
+                        alertify.success(data.number + ' items moved.');
+                    }
+                },
+                function (reason) {
+                    $scope.loading = false;
+                    alertify.error('Error ' + reason.status + ' ' + reason.statusText);
+                }
+            );
+
+        };
+
+        /**
          * Delete checked items
          */
         $scope.deleteChecked = function () {
