@@ -24,6 +24,7 @@ window.Dropzone = require('dropzone');
 require('angular');
 require('angular-cookies');
 require('angular-resource');
+require('checklist-model');
 require('../../../node_modules/angular-smart-table/dist/smart-table.js');
 require('angular-ui-tree');
 var req = require.context("../../../resources/assets/typicms", true, /^(.*\.(js$))[^.]*$/igm);
