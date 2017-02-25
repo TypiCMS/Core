@@ -1,8 +1,11 @@
 var module = angular.module('typicms');
 
-module.directive('lvlDraggable', ['$rootScope', function ($rootScope) {
+module.directive('dragdrop', ['$rootScope', function ($rootScope) {
     return {
         restrict: 'A',
+        scope: {
+            onDrop: '&'
+        },
         link: function (scope, el, attrs, controller) {
             angular.element(el).attr('draggable', 'true');
 
@@ -14,17 +17,6 @@ module.directive('lvlDraggable', ['$rootScope', function ($rootScope) {
             el.bind('dragend', function (e) {
                 $rootScope.$emit('LVL-DRAG-END', this);
             });
-        }
-    };
-}]);
-
-module.directive('lvlDroppable', ['$rootScope', function ($rootScope) {
-    return {
-        restrict: 'A',
-        scope: {
-            onDrop: '&'
-        },
-        link: function (scope, el, attrs, controller) {
 
             el.bind('dragover', function (e) {
                 e.preventDefault();
@@ -47,9 +39,10 @@ module.directive('lvlDroppable', ['$rootScope', function ($rootScope) {
             el.bind('drop', function (e) {
                 e.preventDefault();
                 var data = e.originalEvent.dataTransfer.getData('text');
-                var dest = document.getElementById(this.id);
-                var src = document.getElementById(data);
-                scope.onDrop({dragEl: data, dropEl: this.id});
+                var draggedModel = angular.element($('#'+data)).scope().model;
+                var droppedModel = angular.element($('#'+this.id)).scope().model;
+                scope.onDrop({draggedModel: draggedModel, droppedModel: droppedModel});
+                scope.$apply('drop()');
             });
 
             $rootScope.$on('LVL-DRAG-START', function (e, el) {
