@@ -11,11 +11,11 @@ module.directive('dragdrop', ['$rootScope', function ($rootScope) {
 
             el.bind('dragstart', function (e) {
                 e.originalEvent.dataTransfer.setData('text', this.id);
-                $rootScope.$emit('LVL-DRAG-START', this);
+                $rootScope.$emit('DRAG-START', this);
             });
 
             el.bind('dragend', function (e) {
-                $rootScope.$emit('LVL-DRAG-END', this);
+                $rootScope.$emit('DRAG-END', this);
             });
 
             el.bind('dragover', function (e) {
@@ -43,13 +43,14 @@ module.directive('dragdrop', ['$rootScope', function ($rootScope) {
                 var droppedModel = angular.element($('#'+this.id)).scope().model;
                 scope.onDrop({draggedModel: draggedModel, droppedModel: droppedModel});
                 scope.$apply('drop()');
+                $rootScope.$emit('DRAG-END', this);
             });
 
-            $rootScope.$on('LVL-DRAG-START', function (e, el) {
+            $rootScope.$on('DRAG-START', function (e, el) {
                 angular.element(el).addClass('lvl-target');
             });
 
-            $rootScope.$on('LVL-DRAG-END', function (e, el) {
+            $rootScope.$on('DRAG-END', function (e, el) {
                 angular.element(el).removeClass('lvl-target');
                 angular.element(el).removeClass('lvl-over');
             });
