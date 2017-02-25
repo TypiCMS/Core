@@ -43,6 +43,15 @@
         }
 
         /**
+         * Open folder
+         */
+        $scope.open = function (model) {
+            if (model.type === 'f') {
+                window.location.href = '?folder_id='+model.id;
+            }
+        };
+
+        /**
          * Check all items
          */
         $scope.toggleCheck = function (model) {
