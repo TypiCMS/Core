@@ -4,13 +4,14 @@ module.directive('dragdrop', ['$rootScope', function ($rootScope) {
     return {
         restrict: 'A',
         scope: {
-            onDrop: '&'
+            onDrop: '&',
+            checkedModels: '=checkedModels'
         },
         link: function (scope, el, attrs, controller) {
             angular.element(el).attr('draggable', 'true');
 
             el.bind('dragstart', function (e) {
-                e.originalEvent.dataTransfer.setData('text', this.id);
+                e.originalEvent.dataTransfer.setData('text', ''); // Firefox compatibility
                 $rootScope.$emit('DRAG-START', this);
             });
 
@@ -38,10 +39,9 @@ module.directive('dragdrop', ['$rootScope', function ($rootScope) {
 
             el.bind('drop', function (e) {
                 e.preventDefault();
-                var data = e.originalEvent.dataTransfer.getData('text');
-                var draggedModel = angular.element($('#'+data)).scope().model;
+                var draggedModels = scope.checkedModels;
                 var droppedModel = angular.element($('#'+this.id)).scope().model;
-                scope.onDrop({draggedModel: draggedModel, droppedModel: droppedModel});
+                scope.onDrop({draggedModels: draggedModels, droppedModel: droppedModel});
                 scope.$apply('drop()');
                 $rootScope.$emit('DRAG-END', this);
             });

@@ -33,22 +33,34 @@
             });
         }
 
-        $scope.dropped = function(draggedModel, droppedModel) {
-            if (droppedModel.type === 'f' && draggedModel.id != droppedModel.id) {
+        $scope.dropped = function(draggedModels, droppedModel) {
+
+            let ids = [];
+            draggedModels.forEach(function (model) {
+                ids.push(model.id);
+            });
+
+            if (droppedModel.type !== 'f' || ids.indexOf(droppedModel.id) !== -1) {
+                return;
+            }
+
+            for (var i = draggedModels.length - 1; i >= 0; i--) {
+                let draggedModel = draggedModels[i];
                 var index = $scope.models.indexOf(draggedModel);
                 $scope.models.splice(index, 1);
-
-                let data = {
-                    folder_id: droppedModel.id
-                }
-                $api.update({id: draggedModel.id}, data).$promise.then(
-                    function (data) {},
-                    function (reason) {
-                        alertify.error('Error ' + reason.status + ' ' + reason.statusText);
-                    }
-                );
-
             }
+
+            let data = {
+                folder_id: droppedModel.id
+            }
+
+            $api.update({id: ids}, data).$promise.then(
+                function (data) {},
+                function (reason) {
+                    alertify.error('Error ' + reason.status + ' ' + reason.statusText);
+                }
+            );
+
         }
 
         /**
