@@ -10,6 +10,12 @@
         var moduleName = 'files',
             $params = {};
 
+        //shorctut function for testing whether a selection modifier is pressed
+        function hasModifier(e)
+        {
+            return (e.ctrlKey || e.metaKey || e.shiftKey);
+        }
+
         /**
          * Empty object that will contain checked items
          */
@@ -98,13 +104,14 @@
         };
 
         /**
-         * Check all items
+         * Check an item
          */
-        $scope.toggleCheck = function (model) {
+        $scope.check = function (model, $event) {
             let index = $scope.checked.models.indexOf(model);
-            if (index !== -1) {
-                $scope.checked.models.splice(index, 1);
-            } else {
+            if (!hasModifier($event)) {
+                $scope.checked.models = [];
+            }
+            if (index === -1) {
                 $scope.checked.models.push(model);
             }
         };
