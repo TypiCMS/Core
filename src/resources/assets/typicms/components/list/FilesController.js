@@ -134,7 +134,7 @@
             $scope.loading = true;
 
             let data = {
-                folder_id: 0
+                folder_id: null
             }
 
             $api.update({id: ids.join()}, data).$promise.then(
