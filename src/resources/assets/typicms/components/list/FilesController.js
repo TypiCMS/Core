@@ -107,13 +107,47 @@
          * Check an item
          */
         $scope.check = function (model, $event) {
+            let indexOfLastCheckedItem = $scope.models.indexOf($scope.checked.models[$scope.checked.models.length-1]);
             let index = $scope.checked.models.indexOf(model);
             if (!hasModifier($event)) {
                 $scope.checked.models = [];
             }
-            if (index === -1) {
+            if (index !== -1 && ($event.metaKey || $event.ctrlKey)) {
+                $scope.checked.models.splice(index, 1);
+            } else if ($scope.checked.models.indexOf(model) === -1) {
                 $scope.checked.models.push(model);
             }
+            if (index === -1) {
+                if ($event.shiftKey) {
+                    let currentItemIndex = $scope.models.indexOf(model);
+                    $scope.models.forEach(function (model, index) {
+                        if (currentItemIndex > indexOfLastCheckedItem) {
+                            if (indexOfLastCheckedItem === -1) {
+                                if (index <= currentItemIndex) {
+                                    $scope.checked.models.push(model);
+                                }
+                            }
+                            if (indexOfLastCheckedItem !== -1) {
+                                if (index > indexOfLastCheckedItem && index < currentItemIndex) {
+                                    if ($scope.checked.models.indexOf(model) === -1) {
+                                        $scope.checked.models.push(model);
+                                    }
+                                }
+                            }
+                        }
+                        if (currentItemIndex < indexOfLastCheckedItem) {
+                            if (indexOfLastCheckedItem !== -1) {
+                                if (index < indexOfLastCheckedItem && index > currentItemIndex) {
+                                    if ($scope.checked.models.indexOf(model) === -1) {
+                                        $scope.checked.models.push(model);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        };
         };
 
         /**
