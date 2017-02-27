@@ -13,6 +13,12 @@ module.directive('dragdrop', ['$rootScope', function ($rootScope) {
             el.bind('dragstart', function (e) {
                 e.originalEvent.dataTransfer.setData('text', ''); // Firefox compatibility
                 $rootScope.$emit('DRAG-START', this);
+                let model = angular.element(this).scope().model;
+                if (scope.checkedModels.indexOf(model) === -1) {
+                    scope.checkedModels = [];
+                    scope.checkedModels.push(model);
+                    scope.$apply();
+                }
             });
 
             el.bind('dragend', function (e) {
