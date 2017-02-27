@@ -67,6 +67,8 @@
                 }
             );
 
+            $scope.checked.models = [];
+
         }
 
         /**
