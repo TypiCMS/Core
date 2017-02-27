@@ -107,6 +107,7 @@
          * Check an item
          */
         $scope.check = function (model, $event) {
+            $event.stopPropagation();
             let indexOfLastCheckedItem = $scope.models.indexOf($scope.checked.models[$scope.checked.models.length-1]);
             let index = $scope.checked.models.indexOf(model);
             if (!hasModifier($event)) {
@@ -148,6 +149,12 @@
                 }
             }
         };
+
+        /**
+         * Uncheck all items
+         */
+        $scope.unCheckAll = function (model) {
+            $scope.checked.models = [];
         };
 
         /**
