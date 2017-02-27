@@ -23,21 +23,26 @@
             models: []
         };
 
+        $scope.path = null;
+
+        $scope.folder = {id: ''};
+        if (localStorage.getItem('folder')) {
+            $scope.folder = JSON.parse(localStorage.getItem('folder'));
+        }
+
         if (TypiCMS.content_locale == null) {
             TypiCMS.content_locale = TypiCMS.locale;
         }
         $scope.TypiCMS = TypiCMS;
 
-        if (TypiCMS.models) {
-            $scope.models = TypiCMS.models;
-            $scope.displayedModels = [].concat($scope.models);
-        } else {
-            $api.query($params).$promise.then(function (all) {
-                $scope.models = all;
+        $http.get('/admin/files?folder_id='+$scope.folder.id).then(function (response) {
+                $scope.models = response.data.models;
+                $scope.path = response.data.path;
                 //copy the references (you could clone ie angular.copy but then have to go through a dirty checking for the matches)
                 $scope.displayedModels = [].concat($scope.models);
+            }, function (error) {
+                console.log(error);
             });
-        }
 
         $scope.dropped = function(draggedModels, droppedModel) {
 
@@ -101,7 +106,17 @@
          */
         $scope.open = function (model) {
             if (model.type === 'f') {
-                window.location.href = '?folder_id='+model.id;
+                $http.get('/admin/files?folder_id='+model.id).then(function (response) {
+                        $scope.models = response.data.models;
+                        $scope.path = response.data.path;
+                        //copy the references (you could clone ie angular.copy but then have to go through a dirty checking for the matches)
+                        $scope.displayedModels = [].concat($scope.models);
+                    }, function (error) {
+                        console.log(error);
+                    });
+                localStorage.setItem('folder', JSON.stringify(model));
+                $scope.folder = model;
+                $scope.checked.models = [];
             }
         };
 
@@ -184,7 +199,7 @@
             $scope.loading = true;
 
             let data = {
-                folder_id: null
+                folder_id: $scope.path[$scope.path.length-2].id
             }
 
             $api.update({id: ids.join()}, data).$promise.then(
