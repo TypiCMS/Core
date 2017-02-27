@@ -6,19 +6,18 @@
     &-item
         float: left
         width: 135px
-        height: 160px
-        display: flex
-        overflow: hidden
-        flex-direction: column
-        align-items: center
+        max-height: 187px
         font-size: 12px
         text-align: center
-        padding: 5px
-        margin: 5px
-        border-radius: 2px
+        margin: 10px
+        border-radius: 3px
 
-        &-selected
+        &-selected,
+        &-over
             background-color: #ddd
+
+        &-name
+            padding: 0 5px 10px
 
         &-image
             max-width: 100%
@@ -30,13 +29,13 @@
             background-color: #fff
 
         &-icon
-            width: 100px
-            height: 100px
+            width: 135px
+            height: 120px
+            padding: 5px
             display: flex
             flex-shrink: 0
             align-items: center
             justify-content: center
-            margin-bottom: 5px
 
             &:before
                 @extend .fa
@@ -56,6 +55,3 @@
 
         &-target
             opacity: 1
-
-        &-over
-            background-color: #ddd
