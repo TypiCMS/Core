@@ -27,13 +27,13 @@ module.directive('dragdrop', ['$rootScope', function ($rootScope) {
 
             el.bind('dragenter', function (e) {
                 let element = angular.element(e.target);
-                element.closest('.filemanager-item-folder').addClass('lvl-over');
+                element.closest('.filemanager-item-folder').addClass('filemanager-item-over');
             });
 
             el.bind('dragleave', function (e) {
                 let element = angular.element(e.target);
                 if (!element.hasClass('filemanager-item-folder')) {
-                    element.closest('.filemanager-item-folder').removeClass('lvl-over');
+                    element.closest('.filemanager-item-folder').removeClass('filemanager-item-over');
                 }
             });
 
@@ -47,12 +47,12 @@ module.directive('dragdrop', ['$rootScope', function ($rootScope) {
             });
 
             $rootScope.$on('DRAG-START', function (e, el) {
-                angular.element(el).addClass('lvl-target');
+                angular.element(el).addClass('filemanager-item-target');
             });
 
             $rootScope.$on('DRAG-END', function (e, el) {
-                angular.element(el).removeClass('lvl-target');
-                angular.element(el).removeClass('lvl-over');
+                angular.element(el).removeClass('filemanager-item-target');
+                angular.element(el).removeClass('filemanager-item-over');
             });
         }
     };
