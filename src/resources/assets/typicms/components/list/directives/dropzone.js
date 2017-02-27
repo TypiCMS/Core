@@ -6,7 +6,7 @@ Dropzone.autoDiscover = false;
 angular.module('typicms').directive('dropzone', function () {
 
     $('#uploaderAddButton').on('click', function () {
-        $('#dropzone').trigger('click');
+        $('#dropzone').trigger('click').removeClass('hide');
     });
 
     return function (scope, element, attrs) {
