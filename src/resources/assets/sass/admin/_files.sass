@@ -6,18 +6,24 @@
     &-item
         float: left
         width: 135px
-        max-height: 187px
+        height: 187px
         font-size: 12px
         text-align: center
         margin: 10px
-        border-radius: 3px
 
-        &-selected,
-        &-over
+        &-wrapper
+            max-height: 187px
+            border-radius: 3px
+            padding-bottom: 10px
+            overflow: hidden
+
+        &-selected &-wrapper,
+        &-over &-wrapper
             background-color: #ddd
 
         &-name
-            margin: 0 5px 10px
+            display: block
+            margin: 0 5px
             overflow: hidden
             text-overflow: ellipsis
 
