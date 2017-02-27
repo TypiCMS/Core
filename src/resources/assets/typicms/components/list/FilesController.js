@@ -10,14 +10,8 @@
         var moduleName = 'files',
             $params = {};
 
-        //shorctut function for testing whether a selection modifier is pressed
-        function hasModifier(e)
-        {
-            return (e.ctrlKey || e.metaKey || e.shiftKey);
-        }
-
         /**
-         * Empty object that will contain checked items
+         * Empty object that will contain checked items.
          */
         $scope.checked = {
             models: []
@@ -77,7 +71,7 @@
         }
 
         /**
-         * Create a new folder
+         * Create a new folder.
          */
         $scope.newFolder = function(folderId) {
             let name = window.prompt('What is the name of the new folder?');
@@ -102,7 +96,7 @@
         }
 
         /**
-         * Open folder
+         * Open folder.
          */
         $scope.open = function (model) {
             if (model.type === 'f') {
@@ -121,13 +115,21 @@
         };
 
         /**
-         * Check an item
+         * Close CKEditor file picker.
+         */
+        $scope.selectAndClose = function (CKEditorFuncNum, file) {
+            window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, file);
+            window.close();
+        };
+
+        /**
+         * Select an item.
          */
         $scope.check = function (model, $event) {
             $event.stopPropagation();
             let indexOfLastCheckedItem = $scope.models.indexOf($scope.checked.models[$scope.checked.models.length-1]);
             let index = $scope.checked.models.indexOf(model);
-            if (!hasModifier($event)) {
+            if (!($event.ctrlKey || $event.metaKey || $event.shiftKey)) {
                 $scope.checked.models = [];
             }
             if (index !== -1 && ($event.metaKey || $event.ctrlKey)) {

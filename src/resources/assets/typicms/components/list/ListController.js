@@ -259,14 +259,6 @@
         };
 
         /**
-         * TinyMCE File picker
-         */
-        $scope.selectAndClose = function (CKEditorFuncNum, file) {
-            window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, file);
-            window.close();
-        };
-
-        /**
          * Delete an item from a non-nested list
          */
         $scope.delete = function (model, title) {
