@@ -11,19 +11,22 @@
     angular.module('typicms').factory('$api', ['$resource', function ($resource) {
 
         var pathSegments = window.location.pathname.split('/'),
-            moduleName = pathSegments[2],
-            action = pathSegments[4];
+            modulePath = pathSegments[2];
 
-        if (moduleName === 'galleries' && action === 'edit') {
-            moduleName = 'files';
+        if (modulePath === 'galleries' && pathSegments[4] === 'edit') {
+            modulePath = 'files';
         }
-        if (moduleName === 'menus' && action === 'edit') {
-            moduleName = 'menulinks';
+        if (modulePath === 'menus' && pathSegments[4] === 'edit') {
+            modulePath = 'menulinks';
         }
-        if (moduleName === 'dashboard') {
-            moduleName = 'history';
+        if (modulePath === 'dashboard') {
+            modulePath = 'history';
         }
-        return $resource('/admin/' + moduleName + '/:id', null, {
+        if (modulePath === 'projects' && pathSegments[3] === 'categories') {
+            modulePath = 'projects/categories';
+        }
+
+        return $resource('/admin/' + modulePath + '/:id', null, {
             update: {
                 method: 'PATCH'
             }

@@ -11,7 +11,7 @@
         $scope.allChecked = false;
         $scope.deleteLimit = 1000;
         var url = $location.absUrl().split('?')[0],
-            moduleName = url.split('/')[4],
+            modulePath = url.split('/')[4],
             $params = {};
 
         $scope.TypiCMS = TypiCMS;
@@ -21,15 +21,19 @@
         }
 
         // if we query files from a gallery, we need the gallery_id value :
-        if (moduleName === 'galleries' && url.split('/')[5]) {
+        if (modulePath === 'galleries' && url.split('/')[5]) {
             $params.gallery_id = url.split('/')[5];
             $scope.gallery_id = $params.gallery_id;
         }
 
         // if we query menulinks menu_id value :
-        if (moduleName === 'menus' && url.split('/')[5]) {
+        if (modulePath === 'menus' && url.split('/')[5]) {
             $params.menu_id = url.split('/')[5];
-            moduleName = 'menulinks';
+            modulePath = 'menulinks';
+        }
+
+        if (modulePath === 'projects' && url.split('/')[5]) {
+            modulePath = 'projects/categories';
         }
 
         if (TypiCMS.models) {
@@ -83,13 +87,21 @@
         /**
          * Set all checked items online or offline
          */
-        $scope.setItems = function (key, value, label) {
+        $scope.setItems = function (column, value, label) {
             var ids = [],
                 models = $scope.checked.models,
                 number = models.length,
                 data = {};
 
-            data[key] = value;
+            if (typeof value === 'object') {
+                for (var key in value) {
+                    if (value.hasOwnProperty(key)) {
+                        data[column+'->'+key] = value[key];
+                    }
+                }
+            } else {
+                data[column] = value;
+            }
 
             if (!window.confirm('Are you sure you want to set ' + number + ' items ' + label + '?')) {
                 return false;
@@ -97,7 +109,15 @@
 
             models.forEach(function (model) {
                 ids.push(model.id);
-                model[key] = value;
+                if (typeof value === 'object') {
+                    for (var key in value) {
+                        if (value.hasOwnProperty(key)) {
+                            model[column][key] = value[key];
+                        }
+                    }
+                } else {
+                    model[column] = value;
+                }
             });
 
             $api.update({id: ids.join()}, data).$promise.then(
@@ -118,13 +138,25 @@
         /**
          * Check all items that have a key equal to value
          */
-        $scope.check = function (key, value) {
+        $scope.check = function (column, value) {
             $scope.allChecked = false;
             $scope.checked.models = [];
             $scope.models.forEach(function (model) {
-                if (model[key] == value) {
-                    $scope.checked.models.push(model);
+
+                if (typeof value === 'object') {
+                    for (var key in value) {
+                        if (value.hasOwnProperty(key)) {
+                            if (model[column][key] == value[key]) {
+                                $scope.checked.models.push(model);
+                            }
+                        }
+                    }
+                } else {
+                    if (model[column] == value) {
+                        $scope.checked.models.push(model);
+                    }
                 }
+
             });
         };
 
@@ -191,16 +223,16 @@
          * Set status = 0 or 1 for item
          */
         $scope.toggleStatus = function (model) {
-            var newStatus = Math.abs(parseInt(model.status[TypiCMS.content_locale]) - 1).toString(),
-                data = {},
+            var status = parseInt(model.status[TypiCMS.content_locale]) || 0,
+                newStatus = Math.abs(status - 1).toString(),
+                data = {
+                    status: {}
+                },
                 label = (newStatus === '1')
                     ? 'published'
                     : 'unpublished';
             model.status[TypiCMS.content_locale] = newStatus;
-            data = {
-                id: model.id,
-                status: model.status
-            }
+            data.status[TypiCMS.content_locale] = newStatus;
             $api.update({id: model.id}, data).$promise.then(
                 function () {
                     alertify.success('Item is ' + label + '.');
@@ -249,8 +281,10 @@
         /**
          * Update model
          */
-        $scope.update = function (model) {
-            $api.update({id: model.id}, model).$promise.then(
+        $scope.update = function (model, column) {
+            var data = {}
+            data[column] = model[column];
+            $api.update({id: model.id}, data).$promise.then(
                 null,
                 function (reason) {
                     alertify.error('Error ' + reason.status + ' ' + reason.statusText);
@@ -358,7 +392,7 @@
                     data.item.push({id: model.id, parent_id: model.parent_id});
                 });
 
-                $http.post('/admin/' + moduleName + '/sort', data).success(function (data) {
+                $http.post('/admin/' + modulePath + '/sort', data).success(function (data) {
                     alertify.success(data.message);
                 }).error(function (data) {
                     alertify.error(data.error.message);
