@@ -25,9 +25,18 @@ abstract class BaseAdminController extends Controller
      */
     protected function ajaxUpdate($ids, Request $request)
     {
+        $data = [];
+        foreach ($request->all() as $key => $value) {
+            if (is_array($value)) {
+                $value = json_encode($value);
+            }
+            $data[$key] = $value;
+        }
+
         $updated = $this->repository->createModel()
             ->whereIn('id', explode(',', $ids))
-            ->update($request->all());
+            ->update($data);
+
         $this->repository->forgetCache();
 
         return response()->json([
