@@ -1,15 +1,21 @@
 <div class="btn-group dropdown">
     <button class="btn btn-default dropdown-toggle" ng-class="{disabled: !checked.models.length}" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-        Actions
+        {{ __('Actions') }}
         <span class="caret"></span>
         <span class="fa fa-spinner fa-spin fa-fw" ng-show="loading"></span>
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <li><a ng-click="setItems('status', 1, 'online')" href="#">Online</a></li>
-        <li><a ng-click="setItems('status', 0, 'offline')" href="#">Offline</a></li>
+        @if (!isset($limit) || in_array('online', $limit) )
+        <li><a ng-click="setItems('status', {[TypiCMS.content_locale]: '1'}, 'publish')" href="#">{{ __('Publish') }}</a></li>
+        @endif
+        @if (!isset($limit) || in_array('offline', $limit) )
+        <li><a ng-click="setItems('status', {[TypiCMS.content_locale]: '0'}, 'unpublish')" href="#">{{ __('Unpublish') }}</a></li>
         <li role="separator" class="divider"></li>
-        <li><a ng-click="deleteChecked()" href="#">Delete</a></li>
+        @endif
+        @if (!isset($limit) || in_array('delete', $limit) )
+        <li><a ng-click="deleteChecked()" href="#">{{ __('Delete') }}</a></li>
+        @endif
         <li role="separator" class="divider"></li>
-        <li class="disabled"><a href="#">@{{ checked.models.length }} items selected</a></li>
+        <li class="disabled"><a href="#">@{{ checked.models.length }} {{ __('items selected') }}</a></li>
     </ul>
 </div>

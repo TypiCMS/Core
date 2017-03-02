@@ -10,7 +10,7 @@
         <li><a ng-click="checkAll()" href="#">All</a></li>
         <li><a ng-click="uncheckAll()" href="#">None</a></li>
         <li role="separator" class="divider"></li>
-        <li><a ng-click="check('status', 1)" href="#">Online</a></li>
-        <li><a ng-click="check('status', 0)" href="#">Offline</a></li>
+        <li><a ng-click="check('status', {[TypiCMS.content_locale]: '1'})" href="#">Online</a></li>
+        <li><a ng-click="check('status', {[TypiCMS.content_locale]: '0'})" href="#">Offline</a></li>
     </ul>
 </div>
