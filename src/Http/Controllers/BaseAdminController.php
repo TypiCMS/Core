@@ -26,11 +26,14 @@ abstract class BaseAdminController extends Controller
     protected function ajaxUpdate($ids, Request $request)
     {
         $data = [];
-        foreach ($request->all() as $key => $value) {
-            if (is_array($value)) {
-                $value = json_encode($value);
+        foreach ($request->all() as $column => $content) {
+            if (is_array($content)) {
+                foreach ($content as $key => $value) {
+                    $data[$column.'->'.$key] = $value;
+                }
+            } else {
+                $data[$column] = $content;
             }
-            $data[$key] = $value;
         }
 
         $updated = $this->repository->createModel()
@@ -53,8 +56,8 @@ abstract class BaseAdminController extends Controller
      */
     public function destroyMultiple($ids)
     {
-        $ids = explode(',', $ids);
-        $number = $this->repository->deleteMultiple($ids);
+        $number = $this->repository->createModel()->destroy(explode(',', $ids));
+        $this->repository->forgetCache();
 
         return response()->json(compact('number'));
     }
