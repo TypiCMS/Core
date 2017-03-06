@@ -9,9 +9,8 @@ $(function () {
      * Selectize for tags
      */
     if ($('#tags').length) {
-        $.ajax({
-            type: 'GET',
-            url: '/api/tags'
+        $.getJSON({
+            url: '/admin/tags'
         }).done(function(data) {
             var tags = data.map(function(x) { return { item: x.tag }; });
             $('#tags').selectize({
