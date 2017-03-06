@@ -36,7 +36,7 @@
         } else {
             $api.query($params).$promise.then(function (all) {
                 $scope.models = all;
-                //copy the references (you could clone ie angular.copy but then have to go through a dirty checking for the matches)
+                // Copy the references (you could clone ie angular.copy but then have to go through a dirty checking for the matches)
                 $scope.displayedModels = [].concat($scope.models);
             });
         }
