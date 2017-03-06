@@ -36,15 +36,13 @@ abstract class BaseAdminController extends Controller
             }
         }
 
-        $updated = $this->repository->createModel()
+        $number = $this->repository->createModel()
             ->whereIn('id', explode(',', $ids))
             ->update($data);
 
         $this->repository->forgetCache();
 
-        return response()->json([
-            'error' => !$updated,
-        ]);
+        return response()->json(compact('number'));
     }
 
     /**
