@@ -20,12 +20,6 @@
             TypiCMS.content_locale = TypiCMS.locale;
         }
 
-        // if we query files from a gallery, we need the gallery_id value :
-        if (modulePath === 'galleries' && url.split('/')[5]) {
-            $params.gallery_id = url.split('/')[5];
-            $scope.gallery_id = $params.gallery_id;
-        }
-
         // if we query menulinks menu_id value :
         if (modulePath === 'menus' && url.split('/')[5]) {
             $params.menu_id = url.split('/')[5];
