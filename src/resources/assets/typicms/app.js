@@ -5,7 +5,7 @@
 
     'use strict';
 
-    angular.module('typicms', ['ngResource', 'ngCookies', 'smart-table', 'ui.tree', 'checklist-model']);
+    angular.module('typicms', ['ngResource', 'ngCookies', 'smart-table', 'ui.tree', 'ng-sortable', 'checklist-model']);
 
     // Creating an 'update' method (PUT)
     angular.module('typicms').factory('$api', ['$resource', function ($resource) {
@@ -14,7 +14,7 @@
             modulePath = pathSegments[2];
 
         if (modulePath === 'galleries' && pathSegments[4] === 'edit') {
-            modulePath = 'files';
+            modulePath = 'galleries/'+pathSegments[3]+'/files';
         }
         if (modulePath === 'menus' && pathSegments[4] === 'edit') {
             modulePath = 'menulinks';

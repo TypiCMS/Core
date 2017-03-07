@@ -41,6 +41,20 @@
             });
         }
 
+        $scope.sortableOptions = {
+            animation: 50,
+            onSort: function (evt){
+                $http({
+                    method: 'POST',
+                    url: '/admin/galleries/sort-files',
+                    data: evt.models
+                }).then(function successCallback(response) {
+                }, function errorCallback(response) {
+                    alertify.error('Error ' + response.status + ' ' + response.statusText);
+                });
+            }
+        };
+
         /**
          * Empty object that will contain checked items
          */
