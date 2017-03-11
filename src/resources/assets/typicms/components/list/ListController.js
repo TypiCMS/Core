@@ -46,7 +46,7 @@
         });
 
         $scope.sortableOptions = {
-            animation: 50,
+            animation: 100,
             onSort: function (evt){
                 $http({
                     method: 'POST',
