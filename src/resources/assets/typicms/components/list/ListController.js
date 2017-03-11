@@ -41,6 +41,10 @@
             });
         }
 
+        $scope.$on('filesAdded', function (event, models) {
+            $scope.models = models;
+        });
+
         $scope.sortableOptions = {
             animation: 50,
             onSort: function (evt){

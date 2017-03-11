@@ -5,7 +5,7 @@
 
     'use strict';
 
-    angular.module('typicms').controller('FilesController', ['$http', '$scope', '$location', function ($http, $scope, $location) {
+    angular.module('typicms').controller('FilesController', ['$http', '$scope', '$rootScope', '$location', function ($http, $scope, $rootScope, $location, filesOfGallery) {
 
         var moduleName = 'files',
             $params = {};
@@ -261,6 +261,31 @@
             });
 
         };
+
+        /**
+         * Add selected items to gallery
+         */
+        $scope.addSelectedFiles = function () {
+            var ids = [],
+                models = $scope.checked.models,
+                data = {};
+            models.forEach(function (model) {
+                ids.push(model.id);
+            });
+            data.files = ids;
+
+            $http.patch('/admin/galleries/1', data).then(function (response) {
+                // console.log(response.data);
+                $rootScope.$broadcast('filesAdded', response.data);
+                $('html, body').removeClass('noscroll');
+                $('#filepicker').removeClass('filepicker-open');
+
+            }, function (reason) {
+                alertify.error('Error ' + reason.status + ' ' + reason.statusText);
+            });
+
+        }
+
 
     }]);
 
