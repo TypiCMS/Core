@@ -5,7 +5,7 @@
 
     'use strict';
 
-    angular.module('typicms').controller('FilesController', ['$http', '$scope', '$location', '$api', function ($http, $scope, $location, $api) {
+    angular.module('typicms').controller('FilesController', ['$http', '$scope', '$location', function ($http, $scope, $location) {
 
         var moduleName = 'files',
             $params = {};
@@ -59,12 +59,10 @@
                 folder_id: droppedModel.id
             }
 
-            $api.update({id: ids}, data).$promise.then(
-                function (data) {},
-                function (reason) {
-                    alertify.error('Error ' + reason.status + ' ' + reason.statusText);
-                }
-            );
+            $http.patch('/admin/files/'+ids.join(), data).then(function (response) {
+            }, function (reason) {
+                alertify.error('Error ' + reason.status + ' ' + reason.statusText);
+            });
 
             $scope.checked.models = [];
 
@@ -85,14 +83,12 @@
                 description: {},
                 alt_attribute: {},
             }
-            $api.save(data).$promise.then(
-                function (data) {
-                    $scope.models.push(data.model);
-                },
-                function (reason) {
-                    alertify.error('Error ' + reason.status + ' ' + reason.statusText);
-                }
-            );
+
+            $http.post('/admin/files', data).then(function (response) {
+                $scope.models.push(response.data.model);
+            }, function (reason) {
+                alertify.error('Error ' + reason.status + ' ' + reason.statusText);
+            });
         }
 
         /**
@@ -206,21 +202,18 @@
                 folder_id: $scope.path[$scope.path.length-2].id
             }
 
-            $api.update({id: ids.join()}, data).$promise.then(
-                function (data) {
-                    $scope.loading = false;
-                    if (data.number < number) {
-                        alertify.error((number - data.number) + ' items could not be moved.');
-                    }
-                    if (data.number > 0) {
-                        alertify.success(data.number + ' items moved.');
-                    }
-                },
-                function (reason) {
-                    $scope.loading = false;
-                    alertify.error('Error ' + reason.status + ' ' + reason.statusText);
+            $http.patch('/admin/files/'+ids.join(), data).then(function (response) {
+                $scope.loading = false;
+                if (response.data.number < number) {
+                    alertify.error((number - response.data.number) + ' items could not be moved.');
                 }
-            );
+                if (response.data.number > 0) {
+                    alertify.success(response.data.number + ' items moved.');
+                }
+            }, function (reason) {
+                $scope.loading = false;
+                alertify.error('Error ' + reason.status + ' ' + reason.statusText);
+            });
 
         };
 
@@ -247,28 +240,25 @@
 
             $scope.loading = true;
 
-            $api.delete({id: ids.join()}).$promise.then(
-                function (data) {
-                    $scope.loading = false;
-                    if (data.number == 0) {
-                        alertify.error(data.message);
-                    } else if (data.number < number) {
-                        alertify.error((number - data.number) + ' items could not be deleted.');
-                    }
-                    if (data.number == number) {
-                        alertify.success(data.number + ' items deleted.');
-                        models.forEach(function (model) {
-                            var index = $scope.models.indexOf(model);
-                            $scope.models.splice(index, 1);
-                        });
-                        $scope.checked.models = [];
-                    }
-                },
-                function (reason) {
-                    $scope.loading = false;
-                    alertify.error('Error ' + reason.status + ' ' + reason.statusText);
+            $http.delete('/admin/files/'+ids.join()).then(function (response) {
+                $scope.loading = false;
+                if (response.data.number == 0) {
+                    alertify.error(response.data.message);
+                } else if (response.data.number < number) {
+                    alertify.error((number - response.data.number) + ' items could not be deleted.');
                 }
-            );
+                if (response.data.number == number) {
+                    alertify.success(response.data.number + ' items deleted.');
+                    models.forEach(function (model) {
+                        var index = $scope.models.indexOf(model);
+                        $scope.models.splice(index, 1);
+                    });
+                    $scope.checked.models = [];
+                }
+            }, function (reason) {
+                $scope.loading = false;
+                alertify.error('Error ' + reason.status + ' ' + reason.statusText);
+            });
 
         };
 
