@@ -269,16 +269,31 @@
             var ids = [],
                 models = $scope.checked.models,
                 data = {};
+
+            if (models.length === 0) {
+                $('html, body').removeClass('noscroll');
+                $('#filepicker').removeClass('filepicker-open');
+                return;
+            }
+
             models.forEach(function (model) {
                 ids.push(model.id);
             });
             data.files = ids;
 
             $http.patch('/admin/galleries/1', data).then(function (response) {
-                // console.log(response.data);
-                $rootScope.$broadcast('filesAdded', response.data);
+
+                $scope.checked.models = [];
+
+                $rootScope.$broadcast('filesAdded', response.data.models);
                 $('html, body').removeClass('noscroll');
                 $('#filepicker').removeClass('filepicker-open');
+
+                if (response.data.number == 0) {
+                    alertify.error(response.data.message);
+                } else {
+                    alertify.success(response.data.message);
+                }
 
             }, function (reason) {
                 alertify.error('Error ' + reason.status + ' ' + reason.statusText);
