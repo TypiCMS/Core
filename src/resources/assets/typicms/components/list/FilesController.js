@@ -268,7 +268,8 @@
         $scope.addSelectedFiles = function () {
             var ids = [],
                 models = $scope.checked.models,
-                data = {};
+                data = {},
+                galleryId = $location.absUrl().split('?')[0].split('/')[5];
 
             if (models.length === 0) {
                 $('html, body').removeClass('noscroll');
@@ -281,7 +282,8 @@
             });
             data.files = ids;
 
-            $http.patch('/admin/galleries/1', data).then(function (response) {
+
+            $http.patch('/admin/galleries/' + galleryId, data).then(function (response) {
 
                 $scope.checked.models = [];
 
