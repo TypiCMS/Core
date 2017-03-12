@@ -5,10 +5,9 @@
 
     'use strict';
 
-    angular.module('typicms').controller('FilesController', ['$http', '$scope', '$rootScope', '$location', function ($http, $scope, $rootScope, $location, filesOfGallery) {
+    angular.module('typicms').controller('FilesController', ['$http', '$scope', '$rootScope', '$location', '$attrs', function ($http, $scope, $rootScope, $location, $attrs) {
 
-        var moduleName = 'files',
-            $params = {};
+        $scope.url = $attrs.url;
 
         /**
          * Empty object that will contain checked items.
@@ -23,13 +22,16 @@
         if (localStorage.getItem('folder')) {
             $scope.folder = JSON.parse(localStorage.getItem('folder'));
         }
+        if ($scope.folder.id) {
+            $scope.url += '?folder_id=' + $scope.folder.id;
+        }
 
         if (TypiCMS.content_locale == null) {
             TypiCMS.content_locale = TypiCMS.locale;
         }
         $scope.TypiCMS = TypiCMS;
 
-        $http.get('/admin/files?folder_id='+$scope.folder.id).then(function (response) {
+        $http.get($scope.url).then(function (response) {
                 $scope.models = response.data.models;
                 $scope.path = response.data.path;
                 //copy the references (you could clone ie angular.copy but then have to go through a dirty checking for the matches)
@@ -37,6 +39,24 @@
             }, function (error) {
                 console.log(error);
             });
+
+        $scope.$on('filesAdded', function (event, models) {
+            $scope.models = models;
+        });
+
+        $scope.sortableOptions = {
+            animation: 100,
+            onSort: function (evt){
+                $http({
+                    method: 'POST',
+                    url: '/admin/galleries/sort-files',
+                    data: evt.models
+                }).then(function successCallback(response) {
+                }, function errorCallback(response) {
+                    alertify.error('Error ' + response.status + ' ' + response.statusText);
+                });
+            }
+        };
 
         $scope.dropped = function(draggedModels, droppedModel) {
 
