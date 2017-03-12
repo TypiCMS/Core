@@ -238,6 +238,25 @@
         };
 
         /**
+         * Remove checked items from a gallery
+         */
+        $scope.remove = function (model) {
+            var galleryId = $location.absUrl().split('?')[0].split('/')[5],
+                index = $scope.models.indexOf(model);
+
+            $scope.models.splice(index, 1);
+            $scope.loading = true;
+
+            $http.patch('/admin/galleries/'+galleryId, {remove: model.id}).then(function (response) {
+                $scope.loading = false;
+            }, function (reason) {
+                $scope.loading = false;
+                alertify.error('Error ' + reason.status + ' ' + reason.statusText);
+            });
+
+        };
+
+        /**
          * Delete checked items
          */
         $scope.deleteChecked = function () {
