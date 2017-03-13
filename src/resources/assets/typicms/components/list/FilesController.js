@@ -18,6 +18,8 @@
 
         $scope.path = null;
 
+        $scope.gallery = {};
+
         $scope.folder = {id: ''};
         if (localStorage.getItem('folder')) {
             $scope.folder = JSON.parse(localStorage.getItem('folder'));
@@ -33,6 +35,7 @@
 
         $http.get($scope.url).then(function (response) {
                 $scope.models = response.data.models;
+                $scope.gallery.models = response.data.models;
                 $scope.path = response.data.path;
                 //copy the references (you could clone ie angular.copy but then have to go through a dirty checking for the matches)
                 $scope.displayedModels = [].concat($scope.models);
@@ -41,7 +44,7 @@
             });
 
         $scope.$on('filesAdded', function (event, models) {
-            $scope.models = models;
+            $scope.gallery.models = models;
         });
 
         $scope.sortableOptions = {
@@ -242,9 +245,9 @@
          */
         $scope.remove = function (model) {
             var galleryId = $location.absUrl().split('?')[0].split('/')[5],
-                index = $scope.models.indexOf(model);
+                index = $scope.gallery.models.indexOf(model);
 
-            $scope.models.splice(index, 1);
+            $scope.gallery.models.splice(index, 1);
             $scope.loading = true;
 
             $http.patch('/admin/galleries/'+galleryId, {remove: model.id}).then(function (response) {
