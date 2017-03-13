@@ -142,7 +142,7 @@ abstract class Presenter extends BasePresenter
     {
         $path = '';
         try {
-            $path = '/uploads/'.$model->getTable().'/'.$model->$field;
+            $path = '/uploads/files/'.$model->$field->name;
         } catch (Exception $e) {
             Log::info($e->getMessage());
         }
