@@ -14,8 +14,8 @@
         <button class="btn btn-xs btn-default replace-attachment" data-table="{{ $model->getTable() }}" data-id="{{ $model->id }}" data-field="{{ $field }}" type="button">{{ __('Replace') }}</button>
     </div>
     @else
-        <p>
-            <button class="btn btn-success add-attachment" id="select-files" data-table="{{ $model->getTable() }}" data-id="{{ $model->id }}" data-field="{{ $field }}" type="button">{{ __('Add image') }}</button>
-        </p>
+    <p>
+        <button class="btn btn-success add-attachment" id="select-files" data-table="{{ $model->getTable() }}" data-id="{{ $model->id }}" data-field="{{ $field }}" type="button">{{ __('Add image') }}</button>
+    </p>
     @endif
 </div>
