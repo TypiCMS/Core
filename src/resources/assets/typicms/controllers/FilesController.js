@@ -345,6 +345,15 @@
 
         }
 
+        /**
+         * Add selected item
+         */
+        $scope.addSelectedFile = function () {
+            $rootScope.$broadcast('fileAdded', $scope.checked.models[0]);
+            $('html, body').removeClass('noscroll');
+            $('#filepicker').removeClass('filepicker-open');
+        }
+
 
     }]);
 
