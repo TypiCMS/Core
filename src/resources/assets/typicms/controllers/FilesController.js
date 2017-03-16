@@ -136,11 +136,9 @@
         /**
          * Close CKEditor file picker.
          */
-        $scope.selectAndClose = function (CKEditorFuncNum, file) {
-            if (window.opener) {
-                window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, file);
-                window.close();
-            }
+        $scope.selectAndClose = function (CKEditorFuncNum, CKEditorCleanUpFuncNum, file) {
+            parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, file);
+            parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
         };
 
         /**
