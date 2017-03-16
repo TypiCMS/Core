@@ -1,7 +1,7 @@
 <div ng-app="typicms">
     <div class="filepicker" id="filepicker">
         <div class="filepicker-content">
-            @include('files::admin._filemanager', ['options' => ['dropzoneHidden', 'addFileButton']])
+            @include('files::admin._filemanager', ['options' => ['dropzoneHidden', 'single']])
         </div>
     </div>
     <div class="form-group">
