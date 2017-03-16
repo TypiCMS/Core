@@ -49,7 +49,9 @@ class FileObserver
             $model->name = $file['filename'];
             $model->fill(array_except($file, 'filename'));
         } else {
-            return false;
+            if ($model->type !== 'f') {
+                return false;
+            }
         }
     }
 }
