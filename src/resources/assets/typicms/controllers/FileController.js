@@ -24,6 +24,7 @@
         $scope.removeImage = function (model) {
             $scope.model.image_id = null;
             $scope.model.image = null;
+            $('#image_id').val('');
         };
 
         /**
