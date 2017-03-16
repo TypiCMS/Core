@@ -6,12 +6,15 @@
     height: 100vh
     position: fixed
     width: 100vw
-    z-index: 1050
+    z-index: 10050
 
     &-open
         display: block
 
-    &-content
+    &-content,
+    &-iframe
+        border: none
+        z-index: 10050
         position: fixed
         background-color: #fff
         top: 10vh
@@ -20,6 +23,9 @@
         width: 80vw
         padding: 30px
         overflow: scroll
+
+    &-iframe
+        padding: 0
 
 .btn-add-selected-files
     border-radius: 0
