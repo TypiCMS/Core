@@ -115,33 +115,6 @@
         }
 
         /**
-         * Open folder.
-         */
-        $scope.open = function (model) {
-            if (model.type === 'f') {
-                $http.get('/admin/files?folder_id='+model.id).then(function (response) {
-                        $scope.models = response.data.models;
-                        $scope.path = response.data.path;
-                        //copy the references (you could clone ie angular.copy but then have to go through a dirty checking for the matches)
-                        $scope.displayedModels = [].concat($scope.models);
-                    }, function (error) {
-                        console.log(error);
-                    });
-                localStorage.setItem('folder', JSON.stringify(model));
-                $scope.folder = model;
-                $scope.checked.models = [];
-            }
-        };
-
-        /**
-         * Close CKEditor file picker.
-         */
-        $scope.selectAndClose = function (CKEditorFuncNum, CKEditorCleanUpFuncNum, file) {
-            parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, file);
-            parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
-        };
-
-        /**
          * Select an item.
          */
         $scope.check = function (model, $event) {
@@ -344,6 +317,30 @@
         }
 
         /**
+         * Handle a double click on a file or folder.
+         */
+        $scope.handle = function (model, CKEditorFuncNum = 0, CKEditorCleanUpFuncNum = 0) {
+            if (model.type === 'f') {
+                $http.get('/admin/files?folder_id='+model.id).then(function (response) {
+                        $scope.models = response.data.models;
+                        $scope.path = response.data.path;
+                        //copy the references (you could clone ie angular.copy but then have to go through a dirty checking for the matches)
+                        $scope.displayedModels = [].concat($scope.models);
+                    }, function (error) {
+                        console.log(error);
+                    });
+                localStorage.setItem('folder', JSON.stringify(model));
+                $scope.folder = model;
+                $scope.checked.models = [];
+            } else {
+                if (CKEditorFuncNum !== 0 || CKEditorCleanUpFuncNum !== 0) {
+                    parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/' + model.path + '/' + model.name);
+                    parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
+                }
+            }
+        };
+
+        /**
          * Add selected item
          */
         $scope.addSelectedFile = function () {
@@ -351,7 +348,6 @@
             $('html, body').removeClass('noscroll');
             $('#filepicker').removeClass('filepicker-open');
         }
-
 
     }]);
 
