@@ -21,30 +21,11 @@ class FileObserver
      */
     public function deleted(Model $model)
     {
-        if (!$attachments = $model->attachments) {
-            return;
-        }
-
-        foreach ($attachments as $fieldname) {
-            $this->deleteFile($fieldname, $model);
-        }
-    }
-
-    /**
-     * Delete file and thumbs.
-     *
-     * @param string $fieldname
-     * @param Model  $model
-     *
-     * @return null
-     */
-    private function deleteFile($fieldname, Model $model)
-    {
-        $filename = $model->getOriginal($fieldname);
+        $filename = $model->getOriginal('name');
         if (empty($filename)) {
             return;
         }
-        $file = '/uploads/'.$model->getTable().'/'.$filename;
+        $file = '/uploads/'.$filename;
         try {
             Croppa::delete($file);
             File::delete(public_path().$file);
@@ -60,50 +41,15 @@ class FileObserver
      *
      * @return mixed false or void
      */
-    public function saving(Model $model)
+    public function creating(Model $model)
     {
-        if (!$attachments = $model->attachments) {
-            return;
-        }
-
-        foreach ($attachments as $fieldname) {
-            if (Request::hasFile($fieldname)) {
-                // delete prev image
-                $file = FileUpload::handle(Request::file($fieldname), 'uploads/'.$model->getTable());
-                $model->$fieldname = $file['filename'];
-                if ($model->getTable() == 'files') {
-                    $model->fill(array_except($file, 'filename'));
-                }
-            } else {
-                if ($model->$fieldname == 'delete') {
-                    $model->$fieldname = null;
-                } elseif (!$model->$fieldname) {
-                    $model->$fieldname = $model->getOriginal($fieldname);
-                }
-            }
-        }
-    }
-
-    /**
-     * On update, delete previous file if changed.
-     *
-     * @param Model $model eloquent
-     *
-     * @return mixed false or void
-     */
-    public function updated(Model $model)
-    {
-        if (!$attachments = $model->attachments) {
-            return;
-        }
-
-        foreach ($attachments as $fieldname) {
-
-            // Nothing to do if file did not change
-            if (!$model->isDirty($fieldname)) {
-                continue;
-            }
-            $this->deleteFile($fieldname, $model);
+        if (Request::hasFile('name')) {
+            // delete prev image
+            $file = FileUpload::handle(Request::file('name'), 'uploads');
+            $model->name = $file['filename'];
+            $model->fill(array_except($file, 'filename'));
+        } else {
+            return false;
         }
     }
 }
