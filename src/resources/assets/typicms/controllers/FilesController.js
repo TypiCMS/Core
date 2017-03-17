@@ -286,7 +286,7 @@
 
             if (models.length === 0) {
                 $('html, body').removeClass('noscroll');
-                $('#filepicker').removeClass('filepicker-open');
+                $('#filepicker').removeClass('filepicker-modal-open');
                 return;
             }
 
@@ -302,7 +302,7 @@
 
                 $rootScope.$broadcast('filesAdded', response.data.models);
                 $('html, body').removeClass('noscroll');
-                $('#filepicker').removeClass('filepicker-open');
+                $('#filepicker').removeClass('filepicker-modal-open');
 
                 if (response.data.number == 0) {
                     alertify.error(response.data.message);
@@ -319,7 +319,7 @@
         /**
          * Handle a double click on a file or folder.
          */
-        $scope.handle = function (model, CKEditorFuncNum = 0, CKEditorCleanUpFuncNum = 0) {
+        $scope.handle = function (model) {
             if (model.type === 'f') {
                 $http.get('/admin/files?folder_id='+model.id).then(function (response) {
                         $scope.models = response.data.models;
@@ -333,9 +333,15 @@
                 $scope.folder = model;
                 $scope.checked.models = [];
             } else {
-                if (CKEditorFuncNum !== 0 || CKEditorCleanUpFuncNum !== 0) {
+                var CKEditorCleanUpFuncNum = $('#filepicker').data('CKEditorCleanUpFuncNum'),
+                    CKEditorFuncNum = $('#filepicker').data('CKEditorFuncNum');
+                if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
                     parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/' + model.path + '/' + model.name);
                     parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
+                } else {
+                    $rootScope.$broadcast('fileAdded', model);
+                    $('html, body').removeClass('noscroll');
+                    $('#filepicker').removeClass('filepicker-modal-open');
                 }
             }
         };
@@ -346,7 +352,7 @@
         $scope.addSelectedFile = function () {
             $rootScope.$broadcast('fileAdded', $scope.checked.models[0]);
             $('html, body').removeClass('noscroll');
-            $('#filepicker').removeClass('filepicker-open');
+            $('#filepicker').removeClass('filepicker-modal-open');
         }
 
     }]);

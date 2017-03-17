@@ -1,9 +1,5 @@
 <div ng-app="typicms">
-    <div class="filepicker" id="filepicker">
-        <div class="filepicker-content">
-            @include('files::admin._filemanager', ['options' => ['dropzoneHidden', 'single']])
-        </div>
-    </div>
+    @include('files::admin._filemanager', ['options' => ['dropzoneHidden', 'single', 'modal']])
     <div class="form-group">
         <label class="control-label">{{ __('Image') }}</label>
         {!! Bootform::hidden($field.'_id')->id($field.'_id') !!}
