@@ -4,7 +4,7 @@
         <label class="control-label">{{ __('Image') }}</label>
         {!! Bootform::hidden($field.'_id')->id($field.'_id') !!}
 
-        <div ng-app="typicms" ng-cloak ng-controller="FileController">
+        <div ng-cloak ng-controller="FileController">
             <div ng-show="model.image" class="filemanager-item-removable">
                 <a class="filemanager-item-removable-button" ng-click="removeImage(model)" href="#"><span class="fa fa-times"></span></a>
                 <div class="filemanager-item-image-wrapper">
