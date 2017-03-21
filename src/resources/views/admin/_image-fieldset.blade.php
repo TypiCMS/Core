@@ -11,7 +11,7 @@
                     <img class="filemanager-item-image" ng-src="@{{ model.image.thumb_sm }}" alt="@{{ model.image.alt_attribute_translated }}">
                 </div>
             </div>
-            <button ng-hide="model.image" ng-click="addImage(model)" class="btn btn-success add-attachment" type="button">{{ __('Add an image') }}</button>
+            <button ng-hide="model.image" ng-click="openFilepicker()" class="btn btn-success add-attachment" type="button">{{ __('Add an image') }}</button>
         </div>
     </div>
 </div>

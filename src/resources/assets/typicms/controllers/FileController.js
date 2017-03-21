@@ -28,13 +28,12 @@
         };
 
         /**
-         * Add file
+         * Open Filepicker
          */
-        $scope.addImage = function () {
+        $scope.openFilepicker = function () {
             $('html, body').addClass('noscroll');
-            $('#filepicker').addClass('filepicker-open');
+            $('#filepicker').addClass('filepicker-modal-open');
         }
-
 
     }]);
 
