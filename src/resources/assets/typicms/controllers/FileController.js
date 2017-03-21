@@ -7,9 +7,6 @@
 
     angular.module('typicms').controller('FileController', ['$http', '$scope', '$rootScope', '$attrs', '$api', function ($http, $scope, $rootScope, $attrs, $api) {
 
-        $scope.table = $attrs.table;
-        $scope.id = $attrs.id;
-        $scope.field = $attrs.field;
         $scope.model = TypiCMS.model;
 
         $scope.$on('fileAdded', function (event, model) {
