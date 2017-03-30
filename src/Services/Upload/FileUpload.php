@@ -3,9 +3,6 @@
 namespace TypiCMS\Modules\Core\Services\Upload;
 
 use Exception;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
