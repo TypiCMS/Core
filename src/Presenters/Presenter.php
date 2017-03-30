@@ -163,7 +163,7 @@ abstract class Presenter extends BasePresenter
     public function thumbSrc($width = null, $height = null, array $options = [], $field = 'image')
     {
         $src = $this->getPath($this->entity, $field);
-        if (!is_file(public_path().$src)) {
+        if (!is_file(storage_path('app/public/'.$src))) {
             $src = $this->imgNotFound();
         }
 

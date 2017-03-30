@@ -45,7 +45,7 @@ class FileObserver
     {
         if (Request::hasFile('name')) {
             // delete prev image
-            $file = FileUpload::handle(Request::file('name'), 'uploads');
+            $file = FileUpload::handle(Request::file('name'));
             $model->name = $file['filename'];
             $model->fill(array_except($file, 'filename'));
         } else {

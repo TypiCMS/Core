@@ -22,41 +22,22 @@ class FileUpload
      *
      * @return array|bool
      */
-    public function handle(UploadedFile $file, $path = 'uploads')
+    public function handle(UploadedFile $file, $path = 'public/files')
     {
-        $input = [];
-
-        $fileName = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
-        // Detect and transform Croppa pattern to avoid problem with Croppa::delete()
-        $fileName = preg_replace('#([0-9_]+)x([0-9_]+)#', '$1-$2', $fileName);
-
-        $input['path'] = $path;
-        $input['extension'] = '.'.$file->getClientOriginalExtension();
-        $input['filesize'] = $file->getClientSize();
-        $input['mimetype'] = $file->getClientMimeType();
-        $input['filename'] = $fileName.$input['extension'];
-
-        $fileTypes = config('file.types');
+        $fileInfo = [];
+        $fileInfo['original_name'] = $file->getClientOriginalName();
+        $fileInfo['path'] = $file->store($path);
+        $fileInfo['filesize'] = $file->getClientSize();
+        $fileInfo['mimetype'] = $file->getClientMimeType();
+        list($fileInfo['width'], $fileInfo['height']) = getimagesize($file);
+        $fileInfo['filename'] = pathinfo($fileInfo['path'], PATHINFO_BASENAME);
+        $fileInfo['extension'] = pathinfo($fileInfo['path'], PATHINFO_EXTENSION);
         try {
-            $input['type'] = $fileTypes[strtolower($file->getClientOriginalExtension())];
+            $fileInfo['type'] = config('file.types')[$fileInfo['extension']];
         } catch (Exception $e) {
-            $input['type'] = 'd';
+            $fileInfo['type'] = 'd';
         }
 
-        $filecounter = 1;
-        while (file_exists($input['path'].'/'.$input['filename'])) {
-            $input['filename'] = $fileName.'_'.$filecounter++.$input['extension'];
-        }
-
-        try {
-            $file->move($input['path'], $input['filename']);
-            list($input['width'], $input['height']) = getimagesize($input['path'].'/'.$input['filename']);
-
-            return $input;
-        } catch (FileException $e) {
-            Log::error($e->getmessage());
-
-            return false;
-        }
+        return $fileInfo;
     }
 }
