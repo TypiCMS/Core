@@ -157,12 +157,12 @@ abstract class Presenter extends BasePresenter
      * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
      * @param string $field   column name
      *
-     * @return string HTML markup of an image
+     * @return string
      */
     public function thumbSrc($width = null, $height = null, array $options = [], $field = 'image')
     {
         if (!$this->entity->$field) {
-            return;
+            return '';
         }
         $src = $this->getPath($this->entity, $field);
 
