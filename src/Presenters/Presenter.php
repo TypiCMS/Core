@@ -4,9 +4,7 @@ namespace TypiCMS\Modules\Core\Presenters;
 
 use Carbon\Carbon;
 use Croppa;
-use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Laracasts\Presenter\Presenter as BasePresenter;
 
