@@ -7,6 +7,7 @@ use Croppa;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Laracasts\Presenter\Presenter as BasePresenter;
 
 abstract class Presenter extends BasePresenter
@@ -107,7 +108,7 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Get url without http://.
+     * Get url without http(s)://.
      *
      * @param string $column
      *
@@ -140,14 +141,14 @@ abstract class Presenter extends BasePresenter
      */
     protected function getPath(Model $model, $field = null)
     {
-        $path = '';
-        try {
-            $path = '/uploads/'.$model->$field->name;
-        } catch (Exception $e) {
-            Log::info($e->getMessage());
+        if (!$model->$field) {
+            return;
+        }
+        if (!Storage::has($model->$field->path)) {
+            $src = $this->imgNotFound();
         }
 
-        return $path;
+        return str_replace('public/', '/', $model->$field->path);
     }
 
     /**
@@ -162,10 +163,10 @@ abstract class Presenter extends BasePresenter
      */
     public function thumbSrc($width = null, $height = null, array $options = [], $field = 'image')
     {
-        $src = $this->getPath($this->entity, $field);
-        if (!is_file(storage_path('app/public/'.$src))) {
-            $src = $this->imgNotFound();
+        if (!$this->entity->$field) {
+            return;
         }
+        $src = $this->getPath($this->entity, $field);
 
         return Croppa::url($src, $width, $height, $options);
     }
@@ -250,7 +251,7 @@ abstract class Presenter extends BasePresenter
      *
      * @return string
      */
-    public function imgNotFound($file = '/uploads/img-not-found.png')
+    public function imgNotFound($file = '/files/img-not-found.png')
     {
         return $file;
     }
