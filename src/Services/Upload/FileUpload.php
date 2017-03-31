@@ -37,7 +37,6 @@ class FileUpload
             $fileInfo['filename'] = $fileName.'_'.$filecounter++.'.'.$fileInfo['extension'];
         }
         $fileInfo['path'] = $file->storeAs($path, $fileInfo['filename']);
-        $fileInfo['filename'] = pathinfo($fileInfo['path'], PATHINFO_BASENAME);
 
         try {
             $fileInfo['type'] = config('file.types')[$fileInfo['extension']];
