@@ -49,7 +49,7 @@ angular.module('typicms').directive('dropzone', function () {
                             scope.models.sort((a, b) => a.id - b.id);
                         });
                     });
-                }, 1000);
+                }, 500);
 
             },
 
