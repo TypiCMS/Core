@@ -45,7 +45,8 @@ angular.module('typicms').directive('dropzone', function () {
                     $(file.previewElement).fadeOut('fast', function () {
                         $this.removeFile(file);
                         scope.$apply(function () {
-                            scope.models.splice(0, 0, response.model);
+                            scope.models.push(response.model);
+                            scope.models.sort((a, b) => a.id - b.id);
                         });
                     });
                 }, 1000);
