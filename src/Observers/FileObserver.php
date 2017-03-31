@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
 use TypiCMS\Modules\Core\Facades\FileUpload;
 
 class FileObserver
@@ -25,10 +26,10 @@ class FileObserver
         if (empty($filename)) {
             return;
         }
-        $file = '/uploads/'.$filename;
+        $file = '/files/'.$filename;
         try {
             Croppa::delete($file);
-            File::delete(public_path().$file);
+            Storage::delete($model->path);
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
