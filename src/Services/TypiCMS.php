@@ -93,13 +93,23 @@ class TypiCMS
     }
 
     /**
-     * Get title from settings.
+     * Get website title.
      *
      * @return string
      */
     public function title()
     {
         return config('typicms.'.config('app.locale').'.website_title');
+    }
+
+    /**
+     * Get website baseline.
+     *
+     * @return string
+     */
+    public function baseline()
+    {
+        return config('typicms.'.config('app.locale').'.website_baseline');
     }
 
     /**
