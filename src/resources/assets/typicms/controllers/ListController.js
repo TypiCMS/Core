@@ -226,6 +226,7 @@
                     ? 'published'
                     : 'unpublished';
             model.status[TypiCMS.content_locale] = newStatus;
+            model.status_translated = newStatus;
             data.status[TypiCMS.content_locale] = newStatus;
             $api.update({id: model.id}, data).$promise.then(
                 function () {
