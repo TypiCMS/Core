@@ -82,10 +82,15 @@
          * Set all checked items online or offline
          */
         $scope.setItems = function (column, value, label) {
+
             var ids = [],
                 models = $scope.checked.models,
                 number = models.length,
                 data = {};
+
+            if (!window.confirm('Are you sure you want to set ' + number + ' items ' + label + '?')) {
+                return false;
+            }
 
             if (typeof value === 'object') {
                 for (var key in value) {
@@ -97,16 +102,13 @@
                 data[column] = value;
             }
 
-            if (!window.confirm('Are you sure you want to set ' + number + ' items ' + label + '?')) {
-                return false;
-            }
-
             models.forEach(function (model) {
                 ids.push(model.id);
                 if (typeof value === 'object') {
                     for (var key in value) {
                         if (value.hasOwnProperty(key)) {
                             model[column][key] = value[key];
+                            model[column+'_translated'] = value[key];
                         }
                     }
                 } else {
