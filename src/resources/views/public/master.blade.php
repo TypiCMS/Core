@@ -67,7 +67,7 @@
 
             @section('site-nav')
             <nav class="site-nav" id="site-nav">
-                {!! Menus::render('main') !!}
+                @menu('main')
             </nav>
             @show
 
@@ -78,10 +78,10 @@
         @section('site-footer')
         <footer class="site-footer">
             <nav class="social-nav">
-                {!! Menus::render('social') !!}
+                @menu('social')
             </nav>
             <nav class="footer-nav">
-                {!! Menus::render('footer') !!}
+                @menu('footer')
             </nav>
         </footer>
         @show
