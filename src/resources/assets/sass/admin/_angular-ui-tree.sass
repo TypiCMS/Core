@@ -1,5 +1,4 @@
 .angular-ui-tree-nodes
-    display: block
     position: relative
     padding: 0
     list-style: none
@@ -13,14 +12,20 @@
     position: relative
     border-top: 1px solid #ddd
 
-    div
-        margin: 2px 0
-        display: inline-block
+    .tree-row
+        display: flex
+        padding: 4px 0
+        align-items: center
 
-        &.title
+        div
+            margin: 0 2px
+
+        .title
             white-space: nowrap
+            overflow: hidden
+            text-overflow: ellipsis
 
-        &.disclose
+        .disclose
             position: absolute
             cursor: pointer
             left: -15px
@@ -34,7 +39,6 @@
     border-color: transparent
 
 .angular-ui-tree-placeholder
-    box-sizing: content-box
     background-color: $gray-lighter
 
 .angular-ui-tree-hidden
