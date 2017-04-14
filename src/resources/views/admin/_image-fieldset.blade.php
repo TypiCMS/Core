@@ -1,4 +1,4 @@
-<div ng-app="typicms">
+<div ng-app="typicms" ng-cloak>
     @include('files::admin._filemanager', ['options' => ['dropzoneHidden', 'single', 'modal']])
     <div class="form-group">
         <label class="control-label">{{ __('Image') }}</label>
