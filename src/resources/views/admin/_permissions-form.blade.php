@@ -21,35 +21,18 @@
         {!! Form::checkbox('permissions[]', 'destroy-history') !!} @lang('roles::global.Empty history')
     </label>
 </div>
-<div class="table-responsive">
-    <table class="table table-condensed table-permissions table-checkboxes">
-        <thead>
-            <tr>
-                <th></th>
-                <th>{{ __('Index') }}</th>
-                <th>{{ __('View') }}</th>
-                <th>{{ __('Create') }}</th>
-                <th>{{ __('Store') }}</th>
-                <th>{{ __('Edit') }}</th>
-                <th>{{ __('Update') }}</th>
-                <th>{{ __('Sort') }}</th>
-                <th>{{ __('Delete') }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (TypiCMS::modules() as $module => $properties)
-            <tr>
-                <td>@lang($module.'::global.name')</td>
-                <td>{!! Form::checkbox('permissions[]', 'index-'.$module) !!}</td>
-                <td>{!! Form::checkbox('permissions[]', 'show-'.str_singular($module)) !!}</td>
-                <td>{!! Form::checkbox('permissions[]', 'create-'.str_singular($module)) !!}</td>
-                <td>{!! Form::checkbox('permissions[]', 'store-'.str_singular($module)) !!}</td>
-                <td>{!! Form::checkbox('permissions[]', 'edit-'.str_singular($module)) !!}</td>
-                <td>{!! Form::checkbox('permissions[]', 'update-'.str_singular($module)) !!}</td>
-                <td>{!! Form::checkbox('permissions[]', 'sort-'.$module) !!}</td>
-                <td>{!! Form::checkbox('permissions[]', 'destroy-'.str_singular($module)) !!}</td>
-            </tr>
+<div class="permissions-modules">
+    <h2 class="permissions-modules-title">{{ __('Modules') }}</h2>
+    <div class="permissions-modules-items">
+        @foreach (config('typicms.permissions') as $module => $permissions)
+        <div class="permissions-modules-item">
+            <h3 class="permissions-modules-item-title">{{ __(ucfirst($module)) }}</h3>
+            @foreach ($permissions as $permission => $label)
+            <div class="permissions-modules-item-checkbox checkbox">
+                <label>{!! Form::checkbox('permissions[]', $permission) !!} {{ __($label) }}</label>
+            </div>
             @endforeach
-        </tbody>
-    </table>
+        </div>
+        @endforeach
+    </div>
 </div>
