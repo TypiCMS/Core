@@ -4,11 +4,11 @@
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle navbar-toggle-left" data-toggle="offcanvas">
                     <span class="fa fa-bars fa-fw fa-inverse"></span>
-                    <span class="sr-only">@lang('Toggle navigation')</span>
+                    <span class="sr-only">{{ __('Toggle navigation') }}</span>
                 </button>
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
                     <span class="fa fa-chevron-down fa-fw fa-inverse"></span>
-                    <span class="sr-only">@lang('Toggle navigation')</span>
+                    <span class="sr-only">{{ __('Toggle navigation') }}</span>
                 </button>
                 <a class="navbar-brand" href="{{ route('dashboard') }}">{{ str_limit(TypiCMS::title(), 50, '…') }}</a>
             </div>
@@ -43,7 +43,7 @@
                         </div>
                     </li>
                     @can('index-settings')
-                        <li><a href="{{ route('admin::index-settings') }}"><span class="fa fa-cog fa-fw"></span> <span class="hidden-sm">@lang('Settings', [], config('typicms.admin_locale'))</span></a></li>
+                        <li><a href="{{ route('admin::index-settings') }}"><span class="fa fa-cog fa-fw"></span> <span class="hidden-sm">{{ __('Settings', [], config('typicms.admin_locale')) }}</span></a></li>
                     @endcan
                 </ul>
             </div>
