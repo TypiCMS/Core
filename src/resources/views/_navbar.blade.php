@@ -33,7 +33,7 @@
                                 <p>{{ auth()->user()->email }}</p>
                                 @can('edit-users')
                                 <p>
-                                    <a href="{{ route('admin::edit-user', Auth::id()) }}">@lang('users::global.Profile', [], config('typicms.admin_locale'))</a>
+                                    <a href="{{ route('admin::edit-user', Auth::id()) }}">{{ __('Profile', [], config('typicms.admin_locale')) }}</a>
                                 </p>
                                 @endcan
                                 <p>
