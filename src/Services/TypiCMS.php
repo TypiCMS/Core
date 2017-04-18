@@ -186,7 +186,7 @@ class TypiCMS
         $locale = config('app.locale');
         $feeds = collect(config('typicms.modules'))
             ->transform(function ($properties, $module) use ($locale) {
-                $routeName = $locale.'.'.$module.'.feed';
+                $routeName = $locale.'::'.$module.'-feed';
                 if (in_array('has_feed', $properties) && Route::has($routeName)) {
                     return ['url' => route($routeName), 'title' => __($module.'::global.feed').' – '.$this->title()];
                 }
