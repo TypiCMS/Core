@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Core\Presenters;
 use Carbon\Carbon;
 use Croppa;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Laracasts\Presenter\Presenter as BasePresenter;
 
@@ -302,7 +303,11 @@ abstract class Presenter extends BasePresenter
                 if ($module == 'page') {
                     $replacements[] = url($model->uri($lang));
                 } else {
-                    $replacements[] = route($lang.'::'.$module, $model->slug);
+                    if (Route::has($lang.'::'.$module)) {
+                        $replacements[] = route($lang.'::'.$module, $model->slug);
+                    } else {
+                        $replacements[] = '';
+                    }
                 }
             }
         }
