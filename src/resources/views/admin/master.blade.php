@@ -14,12 +14,10 @@
 
 </head>
 
-<body class="@if(auth()->user())has-navbar @endif @yield('bodyClass')">
+<body class="@can('view-navbar')has-navbar @endcan @yield('bodyClass')">
 
 @section('navbar')
-    @if (auth()->user())
-        @include('core::_navbar')
-    @endif
+    @include('core::_navbar')
 @show
 
 @section('otherSideLink')

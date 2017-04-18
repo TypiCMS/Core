@@ -6,13 +6,16 @@
     border-right: 1px solid #000
     bottom: 0
     position: fixed
-    top: 51px
+    top: 0
     left: 0
     display: block
     overflow-x: hidden
     overflow-y: auto
     z-index: 1000
     padding: 21px 15px
+
+    .has-navbar &
+        top: 51px
 
     @media (min-width: $screen-sm-min)
         padding: 20px

@@ -3,6 +3,11 @@
 
 <div class="checkbox">
     <label>
+        {!! Form::checkbox('permissions[]', 'view-navbar') !!} @lang('roles::global.View navbar')
+    </label>
+</div>
+<div class="checkbox">
+    <label>
         {!! Form::checkbox('permissions[]', 'dashboard') !!} @lang('roles::global.Access dashboard')
     </label>
 </div>
