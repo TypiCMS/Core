@@ -44,9 +44,6 @@ class ModuleProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../resources/assets' => base_path('resources/assets'),
-        ], 'assets');
-
-        $this->publishes([
             __DIR__.'/../../public' => public_path(),
         ], 'assets');
 
