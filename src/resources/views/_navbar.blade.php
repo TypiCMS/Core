@@ -37,7 +37,7 @@
                                 </p>
                                 @endcan
                                 <p>
-                                    <a href="{{ route('logout') }}">@lang('users::global.Log out', [], config('typicms.admin_locale'))</a>
+                                    <a href="{{ route('logout') }}">{{ __('Log out', [], config('typicms.admin_locale')) }}</a>
                                 </p>
                             </div>
                         </div>
