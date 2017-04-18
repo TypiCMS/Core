@@ -2,8 +2,8 @@
 
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
-use Exception;
 use Closure;
+use Exception;
 use Illuminate\Http\Request;
 
 class Authorization
