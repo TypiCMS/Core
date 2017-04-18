@@ -9,13 +9,13 @@ angular.module('smart-table').directive('stPersist', function () {
                 return ctrl.tableState();
             }, function (newValue, oldValue) {
                 if (newValue !== oldValue) {
-                    localStorage.setItem(nameSpace, JSON.stringify(newValue));
+                    sessionStorage.setItem(nameSpace, JSON.stringify(newValue));
                 }
             }, true);
 
             //fetch the table state when the directive is loaded
-            if (localStorage.getItem(nameSpace)) {
-                var savedState = JSON.parse(localStorage.getItem(nameSpace));
+            if (sessionStorage.getItem(nameSpace)) {
+                var savedState = JSON.parse(sessionStorage.getItem(nameSpace));
                 var tableState = ctrl.tableState();
 
                 angular.extend(tableState, savedState);

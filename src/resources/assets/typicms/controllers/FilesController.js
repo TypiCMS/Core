@@ -21,8 +21,8 @@
         $scope.gallery = {};
 
         $scope.folder = {id: ''};
-        if (localStorage.getItem('folder')) {
-            $scope.folder = JSON.parse(localStorage.getItem('folder'));
+        if (sessionStorage.getItem('folder')) {
+            $scope.folder = JSON.parse(sessionStorage.getItem('folder'));
         }
         if ($scope.folder.id) {
             $scope.url += '?folder_id=' + $scope.folder.id;
@@ -329,7 +329,7 @@
                     }, function (error) {
                         console.log(error);
                     });
-                localStorage.setItem('folder', JSON.stringify(model));
+                sessionStorage.setItem('folder', JSON.stringify(model));
                 $scope.folder = model;
                 $scope.checked.models = [];
             } else {
