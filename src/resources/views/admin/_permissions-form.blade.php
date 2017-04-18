@@ -24,7 +24,7 @@
 <div class="permissions-modules">
     <h2 class="permissions-modules-title">{{ __('Modules') }}</h2>
     <div class="permissions-modules-items">
-        @foreach (config('typicms.permissions') as $module => $permissions)
+        @foreach (TypiCMS::permissions() as $module => $permissions)
         <div class="permissions-modules-item">
             <h3 class="permissions-modules-item-title">{{ __(ucfirst($module)) }}</h3>
             @foreach ($permissions as $permission => $label)

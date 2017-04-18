@@ -83,6 +83,19 @@ class TypiCMS
     }
 
     /**
+     * Get all permissions registered.
+     *
+     * @return array
+     */
+    public function permissions()
+    {
+        $permissions = config('typicms.permissions');
+        ksort($permissions);
+
+        return $permissions;
+    }
+
+    /**
      * Check if there is a logo.
      *
      * @return bool
