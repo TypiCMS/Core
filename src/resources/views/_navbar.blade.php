@@ -31,7 +31,7 @@
                             </div>
                             <div class="info">
                                 <p>{{ auth()->user()->email }}</p>
-                                @can('edit-users')
+                                @can('update-user')
                                 <p>
                                     <a href="{{ route('admin::edit-user', Auth::id()) }}">{{ __('Profile', [], config('typicms.admin_locale')) }}</a>
                                 </p>
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                     </li>
-                    @can('index-settings')
+                    @can('see-settings')
                         <li><a href="{{ route('admin::index-settings') }}"><span class="fa fa-cog fa-fw"></span> <span class="hidden-sm">{{ __('Settings', [], config('typicms.admin_locale')) }}</span></a></li>
                     @endcan
                 </ul>

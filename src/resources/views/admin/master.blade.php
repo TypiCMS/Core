@@ -14,7 +14,7 @@
 
 </head>
 
-<body class="@can('view-navbar')has-navbar @endcan @yield('bodyClass')">
+<body class="@can('see-navbar')has-navbar @endcan @yield('bodyClass')">
 
 @section('navbar')
     @include('core::_navbar')
