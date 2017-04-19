@@ -38,7 +38,6 @@ angular.module('typicms').directive('dropzone', function () {
             maxFilesize: 60, // MB
             acceptedFiles: acceptedFiles.join(),
             success: function (file, response) {
-
                 // Fade out and add file after 1 sec.
                 var $this = this;
                 window.setTimeout(function () {
@@ -52,7 +51,6 @@ angular.module('typicms').directive('dropzone', function () {
                 }, 500);
 
             },
-
             sending: function (file, xhr, formData) {
                 var gallery_id = scope.gallery_id;
                 if (gallery_id) {
@@ -65,7 +63,6 @@ angular.module('typicms').directive('dropzone', function () {
                     formData.append('alt_attribute['+TypiCMS.locales[i]+']', '');
                 }
             }
-
         });
 
     }
