@@ -1,5 +1,6 @@
 <input type="hidden" name="permissions[]" value="change-locale">
 <input type="hidden" name="permissions[]" value="update-preferences">
+<input type="hidden" name="permissions[]" value="clear-cache">
 
 <div class="checkbox">
     <label>
@@ -13,7 +14,12 @@
 </div>
 <div class="checkbox">
     <label>
-        {!! Form::checkbox('permissions[]', 'index-settings') !!} @lang('roles::global.Change settings')
+        {!! Form::checkbox('permissions[]', 'index-settings') !!} @lang('roles::global.View settings')
+    </label>
+</div>
+<div class="checkbox">
+    <label>
+        {!! Form::checkbox('permissions[]', 'edit-setting') !!} @lang('roles::global.Change settings')
     </label>
 </div>
 <div class="checkbox">
