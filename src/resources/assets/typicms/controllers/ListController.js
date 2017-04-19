@@ -231,11 +231,11 @@
             model.status_translated = newStatus;
             data.status[TypiCMS.content_locale] = newStatus;
             $api.update({id: model.id}, data).$promise.then(
-                function () {
+                function (response) {
                     alertify.success('Item is ' + label + '.');
                 },
                 function (reason) {
-                    alertify.error('Error ' + reason.status + ' ' + reason.statusText);
+                    alertify.error(reason.data.error);
                 }
             );
         };
