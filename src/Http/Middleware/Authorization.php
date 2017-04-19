@@ -34,6 +34,9 @@ class Authorization
             $permission = $routeName;
         }
         if ($request->user()->cannot($permission)) {
+            if ($request->wantsJson()) {
+                return response()->json(['error' => __('You don’t have the required authorizations.', [], config('typicms.admin_locale'))], 403);
+            }
             abort(403);
         }
 
