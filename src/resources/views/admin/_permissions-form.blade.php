@@ -4,7 +4,7 @@
 
 <div class="checkbox">
     <label>
-        {!! Form::checkbox('permissions[]', 'see-navbar') !!} @lang('roles::global.View navbar')
+        {!! Form::checkbox('permissions[]', 'see-navbar') !!} @lang('roles::global.See navbar')
     </label>
 </div>
 <div class="checkbox">
@@ -14,7 +14,7 @@
 </div>
 <div class="checkbox">
     <label>
-        {!! Form::checkbox('permissions[]', 'see-settings') !!} @lang('roles::global.View settings')
+        {!! Form::checkbox('permissions[]', 'see-settings') !!} @lang('roles::global.See settings')
     </label>
 </div>
 <div class="checkbox">
@@ -24,7 +24,7 @@
 </div>
 <div class="checkbox">
     <label>
-        {!! Form::checkbox('permissions[]', 'see-history') !!} @lang('roles::global.View history')
+        {!! Form::checkbox('permissions[]', 'see-history') !!} @lang('roles::global.See history')
     </label>
 </div>
 <div class="checkbox">
