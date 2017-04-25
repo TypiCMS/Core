@@ -89,7 +89,11 @@ class TypiCMS
      */
     public function permissions()
     {
-        $permissions = config('typicms.permissions');
+        $permissions = [];
+        foreach (config('typicms.permissions') as $module => $perms) {
+            $key = trans($module.'::global.name');
+            $permissions[$key] = $perms;
+        }
         ksort($permissions);
 
         return $permissions;

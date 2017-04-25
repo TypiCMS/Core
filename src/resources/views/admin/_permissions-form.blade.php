@@ -37,7 +37,7 @@
     <div class="permissions-modules-items">
         @foreach (TypiCMS::permissions() as $module => $permissions)
         <div class="permissions-modules-item">
-            <h3 class="permissions-modules-item-title">{{ __(ucfirst($module)) }}</h3>
+            <h3 class="permissions-modules-item-title">{{ $module }}</h3>
             @foreach ($permissions as $permission => $label)
             <div class="permissions-modules-item-checkbox checkbox">
                 <label>{!! Form::checkbox('permissions[]', $permission) !!} {{ __($label) }}</label>
