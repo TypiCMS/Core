@@ -94,7 +94,7 @@ class TypiCMS
             $key = trans($module.'::global.name');
             $permissions[$key] = $perms;
         }
-        ksort($permissions);
+        ksort($permissions, SORT_LOCALE_STRING);
 
         return $permissions;
     }
