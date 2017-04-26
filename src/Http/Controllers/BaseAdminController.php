@@ -75,33 +75,24 @@ abstract class BaseAdminController extends Controller
     }
 
     /**
-     * Sync related items for model.
+     * Sync galleries.
      *
-     * @param Model  $model
-     * @param array  $data
-     * @param string $table
+     * @param Model $model
+     * @param array|null $galleries
      */
-    public function syncRelation($model, array $data, $table = null)
+    public function syncGalleries($model, $galleries)
     {
-        if (!method_exists($model, $table)) {
+        if (!method_exists($model, 'galleries')) {
             return false;
         }
 
-        if (!isset($data[$table])) {
-            return false;
-        }
-
-        // add related items
-        $pivotData = [];
+        $data = [];
         $position = 0;
-        if (is_array($data[$table])) {
-            foreach ($data[$table] as $id) {
-                $pivotData[$id] = ['position' => $position++];
-            }
+        foreach ((array) $galleries as $id) {
+            $data[$id] = ['position' => $position++];
         }
 
-        // Sync related items
-        $model->$table()->sync($pivotData);
+        $model->galleries()->sync($data);
     }
 
     /**
