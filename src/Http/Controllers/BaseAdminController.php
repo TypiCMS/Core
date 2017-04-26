@@ -77,7 +77,7 @@ abstract class BaseAdminController extends Controller
     /**
      * Sync galleries.
      *
-     * @param Model $model
+     * @param Model      $model
      * @param array|null $galleries
      */
     public function syncGalleries($model, $galleries)
