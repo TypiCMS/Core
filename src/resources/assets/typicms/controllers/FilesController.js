@@ -18,7 +18,7 @@
 
         $scope.path = null;
 
-        $scope.gallery = {};
+        $scope.model = {};
 
         $scope.folder = {id: ''};
         if (sessionStorage.getItem('folder')) {
@@ -35,7 +35,7 @@
 
         $http.get($scope.url).then(function (response) {
                 $scope.models = response.data.models;
-                $scope.gallery.models = response.data.models;
+                $scope.model.models = response.data.models;
                 $scope.path = response.data.path;
                 //copy the references (you could clone ie angular.copy but then have to go through a dirty checking for the matches)
                 $scope.displayedModels = [].concat($scope.models);
@@ -44,7 +44,7 @@
             });
 
         $scope.$on('filesAdded', function (event, models) {
-            $scope.gallery.models = models;
+            $scope.model.models = models;
         });
 
         $scope.sortableOptions = {
@@ -212,16 +212,16 @@
         };
 
         /**
-         * Remove checked items from a gallery
+         * Remove checked items from a model
          */
         $scope.remove = function (model) {
-            var galleryId = $location.absUrl().split('?')[0].split('/')[5],
-                index = $scope.gallery.models.indexOf(model);
+            var modelId = $location.absUrl().split('?')[0].split('/')[5],
+                index = $scope.model.models.indexOf(model);
 
-            $scope.gallery.models.splice(index, 1);
+            $scope.model.models.splice(index, 1);
             $scope.loading = true;
 
-            $http.patch('/admin/galleries/'+galleryId, {remove: model.id}).then(function (response) {
+            $http.patch('/admin/galleries/'+modelId, {remove: model.id}).then(function (response) {
                 $scope.loading = false;
             }, function (reason) {
                 $scope.loading = false;
@@ -276,13 +276,13 @@
         };
 
         /**
-         * Add selected items to gallery
+         * Add selected items to model
          */
         $scope.addSelectedFiles = function () {
             var ids = [],
                 models = $scope.checked.models,
                 data = {},
-                galleryId = $location.absUrl().split('?')[0].split('/')[5];
+                modelId = $location.absUrl().split('?')[0].split('/')[5];
 
             if (models.length === 0) {
                 $('html, body').removeClass('noscroll');
@@ -296,7 +296,7 @@
             data.files = ids;
 
 
-            $http.patch('/admin/galleries/' + galleryId, data).then(function (response) {
+            $http.patch('/admin/galleries/' + modelId, data).then(function (response) {
 
                 $scope.checked.models = [];
 
