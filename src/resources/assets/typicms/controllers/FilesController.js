@@ -52,7 +52,7 @@
             onSort: function (evt){
                 $http({
                     method: 'POST',
-                    url: '/admin/galleries/sort-files',
+                    url: '/admin/files/sort',
                     data: evt.models
                 }).then(function successCallback(response) {
                 }, function errorCallback(response) {
