@@ -298,9 +298,9 @@ class EloquentRepository extends BaseRepository
     }
 
     /**
-     * Remove files from model
+     * Remove files from model.
      *
-     * @param string $id
+     * @param string                   $id
      * @param \Illuminate\Http\Request $request
      *
      * @return null
@@ -321,9 +321,9 @@ class EloquentRepository extends BaseRepository
     }
 
     /**
-     * Add files to model
+     * Add files to model.
      *
-     * @param string $id
+     * @param string                   $id
      * @param \Illuminate\Http\Request $request
      *
      * @return null
@@ -338,18 +338,18 @@ class EloquentRepository extends BaseRepository
         $subFiles = collect();
 
         // Remove folders and build array of ids.
-        $newFiles = $files->each(function($item) use ($subFiles) {
-                if ($item->type === 'f') {
-                    foreach ($item->children as $file) {
-                        if ($file->type !== 'f') {
-                            // Add files in this directory to collection of SubFiles
+        $newFiles = $files->each(function ($item) use ($subFiles) {
+            if ($item->type === 'f') {
+                foreach ($item->children as $file) {
+                    if ($file->type !== 'f') {
+                        // Add files in this directory to collection of SubFiles
                             $subFiles->push($file);
-                        }
                     }
                 }
-            })->reject(function ($item) {
-                return $item->type === 'f';
-            })
+            }
+        })->reject(function ($item) {
+            return $item->type === 'f';
+        })
             ->pluck('id')
             ->toArray();
 
