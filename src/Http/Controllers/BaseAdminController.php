@@ -24,6 +24,13 @@ abstract class BaseAdminController extends Controller
      */
     protected function ajaxUpdate($ids, Request $request)
     {
+        if ($request->has('remove')) {
+            return $this->repository->removeFiles($ids, $request);
+        }
+        if ($request->has('files')) {
+            return $this->repository->addFiles($ids, $request);
+        }
+
         $data = [];
         foreach ($request->all() as $column => $content) {
             if (is_array($content)) {

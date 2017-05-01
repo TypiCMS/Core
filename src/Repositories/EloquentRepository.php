@@ -3,7 +3,9 @@
 namespace TypiCMS\Modules\Core\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Rinvex\Repository\Repositories\EloquentRepository as BaseRepository;
+use TypiCMS\Modules\Files\Models\File;
 
 class EloquentRepository extends BaseRepository
 {
@@ -293,6 +295,93 @@ class EloquentRepository extends BaseRepository
             }
         }
         $this->forgetCache();
+    }
+
+    /**
+     * Remove files from model
+     *
+     * @param string $id
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return null
+     */
+    public function removeFiles($id, Request $request)
+    {
+        $model = $this->find($id);
+        $idToRemove = $request->remove;
+        $filesIds = $model->files->pluck('id')->toArray();
+        $pivotData = [];
+        $position = 1;
+        foreach ($filesIds as $fileId) {
+            if ($fileId != $idToRemove) {
+                $pivotData[$fileId] = ['position' => $position++];
+            }
+        }
+        $model->files()->sync($pivotData);
+    }
+
+    /**
+     * Add files to model
+     *
+     * @param string $id
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return null
+     */
+    public function addFiles($id, Request $request)
+    {
+        // Get the collection of files to add.
+        $fileIds = $request->only('files')['files'];
+        $files = File::whereIn('id', $fileIds)->get();
+
+        // Empty collection that will contain files that are in selected directories.
+        $subFiles = collect();
+
+        // Remove folders and build array of ids.
+        $newFiles = $files->each(function($item) use ($subFiles) {
+                if ($item->type === 'f') {
+                    foreach ($item->children as $file) {
+                        if ($file->type !== 'f') {
+                            // Add files in this directory to collection of SubFiles
+                            $subFiles->push($file);
+                        }
+                    }
+                }
+            })->reject(function ($item) {
+                return $item->type === 'f';
+            })
+            ->pluck('id')
+            ->toArray();
+
+        // Transform subfiles collection to array of ids.
+        $subFiles = $subFiles->pluck('id')->toArray();
+
+        // Merge files with files in directory.
+        $newFiles = array_merge($newFiles, $subFiles);
+
+        // Get files that are already in the gallery.
+        $model = $this->find($id);
+        $filesIds = $model->files->pluck('id')->toArray();
+
+        // Merge with new files.
+        $files = array_unique(array_merge($filesIds, $newFiles));
+        $number = count($files) - count($filesIds);
+
+        // Prepare synchronisation.
+        $pivotData = [];
+        $position = 1;
+        foreach ($files as $fileId) {
+            $pivotData[$fileId] = ['position' => $position++];
+        }
+
+        // Sync.
+        $model->files()->sync($pivotData);
+
+        return response()->json([
+            'number' => $number,
+            'message' => __(':number items where added to the gallery.', compact('number')),
+            'models' => $model->files()->get(),
+        ]);
     }
 
     /**
