@@ -382,7 +382,7 @@ class EloquentRepository extends BaseRepository
 
         return response()->json([
             'number' => $number,
-            'message' => __(':number items where added to the gallery.', compact('number')),
+            'message' => __(':number items where added.', compact('number')),
             'models' => $model->files()->get(),
         ]);
     }
