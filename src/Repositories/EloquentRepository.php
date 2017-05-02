@@ -318,6 +318,7 @@ class EloquentRepository extends BaseRepository
             }
         }
         $model->files()->sync($pivotData);
+        $this->forgetCache();
     }
 
     /**
@@ -376,6 +377,8 @@ class EloquentRepository extends BaseRepository
 
         // Sync.
         $model->files()->sync($pivotData);
+
+        $this->forgetCache();
 
         return response()->json([
             'number' => $number,
