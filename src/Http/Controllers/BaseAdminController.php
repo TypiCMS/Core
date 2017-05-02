@@ -82,27 +82,6 @@ abstract class BaseAdminController extends Controller
     }
 
     /**
-     * Sync galleries.
-     *
-     * @param Model      $model
-     * @param array|null $galleries
-     */
-    public function syncGalleries($model, $galleries)
-    {
-        if (!method_exists($model, 'galleries')) {
-            return false;
-        }
-
-        $data = [];
-        $position = 0;
-        foreach ((array) $galleries as $id) {
-            $data[$id] = ['position' => $position++];
-        }
-
-        $model->galleries()->sync($data);
-    }
-
-    /**
      * Redirect after a form is saved.
      *
      * @param $request
