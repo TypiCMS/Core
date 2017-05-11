@@ -42,24 +42,6 @@ abstract class Base extends Model
     }
 
     /**
-     * Attach files to model.
-     *
-     * @param Builder $query
-     * @param bool    $all   all models or published models
-     *
-     * @return Builder $query
-     */
-    public function scopeFiles(Builder $query, $all = false)
-    {
-        return $query->with(
-            ['files' => function (Builder $query) use ($all) {
-                !$all && $query->where('status->'.config('app.locale'), '1');
-                $query->orderBy('position', 'asc');
-            }]
-        );
-    }
-
-    /**
      * Get published models.
      *
      * @param Builder $query
