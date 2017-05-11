@@ -78,29 +78,6 @@ abstract class Base extends Model
     }
 
     /**
-     * Get published galleries.
-     *
-     * @param Builder $query
-     *
-     * @return Builder $query
-     */
-    public function scopeWithPublishedGalleries(Builder $query, $all = false)
-    {
-        if (!method_exists($this, 'galleries')) {
-            return $query;
-        }
-
-        return $query->with(
-            [
-                'galleries.files',
-                'galleries' => function (MorphToMany $query) {
-                    !$all && $query->where('status->'.config('app.locale'), '1');
-                },
-            ]
-        );
-    }
-
-    /**
      * Order items.
      *
      * @param Builder $query
