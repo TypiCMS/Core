@@ -49,7 +49,7 @@ abstract class Presenter extends BasePresenter
      */
     public function dateLocalized($column = 'date')
     {
-        return $this->entity->$column->formatLocalized('%d %B %Y');
+        return $this->entity->$column->formatLocalized('%e %B %Y');
     }
 
     /**
@@ -61,7 +61,7 @@ abstract class Presenter extends BasePresenter
      */
     public function dateTimeLocalized($column = 'datetime')
     {
-        return $this->entity->$column->formatLocalized('%d %B %Y %H:%M');
+        return $this->entity->$column->formatLocalized('%e %B %Y %H:%M');
     }
 
     /**
