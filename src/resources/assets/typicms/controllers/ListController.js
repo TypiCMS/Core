@@ -30,6 +30,11 @@
             modulePath = 'projects/categories';
         }
 
+        if (modulePath === 'pages' && url.split('/')[5]) {
+            $params.page_id = url.split('/')[5];
+            modulePath = 'sections';
+        }
+
         if (TypiCMS.models) {
             $scope.models = TypiCMS.models;
             $scope.displayedModels = [].concat($scope.models);

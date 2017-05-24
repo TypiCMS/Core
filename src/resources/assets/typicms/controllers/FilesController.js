@@ -216,12 +216,13 @@
          */
         $scope.remove = function (model) {
             var modelId = $location.absUrl().split('?')[0].split('/')[5],
+                module = $location.absUrl().split('?')[0].split('/')[4],
                 index = $scope.model.models.indexOf(model);
 
             $scope.model.models.splice(index, 1);
             $scope.loading = true;
 
-            $http.patch('/admin/galleries/'+modelId, {remove: model.id}).then(function (response) {
+            $http.patch('/admin/' + module + '/'+modelId, {remove: model.id}).then(function (response) {
                 $scope.loading = false;
             }, function (reason) {
                 $scope.loading = false;
@@ -282,7 +283,9 @@
             var ids = [],
                 models = $scope.checked.models,
                 data = {},
-                modelId = $location.absUrl().split('?')[0].split('/')[5];
+                segments = $location.absUrl().split('?')[0].split('/').reverse(),
+                modelId = segments[1],
+                module = segments[2];
 
             if (models.length === 0) {
                 $('html, body').removeClass('noscroll');
@@ -296,7 +299,7 @@
             data.files = ids;
 
 
-            $http.patch('/admin/galleries/' + modelId, data).then(function (response) {
+            $http.patch('/admin/' + module + '/' + modelId, data).then(function (response) {
 
                 $scope.checked.models = [];
 
@@ -311,6 +314,7 @@
                 }
 
             }, function (reason) {
+                console.log(reason);
                 alertify.error('Error ' + reason.status + ' ' + reason.statusText);
             });
 
