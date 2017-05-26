@@ -76,6 +76,8 @@ class Install extends Command
 
         // Composer install
         if (function_exists('system')) {
+            system('find public/files -type d -exec chmod 755 {} \;');
+            $this->info('Directory files is now writable (755).');
             system('find storage -type d -exec chmod 755 {} \;');
             $this->info('Directory storage is now writable (755).');
             system('find bootstrap/cache -type d -exec chmod 755 {} \;');
