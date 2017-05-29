@@ -212,17 +212,18 @@
         };
 
         /**
-         * Remove checked items from a model
+         * Remove a file attached to a model
          */
         $scope.remove = function (model) {
-            var modelId = $location.absUrl().split('?')[0].split('/')[5],
-                module = $location.absUrl().split('?')[0].split('/')[4],
+            var segments = $location.absUrl().split('?')[0].split('/').reverse(),
+                modelId = segments[1],
+                module = segments[2],
                 index = $scope.model.models.indexOf(model);
 
             $scope.model.models.splice(index, 1);
             $scope.loading = true;
 
-            $http.patch('/admin/' + module + '/'+modelId, {remove: model.id}).then(function (response) {
+            $http.patch('/admin/' + module + '/' + modelId, {remove: model.id}).then(function (response) {
                 $scope.loading = false;
             }, function (reason) {
                 $scope.loading = false;
