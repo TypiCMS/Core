@@ -34,14 +34,14 @@
         $scope.TypiCMS = TypiCMS;
 
         $http.get($scope.url).then(function (response) {
-                $scope.models = response.data.models;
-                $scope.model.models = response.data.models;
-                $scope.path = response.data.path;
-                //copy the references (you could clone ie angular.copy but then have to go through a dirty checking for the matches)
-                $scope.displayedModels = [].concat($scope.models);
-            }, function (error) {
-                console.log(error);
-            });
+            $scope.models = response.data.models;
+            $scope.model.models = response.data.models;
+            $scope.path = response.data.path;
+            //copy the references (you could clone ie angular.copy but then have to go through a dirty checking for the matches)
+            $scope.displayedModels = [].concat($scope.models);
+        }, function (error) {
+            console.log(error);
+        });
 
         $scope.$on('filesAdded', function (event, models) {
             $scope.model.models = models;
