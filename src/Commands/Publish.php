@@ -68,7 +68,7 @@ class Publish extends Command
             $this->call('vendor:publish', ['--provider' => $provider]);
             $this->publishModule();
             $this->moveMigrationFiles();
-            // $this->uninstallFromComposer();
+            $this->uninstallFromComposer();
         } else {
             throw new Exception($provider.' not found, did you add it to config/app.php?');
         }
