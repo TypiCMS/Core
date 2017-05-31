@@ -11,7 +11,7 @@ require('bootstrap-sass');
 /**
  * Fancybox
  */
-require('fancybox');
+require('@fancyapps/fancybox');
 
 /**
  * Swiper
