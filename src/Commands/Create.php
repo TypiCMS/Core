@@ -71,7 +71,7 @@ class Create extends Command
         $this->renameModelsAndRepositories();
         $this->searchAndReplaceInFiles();
         $this->publishViews();
-        $this->renameMigrationFile();
+        $this->moveMigrationFile();
         $this->deleteViewsDirectory();
         $this->line('------------------');
         $this->line('<info>The module</info> <comment>'.$this->module.'</comment> <info>was created in</info> <comment>/Modules</comment><info>, customize it!</info>');
@@ -157,12 +157,12 @@ class Create extends Command
     }
 
     /**
-     * Publish migration file.
+     * Rename and move migration file.
      */
-    public function renameMigrationFile()
+    public function moveMigrationFile()
     {
         $from = base_path('Modules/'.$this->module.'/database/migrations/2016_01_04_225000_create_objects_table.php');
-        $to = base_path('Modules/'.$this->module.'/database/'.date('Y_m_d_His').'_create_'.strtolower($this->module).'_table.php');
+        $to = base_path('database/migrations/'.date('Y_m_d_His').'_create_'.strtolower($this->module).'_table.php');
         $this->files->move($from, $to);
     }
 
