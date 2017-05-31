@@ -27,6 +27,8 @@ require('angular-resource');
 require('checklist-model');
 require('angular-smart-table/dist/smart-table.js');
 require('angular-ui-tree');
+require('sortablejs');
+require('sortablejs/ng-sortable');
 var req = require.context("../../../resources/assets/typicms", true, /^(.*\.(js$))[^.]*$/igm);
 req.keys().forEach(function(key){
     req(key);
