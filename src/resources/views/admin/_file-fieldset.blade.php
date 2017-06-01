@@ -1,5 +1,5 @@
 <div class="fieldset-media fieldset-file">
-    @if($model->$field)
+    @if ($model->$field)
     <div class="fieldset-preview">
         @if ($model->type == 'i')
             {!! $model->present()->thumb(150, 150, ['resize'], $field) !!}

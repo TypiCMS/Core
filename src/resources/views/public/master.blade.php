@@ -23,7 +23,7 @@
 
     @yield('css')
 
-    @if(app()->environment('production') and config('typicms.google_analytics_code'))
+    @if (app()->environment('production') and config('typicms.google_analytics_code'))
 
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -38,7 +38,7 @@
 
 </head>
 
-<body class="body-{{ $lang }} @yield('bodyClass') @if($navbar)has-navbar @endif">
+<body class="body-{{ $lang }} @yield('bodyClass') @if ($navbar)has-navbar @endif">
 
     @section('skip-links')
     <a href="#main" class="skip-to-content">@lang('db.Skip to content')</a>

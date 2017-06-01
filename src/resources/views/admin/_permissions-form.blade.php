@@ -4,32 +4,32 @@
 
 <div class="checkbox">
     <label>
-        {!! Form::checkbox('permissions[]', 'see-navbar') !!} @lang('roles::global.See navbar')
+        {!! Form::checkbox('permissions[]', 'see-navbar') !!} @lang('See navbar')
     </label>
 </div>
 <div class="checkbox">
     <label>
-        {!! Form::checkbox('permissions[]', 'see-dashboard') !!} @lang('roles::global.Access dashboard')
+        {!! Form::checkbox('permissions[]', 'see-dashboard') !!} @lang('Access dashboard')
     </label>
 </div>
 <div class="checkbox">
     <label>
-        {!! Form::checkbox('permissions[]', 'see-settings') !!} @lang('roles::global.See settings')
+        {!! Form::checkbox('permissions[]', 'see-settings') !!} @lang('See settings')
     </label>
 </div>
 <div class="checkbox">
     <label>
-        {!! Form::checkbox('permissions[]', 'update-setting') !!} @lang('roles::global.Change settings')
+        {!! Form::checkbox('permissions[]', 'update-setting') !!} @lang('Change settings')
     </label>
 </div>
 <div class="checkbox">
     <label>
-        {!! Form::checkbox('permissions[]', 'see-history') !!} @lang('roles::global.See history')
+        {!! Form::checkbox('permissions[]', 'see-history') !!} @lang('See history')
     </label>
 </div>
 <div class="checkbox">
     <label>
-        {!! Form::checkbox('permissions[]', 'clear-history') !!} @lang('roles::global.Empty history')
+        {!! Form::checkbox('permissions[]', 'clear-history') !!} @lang('Empty history')
     </label>
 </div>
 <div class="permissions-modules">

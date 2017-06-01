@@ -5,10 +5,10 @@
         </button>
         <ul class="dropdown-menu">
             @foreach ($locales as $lang)
-            <li><a class="btn-lang-js @if(!session('allLocalesInForm') && $lang == $locale)active @endif" href="#" data-locale="{{ $lang }}">@lang('languages.'.$lang)</a></li>
+            <li><a class="btn-lang-js @if (!session('allLocalesInForm') && $lang == $locale)active @endif" href="#" data-locale="{{ $lang }}">@lang('languages.'.$lang)</a></li>
             @endforeach
             <li class="divider"></li>
-            <li><a class="btn-lang-js @if(session('allLocalesInForm'))active @endif" href="#" data-locale="all">@lang('languages.all')</a></li>
+            <li><a class="btn-lang-js @if (session('allLocalesInForm'))active @endif" href="#" data-locale="all">@lang('languages.all')</a></li>
         </ul>
     </div>
 @endif

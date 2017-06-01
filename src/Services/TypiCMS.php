@@ -74,7 +74,7 @@ class TypiCMS
         $options = ['' => ''];
         foreach ($modules as $module => $properties) {
             if (in_array('linkable_to_page', $properties)) {
-                $options[$module] = __($module.'::global.name');
+                $options[$module] = __(ucfirst($module));
             }
         }
         asort($options);
@@ -91,7 +91,7 @@ class TypiCMS
     {
         $permissions = [];
         foreach (config('typicms.permissions') as $module => $perms) {
-            $key = trans($module.'::global.name');
+            $key = trans(ucfirst($module));
             $permissions[$key] = $perms;
         }
         ksort($permissions, SORT_LOCALE_STRING);
@@ -205,7 +205,7 @@ class TypiCMS
             ->transform(function ($properties, $module) use ($locale) {
                 $routeName = $locale.'::'.$module.'-feed';
                 if (in_array('has_feed', $properties) && Route::has($routeName)) {
-                    return ['url' => route($routeName), 'title' => __($module.'::global.feed').' – '.$this->title()];
+                    return ['url' => route($routeName), 'title' => __(ucfirst($module).' feed').' – '.$this->title()];
                 }
             })->reject(function ($value) {
                 return empty($value);

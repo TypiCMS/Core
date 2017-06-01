@@ -5,7 +5,7 @@
         </button>
         <ul class="dropdown-menu">
             @foreach ($locales as $lang)
-            <li><a class="@if($lang == $locale)active @endif" href="?{{ http_build_query(Request::except('locale') + ['locale' => $lang]) }}" data-locale="{{ $lang }}">@lang('languages.'.$lang)</a></li>
+            <li><a class="@if ($lang == $locale)active @endif" href="?{{ http_build_query(Request::except('locale') + ['locale' => $lang]) }}" data-locale="{{ $lang }}">@lang('languages.'.$lang)</a></li>
             @endforeach
         </ul>
     </div>
