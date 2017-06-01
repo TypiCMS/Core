@@ -46,17 +46,6 @@ class ModuleProvider extends ServiceProvider
             __DIR__.'/../resources/assets' => base_path('resources/assets'),
             __DIR__.'/../../public' => public_path(),
         ], 'assets');
-
-        /*
-        |--------------------------------------------------------------------------
-        | Commands.
-        |--------------------------------------------------------------------------
-        */
-        $this->commands('command.cachekeyprefix');
-        $this->commands('command.create');
-        $this->commands('command.database');
-        $this->commands('command.install');
-        $this->commands('command.publish');
     }
 
     /**
@@ -121,7 +110,14 @@ class ModuleProvider extends ServiceProvider
             LocalesComposer::class => '*::admin.*',
         ]);
 
-        $this->registerCommands();
+        $this->commands([
+            CacheKeyPrefix::class,
+            Create::class,
+            Database::class,
+            Install::class,
+            Publish::class,
+        ]);
+
         $this->registerModuleRoutes();
     }
 
@@ -133,36 +129,6 @@ class ModuleProvider extends ServiceProvider
     public function provides()
     {
         return [];
-    }
-
-    /**
-     * Register artisan commands.
-     *
-     * @return null
-     */
-    private function registerCommands()
-    {
-        $this->app->bind('command.cachekeyprefix', function () {
-            return new CacheKeyPrefix(new Filesystem());
-        });
-        $this->app->bind('command.create', function () {
-            return new Create(
-                new Filesystem()
-            );
-        });
-        $this->app->bind('command.database', function () {
-            return new Database(new Filesystem());
-        });
-        $this->app->bind('command.install', function () {
-            return new Install(
-                new Filesystem()
-            );
-        });
-        $this->app->bind('command.publish', function () {
-            return new Publish(
-                new Filesystem()
-            );
-        });
     }
 
     /**
