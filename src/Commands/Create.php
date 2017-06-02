@@ -73,6 +73,7 @@ class Create extends Command
         $this->publishViews();
         $this->moveMigrationFile();
         $this->deleteViewsDirectory();
+        $this->addTranslations();
         $this->line('------------------');
         $this->line('<info>The module</info> <comment>'.$this->module.'</comment> <info>was created in</info> <comment>/Modules</comment><info>, customize it!</info>');
         $this->line('<info>Add</info> <comment>TypiCMS\Modules\\'.$this->module.'\Providers\ModuleProvider::class,</comment>');
@@ -168,6 +169,14 @@ class Create extends Command
 
     /**
      * Delete unneeded directories.
+     * Add translations.
+     */
+    public function addTranslations()
+    {
+        $this->call('translations:add', ['path' => 'Modules/'.$this->module.'/resources/lang']);
+    }
+
+    /**
      *
      * @return null
      */
