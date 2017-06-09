@@ -20,6 +20,13 @@
             "TypiCMS\\Modules\\Core\\": "src/"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TypiCMS\\Modules\\Core\\Providers\\ModuleProvider"
+            ]
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
