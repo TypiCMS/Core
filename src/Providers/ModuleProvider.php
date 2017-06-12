@@ -45,6 +45,24 @@ class ModuleProvider extends ServiceProvider
             __DIR__.'/../resources/assets' => base_path('resources/assets'),
             __DIR__.'/../../public' => public_path(),
         ], 'assets');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Sidebar view creator.
+        |--------------------------------------------------------------------------
+        */
+        $this->app->view->creator('core::admin._sidebar', SidebarViewCreator::class);
+
+        /*
+        |--------------------------------------------------------------------------
+        | View composers.
+        |--------------------------------------------------------------------------
+        */
+        $this->app->view->composers([
+            MasterViewComposer::class => '*',
+            LocaleComposer::class => '*::public.*',
+            LocalesComposer::class => '*::admin.*',
+        ]);
     }
 
     /**
@@ -90,24 +108,6 @@ class ModuleProvider extends ServiceProvider
         $this->app->singleton('upload.file', function () {
             return new FileUpload();
         });
-
-        /*
-        |--------------------------------------------------------------------------
-        | Sidebar view creator.
-        |--------------------------------------------------------------------------
-        */
-        $app->view->creator('core::admin._sidebar', SidebarViewCreator::class);
-
-        /*
-        |--------------------------------------------------------------------------
-        | View composers.
-        |--------------------------------------------------------------------------
-        */
-        $app->view->composers([
-            MasterViewComposer::class => '*',
-            LocaleComposer::class => '*::public.*',
-            LocalesComposer::class => '*::admin.*',
-        ]);
 
         $this->commands([
             CacheKeyPrefix::class,
