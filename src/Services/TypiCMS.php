@@ -91,7 +91,7 @@ class TypiCMS
     {
         $permissions = [];
         foreach (config('typicms.permissions') as $module => $perms) {
-            $key = trans(ucfirst($module));
+            $key = __(ucfirst($module));
             $permissions[$key] = $perms;
         }
         ksort($permissions, SORT_LOCALE_STRING);
