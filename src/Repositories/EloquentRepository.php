@@ -64,7 +64,7 @@ class EloquentRepository extends BaseRepository
     {
         $currentModel = $model;
         if ($category_id !== null) {
-            $models = $this->with(['category'])->findWhere(['category_id', $category_id], ['id', 'slug']);
+            $models = $this->with('category')->findWhere(['category_id', $category_id], ['id', 'category_id', 'slug']);
         } else {
             $models = $this->published()->findAll(['id', 'slug']);
         }
