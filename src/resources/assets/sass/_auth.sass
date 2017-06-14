@@ -1,21 +1,33 @@
-.container-xs-center
-    padding: 0 25px
+.small-container
     margin: 0 auto
 
     @media (min-width: $screen-sm-min)
-        padding-top: 15px
-        padding-bottom: 15px
+        +border-top-radius($border-radius-large)
+        +border-bottom-radius($border-radius-large)
+        +box-shadow(0 2px 5px $gray-lighter)
         margin-top: 50px
         max-width: 380px
         border: 1px solid $input-border
 
-        +border-top-radius($border-radius-large)
-        +border-bottom-radius($border-radius-large)
-        +box-shadow(0 2px 5px $gray-lighter)
-
-    h1
+    &-title
         margin-bottom: 30px
         margin-top: 20px
+
+    &-form
+        padding: 0 25px
+        @media (min-width: $screen-sm-min)
+            padding-top: 15px
+            padding-bottom: 15px
+
+    &-logo
+        +border-top-radius($border-radius-large)
+        text-align: center
+        background-color: #eee
+        border-bottom: 1px solid #ccc
+        padding: 15px 0
+
+        .logo
+            height: 50px
 
     .form-action
         margin-top: 30px
