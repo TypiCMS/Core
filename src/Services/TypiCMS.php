@@ -116,7 +116,7 @@ class TypiCMS
      */
     public function title($locale = null)
     {
-        return config('typicms.'.($locale ? : config('app.locale')).'.website_title');
+        return config('typicms.'.($locale ?: config('app.locale')).'.website_title');
     }
 
     /**
@@ -126,7 +126,7 @@ class TypiCMS
      */
     public function baseline($locale = null)
     {
-        return config('typicms.'.($locale ? : config('app.locale')).'.website_baseline');
+        return config('typicms.'.($locale ?: config('app.locale')).'.website_baseline');
     }
 
     /**
