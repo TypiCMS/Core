@@ -17,7 +17,7 @@ class MasterViewComposer
                 $user->can('see-navbar') ||
                 $user->isSuperUser()
             ) &&
-            !request()->input('preview')
+            !request('preview')
         ) {
             $navbar = true;
         }
