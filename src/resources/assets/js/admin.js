@@ -9,11 +9,6 @@ window.$ = window.jQuery = require('jquery')
 require('bootstrap-sass');
 
 /**
- * Fancybox
- */
-require('@fancyapps/fancybox');
-
-/**
  * Dropzone
  */
 window.Dropzone = require('dropzone');
