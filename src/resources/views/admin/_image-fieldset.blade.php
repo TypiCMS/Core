@@ -1,5 +1,5 @@
 <div ng-cloak>
-    @include('files::admin._filemanager', ['options' => ['dropzoneHidden', 'single', 'modal']])
+    @include('files::admin._filemanager', ['options' => ['no-dropzone', 'single', 'modal']])
     <div class="form-group">
         <label class="control-label">{{ __('Image') }}</label>
         {!! Bootform::hidden($field.'_id')->id($field.'_id') !!}
