@@ -20,7 +20,7 @@ $height: 75vh
             padding: 30px
             overflow: scroll
 
-        &:after
+        &:not(&-no-overlay):after
             display: block
             position: fixed
             z-index: -1
@@ -28,7 +28,7 @@ $height: 75vh
             top: 0
             width: 100vw
             height: 100vh
-            background-color: rgba(0, 0, 0, .7)
+            background-color: rgba(0, 0, 0, .5)
             content: ""
 
     &-btn-close

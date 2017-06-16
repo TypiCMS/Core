@@ -11,6 +11,6 @@ $(function () {
     $('#close-filepicker').on('click', function(event) {
         event.preventDefault();
         $('html, body').removeClass('noscroll');
-        $('#filepicker').removeClass('filepicker-modal-open');
+        $('#filepicker').removeClass('filepicker-modal-open').removeClass('filepicker-modal-no-overlay');
     });
 });
