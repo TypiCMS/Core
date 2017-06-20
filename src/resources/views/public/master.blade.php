@@ -21,7 +21,7 @@
 
     @include('core::public._feed-links')
 
-    @yield('css')
+    @stack('css')
 
     @if (app()->environment('production') and config('typicms.google_analytics_code'))
 
@@ -94,7 +94,7 @@
     <script src="{{ asset('js/previewmode.js') }}"></script>
     @endif
 
-    @yield('js')
+    @stack('js')
 
 </body>
 
