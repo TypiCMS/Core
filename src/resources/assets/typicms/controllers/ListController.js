@@ -84,7 +84,7 @@
         };
 
         /**
-         * Set all checked items online or offline
+         * Set all checked items published or unpublished
          */
         $scope.setItems = function (column, value, label) {
 
@@ -162,14 +162,14 @@
         };
 
         /**
-         * Check all offline items
+         * Check all unpublished items
          */
         $scope.checkUnpublished = function () {
             this.checkStatus(0);
         };
 
         /**
-         * Check all online items
+         * Check all published items
          */
         $scope.checkPublished = function () {
             this.checkStatus(1);
