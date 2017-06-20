@@ -181,13 +181,16 @@ class TypiCMS
         $templates = [];
         foreach ($files as $file) {
             $filename = File::name($file);
+            if ($filename === 'default.blade') {
+                continue;
+            }
             $name = str_replace('.blade', '', $filename);
             if ($name[0] != '_' && $name != 'master') {
                 $templates[$name] = ucfirst($name);
             }
         }
 
-        return ['' => ''] + $templates;
+        return ['' => 'Default'] + $templates;
     }
 
     public function getTemplateDir()
