@@ -8,7 +8,7 @@
 
     <title>[admin] @yield('title') – {{ config('typicms.'.config('typicms.admin_locale').'.website_title') }}</title>
 
-    @yield('css')
+    @stack('css')
 
     <link href="{{ asset(app()->isLocal() ? 'css/admin.css' : mix('/css/admin.css')) }}" rel="stylesheet">
 
@@ -56,7 +56,7 @@
 
         <script src="{{ asset(app()->isLocal() ? 'js/admin.js' : mix('/js/admin.js')) }}"></script>
 
-        @yield('js')
+        @stack('js')
 
         <script type="text/javascript">
             @if (session('message'))
