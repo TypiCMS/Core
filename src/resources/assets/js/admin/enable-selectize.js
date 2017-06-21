@@ -8,24 +8,14 @@ $(function () {
     /**
      * Selectize for tags
      */
-    if ($('#tags').length) {
-        $.getJSON({
-            url: '/admin/tags'
-        }).done(function(data) {
-            var tags = data.map(function(x) { return { item: x.tag }; });
-            $('#tags').selectize({
-                persist: false,
-                create: true,
-                delimiter: ', ',
-                options: tags,
-                searchField: ['item'],
-                labelField: 'item',
-                valueField: 'item',
-                createOnBlur: true
-            });
-        }).fail(function () {
-            alertify.error('An error occurred while getting tags.');
-        });
-    }
+    $('#tags').selectize({
+        persist: false,
+        create: true,
+        options: TypiCMS.tags,
+        searchField: ['item'],
+        labelField: 'item',
+        valueField: 'item',
+        createOnBlur: true
+    });
 
 });
