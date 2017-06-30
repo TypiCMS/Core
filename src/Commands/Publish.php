@@ -147,6 +147,9 @@ class Publish extends Command
     public function moveMigrationFiles()
     {
         $databaseDirectory = base_path('Modules/'.$this->module.'/database');
+        if (!$this->files->exists($databaseDirectory.'/migrations')) {
+            return;
+        }
         $files = $this->files->files($databaseDirectory.'/migrations');
         foreach ($files as $from) {
             $file = basename($from);
