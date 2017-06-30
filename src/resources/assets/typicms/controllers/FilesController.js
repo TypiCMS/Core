@@ -20,6 +20,11 @@
 
         $scope.model = {};
 
+        $scope.view = 'grid';
+        if (sessionStorage.getItem('view')) {
+            $scope.view = JSON.parse(sessionStorage.getItem('view'));
+        }
+
         $scope.folder = {id: ''};
         if (sessionStorage.getItem('folder')) {
             $scope.folder = JSON.parse(sessionStorage.getItem('folder'));
@@ -319,6 +324,14 @@
                 alertify.error('Error ' + reason.status + ' ' + reason.statusText);
             });
 
+        }
+
+        /**
+         * Switch view.
+         */
+        $scope.switchView = function (view) {
+            $scope.view = view;
+            sessionStorage.setItem('view', JSON.stringify(view));
         }
 
         /**
