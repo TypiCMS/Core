@@ -54,7 +54,7 @@ class Install extends Command
         $this->line('------------------');
 
         $this->info('Publishing vendor packages...');
-        $this->call('vendor:publish');
+        $this->call('vendor:publish --all');
         $this->line('------------------');
 
         $this->laravel['env'] = 'local';
