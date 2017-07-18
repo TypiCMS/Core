@@ -10,7 +10,7 @@
 
     @stack('css')
 
-    <link href="{{ asset(app()->isLocal() ? 'css/admin.css' : mix('/css/admin.css')) }}" rel="stylesheet">
+    <link href="{{ mix('/css/admin.css') }}" rel="stylesheet">
 
 </head>
 
@@ -54,7 +54,7 @@
 
         @include('core::admin._javascript')
 
-        <script src="{{ asset(app()->isLocal() ? 'js/admin.js' : mix('/js/admin.js')) }}"></script>
+        <script src="{{ mix('/js/admin.js') }}"></script>
 
         @stack('js')
 
