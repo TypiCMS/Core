@@ -47,7 +47,7 @@ class Install extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $this->line('------------------');
         $this->line('Welcome to TypiCMS');
