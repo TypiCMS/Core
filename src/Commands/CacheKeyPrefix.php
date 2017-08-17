@@ -46,7 +46,7 @@ class CacheKeyPrefix extends Command
      *
      * @return null
      */
-    public function fire()
+    public function handle()
     {
         list($path, $contents) = $this->getKeyFile();
 
