@@ -51,7 +51,7 @@ class Database extends Command
      *
      * @return null
      */
-    public function fire()
+    public function handle()
     {
         $contents = $this->getKeyFile();
 
