@@ -56,7 +56,7 @@ class Create extends Command
      *
      * @return null
      */
-    public function fire()
+    public function handle()
     {
         if (!preg_match('/^[a-z]+$/i', $this->argument('module'))) {
             return $this->error('Only alphabetic characters are allowed.');
