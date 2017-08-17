@@ -343,7 +343,7 @@ class EloquentRepository extends BaseRepository
                 foreach ($item->children as $file) {
                     if ($file->type !== 'f') {
                         // Add files in this directory to collection of SubFiles
-                            $subFiles->push($file);
+                        $subFiles->push($file);
                     }
                 }
             }

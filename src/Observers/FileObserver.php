@@ -27,6 +27,7 @@ class FileObserver
             return;
         }
         $file = '/files/'.$filename;
+
         try {
             Croppa::delete($file);
             Storage::delete($model->path);
