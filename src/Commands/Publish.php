@@ -57,7 +57,7 @@ class Publish extends Command
      *
      * @return null
      */
-    public function fire()
+    public function handle()
     {
         $this->module = strtolower($this->argument('module'));
         if (!is_dir(base_path('vendor/typicms/'.$this->module))) {
