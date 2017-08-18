@@ -5,14 +5,14 @@
         <span class="fa fa-spinner fa-spin fa-fw" ng-show="loading"></span>
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        @if (!isset($limit) || in_array('online', $limit) )
+        @if (!isset($only) || in_array('online', $only) )
         <li><a ng-click="setItems('status', {[TypiCMS.content_locale]: '1'}, 'publish')" href="#">{{ __('Publish') }}</a></li>
         @endif
-        @if (!isset($limit) || in_array('offline', $limit) )
+        @if (!isset($only) || in_array('offline', $only) )
         <li><a ng-click="setItems('status', {[TypiCMS.content_locale]: '0'}, 'unpublish')" href="#">{{ __('Unpublish') }}</a></li>
         <li role="separator" class="divider"></li>
         @endif
-        @if (!isset($limit) || in_array('delete', $limit) )
+        @if (!isset($only) || in_array('delete', $only) )
         <li><a ng-click="deleteChecked()" href="#">{{ __('Delete') }}</a></li>
         @endif
         <li role="separator" class="divider"></li>
