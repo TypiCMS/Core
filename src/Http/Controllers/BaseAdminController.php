@@ -69,7 +69,7 @@ abstract class BaseAdminController extends Controller
     /**
      * Sort list.
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function sort()
     {
