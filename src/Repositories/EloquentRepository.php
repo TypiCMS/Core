@@ -261,19 +261,6 @@ class EloquentRepository extends BaseRepository
     }
 
     /**
-     * Get all models and nest.
-     *
-     * @param bool  $all  Show published or all
-     * @param array $with Eager load related models
-     *
-     * @return NestedCollection
-     */
-    public function allNested($attributes = ['*'])
-    {
-        return $this->findAll($attributes)->nest();
-    }
-
-    /**
      * Sort models.
      *
      * @param array $data updated data
