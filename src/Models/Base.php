@@ -4,17 +4,13 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
 use InvalidArgumentException;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
-use TypiCMS\Modules\Core\Traits\HtmlCacheEvents;
+use TypiCMS\Modules\Tags\Models\Tag;
 
 abstract class Base extends Model
 {
-    use HtmlCacheEvents;
-
     /**
      * Get preview uri.
      *
@@ -39,93 +35,31 @@ abstract class Base extends Model
         $locale = $locale ?: config('app.locale');
         $page = TypiCMS::getPageLinkedToModule($this->getTable());
         if ($page) {
-            return $page->uri($locale).'/'.$this->translate($locale)->slug;
+            return $page->uri($locale).'/'.$this->translate('slug', $locale);
         }
 
         return '/';
     }
 
     /**
-     * Attach files to model.
-     *
-     * @param Builder $query
-     * @param bool    $all   : all models or online models
-     *
-     * @return Builder $query
-     */
-    public function scopeFiles(Builder $query, $all = false)
-    {
-        return $query->with(
-            ['files' => function (Builder $query) use ($all) {
-                $query->with(['translations' => function (Builder $query) use ($all) {
-                    $query->where('locale', config('app.locale'));
-                    !$all && $query->where('status', 1);
-                }]);
-                $query->whereHas('translations', function (Builder $query) use ($all) {
-                    $query->where('locale', config('app.locale'));
-                    !$all && $query->where('status', 1);
-                });
-                $query->orderBy('position', 'asc');
-            }]
-        );
-    }
-
-    /**
-     * Get models that have online non empty translation.
+     * Get published models.
      *
      * @param Builder $query
      *
      * @return Builder $query
      */
-    public function scopeOnline(Builder $query)
+    public function scopePublished(Builder $query)
     {
-        if (method_exists($this, 'translations')) {
-            return $query->whereHas(
-                'translations',
-                function (Builder $query) {
-                    if (!Request::input('preview')) {
-                        $query->where('status', 1);
-                    }
-                    $query->where('locale', config('app.locale'));
-                }
-            );
-        } else {
-            return $query->where('status', 1);
-        }
-    }
-
-    /**
-     * Get online galleries.
-     *
-     * @param Builder $query
-     *
-     * @return Builder $query
-     */
-    public function scopeWithOnlineGalleries(Builder $query)
-    {
-        if (!method_exists($this, 'galleries')) {
-            return $query;
+        $field = 'status';
+        if (in_array($field, $this->translatable)) {
+            $field .= '->'.config('app.locale');
         }
 
-        return $query->with(
-            [
-                'galleries.translations',
-                'galleries.files.translations',
-                'galleries' => function (MorphToMany $query) {
-                    $query->whereHas(
-                        'translations',
-                        function (Builder $query) {
-                            $query->where('status', 1);
-                            $query->where('locale', config('app.locale'));
-                        }
-                    );
-                },
-            ]
-        );
+        return $query->where($field, '1');
     }
 
     /**
-     * Order items according to GET value or model value, default is id asc.
+     * Order items.
      *
      * @param Builder $query
      *
@@ -149,7 +83,7 @@ abstract class Base extends Model
      */
     public function tags()
     {
-        return $this->morphToMany('TypiCMS\Modules\Tags\Models\Tag', 'taggable')
+        return $this->morphToMany(Tag::class, 'taggable')
             ->orderBy('tag')
             ->withTimestamps();
     }
@@ -180,30 +114,5 @@ abstract class Base extends Model
         } catch (InvalidArgumentException $e) {
             Log::error($e->getMessage());
         }
-    }
-
-    /**
-     * Generic Translate method to maintain compatibility
-     * when a model doesn't have Translatable trait.
-     *
-     * @param string $lang
-     *
-     * @return $this
-     */
-    public function translate($lang = null)
-    {
-        return $this;
-    }
-
-    /**
-     * Models without translatable trait doesn’t have translation.
-     *
-     * @param string $locale
-     *
-     * @return bool
-     */
-    public function hasTranslation($locale)
-    {
-        return false;
     }
 }

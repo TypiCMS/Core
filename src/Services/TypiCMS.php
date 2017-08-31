@@ -24,16 +24,16 @@ class TypiCMS
     }
 
     /**
-     * Return online public locales.
+     * Return enabled public locales.
      *
      * @return array
      */
-    public function getOnlineLocales()
+    public function enabledLocales()
     {
-        $locales = config('translatable.locales');
-        foreach ($locales as $key => $locale) {
-            if (!config('typicms.'.$locale.'.status')) {
-                unset($locales[$key]);
+        $locales = [];
+        foreach (locales() as $locale) {
+            if (config('typicms.'.$locale.'.status')) {
+                $locales[] = $locale;
             }
         }
 
@@ -41,13 +41,13 @@ class TypiCMS
     }
 
     /**
-     * Check if locale is online.
+     * Check if locale is enabled.
      *
      * @return bool
      */
-    public function isLocaleOnline($locale)
+    public function isLocaleEnabled($locale)
     {
-        return in_array($locale, $this->getOnlineLocales());
+        return in_array($locale, $this->enabledLocales());
     }
 
     /**
@@ -74,12 +74,29 @@ class TypiCMS
         $options = ['' => ''];
         foreach ($modules as $module => $properties) {
             if (in_array('linkable_to_page', $properties)) {
-                $options[$module] = trans($module.'::global.name');
+                $options[$module] = __(ucfirst($module));
             }
         }
         asort($options);
 
         return $options;
+    }
+
+    /**
+     * Get all permissions registered.
+     *
+     * @return array
+     */
+    public function permissions()
+    {
+        $permissions = [];
+        foreach (config('typicms.permissions') as $module => $perms) {
+            $key = __(ucfirst($module));
+            $permissions[$key] = $perms;
+        }
+        ksort($permissions, SORT_LOCALE_STRING);
+
+        return $permissions;
     }
 
     /**
@@ -93,13 +110,23 @@ class TypiCMS
     }
 
     /**
-     * Get title from settings.
+     * Get website title.
      *
      * @return string
      */
-    public function title()
+    public function title($locale = null)
     {
-        return config('typicms.'.config('app.locale').'.website_title');
+        return config('typicms.'.($locale ?: config('app.locale')).'.website_title');
+    }
+
+    /**
+     * Get website baseline.
+     *
+     * @return string
+     */
+    public function baseline($locale = null)
+    {
+        return config('typicms.'.($locale ?: config('app.locale')).'.website_baseline');
     }
 
     /**
@@ -154,13 +181,16 @@ class TypiCMS
         $templates = [];
         foreach ($files as $file) {
             $filename = File::name($file);
+            if ($filename === 'default.blade') {
+                continue;
+            }
             $name = str_replace('.blade', '', $filename);
             if ($name[0] != '_' && $name != 'master') {
                 $templates[$name] = ucfirst($name);
             }
         }
 
-        return ['' => ''] + $templates;
+        return ['' => 'Default'] + $templates;
     }
 
     public function getTemplateDir()
@@ -176,9 +206,9 @@ class TypiCMS
         $locale = config('app.locale');
         $feeds = collect(config('typicms.modules'))
             ->transform(function ($properties, $module) use ($locale) {
-                $routeName = $locale.'.'.$module.'.feed';
+                $routeName = $locale.'::'.$module.'-feed';
                 if (in_array('has_feed', $properties) && Route::has($routeName)) {
-                    return ['url' => route($routeName), 'title' => trans($module.'::global.feed').' – '.$this->title()];
+                    return ['url' => route($routeName), 'title' => __(ucfirst($module).' feed').' – '.$this->title()];
                 }
             })->reject(function ($value) {
                 return empty($value);

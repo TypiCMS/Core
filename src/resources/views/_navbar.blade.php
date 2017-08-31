@@ -1,16 +1,16 @@
-@if($navbar)
+@if ($navbar)
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle navbar-toggle-left" data-toggle="offcanvas">
                     <span class="fa fa-bars fa-fw fa-inverse"></span>
-                    <span class="sr-only">@lang('global.Toggle navigation')</span>
+                    <span class="sr-only">{{ __('Toggle navigation') }}</span>
                 </button>
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
                     <span class="fa fa-chevron-down fa-fw fa-inverse"></span>
-                    <span class="sr-only">@lang('global.Toggle navigation')</span>
+                    <span class="sr-only">{{ __('Toggle navigation') }}</span>
                 </button>
-                <a class="navbar-brand" href="{{ route('dashboard') }}">{{ config('typicms.'.config('typicms.admin_locale').'.website_title') }}</a>
+                <a class="navbar-brand" href="{{ route('dashboard') }}">{{ str_limit(TypiCMS::title(config('typicms.admin_locale')), 50, '…') }}</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
@@ -31,19 +31,19 @@
                             </div>
                             <div class="info">
                                 <p>{{ auth()->user()->email }}</p>
-                                @can('edit-users')
+                                @can ('update-user')
                                 <p>
-                                    <a href="{{ route('admin::edit-user', Auth::id()) }}">@lang('users::global.Profile', [], config('typicms.admin_locale'))</a>
+                                    <a href="{{ route('admin::edit-user', Auth::id()) }}">{{ __('Profile', [], config('typicms.admin_locale')) }}</a>
                                 </p>
                                 @endcan
                                 <p>
-                                    <a href="{{ route('logout') }}">@lang('users::global.Log out', [], config('typicms.admin_locale'))</a>
+                                    <a href="{{ route('logout') }}">{{ __('Log out', [], config('typicms.admin_locale')) }}</a>
                                 </p>
                             </div>
                         </div>
                     </li>
-                    @can('index-settings')
-                        <li><a href="{{ route('admin::index-settings') }}"><span class="fa fa-cog fa-fw"></span> <span class="hidden-sm">@lang('global.Settings', [], config('typicms.admin_locale'))</span></a></li>
+                    @can ('see-settings')
+                        <li><a href="{{ route('admin::index-settings') }}"><span class="fa fa-cog fa-fw"></span> <span class="hidden-sm">{{ __('Settings', [], config('typicms.admin_locale')) }}</span></a></li>
                     @endcan
                 </ul>
             </div>

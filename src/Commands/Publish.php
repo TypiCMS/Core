@@ -19,6 +19,13 @@ class Publish extends Command
     protected $files;
 
     /**
+     * The name of the module, pluralized and ucfirsted.
+     *
+     * @var string
+     */
+    protected $module;
+
+    /**
      * The console command signature.
      *
      * @var string
@@ -48,19 +55,20 @@ class Publish extends Command
     /**
      * Execute the console command.
      *
-     * @return void
+     * @return null
      */
-    public function fire()
+    public function handle()
     {
-        $module = strtolower($this->argument('module'));
-        if (!is_dir(base_path('vendor/typicms/'.$module))) {
-            throw new Exception('Module “'.$module.'” not found in vendor directory.');
+        $this->module = strtolower($this->argument('module'));
+        if (!is_dir(base_path('vendor/typicms/'.$this->module))) {
+            throw new Exception('Module “'.$this->module.'” not found in vendor directory.');
         }
-        $provider = 'TypiCMS\Modules\\'.ucfirst($module).'\Providers\ModuleProvider';
+        $provider = 'TypiCMS\Modules\\'.ucfirst($this->module).'\Providers\ModuleProvider';
         if (class_exists($provider)) {
             $this->call('vendor:publish', ['--provider' => $provider]);
-            $this->publishModule($module);
-            $this->uninstallFromComposer($module);
+            $this->publishModule();
+            $this->moveMigrationFiles();
+            $this->uninstallFromComposer();
         } else {
             throw new Exception($provider.' not found, did you add it to config/app.php?');
         }
@@ -69,14 +77,12 @@ class Publish extends Command
     /**
      * Publishes the module.
      *
-     * @param string $module
-     *
      * @return mixed
      */
-    private function publishModule($module)
+    private function publishModule()
     {
-        $from = base_path('vendor/typicms/'.$module.'/src');
-        $to = base_path('Modules/'.ucfirst($module));
+        $from = base_path('vendor/typicms/'.$this->module.'/src');
+        $to = base_path('Modules/'.ucfirst($this->module));
 
         if ($this->files->isDirectory($from)) {
             $this->publishDirectory($from, $to);
@@ -84,7 +90,7 @@ class Publish extends Command
             $this->error("Can’t locate path: <{$from}>");
         }
 
-        $this->info('Publishing complete for module ['.ucfirst($module).']!');
+        $this->info('Publishing complete for module ['.ucfirst($this->module).']!');
     }
 
     /**
@@ -93,18 +99,18 @@ class Publish extends Command
      * @param string $from
      * @param string $to
      *
-     * @return void
+     * @return null
      */
     protected function publishDirectory($from, $to)
     {
         $manager = new MountManager([
             'from' => new Flysystem(new LocalAdapter($from)),
-            'to'   => new Flysystem(new LocalAdapter($to)),
+            'to' => new Flysystem(new LocalAdapter($to)),
         ]);
 
         foreach ($manager->listContents('from://', true) as $file) {
             $path = $file['path'];
-            if (substr($path, 0, 8) === 'database' || substr($path, 0, 15) === 'resources/views') {
+            if (substr($path, 0, 15) === 'resources/views' || substr($path, 0, 16) === 'resources/assets') {
                 continue;
             }
             if ($file['type'] === 'file' && (!$manager->has('to://'.$file['path']) || $this->option('force'))) {
@@ -122,7 +128,7 @@ class Publish extends Command
      * @param string $to
      * @param string $type
      *
-     * @return void
+     * @return null
      */
     protected function status($from, $to, $type)
     {
@@ -134,13 +140,31 @@ class Publish extends Command
     }
 
     /**
-     * Remove a module from composer.
+     * Move migration files.
      *
-     * @param string $module
+     * @return null
      */
-    private function uninstallFromComposer($module)
+    public function moveMigrationFiles()
     {
-        $uninstallCommand = 'composer remove typicms/'.$module;
+        $databaseDirectory = base_path('Modules/'.$this->module.'/database');
+        if (!$this->files->exists($databaseDirectory.'/migrations')) {
+            return;
+        }
+        $files = $this->files->files($databaseDirectory.'/migrations');
+        foreach ($files as $from) {
+            $file = basename($from);
+            $to = base_path('database/migrations/'.$file);
+            $this->files->move($from, $to);
+        }
+        $this->files->deleteDirectory($databaseDirectory);
+    }
+
+    /**
+     * Remove the module from composer.
+     */
+    private function uninstallFromComposer()
+    {
+        $uninstallCommand = 'composer remove typicms/'.$this->module;
         if (function_exists('system')) {
             system($uninstallCommand);
         } else {

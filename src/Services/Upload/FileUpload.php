@@ -3,9 +3,8 @@
 namespace TypiCMS\Modules\Core\Services\Upload;
 
 use Exception;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Notification;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -22,41 +21,29 @@ class FileUpload
      *
      * @return array|bool
      */
-    public function handle(UploadedFile $file, $path = 'uploads')
+    public function handle(UploadedFile $file, $path = 'public/files')
     {
-        $input = [];
-
         $fileName = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
-        // Detect and transform Croppa pattern to avoid problem with Croppa::delete()
-        $fileName = preg_replace('#([0-9_]+)x([0-9_]+)#', '$1-$2', $fileName);
 
-        $input['path'] = $path;
-        $input['extension'] = '.'.$file->getClientOriginalExtension();
-        $input['filesize'] = $file->getClientSize();
-        $input['mimetype'] = $file->getClientMimeType();
-        $input['filename'] = $fileName.$input['extension'];
-
-        $fileTypes = config('file.types');
-        try {
-            $input['type'] = $fileTypes[strtolower($file->getClientOriginalExtension())];
-        } catch (Exception $e) {
-            $input['type'] = 'd';
-        }
+        $fileInfo = [];
+        $fileInfo['filesize'] = $file->getClientSize();
+        $fileInfo['mimetype'] = $file->getClientMimeType();
+        $fileInfo['extension'] = $file->getClientOriginalExtension();
+        $fileInfo['filename'] = $fileName.'.'.$fileInfo['extension'];
+        list($fileInfo['width'], $fileInfo['height']) = getimagesize($file);
 
         $filecounter = 1;
-        while (file_exists($input['path'].'/'.$input['filename'])) {
-            $input['filename'] = $fileName.'_'.$filecounter++.$input['extension'];
+        while (Storage::has($path.'/'.$fileInfo['filename'])) {
+            $fileInfo['filename'] = $fileName.'_'.$filecounter++.'.'.$fileInfo['extension'];
         }
+        $fileInfo['path'] = $file->storeAs($path, $fileInfo['filename']);
 
         try {
-            $file->move($input['path'], $input['filename']);
-            list($input['width'], $input['height']) = getimagesize($input['path'].'/'.$input['filename']);
-
-            return $input;
-        } catch (FileException $e) {
-            Notification::error($e->getmessage());
-
-            return false;
+            $fileInfo['type'] = config('file.types')[$fileInfo['extension']];
+        } catch (Exception $e) {
+            $fileInfo['type'] = 'd';
         }
+
+        return $fileInfo;
     }
 }

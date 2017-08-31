@@ -5,7 +5,7 @@ namespace TypiCMS\Modules\Core\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use TypiCMS\Modules\Users\Repositories\UserInterface;
+use TypiCMS\Modules\Users\Models\User;
 
 class Install extends Command
 {
@@ -31,23 +31,14 @@ class Install extends Command
     protected $files;
 
     /**
-     * The user model.
-     *
-     * @var \TypiCMS\Modules\Users\Repositories\UserInterface
-     */
-    protected $user;
-
-    /**
      * Create a new command.
      *
-     * @param \TypiCMS\Modules\Users\Repositories\UserInterface $user
-     * @param \Illuminate\Filesystem\Filesystem                 $files
+     * @param \Illuminate\Filesystem\Filesystem $files
      */
-    public function __construct(UserInterface $user, Filesystem $files)
+    public function __construct(Filesystem $files)
     {
         parent::__construct();
 
-        $this->user = $user;
         $this->files = $files;
     }
 
@@ -56,14 +47,14 @@ class Install extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $this->line('------------------');
         $this->line('Welcome to TypiCMS');
         $this->line('------------------');
 
         $this->info('Publishing vendor packages...');
-        $this->call('vendor:publish');
+        $this->call('vendor:publish', ['--all' => true]);
         $this->line('------------------');
 
         $this->laravel['env'] = 'local';
@@ -85,20 +76,18 @@ class Install extends Command
 
         // Composer install
         if (function_exists('system')) {
+            system('find public/files -type d -exec chmod 755 {} \;');
+            $this->info('Directory files is now writable (755).');
             system('find storage -type d -exec chmod 755 {} \;');
             $this->info('Directory storage is now writable (755).');
             system('find bootstrap/cache -type d -exec chmod 755 {} \;');
             $this->info('Directory bootstrap/cache is now writable (755).');
-            system('find public/uploads -type d -exec chmod 755 {} \;');
-            $this->info('Directory public/uploads is now writable (755).');
-            system('find public/html -type d -exec chmod 755 {} \;');
-            $this->info('Directory public/html is now writable (755).');
             $this->line('------------------');
-            $this->info('Running npm install...');
-            system('npm install');
+            $this->info('Running yarn...');
+            system('yarn');
             $this->info('npm packages installed.');
         } else {
-            $this->line('You can now make /storage, /bootstrap/cache and /public/uploads directories writable.');
+            $this->line('You can now make /storage, /bootstrap/cache directories writable.');
             $this->line('and run composer install and npm install.');
         }
 
@@ -137,16 +126,16 @@ class Install extends Command
         $password = $this->secret('Enter a password');
 
         $data = [
-            'first_name'  => $firstname,
-            'last_name'   => $lastname,
-            'email'       => $email,
-            'superuser'   => 1,
-            'activated'   => 1,
-            'password'    => $password,
+            'first_name' => $firstname,
+            'last_name' => $lastname,
+            'email' => $email,
+            'superuser' => 1,
+            'activated' => 1,
+            'password' => bcrypt($password),
         ];
 
         try {
-            $this->user->create($data);
+            User::create($data);
             $this->info('Superuser created.');
         } catch (Exception $e) {
             $this->error('User could not be created.');

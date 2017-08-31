@@ -10,13 +10,15 @@ class MasterViewComposer
     {
         $view->with('websiteTitle', app('typicms')->title());
         $navbar = false;
+        $user = auth()->user();
         if (
-            auth()->user() &&
+            $user &&
             (
-                auth()->user()->hasAnyRole(['administrator', 'editor']) ||
-                auth()->user()->isSuperUser()
+                $user->can('see-navbar') ||
+                $user->isSuperUser()
             ) &&
-            !request()->input('preview')) {
+            !request('preview')
+        ) {
             $navbar = true;
         }
         $view->with('navbar', $navbar);

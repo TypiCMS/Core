@@ -4,7 +4,7 @@
 
 @section('bodyClass', 'error-403')
 
-@section('main')
+@section('content')
 
     <article class="http-error-message">
         <h2>@lang('db.Sorry, you are not authorized to view this page').</h2>

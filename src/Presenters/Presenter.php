@@ -4,9 +4,9 @@ namespace TypiCMS\Modules\Core\Presenters;
 
 use Carbon\Carbon;
 use Croppa;
-use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Laracasts\Presenter\Presenter as BasePresenter;
 
 abstract class Presenter extends BasePresenter
@@ -49,7 +49,7 @@ abstract class Presenter extends BasePresenter
      */
     public function dateLocalized($column = 'date')
     {
-        return $this->entity->$column->formatLocalized('%d %B %Y');
+        return $this->entity->$column->formatLocalized('%e %B %Y');
     }
 
     /**
@@ -61,7 +61,7 @@ abstract class Presenter extends BasePresenter
      */
     public function dateTimeLocalized($column = 'datetime')
     {
-        return $this->entity->$column->formatLocalized('%d %B %Y %H:%M');
+        return $this->entity->$column->formatLocalized('%e %B %Y %H:%M');
     }
 
     /**
@@ -107,7 +107,7 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Get url without http://.
+     * Get url without http(s)://.
      *
      * @param string $column
      *
@@ -140,14 +140,14 @@ abstract class Presenter extends BasePresenter
      */
     protected function getPath(Model $model, $field = null)
     {
-        $path = '';
-        try {
-            $path = '/uploads/'.$model->getTable().'/'.$model->$field;
-        } catch (Exception $e) {
-            Log::info($e->getMessage());
+        if (!$model->$field) {
+            return;
+        }
+        if (!Storage::has($model->$field->path)) {
+            $src = $this->imgNotFound();
         }
 
-        return $path;
+        return str_replace('public/', '/', $model->$field->path);
     }
 
     /**
@@ -158,14 +158,14 @@ abstract class Presenter extends BasePresenter
      * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
      * @param string $field   column name
      *
-     * @return string HTML markup of an image
+     * @return string
      */
     public function thumbSrc($width = null, $height = null, array $options = [], $field = 'image')
     {
-        $src = $this->getPath($this->entity, $field);
-        if (!is_file(public_path().$src)) {
-            $src = $this->imgNotFound();
+        if (!$this->entity->$field) {
+            return '';
         }
+        $src = $this->getPath($this->entity, $field);
 
         $extension = pathinfo($src, PATHINFO_EXTENSION);
         if ($extension === 'svg') {
@@ -255,7 +255,7 @@ abstract class Presenter extends BasePresenter
      *
      * @return string
      */
-    public function imgNotFound($file = '/uploads/img-not-found.png')
+    public function imgNotFound($file = '/files/img-not-found.png')
     {
         return $file;
     }
@@ -277,7 +277,7 @@ abstract class Presenter extends BasePresenter
         $html .= $this->entity->$field;
         $html .= '</a>';
         if (!is_file(public_path().$file)) {
-            $html .= ' <span class="doc-warning text-warning">('.trans('global.Not found').')</span>';
+            $html .= ' <span class="doc-warning text-warning">('.__('Not found').')</span>';
         }
         $html .= '</div>';
 
@@ -300,12 +300,19 @@ abstract class Presenter extends BasePresenter
             foreach ($matches as $match) {
                 $patterns[] = $match[0];
                 $module = $match[1];
-                $repository = app('TypiCMS\Modules\\'.ucfirst(str_plural($module)).'\Repositories\\'.ucfirst($module).'Interface');
-                $model = $repository->byId($match[2]);
+                $repository = app('TypiCMS\Modules\\'.ucfirst(str_plural($module)).'\Repositories\Eloquent'.ucfirst($module));
+                $model = $repository->published()->find($match[2]);
+                if (!$model) {
+                    continue;
+                }
                 if ($module == 'page') {
                     $replacements[] = url($model->uri($lang));
                 } else {
-                    $replacements[] = route($lang.'.'.$module.'.slug', $model->slug);
+                    if (Route::has($lang.'::'.$module)) {
+                        $replacements[] = route($lang.'::'.$module, $model->slug);
+                    } else {
+                        $replacements[] = '';
+                    }
                 }
             }
         }

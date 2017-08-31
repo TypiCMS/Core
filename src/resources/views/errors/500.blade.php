@@ -6,7 +6,7 @@
 
 @section('langSwitcher') @endsection
 
-@section('main')
+@section('content')
 
     <article class="http-error-message">
         <h2>@lang('db.Sorry, a server error occurred').</h2>

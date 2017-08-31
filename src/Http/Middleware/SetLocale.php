@@ -22,7 +22,7 @@ class SetLocale
     {
         $locale = config('app.locale');
         $firstSegment = $request->segment(1);
-        if (in_array($firstSegment, config('translatable.locales'))) {
+        if (in_array($firstSegment, locales())) {
             $locale = $firstSegment;
             App::setLocale($locale);
         }

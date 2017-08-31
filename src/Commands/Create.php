@@ -54,9 +54,9 @@ class Create extends Command
     /**
      * Execute the console command.
      *
-     * @return void
+     * @return null
      */
-    public function fire()
+    public function handle()
     {
         if (!preg_match('/^[a-z]+$/i', $this->argument('module'))) {
             return $this->error('Only alphabetic characters are allowed.');
@@ -71,8 +71,9 @@ class Create extends Command
         $this->renameModelsAndRepositories();
         $this->searchAndReplaceInFiles();
         $this->publishViews();
-        $this->publishMigration();
-        $this->deleteViewsAndDatabaseDirs();
+        $this->moveMigrationFile();
+        $this->addTranslations();
+        $this->deleteResourcesDirectory();
         $this->line('------------------');
         $this->line('<info>The module</info> <comment>'.$this->module.'</comment> <info>was created in</info> <comment>/Modules</comment><info>, customize it!</info>');
         $this->line('<info>Add</info> <comment>TypiCMS\Modules\\'.$this->module.'\Providers\ModuleProvider::class,</comment>');
@@ -138,8 +139,7 @@ class Create extends Command
         $moduleDir = base_path('Modules/'.$this->module);
         $paths = [
             $moduleDir.'/Models/Object.php',
-            $moduleDir.'/Models/ObjectTranslation.php',
-            $moduleDir.'/Repositories/ObjectInterface.php',
+            $moduleDir.'/Facades/Objects.php',
             $moduleDir.'/Repositories/EloquentObject.php',
         ];
         foreach ($paths as $path) {
@@ -158,24 +158,31 @@ class Create extends Command
     }
 
     /**
-     * Publish migration file.
+     * Rename and move migration file.
      */
-    public function publishMigration()
+    public function moveMigrationFile()
     {
         $from = base_path('Modules/'.$this->module.'/database/migrations/2016_01_04_225000_create_objects_table.php');
-        $to = database_path('migrations/'.date('Y_m_d_His').'_create_'.strtolower($this->module).'_table.php');
-        $this->publishFile($from, $to);
+        $to = base_path('database/migrations/'.date('Y_m_d_His').'_create_'.strtolower($this->module).'_table.php');
+        $this->files->move($from, $to);
     }
 
     /**
-     * Delete unneeded directories.
-     *
-     * @return void
+     * Add translations.
      */
-    public function deleteViewsAndDatabaseDirs()
+    public function addTranslations()
     {
-        $this->files->deleteDirectory(base_path('Modules/'.$this->module.'/database'));
-        $this->files->deleteDirectory(base_path('Modules/'.$this->module.'/resources/views'));
+        $this->call('translations:add', ['path' => 'Modules/'.$this->module.'/resources/lang']);
+    }
+
+    /**
+     * Delete resources directory.
+     *
+     * @return null
+     */
+    public function deleteResourcesDirectory()
+    {
+        $this->files->deleteDirectory(base_path('Modules/'.$this->module.'/resources'));
     }
 
     /**
@@ -196,7 +203,7 @@ class Create extends Command
      * @param string $from
      * @param string $to
      *
-     * @return void
+     * @return null
      */
     protected function publishFile($from, $to)
     {
@@ -215,13 +222,13 @@ class Create extends Command
      * @param string $from
      * @param string $to
      *
-     * @return void
+     * @return null
      */
     protected function publishDirectory($from, $to)
     {
         $manager = new MountManager([
             'from' => new Flysystem(new LocalAdapter($from)),
-            'to'   => new Flysystem(new LocalAdapter($to)),
+            'to' => new Flysystem(new LocalAdapter($to)),
         ]);
 
         foreach ($manager->listContents('from://', true) as $file) {
@@ -236,7 +243,7 @@ class Create extends Command
      *
      * @param string $directory
      *
-     * @return void
+     * @return null
      */
     protected function createParentDirectory($directory)
     {

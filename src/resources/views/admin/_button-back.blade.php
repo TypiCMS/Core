@@ -1,1 +1,1 @@
-<a class="btn-back" href="{{ route('admin::index-'.$module) }}" title="{{ trans($module.'::global.Back') }}"><span class="text-muted fa fa-arrow-circle-left"></span><span class="sr-only">{{ trans($module.'::global.Back') }}</span></a>
+<a class="btn-back" href="{{ route('admin::index-'.$module) }}" title="{{ __('Back to '.$module.' list') }}"><span class="text-muted fa fa-arrow-circle-left"></span><span class="sr-only">{{ __('Back to '.$module.' list') }}</span></a>

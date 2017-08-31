@@ -4,7 +4,7 @@
 
 @section('bodyClass', 'error-404')
 
-@section('main')
+@section('content')
 
     <article class="http-error-message">
         <h2>@lang('db.Sorry, this page was not found').</h2>
