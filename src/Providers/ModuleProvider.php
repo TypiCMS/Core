@@ -139,7 +139,7 @@ class ModuleProvider extends ServiceProvider
     {
         $this->app->singleton('typicms.routes', function (Application $app) {
             try {
-                return $app->make('Pages')->getForRoutes();
+                return $app->make('Pages')->with('files')->getForRoutes();
             } catch (Exception $e) {
                 return [];
             }
