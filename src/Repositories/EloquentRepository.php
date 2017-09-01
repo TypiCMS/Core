@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Rinvex\Repository\Repositories\EloquentRepository as BaseRepository;
 use TypiCMS\Modules\Files\Models\File;
@@ -325,7 +326,7 @@ class EloquentRepository extends BaseRepository
         $subFiles = collect();
 
         // Remove folders and build array of ids.
-        $newFiles = $files->each(function ($item) use ($subFiles) {
+        $newFiles = $files->each(function (Model $item) use ($subFiles) {
             if ($item->type === 'f') {
                 foreach ($item->children as $file) {
                     if ($file->type !== 'f') {
@@ -334,7 +335,7 @@ class EloquentRepository extends BaseRepository
                     }
                 }
             }
-        })->reject(function ($item) {
+        })->reject(function (Model $item) {
             return $item->type === 'f';
         })
             ->pluck('id')
