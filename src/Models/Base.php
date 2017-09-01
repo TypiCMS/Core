@@ -2,10 +2,10 @@
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
-use InvalidArgumentException;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
 use TypiCMS\Modules\Tags\Models\Tag;
 
@@ -97,7 +97,7 @@ abstract class Base extends Model
     {
         try {
             return route('admin::edit-'.str_singular($this->getTable()), $this->id);
-        } catch (InvalidArgumentException $e) {
+        } catch (Exception $e) {
             Log::error($e->getMessage());
         }
     }
@@ -111,7 +111,7 @@ abstract class Base extends Model
     {
         try {
             return route('admin::index-'.$this->getTable());
-        } catch (InvalidArgumentException $e) {
+        } catch (Exception $e) {
             Log::error($e->getMessage());
         }
     }
