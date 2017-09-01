@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Core\Presenters;
 use Carbon\Carbon;
 use Croppa;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Laracasts\Presenter\Presenter as BasePresenter;
@@ -143,8 +144,9 @@ abstract class Presenter extends BasePresenter
         if (!$model->$field) {
             return;
         }
+
         if (!Storage::has($model->$field->path)) {
-            $src = $this->imgNotFound();
+            return $this->imgNotFound();
         }
 
         return str_replace('public/', '/', $model->$field->path);
@@ -257,6 +259,10 @@ abstract class Presenter extends BasePresenter
      */
     public function imgNotFound($file = '/files/img-not-found.png')
     {
+        if (!is_file(public_path($file))) {
+            File::copy(public_path('img/img-not-found.png'), storage_path('app/public'.$file));
+        }
+
         return $file;
     }
 
