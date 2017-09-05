@@ -259,7 +259,7 @@ abstract class Presenter extends BasePresenter
      */
     public function imgNotFound($file = '/files/img-not-found.png')
     {
-        if (!is_file(public_path($file))) {
+        if (!is_file(public_path($file)) && is_file(public_path('img/img-not-found.png'))) {
             File::copy(public_path('img/img-not-found.png'), storage_path('app/public'.$file));
         }
 
