@@ -1,7 +1,3 @@
-@mixin absolute($height)
-    top: $height
-    position: absolute
-
 .container-login
     .small-container-title
         +sr-only
@@ -57,14 +53,13 @@
             color: #aaa
 
     &-logo
-        position: relative
-        display: flex
-        justify-content: center
-        margin-bottom: 15px
+        margin-top: -60px // Remove this to keep the logo inside the form block
+        margin-bottom: 5px
 
         .logo
-            +absolute(-60px) // Remove this to keep the logo inside the form block
             height: 70px
+            display: block
+            margin: 0 auto
 
     .form-action
         margin-top: 30px
