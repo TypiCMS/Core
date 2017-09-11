@@ -38,7 +38,7 @@
                                 @endcan
                                 <p>
                                     <form action="{{ route('logout') }}" method="post">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        {{ csrf_field() }}
                                         <button class="btn btn-default btn-xs" type="submit">@lang('Log out', [], config('typicms.admin_locale'))</button>
                                     </form>
                                 </p>
