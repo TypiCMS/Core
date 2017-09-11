@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Core\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Hash;
 use TypiCMS\Modules\Users\Models\User;
 
 class Install extends Command
@@ -131,7 +132,7 @@ class Install extends Command
             'email' => $email,
             'superuser' => 1,
             'activated' => 1,
-            'password' => bcrypt($password),
+            'password' => Hash::make($password),
         ];
 
         try {
