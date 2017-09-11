@@ -37,7 +37,10 @@
                                 </p>
                                 @endcan
                                 <p>
-                                    <a href="{{ route('logout') }}">{{ __('Log out', [], config('typicms.admin_locale')) }}</a>
+                                    <form action="{{ route('logout') }}" method="post">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <button class="btn btn-default btn-xs" type="submit">@lang('Log out', [], config('typicms.admin_locale'))</button>
+                                    </form>
                                 </p>
                             </div>
                         </div>
