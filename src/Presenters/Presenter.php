@@ -255,8 +255,6 @@ abstract class Presenter extends BasePresenter
     /**
      * Get default image when not found.
      *
-     * @param string $file
-     *
      * @return string
      */
     public function imgNotFound()
