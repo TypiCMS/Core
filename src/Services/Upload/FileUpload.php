@@ -21,7 +21,7 @@ class FileUpload
      *
      * @return array|bool
      */
-    public function handle(UploadedFile $file, $path = 'public/files')
+    public function handle(UploadedFile $file, $path = 'files')
     {
         $fileName = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
 

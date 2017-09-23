@@ -22,15 +22,8 @@ class FileObserver
      */
     public function deleted(Model $model)
     {
-        $filename = $model->getOriginal('name');
-        if (empty($filename)) {
-            return;
-        }
-        $file = '/files/'.$filename;
-
         try {
-            Croppa::delete($file);
-            Storage::delete($model->path);
+            Croppa::delete('uploads/'.$model->getOriginal('path'));
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }

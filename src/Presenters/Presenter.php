@@ -145,11 +145,13 @@ abstract class Presenter extends BasePresenter
             return;
         }
 
-        if (!Storage::has($model->$field->path)) {
-            return $this->imgNotFound();
+        $file = $model->$field->path;
+
+        if (!Storage::exists($file)) {
+            $file = $this->imgNotFound();
         }
 
-        return str_replace('public/', '/', $model->$field->path);
+        return Storage::url($file);
     }
 
     /**
@@ -257,10 +259,11 @@ abstract class Presenter extends BasePresenter
      *
      * @return string
      */
-    public function imgNotFound($file = '/files/img-not-found.png')
+    public function imgNotFound()
     {
-        if (!is_file(public_path($file)) && is_file(public_path('img/img-not-found.png'))) {
-            File::copy(public_path('img/img-not-found.png'), storage_path('app/public'.$file));
+        $file = 'img-not-found.png';
+        if (!Storage::exists($file)) {
+            Storage::put($file, File::get(public_path('img/'.$file)));
         }
 
         return $file;
