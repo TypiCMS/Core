@@ -109,6 +109,16 @@ class ModuleProvider extends ServiceProvider
             return new FileUpload();
         });
 
+        /*
+        |--------------------------------------------------------------------------
+        | Disk drivers for original images and crops.
+        |--------------------------------------------------------------------------
+        */
+        $this->app->singleton('filesystem.default.driver', function () {
+            return $this->app['filesystem.disk']->getDriver();
+        });
+
+
         $this->commands([
             CacheKeyPrefix::class,
             Create::class,
