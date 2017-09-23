@@ -118,7 +118,6 @@ class ModuleProvider extends ServiceProvider
             return $this->app['filesystem.disk']->getDriver();
         });
 
-
         $this->commands([
             CacheKeyPrefix::class,
             Create::class,
