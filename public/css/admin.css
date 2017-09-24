@@ -10590,6 +10590,11 @@ button.close {
   margin-right: 0;
 }
 
+.gray-background,
+.auth-background {
+  background-color: #eeeeee;
+}
+
 .container-login .small-container-title {
   position: absolute;
   width: 1px;
@@ -10677,20 +10682,14 @@ button.close {
 }
 
 .small-container-logo {
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  margin-bottom: 15px;
+  margin-top: -60px;
+  margin-bottom: 5px;
 }
 
 .small-container-logo .logo {
-  top: -60px;
-  position: absolute;
   height: 70px;
+  display: block;
+  margin: 0 auto;
 }
 
 .small-container .form-action {
@@ -13324,10 +13323,6 @@ html {
 
 body {
   min-height: 100%;
-}
-
-.gray-background {
-  background-color: #eeeeee;
 }
 
 .has-navbar {
