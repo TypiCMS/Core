@@ -354,7 +354,7 @@
                 var CKEditorCleanUpFuncNum = $('#filepicker').data('CKEditorCleanUpFuncNum'),
                     CKEditorFuncNum = $('#filepicker').data('CKEditorFuncNum');
                 if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
-                    parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/uploads/' + model.path);
+                    parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/' + model.path);
                     parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
                 } else {
                     $rootScope.$broadcast('fileAdded', model);
