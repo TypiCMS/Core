@@ -7,10 +7,17 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
-use TypiCMS\Modules\Core\Facades\FileUpload;
+use TypiCMS\Modules\Core\Services\FileUploader;
 
 class FileObserver
 {
+
+    private $fileUploader;
+
+    public function __construct(FileUploader $fileUploader) {
+        $this->fileUploader = $fileUploader;
+    }
+
     /**
      * On delete, unlink files and thumbs.
      *
@@ -38,7 +45,7 @@ class FileObserver
     {
         if (Request::hasFile('name')) {
             // delete prev image
-            $file = FileUpload::handle(Request::file('name'));
+            $file = $this->fileUploader->handle(Request::file('name'));
             $model->name = $file['filename'];
             $model->fill(array_except($file, 'filename'));
         } else {

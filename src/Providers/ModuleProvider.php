@@ -16,7 +16,6 @@ use TypiCMS\Modules\Core\Composers\LocalesComposer;
 use TypiCMS\Modules\Core\Composers\MasterViewComposer;
 use TypiCMS\Modules\Core\Composers\SidebarViewCreator;
 use TypiCMS\Modules\Core\Services\TypiCMS;
-use TypiCMS\Modules\Core\Services\Upload\FileUpload;
 
 class ModuleProvider extends ServiceProvider
 {
@@ -102,15 +101,6 @@ class ModuleProvider extends ServiceProvider
 
         /*
         |--------------------------------------------------------------------------
-        | TypiCMS upload service.
-        |--------------------------------------------------------------------------
-        */
-        $this->app->singleton('upload.file', function () {
-            return new FileUpload();
-        });
-
-        /*
-        |--------------------------------------------------------------------------
         | Disk drivers for original images and crops.
         |--------------------------------------------------------------------------
         */
@@ -126,6 +116,9 @@ class ModuleProvider extends ServiceProvider
             Publish::class,
         ]);
 
+        /*
+         * Register TypiCMS routes.
+         */
         $this->registerModuleRoutes();
     }
 
@@ -142,7 +135,7 @@ class ModuleProvider extends ServiceProvider
     /**
      * Get routes from pages.
      *
-     * @return null
+     * @return array
      */
     private function registerModuleRoutes()
     {
