@@ -11,10 +11,10 @@ use TypiCMS\Modules\Core\Services\FileUploader;
 
 class FileObserver
 {
-
     private $fileUploader;
 
-    public function __construct(FileUploader $fileUploader) {
+    public function __construct(FileUploader $fileUploader)
+    {
         $this->fileUploader = $fileUploader;
     }
 
