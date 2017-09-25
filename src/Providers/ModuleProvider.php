@@ -74,13 +74,17 @@ class ModuleProvider extends ServiceProvider
         $app = $this->app;
 
         /*
-         * Register route service provider
-         */
+        |--------------------------------------------------------------------------
+        | Register route service provider.
+        |--------------------------------------------------------------------------
+        */
         $app->register(RouteServiceProvider::class);
 
         /*
-         * Collection extensions
-         */
+        |--------------------------------------------------------------------------
+        | Collection extensions.
+        |--------------------------------------------------------------------------
+        */
         $app->register(CollectionExtensions::class);
 
         /*
@@ -108,6 +112,11 @@ class ModuleProvider extends ServiceProvider
             return $this->app['filesystem.disk']->getDriver();
         });
 
+        /*
+        |--------------------------------------------------------------------------
+        | Register TypiCMS commands.
+        |--------------------------------------------------------------------------
+        */
         $this->commands([
             CacheKeyPrefix::class,
             Create::class,
@@ -117,8 +126,10 @@ class ModuleProvider extends ServiceProvider
         ]);
 
         /*
-         * Register TypiCMS routes.
-         */
+        |--------------------------------------------------------------------------
+        | Register TypiCMS routes.
+        |--------------------------------------------------------------------------
+        */
         $this->registerModuleRoutes();
     }
 
