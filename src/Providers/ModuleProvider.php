@@ -38,12 +38,12 @@ class ModuleProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../resources/views' => base_path('resources/views/vendor/core'),
             __DIR__.'/../resources/views/errors' => base_path('resources/views/errors'),
-        ], 'views');
+        ], 'typicms-views');
 
         $this->publishes([
             __DIR__.'/../resources/assets' => base_path('resources/assets'),
             __DIR__.'/../../public' => public_path(),
-        ], 'assets');
+        ], 'typicms-assets');
 
         /*
         |--------------------------------------------------------------------------
