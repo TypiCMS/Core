@@ -21,7 +21,7 @@ require('swiper');
 /**
  * Get files from /resources/assets/js/public
  */
-var req = require.context("../../../resources/assets/js/public", true, /^(.*\.(js$))[^.]*$/igm);
+var req = require.context("../../../resources/assets/js/public", true, /^(.*\.(js$))[^.]*$/im);
 req.keys().forEach(function(key){
     req(key);
 });
