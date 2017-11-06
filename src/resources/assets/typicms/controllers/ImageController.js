@@ -16,9 +16,12 @@
         });
 
         /**
-         * Remove file
+         * Remove image
          */
         $scope.removeImage = function (model) {
+            if (!window.confirm('Remove this image?')) {
+                return
+            }
             $scope.model.image_id = null;
             $scope.model.image = null;
             $('#image_id').val('');
