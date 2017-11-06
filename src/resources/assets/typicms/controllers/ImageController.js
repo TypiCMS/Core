@@ -5,7 +5,7 @@
 
     'use strict';
 
-    angular.module('typicms').controller('FileController', ['$http', '$scope', '$rootScope', '$attrs', '$api', function ($http, $scope, $rootScope, $attrs, $api) {
+    angular.module('typicms').controller('ImageController', ['$http', '$scope', '$rootScope', '$attrs', '$api', function ($http, $scope, $rootScope, $attrs, $api) {
 
         $scope.model = TypiCMS.model;
 
@@ -16,7 +16,7 @@
         });
 
         /**
-         * Remove image
+         * Remove file
          */
         $scope.removeImage = function (model) {
             if (!window.confirm('Remove this image?')) {
