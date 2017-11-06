@@ -16,7 +16,7 @@
         });
 
         /**
-         * Remove file
+         * Remove image
          */
         $scope.removeImage = function (model) {
             if (!window.confirm('Remove this image?')) {
