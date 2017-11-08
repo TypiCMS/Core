@@ -30,7 +30,7 @@ class SetLocale
         // Not reliable, to be refactored.
         $localeAndCountry = $locale.'_'.strtoupper($locale);
 
-        setlocale(LC_ALL, $localeAndCountry.'.utf8', $localeAndCountry.'.utf-8', $localeAndCountry);
+        setlocale(LC_ALL, $localeAndCountry.'.utf8', $localeAndCountry.'.utf-8', $localeAndCountry.'.UTF-8', $localeAndCountry);
 
         // Throw a 404 if website in this language is offline
         if ($firstSegment != 'admin' && !config('typicms.'.$locale.'.status')) {
