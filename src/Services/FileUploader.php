@@ -20,27 +20,20 @@ class FileUploader
      */
     public function handle(UploadedFile $file, $path = 'files')
     {
+        $filesize = $file->getClientSize();
+        $mimetype = $file->getClientMimeType();
+        $extension = strtolower($file->getClientOriginalExtension());
         $fileName = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
-
-        $fileInfo = [];
-        $fileInfo['filesize'] = $file->getClientSize();
-        $fileInfo['mimetype'] = $file->getClientMimeType();
-        $fileInfo['extension'] = $file->getClientOriginalExtension();
-        $fileInfo['filename'] = $fileName.'.'.$fileInfo['extension'];
-        list($fileInfo['width'], $fileInfo['height']) = getimagesize($file);
+        $filename = $fileName.'.'.$extension;
+        list($width, $height) = getimagesize($file);
 
         $filecounter = 1;
-        while (Storage::has($path.'/'.$fileInfo['filename'])) {
-            $fileInfo['filename'] = $fileName.'_'.$filecounter++.'.'.$fileInfo['extension'];
+        while (Storage::has($path.'/'.$filename)) {
+            $filename = $fileName.'_'.$filecounter++.'.'.$extension;
         }
-        $fileInfo['path'] = $file->storeAs($path, $fileInfo['filename']);
+        $path = $file->storeAs($path, $filename);
+        $type = array_get(config('file.types'), $extension, 'd');
 
-        try {
-            $fileInfo['type'] = config('file.types')[$fileInfo['extension']];
-        } catch (Exception $e) {
-            $fileInfo['type'] = 'd';
-        }
-
-        return $fileInfo;
+        return compact('filesize', 'mimetype', 'extension', 'filename', 'width', 'height', 'path', 'type');
     }
 }
