@@ -2,7 +2,6 @@
 
 namespace TypiCMS\Modules\Core\Services;
 
-use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
