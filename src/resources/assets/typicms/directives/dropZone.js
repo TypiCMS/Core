@@ -35,6 +35,7 @@ angular.module('typicms').directive('dropzone', function () {
             url: '/admin/files',
             paramName: 'name',
             clickable: true,
+            timeout: null,
             maxFilesize: 60, // MB
             acceptedFiles: acceptedFiles.join(),
             success: function (file, response) {
