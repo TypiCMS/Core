@@ -301,7 +301,7 @@
             if (!title) {
                 title = model.title[TypiCMS.content_locale];
             }
-            if (!window.confirm('Supprimer « ' + title + ' » ?')) {
+            if (!window.confirm('Do you want to delete « ' + title + ' » ?')) {
                 return false;
             }
             var index = $scope.models.indexOf(model);
@@ -334,10 +334,10 @@
                 title = scope.model.title[TypiCMS.content_locale];
             }
             if (scope.hasChild()) {
-                alertify.error('Cannot delete item because it has children.');
+                alertify.error('This item cannot be deleted because it has children.');
                 return false;
             }
-            if (!window.confirm('Supprimer « ' + title + ' » ?')) {
+            if (!window.confirm('Do you want to delete « ' + title + ' » ?')) {
                 return false;
             }
             $api.delete({id: scope.model.id}, function (data) {
