@@ -177,6 +177,9 @@
          * Put items in parent folder
          */
         $scope.moveToParentFolder = function () {
+            if (!$scope.folder.id) {
+                return;
+            }
 
             var ids = [],
                 models = $scope.checked.models,
