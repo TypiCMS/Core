@@ -13232,6 +13232,8 @@ footer {
 }
 
 .table-main .date,
+.table-main .created_at,
+.table-main .updated_at,
 .table-main .start_date,
 .table-main .end_date {
   width: 160px;
@@ -13241,12 +13243,8 @@ footer {
   width: 70px;
 }
 
-.table-checkboxes th {
-  width: 200px;
-}
-
-.table-checkboxes .checkbox {
-  margin: 0;
+.table-main .action {
+  width: 120px;
 }
 
 .cm-s-twilight.CodeMirror {
