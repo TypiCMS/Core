@@ -13247,6 +13247,10 @@ footer {
   width: 120px;
 }
 
+.table-main .user_name .text-truncatable {
+  width: 150px;
+}
+
 .cm-s-twilight.CodeMirror {
   background: #141414;
   color: #f7f7f7;
@@ -13596,6 +13600,12 @@ h1 a:hover {
 }
 
 .noscroll {
+  overflow: hidden;
+}
+
+.text-truncatable {
+  white-space: nowrap;
+  text-overflow: ellipsis;
   overflow: hidden;
 }
 

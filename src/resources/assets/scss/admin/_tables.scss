@@ -50,12 +50,8 @@
         width: 120px;
     }
 
-    .user_name {
+    .user_name .text-truncatable {
         width: 150px;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        display: block;
     }
 
 }
