@@ -162,20 +162,6 @@
         };
 
         /**
-         * Check all unpublished items
-         */
-        $scope.checkUnpublished = function () {
-            this.checkStatus(0);
-        };
-
-        /**
-         * Check all published items
-         */
-        $scope.checkPublished = function () {
-            this.checkStatus(1);
-        };
-
-        /**
          * Delete checked items
          */
         $scope.deleteChecked = function () {
