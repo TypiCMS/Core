@@ -128,7 +128,7 @@ abstract class Presenter extends BasePresenter
      */
     public function link($column = 'website')
     {
-        return '<a href="'.$this->entity->$column.'" target="_blank">'.$this->urlWithoutScheme($column).'</a>';
+        return '<a href="'.$this->entity->$column.'" target="_blank" rel="noopener noreferrer">'.$this->urlWithoutScheme($column).'</a>';
     }
 
     /**
