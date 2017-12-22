@@ -91,9 +91,5 @@
         border-radius: inherit;
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
-
-        @media (min-width: $screen-sm-min) {
-            margin-top: -31px;
-        }
     }
 }
