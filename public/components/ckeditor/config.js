@@ -29,9 +29,6 @@ CKEDITOR.editorConfig = function( config ) {
     config.contentsCss = ['/css/public.css', '/components/ckeditor/custom.css'];
     config.allowedContent = true;
 
-    // media embed
-    config.oembed_WrapperClass = 'embed-responsive embed-responsive-16by9';
-
     // codemirror
     config.codemirror = {
         theme: 'twilight'
