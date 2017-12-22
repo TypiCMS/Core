@@ -42,9 +42,15 @@ abstract class BaseAdminController extends Controller
             }
         }
 
-        $number = $this->repository->createModel()
-            ->whereIn('id', explode(',', $ids))
-            ->update($data);
+        $number = 0;
+        foreach (explode(',', $ids) as $id) {
+            $model = $this->repository->find($id);
+            foreach ($data as $key => $value) {
+                $model->$key = $value;
+            }
+            $model->save();
+            $number += 1;
+        }
 
         $this->repository->forgetCache();
 
