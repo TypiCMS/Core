@@ -24,12 +24,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        Route::group(['namespace' => $this->namespace], function (Router $router) {
+        Route::namespace($this->namespace)->group(function (Router $router) {
 
             /*
              * Admin routes
              */
-            $router->group(['middleware' => 'admin', 'prefix' => 'admin'], function (Router $router) {
+            $router->middleware('admin')->prefix('admin')->group(function (Router $router) {
                 $router->get('_locale/{locale}', 'LocaleController@setContentLocale')->name('admin::change-locale');
             });
         });
