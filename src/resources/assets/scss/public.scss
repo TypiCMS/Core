@@ -33,3 +33,11 @@ table {
 .site-container {
     @extend .container;
 }
+
+img[style*="float:left"] {
+    margin-right: 20px;
+}
+
+img[style*="float:right"] {
+    margin-left: 20px;
+}
