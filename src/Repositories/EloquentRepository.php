@@ -125,6 +125,7 @@ class EloquentRepository extends BaseRepository
         if (!request('preview')) {
             $this->published();
         }
+
         return $this->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () use ($number) {
             return $this->prepareQuery($this->createModel())
                 ->order()
@@ -146,6 +147,7 @@ class EloquentRepository extends BaseRepository
         if (!request('preview')) {
             $this->published();
         }
+
         return $this->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () use ($key, $value) {
             return $this->prepareQuery($this->createModel())
                 ->where($key, $value)
@@ -167,6 +169,7 @@ class EloquentRepository extends BaseRepository
         if (!request('preview')) {
             $this->published();
         }
+
         return $this->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () {
             return $this->prepareQuery($this->createModel())
                 ->order()
