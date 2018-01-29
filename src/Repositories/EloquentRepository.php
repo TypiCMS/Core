@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Core\Repositories;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Rinvex\Repository\Repositories\EloquentRepository as BaseRepository;
 use TypiCMS\Modules\Files\Models\File;
@@ -68,7 +69,7 @@ class EloquentRepository extends BaseRepository
         if ($category_id !== null) {
             $models = $this->with('category')->findWhere(['category_id', $category_id], ['id', 'category_id', 'slug']);
         } else {
-            $models = $this->published()->findAll(['id', 'slug']);
+            $models = $this->all(['id', 'slug']);
         }
         foreach ($models as $key => $model) {
             if ($currentModel->id == $model->id) {
@@ -174,6 +175,18 @@ class EloquentRepository extends BaseRepository
             return $this->prepareQuery($this->createModel())
                 ->order()
                 ->get();
+        });
+    }
+
+    public function paginate($perPage = null, $attributes = ['*'], $pageName = 'page', $page = null)
+    {
+        $page = $page ?: Paginator::resolveCurrentPage($pageName);
+        if (!request('preview')) {
+            $this->published();
+        }
+
+        return $this->executeCallback(get_called_class(), __FUNCTION__, array_merge(func_get_args(), compact('page')), function () use ($perPage, $attributes, $pageName, $page) {
+            return $this->prepareQuery($this->createModel())->order()->paginate($perPage, $attributes, $pageName, $page);
         });
     }
 
