@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Core\Repositories;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Rinvex\Repository\Repositories\EloquentRepository as BaseRepository;
 use TypiCMS\Modules\Files\Models\File;
 
@@ -88,8 +89,10 @@ class EloquentRepository extends BaseRepository
      */
     public function bySlug($slug, $attributes = ['*'])
     {
-        $model = $this
-            ->findBy(column('slug'), $slug, $attributes);
+        if (!request('preview')) {
+            $this->published();
+        }
+        $model = $this->findBy(column('slug'), $slug, $attributes);
 
         if (is_null($model)) {
             abort(404);
@@ -103,7 +106,11 @@ class EloquentRepository extends BaseRepository
      */
     public function published()
     {
-        return $this->where(column('status'), '1');
+        if (Schema::hasColumn($this->getTable(), 'status')) {
+            return $this->where(column('status'), '1');
+        }
+
+        return $this;
     }
 
     /**
@@ -115,7 +122,10 @@ class EloquentRepository extends BaseRepository
      */
     public function latest($number = 10)
     {
-        return $this->published()->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () use ($number) {
+        if (!request('preview')) {
+            $this->published();
+        }
+        return $this->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () use ($number) {
             return $this->prepareQuery($this->createModel())
                 ->order()
                 ->take($number)
@@ -133,7 +143,10 @@ class EloquentRepository extends BaseRepository
      */
     public function allBy($key, $value)
     {
-        return $this->published()->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () use ($key, $value) {
+        if (!request('preview')) {
+            $this->published();
+        }
+        return $this->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () use ($key, $value) {
             return $this->prepareQuery($this->createModel())
                 ->where($key, $value)
                 ->order()
@@ -151,7 +164,10 @@ class EloquentRepository extends BaseRepository
      */
     public function all()
     {
-        return $this->published()->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () {
+        if (!request('preview')) {
+            $this->published();
+        }
+        return $this->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () {
             return $this->prepareQuery($this->createModel())
                 ->order()
                 ->get();
