@@ -13,16 +13,6 @@ use TypiCMS\Modules\Files\Models\File;
 class EloquentRepository extends BaseRepository
 {
     /**
-     * Make a new instance of the entity to query on.
-     *
-     * @param array $with
-     */
-    public function make(array $with = [])
-    {
-        return $this->with($with);
-    }
-
-    /**
      * Get next model.
      *
      * @param Model $model
