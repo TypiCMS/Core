@@ -16,7 +16,7 @@
     <meta property="og:url" content="{{ URL::full() }}">
     <meta property="og:image" content="@yield('image')">
 
-    <link href="{{ mix('/css/public.css') }}" rel="stylesheet">
+    <link href="{{ App::environment('production') ? mix('css/public.css') : asset('css/public.css') }}" rel="stylesheet">
 
     @include('core::public._feed-links')
 
@@ -95,7 +95,7 @@
 
     </div>
 
-    <script src="{{ mix('/js/public.js') }}"></script>
+    <script src="{{ App::environment('production') ? mix('js/public.js') : asset('js/public.js') }}"></script>
     @if (request('preview'))
     <script src="{{ asset('js/previewmode.js') }}"></script>
     @endif
