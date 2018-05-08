@@ -8,19 +8,19 @@
 
 .st-sort:before {
     margin-right: 5px;
-    color: $gray-light;
+    color: $gray-400;
     font: normal normal normal 14px / 1 FontAwesome;
     content: $fa-var-sort;
 }
 
 .st-sort-ascent:before {
-    color: $gray-dark;
+    color: $gray-700;
     font: normal normal normal 14px / 1 FontAwesome;
     content: $fa-var-sort-asc;
 }
 
 .st-sort-descent:before {
-    color: $gray-dark;
+    color: $gray-700;
     font: normal normal normal 14px / 1 FontAwesome;
     content: $fa-var-sort-desc;
 }

@@ -3,9 +3,15 @@
     @include make-row;
 
     &-item {
-        @include make-xs-column(4);
-        @include make-sm-column(3);
-        @include make-md-column(2);
+        @include media-breakpoint-up(xs) {
+            @include make-col(4);
+        }
+        @include media-breakpoint-up(sm) {
+            @include make-col(3);
+        }
+        @include media-breakpoint-up(md) {
+            @include make-col(2);
+        }
         margin-bottom: $grid-gutter-width;
     }
 
@@ -16,8 +22,8 @@
     &-document {
         text-align: center;
         display: block;
-        border: 1px solid $gray-lighter;
-        background-color: $gray-lighter;
+        border: 1px solid $gray-200;
+        background-color: $gray-200;
         margin-bottom: $grid-gutter-width;
         padding: 20px 3px;
 
@@ -36,7 +42,7 @@
 
         &-filesize {
             font-size: 12px;
-            color: $gray-light;
+            color: $gray-400;
         }
     }
 }

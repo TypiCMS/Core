@@ -1,35 +1,24 @@
+$sidebar-width: 260px;
+
 .sidebar-menu {
     @include list-unstyled;
 }
 
 .sidebar {
-    background-color: #333;
-    border-right: 1px solid #000;
+    padding-top: 5rem;
+    background-color: $gray-700;
     bottom: 0;
     position: fixed;
     top: 0;
     left: 0;
-    display: block;
     overflow-x: hidden;
     overflow-y: auto;
     z-index: 1000;
-    padding: 21px 15px;
-
-    .has-navbar & {
-        top: 51px;
-    }
-
-    @media (min-width: $screen-sm-min) {
-        padding: 20px;
-    }
+    width: $sidebar-width;
+    padding-bottom: 1rem;
 }
 
 .sidebar-panel {
-    @media (min-width: $screen-sm-min) {
-        margin-left: -20px;
-    }
-
-    margin-right: -21px;
     margin-bottom: 20px;
 }
 
@@ -39,23 +28,24 @@
     font-size: 12px;
     padding: 0 20px 10px;
     text-transform: uppercase;
-    color: #666;
-    text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.5);
+    color: $gray-600;
+    text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.3);
 
     &:hover,
     &:focus {
         text-decoration: none;
-        color: #666;
+        color: $gray-600;
     }
 
     &:active {
-        text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
-        color: #999;
+        color: $gray-500;
     }
 }
 
 .nav-sidebar {
+    padding: 0;
     > li {
+        display: flex;
         &:hover {
             .append {
                 display: block;
@@ -63,52 +53,46 @@
         }
 
         > a {
+            display: block;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
             text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.5);
-            color: #ddd;
-            padding-right: 20px;
-            padding-left: 20px;
-
-            &.hasAppend {
-                width: 100%;
-                float: left;
-            }
+            color: $gray-200;
+            padding: 10px 20px;
 
             &.append {
+                flex-grow: 0;
                 display: none;
-                position: absolute;
-                right: 0;
             }
 
             .icon {
-                color: #aaa;
-                position: absolute;
-                margin-top: 3px;
+                color: $gray-500;
+                margin-right: 10px;
             }
 
             div {
-                margin-left: 30px;
             }
 
             &:hover,
             &:focus {
-                background-color: #333;
-                color: #fff;
+                color: $white;
                 transition: all 0.2s;
+                text-decoration: none;
 
                 .icon {
-                    color: #fff;
+                    color: $white;
                     transition: all 0.2s;
                 }
             }
 
             &:active {
                 transition: all 0s;
-                background-color: #ddd;
-                text-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
-                color: #000;
+                text-shadow: none;
+                color: $gray-500;
 
                 .icon {
-                    color: #000;
+                    color: $gray-500;
                     transition: all 0s;
                 }
             }
@@ -120,10 +104,31 @@
     > .active > a:focus {
         text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.5);
         color: #fff;
-        background-color: $brand-primary;
+        background-color: $primary;
 
         .icon {
             color: #eee;
         }
+    }
+}
+.row-offcanvas {
+    padding-top: 3rem;
+}
+
+.row-offcanvas-left {
+    left: 0;
+    height: 100vh;
+}
+@media screen and (max-width: 767px) {
+    .row-offcanvas {
+        transition: all 0.25s ease-out;
+    }
+
+    .row-offcanvas-left .sidebar {
+        left: -$sidebar-width;
+    }
+
+    .row-offcanvas-left.active {
+        transform: translateX($sidebar-width);
     }
 }

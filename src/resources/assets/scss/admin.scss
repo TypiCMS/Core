@@ -10,7 +10,6 @@
 @import 'admin/dropzone';
 @import 'admin/files';
 @import 'admin/files-list';
-@import 'admin/offcanvas';
 @import 'admin/selectize.bootstrap4';
 @import 'admin/sidebar';
 @import 'admin/smart-table';
@@ -27,10 +26,7 @@ html {
 
 body {
     min-height: 100%;
-}
-
-.has-navbar {
-    padding-top: 50px;
+    overflow-x: hidden;
 }
 
 .container-menulinks {
@@ -38,8 +34,7 @@ body {
 }
 
 .main {
-    min-height: 1100px;
-    padding: 25px;
+    padding: 2rem 1.5rem 1.5rem;
     @include media-breakpoint-up(md) {
         min-height: 0;
         margin-left: 260px;
@@ -93,7 +88,7 @@ h1 {
 .btn-add,
 .btn-back {
     font-size: 36px;
-    line-height: 1.1;
+    line-height: 1.35;
     margin-right: 10px;
     float: left;
 }
@@ -104,7 +99,6 @@ h1 {
     @extend .btn-xs;
 
     float: right;
-    // margin-top: -19px;
 }
 
 .checkbox.form-group-translation {

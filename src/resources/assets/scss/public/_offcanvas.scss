@@ -1,8 +1,8 @@
 $offcanvas-width: 100%;
 
 .sidebar-offcanvas {
-    @media (max-width: $screen-xs-max) {
-        background: fade-out(#fff, 0.1);
+    @include media-breakpoint-down(xs) {
+        background: #fff;
         bottom: 0;
         left: -$offcanvas-width;
         position: fixed;
@@ -10,10 +10,11 @@ $offcanvas-width: 100%;
         transition: transform 0.3s ease-in-out;
         width: $offcanvas-width;
         z-index: 1001;
+        padding: 1rem;
     }
 
     &.active {
-        @media (max-width: $screen-xs-max) {
+        @include media-breakpoint-down(xs) {
             transform: translateX($offcanvas-width);
         }
     }
@@ -21,9 +22,9 @@ $offcanvas-width: 100%;
 
 .btn-offcanvas {
     @extend .btn;
-    @extend .btn-outline-secondary;
-    display: none;
-    margin: 10px;
+    @extend .btn-light;
+    margin-top: 1rem;
+    margin-right: 1rem;
     right: 0;
     top: 0;
     position: absolute;

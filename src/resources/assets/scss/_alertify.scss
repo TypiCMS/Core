@@ -5,18 +5,19 @@ $padding-base: 12px;
         padding: $padding-base ($padding-base * 2);
         color: #fff;
         box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
-        border-radius: $border-radius-base;
+        border-radius: $border-radius;
 
-        &, &.default {
+        &,
+        &.default {
             background: rgba(0, 0, 0, 0.8);
         }
 
         &.error {
-            background: $brand-danger;
+            background: $danger;
         }
 
         &.success {
-            background: $brand-success;
+            background: $success;
         }
     }
 }
@@ -37,12 +38,14 @@ $padding-base: 12px;
         pointer-events: none;
     }
 
-    &, &.show {
+    &,
+    &.show {
         box-sizing: border-box;
         transition: all 0.33s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
-    &, * {
+    &,
+    * {
         box-sizing: border-box;
     }
 
@@ -50,7 +53,8 @@ $padding-base: 12px;
         padding: 12px;
     }
 
-    .dialog, .alert {
+    .dialog,
+    .alert {
         width: 100%;
         margin: 0 auto;
         position: relative;
@@ -110,7 +114,8 @@ $padding-base: 12px;
                 cursor: pointer;
                 border-radius: 2px;
 
-                &:hover, &:active {
+                &:hover,
+                &:active {
                     background-color: rgba(0, 0, 0, 0.05);
                 }
 
@@ -126,22 +131,27 @@ $padding-base: 12px;
     position: fixed;
     z-index: 2000;
 
-    &.bottom, &:not(.top) {
+    &.bottom,
+    &:not(.top) {
         bottom: 16px;
 
         // Bottom left placement. Default. Use for transitions.
-        &.left, &:not(.right) {
-            > * {}
+        &.left,
+        &:not(.right) {
+            > * {
+            }
         }
 
         // Top right placement
         &.right {
-            > * {}
+            > * {
+            }
         }
     }
 
     // All left positions.
-    &.left, &:not(.right) {
+    &.left,
+    &:not(.right) {
         right: 16px;
 
         > * {
@@ -154,7 +164,8 @@ $padding-base: 12px;
                 opacity: 1;
             }
 
-            &, &.hide {
+            &,
+            &.hide {
                 left: 110%;
                 opacity: 0;
             }
@@ -173,7 +184,8 @@ $padding-base: 12px;
                 opacity: 1;
             }
 
-            &, &.hide {
+            &,
+            &.hide {
                 left: -110%;
                 opacity: 0;
             }
@@ -184,13 +196,16 @@ $padding-base: 12px;
         top: 0;
 
         // Top left placement, use for transitions.
-        &.left, &:not(.right) {
-            > * {}
+        &.left,
+        &:not(.right) {
+            > * {
+            }
         }
 
         // Top right placement, use for transitions
         &.right {
-            > * {}
+            > * {
+            }
         }
     }
 

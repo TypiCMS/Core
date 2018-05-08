@@ -40,7 +40,7 @@
                 top: 5px;
                 font-size: 12px;
                 border-radius: 12px;
-                background-color: $brand-primary;
+                background-color: $primary;
                 color: #fff;
                 height: 24px;
                 width: 24px;
@@ -51,7 +51,7 @@
                 &:hover,
                 &:focus {
                     color: #fff;
-                    background-color: darken($brand-primary, 19%);
+                    background-color: darken($primary, 19%);
                     text-decoration: none;
                 }
             }
@@ -73,7 +73,7 @@
                 top: 5px;
                 font-size: 12px;
                 border-radius: 12px;
-                background-color: $gray-dark;
+                background-color: $gray-700;
                 color: #fff;
                 height: 24px;
                 width: 24px;
@@ -137,19 +137,19 @@
             }
 
             &-a:before {
-                content: "";
+                content: '';
             }
 
             &-v:before {
-                content: "";
+                content: '';
             }
 
             &-d:before {
-                content: "";
+                content: '';
             }
 
             &-f:before {
-                content: "";
+                content: '';
             }
         }
 
