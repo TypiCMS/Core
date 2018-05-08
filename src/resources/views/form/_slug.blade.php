@@ -4,8 +4,8 @@
     <span></span>
     <div class="input-group">
         {!! Form::text('slug['.$lang.']')->addClass('form-control')->id('slug['.$lang.']')->data('slug', 'title['.$lang.']')->data('language', $lang) !!}
-        <span class="input-group-btn">
-            <button class="btn btn-default btn-slug @if ($errors->has('slug.'.$lang))btn-danger @endif" type="button">{{ __('Generate') }}</button>
+        <span class="input-group-append">
+            <button class="btn btn-outline-secondary btn-slug @if ($errors->has('slug.'.$lang))btn-danger @endif" type="button">{{ __('Generate') }}</button>
         </span>
     </div>
     {!! $errors->first('slug.'.$lang, '<p class="help-block">:message</p>') !!}

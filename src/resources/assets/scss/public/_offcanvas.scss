@@ -21,8 +21,8 @@ $offcanvas-width: 100%;
 
 .btn-offcanvas {
     @extend .btn;
-    @extend .btn-default;
-    @extend .visible-xs-block;
+    @extend .btn-outline-secondary;
+    display: none;
     margin: 10px;
     right: 0;
     top: 0;

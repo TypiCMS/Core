@@ -1,16 +1,18 @@
-@import "public/variables";
-@import "public/bootstrap";
-@import "node_modules/font-awesome/scss/font-awesome";
-@import "public/errors";
-@import "public/header";
-@import "public/footer";
-@import "public/swiper";
-@import "public/offcanvas";
-@import "public/gmaps";
-@import "navbar";
-@import "fancybox";
-@import "public/navbar-hide-left-button";
-@import "public/gallery";
+@import 'public/bootstrap';
+@import 'node_modules/font-awesome/scss/font-awesome';
+@import 'public/errors';
+@import 'public/site-header';
+@import 'public/site-footer';
+@import 'public/menu-main';
+@import 'public/menu-social';
+@import 'public/menu-footer';
+@import 'public/swiper';
+@import 'public/offcanvas';
+@import 'public/gmaps';
+@import 'navbar';
+@import 'fancybox';
+@import 'public/navbar-hide-left-button';
+@import 'public/gallery';
 
 .has-navbar {
     padding-top: 50px;
@@ -34,10 +36,10 @@ table {
     @extend .container;
 }
 
-img[style*="float:left"] {
+img[style*='float:left'] {
     margin-right: 20px;
 }
 
-img[style*="float:right"] {
+img[style*='float:right'] {
     margin-left: 20px;
 }

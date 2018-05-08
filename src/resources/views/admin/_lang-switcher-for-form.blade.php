@@ -1,14 +1,14 @@
 @if (count($locales) > 1)
-    <div class="btn-group pull-right">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <div class="btn-group ml-auto">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownLangSwitcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span id="active-locale">{{ $locale ? : __('All languages') }}</span> <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu">
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
             @foreach ($locales as $lang)
-            <li><a class="btn-lang-js @if (!session('allLocalesInForm') && $lang == $locale)active @endif" href="#" data-locale="{{ $lang }}">@lang('languages.'.$lang)</a></li>
+            <a class="dropdown-item btn-lang-js @if (!session('allLocalesInForm') && $lang == $locale)active @endif" href="#" data-locale="{{ $lang }}">@lang('languages.'.$lang)</a>
             @endforeach
-            <li class="divider"></li>
-            <li><a class="btn-lang-js @if (session('allLocalesInForm'))active @endif" href="#" data-locale="all">@lang('All languages')</a></li>
-        </ul>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item btn-lang-js @if (session('allLocalesInForm'))active @endif" href="#" data-locale="all">@lang('All languages')</a>
+        </div>
     </div>
 @endif

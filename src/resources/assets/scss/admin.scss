@@ -1,25 +1,25 @@
-@import "admin/variables";
-@import "admin/bootstrap";
-@import "admin/tabs";
-@import "node_modules/font-awesome/scss/font-awesome";
-@import "navbar";
-@import "auth";
-@import "fancybox";
-@import "alertify";
-@import "admin/angular-ui-tree";
-@import "admin/dropzone";
-@import "admin/files";
-@import "admin/files-list";
-@import "admin/offcanvas";
-@import "admin/selectize.bootstrap3";
-@import "admin/sidebar";
-@import "admin/smart-table";
-@import "admin/tables";
-@import "admin/twilight";
-@import "admin/sortable";
-@import "admin/filepicker-modal";
-@import "admin/permissions";
-@import "admin/modal";
+@import 'admin/bootstrap';
+@import 'admin/buttons';
+@import 'node_modules/font-awesome/scss/font-awesome';
+@import 'navbar';
+@import 'auth';
+@import 'fancybox';
+@import 'alertify';
+@import 'admin/angular-ui-tree';
+@import 'admin/sortable-tree';
+@import 'admin/dropzone';
+@import 'admin/files';
+@import 'admin/files-list';
+@import 'admin/offcanvas';
+@import 'admin/selectize.bootstrap4';
+@import 'admin/sidebar';
+@import 'admin/smart-table';
+@import 'admin/tables';
+@import 'admin/twilight';
+@import 'admin/sortable';
+@import 'admin/filepicker-modal';
+@import 'admin/permissions';
+@import 'admin/modal';
 
 html {
     height: 100%;
@@ -33,20 +33,17 @@ body {
     padding-top: 50px;
 }
 
-.main {
-    min-height: 1100px;
-    padding-top: 25px;
-    padding-bottom: 25px;
-    position: static;
-
-    @media (min-width: $screen-sm-min) {
-        min-height: 0;
-        padding: 25px;
-    }
-}
-
 .container-menulinks {
     position: static;
+}
+
+.main {
+    min-height: 1100px;
+    padding: 25px;
+    @include media-breakpoint-up(md) {
+        min-height: 0;
+        margin-left: 260px;
+    }
 }
 
 h1 {
@@ -68,11 +65,11 @@ h1 {
 
     &-switch {
         font-size: 20px !important;
-        color: $brand-primary;
+        color: $primary;
     }
 
     &-switch.fa-toggle-off {
-        color: $gray-light;
+        color: $gray-400;
     }
 }
 
@@ -103,13 +100,11 @@ h1 {
 
 .btn-clear-history {
     @extend .btn;
-
-    @extend .btn-default;
-
+    @extend .btn-outline-secondary;
     @extend .btn-xs;
 
     float: right;
-    margin-top: -19px;
+    // margin-top: -19px;
 }
 
 .checkbox.form-group-translation {
@@ -124,6 +119,17 @@ h1 {
     overflow: hidden;
 }
 
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+.text-truncatable {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
     display: none !important;
 }

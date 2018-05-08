@@ -10,11 +10,11 @@
 
     @stack('css')
 
-    <link href="{{ mix('/css/admin.css') }}" rel="stylesheet">
+    <link href="{{ App::environment('production') ? mix('/css/admin.css') : asset('/css/admin.css') }}" rel="stylesheet">
 
 </head>
 
-<body ontouchstart="" class="@can ('see-navbar')has-navbar @endcan @yield('bodyClass')">
+<body ontouchstart="" class="@can('see-navbar')has-navbar @endcan @yield('bodyClass')">
 
 @section('navbar')
     @include('core::_navbar')
@@ -24,15 +24,15 @@
     @include('core::admin._navbar-public-link')
 @endsection
 
-<div class="container-fluid">
+<div>
 
-    <div class="row row-offcanvas row-offcanvas-left">
+    <div class="row-offcanvas row-offcanvas-left">
 
         @section('sidebar')
             @include('core::admin._sidebar')
         @show
 
-        <div ng-app="typicms" class="@section('mainClass')col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main @show">
+        <div ng-app="typicms" class="@section('mainClass')main @show">
 
             @section('errors')
                 @if (!$errors->isEmpty())
@@ -54,7 +54,7 @@
 
         @include('core::admin._javascript')
 
-        <script src="{{ mix('/js/admin.js') }}"></script>
+        <script src="{{ App::environment('production') ? mix('/js/admin.js') : asset('/js/admin.js') }}"></script>
 
         @stack('js')
 

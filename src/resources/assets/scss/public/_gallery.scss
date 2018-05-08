@@ -10,7 +10,7 @@
     }
 
     &-image-thumb {
-        @include img-responsive;
+        @include img-fluid;
     }
 
     &-document {
