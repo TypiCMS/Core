@@ -1,5 +1,5 @@
-$(function () {
-    $('[data-toggle="offcanvas"]').click(function (e) {
+$(function() {
+    $('[data-toggle="offcanvas"]').click(function(e) {
         $('.sidebar-offcanvas').toggleClass('active');
         e.preventDefault();
     });

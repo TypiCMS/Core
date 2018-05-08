@@ -1,12 +1,12 @@
 /**
  * jQuery
  */
-window.$ = window.jQuery = require('jquery')
+window.$ = window.jQuery = require('jquery');
 
 /**
  * Bootstrap
  */
-require('bootstrap-sass');
+require('bootstrap');
 
 /**
  * Fancybox
@@ -21,7 +21,7 @@ require('swiper');
 /**
  * Get files from /resources/assets/js/public
  */
-var req = require.context("../../../resources/assets/js/public", true, /^(.*\.(js$))[^.]*$/im);
-req.keys().forEach(function(key){
+var req = require.context('../../../resources/assets/js/public', true, /^(.*\.(js$))[^.]*$/im);
+req.keys().forEach(function(key) {
     req(key);
 });

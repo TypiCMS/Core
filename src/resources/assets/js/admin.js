@@ -1,12 +1,12 @@
 /**
  * jQuery
  */
-window.$ = window.jQuery = require('jquery')
+window.$ = window.jQuery = require('jquery');
 
 /**
  * Bootstrap
  */
-require('bootstrap-sass');
+require('bootstrap');
 
 /**
  * Dropzone
@@ -24,8 +24,8 @@ require('angular-smart-table/dist/smart-table.js');
 require('angular-ui-tree');
 require('sortablejs');
 require('sortablejs/ng-sortable');
-var req = require.context("../../../resources/assets/typicms", true, /^(.*\.(js$))[^.]*$/im);
-req.keys().forEach(function(key){
+var req = require.context('../../../resources/assets/typicms', true, /^(.*\.(js$))[^.]*$/im);
+req.keys().forEach(function(key) {
     req(key);
 });
 
@@ -42,7 +42,7 @@ require('selectize');
 /**
  * All files in /reources/assets/js/admin
  */
-var req = require.context("../../../resources/assets/js/admin", true, /^(.*\.(js$))[^.]*$/im);
-req.keys().forEach(function(key){
+var req = require.context('../../../resources/assets/js/admin', true, /^(.*\.(js$))[^.]*$/im);
+req.keys().forEach(function(key) {
     req(key);
 });
