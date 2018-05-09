@@ -14,6 +14,22 @@ require('bootstrap');
 window.Dropzone = require('dropzone');
 
 /**
+ * Vue
+ */
+import Vue from 'vue';
+window.Vue = Vue;
+import { DraggableTree } from 'vue-draggable-nested-tree';
+window.DraggableTree = DraggableTree;
+import SlVueTree from 'sl-vue-tree';
+window.SlVueTree = SlVueTree;
+
+import BootstrapVue from 'bootstrap-vue';
+Vue.use(BootstrapVue);
+
+// import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+
+/**
  * Angular
  */
 require('angular');
