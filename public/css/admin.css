@@ -14916,7 +14916,7 @@ a.text-dark:focus {
   top: 6px;
   width: 14px;
   height: 14px;
-  color: #ced4da;
+  color: #adb5bd;
   font-size: 18px;
 }
 
@@ -16609,6 +16609,15 @@ a.text-dark:focus {
   top: 84.5vh;
   left: 10vw;
   width: 80vw;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  overflow-x: hidden;
 }
 
 .container-menulinks {
