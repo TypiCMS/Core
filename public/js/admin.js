@@ -65046,11 +65046,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /*globals $, jQuery, angular, TypiCMS, alertify, top, window, console*/
 
 (function (angular) {
-
     'use strict';
 
     angular.module('typicms').controller('ListController', ['$http', '$scope', '$location', '$api', '$cookies', function ($http, $scope, $location, $api, $cookies) {
-
         $scope.itemsByPage = 100;
         $scope.allChecked = false;
         $scope.deleteLimit = 1000;
@@ -65131,7 +65129,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
          * Set all checked items published or unpublished
          */
         $scope.setItems = function (column, value, label) {
-
             var ids = [],
                 models = $scope.checked.models,
                 number = models.length,
@@ -65183,7 +65180,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             $scope.allChecked = false;
             $scope.checked.models = [];
             $scope.models.forEach(function (model) {
-
                 if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object') {
                     for (var key in value) {
                         if (value.hasOwnProperty(key)) {
@@ -65204,7 +65200,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
          * Delete checked items
          */
         $scope.deleteChecked = function () {
-
             var ids = [],
                 models = $scope.checked.models,
                 number = models.length;
@@ -65328,9 +65323,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
          * Save the collapsed state of pages tree.
          */
         $scope.saveState = function (scope) {
-            var pagesState = $cookies.getObject('pagesState') || {};
-            pagesState[scope.$id] = scope.collapsed;
-            $cookies.putObject('pagesState', pagesState);
+            var pagesTree = $cookies.getObject('typicms_pagestree') || {};
+            pagesTree[scope.model.id] = scope.collapsed;
+            $cookies.putObject('typicms_pagestree', pagesTree);
         };
 
         /**
@@ -65362,11 +65357,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 if (!scope.hasChild()) {
                     return false;
                 }
-                var pagesState = $cookies.getObject('pagesState') || {};
-                if (pagesState[scope.$id] === undefined) {
-                    return true;
+                var pagesTree = $cookies.getObject('typicms_pagestree') || {};
+                if (pagesTree[scope.model.id] === undefined) {
+                    return false;
                 }
-                return pagesState[scope.$id];
+                return pagesTree[scope.model.id];
             },
             accept: function accept(sourceNodeScope, destNodesScope) {
                 if (destNodesScope.model && destNodesScope.model.module) {
@@ -65375,7 +65370,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 return true;
             },
             dropped: function dropped(event) {
-
                 var model = event.source.nodeScope.model,
                     parentId = null,
                     data = {},
@@ -65662,29 +65656,27 @@ angular.module('typicms').directive('typiPagination', function () {
 /***/ "./resources/assets/typicms/filters/betterFilter.js":
 /***/ (function(module, exports) {
 
-angular.module('typicms').filter('betterFilter', function (filterFilter) {
-
+angular.module('typicms').filter('betterFilter', ['filterFilter', function (filterFilter) {
     function normalize(str) {
         str = str.toLowerCase();
-        str = str.replace(/\\s/g, "");
-        str = str.replace(/[àáâãäå]/g, "a");
-        str = str.replace(/æ/g, "ae");
+        str = str.replace(/\\s/g, '');
+        str = str.replace(/[àáâãäå]/g, 'a');
+        str = str.replace(/æ/g, 'ae');
         str = str.replace(/’/g, "'");
-        str = str.replace(/[“”«»]/g, "");
-        str = str.replace(/ç/g, "c");
-        str = str.replace(/[èéêë]/g, "e");
-        str = str.replace(/[ìíîï]/g, "i");
-        str = str.replace(/ñ/g, "n");
-        str = str.replace(/[òóôõö]/g, "o");
-        str = str.replace(/œ/g, "oe");
-        str = str.replace(/[ùúûü]/g, "u");
-        str = str.replace(/[ýÿ]/g, "y");
-        str = str.replace(/\\W/g, "");
+        str = str.replace(/[“”«»]/g, '');
+        str = str.replace(/ç/g, 'c');
+        str = str.replace(/[èéêë]/g, 'e');
+        str = str.replace(/[ìíîï]/g, 'i');
+        str = str.replace(/ñ/g, 'n');
+        str = str.replace(/[òóôõö]/g, 'o');
+        str = str.replace(/œ/g, 'oe');
+        str = str.replace(/[ùúûü]/g, 'u');
+        str = str.replace(/[ýÿ]/g, 'y');
+        str = str.replace(/\\W/g, '');
         return str.trim();
     }
 
     return function (input, expression, comparator) {
-
         for (var index in expression) {
             expression[index] = normalize(expression[index]);
         }
@@ -65706,7 +65698,7 @@ angular.module('typicms').filter('betterFilter', function (filterFilter) {
         });
         return normalized_filtered_orig;
     };
-});
+}]);
 
 /***/ }),
 
@@ -65714,29 +65706,27 @@ angular.module('typicms').filter('betterFilter', function (filterFilter) {
 /***/ (function(module, exports) {
 
 // http://stackoverflow.com/questions/14493168/fix-angular-sorting
-angular.module('typicms').filter('betterOrderBy', function (orderByFilter) {
-
+angular.module('typicms').filter('betterOrderBy', ['orderByFilter', function (orderByFilter) {
     function normalize(str) {
         str = str.toLowerCase();
-        str = str.replace(/\\s/g, "");
-        str = str.replace(/[àáâãäå]/g, "a");
-        str = str.replace(/æ/g, "ae");
+        str = str.replace(/\\s/g, '');
+        str = str.replace(/[àáâãäå]/g, 'a');
+        str = str.replace(/æ/g, 'ae');
         str = str.replace(/’/g, "'");
-        str = str.replace(/[“”«»]/g, "");
-        str = str.replace(/ç/g, "c");
-        str = str.replace(/[èéêë]/g, "e");
-        str = str.replace(/[ìíîï]/g, "i");
-        str = str.replace(/ñ/g, "n");
-        str = str.replace(/[òóôõö]/g, "o");
-        str = str.replace(/œ/g, "oe");
-        str = str.replace(/[ùúûü]/g, "u");
-        str = str.replace(/[ýÿ]/g, "y");
-        str = str.replace(/\\W/g, "");
+        str = str.replace(/[“”«»]/g, '');
+        str = str.replace(/ç/g, 'c');
+        str = str.replace(/[èéêë]/g, 'e');
+        str = str.replace(/[ìíîï]/g, 'i');
+        str = str.replace(/ñ/g, 'n');
+        str = str.replace(/[òóôõö]/g, 'o');
+        str = str.replace(/œ/g, 'oe');
+        str = str.replace(/[ùúûü]/g, 'u');
+        str = str.replace(/[ýÿ]/g, 'y');
+        str = str.replace(/\\W/g, '');
         return str.trim();
     }
 
     return function (input, arg1, arg2) {
-
         if (!input[0]) {
             return orderByFilter(input, arg1, arg2);
         }
@@ -65757,14 +65747,14 @@ angular.module('typicms').filter('betterOrderBy', function (orderByFilter) {
         });
         return normalized_sorted_orig;
     };
-});
+}]);
 
 /***/ }),
 
 /***/ "./resources/assets/typicms/filters/dateFromMySQLFilter.js":
 /***/ (function(module, exports) {
 
-angular.module('typicms').filter('dateFromMySQL', function (dateFilter) {
+angular.module('typicms').filter('dateFromMySQL', ['dateFilter', function (dateFilter) {
     return function (date, format) {
         if (!date) {
             return;
@@ -65772,7 +65762,7 @@ angular.module('typicms').filter('dateFromMySQL', function (dateFilter) {
         date = new Date(date.replace(/-/g, '/'));
         return dateFilter(date, format);
     };
-});
+}]);
 
 /***/ }),
 
