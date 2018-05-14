@@ -304,9 +304,9 @@
              * Save the collapsed state of pages tree.
              */
             $scope.saveState = function(scope) {
-                var pagesState = $cookies.getObject('pagesState') || {};
-                pagesState[scope.$id] = scope.collapsed;
-                $cookies.putObject('pagesState', pagesState);
+                var pagesTree = $cookies.getObject('typicms_pagestree') || {};
+                pagesTree[scope.model.id] = scope.collapsed;
+                $cookies.putObject('typicms_pagestree', pagesTree);
             };
 
             /**
@@ -342,11 +342,11 @@
                     if (!scope.hasChild()) {
                         return false;
                     }
-                    var pagesState = $cookies.getObject('pagesState') || {};
-                    if (pagesState[scope.$id] === undefined) {
-                        return true;
+                    var pagesTree = $cookies.getObject('typicms_pagestree') || {};
+                    if (pagesTree[scope.model.id] === undefined) {
+                        return false;
                     }
-                    return pagesState[scope.$id];
+                    return pagesTree[scope.model.id];
                 },
                 accept: function(sourceNodeScope, destNodesScope) {
                     if (destNodesScope.model && destNodesScope.model.module) {
