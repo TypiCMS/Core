@@ -32,7 +32,7 @@
             @include('core::admin._sidebar')
         @show
 
-        <div ng-app="typicms" class="@section('mainClass')main @show">
+        <div class="@section('mainClass')main @show">
 
             @section('errors')
                 @if (!$errors->isEmpty())
