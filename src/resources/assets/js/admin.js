@@ -24,12 +24,6 @@ import SlVueTree from 'sl-vue-tree';
 window.SlVueTree = SlVueTree;
 
 /**
- * Sortablejs
- */
-require('sortablejs');
-require('sortablejs/ng-sortable');
-
-/**
  * Alertify
  */
 window.alertify = require('alertify.js');
