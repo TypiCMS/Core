@@ -23,6 +23,11 @@ window.DraggableTree = DraggableTree;
 import SlVueTree from 'sl-vue-tree';
 window.SlVueTree = SlVueTree;
 
+import ItemList from './components/ItemList.js';
+if (document.getElementById('itemList')) {
+    new Vue(ItemList);
+}
+
 /**
  * Alertify
  */
