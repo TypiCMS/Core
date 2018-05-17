@@ -1,0 +1,118 @@
+<template>
+    <div>
+        <div class="btn-toolbar">
+            <list-selector
+                :filtered-models="filteredModels"
+                :all-checked="allChecked"
+                @toggle="toggle"
+                @check="check"
+                @uncheck="uncheck"
+                @check-published="checkPublished"
+                @check-unpublished="checkUnpublished"
+            ></list-selector>
+            <list-actions
+                :number-of-checked-models="checkedModels.length"
+                :loading="loading"
+                @destroy="destroy"
+                @publish="publish"
+                @unpublish="unpublish"
+            ></list-actions>
+            <slot name="test" :filtered-models="filteredModels"></slot>
+            <slot name="buttons" v-if="!loading"></slot>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-main">
+                <thead>
+                    <tr>
+                        <th class="checkbox"></th>
+                        <slot name="columns"></slot>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="model in filteredModels">
+                        <td>
+                            <input type="checkbox" :id="model.id" :value="model" v-model="checkedModels">
+                        </td>
+                        <slot :model="model"></slot>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</template>
+
+<script>
+import ListSelector from './ListSelector';
+import ListActions from './ListActions';
+
+export default {
+    components: {
+        ListSelector,
+        ListActions,
+    },
+    props: {
+        url: {
+            type: String,
+            required: true
+        },
+    },
+    data() {
+        return {
+            loading: true,
+            models: [],
+            checkedModels: []
+        };
+    },
+    created() {
+        this.fetchData();
+    },
+    computed: {
+        filteredModels() {
+            return this.models;
+        },
+        allChecked() {
+            return this.filteredModels.length > 0 && this.filteredModels.length === this.checkedModels.length;
+        }
+    },
+    methods: {
+        fetchData() {
+            axios.get(this.url)
+                .then((response) => {
+                    this.models = response.data;
+                    this.loading = false;
+                })
+                .catch(error => {
+                    alertify.error(error.response.data.message || 'An error occurred with the data fetch.');
+                });
+        },
+        toggle() {
+            if (this.allChecked === true) {
+                this.uncheck();
+            } else {
+                this.check();
+            }
+        },
+        check() {
+            this.checkedModels = this.models;
+        },
+        uncheck() {
+            this.checkedModels = [];
+        },
+        checkPublished() {
+            alert('check published');
+        },
+        checkUnpublished() {
+            alert('check unpublished');
+        },
+        destroy() {
+            alert('destroy');
+        },
+        publish() {
+            alert('publish');
+        },
+        unpublish() {
+            alert('unpublish');
+        },
+    }
+};
+</script>
