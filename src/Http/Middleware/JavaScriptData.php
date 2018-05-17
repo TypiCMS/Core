@@ -4,7 +4,6 @@ namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
 use JavaScript;
 
 class JavaScriptData
