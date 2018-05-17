@@ -5,6 +5,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>[admin] @yield('title') – {{ config('typicms.'.config('typicms.admin_locale').'.website_title') }}</title>
 
@@ -32,7 +33,7 @@
             @include('core::admin._sidebar')
         @show
 
-        <div class="@section('mainClass')main @show">
+        <div id="app" class="@section('mainClass')main @show">
 
             @section('errors')
                 @if (!$errors->isEmpty())
