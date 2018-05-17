@@ -17,7 +17,6 @@
                 @publish="publish"
                 @unpublish="unpublish"
             ></list-actions>
-            <slot name="test" :filtered-models="filteredModels"></slot>
             <slot name="buttons" v-if="!loading"></slot>
         </div>
         <div class="table-responsive">
