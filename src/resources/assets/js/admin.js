@@ -37,14 +37,6 @@ import Vue from 'vue';
 window.Vue = Vue;
 
 /**
- * DraggableTree
- */
-import { DraggableTree } from 'vue-draggable-nested-tree';
-window.DraggableTree = DraggableTree;
-import SlVueTree from 'sl-vue-tree';
-window.SlVueTree = SlVueTree;
-
-/**
  * i18n
  */
 import VueI18n from 'vue-i18n';
@@ -64,10 +56,12 @@ import TypiBtnStatus from './components/TypiBtnStatus.vue';
  * Lists
  */
 import ItemList from './components/ItemList.vue';
+import ItemListTree from './components/ItemListTree.vue';
 new Vue({
     i18n,
     components: {
         ItemList,
+        ItemListTree,
         TypiBtnStatus,
     },
 }).$mount('#app');
