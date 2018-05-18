@@ -18,8 +18,7 @@ export default {
             locale: TypiCMS.content_locale,
         };
     },
-    created() {
-    },
+    created() {},
     methods: {
         toggleStatus() {
             alert('Toggle status of ' + this.model.id + '?');

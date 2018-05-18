@@ -52,14 +52,14 @@ export default {
     props: {
         url: {
             type: String,
-            required: true
+            required: true,
         },
     },
     data() {
         return {
             loading: true,
             models: [],
-            checkedModels: []
+            checkedModels: [],
         };
     },
     created() {
@@ -78,8 +78,9 @@ export default {
     },
     methods: {
         fetchData() {
-            axios.get(this.url)
-                .then((response) => {
+            axios
+                .get(this.url)
+                .then(response => {
                     this.models = response.data;
                     this.loading = false;
                 })
@@ -121,8 +122,9 @@ export default {
 
             let ids = this.checkedModels.map(model => model.id).join();
 
-            axios.delete(this.url + '/' + ids)
-                .then((response) => {
+            axios
+                .delete(this.url + '/' + ids)
+                .then(response => {
                     this.loading = false;
                     if (response.data.number < this.numberOfcheckedModels) {
                         alertify.error(this.numberOfcheckedModels - response.data.number + ' items could not be deleted.');
@@ -141,6 +143,6 @@ export default {
         unpublish() {
             alert('unpublish');
         },
-    }
+    },
 };
 </script>

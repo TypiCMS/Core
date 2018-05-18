@@ -68,7 +68,7 @@ export default {
     props: {
         url: {
             type: String,
-            required: true
+            required: true,
         },
     },
     data() {
@@ -88,12 +88,13 @@ export default {
         },
         allChecked() {
             return this.filteredModels.length > 0 && this.filteredModels.length === this.checkedModels.length;
-        }
+        },
     },
     methods: {
         fetchData() {
-            axios.get(this.url)
-                .then((response) => {
+            axios
+                .get(this.url)
+                .then(response => {
                     this.models = response.data;
                     this.loading = false;
                 })
@@ -129,6 +130,6 @@ export default {
         unpublish() {
             alert('unpublish');
         },
-    }
+    },
 };
 </script>

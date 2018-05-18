@@ -16,16 +16,16 @@
     </div>
 </template>
 <script>
-    export default {
-        props: {
-            filteredModels: {
-                type: Array,
-                required: true
-            },
-            allChecked: {
-                type: Boolean,
-                required: true
-            },
+export default {
+    props: {
+        filteredModels: {
+            type: Array,
+            required: true,
         },
-    };
+        allChecked: {
+            type: Boolean,
+            required: true,
+        },
+    },
+};
 </script>

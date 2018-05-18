@@ -13,11 +13,9 @@ export default {
         },
     },
     data() {
-        return {
-        };
+        return {};
     },
-    created() {
-    },
+    created() {},
     methods: {
         delete() {
             alert('Delete ' + this.model.id + '?');

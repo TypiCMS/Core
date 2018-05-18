@@ -16,27 +16,27 @@
     </div>
 </template>
 <script>
-    export default {
-        props: {
-            numberOfCheckedModels: {
-                type: Number,
-                required: true
-            },
-            loading: {
-                type: Boolean,
-                required: true
-            },
+export default {
+    props: {
+        numberOfCheckedModels: {
+            type: Number,
+            required: true,
         },
-        methods: {
-            destroy() {
-                this.$emit('destroy');
-            },
-            publish() {
-                this.$emit('publish');
-            },
-            unpublish() {
-                this.$emit('unpublish');
-            },
-        }
-    };
+        loading: {
+            type: Boolean,
+            required: true,
+        },
+    },
+    methods: {
+        destroy() {
+            this.$emit('destroy');
+        },
+        publish() {
+            this.$emit('publish');
+        },
+        unpublish() {
+            this.$emit('unpublish');
+        },
+    },
+};
 </script>
