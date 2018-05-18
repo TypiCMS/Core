@@ -101,13 +101,39 @@ export default {
             this.checkedModels = [];
         },
         checkPublished() {
-            this.checkedModels = this.filteredModels.filter(item => item.status[TypiCMS.content_locale] === '1');
+            this.checkedModels = this.filteredModels.filter(model => model.status[TypiCMS.content_locale] === '1');
         },
         checkUnpublished() {
-            this.checkedModels = this.filteredModels.filter(item => item.status[TypiCMS.content_locale] === '0');
+            this.checkedModels = this.filteredModels.filter(model => model.status[TypiCMS.content_locale] === '0');
         },
         destroy() {
-            alert('destroy');
+            const deleteLimit = 1000;
+
+            if (this.checkedModels.length > deleteLimit) {
+                alertify.error('Impossible to delete more than ' + deleteLimit + ' items in one go.');
+                return false;
+            }
+            if (!window.confirm('Are you sure you want to delete ' + this.numberOfcheckedModels + ' items?')) {
+                return false;
+            }
+
+            this.loading = true;
+
+            let ids = this.checkedModels.map(model => model.id).join();
+
+            axios.delete(this.url + '/' + ids)
+                .then((response) => {
+                    this.loading = false;
+                    if (response.data.number < this.numberOfcheckedModels) {
+                        alertify.error(this.numberOfcheckedModels - response.data.number + ' items could not be deleted.');
+                    }
+                    if (response.data.number > 0) {
+                        alertify.success(response.data.number + ' items deleted.');
+                    }
+                })
+                .catch(error => {
+                    alertify.error(error.response.data.message || 'An error occurred.');
+                });
         },
         publish() {
             alert('publish');
