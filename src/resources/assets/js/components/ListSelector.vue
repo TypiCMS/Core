@@ -7,8 +7,8 @@
             <span class="caret"></span>
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownSelect">
-            <button type="button" class="dropdown-item" @click="$emit('check')">{{ $t('All') }}</button>
-            <button type="button" class="dropdown-item" @click="$emit('uncheck')">{{ $t('None') }}</button>
+            <button type="button" class="dropdown-item" @click="$emit('check-all')">{{ $t('All') }}</button>
+            <button type="button" class="dropdown-item" @click="$emit('check-none')">{{ $t('None') }}</button>
             <div class="dropdown-divider"></div>
             <button type="button" class="dropdown-item" @click="$emit('check-published')">{{ $t('Published items') }}</button>
             <button type="button" class="dropdown-item" @click="$emit('check-unpublished')">{{ $t('Unpublished items') }}</button>
