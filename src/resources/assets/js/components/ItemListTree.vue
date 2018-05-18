@@ -104,7 +104,7 @@ export default {
         },
         toggle() {
             if (this.allChecked === true) {
-                this.uncheckAll();
+                this.checkNone();
             } else {
                 this.checkAll();
             }
