@@ -108,7 +108,7 @@ export default {
             this.checkedModels = this.filteredModels.filter(model => model.status[TypiCMS.content_locale] === '0');
         },
         destroy() {
-            const deleteLimit = 1000;
+            const deleteLimit = 500;
 
             if (this.checkedModels.length > deleteLimit) {
                 alertify.error('Impossible to delete more than ' + deleteLimit + ' items in one go.');
