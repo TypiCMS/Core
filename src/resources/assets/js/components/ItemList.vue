@@ -126,6 +126,13 @@ export default {
                 .delete(this.url + '/' + ids)
                 .then(response => {
                     this.loading = false;
+
+                    for (var i = this.checkedModels.length - 1; i >= 0; i--) {
+                        let index = this.models.indexOf(this.checkedModels[i]);
+                        this.models.splice(index, 1);
+                    }
+                    this.checkedModels = [];
+
                     if (response.data.number < this.numberOfcheckedModels) {
                         alertify.error(this.numberOfcheckedModels - response.data.number + ' items could not be deleted.');
                     }
