@@ -11,7 +11,7 @@
                 @check-unpublished="checkUnpublished"
             ></list-selector>
             <list-actions
-                :number-of-checked-models="checkedModels.length"
+                :number-of-checked-models="numberOfcheckedModels"
                 :loading="loading"
                 @destroy="destroy"
                 @publish="publish"
@@ -71,7 +71,10 @@ export default {
         },
         allChecked() {
             return this.filteredModels.length > 0 && this.filteredModels.length === this.checkedModels.length;
-        }
+        },
+        numberOfcheckedModels() {
+            return this.checkedModels.length;
+        },
     },
     methods: {
         fetchData() {
