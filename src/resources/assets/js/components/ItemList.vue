@@ -101,10 +101,10 @@ export default {
             this.checkedModels = [];
         },
         checkPublished() {
-            alert('check published');
+            this.checkedModels = this.filteredModels.filter(item => item.status[TypiCMS.content_locale] === '1');
         },
         checkUnpublished() {
-            alert('check unpublished');
+            this.checkedModels = this.filteredModels.filter(item => item.status[TypiCMS.content_locale] === '0');
         },
         destroy() {
             alert('destroy');
