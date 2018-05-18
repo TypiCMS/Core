@@ -91,8 +91,8 @@ export default {
                 this.checkAll();
             }
         },
-            this.checkedModels = this.models;
         checkAll() {
+            this.checkedModels = this.filteredModels;
         },
         checkNone() {
             this.checkedModels = [];
