@@ -7,8 +7,8 @@
                 :filtered-models="filteredModels"
                 :all-checked="allChecked"
                 @toggle="toggle"
-                @check="check"
-                @uncheck="uncheck"
+                @check-all="checkAll"
+                @check-none="checkNone"
                 @check-published="checkPublished"
                 @check-unpublished="checkUnpublished"
             ></list-selector>
@@ -103,15 +103,15 @@ export default {
         },
         toggle() {
             if (this.allChecked === true) {
-                this.uncheck();
+                this.uncheckAll();
             } else {
-                this.check();
+                this.checkAll();
             }
         },
-        check() {
+        checkAll() {
             this.checkedModels = this.models;
         },
-        uncheck() {
+        checkNone() {
             this.checkedModels = [];
         },
         checkPublished() {
