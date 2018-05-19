@@ -120,25 +120,17 @@ export default {
 
             this.loading = true;
 
-            let ids = this.checkedModels.map(model => model.id).join();
-
             axios
-                .delete(this.url + '/' + ids)
-                .then(response => {
+                .all(this.checkedModels.map(model => axios.delete(this.url + '/' + model.id)))
+                .then(responses => {
+                    let successes = responses.filter(response => response.data.error === false);
                     this.loading = false;
-
+                    alertify.success(successes.length + ' items deleted.');
                     for (var i = this.checkedModels.length - 1; i >= 0; i--) {
                         let index = this.models.indexOf(this.checkedModels[i]);
                         this.models.splice(index, 1);
                     }
                     this.checkedModels = [];
-
-                    if (response.data.number < this.numberOfcheckedModels) {
-                        alertify.error(this.numberOfcheckedModels - response.data.number + ' items could not be deleted.');
-                    }
-                    if (response.data.number > 0) {
-                        alertify.success(response.data.number + ' items deleted.');
-                    }
                 })
                 .catch(error => {
                     alertify.error(error.response.data.message || 'An error occurred.');
