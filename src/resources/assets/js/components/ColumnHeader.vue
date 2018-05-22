@@ -1,6 +1,6 @@
 <template>
-    <th :class="thClasses" @click="sort">
-        <slot>{{ name }}</slot>
+    <th :class="classes" @click="sort">
+        <slot></slot>
     </th>
 </template>
 
@@ -15,21 +15,24 @@ export default {
             type: Boolean,
             default: false,
         },
-        sortDefault: {
-            type: String,
+        sortColumn: {
+            type: Object,
+            default: () => { return { column: null, direction: null }},
         },
     },
     computed: {
-        thClasses() {
+        classes() {
             let classes = [];
+            classes.push(this.name);
             if (this.sortable) {
                 classes.push('th-sort');
             }
-            if (this.sortDefault === 'asc') {
-                classes.push('th-sort-asc');
-            }
-            if (this.sortDefault === 'desc') {
-                classes.push('th-sort-desc');
+            if (this.sortColumn.column === this.name) {
+                if (this.sortColumn.direction === 1) {
+                    classes.push('th-sort-asc');
+                } else {
+                    classes.push('th-sort-desc');
+                }
             }
             return classes.join(' ');
         }
@@ -37,7 +40,11 @@ export default {
     methods: {
         sort() {
             if (this.sortable) {
-                this.$parent.$emit('sort', this.name);
+                let direction = 1;
+                if (this.sortColumn.column === this.name) {
+                    direction = -this.sortColumn.direction;
+                }
+                this.$parent.$emit('sort', { column: this.name, direction: direction });
             }
         },
     },

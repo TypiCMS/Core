@@ -27,10 +27,7 @@
             <table class="table table-main">
                 <thead>
                     <tr>
-                        <th class="checkbox"></th>
-                        <th class="edit">Edit</th>
-                        <th class="status">Status</th>
-                        <slot name="column"></slot>
+                        <slot :sort-column="sortColumn" name="columns"></slot>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,9 +69,13 @@ export default {
             type: String,
             required: true,
         },
+        sortDefault: {
+            type: Object,
+        },
     },
     data() {
         return {
+            sortColumn: this.sortDefault,
             loading: true,
             models: [],
             checkedModels: [],
@@ -84,7 +85,7 @@ export default {
         this.fetchData();
     },
     mounted() {
-        this.$on('sort', this.sortColumn);
+        this.$on('sort', this.sort);
     },
     computed: {
         filteredModels() {
@@ -206,8 +207,8 @@ export default {
                     alertify.error(error.response.data.message || 'Sorry, an error occurred.');
                 });
         },
-        sortColumn(column) {
-            alert(column);
+        sort(column) {
+            this.sortColumn = column;
         },
     },
 };
