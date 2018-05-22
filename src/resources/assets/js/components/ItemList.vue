@@ -32,10 +32,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="model in filteredModels">
-                        <td>
-                            <input type="checkbox" :id="model.id" :value="model" v-model="checkedModels">
-                        </td>
-                        <slot :model="model" :checked-models="checkedModels" name="col"></slot>
+                        <slot :model="model" :checked-models="checkedModels" name="table-row"></slot>
                     </tr>
                 </tbody>
             </table>

@@ -51,6 +51,7 @@ import date from './filters/Date.js';
 Vue.filter('date', date);
 
 import TypiBtnStatus from './components/TypiBtnStatus.vue';
+import TypiCheckbox from './components/TypiCheckbox.vue';
 
 /**
  * Lists
@@ -65,6 +66,7 @@ new Vue({
         ItemList,
         ItemListTree,
         TypiBtnStatus,
+        TypiCheckbox,
     },
 }).$mount('#app');
 
