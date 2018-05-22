@@ -58,21 +58,6 @@ abstract class BaseAdminController extends Controller
     }
 
     /**
-     * Delete multiple resources.
-     *
-     * @param $ids
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroyMultiple($ids)
-    {
-        $number = $this->repository->createModel()->destroy(explode(',', $ids));
-        $this->repository->forgetCache();
-
-        return response()->json(compact('number'));
-    }
-
-    /**
      * Sort list.
      *
      * @return \Illuminate\Http\JsonResponse
