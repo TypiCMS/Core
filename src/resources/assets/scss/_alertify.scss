@@ -1,23 +1,25 @@
+$box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
 $padding-base: 12px;
+$success-color: rgba(76, 175, 80, 0.9);
+$danger-color: rgba(244, 67, 54, 0.8);
+$text-color: rgba(0, 0, 0, 0.8);
+$border-radius: 1px;
 
 .alertify-logs {
     > * {
-        padding: $padding-base ($padding-base * 2);
+        padding: $padding-base $padding-base * 2;
         color: #fff;
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: $box-shadow;
         border-radius: $border-radius;
-
         &,
         &.default {
             background: rgba(0, 0, 0, 0.8);
         }
-
         &.error {
-            background: $danger;
+            background: $danger-color;
         }
-
         &.success {
-            background: $success;
+            background: $success-color;
         }
     }
 }
@@ -83,12 +85,13 @@ $padding-base: 12px;
             width: 100%;
             font-size: 100%;
             padding: $padding-base;
-
             &:focus {
                 outline-offset: -2px;
             }
+            &.invalid {
+                border-left: 2px solid $danger-color;
+            }
         }
-
         nav {
             text-align: right;
 
@@ -112,6 +115,7 @@ $padding-base: 12px;
                 font-size: 14px;
                 text-decoration: none;
                 cursor: pointer;
+                border: 1px solid transparent;
                 border-radius: 2px;
 
                 &:hover,
@@ -120,8 +124,12 @@ $padding-base: 12px;
                 }
 
                 &:focus {
-                    border: 1px dashed rgba(0, 0, 0, 0.1);
+                    border: 1px solid rgba(0, 0, 0, 0.1);
                 }
+            }
+
+            button.btn {
+                margin: 6px 4px;
             }
         }
     }
@@ -129,19 +137,17 @@ $padding-base: 12px;
 
 .alertify-logs {
     position: fixed;
-    z-index: 2000;
+    z-index: 99999;
 
     &.bottom,
     &:not(.top) {
         bottom: 16px;
-
         // Bottom left placement. Default. Use for transitions.
         &.left,
         &:not(.right) {
             > * {
             }
         }
-
         // Top right placement
         &.right {
             > * {
@@ -152,41 +158,34 @@ $padding-base: 12px;
     // All left positions.
     &.left,
     &:not(.right) {
-        right: 16px;
-
+        left: 16px;
         > * {
-            float: right;
+            float: left;
             transform: translate3d(0, 0, 0);
             height: auto;
 
             &.show {
-                right: 0;
-                opacity: 1;
+                left: 0;
             }
-
             &,
             &.hide {
-                left: 110%;
-                opacity: 0;
+                left: -110%;
             }
         }
     }
 
     &.right {
-        left: 16px;
-
+        right: 16px;
         > * {
-            float: left;
+            float: right;
             transform: translate3d(0, 0, 0);
-
             &.show {
-                left: 0;
+                right: 0;
                 opacity: 1;
             }
-
             &,
             &.hide {
-                left: -110%;
+                right: -110%;
                 opacity: 0;
             }
         }
@@ -194,14 +193,12 @@ $padding-base: 12px;
 
     &.top {
         top: 0;
-
         // Top left placement, use for transitions.
         &.left,
         &:not(.right) {
             > * {
             }
         }
-
         // Top right placement, use for transitions
         &.right {
             > * {
@@ -231,6 +228,7 @@ $padding-base: 12px;
             opacity: 1;
             max-height: 1000px;
             padding: $padding-base;
+            pointer-events: auto;
         }
     }
 }

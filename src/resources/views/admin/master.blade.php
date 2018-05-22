@@ -62,6 +62,7 @@
         @stack('js')
 
         <script type="text/javascript">
+            alertify.logPosition('bottom right');
             @if (session('message'))
                 alertify.success('{{ session('message') }}');
             @endif
