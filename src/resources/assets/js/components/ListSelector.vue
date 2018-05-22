@@ -1,7 +1,7 @@
 <template>
     <div class="btn-group mr-2">
         <span class="btn btn-light" :class="{disabled: !filteredModels.length}">
-            <input type="checkbox" :checked="allChecked" :model="allChecked" @click="$emit('toggle')">
+            <input type="checkbox" :checked="allChecked" :model="allChecked" @click="allChecked ? $emit('check-none') : $emit('check-all')">
         </span>
         <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" :class="{disabled: !filteredModels.length}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownSelect">
             <span class="caret"></span>

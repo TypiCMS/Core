@@ -1,5 +1,5 @@
 <template>
-    <button class="btn btn-xs btn-link btn-status" @click="toggleStatus">
+    <button class="btn btn-xs btn-link btn-status" @click="$emit('toggle-status', model)">
         <span class="fa btn-status-switch" :class="model.status[locale] === '1' ? 'fa-toggle-on' : 'fa-toggle-off'"></span>
     </button>
 </template>
@@ -14,16 +14,8 @@ export default {
     },
     data() {
         return {
-            class: '',
             locale: TypiCMS.content_locale,
         };
-    },
-    created() {},
-    methods: {
-        toggleStatus() {
-            alert('Toggle status of ' + this.model.id + '?');
-            // this.$emit('delete', item);
-        },
     },
 };
 </script>
