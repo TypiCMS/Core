@@ -1,5 +1,4 @@
 .table-main {
-
     th {
         white-space: nowrap;
     }
@@ -10,10 +9,8 @@
         vertical-align: middle !important;
     }
 
-    .checkboxes {
-        width: 30px;
-    }
-
+    .checkboxes,
+    .checkbox,
     .delete {
         width: 30px;
     }
@@ -53,5 +50,27 @@
     .user_name .text-truncatable {
         width: 150px;
     }
+}
 
+.th-sort {
+    cursor: pointer;
+}
+
+.th-sort:before {
+    margin-right: 5px;
+    color: $gray-400;
+    font: normal normal normal 14px / 1 FontAwesome;
+    content: $fa-var-sort;
+}
+
+.th-sort-asc:before {
+    color: $gray-700;
+    font: normal normal normal 14px / 1 FontAwesome;
+    content: $fa-var-sort-asc;
+}
+
+.th-sort-desc:before {
+    color: $gray-700;
+    font: normal normal normal 14px / 1 FontAwesome;
+    content: $fa-var-sort-desc;
 }

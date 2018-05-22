@@ -12,7 +12,6 @@
 @import 'admin/files-list';
 @import 'admin/selectize.bootstrap4';
 @import 'admin/sidebar';
-@import 'admin/smart-table';
 @import 'admin/tables';
 @import 'admin/twilight';
 @import 'admin/sortable';
@@ -99,6 +98,7 @@ h1 {
     @extend .btn-xs;
 
     float: right;
+    // margin-top: -19px;
 }
 
 .checkbox.form-group-translation {
