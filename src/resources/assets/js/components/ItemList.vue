@@ -27,7 +27,7 @@
             <table class="table table-main">
                 <thead>
                     <tr>
-                        <slot :sort-column="sortColumn" name="columns"></slot>
+                        <slot :sort-object="sortObject" name="columns"></slot>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,13 +35,7 @@
                         <td>
                             <input type="checkbox" :id="model.id" :value="model" v-model="checkedModels">
                         </td>
-                        <td>
-                            <slot :model="model" name="edit-button"></slot>
-                        </td>
-                        <td>
-                            <typi-btn-status :model="model" @toggle-status="toggleStatus"></typi-btn-status>
-                        </td>
-                        <slot :model="model" name="col"></slot>
+                        <slot :model="model" :checked-models="checkedModels" name="col"></slot>
                     </tr>
                 </tbody>
             </table>
@@ -75,7 +69,7 @@ export default {
     },
     data() {
         return {
-            sortColumn: this.sortDefault,
+            sortObject: this.sortDefault,
             loading: true,
             models: [],
             checkedModels: [],
@@ -86,6 +80,7 @@ export default {
     },
     mounted() {
         this.$on('sort', this.sort);
+        this.$on('toggle-status', this.toggleStatus);
     },
     computed: {
         filteredModels() {
@@ -207,8 +202,8 @@ export default {
                     alertify.error(error.response.data.message || 'Sorry, an error occurred.');
                 });
         },
-        sort(column) {
-            this.sortColumn = column;
+        sort(object) {
+            this.sortObject = object;
         },
     },
 };

@@ -15,7 +15,7 @@ export default {
             type: Boolean,
             default: false,
         },
-        sortColumn: {
+        sortObject: {
             type: Object,
             default: () => { return { column: null, direction: null }},
         },
@@ -27,8 +27,8 @@ export default {
             if (this.sortable) {
                 classes.push('th-sort');
             }
-            if (this.sortColumn.column === this.name) {
-                if (this.sortColumn.direction === 1) {
+            if (this.sortObject.column === this.name) {
+                if (this.sortObject.direction === 1) {
                     classes.push('th-sort-asc');
                 } else {
                     classes.push('th-sort-desc');
@@ -41,8 +41,8 @@ export default {
         sort() {
             if (this.sortable) {
                 let direction = 1;
-                if (this.sortColumn.column === this.name) {
-                    direction = -this.sortColumn.direction;
+                if (this.sortObject.column === this.name) {
+                    direction = -this.sortObject.direction;
                 }
                 this.$parent.$emit('sort', { column: this.name, direction: direction });
             }
