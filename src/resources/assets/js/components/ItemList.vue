@@ -30,7 +30,7 @@
                         <th class="checkbox"></th>
                         <th class="edit">Edit</th>
                         <th class="status">Status</th>
-                        <slot name="columns"></slot>
+                        <slot name="column"></slot>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,6 +82,9 @@ export default {
     },
     created() {
         this.fetchData();
+    },
+    mounted() {
+        this.$on('sort', this.sortColumn);
     },
     computed: {
         filteredModels() {
@@ -202,6 +205,9 @@ export default {
                 .catch(error => {
                     alertify.error(error.response.data.message || 'Sorry, an error occurred.');
                 });
+        },
+        sortColumn(column) {
+            alert(column);
         },
     },
 };

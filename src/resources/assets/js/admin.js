@@ -55,11 +55,13 @@ import TypiBtnStatus from './components/TypiBtnStatus.vue';
 /**
  * Lists
  */
+import ColumnHeader from './components/ColumnHeader.vue';
 import ItemList from './components/ItemList.vue';
 import ItemListTree from './components/ItemListTree.vue';
 new Vue({
     i18n,
     components: {
+        ColumnHeader,
         ItemList,
         ItemListTree,
         TypiBtnStatus,
