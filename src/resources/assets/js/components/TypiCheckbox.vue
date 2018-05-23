@@ -16,8 +16,8 @@ export default {
     },
     computed: {
         checkedModels() {
-            return this.checkedModelsProp
-        }
+            return this.checkedModelsProp;
+        },
     },
     methods: {
         check() {
@@ -27,7 +27,7 @@ export default {
             } else {
                 this.checkedModels.splice(index, 1);
             }
-        }
+        },
     },
 };
 </script>

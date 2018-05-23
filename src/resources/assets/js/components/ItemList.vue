@@ -1,19 +1,12 @@
 <template>
     <div>
-        <div class="heading">
-            <slot name="add-button"></slot>
-            <h1>{{ title }}</h1>
-            <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
+
+        <div class="header">
+            <h3>{{ filteredModels.length }} {{ title }}</h3>
         </div>
+
         <div class="btn-toolbar">
-            <list-selector
-                :filtered-models="filteredModels"
-                :all-checked="allChecked"
-                @check-all="checkAll"
-                @check-none="checkNone"
-                @check-published="checkPublished"
-                @check-unpublished="checkUnpublished"
-            ></list-selector>
+            <slot name="add-button"></slot>
             <list-actions
                 :number-of-checked-models="numberOfcheckedModels"
                 :loading="loading"
@@ -21,13 +14,27 @@
                 @publish="publish"
                 @unpublish="unpublish"
             ></list-actions>
+            <div class="d-flex align-items-center ml-2">
+                <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
+            </div>
             <slot name="buttons"></slot>
         </div>
-        <div class="table-responsive">
+
+        <div class="table-responsive" v-if="filteredModels.length">
             <table class="table table-main">
                 <thead>
                     <tr>
-                        <slot :sort-object="sortObject" name="columns"></slot>
+                        <th class="checkbox">
+                            <list-selector
+                                :filtered-models="filteredModels"
+                                :all-checked="allChecked"
+                                @check-all="checkAll"
+                                @check-none="checkNone"
+                                @check-published="checkPublished"
+                                @check-unpublished="checkUnpublished"
+                            ></list-selector>
+                        </th>
+                        <slot :sort-array="sortArray" name="columns"></slot>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,22 +59,26 @@ export default {
         TypiBtnStatus,
     },
     props: {
-        url: {
+        urlBase: {
             type: String,
             required: true,
+        },
+        urlParameters: {
+            type: String,
         },
         title: {
             type: String,
             required: true,
         },
-        sortDefault: {
-            type: Object,
+        sorting: {
+            type: Array,
+            default: ['-id'],
         },
     },
     data() {
         return {
-            sortObject: this.sortDefault,
-            loading: true,
+            sortArray: this.sorting,
+            loading: false,
             models: [],
             checkedModels: [],
         };
@@ -80,6 +91,9 @@ export default {
         this.$on('toggle-status', this.toggleStatus);
     },
     computed: {
+        url() {
+            return this.urlBase + '?' + 'sort=' + this.sortArray.join(',') + '&' + this.urlParameters;
+        },
         filteredModels() {
             return this.models;
         },
@@ -92,6 +106,7 @@ export default {
     },
     methods: {
         fetchData() {
+            this.loading = true;
             axios
                 .get(this.url)
                 .then(response => {
@@ -115,7 +130,7 @@ export default {
             this.checkedModels = this.filteredModels.filter(model => model.status[TypiCMS.content_locale] === '0');
         },
         destroy() {
-            const deleteLimit = 1500;
+            const deleteLimit = 500;
 
             if (this.checkedModels.length > deleteLimit) {
                 alertify.error('Impossible to delete more than ' + deleteLimit + ' items in one go.');
@@ -128,7 +143,7 @@ export default {
             this.loading = true;
 
             axios
-                .all(this.checkedModels.map(model => axios.delete(this.url + '/' + model.id)))
+                .all(this.checkedModels.map(model => axios.delete(this.urlBase + '/' + model.id)))
                 .then(responses => {
                     let successes = responses.filter(response => response.data.error === false);
                     this.loading = false;
@@ -157,15 +172,15 @@ export default {
         },
         setStatus(status) {
             let data = {
-                status: {},
-            },
-            label = status === '1' ? 'published' : 'unpublished';
+                    status: {},
+                },
+                label = status === '1' ? 'published' : 'unpublished';
             data.status[TypiCMS.content_locale] = status;
 
             this.loading = true;
 
             axios
-                .all(this.checkedModels.map(model => axios.patch(this.url + '/' + model.id, data)))
+                .all(this.checkedModels.map(model => axios.patch(this.urlBase + '/' + model.id, data)))
                 .then(responses => {
                     this.loading = false;
                     alertify.success(responses.length + ' items ' + label + '.');
@@ -191,7 +206,7 @@ export default {
             model.status_translated = newStatus;
             data.status[TypiCMS.content_locale] = newStatus;
             axios
-                .patch(this.url + '/' + model.id, data)
+                .patch(this.urlBase + '/' + model.id, data)
                 .then(responses => {
                     alertify.success('Item is ' + label + '.');
                 })
@@ -200,7 +215,8 @@ export default {
                 });
         },
         sort(object) {
-            this.sortObject = object;
+            this.sortArray = object;
+            this.fetchData();
         },
     },
 };

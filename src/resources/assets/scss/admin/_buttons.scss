@@ -1,3 +1,17 @@
 .btn-xs {
     @include button-size($btn-padding-y-sm/4, $btn-padding-x-sm/1.2, 0.75rem, $btn-line-height-sm, $btn-border-radius-sm);
 }
+
+.btn-clear-history {
+    @extend .btn;
+    @extend .btn-outline-secondary;
+    @extend .btn-xs;
+    float: right;
+}
+
+.btn-group-list-selector {
+    .btn {
+        padding: $input-btn-padding-x-sm;
+        line-height: $input-btn-line-height-sm/2;
+    }
+}

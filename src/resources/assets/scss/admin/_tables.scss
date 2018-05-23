@@ -1,18 +1,25 @@
 .table-main {
     th {
         white-space: nowrap;
+        border-top: none;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
     }
 
     td {
         padding-top: 4px !important;
         padding-bottom: 4px !important;
         vertical-align: middle !important;
+        &.checkbox {
+            padding-left: 0.55rem;
+        }
     }
 
     .checkboxes,
     .checkbox,
     .delete {
         width: 30px;
+        padding-left: 0;
     }
 
     .edit {

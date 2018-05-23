@@ -84,23 +84,6 @@ h1 {
     cursor: pointer;
 }
 
-.btn-add,
-.btn-back {
-    font-size: 36px;
-    line-height: 1.35;
-    margin-right: 10px;
-    float: left;
-}
-
-.btn-clear-history {
-    @extend .btn;
-    @extend .btn-outline-secondary;
-    @extend .btn-xs;
-
-    float: right;
-    // margin-top: -19px;
-}
-
 .checkbox.form-group-translation {
     margin-bottom: 20px;
 

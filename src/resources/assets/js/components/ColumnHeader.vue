@@ -15,9 +15,11 @@ export default {
             type: Boolean,
             default: false,
         },
-        sortObject: {
-            type: Object,
-            default: () => { return { column: null, direction: null }},
+        sortArray: {
+            type: Array,
+            default: () => {
+                return [];
+            },
         },
     },
     computed: {
@@ -27,24 +29,26 @@ export default {
             if (this.sortable) {
                 classes.push('th-sort');
             }
-            if (this.sortObject.column === this.name) {
-                if (this.sortObject.direction === 1) {
-                    classes.push('th-sort-asc');
-                } else {
-                    classes.push('th-sort-desc');
-                }
+            if (this.sortArray.indexOf(this.name) !== -1) {
+                classes.push('th-sort-asc');
+            }
+            if (this.sortArray.indexOf('-' + this.name) !== -1) {
+                classes.push('th-sort-desc');
             }
             return classes.join(' ');
-        }
+        },
     },
     methods: {
         sort() {
             if (this.sortable) {
-                let direction = 1;
-                if (this.sortObject.column === this.name) {
-                    direction = -this.sortObject.direction;
+                let sort = [this.name];
+                if (this.sortArray.indexOf(this.name) !== -1) {
+                    sort = ['-' + this.name];
                 }
-                this.$parent.$emit('sort', { column: this.name, direction: direction });
+                if (this.sortArray.indexOf('-' + this.name) !== -1) {
+                    sort = [this.name];
+                }
+                this.$parent.$emit('sort', sort);
             }
         },
     },
