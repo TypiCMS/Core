@@ -11,6 +11,10 @@ export default {
             type: String,
             required: true,
         },
+        translate: {
+            type: Boolean,
+            default: false,
+        },
         sortable: {
             type: Boolean,
             default: false,
@@ -23,16 +27,22 @@ export default {
         },
     },
     computed: {
+        column() {
+            if (this.translate) {
+                return this.name + '->' + TypiCMS.content_locale;
+            }
+            return this.name;
+        },
         classes() {
             let classes = [];
-            classes.push(this.name);
+            classes.push(this.column);
             if (this.sortable) {
                 classes.push('th-sort');
             }
-            if (this.sortArray.indexOf(this.name) !== -1) {
+            if (this.sortArray.indexOf(this.column) !== -1) {
                 classes.push('th-sort-asc');
             }
-            if (this.sortArray.indexOf('-' + this.name) !== -1) {
+            if (this.sortArray.indexOf('-' + this.column) !== -1) {
                 classes.push('th-sort-desc');
             }
             return classes.join(' ');
@@ -41,12 +51,12 @@ export default {
     methods: {
         sort() {
             if (this.sortable) {
-                let sort = [this.name];
-                if (this.sortArray.indexOf(this.name) !== -1) {
-                    sort = ['-' + this.name];
+                let sort = [this.column];
+                if (this.sortArray.indexOf(this.column) !== -1) {
+                    sort = ['-' + this.column];
                 }
-                if (this.sortArray.indexOf('-' + this.name) !== -1) {
-                    sort = [this.name];
+                if (this.sortArray.indexOf('-' + this.column) !== -1) {
+                    sort = [this.column];
                 }
                 this.$parent.$emit('sort', sort);
             }
