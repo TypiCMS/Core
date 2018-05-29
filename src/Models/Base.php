@@ -115,4 +115,13 @@ abstract class Base extends Model
             Log::error($e->getMessage());
         }
     }
+
+    public function scopeTranslated($query, $columns)
+    {
+        foreach ($columns as $column) {
+            $query->selectRaw('`'.$column.'`->>"$.'.request('locale', config('app.locale')).'" COLLATE utf8mb4_unicode_ci `'.$column.'_translated`');
+        }
+
+        return $query;
+    }
 }
