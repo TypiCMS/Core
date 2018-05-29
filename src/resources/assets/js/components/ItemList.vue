@@ -2,7 +2,9 @@
     <div>
 
         <div class="header">
-            <h3>{{ filteredModels.length }} {{ title }}</h3>
+            <h3 class="mr-2">
+                {{ total }} {{ title }}
+            </h3>
         </div>
 
         <div class="btn-toolbar">
@@ -14,6 +16,11 @@
                 @publish="publish"
                 @unpublish="unpublish"
             ></list-actions>
+            <div class="btn-group ml-2">
+                <button class="btn btn-sm btn-light" :disabled="current_page === 1" @click="prevPage">Previous</button>
+                <button class="btn btn-sm btn-light" disabled>Page {{ current_page }} of {{ last_page }}, {{ filteredModels.length }} per page</button>
+                <button class="btn btn-sm btn-light" :disabled="current_page === last_page" @click="nextPage">Next</button>
+            </div>
             <div class="d-flex align-items-center ml-2">
                 <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
             </div>
@@ -80,6 +87,9 @@ export default {
             sortArray: this.sorting,
             loading: false,
             models: [],
+            total: 0,
+            current_page: null,
+            last_page: null,
             checkedModels: [],
         };
     },
@@ -92,7 +102,7 @@ export default {
     },
     computed: {
         url() {
-            return this.urlBase + '?' + 'sort=' + this.sortArray.join(',') + '&' + this.urlParameters;
+            return this.urlBase + '?' + 'sort=' + this.sortArray.join(',') + '&' + this.urlParameters + '&page=' + this.current_page;
         },
         filteredModels() {
             return this.models;
@@ -110,12 +120,23 @@ export default {
             axios
                 .get(this.url)
                 .then(response => {
-                    this.models = response.data;
+                    this.models = response.data.data;
+                    this.total = response.data.total;
+                    this.current_page = response.data.current_page;
+                    this.last_page = response.data.last_page;
                     this.loading = false;
                 })
                 .catch(error => {
                     alertify.error(error.response.data.message || 'An error occurred with the data fetch.');
                 });
+        },
+        prevPage() {
+            this.current_page -= 1;
+            this.fetchData();
+        },
+        nextPage() {
+            this.current_page += 1;
+            this.fetchData();
         },
         checkAll() {
             this.checkedModels = this.filteredModels;
@@ -124,10 +145,10 @@ export default {
             this.checkedModels = [];
         },
         checkPublished() {
-            this.checkedModels = this.filteredModels.filter(model => model.status[TypiCMS.content_locale] === '1');
+            this.checkedModels = this.filteredModels.filter(model => model.status_translated === '1');
         },
         checkUnpublished() {
-            this.checkedModels = this.filteredModels.filter(model => model.status[TypiCMS.content_locale] === '0');
+            this.checkedModels = this.filteredModels.filter(model => model.status_translated === '0');
         },
         destroy() {
             const deleteLimit = 500;
@@ -148,10 +169,7 @@ export default {
                     let successes = responses.filter(response => response.data.error === false);
                     this.loading = false;
                     alertify.success(successes.length + ' items deleted.');
-                    for (let i = this.checkedModels.length - 1; i >= 0; i--) {
-                        let index = this.models.indexOf(this.checkedModels[i]);
-                        this.models.splice(index, 1);
-                    }
+                    this.fetchData();
                     this.checkedModels = [];
                 })
                 .catch(error => {
@@ -213,6 +231,7 @@ export default {
                 });
         },
         sort(object) {
+            this.current_page = 1;
             this.sortArray = object;
             this.fetchData();
         },
