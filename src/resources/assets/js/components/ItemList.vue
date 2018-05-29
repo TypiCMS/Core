@@ -16,10 +16,16 @@
                 @publish="publish"
                 @unpublish="unpublish"
             ></list-actions>
-            <div class="btn-group ml-2">
-                <button class="btn btn-sm btn-light" :disabled="current_page === 1" @click="prevPage">Previous</button>
-                <button class="btn btn-sm btn-light" disabled>Page {{ current_page }} of {{ last_page }}, {{ filteredModels.length }} per page</button>
-                <button class="btn btn-sm btn-light" :disabled="current_page === last_page" @click="nextPage">Next</button>
+            <div class="btn-group ml-2" aria-label="Page navigation">
+                <button class="btn btn-light" :disabled="current_page === 1" @click="prevPage" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </button>
+                <button class="btn btn-light" disabled>Page {{ current_page }} of {{ last_page }}, {{ filteredModels.length }} per page</button>
+                <button class="btn btn-light" :disabled="current_page === last_page" @click="nextPage" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </button>
             </div>
             <div class="d-flex align-items-center ml-2">
                 <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
