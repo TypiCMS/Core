@@ -72,9 +72,6 @@
                 @menu('main')
             </nav>
             @show
-            <nav class="site-nav" id="site-nav">
-                @menu('main')
-            </nav>
 
         </div>
 
