@@ -186,7 +186,6 @@ export default {
                     alertify.success(responses.length + ' items ' + label + '.');
                     for (let i = this.checkedModels.length - 1; i >= 0; i--) {
                         let index = this.models.indexOf(this.checkedModels[i]);
-                        this.models[index].status[TypiCMS.content_locale] = status;
                         this.models[index].status_translated = status;
                     }
                     this.checkedModels = [];
@@ -196,13 +195,12 @@ export default {
                 });
         },
         toggleStatus(model) {
-            let status = parseInt(model.status[TypiCMS.content_locale]) || 0,
+            let status = parseInt(model.status_translated) || 0,
                 newStatus = Math.abs(status - 1).toString(),
                 data = {
                     status: {},
                 },
                 label = newStatus === '1' ? 'published' : 'unpublished';
-            model.status[TypiCMS.content_locale] = newStatus;
             model.status_translated = newStatus;
             data.status[TypiCMS.content_locale] = newStatus;
             axios
