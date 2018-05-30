@@ -92,6 +92,10 @@ export default {
             type: String,
             required: true,
         },
+        locale: {
+            type: String,
+            required: true,
+        },
         sorting: {
             type: Array,
             default: ['-id'],
@@ -145,6 +149,8 @@ export default {
                 this.sortArray.join(',') +
                 '&' +
                 this.urlParameters +
+                '&locale=' +
+                this.locale +
                 this.searchQuery +
                 '&page=' +
                 this.data.current_page +
