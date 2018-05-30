@@ -38,6 +38,7 @@
                             <list-selector
                                 :filtered-models="filteredModels"
                                 :all-checked="allChecked"
+                                :loading="loading"
                                 @check-all="checkAll"
                                 @check-none="checkNone"
                                 @check-published="checkPublished"
@@ -49,7 +50,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="model in filteredModels">
-                        <slot :model="model" :checked-models="checkedModels" name="table-row"></slot>
+                        <slot :model="model" :checked-models="checkedModels" :loading="loading" name="table-row"></slot>
                     </tr>
                 </tbody>
             </table>
@@ -155,7 +156,7 @@ export default {
                     this.loading = false;
                 })
                 .catch(error => {
-                    alertify.error(error.response.data.message || 'An error occurred with the data fetch.');
+                    alertify.error(error.response.data.message || this.$i18n.t('An error occurred with the data fetch.'));
                 });
         },
         changePage(page = 1) {
@@ -179,13 +180,13 @@ export default {
             this.checkedModels = this.filteredModels.filter(model => model.status_translated === '0');
         },
         destroy() {
-            const deleteLimit = 500;
+            const deleteLimit = 100;
 
             if (this.checkedModels.length > deleteLimit) {
-                alertify.error('Impossible to delete more than ' + deleteLimit + ' items in one go.');
+                alertify.error(this.$i18n.t('Impossible to delete more than # items in one go.', { deleteLimit }));
                 return false;
             }
-            if (!window.confirm('Are you sure you want to delete ' + this.numberOfcheckedModels + ' items?')) {
+            if (!window.confirm(this.$i18n.tc('Are you sure you want to delete # items?', this.numberOfcheckedModels, { count: this.numberOfcheckedModels }))) {
                 return false;
             }
 
@@ -196,22 +197,24 @@ export default {
                 .then(responses => {
                     let successes = responses.filter(response => response.data.error === false);
                     this.loading = false;
-                    alertify.success(successes.length + ' items deleted.');
+                    alertify.success(this.$i18n.tc('# items deleted', successes.length, { count: successes.length }));
                     this.fetchData();
                     this.checkedModels = [];
                 })
                 .catch(error => {
-                    alertify.error(error.response.data.message || 'Sorry, an error occurred.');
+                    alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
                 });
         },
         publish() {
-            if (!window.confirm('Are you sure you want to publish ' + this.checkedModels.length + ' items?')) {
+            if (!window.confirm(this.$i18n.tc('Are you sure you want to publish # items?', this.checkedModels.length, { count: this.checkedModels.length }))) {
                 return false;
             }
             this.setStatus('1');
         },
         unpublish() {
-            if (!window.confirm('Are you sure you want to unpublish ' + this.checkedModels.length + ' items?')) {
+            if (
+                !window.confirm(this.$i18n.tc('Are you sure you want to unpublish # items?', this.checkedModels.length, { count: this.checkedModels.length }))
+            ) {
                 return false;
             }
             this.setStatus('0');
@@ -229,7 +232,7 @@ export default {
                 .all(this.checkedModels.map(model => axios.patch(this.urlBase + '/' + model.id, data)))
                 .then(responses => {
                     this.loading = false;
-                    alertify.success(responses.length + ' items ' + label + '.');
+                    alertify.success(this.$i18n.tc('# items ' + label, responses.length, { count: responses.length }));
                     for (let i = this.checkedModels.length - 1; i >= 0; i--) {
                         let index = this.data.data.indexOf(this.checkedModels[i]);
                         this.data.data[index].status_translated = status;
@@ -237,7 +240,7 @@ export default {
                     this.checkedModels = [];
                 })
                 .catch(error => {
-                    alertify.error(error.response.data.message || 'Sorry, an error occurred.');
+                    alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
                 });
         },
         toggleStatus(model) {
@@ -252,10 +255,10 @@ export default {
             axios
                 .patch(this.urlBase + '/' + model.id, data)
                 .then(responses => {
-                    alertify.success('Item is ' + label + '.');
+                    alertify.success(this.$i18n.t('Item is ' + label + '.'));
                 })
                 .catch(error => {
-                    alertify.error(error.response.data.message || 'Sorry, an error occurred.');
+                    alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
                 });
         },
         sort(object) {
