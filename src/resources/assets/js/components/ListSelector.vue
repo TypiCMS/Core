@@ -1,6 +1,6 @@
 <template>
     <div class="btn-group btn-group-list-selector">
-        <div class="btn btn-light">
+        <div class="btn btn-light" :class="{ disabled: !filteredModels.length || loading }">
             <input type="checkbox" :disabled="!filteredModels.length || loading" :checked="allChecked" :model="allChecked" @click="allChecked ? $emit('check-none') : $emit('check-all')">
         </div>
         <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" :disabled="!filteredModels.length || loading" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownSelect">
