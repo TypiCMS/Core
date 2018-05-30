@@ -24,6 +24,7 @@
                 :per-page="parseInt(data.per_page)"
                 @change-per-page="changeNumberOfItemsPerPage"
             ></list-items-per-page>
+            <typi-search-bar class="mr-2" @search="search"></typi-search-bar>
             <div class="d-flex align-items-center ml-2">
                 <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
             </div>
@@ -67,6 +68,7 @@ import ListSelector from './ListSelector';
 import ListActions from './ListActions';
 import ListItemsPerPage from './ListItemsPerPage';
 import TypiBtnStatus from './TypiBtnStatus';
+import TypiSearchBar from './TypiSearchBar';
 import Pagination from './Pagination';
 
 export default {
@@ -75,6 +77,7 @@ export default {
         ListActions,
         ListItemsPerPage,
         TypiBtnStatus,
+        TypiSearchBar,
         Pagination,
     },
     props: {
@@ -93,10 +96,16 @@ export default {
             type: Array,
             default: ['-id'],
         },
+        searchable: {
+            type: Array,
+            default: false,
+        },
     },
     data() {
         return {
+            searchString: null,
             sortArray: this.sorting,
+            searchableArray: this.searchable,
             loading: false,
             total: 0,
             last_page: null,
@@ -122,6 +131,12 @@ export default {
         this.$on('toggle-status', this.toggleStatus);
     },
     computed: {
+        searchQuery() {
+            if (this.searchString === null) {
+                return '';
+            }
+            return '&' + this.searchableArray.map(item => 'filter[' + item + ']=' + this.searchString).join('&');
+        },
         url() {
             return (
                 this.urlBase +
@@ -130,6 +145,7 @@ export default {
                 this.sortArray.join(',') +
                 '&' +
                 this.urlParameters +
+                this.searchQuery +
                 '&page=' +
                 this.data.current_page +
                 '&per_page=' +
@@ -158,6 +174,11 @@ export default {
                 .catch(error => {
                     alertify.error(error.response.data.message || this.$i18n.t('An error occurred with the data fetch.'));
                 });
+        },
+        search(string) {
+            this.data.current_page = 1;
+            this.searchString = string;
+            this.fetchData();
         },
         changePage(page = 1) {
             this.data.current_page = page;
