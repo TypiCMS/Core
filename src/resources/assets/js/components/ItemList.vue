@@ -1,32 +1,29 @@
 <template>
+
     <div>
 
         <div class="header">
             <h3 class="mr-2">
-                {{ total }} {{ title }}
+                {{ data.total }} {{ title }}
             </h3>
         </div>
 
         <div class="btn-toolbar">
             <slot name="add-button"></slot>
             <list-actions
+                class="mr-2"
                 :number-of-checked-models="numberOfcheckedModels"
                 :loading="loading"
                 @destroy="destroy"
                 @publish="publish"
                 @unpublish="unpublish"
             ></list-actions>
-            <div class="btn-group ml-2" aria-label="Page navigation">
-                <button class="btn btn-light" :disabled="current_page === 1" @click="prevPage" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                </button>
-                <button class="btn btn-light" disabled>Page {{ current_page }} of {{ last_page }}, {{ filteredModels.length }} per page</button>
-                <button class="btn btn-light" :disabled="current_page === last_page" @click="nextPage" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                </button>
-            </div>
+            <list-items-per-page
+                class="mr-2"
+                :loading="loading"
+                :per-page="parseInt(data.per_page)"
+                @change-per-page="changeNumberOfItemsPerPage"
+            ></list-items-per-page>
             <div class="d-flex align-items-center ml-2">
                 <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
             </div>
@@ -57,19 +54,27 @@
                 </tbody>
             </table>
         </div>
+
+        <pagination :data="data" @pagination-change-page="changePage"></pagination>
+
     </div>
+
 </template>
 
 <script>
 import ListSelector from './ListSelector';
 import ListActions from './ListActions';
+import ListItemsPerPage from './ListItemsPerPage';
 import TypiBtnStatus from './TypiBtnStatus';
+import Pagination from './Pagination';
 
 export default {
     components: {
         ListSelector,
         ListActions,
+        ListItemsPerPage,
         TypiBtnStatus,
+        Pagination,
     },
     props: {
         urlBase: {
@@ -92,11 +97,20 @@ export default {
         return {
             sortArray: this.sorting,
             loading: false,
-            models: [],
             total: 0,
-            current_page: null,
             last_page: null,
             checkedModels: [],
+            data: {
+                current_page: 1,
+                data: [],
+                from: 1,
+                last_page: 1,
+                next_page_url: null,
+                per_page: 50,
+                prev_page_url: null,
+                to: 1,
+                total: 0,
+            },
         };
     },
     created() {
@@ -108,10 +122,21 @@ export default {
     },
     computed: {
         url() {
-            return this.urlBase + '?' + 'sort=' + this.sortArray.join(',') + '&' + this.urlParameters + '&page=' + this.current_page;
+            return (
+                this.urlBase +
+                '?' +
+                'sort=' +
+                this.sortArray.join(',') +
+                '&' +
+                this.urlParameters +
+                '&page=' +
+                this.data.current_page +
+                '&per_page=' +
+                this.data.per_page
+            );
         },
         filteredModels() {
-            return this.models;
+            return this.data.data;
         },
         allChecked() {
             return this.filteredModels.length > 0 && this.filteredModels.length === this.checkedModels.length;
@@ -126,22 +151,19 @@ export default {
             axios
                 .get(this.url)
                 .then(response => {
-                    this.models = response.data.data;
-                    this.total = response.data.total;
-                    this.current_page = response.data.current_page;
-                    this.last_page = response.data.last_page;
+                    this.data = response.data;
                     this.loading = false;
                 })
                 .catch(error => {
                     alertify.error(error.response.data.message || 'An error occurred with the data fetch.');
                 });
         },
-        prevPage() {
-            this.current_page -= 1;
+        changePage(page = 1) {
+            this.data.current_page = page;
             this.fetchData();
         },
-        nextPage() {
-            this.current_page += 1;
+        changeNumberOfItemsPerPage(per_page) {
+            this.data.per_page = per_page;
             this.fetchData();
         },
         checkAll() {
@@ -209,8 +231,8 @@ export default {
                     this.loading = false;
                     alertify.success(responses.length + ' items ' + label + '.');
                     for (let i = this.checkedModels.length - 1; i >= 0; i--) {
-                        let index = this.models.indexOf(this.checkedModels[i]);
-                        this.models[index].status_translated = status;
+                        let index = this.data.data.indexOf(this.checkedModels[i]);
+                        this.data.data[index].status_translated = status;
                     }
                     this.checkedModels = [];
                 })
@@ -237,7 +259,7 @@ export default {
                 });
         },
         sort(object) {
-            this.current_page = 1;
+            this.data.current_page = 1;
             this.sortArray = object;
             this.fetchData();
         },
