@@ -1,7 +1,7 @@
 <template>
     <div class="btn-group">
         <button class="btn btn-light dropdown-toggle" :disabled="numberOfCheckedModels === 0 || loading" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" id="dropdownActions">
-            {{ $t('Actions') }}
+            {{ $t('Action') }}
             <span class="caret"></span>
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownActions">
@@ -10,7 +10,7 @@
             <div class="dropdown-divider"></div>
             <button type="button" class="dropdown-item" @click="$emit('destroy')">{{ $t('Delete') }}</button>
             <div role="separator" class="divider"></div>
-            <button type="button" class="dropdown-item" disabled>{{ numberOfCheckedModels }} {{ $t('items selected') }}</button>
+            <button type="button" class="dropdown-item" disabled><small>{{ $tc('# items selected', numberOfCheckedModels, { count: numberOfCheckedModels }) }}</small></button>
         </div>
     </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
     <th :class="classes" @click="sort">
-        <slot></slot>
+        {{ label }}
     </th>
 </template>
 
@@ -11,9 +11,9 @@ export default {
             type: String,
             required: true,
         },
-        translate: {
-            type: Boolean,
-            default: false,
+        label: {
+            type: String,
+            default: '',
         },
         sortable: {
             type: Boolean,
@@ -28,14 +28,11 @@ export default {
     },
     computed: {
         column() {
-            if (this.translate) {
-                return this.name + '->' + TypiCMS.content_locale;
-            }
             return this.name;
         },
         classes() {
             let classes = [];
-            classes.push(this.column);
+            classes.push(this.name);
             if (this.sortable) {
                 classes.push('th-sort');
             }
