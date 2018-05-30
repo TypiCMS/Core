@@ -290,6 +290,7 @@ export default {
         },
         sort(object) {
             this.data.current_page = 1;
+            this.checkNone();
             this.sortArray = object;
             this.fetchData();
         },
