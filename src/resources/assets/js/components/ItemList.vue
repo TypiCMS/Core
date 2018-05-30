@@ -191,6 +191,7 @@ export default {
             this.fetchData();
         },
         changeNumberOfItemsPerPage(per_page) {
+            this.data.current_page = 1;
             this.data.per_page = per_page;
             this.fetchData();
         },
@@ -207,6 +208,7 @@ export default {
             this.checkedItems = this.filteredItems.filter(model => model.status_translated === '0');
         },
         destroy() {
+            this.data.current_page = 1;
             const deleteLimit = 100;
 
             if (this.checkedItems.length > deleteLimit) {
