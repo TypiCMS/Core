@@ -1,9 +1,9 @@
 <template>
     <div class="btn-group btn-group-list-selector">
         <div class="btn btn-light">
-            <input type="checkbox" :disabled="!filteredModels.length" :checked="allChecked" :model="allChecked" @click="allChecked ? $emit('check-none') : $emit('check-all')">
+            <input type="checkbox" :disabled="!filteredModels.length || loading" :checked="allChecked" :model="allChecked" @click="allChecked ? $emit('check-none') : $emit('check-all')">
         </div>
-        <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" :disabled="!filteredModels.length" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownSelect">
+        <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" :disabled="!filteredModels.length || loading" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownSelect">
             <span class="caret"></span>
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownSelect">
@@ -23,6 +23,10 @@ export default {
             required: true,
         },
         allChecked: {
+            type: Boolean,
+            required: true,
+        },
+        loading: {
             type: Boolean,
             required: true,
         },

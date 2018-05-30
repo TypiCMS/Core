@@ -1,5 +1,5 @@
 <template>
-    <input type="checkbox" :id="model.id" :value="model" v-model="checkedModels" @click="check">
+    <input type="checkbox" :disabled="loading" :id="model.id" :value="model" v-model="checkedModels" @click="check">
 </template>
 
 <script>
@@ -11,6 +11,10 @@ export default {
         },
         checkedModelsProp: {
             type: Array,
+            required: true,
+        },
+        loading: {
+            type: Boolean,
             required: true,
         },
     },
