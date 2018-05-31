@@ -2,8 +2,8 @@
 
     <div class="item-list">
 
-        <div class="header d-flex align-items-center mb-5 mt-3">
-            <h2 class="mr-3">
+        <div class="item-list-header">
+            <h2 class="item-list-title">
                 {{ $tc('# ' + title, data.total, { count: data.total }) }}
             </h2>
             <slot name="add-button"></slot>
