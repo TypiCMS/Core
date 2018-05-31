@@ -4,7 +4,7 @@
 
         <div class="header">
             <h3 class="mr-2">
-                {{ data.total }} {{ title }}
+                {{ $tc('# ' + title, data.total, { count: data.total }) }}
             </h3>
         </div>
 
