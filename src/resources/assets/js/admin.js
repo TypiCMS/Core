@@ -45,12 +45,10 @@ const messages = { fr };
 const i18n = new VueI18n({ locale: 'fr', messages });
 
 /**
- * Filters
+ * Date Filter
  */
 import date from './filters/Date.js';
 Vue.filter('date', date);
-import translate from './filters/Translate.js';
-Vue.filter('translate', translate);
 
 import ItemListStatusButton from './components/ItemListStatusButton.vue';
 import ItemListCheckbox from './components/ItemListCheckbox.vue';
