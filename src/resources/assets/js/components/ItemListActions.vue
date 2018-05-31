@@ -5,8 +5,8 @@
             <span class="caret"></span>
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownActions">
-            <button type="button" class="dropdown-item" @click="$emit('publish')">{{ $t('Publish') }}</button>
-            <button type="button" class="dropdown-item" @click="$emit('unpublish')">{{ $t('Unpublish') }}</button>
+            <button type="button" class="dropdown-item" @click="$emit('publish')">{{ $t('Publish') }} <span class="text-muted">({{ locale }})</span></button>
+            <button type="button" class="dropdown-item" @click="$emit('unpublish')">{{ $t('Unpublish') }} <span class="text-muted">({{ locale }})</span></button>
             <div class="dropdown-divider"></div>
             <button type="button" class="dropdown-item" @click="$emit('destroy')">{{ $t('Delete') }}</button>
             <div role="separator" class="divider"></div>
@@ -14,6 +14,7 @@
         </div>
     </div>
 </template>
+
 <script>
 export default {
     props: {
@@ -25,6 +26,11 @@ export default {
             type: Boolean,
             required: true,
         },
+    },
+    data() {
+        return {
+            locale: TypiCMS.content_locale,
+        };
     },
 };
 </script>
