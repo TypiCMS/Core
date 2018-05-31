@@ -16,10 +16,10 @@
 
 <script>
 export default {
-    data(){
+    data() {
         return {
             string: '',
-        }
+        };
     },
     methods: {
         search() {
