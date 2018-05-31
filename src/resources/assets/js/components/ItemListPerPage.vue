@@ -1,5 +1,5 @@
 <template>
-    <div class="btn-group">
+    <div class="btn-group btn-group-sm item-list-per-page">
         <button class="btn btn-light dropdown-toggle" :disabled="loading" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" id="dropdownActions">
             {{ perPage }}  {{ $t('per page') }}
             <span class="caret"></span>

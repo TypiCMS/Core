@@ -1,5 +1,5 @@
 @if (count($locales) > 1)
-    <div class="btn-group ml-auto">
+    <div class="btn-group btn-group-sm ml-auto">
         <button class="btn btn-light dropdown-toggle" type="button" id="dropdownLangSwitcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span id="active-locale">@lang('languages.'.$locale)</span> <span class="caret"></span>
         </button>

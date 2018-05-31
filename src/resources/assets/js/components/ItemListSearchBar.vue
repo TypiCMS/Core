@@ -1,6 +1,6 @@
 <template>
-    <form class="search" @submit.prevent="search">
-        <div class="input-group">
+    <form class="item-list-search-bar" @submit.prevent="search">
+        <div class="input-group input-group-sm">
             <div class="input-group-prepend">
                 <span class="input-group-text">
                     <span class="fa fa-search fa-fw"></span>

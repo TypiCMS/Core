@@ -4,17 +4,10 @@
         border-top: none;
     }
 
-    td {
-        &.checkbox {
-            padding-left: 0.55rem;
-        }
-    }
-
     .checkboxes,
     .checkbox,
     .delete {
         width: 30px;
-        padding-left: 0;
     }
 
     .edit {

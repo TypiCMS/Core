@@ -1,5 +1,5 @@
 <template>
-    <div class="btn-group">
+    <div class="btn-group btn-group-sm">
         <button class="btn btn-light dropdown-toggle" :disabled="numberOfCheckedModels === 0 || loading" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" id="dropdownActions">
             {{ $t('Action') }}
             <span class="caret"></span>

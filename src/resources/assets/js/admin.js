@@ -52,23 +52,23 @@ Vue.filter('date', date);
 import translate from './filters/Translate.js';
 Vue.filter('translate', translate);
 
-import TypiBtnStatus from './components/TypiBtnStatus.vue';
-import TypiCheckbox from './components/TypiCheckbox.vue';
+import ItemListStatusButton from './components/ItemListStatusButton.vue';
+import ItemListCheckbox from './components/ItemListCheckbox.vue';
 
 /**
  * Lists
  */
-import ColumnHeader from './components/ColumnHeader.vue';
+import ItemListColumnHeader from './components/ItemListColumnHeader.vue';
 import ItemList from './components/ItemList.vue';
 import ItemListTree from './components/ItemListTree.vue';
 new Vue({
     i18n,
     components: {
-        ColumnHeader,
+        ItemListColumnHeader,
         ItemList,
         ItemListTree,
-        TypiBtnStatus,
-        TypiCheckbox,
+        ItemListStatusButton,
+        ItemListCheckbox,
     },
 }).$mount('#app');
 

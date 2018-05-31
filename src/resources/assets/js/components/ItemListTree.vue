@@ -1,9 +1,9 @@
 <template>
 
-    <div>
+    <div class="item-list-tree">
 
         <div class="btn-toolbar">
-            <list-selector
+            <item-list-selector
                 :filtered-models="filteredModels"
                 :all-checked="allChecked"
                 @toggle="toggle"
@@ -11,14 +11,14 @@
                 @check-none="checkNone"
                 @check-published="checkPublished"
                 @check-unpublished="checkUnpublished"
-            ></list-selector>
-            <list-actions
+            ></item-list-selector>
+            <item-list-actions
                 :number-of-checked-models="checkedModels.length"
                 :loading="loading"
                 @destroy="destroy"
                 @publish="publish"
                 @unpublish="unpublish"
-            ></list-actions>
+            ></item-list-actions>
             <slot name="buttons" v-if="!loading"></slot>
         </div>
 
@@ -56,14 +56,14 @@
 
 <script>
 import SlVueTree from 'sl-vue-tree';
-import ListSelector from './ListSelector';
-import ListActions from './ListActions';
+import ItemListSelector from './ItemListSelector';
+import ItemListActions from './ItemListActions';
 
 export default {
     components: {
         SlVueTree,
-        ListSelector,
-        ListActions,
+        ItemListSelector,
+        ItemListActions,
     },
     props: {
         url: {

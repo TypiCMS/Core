@@ -1,5 +1,5 @@
 <template>
-    <ul class="pagination" v-if="data.total > data.per_page">
+    <ul class="pagination item-list-pagination" v-if="data.total > data.per_page">
         <li class="page-item pagination-prev-nav" :class="{ disabled: !data.prev_page_url}">
             <button class="page-link" aria-label="Previous" @click.prevent="selectPage(--data.current_page)">
                 <slot name="prev-nav">

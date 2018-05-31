@@ -1,30 +1,40 @@
 <template>
 
-    <div>
+    <div class="item-list">
 
-        <div class="header">
-            <h3 class="mr-2">
+        <div class="header d-flex align-items-center mb-5 mt-3">
+            <h2 class="mr-3">
                 {{ $tc('# ' + title, data.total, { count: data.total }) }}
-            </h3>
+            </h2>
+            <slot name="add-button"></slot>
         </div>
 
         <div class="btn-toolbar">
-            <slot name="add-button"></slot>
-            <list-actions
+            <item-list-selector
+                class="mr-2"
+                :filtered-models="filteredItems"
+                :all-checked="allChecked"
+                :loading="loading"
+                @check-all="checkAll"
+                @check-none="checkNone"
+                @check-published="checkPublished"
+                @check-unpublished="checkUnpublished"
+            ></item-list-selector>
+            <item-list-actions
                 class="mr-2"
                 :number-of-checked-models="numberOfcheckedItems"
                 :loading="loading"
                 @destroy="destroy"
                 @publish="publish"
                 @unpublish="unpublish"
-            ></list-actions>
-            <list-items-per-page
+            ></item-list-actions>
+            <item-list-per-page
                 class="mr-2"
                 :loading="loading"
                 :per-page="parseInt(data.per_page)"
                 @change-per-page="changeNumberOfItemsPerPage"
-            ></list-items-per-page>
-            <typi-search-bar class="mr-2" @search="search"></typi-search-bar>
+            ></item-list-per-page>
+            <item-list-search-bar class="mr-2" @search="search"></item-list-search-bar>
             <div class="d-flex align-items-center ml-2">
                 <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
             </div>
@@ -35,17 +45,6 @@
             <table class="table table-main">
                 <thead>
                     <tr>
-                        <th class="checkbox">
-                            <list-selector
-                                :filtered-models="filteredItems"
-                                :all-checked="allChecked"
-                                :loading="loading"
-                                @check-all="checkAll"
-                                @check-none="checkNone"
-                                @check-published="checkPublished"
-                                @check-unpublished="checkUnpublished"
-                            ></list-selector>
-                        </th>
                         <slot :sort-array="sortArray" name="columns"></slot>
                     </tr>
                 </thead>
@@ -57,28 +56,28 @@
             </table>
         </div>
 
-        <pagination :data="data" @pagination-change-page="changePage"></pagination>
+        <item-list-pagination :data="data" @pagination-change-page="changePage"></item-list-pagination>
 
     </div>
 
 </template>
 
 <script>
-import ListSelector from './ListSelector';
-import ListActions from './ListActions';
-import ListItemsPerPage from './ListItemsPerPage';
-import TypiBtnStatus from './TypiBtnStatus';
-import TypiSearchBar from './TypiSearchBar';
-import Pagination from './Pagination';
+import ItemListSelector from './ItemListSelector';
+import ItemListActions from './ItemListActions';
+import ItemListPerPage from './ItemListPerPage';
+import ItemListStatusButton from './ItemListStatusButton';
+import ItemListSearchBar from './ItemListSearchBar';
+import ItemListPagination from './ItemListPagination';
 
 export default {
     components: {
-        ListSelector,
-        ListActions,
-        ListItemsPerPage,
-        TypiBtnStatus,
-        TypiSearchBar,
-        Pagination,
+        ItemListSelector,
+        ItemListActions,
+        ItemListPerPage,
+        ItemListStatusButton,
+        ItemListSearchBar,
+        ItemListPagination,
     },
     props: {
         urlBase: {
