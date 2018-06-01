@@ -1,25 +1,15 @@
 <template>
-    <ul class="pagination item-list-pagination" v-if="data.total > data.per_page">
-        <li class="page-item pagination-prev-nav" :class="{ disabled: !data.prev_page_url}">
-            <button class="page-link" aria-label="Previous" @click.prevent="selectPage(--data.current_page)">
-                <slot name="prev-nav">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">{{ $t('Previous') }}</span>
-                </slot>
-            </button>
-        </li>
-        <li class="page-item pagination-page-nav" v-for="page in getPages()" :class="{ disabled: page === '…', active: page == data.current_page }">
-            <button class="page-link" @click.prevent="selectPage(page)">{{ page }}</button>
-        </li>
-        <li class="page-item pagination-next-nav" :class="{ disabled: !data.next_page_url}">
-            <button class="page-link" aria-label="Next" @click.prevent="selectPage(++data.current_page)">
-                <slot name="next-nav">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">{{ $t('Next') }}</span>
-                </slot>
-            </button>
-        </li>
-    </ul>
+    <nav class="pagination item-list-pagination" v-if="data.total > data.per_page">
+        <button class="page-item pagination-prev-nav" :disabled="!data.prev_page_url" :aria-label="$t('Previous')" @click="selectPage(--data.current_page)">
+            <small aria-hidden="true">←</small>
+            <small>{{ $t('Previous') }}</small>
+        </button>
+        <button class="page-item pagination-page-nav" v-for="page in getPages()" :disabled="page === '…'" :class="{ 'btn-secondary': page == data.current_page && page !== '…', 'btn-light': page !== data.current_page && page !== '…' }" @click="selectPage(page)">{{ page }}</button>
+        <button class="page-item pagination-next-nav" :disabled="!data.next_page_url" :aria-label="$t('Next')" @click="selectPage(++data.current_page)">
+            <small>{{ $t('Next') }}</small>
+            <small aria-hidden="true">→</small>
+        </button>
+    </nav>
 </template>
 
 <script>
