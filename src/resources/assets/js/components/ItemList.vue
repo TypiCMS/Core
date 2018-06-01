@@ -42,7 +42,7 @@
         </div>
 
         <div class="table-responsive" v-if="filteredItems.length">
-            <table class="table table-main">
+            <table class="table item-list-table">
                 <thead>
                     <tr>
                         <slot :sort-array="sortArray" name="columns"></slot>
