@@ -97,11 +97,7 @@ class EloquentRepository extends BaseRepository
      */
     public function published()
     {
-        if (Schema::hasColumn($this->getTable(), 'status')) {
-            return $this->where(column('status'), '1');
-        }
-
-        return $this;
+        return $this->where(column('status'), '1');
     }
 
     /**
@@ -150,20 +146,21 @@ class EloquentRepository extends BaseRepository
     /**
      * Get all models.
      *
-     * @param array $attributes
+     * @param string $key
+     * @param string $value
      *
      * @return Collection
      */
-    public function all($attributes = ['*'])
+    public function all()
     {
-        return $this->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () {
-            $query = $this->prepareQuery($this->createModel())
-                ->order();
-            if (!request('preview')) {
-                $query->published();
-            }
+        if (!request('preview')) {
+            $this->published();
+        }
 
-            return $query->get($attributes);
+        return $this->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () {
+            return $this->prepareQuery($this->createModel())
+                ->order()
+                ->get();
         });
     }
 
