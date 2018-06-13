@@ -150,21 +150,20 @@ class EloquentRepository extends BaseRepository
     /**
      * Get all models.
      *
-     * @param string $key
-     * @param string $value
+     * @param array $attributes
      *
      * @return Collection
      */
-    public function all()
+    public function all($attributes = ['*'])
     {
-        if (!request('preview')) {
-            $this->published();
-        }
-
         return $this->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () {
-            return $this->prepareQuery($this->createModel())
-                ->order()
-                ->get();
+            $query = $this->prepareQuery($this->createModel())
+                ->order();
+            if (!request('preview')) {
+                $query->published();
+            }
+
+            return $query->get($attributes);
         });
     }
 
