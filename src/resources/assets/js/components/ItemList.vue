@@ -34,7 +34,6 @@
                 :per-page="parseInt(data.per_page)"
                 @change-per-page="changeNumberOfItemsPerPage"
             ></item-list-per-page>
-            <item-list-search-bar class="mr-2" @search="search"></item-list-search-bar>
             <div class="d-flex align-items-center ml-2">
                 <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
             </div>

@@ -1,6 +1,17 @@
 <template>
-    <th :class="classes" @click="sort">
-        {{ label }}
+    <th :class="classes">
+        <span @click="sort">{{ label }}</span>
+        <form class="item-list-search-bar" v-if="filterable" @submit.prevent="search">
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control" v-model="string" :placeholder="$t('Search')" :aria-label="$t('Search')">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">
+                        <span class="fa fa-search fa-fw"></span>
+                        <span class="sr-only">{{ $t('Search') }}</span>
+                    </button>
+                </div>
+            </div>
+        </form>
     </th>
 </template>
 
@@ -14,6 +25,10 @@ export default {
         label: {
             type: String,
             default: '',
+        },
+        filterable: {
+            type: Boolean,
+            default: false,
         },
         sortable: {
             type: Boolean,
