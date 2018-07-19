@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Schema;
 use Rinvex\Repository\Repositories\EloquentRepository as BaseRepository;
 use TypiCMS\Modules\Files\Models\File;
 
@@ -97,11 +96,7 @@ class EloquentRepository extends BaseRepository
      */
     public function published()
     {
-        if (Schema::hasColumn($this->getTable(), 'status')) {
-            return $this->where(column('status'), '1');
-        }
-
-        return $this;
+        return $this->where(column('status'), '1');
     }
 
     /**
