@@ -93,7 +93,7 @@ class Database extends Command
 
         // Set DB username and password in config
         $this->laravel['config']['database.connections.mysql.host'] = $dbAddress;
-		$this->laravel['config']['database.connections.mysql.port'] = $dbPort;
+	$this->laravel['config']['database.connections.mysql.port'] = $dbPort;
         $this->laravel['config']['database.connections.mysql.username'] = $dbUserName;
         $this->laravel['config']['database.connections.mysql.password'] = $dbPassword;
 
