@@ -83,9 +83,6 @@ export default {
             type: String,
             required: true,
         },
-        urlParameters: {
-            type: String,
-        },
         title: {
             type: String,
             required: true,
@@ -101,6 +98,9 @@ export default {
         searchable: {
             type: Array,
             default: false,
+        },
+        fields: {
+            type: String,
         },
     },
     data() {
@@ -145,8 +145,8 @@ export default {
                 '?' +
                 'sort=' +
                 this.sortArray.join(',') +
-                '&' +
-                this.urlParameters +
+                '&fields[' + this.table + ']=' +
+                this.fields +
                 '&locale=' +
                 this.locale +
                 this.searchQuery +
