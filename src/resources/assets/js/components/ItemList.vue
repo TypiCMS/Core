@@ -106,6 +106,9 @@ export default {
         fields: {
             type: String,
         },
+        translatableFields: {
+            type: String,
+        },
     },
     data() {
         return {
@@ -153,6 +156,8 @@ export default {
                 this.fields +
                 '&locale=' +
                 this.locale +
+                '&translatable_fields=' +
+                this.translatableFields +
                 this.searchQuery +
                 '&page=' +
                 this.data.current_page +
