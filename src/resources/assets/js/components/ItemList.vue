@@ -99,6 +99,10 @@ export default {
             type: Array,
             default: false,
         },
+        table: {
+            type: String,
+            required: true,
+        },
         fields: {
             type: String,
         },
