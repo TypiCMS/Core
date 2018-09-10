@@ -10,9 +10,9 @@
 
         <h1>
             <span v-for="(folder, index) in path">
-                <a v-if="!path.length === index+1" href="#" @click="handle(folder)">{{ folder.name }}</a>
+                <a v-if="path.length !== index+1" href="#" @click="handle(folder)">{{ folder.name }}</a>
                 <span v-if="path.length === index+1">{{ folder.name }}</span>
-                <span v-if="!path.length === index+1">/</span>
+                <span v-if="path.length !== index+1">/</span>
             </span>
         </h1>
 
@@ -56,8 +56,8 @@
                     'filemanager-item-file': model.type !== 'f',
                 }"
                 draggable="true"
-                checked-models="checkedItems"
-                @drop="dropped(draggedModels, droppedModel)"
+                droppable="true"
+                v-on:drop="dropped(draggedModels, droppedModel)"
                 @dblclick="handle(model)"
                 >
                 <div class="filemanager-item-wrapper">
@@ -99,7 +99,9 @@ export default {
             total: 0,
             view: 'grid',
             checkedItems: [],
-            folder: {},
+            folder: {
+                id: '',
+            },
             data: {
                 models: [],
                 path: [],
@@ -116,9 +118,14 @@ export default {
     },
     computed: {
         url() {
-            return (
-                this.urlBase
-            );
+            let url = this.urlBase;
+            if (sessionStorage.getItem('folder')) {
+                this.folder = JSON.parse(sessionStorage.getItem('folder'));
+            }
+            if (this.folder.id !== '') {
+                url += '?folder_id=' + this.folder.id;
+            }
+            return url;
         },
         filteredItems() {
             return this.data.models;
@@ -147,6 +154,7 @@ export default {
                 });
         },
         dropped(draggedModels, droppedModel) {
+            alert('dropped');
 
             let ids = [];
             draggedModels.forEach(model => {
@@ -164,14 +172,15 @@ export default {
             }
 
             let data = {
-                folder_id: droppedModel.id
-            }
+                folder_id: droppedModel.id,
+            };
 
-            axios.patch('/admin/files/'+ids.join(), data).then(response => {
-            })
-            .catch(error => {
-                alertify.error('Error ' + error.status + ' ' + error.statusText);
-            });
+            axios
+                .patch('/admin/files/' + ids.join(), data)
+                .then(response => {})
+                .catch(error => {
+                    alertify.error('Error ' + error.status + ' ' + error.statusText);
+                });
 
             this.checkedItems = [];
         },
@@ -186,18 +195,20 @@ export default {
                 name: name,
                 description: {},
                 alt_attribute: {},
-            }
+            };
 
-            axios.post('/admin/files', data).then(response => {
-                this.data.models.push(response.data.model);
-            })
-            .catch(error => {
-                alertify.error(error.response.data.message || this.$i18n.t('An error occurred.'));
-            });
+            axios
+                .post('/admin/files', data)
+                .then(response => {
+                    this.data.models.push(response.data.model);
+                })
+                .catch(error => {
+                    alertify.error(error.response.data.message || this.$i18n.t('An error occurred.'));
+                });
         },
         check(model, $event) {
             $event.stopPropagation();
-            let indexOfLastCheckedItem = this.data.models.indexOf(this.checkedItems[this.checkedItems.length-1]);
+            let indexOfLastCheckedItem = this.data.models.indexOf(this.checkedItems[this.checkedItems.length - 1]);
             let index = this.checkedItems.indexOf(model);
             if (!($event.ctrlKey || $event.metaKey || $event.shiftKey)) {
                 this.checkedItems = [];
@@ -263,32 +274,32 @@ export default {
             this.loading = true;
 
             let data = {
-                folder_id: this.path[this.path.length-2].id
-            }
+                folder_id: this.path[this.path.length - 2].id,
+            };
 
-            axios.patch('/admin/files/'+ids.join(), data).then(response => {
-                this.loading = false;
-                if (response.data.number < number) {
-                    alertify.error((number - response.data.number) + ' items could not be moved.');
-                }
-                if (response.data.number > 0) {
-                    alertify.success(response.data.number + ' items moved.');
-                }
-            })
-            .catch(error => {
-                this.loading = false;
-                alertify.error('Error ' + error.status + ' ' + error.statusText);
-            });
+            axios
+                .patch('/admin/files/' + ids.join(), data)
+                .then(response => {
+                    this.loading = false;
+                    if (response.data.number < number) {
+                        alertify.error(number - response.data.number + ' items could not be moved.');
+                    }
+                    if (response.data.number > 0) {
+                        alertify.success(response.data.number + ' items moved.');
+                    }
+                })
+                .catch(error => {
+                    this.loading = false;
+                    alertify.error('Error ' + error.status + ' ' + error.statusText);
+                });
         },
         remove(model) {
             // var segments = $location.absUrl().split('?')[0].split('/').reverse(),
             //     modelId = segments[1],
             //     module = segments[2],
             //     index = this.model.models.indexOf(model);
-
             // this.model.models.splice(index, 1);
             // this.loading = true;
-
             // axios.patch('/admin/' + module + '/' + modelId, {remove: model.id}).then(response => {
             //     this.loading = false;
             // }, function (reason) {
@@ -297,11 +308,9 @@ export default {
             // });
         },
         deleteChecked() {
-
             // var ids = [],
             //     models = this.checkedItems,
             //     number = models.length;
-
             // if (this.checkedItems.length > this.deleteLimit) {
             //     alertify.error('Impossible to delete more than ' + this.deleteLimit + ' items in one go.');
             //     return false;
@@ -309,13 +318,10 @@ export default {
             // if (!window.confirm('Are you sure you want to delete ' + number + ' items?')) {
             //     return false;
             // }
-
             // models.forEach(model => {
             //     ids.push(model.id);
             // });
-
             // this.loading = true;
-
             // axios.delete('/admin/files/'+ids.join()).then(response => {
             //     this.loading = false;
             //     if (response.data.number === 0) {
@@ -335,82 +341,77 @@ export default {
             //     this.loading = false;
             //     alertify.error('Error ' + reason.status + ' ' + reason.statusText);
             // });
-
         },
         addSelectedFiles() {
-            // var ids = [],
-            //     models = this.checkedItems,
-            //     data = {},
-            //     segments = $location.absUrl().split('?')[0].split('/').reverse(),
-            //     modelId = segments[1],
-            //     module = segments[2];
+            var ids = [],
+                models = this.checkedItems,
+                data = {},
+                segments = $location
+                    .absUrl()
+                    .split('?')[0]
+                    .split('/')
+                    .reverse(),
+                modelId = segments[1],
+                module = segments[2];
 
-            // if (models.length === 0) {
-            //     $('html, body').removeClass('noscroll');
-            //     $('#filepicker').removeClass('filepicker-modal-open');
-            //     return;
-            // }
+            if (models.length === 0) {
+                $('html, body').removeClass('noscroll');
+                $('#filepicker').removeClass('filepicker-modal-open');
+                return;
+            }
 
-            // models.forEach(model => {
-            //     ids.push(model.id);
-            // });
-            // data.files = ids;
+            models.forEach(model => {
+                ids.push(model.id);
+            });
+            data.files = ids;
 
+            axios
+                .patch('/admin/' + module + '/' + modelId, data)
+                .then(response => {
+                    this.checkedItems = [];
 
-            // axios.patch('/admin/' + module + '/' + modelId, data).then(response => {
+                    // $rootScope.$broadcast('filesAdded', response.data.models);
+                    $('html, body').removeClass('noscroll');
+                    $('#filepicker').removeClass('filepicker-modal-open');
 
-            //     this.checkedItems = [];
-
-            //     $rootScope.$broadcast('filesAdded', response.data.models);
-            //     $('html, body').removeClass('noscroll');
-            //     $('#filepicker').removeClass('filepicker-modal-open');
-
-            //     if (response.data.number === 0) {
-            //         alertify.error(response.data.message);
-            //     } else {
-            //         alertify.success(response.data.message);
-            //     }
-
-            // }, function (reason) {
-            //     console.log(reason);
-            //     alertify.error('Error ' + reason.status + ' ' + reason.statusText);
-            // });
+                    if (response.data.number === 0) {
+                        alertify.error(response.data.message);
+                    } else {
+                        alertify.success(response.data.message);
+                    }
+                })
+                .catch(reason => {
+                    console.log(reason);
+                    alertify.error('Error ' + reason.status + ' ' + reason.statusText);
+                });
         },
         switchView(view) {
             this.view = view;
             sessionStorage.setItem('view', JSON.stringify(view));
         },
         handle(model) {
-            alert('handle');
-            // if (model.type === 'f') {
-            //     axios.get('/admin/files?folder_id='+model.id).then(response => {
-            //             this.data.models = response.data.models;
-            //             this.path = response.data.path;
-            //             //copy the references (you could clone ie angular.copy but then have to go through a dirty checking for the matches)
-            //             this.displayedModels = [].concat(this.data.models);
-            //         }, function (error) {
-            //             console.log(error);
-            //         });
-            //     sessionStorage.setItem('folder', JSON.stringify(model));
-            //     this.folder = model;
-            //     this.checkedItems = [];
-            // } else {
-            //     var CKEditorCleanUpFuncNum = $('#filepicker').data('CKEditorCleanUpFuncNum'),
-            //         CKEditorFuncNum = $('#filepicker').data('CKEditorFuncNum');
-            //     if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
-            //         parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/storage/' + model.path);
-            //         parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
-            //     } else {
-            //         $rootScope.$broadcast('fileAdded', model);
-            //         $('html, body').removeClass('noscroll');
-            //         $('#filepicker').removeClass('filepicker-modal-open');
-            //     }
-            // }
+            if (model.type === 'f') {
+                this.folder = model;
+                sessionStorage.setItem('folder', JSON.stringify(model));
+                this.fetchData();
+                this.checkedItems = [];
+            } else {
+                var CKEditorCleanUpFuncNum = $('#filepicker').data('CKEditorCleanUpFuncNum'),
+                    CKEditorFuncNum = $('#filepicker').data('CKEditorFuncNum');
+                if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
+                    parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/storage/' + model.path);
+                    parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
+                } else {
+                    // $rootScope.$broadcast('fileAdded', model);
+                    $('html, body').removeClass('noscroll');
+                    $('#filepicker').removeClass('filepicker-modal-open');
+                }
+            }
         },
         addSelectedFile() {
             // $rootScope.$broadcast('fileAdded', this.checkedItems[0]);
-            // $('html, body').removeClass('noscroll');
-            // $('#filepicker').removeClass('filepicker-modal-open');
+            $('html, body').removeClass('noscroll');
+            $('#filepicker').removeClass('filepicker-modal-open');
         },
         checkAll() {
             this.checkedItems = this.filteredItems;
@@ -446,5 +447,5 @@ export default {
                 });
         },
     },
-}
+};
 </script>
