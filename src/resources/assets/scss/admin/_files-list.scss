@@ -21,6 +21,7 @@
                 border-radius: 0;
                 border-bottom: 1px solid #ccc;
                 padding: 0 10px;
+                pointer-events: none;
 
                 &:hover,
                 &:focus {

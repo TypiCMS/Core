@@ -95,6 +95,7 @@
             border-radius: 3px;
             padding-bottom: 10px;
             overflow: hidden;
+            pointer-events: none;
         }
 
         &-selected &-wrapper,
