@@ -4,10 +4,6 @@
 
         <button class="filepicker-btn-close" id="close-filepicker"><span class="fa fa-close"></span></button>
 
-        <a class="btn btn-primary" id="uploaderAddButton" href="#" :title="$t('Add files')">
-            <i class="fa fa-plus-circle"></i> {{ $t('Add files') }}
-        </a>
-
         <h1>
             <span v-for="(folder, index) in path">
                 <a v-if="path.length !== index+1" href="#" @click="handle(folder)">{{ folder.name }}</a>
@@ -22,7 +18,7 @@
             </button>
             <div class="btn-group dropdown mr-2">
                 <button class="btn btn-light dropdown-toggle"
-                    :class="{disabled: !checkedItems.length}"
+                    :class="{disabled: !selectedItems.length}"
                     type="button"
                     id="dropdownMenu1"
                     data-toggle="dropdown"
@@ -30,16 +26,15 @@
                     aria-expanded="true">
                     {{ $t('Action') }}
                     <span class="caret"></span>
-                    <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <a class="dropdown-item" @click="deleteChecked()" href="#">{{ $t('Delete') }}</a></li>
+                    <a class="dropdown-item" @click="deleteSelected" href="#">{{ $t('Delete') }}</a></li>
                     <a class="dropdown-item" :class="{disabled: !folder.id}" @click="moveToParentFolder()" href="#">
                         {{ $t('Move to parent folder') }}
                     </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item disabled" href="#">
-                        {{ $tc('# items selected', checkedItems.length, { count: checkedItems.length }) }}
+                        {{ $tc('# items selected', selectedItems.length, { count: selectedItems.length }) }}
                     </a>
                 </div>
             </div>
@@ -60,43 +55,46 @@
             </div>
         </div>
 
-<!--
-        <div class="dropzone" dropzone id="dropzone" :folder-id="folder.id">
-            <div class="dz-message">{{ $t('Click or drop files to upload') }}</div>
-        </div>
- -->
+        <vue-dropzone
+            id="dropzone"
+            ref="dropzone"
+            :options="dropOptions"
+            @vdropzone-success="dropzoneSuccess"
+            @vdropzone-sending="dropzoneSending"
+            >
+        </vue-dropzone>
+
         <div class="filemanager" @click="checkNone()" :class="{'filemanager-list': view === 'list'}">
             <div class="filemanager-item filemanager-item-with-name filemanager-item-editable"
-                v-for="model in filteredItems"
-                @click="check(model, $event)"
-                :id="'item_'+model.id"
+                v-for="item in filteredItems"
+                @click="check(item, $event)"
+                :id="'item_'+item.id"
                 :class="{
-                    'filemanager-item-selected': checkedItems.indexOf(model) !== -1,
-                    'filemanager-item-folder': model.type === 'f',
-                    'filemanager-item-file': model.type !== 'f',
-                    'filemanager-item-target': dragging && checkedItems.indexOf(model) !== -1,
+                    'filemanager-item-selected': selectedItems.indexOf(item) !== -1,
+                    'filemanager-item-folder': item.type === 'f',
+                    'filemanager-item-file': item.type !== 'f',
+                    'filemanager-item-dragging-source': dragging && selectedItems.indexOf(item) !== -1,
                 }"
                 draggable="true"
-                @drag="drag(model)"
-                @drop="drop(model, $event)"
-                @dragstart="dragStart(model, $event)"
+                @drop="drop(item, $event)"
+                @dragstart="dragStart(item, $event)"
                 @dragover="dragOver($event)"
                 @dragenter="dragEnter($event)"
                 @dragleave="dragLeave($event)"
                 @dragend="dragEnd($event)"
-                @dblclick="handle(model)"
+                @dblclick="handle(item)"
                 >
                 <div class="filemanager-item-wrapper">
-                    <div class="filemanager-item-icon" v-if="model.type === 'i'">
+                    <div class="filemanager-item-icon" v-if="item.type === 'i'">
                         <div class="filemanager-item-image-wrapper">
                             <img class="filemanager-item-image"
-                                :src="model.thumb_sm"
-                                :alt="model.alt_attribute_translated">
+                                :src="item.thumb_sm"
+                                :alt="item.alt_attribute_translated">
                         </div>
                     </div>
-                    <div class="filemanager-item-icon" :class="'filemanager-item-icon-'+model.type" v-else></div>
-                    <div class="filemanager-item-name">{{ model.name }}</div>
-                    <a class="filemanager-item-editable-button" :href="'/admin/files/'+model.id+'/edit'">
+                    <div class="filemanager-item-icon" :class="'filemanager-item-icon-'+item.type" v-else></div>
+                    <div class="filemanager-item-name">{{ item.name }}</div>
+                    <a class="filemanager-item-editable-button" :href="'/admin/files/'+item.id+'/edit'">
                         <span class="fa fa-pencil"></span>
                     </a>
                 </div>
@@ -110,9 +108,9 @@
             {{ $t('Add selected files') }}
         </button>
         <button class="btn btn-success filepicker-btn-add btn-add-single"
-            :disabled="checkedItems.length !== 1"
+            :disabled="selectedItems.length !== 1"
             type="button"
-            @click="handle(checkedItems[0])"
+            @click="handle(selectedItems[0])"
             id="btn-add-selected-file">{{ $t('Add selected file') }}</button>
 
     </div>
@@ -121,10 +119,12 @@
 
 <script>
 import ItemListActions from './ItemListActions';
+import vueDropzone from 'vue2-dropzone';
 
 export default {
     components: {
         ItemListActions,
+        vueDropzone,
     },
     props: {
         urlBase: {
@@ -138,7 +138,34 @@ export default {
             loading: false,
             total: 0,
             view: 'grid',
-            checkedItems: [],
+            selectedItems: [],
+            dropOptions: {
+                url: '/admin/files',
+                dictDefaultMessage: this.$i18n.t('Click or drop files to upload'),
+                acceptedFiles: [
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                    'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+                    'application/vnd.openxmlformats-officedocument.presentationml.slide',
+                    'application/msword', // doc
+                    'application/vnd.ms-powerpoint', // ppt
+                    'application/vnd.ms-excel', // xls
+                    'application/pdf',
+                    'application/postscript',
+                    'application/zip',
+                    'image/tiff',
+                    'image/jpeg',
+                    'image/gif',
+                    'image/png',
+                    'image/bmp',
+                    'image/gif',
+                ].join(),
+                timeout: null,
+                clickable: true,
+                maxFilesize: 60,
+                paramName: 'name',
+            },
             folder: {
                 id: '',
             },
@@ -155,10 +182,6 @@ export default {
         if (sessionStorage.getItem('view')) {
             this.view = JSON.parse(sessionStorage.getItem('view'));
         }
-        // this.$on('drag-start', el => {
-        //     console.log(el);
-        //     console.log('drag start');
-        // });
     },
     computed: {
         url() {
@@ -178,10 +201,10 @@ export default {
             return this.data.path;
         },
         allChecked() {
-            return this.filteredItems.length > 0 && this.filteredItems.length === this.checkedItems.length;
+            return this.filteredItems.length > 0 && this.filteredItems.length === this.selectedItems.length;
         },
-        numberOfcheckedItems() {
-            return this.checkedItems.length;
+        numberOfselectedItems() {
+            return this.selectedItems.length;
         },
     },
     methods: {
@@ -199,12 +222,29 @@ export default {
                     );
                 });
         },
-        dragStart(model, event) {
+        dropzoneSuccess(file, response) {
+            window.setTimeout(() => {
+                $(file.previewElement).fadeOut('fast', () => {
+                    this.$refs.dropzone.removeFile(file);
+                    this.data.models.push(response.model);
+                    this.data.models.sort((a, b) => a.id - b.id);
+                });
+            }, 1000);
+        },
+        dropzoneSending(file, xhr, formData) {
+            formData.append('_token', document.head.querySelector('meta[name="csrf-token"]').content);
+            for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
+                formData.append('folder_id', this.folder.id);
+                formData.append('description[' + TypiCMS.locales[i] + ']', '');
+                formData.append('alt_attribute[' + TypiCMS.locales[i] + ']', '');
+            }
+        },
+        dragStart(item, event) {
             event.dataTransfer.setData('text', '');
             this.dragging = true;
-            if (this.checkedItems.indexOf(model) === -1) {
-                this.checkedItems = [];
-                this.checkedItems.push(model);
+            if (this.selectedItems.indexOf(item) === -1) {
+                this.selectedItems = [];
+                this.selectedItems.push(item);
             }
         },
         dragOver(event) {
@@ -220,34 +260,29 @@ export default {
             }
         },
         dragLeave(event) {
-            if (event.target.classList.contains('filemanager-item-folder')) {
-                event.target.classList.remove('filemanager-item-over');
-            }
+            event.target.classList.remove('filemanager-item-over');
         },
-        drag(model) {
-            // console.log('drag');
-        },
-        drop(targetModel, event) {
+        drop(targetItem, event) {
             event.target.classList.remove('filemanager-item-over');
             this.dragging = false;
 
             let ids = [];
-            this.checkedItems.forEach(model => {
-                ids.push(model.id);
+            this.selectedItems.forEach(item => {
+                ids.push(item.id);
             });
 
-            if (targetModel.type !== 'f' || ids.indexOf(targetModel.id) !== -1) {
+            if (targetItem.type !== 'f' || ids.indexOf(targetItem.id) !== -1) {
                 return;
             }
 
-            for (var i = this.checkedItems.length - 1; i >= 0; i--) {
-                let draggedModel = this.checkedItems[i];
-                var index = this.data.models.indexOf(draggedModel);
+            for (var i = this.selectedItems.length - 1; i >= 0; i--) {
+                let draggedItem = this.selectedItems[i];
+                var index = this.data.models.indexOf(draggedItem);
                 this.data.models.splice(index, 1);
             }
 
             let data = {
-                folder_id: targetModel.id,
+                folder_id: targetItem.id,
             };
 
             axios
@@ -257,7 +292,7 @@ export default {
                     alertify.error('Error ' + error.status + ' ' + error.statusText);
                 });
 
-            this.checkedItems = [];
+            this.selectedItems = [];
         },
         newFolder(folderId) {
             let name = window.prompt('What is the name of the new folder?');
@@ -281,32 +316,32 @@ export default {
                     alertify.error(error.response.data.message || this.$i18n.t('An error occurred.'));
                 });
         },
-        check(model, $event) {
+        check(item, $event) {
             $event.stopPropagation();
-            let indexOfLastCheckedItem = this.data.models.indexOf(this.checkedItems[this.checkedItems.length - 1]);
-            let index = this.checkedItems.indexOf(model);
+            let indexOfLastCheckedItem = this.data.models.indexOf(this.selectedItems[this.selectedItems.length - 1]);
+            let index = this.selectedItems.indexOf(item);
             if (!($event.ctrlKey || $event.metaKey || $event.shiftKey)) {
-                this.checkedItems = [];
+                this.selectedItems = [];
             }
             if (index !== -1 && ($event.metaKey || $event.ctrlKey)) {
-                this.checkedItems.splice(index, 1);
-            } else if (this.checkedItems.indexOf(model) === -1) {
-                this.checkedItems.push(model);
+                this.selectedItems.splice(index, 1);
+            } else if (this.selectedItems.indexOf(item) === -1) {
+                this.selectedItems.push(item);
             }
             if (index === -1) {
                 if ($event.shiftKey) {
-                    let currentItemIndex = this.data.models.indexOf(model);
-                    this.data.models.forEach((model, index) => {
+                    let currentItemIndex = this.data.models.indexOf(item);
+                    this.data.models.forEach((item, index) => {
                         if (currentItemIndex > indexOfLastCheckedItem) {
                             if (indexOfLastCheckedItem === -1) {
                                 if (index <= currentItemIndex) {
-                                    this.checkedItems.push(model);
+                                    this.selectedItems.push(item);
                                 }
                             }
                             if (indexOfLastCheckedItem !== -1) {
                                 if (index > indexOfLastCheckedItem && index < currentItemIndex) {
-                                    if (this.checkedItems.indexOf(model) === -1) {
-                                        this.checkedItems.push(model);
+                                    if (this.selectedItems.indexOf(item) === -1) {
+                                        this.selectedItems.push(item);
                                     }
                                 }
                             }
@@ -314,8 +349,8 @@ export default {
                         if (currentItemIndex < indexOfLastCheckedItem) {
                             if (indexOfLastCheckedItem !== -1) {
                                 if (index < indexOfLastCheckedItem && index > currentItemIndex) {
-                                    if (this.checkedItems.indexOf(model) === -1) {
-                                        this.checkedItems.push(model);
+                                    if (this.selectedItems.indexOf(item) === -1) {
+                                        this.selectedItems.push(item);
                                     }
                                 }
                             }
@@ -330,21 +365,21 @@ export default {
             }
 
             var ids = [],
-                models = this.checkedItems,
+                models = this.selectedItems,
                 number = models.length;
 
-            if (this.checkedItems.length > this.deleteLimit) {
+            if (this.selectedItems.length > this.deleteLimit) {
                 alertify.error('Too much elements (max ' + this.deleteLimit + ' items.)');
                 return false;
             }
 
-            models.forEach(model => {
-                ids.push(model.id);
-                var index = this.data.models.indexOf(model);
+            models.forEach(item => {
+                ids.push(item.id);
+                var index = this.data.models.indexOf(item);
                 this.data.models.splice(index, 1);
             });
 
-            this.checkedItems = [];
+            this.selectedItems = [];
 
             this.loading = true;
 
@@ -368,65 +403,16 @@ export default {
                     alertify.error('Error ' + error.status + ' ' + error.statusText);
                 });
         },
-        remove(model) {
-            // var segments = $location.absUrl().split('?')[0].split('/').reverse(),
-            //     modelId = segments[1],
-            //     module = segments[2],
-            //     index = this.model.models.indexOf(model);
-            // this.model.models.splice(index, 1);
-            // this.loading = true;
-            // axios.patch('/admin/' + module + '/' + modelId, {remove: model.id}).then(response => {
-            //     this.loading = false;
-            // }, function (reason) {
-            //     this.loading = false;
-            //     alertify.error('Error ' + reason.status + ' ' + reason.statusText);
-            // });
-        },
-        deleteChecked() {
-            // var ids = [],
-            //     models = this.checkedItems,
-            //     number = models.length;
-            // if (this.checkedItems.length > this.deleteLimit) {
-            //     alertify.error('Impossible to delete more than ' + this.deleteLimit + ' items in one go.');
-            //     return false;
-            // }
-            // if (!window.confirm('Are you sure you want to delete ' + number + ' items?')) {
-            //     return false;
-            // }
-            // models.forEach(model => {
-            //     ids.push(model.id);
-            // });
-            // this.loading = true;
-            // axios.delete('/admin/files/'+ids.join()).then(response => {
-            //     this.loading = false;
-            //     if (response.data.number === 0) {
-            //         alertify.error(response.data.message);
-            //     } else if (response.data.number < number) {
-            //         alertify.error((number - response.data.number) + ' items could not be deleted.');
-            //     }
-            //     if (response.data.number === number) {
-            //         alertify.success(response.data.number + ' items deleted.');
-            //         models.forEach(model => {
-            //             var index = this.data.models.indexOf(model);
-            //             this.data.models.splice(index, 1);
-            //         });
-            //         this.checkedItems = [];
-            //     }
-            // }, function (reason) {
-            //     this.loading = false;
-            //     alertify.error('Error ' + reason.status + ' ' + reason.statusText);
-            // });
-        },
         addSelectedFiles() {
             var ids = [],
-                models = this.checkedItems,
+                models = this.selectedItems,
                 data = {},
                 segments = $location
                     .absUrl()
                     .split('?')[0]
                     .split('/')
                     .reverse(),
-                modelId = segments[1],
+                itemId = segments[1],
                 module = segments[2];
 
             if (models.length === 0) {
@@ -435,15 +421,15 @@ export default {
                 return;
             }
 
-            models.forEach(model => {
-                ids.push(model.id);
+            models.forEach(item => {
+                ids.push(item.id);
             });
             data.files = ids;
 
             axios
-                .patch('/admin/' + module + '/' + modelId, data)
+                .patch('/admin/' + module + '/' + itemId, data)
                 .then(response => {
-                    this.checkedItems = [];
+                    this.selectedItems = [];
 
                     // $rootScope.$broadcast('filesAdded', response.data.models);
                     $('html, body').removeClass('noscroll');
@@ -464,48 +450,52 @@ export default {
             this.view = view;
             sessionStorage.setItem('view', JSON.stringify(view));
         },
-        handle(model) {
-            if (model.type === 'f') {
-                this.folder = model;
-                sessionStorage.setItem('folder', JSON.stringify(model));
+        handle(item) {
+            if (item.type === 'f') {
+                this.folder = item;
+                sessionStorage.setItem('folder', JSON.stringify(item));
                 this.fetchData();
-                this.checkedItems = [];
+                this.selectedItems = [];
             } else {
                 var CKEditorCleanUpFuncNum = $('#filepicker').data('CKEditorCleanUpFuncNum'),
                     CKEditorFuncNum = $('#filepicker').data('CKEditorFuncNum');
                 if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
-                    parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/storage/' + model.path);
+                    parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/storage/' + item.path);
                     parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
                 } else {
-                    // $rootScope.$broadcast('fileAdded', model);
+                    // $rootScope.$broadcast('fileAdded', item);
                     $('html, body').removeClass('noscroll');
                     $('#filepicker').removeClass('filepicker-modal-open');
                 }
             }
         },
         addSelectedFile() {
-            // $rootScope.$broadcast('fileAdded', this.checkedItems[0]);
+            // $rootScope.$broadcast('fileAdded', this.selectedItems[0]);
             $('html, body').removeClass('noscroll');
             $('#filepicker').removeClass('filepicker-modal-open');
         },
-        checkAll() {
-            this.checkedItems = this.filteredItems;
-        },
         checkNone() {
-            this.checkedItems = [];
+            this.selectedItems = [];
         },
-        destroy() {
+        deleteSelected() {
             this.data.current_page = 1;
             const deleteLimit = 100;
 
-            if (this.checkedItems.length > deleteLimit) {
+            for (let item of this.selectedItems) {
+                if (item.children.length > 0) {
+                    alertify.error(this.$i18n.t('A non-empty folder cannot be deleted.'));
+                    return false;
+                }
+            }
+
+            if (this.selectedItems.length > deleteLimit) {
                 alertify.error(this.$i18n.t('Impossible to delete more than # items in one go.', { deleteLimit }));
                 return false;
             }
             if (
                 !window.confirm(
-                    this.$i18n.tc('Are you sure you want to delete # items?', this.numberOfcheckedItems, {
-                        count: this.numberOfcheckedItems,
+                    this.$i18n.tc('Are you sure you want to delete # items?', this.selectedItems.length, {
+                        count: this.selectedItems.length,
                     })
                 )
             ) {
@@ -515,7 +505,7 @@ export default {
             this.loading = true;
 
             axios
-                .all(this.checkedItems.map(model => axios.delete(this.urlBase + '/' + model.id)))
+                .all(this.selectedItems.map(item => axios.delete(this.urlBase + '/' + item.id)))
                 .then(responses => {
                     let successes = responses.filter(response => response.data.error === false);
                     this.loading = false;
@@ -525,7 +515,7 @@ export default {
                         })
                     );
                     this.fetchData();
-                    this.checkedItems = [];
+                    this.selectedItems = [];
                 })
                 .catch(error => {
                     alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
