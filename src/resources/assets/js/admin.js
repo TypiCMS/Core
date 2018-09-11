@@ -26,11 +26,6 @@ if (token) {
 }
 
 /**
- * Dropzone
- */
-window.Dropzone = require('dropzone');
-
-/**
  * Vue
  */
 import Vue from 'vue';
@@ -59,6 +54,12 @@ import ItemListCheckbox from './components/ItemListCheckbox.vue';
 import ItemListColumnHeader from './components/ItemListColumnHeader.vue';
 import ItemList from './components/ItemList.vue';
 import ItemListTree from './components/ItemListTree.vue';
+
+/**
+ * Filepicker
+ */
+import Filepicker from './components/Filepicker.vue';
+
 new Vue({
     i18n,
     components: {
@@ -67,6 +68,7 @@ new Vue({
         ItemListTree,
         ItemListStatusButton,
         ItemListCheckbox,
+        Filepicker,
     },
 }).$mount('#app');
 
