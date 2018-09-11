@@ -17,23 +17,43 @@
         </h1>
 
         <div class="btn-toolbar">
-            <button class="btn btn-light mr-2" @click="newFolder(folder.id)" type="button"><span class="fa fa-folder-o fa-fw"></span> {{ $t('New folder') }}</button>
+            <button class="btn btn-light mr-2" @click="newFolder(folder.id)" type="button">
+                <span class="fa fa-folder-o fa-fw"></span> {{ $t('New folder') }}
+            </button>
             <div class="btn-group dropdown mr-2">
-                <button class="btn btn-light dropdown-toggle" :class="{disabled: !checkedItems.length}" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <button class="btn btn-light dropdown-toggle"
+                    :class="{disabled: !checkedItems.length}"
+                    type="button"
+                    id="dropdownMenu1"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="true">
                     {{ $t('Action') }}
                     <span class="caret"></span>
                     <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
                     <a class="dropdown-item" @click="deleteChecked()" href="#">{{ $t('Delete') }}</a></li>
-                    <a class="dropdown-item" :class="{disabled: !folder.id}" @click="moveToParentFolder()" href="#">{{ $t('Move to parent folder') }}</a>
+                    <a class="dropdown-item" :class="{disabled: !folder.id}" @click="moveToParentFolder()" href="#">
+                        {{ $t('Move to parent folder') }}
+                    </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item disabled" href="#">{{ $tc('# items selected', checkedItems.length, { count: checkedItems.length }) }}</a>
+                    <a class="dropdown-item disabled" href="#">
+                        {{ $tc('# items selected', checkedItems.length, { count: checkedItems.length }) }}
+                    </a>
                 </div>
             </div>
             <div class="btn-group">
-                <button type="button" class="btn btn-light" :class="{active: view === 'grid'}" @click="switchView('grid')"><span class="fa fa-fw fa-th"></span> Grid</button>
-                <button type="button" class="btn btn-light" :class="{active: view === 'list'}" @click="switchView('list')"><span class="fa fa-fw fa-bars"></span> List</button>
+                <button type="button" class="btn btn-light"
+                    :class="{active: view === 'grid'}"
+                    @click="switchView('grid')">
+                    <span class="fa fa-fw fa-th"></span> Grid
+                </button>
+                <button type="button" class="btn btn-light"
+                    :class="{active: view === 'list'}"
+                    @click="switchView('list')">
+                    <span class="fa fa-fw fa-bars"></span> List
+                </button>
             </div>
             <div class="d-flex align-items-center ml-2">
                 <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
@@ -54,27 +74,46 @@
                     'filemanager-item-selected': checkedItems.indexOf(model) !== -1,
                     'filemanager-item-folder': model.type === 'f',
                     'filemanager-item-file': model.type !== 'f',
+                    'filemanager-item-target': dragging && checkedItems.indexOf(model) !== -1,
                 }"
                 draggable="true"
-                droppable="true"
-                v-on:drop="dropped(draggedModels, droppedModel)"
+                @drag="drag(model)"
+                @drop="drop(model, $event)"
+                @dragstart="dragStart(model, $event)"
+                @dragover="dragOver($event)"
+                @dragenter="dragEnter($event)"
+                @dragleave="dragLeave($event)"
+                @dragend="dragEnd($event)"
                 @dblclick="handle(model)"
                 >
                 <div class="filemanager-item-wrapper">
                     <div class="filemanager-item-icon" v-if="model.type === 'i'">
                         <div class="filemanager-item-image-wrapper">
-                            <img class="filemanager-item-image" :src="model.thumb_sm" :alt="model.alt_attribute_translated">
+                            <img class="filemanager-item-image"
+                                :src="model.thumb_sm"
+                                :alt="model.alt_attribute_translated">
                         </div>
                     </div>
                     <div class="filemanager-item-icon" :class="'filemanager-item-icon-'+model.type" v-else></div>
                     <div class="filemanager-item-name">{{ model.name }}</div>
-                    <a class="filemanager-item-editable-button" :href="'/admin/files/'+model.id+'/edit'"><span class="fa fa-pencil"></span></a>
+                    <a class="filemanager-item-editable-button" :href="'/admin/files/'+model.id+'/edit'">
+                        <span class="fa fa-pencil"></span>
+                    </a>
                 </div>
             </div>
         </div>
 
-        <button class="btn btn-success filepicker-btn-add btn-add-multiple" type="button" @click="addSelectedFiles()" id="btn-add-selected-files">{{ $t('Add selected files') }}</button>
-        <button class="btn btn-success filepicker-btn-add btn-add-single" :disabled="checkedItems.length !== 1" type="button" @click="handle(checkedItems[0])" id="btn-add-selected-file">{{ $t('Add selected file') }}</button>
+        <button class="btn btn-success filepicker-btn-add btn-add-multiple"
+            type="button"
+            @click="addSelectedFiles()"
+            id="btn-add-selected-files">
+            {{ $t('Add selected files') }}
+        </button>
+        <button class="btn btn-success filepicker-btn-add btn-add-single"
+            :disabled="checkedItems.length !== 1"
+            type="button"
+            @click="handle(checkedItems[0])"
+            id="btn-add-selected-file">{{ $t('Add selected file') }}</button>
 
     </div>
 
@@ -95,6 +134,7 @@ export default {
     },
     data() {
         return {
+            dragging: false,
             loading: false,
             total: 0,
             view: 'grid',
@@ -115,6 +155,10 @@ export default {
         if (sessionStorage.getItem('view')) {
             this.view = JSON.parse(sessionStorage.getItem('view'));
         }
+        // this.$on('drag-start', el => {
+        //     console.log(el);
+        //     console.log('drag start');
+        // });
     },
     computed: {
         url() {
@@ -150,29 +194,60 @@ export default {
                     this.loading = false;
                 })
                 .catch(error => {
-                    alertify.error(error.response.data.message || this.$i18n.t('An error occurred with the data fetch.'));
+                    alertify.error(
+                        error.response.data.message || this.$i18n.t('An error occurred with the data fetch.')
+                    );
                 });
         },
-        dropped(draggedModels, droppedModel) {
-            alert('dropped');
+        dragStart(model, event) {
+            event.dataTransfer.setData('text', '');
+            this.dragging = true;
+            if (this.checkedItems.indexOf(model) === -1) {
+                this.checkedItems = [];
+                this.checkedItems.push(model);
+            }
+        },
+        dragOver(event) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'move';
+        },
+        dragEnd(event) {
+            this.dragging = false;
+        },
+        dragEnter(event) {
+            if (event.target.classList.contains('filemanager-item-folder')) {
+                event.target.classList.add('filemanager-item-over');
+            }
+        },
+        dragLeave(event) {
+            if (event.target.classList.contains('filemanager-item-folder')) {
+                event.target.classList.remove('filemanager-item-over');
+            }
+        },
+        drag(model) {
+            // console.log('drag');
+        },
+        drop(targetModel, event) {
+            event.target.classList.remove('filemanager-item-over');
+            this.dragging = false;
 
             let ids = [];
-            draggedModels.forEach(model => {
+            this.checkedItems.forEach(model => {
                 ids.push(model.id);
             });
 
-            if (droppedModel.type !== 'f' || ids.indexOf(droppedModel.id) !== -1) {
+            if (targetModel.type !== 'f' || ids.indexOf(targetModel.id) !== -1) {
                 return;
             }
 
-            for (var i = draggedModels.length - 1; i >= 0; i--) {
-                let draggedModel = draggedModels[i];
+            for (var i = this.checkedItems.length - 1; i >= 0; i--) {
+                let draggedModel = this.checkedItems[i];
                 var index = this.data.models.indexOf(draggedModel);
                 this.data.models.splice(index, 1);
             }
 
             let data = {
-                folder_id: droppedModel.id,
+                folder_id: targetModel.id,
             };
 
             axios
@@ -427,7 +502,13 @@ export default {
                 alertify.error(this.$i18n.t('Impossible to delete more than # items in one go.', { deleteLimit }));
                 return false;
             }
-            if (!window.confirm(this.$i18n.tc('Are you sure you want to delete # items?', this.numberOfcheckedItems, { count: this.numberOfcheckedItems }))) {
+            if (
+                !window.confirm(
+                    this.$i18n.tc('Are you sure you want to delete # items?', this.numberOfcheckedItems, {
+                        count: this.numberOfcheckedItems,
+                    })
+                )
+            ) {
                 return false;
             }
 
@@ -438,7 +519,11 @@ export default {
                 .then(responses => {
                     let successes = responses.filter(response => response.data.error === false);
                     this.loading = false;
-                    alertify.success(this.$i18n.tc('# items deleted', successes.length, { count: successes.length }));
+                    alertify.success(
+                        this.$i18n.tc('# items deleted', successes.length, {
+                            count: successes.length,
+                        })
+                    );
                     this.fetchData();
                     this.checkedItems = [];
                 })
