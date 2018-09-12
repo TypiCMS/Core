@@ -6,12 +6,13 @@ $(function() {
     $('#select-files').on('click', function(event) {
         event.preventDefault();
         $('html, body').addClass('noscroll');
-        $('#filepicker').addClass('filepicker-modal-open');
+        $('#filepicker.filepicker-multiple').addClass('filepicker-modal-open');
     });
-    $('#close-filepicker').on('click', function(event) {
+    $('.filepicker-btn-close').on('click', function(event) {
         event.preventDefault();
         $('html, body').removeClass('noscroll');
-        $('#filepicker')
+        $(this)
+            .closest('.filepicker-modal')
             .removeClass('filepicker-modal-open')
             .removeClass('filepicker-modal-no-overlay');
     });

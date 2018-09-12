@@ -12,7 +12,7 @@
                         <span v-if="path.length !== index+1">/</span>
                     </span>
                 </h2>
-                <a class="btn btn-primary btn-sm mr-2" id="addFiles" href="#" :title="$t('Add files')">
+                <a class="btn btn-sm btn-primary mr-2" id="addFiles" href="#" :title="$t('Add files')">
                     <i class="fa fa-plus text-white-50"></i> {{ $t('Add files') }}
                 </a>
             </div>
@@ -20,10 +20,10 @@
             <button class="filepicker-btn-close" id="close-filepicker"><span class="fa fa-close"></span></button>
 
             <div class="btn-toolbar">
-                <button class="btn btn-light mr-2" @click="newFolder(folder.id)" type="button">
+                <button class="btn btn-sm btn-light mr-2" @click="newFolder(folder.id)" type="button">
                     <span class="fa fa-folder-o fa-fw"></span> {{ $t('New folder') }}
                 </button>
-                <div class="btn-group dropdown mr-2">
+                <div class="btn-group btn-group-sm dropdown mr-2">
                     <button class="btn btn-light dropdown-toggle"
                         :class="{disabled: !selectedItems.length}"
                         type="button"
@@ -45,7 +45,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="btn-group">
+                <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-light"
                         :class="{active: view === 'grid'}"
                         @click="switchView('grid')">
@@ -492,22 +492,17 @@ export default {
                 this.fetchData();
                 this.selectedItems = [];
             } else {
-                var CKEditorCleanUpFuncNum = $('#filepicker').data('CKEditorCleanUpFuncNum'),
-                    CKEditorFuncNum = $('#filepicker').data('CKEditorFuncNum');
+                var CKEditorCleanUpFuncNum = $('#filepicker-single').data('CKEditorCleanUpFuncNum'),
+                    CKEditorFuncNum = $('#filepicker-single').data('CKEditorFuncNum');
                 if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
                     parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/storage/' + item.path);
                     parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
                 } else {
                     // $rootScope.$broadcast('fileAdded', item);
                     $('html, body').removeClass('noscroll');
-                    $('#filepicker').removeClass('filepicker-modal-open');
+                    $('#filepicker-single').removeClass('filepicker-modal-open');
                 }
             }
-        },
-        addSelectedFile() {
-            // $rootScope.$broadcast('fileAdded', this.selectedItems[0]);
-            $('html, body').removeClass('noscroll');
-            $('#filepicker').removeClass('filepicker-modal-open');
         },
         checkNone() {
             this.selectedItems = [];
