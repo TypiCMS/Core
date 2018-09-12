@@ -303,25 +303,18 @@ class EloquentRepository extends BaseRepository
 
     /**
      * Remove files from model.
-     *
-     * @param string                   $id
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return null
      */
-    public function removeFiles($id, Request $request)
+    public function detachFile($page, $file)
     {
-        $model = $this->find($id);
-        $idToRemove = $request->remove;
-        $filesIds = $model->files->pluck('id')->toArray();
+        $filesIds = $page->files->pluck('id')->toArray();
         $pivotData = [];
         $position = 1;
         foreach ($filesIds as $fileId) {
-            if ($fileId != $idToRemove) {
+            if ($fileId != $file->id) {
                 $pivotData[$fileId] = ['position' => $position++];
             }
         }
-        $model->files()->sync($pivotData);
+        $page->files()->sync($pivotData);
         $this->forgetCache();
     }
 
