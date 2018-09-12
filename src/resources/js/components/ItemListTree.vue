@@ -6,6 +6,7 @@
             <item-list-selector
                 :filtered-models="filteredModels"
                 :all-checked="allChecked"
+                :loading="loading"
                 @toggle="toggle"
                 @check-all="checkAll"
                 @check-none="checkNone"
