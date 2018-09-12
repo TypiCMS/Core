@@ -45,12 +45,11 @@ img[style*='float:right'] {
 }
 
 blockquote {
-    font-style: italic;
     color: $gray-700;
     border-left: 5px solid $gray-300;
     padding: 18px 25px 18px 22px;
     background-color: $gray-100;
-    quotes: '\201C''\201D''\2018''\2019';
+    quotes: '\201C' '\201D' '\2018' '\2019';
     &:before {
         color: #ccc;
         content: open-quote;
