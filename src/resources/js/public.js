@@ -19,9 +19,9 @@ require('@fancyapps/fancybox');
 require('swiper');
 
 /**
- * Get files from /resources/assets/js/public
+ * Get files from /resources/js/public
  */
-var req = require.context('../../../resources/assets/js/public', true, /^(.*\.(js$))[^.]*$/im);
+var req = require.context('./public', true, /^(.*\.(js$))[^.]*$/im);
 req.keys().forEach(function(key) {
     req(key);
 });

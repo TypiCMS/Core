@@ -35,7 +35,7 @@ window.Vue = Vue;
  * i18n
  */
 import VueI18n from 'vue-i18n';
-import fr from '../../lang/fr.json';
+import fr from '../lang/fr.json';
 const messages = { fr };
 const i18n = new VueI18n({ locale: 'fr', messages });
 
@@ -85,9 +85,9 @@ window.alertify = require('alertify.js');
 require('selectize');
 
 /**
- * All files in /reources/assets/js/admin
+ * All files in /reources/js/admin
  */
-var req = require.context('../../../resources/assets/js/admin', true, /^(.*\.(js$))[^.]*$/im);
+var req = require.context('./admin', true, /^(.*\.(js$))[^.]*$/im);
 req.keys().forEach(function(key) {
     req(key);
 });
