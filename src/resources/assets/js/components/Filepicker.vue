@@ -1,117 +1,134 @@
 <template>
 
-    <div class="wrapper">
+    <div class="filepicker" :class="classes" id="filepicker">
 
-        <button class="filepicker-btn-close" id="close-filepicker"><span class="fa fa-close"></span></button>
+        <div class="wrapper">
 
-        <h1>
-            <span v-for="(folder, index) in path">
-                <a v-if="path.length !== index+1" href="#" @click="handle(folder)">{{ folder.name }}</a>
-                <span v-if="path.length === index+1">{{ folder.name }}</span>
-                <span v-if="path.length !== index+1">/</span>
-            </span>
-        </h1>
-
-        <div class="btn-toolbar">
-            <button class="btn btn-light mr-2" @click="newFolder(folder.id)" type="button">
-                <span class="fa fa-folder-o fa-fw"></span> {{ $t('New folder') }}
-            </button>
-            <div class="btn-group dropdown mr-2">
-                <button class="btn btn-light dropdown-toggle"
-                    :class="{disabled: !selectedItems.length}"
-                    type="button"
-                    id="dropdownMenu1"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="true">
-                    {{ $t('Action') }}
-                    <span class="caret"></span>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <a class="dropdown-item" @click="deleteSelected" href="#">{{ $t('Delete') }}</a></li>
-                    <a class="dropdown-item" :class="{disabled: !folder.id}" @click="moveToParentFolder()" href="#">
-                        {{ $t('Move to parent folder') }}
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item disabled" href="#">
-                        {{ $tc('# items selected', selectedItems.length, { count: selectedItems.length }) }}
-                    </a>
-                </div>
+            <div class="filepicker-header">
+                <h2 class="filepicker-title">
+                    <span v-for="(folder, index) in path">
+                        <a v-if="path.length !== index+1" href="#" @click="handle(folder)">{{ folder.name }}</a>
+                        <span v-if="path.length === index+1">{{ folder.name }}</span>
+                        <span v-if="path.length !== index+1">/</span>
+                    </span>
+                </h2>
+                <a class="btn btn-primary btn-sm mr-2" id="addFiles" href="#" :title="$t('Add files')">
+                    <i class="fa fa-plus text-white-50"></i> {{ $t('Add files') }}
+                </a>
             </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-light"
-                    :class="{active: view === 'grid'}"
-                    @click="switchView('grid')">
-                    <span class="fa fa-fw fa-th"></span> Grid
-                </button>
-                <button type="button" class="btn btn-light"
-                    :class="{active: view === 'list'}"
-                    @click="switchView('list')">
-                    <span class="fa fa-fw fa-bars"></span> List
-                </button>
-            </div>
-            <div class="d-flex align-items-center ml-2">
-                <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
-            </div>
-        </div>
 
-        <vue-dropzone
-            id="dropzone"
-            ref="dropzone"
-            :options="dropOptions"
-            @vdropzone-success="dropzoneSuccess"
-            @vdropzone-sending="dropzoneSending"
-            >
-        </vue-dropzone>
+            <button class="filepicker-btn-close" id="close-filepicker"><span class="fa fa-close"></span></button>
 
-        <div class="filemanager" @click="checkNone()" :class="{'filemanager-list': view === 'list'}">
-            <div class="filemanager-item filemanager-item-with-name filemanager-item-editable"
-                v-for="item in filteredItems"
-                @click="check(item, $event)"
-                :id="'item_'+item.id"
-                :class="{
-                    'filemanager-item-selected': selectedItems.indexOf(item) !== -1,
-                    'filemanager-item-folder': item.type === 'f',
-                    'filemanager-item-file': item.type !== 'f',
-                    'filemanager-item-dragging-source': dragging && selectedItems.indexOf(item) !== -1,
-                }"
-                draggable="true"
-                @drop="drop(item, $event)"
-                @dragstart="dragStart(item, $event)"
-                @dragover="dragOver($event)"
-                @dragenter="dragEnter($event)"
-                @dragleave="dragLeave($event)"
-                @dragend="dragEnd($event)"
-                @dblclick="handle(item)"
-                >
-                <div class="filemanager-item-wrapper">
-                    <div class="filemanager-item-icon" v-if="item.type === 'i'">
-                        <div class="filemanager-item-image-wrapper">
-                            <img class="filemanager-item-image"
-                                :src="item.thumb_sm"
-                                :alt="item.alt_attribute_translated">
-                        </div>
+            <div class="btn-toolbar">
+                <button class="btn btn-light mr-2" @click="newFolder(folder.id)" type="button">
+                    <span class="fa fa-folder-o fa-fw"></span> {{ $t('New folder') }}
+                </button>
+                <div class="btn-group dropdown mr-2">
+                    <button class="btn btn-light dropdown-toggle"
+                        :class="{disabled: !selectedItems.length}"
+                        type="button"
+                        id="dropdownMenu1"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="true">
+                        {{ $t('Action') }}
+                        <span class="caret"></span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <a class="dropdown-item" @click="deleteSelected" href="#">{{ $t('Delete') }}</a></li>
+                        <a class="dropdown-item" :class="{disabled: !folder.id}" @click="moveToParentFolder()" href="#">
+                            {{ $t('Move to parent folder') }}
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item disabled" href="#">
+                            {{ $tc('# items selected', selectedItems.length, { count: selectedItems.length }) }}
+                        </a>
                     </div>
-                    <div class="filemanager-item-icon" :class="'filemanager-item-icon-'+item.type" v-else></div>
-                    <div class="filemanager-item-name">{{ item.name }}</div>
-                    <a class="filemanager-item-editable-button" :href="'/admin/files/'+item.id+'/edit'">
-                        <span class="fa fa-pencil"></span>
-                    </a>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-light"
+                        :class="{active: view === 'grid'}"
+                        @click="switchView('grid')">
+                        <span class="fa fa-fw fa-th"></span> Grid
+                    </button>
+                    <button type="button" class="btn btn-light"
+                        :class="{active: view === 'list'}"
+                        @click="switchView('list')">
+                        <span class="fa fa-fw fa-bars"></span> List
+                    </button>
+                </div>
+                <div class="d-flex align-items-center ml-2">
+                    <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
                 </div>
             </div>
-        </div>
 
-        <button class="btn btn-success filepicker-btn-add btn-add-multiple"
-            type="button"
-            @click="addSelectedFiles()"
-            id="btn-add-selected-files">
-            {{ $t('Add selected files') }}
-        </button>
-        <button class="btn btn-success filepicker-btn-add btn-add-single"
-            :disabled="selectedItems.length !== 1"
-            type="button"
-            @click="handle(selectedItems[0])"
-            id="btn-add-selected-file">{{ $t('Add selected file') }}</button>
+            <vue-dropzone
+                id="dropzone"
+                ref="dropzone"
+                :options="dropOptions"
+                @vdropzone-success="dropzoneSuccess"
+                @vdropzone-sending="dropzoneSending"
+                >
+            </vue-dropzone>
+
+            <div @click="checkNone()" class="filemanager" :class="{'filemanager-list': view === 'list'}">
+                <div class="filemanager-item filemanager-item-with-name filemanager-item-editable"
+                    v-for="item in filteredItems"
+                    @click="check(item, $event)"
+                    :id="'item_'+item.id"
+                    :class="{
+                        'filemanager-item-selected': selectedItems.indexOf(item) !== -1,
+                        'filemanager-item-folder': item.type === 'f',
+                        'filemanager-item-file': item.type !== 'f',
+                        'filemanager-item-dragging-source': dragging && selectedItems.indexOf(item) !== -1,
+                    }"
+                    draggable="true"
+                    @drop="drop(item, $event)"
+                    @dragstart="dragStart(item, $event)"
+                    @dragover="dragOver($event)"
+                    @dragenter="dragEnter($event)"
+                    @dragleave="dragLeave($event)"
+                    @dragend="dragEnd($event)"
+                    @dblclick="handle(item)"
+                    >
+                    <div class="filemanager-item-wrapper">
+                        <div class="filemanager-item-icon" v-if="item.type === 'i'">
+                            <div class="filemanager-item-image-wrapper">
+                                <img class="filemanager-item-image"
+                                    :src="item.thumb_sm"
+                                    :alt="item.alt_attribute_translated">
+                            </div>
+                        </div>
+                        <div class="filemanager-item-icon" :class="'filemanager-item-icon-'+item.type" v-else></div>
+                        <div class="filemanager-item-name">{{ item.name }}</div>
+                        <a class="filemanager-item-editable-button" :href="'/admin/files/'+item.id+'/edit'">
+                            <span class="fa fa-pencil"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-success filepicker-btn-add btn-add-multiple"
+                type="button"
+                :disabled="selectedFiles.length < 1"
+                @click="addSelectedFiles()"
+                id="btn-add-selected-files"
+                v-if="options.multiple"
+            >
+                {{ $t('Add selected files') }}
+            </button>
+
+            <button class="btn btn-success filepicker-btn-add btn-add-single"
+                :disabled="selectedFiles.length !== 1"
+                type="button"
+                @click="handle(selectedFiles[0])"
+                id="btn-add-selected-file"
+                v-if="options.single"
+            >
+                {{ $t('Add selected file') }}
+            </button>
+
+        </div>
 
     </div>
 
@@ -127,9 +144,15 @@ export default {
         vueDropzone,
     },
     props: {
-        urlBase: {
-            type: String,
-            required: true,
+        options: {
+            type: Object,
+            required: false,
+            default: {
+                modal: false,
+                dropzone: true,
+                multiple: false,
+                single: false,
+            },
         },
     },
     data() {
@@ -139,7 +162,9 @@ export default {
             total: 0,
             view: 'grid',
             selectedItems: [],
+            baseUrl: '/api/files',
             dropOptions: {
+                clickable: ['#addFiles', '#dropzone'],
                 url: '/admin/files',
                 dictDefaultMessage: this.$i18n.t('Click or drop files to upload'),
                 acceptedFiles: [
@@ -162,7 +187,6 @@ export default {
                     'image/gif',
                 ].join(),
                 timeout: null,
-                clickable: true,
                 maxFilesize: 60,
                 paramName: 'name',
             },
@@ -184,8 +208,16 @@ export default {
         }
     },
     computed: {
+        classes() {
+            return {
+                'filepicker-modal': this.options.modal,
+                'filepicker-no-dropzone': !this.options.dropzone,
+                'filepicker-multiple': this.options.multiple,
+                'filepicker-single': this.options.single,
+            };
+        },
         url() {
-            let url = this.urlBase;
+            let url = this.baseUrl;
             if (sessionStorage.getItem('folder')) {
                 this.folder = JSON.parse(sessionStorage.getItem('folder'));
             }
@@ -205,6 +237,9 @@ export default {
         },
         numberOfselectedItems() {
             return this.selectedItems.length;
+        },
+        selectedFiles() {
+            return this.selectedItems.filter(item => item.type !== 'f');
         },
     },
     methods: {
@@ -405,7 +440,7 @@ export default {
         },
         addSelectedFiles() {
             var ids = [],
-                models = this.selectedItems,
+                models = this.selectedFiles,
                 data = {},
                 segments = $location
                     .absUrl()
@@ -505,7 +540,7 @@ export default {
             this.loading = true;
 
             axios
-                .all(this.selectedItems.map(item => axios.delete(this.urlBase + '/' + item.id)))
+                .all(this.selectedItems.map(item => axios.delete(this.baseUrl + '/' + item.id)))
                 .then(responses => {
                     let successes = responses.filter(response => response.data.error === false);
                     this.loading = false;
