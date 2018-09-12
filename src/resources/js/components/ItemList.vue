@@ -29,6 +29,7 @@
                 @unpublish="unpublish"
             ></item-list-actions>
             <item-list-per-page
+                v-if="filteredItems.length > 10"
                 class="mr-2"
                 :loading="loading"
                 :per-page="parseInt(data.per_page)"
@@ -152,7 +153,9 @@ export default {
                 '?' +
                 'sort=' +
                 this.sortArray.join(',') +
-                '&fields[' + this.table + ']=' +
+                '&fields[' +
+                this.table +
+                ']=' +
                 this.fields +
                 '&locale=' +
                 this.locale +
@@ -185,7 +188,9 @@ export default {
                     this.loading = false;
                 })
                 .catch(error => {
-                    alertify.error(error.response.data.message || this.$i18n.t('An error occurred with the data fetch.'));
+                    alertify.error(
+                        error.response.data.message || this.$i18n.t('An error occurred with the data fetch.')
+                    );
                 });
         },
         search(string) {
@@ -222,7 +227,13 @@ export default {
                 alertify.error(this.$i18n.t('Impossible to delete more than # items in one go.', { deleteLimit }));
                 return false;
             }
-            if (!window.confirm(this.$i18n.tc('Are you sure you want to delete # items?', this.numberOfcheckedItems, { count: this.numberOfcheckedItems }))) {
+            if (
+                !window.confirm(
+                    this.$i18n.tc('Are you sure you want to delete # items?', this.numberOfcheckedItems, {
+                        count: this.numberOfcheckedItems,
+                    })
+                )
+            ) {
                 return false;
             }
 
@@ -242,13 +253,25 @@ export default {
                 });
         },
         publish() {
-            if (!window.confirm(this.$i18n.tc('Are you sure you want to publish # items?', this.checkedItems.length, { count: this.checkedItems.length }))) {
+            if (
+                !window.confirm(
+                    this.$i18n.tc('Are you sure you want to publish # items?', this.checkedItems.length, {
+                        count: this.checkedItems.length,
+                    })
+                )
+            ) {
                 return false;
             }
             this.setStatus('1');
         },
         unpublish() {
-            if (!window.confirm(this.$i18n.tc('Are you sure you want to unpublish # items?', this.checkedItems.length, { count: this.checkedItems.length }))) {
+            if (
+                !window.confirm(
+                    this.$i18n.tc('Are you sure you want to unpublish # items?', this.checkedItems.length, {
+                        count: this.checkedItems.length,
+                    })
+                )
+            ) {
                 return false;
             }
             this.setStatus('0');
@@ -274,6 +297,7 @@ export default {
                     this.checkedItems = [];
                 })
                 .catch(error => {
+                    console.log(error.response);
                     alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
                 });
         },
