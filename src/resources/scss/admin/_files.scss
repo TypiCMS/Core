@@ -47,6 +47,7 @@
                 align-items: center;
                 justify-content: center;
                 border: #fff 2px solid;
+                pointer-events: auto;
 
                 &:hover,
                 &:focus {
@@ -80,6 +81,7 @@
                 align-items: center;
                 justify-content: center;
                 border: #fff 2px solid;
+                pointer-events: auto;
 
                 &:hover,
                 &:focus {
@@ -113,7 +115,6 @@
         &-image {
             max-width: 120px;
             max-height: 120px;
-            pointer-events: none;
 
             &-wrapper {
                 border-radius: 3px;
@@ -154,8 +155,8 @@
             }
         }
 
-        &-target {
-            opacity: 1;
+        &-dragging-source {
+            opacity: 0.4;
         }
     }
 }

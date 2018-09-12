@@ -56,9 +56,10 @@ import ItemList from './components/ItemList.vue';
 import ItemListTree from './components/ItemListTree.vue';
 
 /**
- * Filepicker
+ * Files
  */
 import Filepicker from './components/Filepicker.vue';
+import Files from './components/Files.vue';
 
 new Vue({
     i18n,
@@ -69,6 +70,7 @@ new Vue({
         ItemListStatusButton,
         ItemListCheckbox,
         Filepicker,
+        Files,
     },
 }).$mount('#app');
 

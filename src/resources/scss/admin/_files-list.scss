@@ -5,6 +5,11 @@
             text-align: left;
             margin: 0;
 
+            &:hover,
+            &:focus {
+                background-color: #eee;
+            }
+
             &-with-name {
                 height: auto;
             }
@@ -21,12 +26,6 @@
                 border-radius: 0;
                 border-bottom: 1px solid #ccc;
                 padding: 0 10px;
-                pointer-events: none;
-
-                &:hover,
-                &:focus {
-                    background-color: #eee;
-                }
             }
 
             &-selected &-wrapper,
