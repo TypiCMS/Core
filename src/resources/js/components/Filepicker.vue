@@ -13,7 +13,7 @@
                     </span>
                 </h2>
                 <button type="button" class="btn btn-sm btn-primary mr-2" id="btnAddFiles">
-                    <i class="fa fa-plus text-white-50"></i> {{ $t('Add files') }}
+                    <i class="fa fa-upload text-white-50"></i> {{ $t('Upload files') }}
                 </button>
             </div>
 
