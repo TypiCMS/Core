@@ -153,11 +153,11 @@ export default {
         },
         relatedTable: {
             type: String,
-            required: true,
+            default: '',
         },
         relatedId: {
             type: Number,
-            required: true,
+            default: 0,
         },
     },
     data() {
