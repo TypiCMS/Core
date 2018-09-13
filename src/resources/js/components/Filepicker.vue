@@ -35,14 +35,14 @@
                         <span class="caret"></span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <a class="dropdown-item" @click="deleteSelected" href="#">{{ $t('Delete') }}</a></li>
-                        <a class="dropdown-item" :class="{disabled: !folder.id}" @click="moveToParentFolder()" href="#">
+                        <button class="dropdown-item" @click="deleteSelected">{{ $t('Delete') }}</button></li>
+                        <button class="dropdown-item" :class="{disabled: !folder.id}" @click="moveToParentFolder()">
                             {{ $t('Move to parent folder') }}
-                        </a>
+                        </button>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item disabled" href="#">
+                        <button class="dropdown-item disabled">
                             {{ $tc('# items selected', selectedItems.length, { count: selectedItems.length }) }}
-                        </a>
+                        </button>
                     </div>
                 </div>
                 <div class="btn-group btn-group-sm">
