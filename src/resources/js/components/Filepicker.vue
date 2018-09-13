@@ -7,7 +7,7 @@
             <div class="filepicker-header">
                 <h2 class="filepicker-title">
                     <span v-for="(folder, index) in path">
-                        <a v-if="path.length !== index+1" href="#" @click="handle(folder)">{{ folder.name }}</a>
+                        <a v-if="path.length !== index+1" href="#" @click="openFolder(folder)">{{ folder.name }}</a>
                         <span v-if="path.length === index+1">{{ folder.name }}</span>
                         <span v-if="path.length !== index+1">/</span>
                     </span>
@@ -89,7 +89,7 @@
                     @dragenter="dragEnter($event)"
                     @dragleave="dragLeave($event)"
                     @dragend="dragEnd($event)"
-                    @dblclick="handle(item)"
+                    @dblclick="item.type === 'f' ? openFolder(item) : onDoubleClick(item)"
                     >
                     <div class="filemanager-item-wrapper">
                         <div class="filemanager-item-icon" v-if="item.type === 'i'">
@@ -120,7 +120,7 @@
             <button class="btn btn-success filepicker-btn-add btn-add-single"
                 :disabled="selectedFiles.length !== 1"
                 type="button"
-                @click="handle(selectedFiles[0])"
+                @click="addSingleFile(selectedFiles[0])"
                 id="btn-add-selected-file"
             >
                 {{ $t('Add selected file') }}
@@ -486,24 +486,29 @@ export default {
             this.view = view;
             sessionStorage.setItem('view', JSON.stringify(view));
         },
-        handle(item) {
-            if (item.type === 'f') {
-                this.folder = item;
-                sessionStorage.setItem('folder', JSON.stringify(item));
-                this.fetchData();
-                this.selectedItems = [];
+        openFolder(folder) {
+            this.folder = folder;
+            sessionStorage.setItem('folder', JSON.stringify(folder));
+            this.fetchData();
+            this.selectedItems = [];
+        },
+        onDoubleClick(item) {
+            if ($('#filepicker').hasClass('filepicker-multiple')) {
+                this.addSelectedFiles();
             } else {
-                var CKEditorCleanUpFuncNum = $('#filepicker').data('CKEditorCleanUpFuncNum'),
-                    CKEditorFuncNum = $('#filepicker').data('CKEditorFuncNum');
-                if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
-                    parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/storage/' + item.path);
-                    parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
-                } else {
-                    // this.$emit('fileAdded', month.number);
-                    // $rootScope.$broadcast('fileAdded', item);
-                    $('html, body').removeClass('noscroll');
-                    $('#filepicker').removeClass('filepicker-modal-open');
-                }
+                this.addSingleFile(item);
+            }
+        },
+        addSingleFile(item) {
+            var CKEditorCleanUpFuncNum = $('#filepicker').data('CKEditorCleanUpFuncNum'),
+                CKEditorFuncNum = $('#filepicker').data('CKEditorFuncNum');
+            if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
+                parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/storage/' + item.path);
+                parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
+            } else {
+                // this.$root.$emit('fileAdded', item);
+                $('html, body').removeClass('noscroll');
+                $('#filepicker').removeClass('filepicker-modal-open');
             }
         },
         checkNone() {
