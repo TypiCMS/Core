@@ -156,7 +156,7 @@ export default {
             required: true,
         },
         relatedId: {
-            type: String,
+            type: Number,
             required: true,
         },
     },
@@ -211,6 +211,12 @@ export default {
         if (sessionStorage.getItem('view')) {
             this.view = JSON.parse(sessionStorage.getItem('view'));
         }
+        this.$root.$on('openFilepicker', () => {
+            $('html, body').addClass('noscroll');
+            $('#filepicker')
+                .addClass('filepicker-modal-open')
+                .addClass('filepicker-multiple');
+        });
     },
     computed: {
         classes() {
