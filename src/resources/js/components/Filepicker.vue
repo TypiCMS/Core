@@ -531,7 +531,6 @@ export default {
             this.selectedItems = [];
         },
         deleteSelected() {
-            this.data.current_page = 1;
             const deleteLimit = 100;
 
             for (let item of this.selectedItems) {
