@@ -12,9 +12,9 @@
                         <span v-if="path.length !== index+1">/</span>
                     </span>
                 </h2>
-                <a class="btn btn-sm btn-primary mr-2" id="addFiles" href="#" :title="$t('Add files')">
+                <button type="button" class="btn btn-sm btn-primary mr-2" id="btnAddFiles">
                     <i class="fa fa-plus text-white-50"></i> {{ $t('Add files') }}
-                </a>
+                </button>
             </div>
 
             <button class="filepicker-btn-close" id="close-filepicker"><span class="fa fa-close"></span></button>
@@ -113,7 +113,6 @@
                 :disabled="selectedFiles.length < 1"
                 @click="addSelectedFiles()"
                 id="btn-add-selected-files"
-                v-if="options.multiple"
             >
                 {{ $t('Add selected files') }}
             </button>
@@ -123,7 +122,6 @@
                 type="button"
                 @click="handle(selectedFiles[0])"
                 id="btn-add-selected-file"
-                v-if="options.single"
             >
                 {{ $t('Add selected file') }}
             </button>
@@ -151,7 +149,6 @@ export default {
                 modal: false,
                 dropzone: true,
                 multiple: false,
-                single: false,
             },
         },
     },
@@ -164,7 +161,7 @@ export default {
             selectedItems: [],
             baseUrl: '/api/files',
             dropOptions: {
-                clickable: ['#addFiles', '#dropzone'],
+                clickable: ['#btnAddFiles', '#dropzone'],
                 url: '/admin/files',
                 dictDefaultMessage: this.$i18n.t('Click or drop files to upload'),
                 acceptedFiles: [
@@ -213,7 +210,6 @@ export default {
                 'filepicker-modal': this.options.modal,
                 'filepicker-no-dropzone': !this.options.dropzone,
                 'filepicker-multiple': this.options.multiple,
-                'filepicker-single': this.options.single,
             };
         },
         url() {
@@ -492,15 +488,15 @@ export default {
                 this.fetchData();
                 this.selectedItems = [];
             } else {
-                var CKEditorCleanUpFuncNum = $('#filepicker-single').data('CKEditorCleanUpFuncNum'),
-                    CKEditorFuncNum = $('#filepicker-single').data('CKEditorFuncNum');
+                var CKEditorCleanUpFuncNum = $('#filepicker').data('CKEditorCleanUpFuncNum'),
+                    CKEditorFuncNum = $('#filepicker').data('CKEditorFuncNum');
                 if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
                     parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/storage/' + item.path);
                     parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
                 } else {
                     // $rootScope.$broadcast('fileAdded', item);
                     $('html, body').removeClass('noscroll');
-                    $('#filepicker-single').removeClass('filepicker-modal-open');
+                    $('#filepicker').removeClass('filepicker-modal-open');
                 }
             }
         },
