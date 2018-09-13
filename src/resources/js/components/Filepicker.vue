@@ -346,7 +346,9 @@ export default {
 
             axios
                 .patch('/admin/files/' + ids.join(), data)
-                .then(response => {})
+                .then(response => {
+                    this.fetchData();
+                })
                 .catch(error => {
                     alertify.error('Error ' + error.status + ' ' + error.statusText);
                 });
