@@ -51,6 +51,11 @@ export default {
     created() {
         this.fetchData();
     },
+    mounted() {
+        this.$root.$on('filesAdded', files => {
+            this.data.models = files;
+        });
+    },
     computed: {
         url() {
             return '/api/' + this.relatedTable + '/' + this.relatedId;

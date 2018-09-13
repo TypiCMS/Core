@@ -151,6 +151,14 @@ export default {
                 multiple: false,
             },
         },
+        relatedTable: {
+            type: String,
+            required: true,
+        },
+        relatedId: {
+            type: String,
+            required: true,
+        },
     },
     data() {
         return {
@@ -435,34 +443,25 @@ export default {
                 });
         },
         addSelectedFiles() {
-            var ids = [],
-                models = this.selectedFiles,
-                data = {},
-                segments = $location
-                    .absUrl()
-                    .split('?')[0]
-                    .split('/')
-                    .reverse(),
-                itemId = segments[1],
-                module = segments[2];
+            let ids = [],
+                data = {};
 
-            if (models.length === 0) {
+            if (this.selectedFiles.length === 0) {
                 $('html, body').removeClass('noscroll');
                 $('#filepicker').removeClass('filepicker-modal-open');
                 return;
             }
 
-            models.forEach(item => {
-                ids.push(item.id);
+            this.selectedFiles.forEach(file => {
+                ids.push(file.id);
             });
             data.files = ids;
 
             axios
-                .patch('/admin/' + module + '/' + itemId, data)
+                .patch('/admin/' + this.relatedTable + '/' + this.relatedId, data)
                 .then(response => {
                     this.selectedItems = [];
-
-                    // $rootScope.$broadcast('filesAdded', response.data.models);
+                    this.$root.$emit('filesAdded', response.data.models);
                     $('html, body').removeClass('noscroll');
                     $('#filepicker').removeClass('filepicker-modal-open');
 
@@ -472,9 +471,9 @@ export default {
                         alertify.success(response.data.message);
                     }
                 })
-                .catch(reason => {
-                    console.log(reason);
-                    alertify.error('Error ' + reason.status + ' ' + reason.statusText);
+                .catch(error => {
+                    console.log(error);
+                    alertify.error('Error ' + error.status + ' ' + error.statusText);
                 });
         },
         switchView(view) {
@@ -494,6 +493,7 @@ export default {
                     parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/storage/' + item.path);
                     parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
                 } else {
+                    // this.$emit('fileAdded', month.number);
                     // $rootScope.$broadcast('fileAdded', item);
                     $('html, body').removeClass('noscroll');
                     $('#filepicker').removeClass('filepicker-modal-open');
