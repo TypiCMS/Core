@@ -145,10 +145,12 @@ export default {
         options: {
             type: Object,
             required: false,
-            default: {
-                modal: false,
-                dropzone: true,
-                multiple: false,
+            default() {
+                return {
+                    modal: false,
+                    dropzone: true,
+                    multiple: false,
+                };
             },
         },
         relatedTable: {
