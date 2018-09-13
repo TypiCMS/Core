@@ -15780,19 +15780,19 @@ a.text-dark:focus {
 }
 
 .filemanager-item-icon-a:before {
-  content: '\F1C7';
+  content: "\F1C7";
 }
 
 .filemanager-item-icon-v:before {
-  content: '\F1C8';
+  content: "\F1C8";
 }
 
 .filemanager-item-icon-d:before {
-  content: '\F016';
+  content: "\F016";
 }
 
 .filemanager-item-icon-f:before {
-  content: '\F07B';
+  content: "\F114";
 }
 
 .filemanager-item-dragging-source {
