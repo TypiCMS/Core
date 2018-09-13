@@ -68,6 +68,7 @@
                 :options="dropOptions"
                 @vdropzone-success="dropzoneSuccess"
                 @vdropzone-sending="dropzoneSending"
+                @vdropzone-complete="dropzoneComplete"
                 >
             </vue-dropzone>
 
@@ -269,6 +270,15 @@ export default {
                     );
                 });
         },
+        dropzoneSending(file, xhr, formData) {
+            this.loading = true;
+            formData.append('_token', document.head.querySelector('meta[name="csrf-token"]').content);
+            for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
+                formData.append('folder_id', this.folder.id);
+                formData.append('description[' + TypiCMS.locales[i] + ']', '');
+                formData.append('alt_attribute[' + TypiCMS.locales[i] + ']', '');
+            }
+        },
         dropzoneSuccess(file, response) {
             window.setTimeout(() => {
                 $(file.previewElement).fadeOut('fast', () => {
@@ -278,12 +288,14 @@ export default {
                 });
             }, 1000);
         },
-        dropzoneSending(file, xhr, formData) {
-            formData.append('_token', document.head.querySelector('meta[name="csrf-token"]').content);
-            for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
-                formData.append('folder_id', this.folder.id);
-                formData.append('description[' + TypiCMS.locales[i] + ']', '');
-                formData.append('alt_attribute[' + TypiCMS.locales[i] + ']', '');
+        dropzoneComplete() {
+            if (
+                this.$refs.dropzone.getUploadingFiles().length === 0 &&
+                this.$refs.dropzone.getQueuedFiles().length === 0
+            ) {
+                setTimeout(() => {
+                    this.loading = false;
+                }, 1000);
             }
         },
         dragStart(item, event) {
