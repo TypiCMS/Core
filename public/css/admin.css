@@ -16666,7 +16666,7 @@ a.text-dark:focus {
 .filepicker-modal .wrapper {
   height: 75vh;
   width: 80vw;
-  background-color: #FFF;
+  background-color: #fff;
   overflow: scroll;
 }
 
@@ -16680,7 +16680,7 @@ a.text-dark:focus {
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  content: "";
+  content: '';
 }
 
 .typicms-modal-content {
@@ -16711,6 +16711,7 @@ a.text-dark:focus {
   position: absolute;
   right: -15px;
   top: -15px;
+  cursor: pointer;
 }
 
 .typicms-modal-btn-add,
