@@ -1,6 +1,6 @@
 <template>
 
-    <div class="filepicker" :class="classes" id="filepicker">
+    <div class="filepicker" :class="classes" id="filepicker" ref="filepicker">
 
         <div class="wrapper">
 
@@ -17,7 +17,7 @@
                 </button>
             </div>
 
-            <button class="filepicker-btn-close" type="button" @click="closeModal"><span class="fa fa-close"></span></button>
+            <button class="filepicker-btn-close" type="button" v-if="this.modal" @click="closeModal"><span class="fa fa-close"></span></button>
 
             <div class="btn-toolbar">
                 <button class="btn btn-sm btn-light mr-2" @click="newFolder(folder.id)" type="button">
@@ -197,25 +197,28 @@ export default {
             dropOptions: {
                 clickable: ['#btnAddFiles', '#dropzone'],
                 url: '/admin/files',
-                dictDefaultMessage: this.$i18n.t('Click or drop files to upload'),
+                dictDefaultMessage: this.$i18n.t('Drop to upload.'),
                 acceptedFiles: [
                     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                     'application/vnd.openxmlformats-officedocument.presentationml.presentation',
                     'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
                     'application/vnd.openxmlformats-officedocument.presentationml.slide',
-                    'application/msword', // doc
-                    'application/vnd.ms-powerpoint', // ppt
-                    'application/vnd.ms-excel', // xls
+                    'application/msword',
+                    'application/vnd.ms-powerpoint',
+                    'application/vnd.ms-excel',
                     'application/pdf',
                     'application/postscript',
                     'application/zip',
+                    'text/plain',
                     'image/tiff',
                     'image/jpeg',
                     'image/gif',
                     'image/png',
                     'image/bmp',
                     'image/gif',
+                    'audio/*',
+                    'video/*',
                 ].join(),
                 timeout: null,
                 maxFilesize: 60,
@@ -299,6 +302,7 @@ export default {
                 });
         },
         dropzoneSending(file, xhr, formData) {
+            $('#dropzone').addClass('processing');
             this.loading = true;
             formData.append('_token', document.head.querySelector('meta[name="csrf-token"]').content);
             for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
@@ -322,6 +326,7 @@ export default {
                 this.$refs.dropzone.getQueuedFiles().length === 0
             ) {
                 setTimeout(() => {
+                    $('#dropzone').removeClass('processing');
                     this.loading = false;
                 }, 1000);
             }

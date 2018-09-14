@@ -29,66 +29,119 @@
     0% {
         opacity: 0;
 
-        @include prefix((transform: translateY(40px)));
+        @include prefix(
+            (
+                transform: translateY(40px),
+            )
+        );
     }
 
-    30%, 70% {
+    30%,
+    70% {
         opacity: 1;
 
-        @include prefix((transform: translateY(0px)));
+        @include prefix(
+            (
+                transform: translateY(0px),
+            )
+        );
     }
 
     100% {
         opacity: 0;
 
-        @include prefix((transform: translateY(-40px)));
+        @include prefix(
+            (
+                transform: translateY(-40px),
+            )
+        );
     }
 }
-
 
 @include keyframes(slide-in) {
     0% {
         opacity: 0;
 
-        @include prefix((transform: translateY(40px)));
+        @include prefix(
+            (
+                transform: translateY(40px),
+            )
+        );
     }
 
     30% {
         opacity: 1;
 
-        @include prefix((transform: translateY(0px)));
+        @include prefix(
+            (
+                transform: translateY(0px),
+            )
+        );
     }
 }
-
 
 @include keyframes(pulse) {
     0% {
-        @include prefix((transform: scale(1)));
+        @include prefix(
+            (
+                transform: scale(1),
+            )
+        );
     }
 
     10% {
-        @include prefix((transform: scale(1.1)));
+        @include prefix(
+            (
+                transform: scale(1.1),
+            )
+        );
     }
 
     20% {
-        @include prefix((transform: scale(1)));
+        @include prefix(
+            (
+                transform: scale(1),
+            )
+        );
     }
 }
 
-
-.dropzone, .dropzone * {
+.dropzone,
+.dropzone * {
     box-sizing: border-box;
 }
 
 .dropzone {
     $image-size: 120px;
     $image-border-radius: 0;
+    display: none;
 
-    min-height: 154px;
-    background: white;
-    padding: 8px 8px;
-    border: 1px dashed #CCC;
-    margin-bottom: 20px;
+    &.processing {
+        padding: 12px;
+        background-color: #fff;
+        display: block;
+        position: absolute;
+        bottom: 0;
+        height: auto;
+        left: 0;
+        width: 100%;
+        border-top: 1px solid $gray-400;
+        z-index: 2001;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    }
+    &.fullscreen {
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        z-index: 2001;
+        background-color: rgba(255, 255, 255, 0.5);
+        top: 0;
+        left: 0;
+        border: 0;
+    }
 
     &.dz-clickable {
         cursor: pointer;
@@ -98,7 +151,8 @@
         }
 
         .dz-message {
-            &, * {
+            &,
+            * {
                 cursor: pointer;
             }
         }
@@ -114,13 +168,19 @@
         border-style: solid;
 
         .dz-message {
-            opacity: 0.5;
+            // opacity: 0.5;
         }
     }
 
     .dz-message {
         text-align: center;
         margin-top: 55px;
+        font-size: 24px;
+        background-color: $gray-800;
+        border-radius: 30px;
+        padding: 10px 30px;
+        color: #fff;
+        pointer-events: none;
     }
 
     .dz-preview {
@@ -155,7 +215,11 @@
             background: white;
 
             .dz-details {
-                @include prefix((transition: opacity 0.2s linear));
+                @include prefix(
+                    (
+                        transition: opacity 0.2s linear,
+                    )
+                );
             }
         }
 
@@ -219,7 +283,8 @@
                 }
             }
 
-            .dz-filename, .dz-size {
+            .dz-filename,
+            .dz-size {
                 span {
                     background-color: rgba(255, 255, 255, 0.4);
                     padding: 0 0.4em;
@@ -232,13 +297,21 @@
             .dz-image {
                 // opacity: 0.8;
                 img {
-                    @include prefix((transform: scale(1.05, 1.05)));
+                    @include prefix(
+                        (
+                            transform: scale(1.05, 1.05),
+                        )
+                    );
 
                     // Getting rid of that white bleed-in
-                    @include prefix((filter: blur(8px)), webkit);
+                    @include prefix(
+                        (
+                            filter: blur(8px),
+                        ),
+                        webkit
+                    );
 
                     // Getting rid of that white bleed-in
-
                 }
             }
         }
@@ -259,7 +332,11 @@
 
         &.dz-success {
             .dz-success-mark {
-                @include prefix((animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1)));
+                @include prefix(
+                    (
+                        animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1),
+                    )
+                );
             }
         }
 
@@ -267,11 +344,16 @@
             .dz-error-mark {
                 opacity: 1;
 
-                @include prefix((animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1)));
+                @include prefix(
+                    (
+                        animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1),
+                    )
+                );
             }
         }
 
-        .dz-success-mark, .dz-error-mark {
+        .dz-success-mark,
+        .dz-error-mark {
             $image-height: 54px;
             $image-width: 54px;
 
@@ -295,18 +377,30 @@
         &.dz-processing .dz-progress {
             opacity: 1;
 
-            @include prefix((transition: all 0.2s linear));
+            @include prefix(
+                (
+                    transition: all 0.2s linear,
+                )
+            );
         }
 
         &.dz-complete .dz-progress {
             opacity: 0;
 
-            @include prefix((transition: opacity 0.4s ease-in));
+            @include prefix(
+                (
+                    transition: opacity 0.4s ease-in,
+                )
+            );
         }
 
         &:not(.dz-processing) {
             .dz-progress {
-                @include prefix((animation: pulse 6s ease infinite));
+                @include prefix(
+                    (
+                        animation: pulse 6s ease infinite,
+                    )
+                );
             }
         }
 
@@ -339,7 +433,11 @@
                 bottom: 0;
                 width: 0;
 
-                @include prefix((transition: width 300ms ease-in-out));
+                @include prefix(
+                    (
+                        transition: width 300ms ease-in-out,
+                    )
+                );
             }
         }
 
@@ -365,7 +463,11 @@
             display: none;
             opacity: 0;
 
-            @include prefix((transition: opacity 0.3s ease));
+            @include prefix(
+                (
+                    transition: opacity 0.3s ease,
+                )
+            );
 
             border-radius: 8px;
             font-size: 13px;
@@ -379,7 +481,7 @@
 
             // The triangle pointing up
             &:after {
-                content: "";
+                content: '';
                 position: absolute;
                 top: -6px;
                 left: $width / 2 - 6px;

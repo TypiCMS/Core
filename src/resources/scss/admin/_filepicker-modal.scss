@@ -16,10 +16,6 @@
         }
     }
 
-    &-no-dropzone .dropzone {
-        display: none;
-    }
-
     &-btn-close {
         @extend .typicms-modal-btn-close;
     }
