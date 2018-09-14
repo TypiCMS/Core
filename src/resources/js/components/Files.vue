@@ -86,7 +86,15 @@ export default {
                 });
         },
         openFilepicker() {
-            this.$root.$emit('openFilepicker');
+            let options = {
+                open: true,
+                multiple: true,
+                dropzone: false,
+                overlay: true,
+                single: false,
+                modal: true,
+            };
+            this.$root.$emit('openFilepicker', options);
         },
         remove(file) {
             let index = this.data.models.indexOf(file);

@@ -17,7 +17,7 @@
                 </button>
             </div>
 
-            <button class="filepicker-btn-close" id="close-filepicker"><span class="fa fa-close"></span></button>
+            <button class="filepicker-btn-close" type="button" @click="closeModal"><span class="fa fa-close"></span></button>
 
             <div class="btn-toolbar">
                 <button class="btn btn-sm btn-light mr-2" @click="newFolder(folder.id)" type="button">
@@ -114,6 +114,7 @@
                 :disabled="selectedFiles.length < 1"
                 @click="addSelectedFiles()"
                 id="btn-add-selected-files"
+                v-if="options.multiple"
             >
                 {{ $t('Add selected files') }}
             </button>
@@ -123,6 +124,7 @@
                 type="button"
                 @click="addSingleFile(selectedFiles[0])"
                 id="btn-add-selected-file"
+                v-if="options.single"
             >
                 {{ $t('Add selected file') }}
             </button>
@@ -143,16 +145,29 @@ export default {
         vueDropzone,
     },
     props: {
-        options: {
-            type: Object,
-            required: false,
-            default() {
-                return {
-                    modal: false,
-                    dropzone: true,
-                    multiple: false,
-                };
-            },
+        modal: {
+            type: Boolean,
+            default: true,
+        },
+        dropzone: {
+            type: Boolean,
+            default: true,
+        },
+        multiple: {
+            type: Boolean,
+            default: false,
+        },
+        single: {
+            type: Boolean,
+            default: false,
+        },
+        open: {
+            type: Boolean,
+            default: false,
+        },
+        overlay: {
+            type: Boolean,
+            default: true,
         },
         relatedTable: {
             type: String,
@@ -171,6 +186,14 @@ export default {
             view: 'grid',
             selectedItems: [],
             baseUrl: '/api/files',
+            options: {
+                modal: this.modal,
+                dropzone: this.dropzone,
+                multiple: this.multiple,
+                single: this.single,
+                open: this.open,
+                overlay: this.overlay,
+            },
             dropOptions: {
                 clickable: ['#btnAddFiles', '#dropzone'],
                 url: '/admin/files',
@@ -214,11 +237,13 @@ export default {
         if (sessionStorage.getItem('view')) {
             this.view = JSON.parse(sessionStorage.getItem('view'));
         }
-        this.$root.$on('openFilepicker', () => {
+        window.EventBus.$on('openFilepickerForCKEditor', options => {
             $('html, body').addClass('noscroll');
-            $('#filepicker')
-                .addClass('filepicker-modal-open')
-                .addClass('filepicker-multiple');
+            this.options = options;
+        });
+        this.$root.$on('openFilepicker', options => {
+            $('html, body').addClass('noscroll');
+            this.options = options;
         });
     },
     computed: {
@@ -227,6 +252,9 @@ export default {
                 'filepicker-modal': this.options.modal,
                 'filepicker-no-dropzone': !this.options.dropzone,
                 'filepicker-multiple': this.options.multiple,
+                'filepicker-single': this.options.single,
+                'filepicker-modal-open': this.options.open,
+                'filepicker-modal-no-overlay': !this.options.overlay,
             };
         },
         url() {
@@ -469,8 +497,7 @@ export default {
                 data = {};
 
             if (this.selectedFiles.length === 0) {
-                $('html, body').removeClass('noscroll');
-                $('#filepicker').removeClass('filepicker-modal-open');
+                this.closeModal();
                 return;
             }
 
@@ -484,8 +511,7 @@ export default {
                 .then(response => {
                     this.selectedItems = [];
                     this.$root.$emit('filesAdded', response.data.models);
-                    $('html, body').removeClass('noscroll');
-                    $('#filepicker').removeClass('filepicker-modal-open');
+                    this.closeModal();
 
                     if (response.data.number === 0) {
                         alertify.error(response.data.message);
@@ -498,6 +524,10 @@ export default {
                     alertify.error('Error ' + error.status + ' ' + error.statusText);
                 });
         },
+        closeModal() {
+            $('html, body').removeClass('noscroll');
+            this.options.open = false;
+        },
         switchView(view) {
             this.view = view;
             sessionStorage.setItem('view', JSON.stringify(view));
@@ -509,7 +539,7 @@ export default {
             this.selectedItems = [];
         },
         onDoubleClick(item) {
-            if ($('#filepicker').hasClass('filepicker-multiple')) {
+            if (this.options.multiple) {
                 this.addSelectedFiles();
             } else {
                 this.addSingleFile(item);
@@ -521,11 +551,8 @@ export default {
             if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
                 parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/storage/' + item.path);
                 parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
-            } else {
-                // this.$root.$emit('fileAdded', item);
-                $('html, body').removeClass('noscroll');
-                $('#filepicker').removeClass('filepicker-modal-open');
             }
+            this.closeModal();
         },
         checkNone() {
             this.selectedItems = [];

@@ -63,6 +63,7 @@ CKEDITOR.editorConfig = function(config) {
     config.filebrowserImageBrowseUrl = '/admin/files?type=i&view=filepicker';
 };
 
+// dialogDefinition
 CKEDITOR.on('dialogDefinition', function(event) {
     var editor = event.editor;
     var dialogDefinition = event.data.definition;
@@ -70,10 +71,6 @@ CKEDITOR.on('dialogDefinition', function(event) {
 
     var cleanUpFuncRef = CKEDITOR.tools.addFunction(function() {
         $('#filepicker')
-            .removeClass('filepicker-single')
-            .removeClass('filepicker-modal-no-overlay')
-            .removeClass('filepicker-modal-open')
-            .addClass('filepicker-multiple')
             .data('CKEditorCleanUpFuncNum', 0)
             .data('CKEditorFuncNum', 0);
         $('html, body').removeClass('noscroll');
@@ -87,15 +84,27 @@ CKEDITOR.on('dialogDefinition', function(event) {
             browseButton.hidden = false;
             browseButton.onClick = function(dialog, i) {
                 editor._.filebrowserSe = this;
+
+                new Vue({
+                    data: {
+                        options: {
+                            modal: true,
+                            dropzone: false,
+                            multiple: false,
+                            single: true,
+                            overlay: false,
+                            open: true,
+                        },
+                    },
+                    created() {
+                        window.EventBus.$emit('openFilepickerForCKEditor', this.options);
+                    },
+                });
+
                 $('#filepicker')
-                    .addClass('filepicker-single')
-                    .removeClass('filepicker-multiple')
-                    .addClass('filepicker-modal-open')
-                    .addClass('filepicker-modal-no-overlay')
                     .data('CKEditorCleanUpFuncNum', cleanUpFuncRef)
                     .data('CKEditorFuncNum', CKEDITOR.instances[event.editor.name]._.filebrowserFn);
-                $('html, body').addClass('noscroll');
             };
         }
     }
-}); // dialogDefinition
+});

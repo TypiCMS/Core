@@ -60,6 +60,7 @@ import ItemListTree from './components/ItemListTree.vue';
  */
 import Filepicker from './components/Filepicker.vue';
 import Files from './components/Files.vue';
+window.EventBus = new Vue({});
 
 new Vue({
     i18n,
