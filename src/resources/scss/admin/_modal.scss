@@ -15,7 +15,7 @@ $height: 75vh;
     &-wrapper {
         height: $height;
         width: $width;
-        background-color: #FFF;
+        background-color: #fff;
         overflow: scroll;
     }
 
@@ -28,7 +28,7 @@ $height: 75vh;
         width: 100vw;
         height: 100vh;
         background-color: rgba(0, 0, 0, 0.5);
-        content: "";
+        content: '';
     }
 
     &-content {
