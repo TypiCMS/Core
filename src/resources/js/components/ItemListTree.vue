@@ -24,11 +24,11 @@
             <slot name="buttons" v-if="!loading"></slot>
         </div>
 
-        <sl-vue-tree v-model="models" :allowMultiselect="false">
+        <sl-vue-tree v-model="models" :allowMultiselect="false" ref="slVueTree">
 
             <template slot="title" slot-scope="{ node }">
 
-                <div @click="deleteFromNested(data)" class="btn btn-xs btn-link">
+                <div @click="deleteFromNested(node)" class="btn btn-xs btn-link">
                     <span class="fa fa-remove"></span>
                 </div>
 
@@ -102,6 +102,25 @@ export default {
                 })
                 .catch(error => {
                     alertify.error(error.response.data.message || 'An error occurred with the data fetch.');
+                });
+        },
+        deleteFromNested(node) {
+            let data = node.data;
+            let title = data.title[TypiCMS.content_locale];
+            if (data.children && data.children.length > 0) {
+                alertify.error('This item cannot be deleted because it has children.');
+                return false;
+            }
+            if (!window.confirm('Do you want to delete « ' + title + ' » ?')) {
+                return false;
+            }
+            axios
+                .delete('/api/pages/' + data.id)
+                .then(data => {
+                    this.$refs.slVueTree.remove([node.path]);
+                })
+                .catch(error => {
+                    alertify.error('Error ' + error.response.status + ' ' + error.response.statusText);
                 });
         },
         toggle() {
