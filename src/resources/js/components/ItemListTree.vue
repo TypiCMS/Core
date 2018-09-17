@@ -4,6 +4,7 @@
 
         <div class="btn-toolbar">
             <item-list-selector
+                class="mr-2"
                 :filtered-models="filteredModels"
                 :all-checked="allChecked"
                 :loading="loading"

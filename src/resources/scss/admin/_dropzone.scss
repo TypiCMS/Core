@@ -116,19 +116,6 @@
     $image-border-radius: 0;
     display: none;
 
-    &.processing {
-        padding: 12px;
-        background-color: #fff;
-        display: block;
-        position: absolute;
-        bottom: 0;
-        height: auto;
-        left: 0;
-        width: 100%;
-        border-top: 1px solid $gray-400;
-        z-index: 2001;
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-    }
     &.fullscreen {
         align-items: center;
         justify-content: center;
@@ -159,6 +146,17 @@
     }
 
     &.dz-started {
+        padding: 12px;
+        background-color: #fff;
+        display: block;
+        position: absolute;
+        bottom: 0;
+        height: auto;
+        left: 0;
+        width: 100%;
+        border-top: 1px solid $gray-400;
+        z-index: 2001;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
         .dz-message {
             display: none;
         }
@@ -166,16 +164,12 @@
 
     &.dz-drag-hover {
         border-style: solid;
-
-        .dz-message {
-            // opacity: 0.5;
-        }
     }
 
     .dz-message {
         text-align: center;
         margin-top: 55px;
-        font-size: 24px;
+        font-size: 18px;
         background-color: $gray-800;
         border-radius: 30px;
         padding: 10px 30px;

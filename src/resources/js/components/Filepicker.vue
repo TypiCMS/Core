@@ -11,8 +11,8 @@
                         <span v-if="path.length === index+1">{{ folder.name }}</span>
                         <span v-if="path.length !== index+1">/</span>
                     </span>
-                <button type="button" class="btn btn-sm btn-primary mr-2" id="btnAddFiles">
                 </h1>
+                <button type="button" class="btn btn-sm btn-primary mr-2" id="btnAddFiles" v-if="dropzone">
                     <i class="fa fa-upload text-white-50"></i> {{ $t('Upload files') }}
                 </button>
             </div>
@@ -69,6 +69,7 @@
                 @vdropzone-success="dropzoneSuccess"
                 @vdropzone-sending="dropzoneSending"
                 @vdropzone-complete="dropzoneComplete"
+                v-if="dropzone"
                 >
             </vue-dropzone>
 
@@ -195,7 +196,7 @@ export default {
                 overlay: this.overlay,
             },
             dropOptions: {
-                clickable: ['#btnAddFiles', '#dropzone'],
+                clickable: ['#btnAddFiles'],
                 url: '/admin/files',
                 dictDefaultMessage: this.$i18n.t('Drop to upload.'),
                 acceptedFiles: [
@@ -253,7 +254,6 @@ export default {
         classes() {
             return {
                 'filepicker-modal': this.options.modal,
-                'filepicker-no-dropzone': !this.options.dropzone,
                 'filepicker-multiple': this.options.multiple,
                 'filepicker-single': this.options.single,
                 'filepicker-modal-open': this.options.open,
@@ -302,7 +302,6 @@ export default {
                 });
         },
         dropzoneSending(file, xhr, formData) {
-            $('#dropzone').addClass('processing');
             this.loading = true;
             formData.append('_token', document.head.querySelector('meta[name="csrf-token"]').content);
             for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
@@ -326,7 +325,6 @@ export default {
                 this.$refs.dropzone.getQueuedFiles().length === 0
             ) {
                 setTimeout(() => {
-                    $('#dropzone').removeClass('processing');
                     this.loading = false;
                 }, 1000);
             }

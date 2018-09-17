@@ -23,9 +23,4 @@
     &-btn-add {
         @extend .typicms-modal-btn-add;
     }
-
-    &-multiple .btn-add-multiple,
-    &-single .btn-add-single {
-        display: block !important;
-    }
 }
