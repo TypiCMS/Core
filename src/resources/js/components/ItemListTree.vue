@@ -116,6 +116,9 @@ export default {
                 if (node.data.id === parentId) {
                     list = node.children.map(item => {
                         item.data.parent_id = parentId;
+                        if (node.data.private === 1) {
+                            item.data.private = 1;
+                        }
                         return item.data;
                     });
                 }
