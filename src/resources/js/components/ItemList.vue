@@ -94,11 +94,11 @@ export default {
         },
         sorting: {
             type: Array,
-            default: ['-id'],
+            default: () => ['-id'],
         },
         searchable: {
             type: Array,
-            default: false,
+            default: () => [],
         },
         table: {
             type: String,
