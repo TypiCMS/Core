@@ -58,21 +58,6 @@ abstract class BaseAdminController extends Controller
     }
 
     /**
-     * Sort list.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function sort()
-    {
-        $this->repository->sort(request()->all());
-
-        return response()->json([
-            'error' => false,
-            'message' => __('Items sorted'),
-        ]);
-    }
-
-    /**
      * Redirect after a form is saved.
      *
      * @param $request
