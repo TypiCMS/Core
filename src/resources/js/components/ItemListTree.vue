@@ -3,28 +3,10 @@
     <div class="item-list-tree">
 
         <div class="btn-toolbar">
-            <item-list-selector
-                class="mr-2"
-                :filtered-models="filteredModels"
-                :all-checked="allChecked"
-                :loading="loading"
-                @toggle="toggle"
-                @check-all="checkAll"
-                @check-none="checkNone"
-                @check-published="checkPublished"
-                @check-unpublished="checkUnpublished"
-            ></item-list-selector>
-            <item-list-actions
-                :number-of-checked-models="checkedModels.length"
-                :loading="loading"
-                @destroy="destroy"
-                @publish="publish"
-                @unpublish="unpublish"
-            ></item-list-actions>
             <slot name="buttons" v-if="!loading"></slot>
         </div>
 
-        <sl-vue-tree v-model="models" :allowMultiselect="false" ref="slVueTree">
+        <sl-vue-tree v-model="models" :allowMultiselect="false" ref="slVueTree" @drop="drop">
 
             <template slot="title" slot-scope="{ node }">
 
@@ -34,7 +16,7 @@
 
                 <a class="btn btn-light btn-xs" :href="'pages/'+node.data.id+'/edit'">Edit</a>
 
-                <div class="btn btn-xs btn-link btn-status" @click="toggleStatus(node.data)">
+                <div class="btn btn-xs btn-link btn-status" @click="toggleStatus(node)">
                     <span class="fa btn-status-switch" :class="node.data.status[locale] == '1' ? 'fa-toggle-on' : 'fa-toggle-off'"></span>
                 </div>
 
@@ -68,7 +50,7 @@ export default {
         ItemListActions,
     },
     props: {
-        url: {
+        urlBase: {
             type: String,
             required: true,
         },
@@ -95,7 +77,7 @@ export default {
     methods: {
         fetchData() {
             axios
-                .get(this.url)
+                .get(this.urlBase)
                 .then(response => {
                     this.models = response.data;
                     this.loading = false;
@@ -105,9 +87,9 @@ export default {
                 });
         },
         deleteFromNested(node) {
-            let data = node.data;
-            let title = data.title[TypiCMS.content_locale];
-            if (data.children && data.children.length > 0) {
+            let model = node.data;
+            let title = model.title[this.locale];
+            if (node.children && node.children.length > 0) {
                 alertify.error('This item cannot be deleted because it has children.');
                 return false;
             }
@@ -115,7 +97,7 @@ export default {
                 return false;
             }
             axios
-                .delete('/api/pages/' + data.id)
+                .delete(this.urlBase + '/' + model.id)
                 .then(data => {
                     this.$refs.slVueTree.remove([node.path]);
                 })
@@ -123,33 +105,51 @@ export default {
                     alertify.error('Error ' + error.response.status + ' ' + error.response.statusText);
                 });
         },
-        toggle() {
-            if (this.allChecked === true) {
-                this.checkNone();
-            } else {
-                this.checkAll();
+        drop(draggingNodes, position, event) {
+            let list = [];
+            let parentId = position.node.data.parent_id;
+            if (position.placement === 'inside') {
+                parentId = position.node.data.id;
             }
+
+            this.$refs.slVueTree.traverse((node, nodeModel, path) => {
+                if (node.data.id === parentId) {
+                    list = node.children.map(item => {
+                        item.data.parent_id = parentId;
+                        return item.data;
+                    });
+                }
+            });
+
+            let data = {
+                moved: draggingNodes[0].data.id,
+                item: list,
+            };
+
+            axios.post(this.urlBase + '/sort', data).catch(error => {
+                alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
+            });
         },
-        checkAll() {
-            this.checkedModels = this.models;
-        },
-        checkNone() {
-            this.checkedModels = [];
-        },
-        checkPublished() {
-            alert('check published');
-        },
-        checkUnpublished() {
-            alert('check unpublished');
-        },
-        destroy() {
-            alert('destroy');
-        },
-        publish() {
-            alert('publish');
-        },
-        unpublish() {
-            alert('unpublish');
+        toggleStatus(node) {
+            let originalNode = JSON.parse(JSON.stringify(node)),
+                status = parseInt(node.data.status[this.locale]) || 0,
+                newStatus = Math.abs(status - 1).toString(),
+                data = {
+                    status: {},
+                },
+                label = newStatus === '1' ? 'published' : 'unpublished';
+            data.status[this.locale] = newStatus;
+            node.data.status[this.locale] = newStatus;
+            this.$refs.slVueTree.updateNode(node.path, node);
+            axios
+                .patch(this.urlBase + '/' + node.data.id, data)
+                .then(response => {
+                    alertify.success(this.$i18n.t('Item is ' + label + '.'));
+                })
+                .catch(error => {
+                    this.$refs.slVueTree.updateNode(node.path, originalNode);
+                    alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
+                });
         },
     },
 };
