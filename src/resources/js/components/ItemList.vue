@@ -3,9 +3,9 @@
     <div class="item-list">
 
         <div class="item-list-header">
-            <h2 class="item-list-title">
+            <h1 class="item-list-title">
                 {{ $tc('# ' + title, data.total, { count: data.total }) }}
-            </h2>
+            </h1>
             <slot name="add-button"></slot>
         </div>
 

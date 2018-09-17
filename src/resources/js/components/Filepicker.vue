@@ -5,14 +5,14 @@
         <div class="wrapper">
 
             <div class="filepicker-header">
-                <h2 class="filepicker-title">
+                <h1 class="filepicker-title">
                     <span v-for="(folder, index) in path">
                         <a v-if="path.length !== index+1" href="#" @click="openFolder(folder)">{{ folder.name }}</a>
                         <span v-if="path.length === index+1">{{ folder.name }}</span>
                         <span v-if="path.length !== index+1">/</span>
                     </span>
-                </h2>
                 <button type="button" class="btn btn-sm btn-primary mr-2" id="btnAddFiles">
+                </h1>
                     <i class="fa fa-upload text-white-50"></i> {{ $t('Upload files') }}
                 </button>
             </div>
