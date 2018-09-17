@@ -15060,81 +15060,6 @@ a.text-dark:focus {
   pointer-events: auto;
 }
 
-.angular-ui-tree-nodes {
-  position: relative;
-  padding: 0;
-  list-style: none;
-}
-
-.angular-ui-tree-nodes .angular-ui-tree-nodes {
-  padding-left: 25px;
-}
-
-.angular-ui-tree-node,
-.angular-ui-tree-placeholder {
-  display: block;
-  position: relative;
-  border-top: 1px solid #ddd;
-}
-
-.angular-ui-tree-node .tree-row,
-.angular-ui-tree-placeholder .tree-row {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  padding: 4px 0;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.angular-ui-tree-node .tree-row div,
-.angular-ui-tree-placeholder .tree-row div {
-  margin: 0 2px;
-}
-
-.angular-ui-tree-node .tree-row .title,
-.angular-ui-tree-placeholder .tree-row .title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.angular-ui-tree-node .tree-row .disclose,
-.angular-ui-tree-placeholder .tree-row .disclose {
-  position: absolute;
-  cursor: pointer;
-  left: -15px;
-  top: 6px;
-  width: 14px;
-  height: 14px;
-  color: #adb5bd;
-  font-size: 18px;
-}
-
-.angular-ui-tree-drag > li:first-child {
-  border-color: transparent;
-}
-
-.angular-ui-tree-placeholder {
-  background-color: #e9ecef;
-}
-
-.angular-ui-tree-hidden {
-  display: none;
-}
-
-.angular-ui-tree-handle {
-  cursor: move;
-}
-
-.angular-ui-tree-drag {
-  position: absolute;
-  pointer-events: none;
-  z-index: 999;
-  opacity: 0.8;
-}
-
 .sl-vue-tree {
   position: relative;
   cursor: default;
@@ -15145,8 +15070,13 @@ a.text-dark:focus {
 }
 
 .sl-vue-tree-root > .sl-vue-tree-nodes-list {
+  overflow: hidden;
   position: relative;
   padding-bottom: 4px;
+}
+
+.sl-vue-tree-selected > .sl-vue-tree-node-item {
+  background-color: #f8f9fa;
 }
 
 .sl-vue-tree-node-item {
@@ -15158,15 +15088,44 @@ a.text-dark:focus {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  padding-left: 10px;
+  padding-left: 20px;
   padding-right: 10px;
   line-height: 28px;
   border: 1px solid transparent;
   border-top: 1px solid #ddd;
 }
 
+.sl-vue-tree-node-item.sl-vue-tree-cursor-inside {
+  background-color: #dee2e6;
+}
+
 .sl-vue-tree-node-item.sl-vue-tree-cursor-inside .title {
-  border-color: #585;
+  cursor: default !important;
+}
+
+.sl-vue-tree-node.sl-vue-tree-selected .sl-vue-tree-node-item.sl-vue-tree-cursor-inside {
+  background-color: #f8f9fa;
+}
+
+.sl-vue-tree-cursor {
+  position: absolute;
+  background-color: #dee2e6;
+  height: 3px;
+  width: 100%;
+}
+
+.sl-vue-tree-cursor:after {
+  position: absolute;
+  content: ' ';
+  display: block;
+  border: 12px solid #dee2e6;
+  left: 0;
+  top: -11px;
+  width: 0;
+  height: 0;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
 }
 
 .sl-vue-tree-gap {
@@ -15177,10 +15136,8 @@ a.text-dark:focus {
 .sl-vue-tree-toggle {
   position: absolute;
   cursor: pointer;
-  left: -12px;
+  left: 0px;
   top: 6px;
-  width: 14px;
-  height: 14px;
   color: #ced4da;
   font-size: 18px;
 }
@@ -15189,22 +15146,14 @@ a.text-dark:focus {
   margin-left: auto;
 }
 
-.sl-vue-tree-cursor {
-  position: absolute;
-  border: 1px solid #585;
-  height: 1px;
-  z-index: 9999;
-  margin-top: -1px;
-  width: 100%;
-}
-
 .sl-vue-tree-drag-info {
   position: absolute;
-  background-color: #666;
+  background-color: #495057;
   opacity: 0.5;
-  color: #fff;
   margin-left: 20px;
+  margin-bottom: 20px;
   padding: 5px 10px;
+  color: #fff;
 }
 
 .sl-vue-tree-title {
@@ -15343,21 +15292,6 @@ a.text-dark:focus {
   display: none;
 }
 
-.dropzone.processing {
-  padding: 12px;
-  background-color: #fff;
-  display: block;
-  position: absolute;
-  bottom: 0;
-  height: auto;
-  left: 0;
-  width: 100%;
-  border-top: 1px solid #ced4da;
-  z-index: 2001;
-  -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-          box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-}
-
 .dropzone.fullscreen {
   -webkit-box-align: center;
       -ms-flex-align: center;
@@ -15391,6 +15325,21 @@ a.text-dark:focus {
   cursor: pointer;
 }
 
+.dropzone.dz-started {
+  padding: 12px;
+  background-color: #fff;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  height: auto;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #ced4da;
+  z-index: 2001;
+  -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
 .dropzone.dz-started .dz-message {
   display: none;
 }
@@ -15402,7 +15351,7 @@ a.text-dark:focus {
 .dropzone .dz-message {
   text-align: center;
   margin-top: 55px;
-  font-size: 24px;
+  font-size: 18px;
   background-color: #343a40;
   border-radius: 30px;
   padding: 10px 30px;
@@ -16647,11 +16596,6 @@ a.text-dark:focus {
   padding: 30px;
 }
 
-.filepicker-multiple .btn-add-multiple,
-.filepicker-single .btn-add-single {
-  display: block !important;
-}
-
 .permissions-modules-title {
   font-size: 1.25rem;
   border-bottom: 1px solid #ced4da;
@@ -16746,7 +16690,6 @@ a.text-dark:focus {
 
 .typicms-modal-btn-add,
 .filepicker-btn-add {
-  display: none;
   border-radius: 0;
   position: fixed;
   height: 50px;
