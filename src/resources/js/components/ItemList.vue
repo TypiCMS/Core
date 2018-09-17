@@ -312,7 +312,7 @@ export default {
             data.status[TypiCMS.content_locale] = newStatus;
             axios
                 .patch(this.urlBase + '/' + model.id, data)
-                .then(responses => {
+                .then(response => {
                     alertify.success(this.$i18n.t('Item is ' + label + '.'));
                 })
                 .catch(error => {
