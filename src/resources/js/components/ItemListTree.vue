@@ -2,6 +2,13 @@
 
     <div class="item-list-tree">
 
+        <div class="item-list-header">
+            <h1 class="item-list-title">
+                {{ $t(title) }}
+            </h1>
+            <slot name="add-button"></slot>
+        </div>
+
         <div class="btn-toolbar">
             <slot name="buttons" v-if="!loading"></slot>
         </div>
@@ -50,6 +57,10 @@ export default {
         ItemListActions,
     },
     props: {
+        title: {
+            type: String,
+            required: true,
+        },
         urlBase: {
             type: String,
             required: true,
