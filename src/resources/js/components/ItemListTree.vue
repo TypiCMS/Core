@@ -13,7 +13,7 @@
             <slot name="buttons" v-if="!loading"></slot>
         </div>
 
-        <sl-vue-tree v-model="models" :allowMultiselect="false" ref="slVueTree" @drop="drop">
+        <sl-vue-tree v-model="models" :allowMultiselect="false" ref="slVueTree" @drop="drop" @toggle="toggle">
 
             <template slot="title" slot-scope="{ node }">
 
@@ -152,6 +152,13 @@ export default {
 
             axios.post(this.urlBase + '/sort', data).catch(error => {
                 alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
+            });
+        },
+        toggle(node) {
+            let data = {};
+            data[this.title + '_' + node.data.id + '_collapsed'] = node.isExpanded;
+            axios.post('/admin/users/current/updatepreferences', data).catch(error => {
+                alertify.error('User preference couldn’t be set.');
             });
         },
         toggleStatus(node) {
