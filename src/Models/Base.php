@@ -116,7 +116,7 @@ abstract class Base extends Model
         }
     }
 
-    public function scopeTranslated($query, $columns)
+    public function scopeTranslated($query, array $columns)
     {
         foreach ($columns as $column) {
             $query->selectRaw('`'.$column.'`->>"$.'.request('locale', config('app.locale')).'" COLLATE utf8mb4_unicode_ci `'.$column.'_translated`');
