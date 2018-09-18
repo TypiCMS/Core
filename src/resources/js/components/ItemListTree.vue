@@ -118,6 +118,7 @@ export default {
         },
         drop(draggingNodes, position, event) {
             let list = [];
+            let draggedNode = draggingNodes[0];
             let parentId = position.node.data.parent_id;
             if (position.placement === 'inside') {
                 parentId = position.node.data.id;
@@ -136,7 +137,7 @@ export default {
             });
 
             let data = {
-                moved: draggingNodes[0].data.id,
+                moved: draggedNode.data.id,
                 item: list,
             };
 
