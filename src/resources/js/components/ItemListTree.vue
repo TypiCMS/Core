@@ -116,7 +116,7 @@ export default {
                     alertify.error('Error ' + error.response.status + ' ' + error.response.statusText);
                 });
         },
-        drop(draggingNodes, position, event) {
+        drop(draggingNodes, position) {
             let list = [];
             let draggedNode = draggingNodes[0];
             let parentId = position.node.data.parent_id;
