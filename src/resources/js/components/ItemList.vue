@@ -29,7 +29,7 @@
                 @unpublish="unpublish"
             ></item-list-actions>
             <item-list-per-page
-                v-if="filteredItems.length > 10"
+                v-if="this.data.total > 10"
                 class="mr-2"
                 :loading="loading"
                 :per-page="parseInt(data.per_page)"
