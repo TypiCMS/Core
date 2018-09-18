@@ -125,14 +125,23 @@ export default {
             }
 
             this.$refs.slVueTree.traverse((node, nodeModel, path) => {
-                if (node.data.id === parentId) {
-                    list = node.children.map(item => {
-                        item.data.parent_id = parentId;
-                        if (node.data.private === 1) {
-                            item.data.private = 1;
-                        }
-                        return item.data;
-                    });
+                if (node.data.id === draggedNode.data.id) {
+                    node.data.parent_id = parentId;
+                }
+                if (parentId !== null) {
+                    if (node.data.id === parentId) {
+                        list = node.children.map(item => {
+                            item.data.parent_id = parentId;
+                            if (node.data.private === 1) {
+                                item.data.private = 1;
+                            }
+                            return item.data;
+                        });
+                    }
+                } else {
+                    if (node.data.parent_id === null) {
+                        list.push(node.data);
+                    }
                 }
             });
 
