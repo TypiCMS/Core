@@ -24,6 +24,7 @@
                 class="mr-2"
                 :number-of-checked-models="numberOfcheckedItems"
                 :loading="loading"
+                :publishable="publishable"
                 @destroy="destroy"
                 @publish="publish"
                 @unpublish="unpublish"
@@ -99,6 +100,10 @@ export default {
         searchable: {
             type: Array,
             default: () => [],
+        },
+        publishable: {
+            type: Boolean,
+            default: true,
         },
         table: {
             type: String,
