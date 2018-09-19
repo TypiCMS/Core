@@ -67,6 +67,11 @@ import ItemList from './components/ItemList.vue';
 import ItemListTree from './components/ItemListTree.vue';
 
 /**
+ * History
+ */
+import History from './components/History.vue';
+
+/**
  * Files
  */
 import Filepicker from './components/Filepicker.vue';
@@ -83,6 +88,7 @@ new Vue({
         ItemListCheckbox,
         Filepicker,
         Files,
+        History,
     },
 }).$mount('#app');
 
