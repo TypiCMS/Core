@@ -4,7 +4,7 @@
 
         <div class="item-list-header">
             <h1 class="item-list-title">
-                {{ $tc('# ' + title, data.total, { count: data.total }) }}
+                {{ $t(title.charAt(0).toUpperCase() + title.slice(1)) }}
             </h1>
             <slot name="add-button"></slot>
         </div>
@@ -40,6 +40,9 @@
             <div class="d-flex align-items-center ml-2">
                 <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
             </div>
+            <small class="text-muted align-self-center" v-if="!loading">
+                {{ $tc('# ' + title, data.total, { count: data.total }) }}
+            </small>
             <slot name="buttons"></slot>
         </div>
 
