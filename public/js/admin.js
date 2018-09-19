@@ -2389,6 +2389,138 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/js/components/History.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        clearButton: {
+            type: Boolean,
+            default: false
+        }
+    },
+    data: function data() {
+        return {
+            urlBase: '/api/history',
+            searchString: null,
+            sortArray: ['-id'],
+            searchableArray: this.searchable,
+            loading: false,
+            total: 0,
+            last_page: null,
+            data: {
+                current_page: 1,
+                data: [],
+                from: 1,
+                last_page: 1,
+                next_page_url: null,
+                per_page: 100,
+                prev_page_url: null,
+                to: 1,
+                total: 0
+            }
+        };
+    },
+
+    computed: {
+        url: function url() {
+            return this.urlBase + '?' + 'sort=' + this.sortArray.join(',') + '&fields[' + this.table + ']=' + this.fields + '&page=' + this.data.current_page + '&per_page=' + this.data.per_page;
+        },
+        filteredItems: function filteredItems() {
+            return this.data.data;
+        }
+    },
+    created: function created() {
+        this.fetchData();
+    },
+
+    methods: {
+        fetchData: function fetchData() {
+            var _this = this;
+
+            this.loading = true;
+            axios.get(this.url).then(function (response) {
+                _this.data = response.data;
+                _this.loading = false;
+            }).catch(function (error) {
+                alertify.error(error.response.data.message || _this.$i18n.t('An error occurred with the data fetch.'));
+            });
+        },
+        clearHistory: function clearHistory() {
+            var _this2 = this;
+
+            if (!window.confirm(this.$i18n.t('Do you want to clear history?'))) {
+                return false;
+            }
+            this.loading = true;
+            axios.delete(this.url).then(function (response) {
+                _this2.data.data = [];
+                _this2.loading = false;
+            }).catch(function (error) {
+                alertify.error(error.response.data.message || _this2.$i18n.t('An error occurred with the data fetch.'));
+            });
+        }
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/js/components/ItemList.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2406,6 +2538,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ItemListSearchBar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ItemListSearchBar__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ItemListPagination__ = __webpack_require__("./resources/js/components/ItemListPagination.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ItemListPagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ItemListPagination__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2511,6 +2648,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             default: function _default() {
                 return [];
             }
+        },
+        publishable: {
+            type: Boolean,
+            default: true
         },
         table: {
             type: String,
@@ -2748,6 +2889,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
+        publishable: {
+            type: Boolean,
+            default: true
+        },
         numberOfCheckedModels: {
             type: Number,
             required: true
@@ -3088,6 +3233,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
+        publishable: {
+            type: Boolean,
+            default: true
+        },
         filteredModels: {
             type: Array,
             required: true
@@ -3179,6 +3328,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3191,6 +3347,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         ItemListActions: __WEBPACK_IMPORTED_MODULE_2__ItemListActions___default.a
     },
     props: {
+        title: {
+            type: String,
+            required: true
+        },
         urlBase: {
             type: String,
             required: true
@@ -3245,34 +3405,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 alertify.error('Error ' + error.response.status + ' ' + error.response.statusText);
             });
         },
-        drop: function drop(draggingNodes, position, event) {
+        drop: function drop(draggingNodes, position) {
             var _this3 = this;
 
             var list = [];
+            var draggedNode = draggingNodes[0];
             var parentId = position.node.data.parent_id;
             if (position.placement === 'inside') {
                 parentId = position.node.data.id;
             }
 
             this.$refs.slVueTree.traverse(function (node, nodeModel, path) {
-                if (node.data.id === parentId) {
-                    list = node.children.map(function (item) {
-                        item.data.parent_id = parentId;
-                        if (node.data.private === 1) {
-                            item.data.private = 1;
-                        }
-                        return item.data;
-                    });
+                if (node.data.id === draggedNode.data.id) {
+                    node.data.parent_id = parentId;
+                }
+                if (parentId !== null) {
+                    if (node.data.id === parentId) {
+                        list = node.children.map(function (item) {
+                            item.data.parent_id = parentId;
+                            if (node.data.private === 1) {
+                                item.data.private = 1;
+                            }
+                            return item.data;
+                        });
+                    }
+                } else {
+                    if (node.data.parent_id === null) {
+                        list.push(node.data);
+                    }
                 }
             });
 
             var data = {
-                moved: draggingNodes[0].data.id,
+                moved: draggedNode.data.id,
                 item: list
             };
 
             axios.post(this.urlBase + '/sort', data).catch(function (error) {
                 alertify.error(error.response.data.message || _this3.$i18n.t('Sorry, an error occurred.'));
+            });
+        },
+        toggle: function toggle(node) {
+            var data = {};
+            data[this.title + '_' + node.data.id + '_collapsed'] = node.isExpanded;
+            axios.post('/api/users/current/updatepreferences', data).catch(function (error) {
+                alertify.error('User preference couldn’t be set.');
             });
         },
         toggleStatus: function toggleStatus(node) {
@@ -28317,6 +28494,19 @@ var render = function() {
     [
       _c(
         "div",
+        { staticClass: "item-list-header" },
+        [
+          _c("h1", { staticClass: "item-list-title" }, [
+            _vm._v("\n            " + _vm._s(_vm.$t(_vm.title)) + "\n        ")
+          ]),
+          _vm._v(" "),
+          _vm._t("add-button")
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
         { staticClass: "btn-toolbar" },
         [!_vm.loading ? _vm._t("buttons") : _vm._e()],
         2
@@ -28325,7 +28515,7 @@ var render = function() {
       _c("sl-vue-tree", {
         ref: "slVueTree",
         attrs: { allowMultiselect: false },
-        on: { drop: _vm.drop },
+        on: { drop: _vm.drop, toggle: _vm.toggle },
         scopedSlots: _vm._u([
           {
             key: "title",
@@ -28432,6 +28622,125 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-234b6c0c", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-270eb80e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/js/components/History.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-header" }, [
+      _vm._v("\n        " + _vm._s(_vm.$t("Latest changes")) + "\n        "),
+      _vm.filteredItems.length && _vm.clearButton
+        ? _c(
+            "button",
+            {
+              staticClass: "btn-clear-history",
+              attrs: { id: "clear-history" },
+              on: { click: _vm.clearHistory }
+            },
+            [_vm._v(_vm._s(_vm.$t("Clear")))]
+          )
+        : _vm._e()
+    ]),
+    _vm._v(" "),
+    _vm.filteredItems.length
+      ? _c("div", { staticClass: "table-responsive" }, [
+          _c("table", { staticClass: "table table-main mb-0" }, [
+            _c("thead", [
+              _c("tr", [
+                _c("th", { staticClass: "created_at" }, [
+                  _vm._v(_vm._s(_vm.$t("Date")))
+                ]),
+                _vm._v(" "),
+                _c("th", { staticClass: "title" }, [
+                  _vm._v(_vm._s(_vm.$t("Title")))
+                ]),
+                _vm._v(" "),
+                _c("th", { staticClass: "historable_table" }, [
+                  _vm._v(_vm._s(_vm.$t("Module")))
+                ]),
+                _vm._v(" "),
+                _c("th", { staticClass: "action" }, [
+                  _vm._v(_vm._s(_vm.$t("Action")))
+                ]),
+                _vm._v(" "),
+                _c("th", { staticClass: "user_name" }, [
+                  _vm._v(_vm._s(_vm.$t("User")))
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.filteredItems, function(model) {
+                return _c("tr", [
+                  _c("td", [_vm._v(_vm._s(_vm._f("date")(model.created_at)))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    model.href
+                      ? _c(
+                          "a",
+                          {
+                            attrs: {
+                              href: model.href + "?locale=" + model.locale
+                            }
+                          },
+                          [_vm._v(_vm._s(model.title))]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    !model.href
+                      ? _c("span", [_vm._v(_vm._s(model.title))])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    model.locale
+                      ? _c("span", [_vm._v("(" + _vm._s(model.locale) + ")")])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(model.historable_table))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("span", {
+                      staticClass: "fa fa-fw",
+                      class: model.icon_class
+                    }),
+                    _vm._v(
+                      " " + _vm._s(model.action) + "\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "user_name" }, [
+                    _c("div", { staticClass: "text-truncatable" }, [
+                      _vm._v(_vm._s(model.user_name))
+                    ])
+                  ])
+                ])
+              })
+            )
+          ])
+        ])
+      : _c("div", { staticClass: "card-body" }, [
+          _c("span", { staticClass: "text-muted" }, [
+            _vm._v(_vm._s(_vm.$t("History is empty.")))
+          ])
+        ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-270eb80e", module.exports)
   }
 }
 
@@ -28704,35 +29013,41 @@ var render = function() {
             [_vm._v(_vm._s(_vm.$t("None")))]
           ),
           _vm._v(" "),
-          _c("div", { staticClass: "dropdown-divider" }),
+          _vm.publishable
+            ? _c("div", { staticClass: "dropdown-divider" })
+            : _vm._e(),
           _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "dropdown-item",
-              attrs: { type: "button" },
-              on: {
-                click: function($event) {
-                  _vm.$emit("check-published")
-                }
-              }
-            },
-            [_vm._v(_vm._s(_vm.$t("Published items")))]
-          ),
+          _vm.publishable
+            ? _c(
+                "button",
+                {
+                  staticClass: "dropdown-item",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      _vm.$emit("check-published")
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(_vm.$t("Published items")))]
+              )
+            : _vm._e(),
           _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "dropdown-item",
-              attrs: { type: "button" },
-              on: {
-                click: function($event) {
-                  _vm.$emit("check-unpublished")
-                }
-              }
-            },
-            [_vm._v(_vm._s(_vm.$t("Unpublished items")))]
-          )
+          _vm.publishable
+            ? _c(
+                "button",
+                {
+                  staticClass: "dropdown-item",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      _vm.$emit("check-unpublished")
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(_vm.$t("Unpublished items")))]
+              )
+            : _vm._e()
         ]
       )
     ]
@@ -28869,45 +29184,51 @@ var render = function() {
         attrs: { "aria-labelledby": "dropdownActions" }
       },
       [
-        _c(
-          "button",
-          {
-            staticClass: "dropdown-item",
-            attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                _vm.$emit("publish")
-              }
-            }
-          },
-          [
-            _vm._v(_vm._s(_vm.$t("Publish")) + " "),
-            _c("span", { staticClass: "text-muted" }, [
-              _vm._v("(" + _vm._s(_vm.locale) + ")")
-            ])
-          ]
-        ),
+        _vm.publishable
+          ? _c(
+              "button",
+              {
+                staticClass: "dropdown-item",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    _vm.$emit("publish")
+                  }
+                }
+              },
+              [
+                _vm._v(_vm._s(_vm.$t("Publish")) + " "),
+                _c("span", { staticClass: "text-muted" }, [
+                  _vm._v("(" + _vm._s(_vm.locale) + ")")
+                ])
+              ]
+            )
+          : _vm._e(),
         _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "dropdown-item",
-            attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                _vm.$emit("unpublish")
-              }
-            }
-          },
-          [
-            _vm._v(_vm._s(_vm.$t("Unpublish")) + " "),
-            _c("span", { staticClass: "text-muted" }, [
-              _vm._v("(" + _vm._s(_vm.locale) + ")")
-            ])
-          ]
-        ),
+        _vm.publishable
+          ? _c(
+              "button",
+              {
+                staticClass: "dropdown-item",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    _vm.$emit("unpublish")
+                  }
+                }
+              },
+              [
+                _vm._v(_vm._s(_vm.$t("Unpublish")) + " "),
+                _c("span", { staticClass: "text-muted" }, [
+                  _vm._v("(" + _vm._s(_vm.locale) + ")")
+                ])
+              ]
+            )
+          : _vm._e(),
         _vm._v(" "),
-        _c("div", { staticClass: "dropdown-divider" }),
+        _vm.publishable
+          ? _c("div", { staticClass: "dropdown-divider" })
+          : _vm._e(),
         _vm._v(" "),
         _c(
           "button",
@@ -29069,9 +29390,7 @@ var render = function() {
             _vm._v(
               "\n            " +
                 _vm._s(
-                  _vm.$tc("# " + _vm.title, _vm.data.total, {
-                    count: _vm.data.total
-                  })
+                  _vm.$t(_vm.title.charAt(0).toUpperCase() + _vm.title.slice(1))
                 ) +
                 "\n        "
             )
@@ -29091,7 +29410,8 @@ var render = function() {
             attrs: {
               "filtered-models": _vm.filteredItems,
               "all-checked": _vm.allChecked,
-              loading: _vm.loading
+              loading: _vm.loading,
+              publishable: _vm.publishable
             },
             on: {
               "check-all": _vm.checkAll,
@@ -29105,7 +29425,8 @@ var render = function() {
             staticClass: "mr-2",
             attrs: {
               "number-of-checked-models": _vm.numberOfcheckedItems,
-              loading: _vm.loading
+              loading: _vm.loading,
+              publishable: _vm.publishable
             },
             on: {
               destroy: _vm.destroy,
@@ -29114,7 +29435,7 @@ var render = function() {
             }
           }),
           _vm._v(" "),
-          _vm.filteredItems.length > 10
+          this.data.total > 10
             ? _c("item-list-per-page", {
                 staticClass: "mr-2",
                 attrs: {
@@ -29130,6 +29451,20 @@ var render = function() {
               ? _c("span", { staticClass: "fa fa-spinner fa-spin fa-fw" })
               : _vm._e()
           ]),
+          _vm._v(" "),
+          !_vm.loading
+            ? _c("small", { staticClass: "text-muted align-self-center" }, [
+                _vm._v(
+                  "\n            " +
+                    _vm._s(
+                      _vm.$tc("# " + _vm.title, _vm.data.total, {
+                        count: _vm.data.total
+                      })
+                    ) +
+                    "\n        "
+                )
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _vm._t("buttons")
         ],
@@ -40766,7 +41101,6 @@ var map = {
 	"./delete-attachment.js": "./resources/js/admin/delete-attachment.js",
 	"./enable-selectize.js": "./resources/js/admin/enable-selectize.js",
 	"./jquery.slug.js": "./resources/js/admin/jquery.slug.js",
-	"./jquery.xsrf.js": "./resources/js/admin/jquery.xsrf.js",
 	"./lang-switcher-active.js": "./resources/js/admin/lang-switcher-active.js",
 	"./offcanvas-admin.js": "./resources/js/admin/offcanvas-admin.js",
 	"./on-drag-file.js": "./resources/js/admin/on-drag-file.js",
@@ -40813,10 +41147,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_ItemList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_ItemList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_ItemListTree_vue__ = __webpack_require__("./resources/js/components/ItemListTree.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_ItemListTree_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_ItemListTree_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_Filepicker_vue__ = __webpack_require__("./resources/js/components/Filepicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_Filepicker_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_Filepicker_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_Files_vue__ = __webpack_require__("./resources/js/components/Files.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_Files_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__components_Files_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_History_vue__ = __webpack_require__("./resources/js/components/History.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_History_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_History_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_Filepicker_vue__ = __webpack_require__("./resources/js/components/Filepicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_Filepicker_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__components_Filepicker_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_Files_vue__ = __webpack_require__("./resources/js/components/Files.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_Files_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__components_Files_vue__);
 // window._ = require('lodash');
 window.Popper = __webpack_require__("./node_modules/popper.js/dist/esm/popper.js").default;
 
@@ -40842,6 +41178,17 @@ if (token) {
   window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
+
+/**
+ * API Token
+ */
+var apiToken = document.head.querySelector('meta[name="api-token"]');
+
+if (apiToken) {
+  window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + apiToken.content;
+} else {
+  console.error('API token not found.');
 }
 
 /**
@@ -40875,6 +41222,11 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.filter('date', __WEBPACK_IMPORTED_MO
 
 
 /**
+ * History
+ */
+
+
+/**
  * Files
  */
 
@@ -40889,8 +41241,9 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     ItemListTree: __WEBPACK_IMPORTED_MODULE_8__components_ItemListTree_vue___default.a,
     ItemListStatusButton: __WEBPACK_IMPORTED_MODULE_4__components_ItemListStatusButton_vue___default.a,
     ItemListCheckbox: __WEBPACK_IMPORTED_MODULE_5__components_ItemListCheckbox_vue___default.a,
-    Filepicker: __WEBPACK_IMPORTED_MODULE_9__components_Filepicker_vue___default.a,
-    Files: __WEBPACK_IMPORTED_MODULE_10__components_Files_vue___default.a
+    Filepicker: __WEBPACK_IMPORTED_MODULE_10__components_Filepicker_vue___default.a,
+    Files: __WEBPACK_IMPORTED_MODULE_11__components_Files_vue___default.a,
+    History: __WEBPACK_IMPORTED_MODULE_9__components_History_vue___default.a
   }
 }).$mount('#app');
 
@@ -40959,10 +41312,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 		root.croppa = factory();
 	}
 })(this, function () {
-
 	// Build a croppa formatted URL
 	function url(src, width, height, options) {
-
 		// Defaults
 		if (!src) return; // Don't allow empty strings
 		if (!width) width = '_';else width = Math.round(width);
@@ -40979,7 +41330,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 				// A simple string option
 				if (typeof val == 'string') suffix += '-' + val;
-
 				// An object like {quadrant: 'T'} or {quadrant: ['T']}
 				else if ((typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object') {
 						for (key in val) {
@@ -40992,7 +41342,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 		}
 
 		// Break the path apart and put back together again
-		return src.replace(/^(.+)(\.[a-z]+)$/i, "$1" + suffix + "$2");
+		return src.replace(/^(.+)(\.[a-z]+)$/i, '$1' + suffix + '$2');
 	}
 
 	// Expose public methods.
@@ -41007,12 +41357,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /***/ (function(module, exports) {
 
 $(function () {
-
     /**
      * Delete attachment
      */
     $('.delete-attachment').click(function () {
-
         var field = $(this).data('field'),
             id = $(this).data('id'),
             table = $(this).data('table'),
@@ -41027,13 +41375,9 @@ $(function () {
         data['id'] = id;
         data[field] = 'delete';
 
-        $.ajax({
-            type: 'PATCH',
-            url: url,
-            data: data
-        }).done(function () {
+        axios.patch(url, data).then(function () {
             $this.parent().remove();
-        }).fail(function () {
+        }).catch(function () {
             alertify.error('An error occurred while deleting attachment.');
         });
 
@@ -41294,26 +41638,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 /***/ }),
 
-/***/ "./resources/js/admin/jquery.xsrf.js":
-/***/ (function(module, exports) {
-
-if (typeof TypiCMS !== 'undefined') {
-    $(function () {
-        $.ajaxSetup({
-            headers: {
-                'X-XSRF-TOKEN': TypiCMS.encrypted_token
-            }
-        });
-    });
-}
-
-/***/ }),
-
 /***/ "./resources/js/admin/lang-switcher-active.js":
 /***/ (function(module, exports) {
 
 $(function () {
-
     /**
      * Locale switcher : set active button
      */
@@ -41375,7 +41703,6 @@ $(function () {
 /***/ (function(module, exports) {
 
 $(function () {
-
     /**
      * Build modal window
      */
@@ -41410,7 +41737,7 @@ $(function () {
      */
     $('.btn-preview').on('click', function (event) {
         event.preventDefault();
-        $('#preview-content').attr({ 'src': this.href });
+        $('#preview-content').attr({ src: this.href });
         $('html, body').addClass('noscroll');
         $('#preview-window').addClass('typicms-modal-open');
     });
@@ -41420,7 +41747,7 @@ $(function () {
      */
     $('body').on('click', '#close-preview', function (event) {
         event.preventDefault();
-        $('#preview-content').attr({ 'src': '' });
+        $('#preview-content').attr({ src: '' });
         $('html, body').removeClass('noscroll');
         $('#preview-window').removeClass('typicms-modal-open');
     });
@@ -41439,10 +41766,7 @@ $(function () {
      * @return {void}
      */
     function setContentLocale(locale) {
-        $.ajax({
-            type: 'GET',
-            url: '/admin/_locale/' + locale
-        }).fail(function () {
+        axios.get('/admin/_locale/' + locale).catch(function () {
             alertify.error('Content locale couldn’t be set to ' + locale);
         });
     }
@@ -41470,15 +41794,10 @@ $(function () {
 /***/ (function(module, exports) {
 
 $(function () {
-
     function updatepreferences(key, value) {
         var data = {};
         data[key] = value;
-        $.ajax({
-            type: 'POST',
-            url: '/admin/users/current/updatepreferences',
-            data: data
-        }).fail(function () {
+        axios.post('/api/users/current/updatepreferences', data).catch(function () {
             alertify.error('User preference couldn’t be set.');
         });
     }
@@ -41578,6 +41897,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-f625c0c8", Component.options)
   } else {
     hotAPI.reload("data-v-f625c0c8", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/js/components/History.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/js/components/History.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-270eb80e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/js/components/History.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/History.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-270eb80e", Component.options)
+  } else {
+    hotAPI.reload("data-v-270eb80e", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -42086,7 +42453,7 @@ module.exports = Component.exports
 /***/ "./resources/lang/fr.json":
 /***/ (function(module, exports) {
 
-module.exports = {"# blocks":"Aucun bloc de contenu|1 bloc de contenu|{count} blocs de contenu","# events":"Aucun événement|1 événement|{count} événements","# items deleted":"1 élément supprimé | {count} éléments supprimés","# items published":"1 élément publié | {count} éléments publiés","# items selected":"Aucun élément sélectionné | 1 élément sélectionné | {count} éléments sélectionnés","# items unpublished":"1 élément dépublié | {count} éléments dépubliés","# menus":"Aucun menu|1 menu|{count} menus","# news":"Aucune actualité|1 actualité|{count} actualités","# pages":"Aucune page|1 page|{count} pages","# roles":"Aucun rôle|1 rôle|{count} rôles","# sections":"Aucune section|1 section|{count} sections","# translations":"Aucune traduction|1 traduction|{count} traductions","# users":"Aucun utilisateur|1 utilisateur|{count} utilisateurs",":number items where added.":":number fichiers ont été ajoutés.","A non-empty folder cannot be deleted.":"Un dossier non-vide ne peut pas être supprimé.","A page containing subpages cannot be linked to a module":"Une page ayant des sous-pages ne peut pas être liée à un module.","Access dashboard":"Accéder au tableau de bord","Action":"Action","Activate my account":"Activer mon compte","Activated":"Activé","Active locale":"Langue active","Active tab":"Onglet actif","Add an image":"Ajouter une image","Add files":"Ajouter des fichiers","Add selected file":"Ajouter le fichier sélectionné","Add selected files":"Ajouter les fichiers sélectionnés","Add to menu":"Ajouter au menu","Add":"Ajouter","address":"adresse","Address":"Adresse","Administration Language":"Langue de l’interface d’administration","Administration Welcome Message":"Message d’accueil de l’interface d’administration","Age":"Âge","All languages":"Toutes les langues","All":"Tous","Alt attribute":"Texte alternatif","An error occurred with the data fetch.":"Une erreur s’est produite lors du chargement des données.","Are you sure you want to delete # items?":"Voulez-vous supprimer {count} élément ? | Voulez-vous supprimer {count} éléments ?","Are you sure you want to publish # items?":"Voulez-vous publier 1 élément ?|Voulez-vous publier {count} éléments ?","Are you sure you want to unpublish # items?":"Voulez-vous dépublier 1 élément ?|Voulez-vous dépublier {count} éléments ?","Authenticate to view website":"Se connecter pour voir le site","Available":"Disponible","Back to blocks list":"Retour à la liste des blocs de contenu","Back to contacts list":"Retour à la liste des contacts","Back to events list":"Retour à la liste des événements","Back to files list":"Retour à la liste des fichiers","Back to galleries list":"Retour à la liste des galeries","Back to menu":"Retour au menu","Back to menus list":"Retour à la liste des menus","Back to news list":"Retour à la liste des actualités","Back to objects list":"Retour à la liste des objects","Back to page":"Retour à la page","Back to pages list":"Retour à la liste des pages","Back to partners list":"Retour à la liste des partenaires","Back to places list":"Retour à la liste des adresses","Back to project categories list":"Retour à la liste des catégories de projets","Back to projects list":"Retour à la liste des projets","Back to roles list":"Retour à la liste des rôles","Back to sections list":"Retour à la liste des sections de page","Back to slides list":"Retour à la liste des slides","Back to tags list":"Retour à la liste des tags","Back to translations list":"Retour à la liste des traductions","Back to users list":"Retour à la liste des utilisateurs","Back-office":"Administration","Body":"Corps","Cache cleared":"Le cache a été vidé","Cache":"Cache","Cancel":"Annuler","Category":"Catégorie","Change Password":"Modifier le mot de passe","Change settings":"Changer la configuration","City":"Ville","Class":"Class","Clear cache":"Vider le cache","Clear":"Vider l’historique","Drop to upload.":"Déposer pour envoyer.","Comments enabled":"Activer les commentaires","Company":"Société","Contact information":"Coordonnées","Contacts":"Contacts","Content blocks":"Blocs de contenu","Content":"Contenu","copy and paste the URL below into your web browser:":"copiez et collez l’adresse suivante dans votre navigateur :","Country":"Pays","Create":"Créer","Created at":"Créé le","Css":"Code CSS","Currency":"Moneda","Dashboard":"Tableau de bord","Date":"Date","Day":"Jour","DDMMYYYY HHMM":"JJ.MM.AAAA HH:MM","DDMMYYYY":"JJ.MM.AAAA","Delete":"Supprimer","Description":"Description","Deselect all":"Tout désélectionner","Destroy":"Supprimer","Disabled":"Désactivé","Don’t generate HTML cache":"Ne pas générer un cache HTML","Download count":"Nombre de téléchargements","Drop files to upload":"Glisser des fichiers pour les envoyer.","Edit block":"Modifier le bloc de contenu","Edit event":"Modifier l’événement","Edit file":"Modifier le fichier","Edit gallery":"Modifier la galerie","Edit menu":"Modifier le menu","Edit menulink":"Modifier le lien de menu","Edit news":"Modifier l’actualité","Edit object":"Modifier object","Edit page":"Modifier la page","Edit partner":"Modifier le partenaire","Edit place":"Modifier l’adresse","Edit project":"Modifier le projet","Edit role":"Modifier le rôle","Edit slide":"Modifier le slide","Edit tag":"Modifier le tag","Edit translation":"Modifier la traduction","Edit":"Modifier","Email":"E-mail","Empty history":"Vider l’historique","En ligne/Hors ligne":"En ligne/Hors ligne","Enabled":"Activé","End date":"Date de fin","End time":"Heure de fin","Enter a name for the new folder.":"Entrez le nom du nouveau dossier.","Environment":"Environnement","Error":"Erreur","Events":"Événements","Excerpt":"Extrait","Exit":"Sortir","Extension":"Extension","Fax":"Fax","File information":"Informations sur le fichier","File":"Fichier","Filename":"Nom du fichier","Files":"Fichiers","Filter":"Filtrer","Find nearest":"Trouver l’adresse la plus proche","First name":"Prénom","Forgot your password?":"Mot de passe oublié ?","from":"du","Front office":"Public","Galleries":"Galeries","Gender":"Genre","Generate":"Générer","Google Analytics Tracking Id":"Google Analytics Tracking Id","Groups":"Groupes","Height":"Hauteur","HH:MM":"HH:MM","Home":"Accueil","Homepage":"Sur la page d’accueil","Hour":"Heure","Icon class":"Class d’icône","If you did not request a password reset, no further action is required.":"Si vous n’avez pas demandé de réinitialisation de mot de passe, aucune action n’est requise.","If you’re having trouble clicking the “:actionText” button":"Si vous ne pouvez pas cliquer sur le bouton « :actionText »","Image":"Image","Images":"Images","Impossible to delete more than # items in one go.":"Impossible de supprimer plus de {deleteLimit} éléments en une fois.","Index":"Voir liste","Info":"Info","Insert":"Insérer","Is home":"Définir en tant que page d’accueil","Item is published.":"L’élément a été publié.","Item is unpublished.":"L’élément a été dépublié.","Js":"Code JavaScript","KB":"Ko","Key":"Clé","Keywords":"Mots-clés","Lang Chooser":"Page de choix de langue","Language":"Langue","Last name":"Nom","Latest changes":"Activité récente","Latitude":"Latitude","Locales":"Langues","Location":"Lieu","Log in":"Se connecter","Log out":"Se déconnecter","Logo":"Logo","Longitude":"Longitude","Mandatory fields":"Champs obligatoires","Max :size MB":"Maximum :size Mo","Max":"Maximum","MB":"Mo","Media":"Médias","Menu":"Menu","Menus":"Menus","Message":"Message","Meta description":"Meta description","Meta keywords":"Meta mots clés","Meta title":"Meta titre","Meta":"Meta","Mimetype":"Type Mime","Minute":"Minute","Mobile":"Portable","Modify":"Modifier","Module name":"Nom du module","Module":"Module","Month":"Mois","Move to parent folder":"Placer dans le dossier parent","Mr":"M.","Mrs":"Mme","Name":"Nom","New block":"Nouveau bloc de contenu","New contact request from":"Nouvelle demande de contact de","New contact request":"Nouvelle demande de contact","New contact":"Nouveau contact","New event":"Nouvel événement","New file":"Nouveau fichier","New folder":"Nouveau dossier","New gallery":"Nouvelle galerie","New menu":"Nouveau menu","New menulink":"Nouveau lien de menu","New news":"Nouvelle actualité","New object":"Nouveau object","New page section":"Nouvelle section de page","New page":"Nouvelle page","New partner":"Nouveau partenaire","New password":"Nouveau mot de passe","New place":"Nouvelle adresse","New project category":"Nouvelle catégorie de Projets","New project":"Nouveau projet","New role":"Nouveau rôle","New slide":"Nouveau slide","New tab":"Nouvel onglet","New tag":"Nouveau tag","New translation":"Nouvelle traduction","New user":"Nouvel utilisateur","News feed":"Flux d’actualités","News":"Actualités","Next":"Suivant","No default page found":"Aucune page d’accueil trouvée","No file":"Aucun fichier","No menu found with name “:name”":"Le menu « :name » n’a pas été trouvé.","No":"Non","None":"Aucun","Not found":"Introuvable","Objects":"Objects","Offline":"Hors ligne","on":"le","Online":"En ligne","Options":"Options","Page sections":"Sections de page","Page":"Page","Pages":"Pages","Partners":"Partenaires","Password confirmation":"Confirmer le mot de passe","Password":"Mot de passe","Path":"Chemin","per page":"par page","Permissions":"Permissions","Phone":"Téléphone","Places":"Adresses","Position":"Position","Postcode":"Code postal","Preview":"Prévisualisation","Previous":"Précédent","Price":"Prix","Private":"Privée","Profile":"Profil","Project categories":"Catégories de projets","Projects":"Projets","Publish":"Publier","Published items":"Publiés","Published on":"Publié le","Published":"Publié","Redirect to first child":"Rediriger vers le premier enfant","Regards":"Cordialement","Register":"Créer un compte","Registration allowed":"Permettre la création de comptes utilisateurs","Remember":"Se souvenir","Replace file":"Remplacer le fichier","Replace image":"Remplacer l’image","Replace":"Remplacer","Reset Password":"Réinitialiser le mot de passe","Reset":"Réinitialiser","Restricted to":"Restreint à","Role permissions":"Permissions du rôle","Roles":"Rôles","Save and exit":"Enregistrer et sortir","Save this item first, then add files.":"Enregistrez d’abord cet élément, puis ajoutez des fichiers.","Save this page first, then add sections.":"Enregistrez d’abord cette page, puis ajoutez des sections.","Save":"Enregistrer","Search":"Chercher","Second":"Seconde","See history":"Voir l’historique","See navbar":"Voir la barre de navigation","See settings":"Voir la configuration","Select all":"Tout sélectionner","Send password reset link":"Envoyer le lien de réinitialisation","Send":"Envoyer","Settings":"Configuration","Sex":"Sexe","Show categories":"Afficher les catégories","Show on map":"afficher sur la carte","Side":"Côté","Size (px)":"Taille (px)","Size":"Taille","Slides":"Slides","Slug":"Slug","Sorry, an error occurred.":"Désolé, une erreur est survenue.","Sorry, your session seems to have expired. Please try again.":"Désolé, votre session semble avoir expiré. Veuillez réessayer.","Sort":"Ordonner","Start date":"Date de début","Start time":"Heure de début","Status":"Statut","Store":"Créer","Submit":"Envoyer","Summary":"Résumé","Superuser":"Super utilisateur","System info":"Informations système","System locales":"Locales du système","Tag":"Tag","Tags":"Tags","Target":"Cible","Template":"Template","Thank you for your contact request":"Merci pour votre demande de contact","The form contains errors:":"Le formulaire contient des erreurs :","This action is unauthorized.":"Cette action n’est pas autorisée.","Time":"Heure","Title":"Titre","to":"au","Toggle navigation":"Menu","Translations":"Traduction","Type":"Type","Unpublish":"Dépublier","Unpublished items":"Dépubliés","Unpublished":"Dépublié","Update":"Mettre à jour","Upload files":"Envoyer des fichiers","Uri":"URI","Url":"URL","User permissions":"Permissions de l’utilisateur","User":"Utilisateur","Username":"Pseudo","Users and roles":"Utilisateurs et rôles","Users":"Utilisateurs","Uses":"Utilisations","Venue":"Lieu","View list":"Voir la liste","View online":"Voir en ligne","View website":"Voir le site","View":"Voir","Webmaster Email":"Email du webmaster","Website baseline":"Baseline du site","Website title":"Titre du site","Website":"Site web","Welcome, :name!":"Bienvenue :name !","Width":"Largeur","Year":"Année","Yes":"Oui","You are receiving this email because we received a password reset request for your account.":"Vous avez reçu ce courriel car nous avons reçu une demande de réinitialisation du mot de passe pour votre compte.","Your account has been activated, you can now log in":"Votre compte a été activé, vous pouvez vous connecter.","Your account has been created, check your email for the activation link":"Votre compte a été créé, un lien d’activation vous a été envoyé.","Your account has been created, now you need to activate it.":"Votre compte a été créé, vous devez maintenant l’activer."}
+module.exports = {"# blocks":"Aucun bloc de contenu|1 bloc de contenu|{count} blocs de contenu","# contacts":"Aucun contact|1 contact|{count} contacts","# events":"Aucun événement|1 événement|{count} événements","# items deleted":"1 élément supprimé | {count} éléments supprimés","# items published":"1 élément publié | {count} éléments publiés","# items selected":"Aucun élément sélectionné | 1 élément sélectionné | {count} éléments sélectionnés","# items unpublished":"1 élément dépublié | {count} éléments dépubliés","# menus":"Aucun menu|1 menu|{count} menus","# news":"Aucune actualité|1 actualité|{count} actualités","# pages":"Aucune page|1 page|{count} pages","# partners":"Aucun partenaire|1 partenaire|{count} partenaires","# places":"Aucune adresse|1 adresse|{count} adresses","# projects":"Aucun projet|1 projet|{count} projets","# roles":"Aucun rôle|1 rôle|{count} rôles","# sections":"Aucune section|1 section|{count} sections","# slides":"Aucun slide|1 slide|{count} slides","# tags":"Aucun tag|1 tag|{count} tags","# translations":"Aucune traduction|1 traduction|{count} traductions","# users":"Aucun utilisateur|1 utilisateur|{count} utilisateurs",":number items where added.":":number fichiers ont été ajoutés.","A non-empty folder cannot be deleted.":"Un dossier non-vide ne peut pas être supprimé.","A page containing subpages cannot be linked to a module":"Une page ayant des sous-pages ne peut pas être liée à un module.","Access dashboard":"Accéder au tableau de bord","Action":"Action","Activate my account":"Activer mon compte","Activated":"Activé","Active locale":"Langue active","Active tab":"Onglet actif","Add an image":"Ajouter une image","Add files":"Ajouter des fichiers","Add selected file":"Ajouter le fichier sélectionné","Add selected files":"Ajouter les fichiers sélectionnés","Add to menu":"Ajouter au menu","Add":"Ajouter","address":"adresse","Address":"Adresse","Administration Language":"Langue de l’interface d’administration","Administration Welcome Message":"Message d’accueil de l’interface d’administration","Age":"Âge","All languages":"Toutes les langues","All":"Tous","Alt attribute":"Texte alternatif","An error occurred with the data fetch.":"Une erreur s’est produite lors du chargement des données.","Are you sure you want to delete # items?":"Voulez-vous supprimer {count} élément ? | Voulez-vous supprimer {count} éléments ?","Are you sure you want to publish # items?":"Voulez-vous publier 1 élément ?|Voulez-vous publier {count} éléments ?","Are you sure you want to unpublish # items?":"Voulez-vous dépublier 1 élément ?|Voulez-vous dépublier {count} éléments ?","Authenticate to view website":"Se connecter pour voir le site","Available":"Disponible","Back to blocks list":"Retour à la liste des blocs de contenu","Back to contacts list":"Retour à la liste des contacts","Back to events list":"Retour à la liste des événements","Back to files list":"Retour à la liste des fichiers","Back to galleries list":"Retour à la liste des galeries","Back to menu":"Retour au menu","Back to menus list":"Retour à la liste des menus","Back to news list":"Retour à la liste des actualités","Back to objects list":"Retour à la liste des objects","Back to page":"Retour à la page","Back to pages list":"Retour à la liste des pages","Back to partners list":"Retour à la liste des partenaires","Back to places list":"Retour à la liste des adresses","Back to project categories list":"Retour à la liste des catégories de projets","Back to projects list":"Retour à la liste des projets","Back to roles list":"Retour à la liste des rôles","Back to sections list":"Retour à la liste des sections de page","Back to slides list":"Retour à la liste des slides","Back to tags list":"Retour à la liste des tags","Back to translations list":"Retour à la liste des traductions","Back to users list":"Retour à la liste des utilisateurs","Back-office":"Administration","Body":"Corps","Cache cleared":"Le cache a été vidé","Cache":"Cache","Cancel":"Annuler","Category":"Catégorie","Change Password":"Modifier le mot de passe","Change settings":"Changer la configuration","City":"Ville","Class":"Class","Clear cache":"Vider le cache","Clear":"Vider l’historique","Comments enabled":"Activer les commentaires","Company":"Société","Contact information":"Coordonnées","Contacts":"Contacts","Content blocks":"Blocs de contenu","Content":"Contenu","copy and paste the URL below into your web browser:":"copiez et collez l’adresse suivante dans votre navigateur :","Country":"Pays","Create":"Créer","Created at":"Créé le","Css":"Code CSS","Currency":"Moneda","Dashboard":"Tableau de bord","Date":"Date","Day":"Jour","DDMMYYYY HHMM":"JJ.MM.AAAA HH:MM","DDMMYYYY":"JJ.MM.AAAA","Delete":"Supprimer","Description":"Description","Deselect all":"Tout désélectionner","Destroy":"Supprimer","Disabled":"Désactivé","Do you want to clear history?":"Voulez-vous vider l’historique ?","Don’t generate HTML cache":"Ne pas générer un cache HTML","Download count":"Nombre de téléchargements","Drop files to upload":"Glisser des fichiers pour les envoyer.","Drop to upload.":"Déposer pour envoyer.","Edit block":"Modifier le bloc de contenu","Edit event":"Modifier l’événement","Edit file":"Modifier le fichier","Edit gallery":"Modifier la galerie","Edit menu":"Modifier le menu","Edit menulink":"Modifier le lien de menu","Edit news":"Modifier l’actualité","Edit object":"Modifier object","Edit page":"Modifier la page","Edit partner":"Modifier le partenaire","Edit place":"Modifier l’adresse","Edit project":"Modifier le projet","Edit role":"Modifier le rôle","Edit slide":"Modifier le slide","Edit tag":"Modifier le tag","Edit translation":"Modifier la traduction","Edit":"Modifier","Email":"E-mail","Empty history":"Vider l’historique","En ligne/Hors ligne":"En ligne/Hors ligne","Enabled":"Activé","End date":"Date de fin","End time":"Heure de fin","Enter a name for the new folder.":"Entrez le nom du nouveau dossier.","Environment":"Environnement","Error":"Erreur","Events":"Événements","Excerpt":"Extrait","Exit":"Sortir","Extension":"Extension","Fax":"Fax","File information":"Informations sur le fichier","File":"Fichier","Filename":"Nom du fichier","Files":"Fichiers","Filter":"Filtrer","Find nearest":"Trouver l’adresse la plus proche","First name":"Prénom","Forgot your password?":"Mot de passe oublié ?","from":"du","Front office":"Public","Galleries":"Galeries","Gender":"Genre","Generate":"Générer","Google Analytics Tracking Id":"Google Analytics Tracking Id","Groups":"Groupes","Height":"Hauteur","HH:MM":"HH:MM","History is empty.":"L’historique est vide.","Home":"Accueil","Homepage":"Sur la page d’accueil","Hour":"Heure","Icon class":"Class d’icône","If you did not request a password reset, no further action is required.":"Si vous n’avez pas demandé de réinitialisation de mot de passe, aucune action n’est requise.","If you’re having trouble clicking the “:actionText” button":"Si vous ne pouvez pas cliquer sur le bouton « :actionText »","Image":"Image","Images":"Images","Impossible to delete more than # items in one go.":"Impossible de supprimer plus de {deleteLimit} éléments en une fois.","Index":"Voir liste","Info":"Info","Insert":"Insérer","Is home":"Définir en tant que page d’accueil","Item is published.":"L’élément a été publié.","Item is unpublished.":"L’élément a été dépublié.","Js":"Code JavaScript","KB":"Ko","Key":"Clé","Keywords":"Mots-clés","Lang Chooser":"Page de choix de langue","Language":"Langue","Last name":"Nom","Latest changes":"Activité récente","Latitude":"Latitude","Locales":"Langues","Location":"Lieu","Log in":"Se connecter","Log out":"Se déconnecter","Logo":"Logo","Longitude":"Longitude","Mandatory fields":"Champs obligatoires","Max :size MB":"Maximum :size Mo","Max":"Maximum","MB":"Mo","Media":"Médias","Menu":"Menu","Menulink":"Lien de menu","Menulinks":"Liens de menu","Menus":"Menus","Message":"Message","Meta description":"Meta description","Meta keywords":"Meta mots clés","Meta title":"Meta titre","Meta":"Meta","Mimetype":"Type Mime","Minute":"Minute","Mobile":"Portable","Modify":"Modifier","Module name":"Nom du module","Module":"Module","Month":"Mois","Move to parent folder":"Placer dans le dossier parent","Mr":"M.","Mrs":"Mme","Name":"Nom","New block":"Nouveau bloc de contenu","New contact request from":"Nouvelle demande de contact de","New contact request":"Nouvelle demande de contact","New contact":"Nouveau contact","New event":"Nouvel événement","New file":"Nouveau fichier","New folder":"Nouveau dossier","New gallery":"Nouvelle galerie","New menu":"Nouveau menu","New menulink":"Nouveau lien de menu","New news":"Nouvelle actualité","New object":"Nouveau object","New page section":"Nouvelle section de page","New page":"Nouvelle page","New partner":"Nouveau partenaire","New password":"Nouveau mot de passe","New place":"Nouvelle adresse","New project category":"Nouvelle catégorie de Projets","New project":"Nouveau projet","New role":"Nouveau rôle","New slide":"Nouveau slide","New tab":"Nouvel onglet","New tag":"Nouveau tag","New translation":"Nouvelle traduction","New user":"Nouvel utilisateur","News feed":"Flux d’actualités","News":"Actualités","Next":"Suivant","No default page found":"Aucune page d’accueil trouvée","No file":"Aucun fichier","No menu found with name “:name”":"Le menu « :name » n’a pas été trouvé.","No":"Non","None":"Aucun","Not found":"Introuvable","Objects":"Objects","Offline":"Hors ligne","on":"le","Online":"En ligne","Options":"Options","Page sections":"Sections de page","Page":"Page","Pages":"Pages","Partners":"Partenaires","Password confirmation":"Confirmer le mot de passe","Password":"Mot de passe","Path":"Chemin","per page":"par page","Permissions":"Permissions","Phone":"Téléphone","Places":"Adresses","Position":"Position","Postcode":"Code postal","Preview":"Prévisualisation","Previous":"Précédent","Price":"Prix","Private":"Privée","Profile":"Profil","Project categories":"Catégories de projets","Projects":"Projets","Publish":"Publier","Published items":"Publiés","Published on":"Publié le","Published":"Publié","Redirect to first child":"Rediriger vers le premier enfant","Regards":"Cordialement","Register":"Créer un compte","Registration allowed":"Permettre la création de comptes utilisateurs","Remember":"Se souvenir","Replace file":"Remplacer le fichier","Replace image":"Remplacer l’image","Replace":"Remplacer","Reset Password":"Réinitialiser le mot de passe","Reset":"Réinitialiser","Restricted to":"Restreint à","Role permissions":"Permissions du rôle","Roles":"Rôles","Save and exit":"Enregistrer et sortir","Save this item first, then add files.":"Enregistrez d’abord cet élément, puis ajoutez des fichiers.","Save this page first, then add sections.":"Enregistrez d’abord cette page, puis ajoutez des sections.","Save":"Enregistrer","Search":"Chercher","Second":"Seconde","See history":"Voir l’historique","See navbar":"Voir la barre de navigation","See settings":"Voir la configuration","Select all":"Tout sélectionner","Send password reset link":"Envoyer le lien de réinitialisation","Send":"Envoyer","Settings":"Configuration","Sex":"Sexe","Show categories":"Afficher les catégories","Show on map":"afficher sur la carte","Side":"Côté","Size (px)":"Taille (px)","Size":"Taille","Slides":"Slides","Slug":"Slug","Sorry, an error occurred.":"Désolé, une erreur est survenue.","Sorry, your session seems to have expired. Please try again.":"Désolé, votre session semble avoir expiré. Veuillez réessayer.","Sort":"Ordonner","Start date":"Date de début","Start time":"Heure de début","Status":"Statut","Store":"Créer","Submit":"Envoyer","Summary":"Résumé","Superuser":"Super utilisateur","System info":"Informations système","System locales":"Locales du système","Tag":"Tag","Tags":"Tags","Target":"Cible","Template":"Template","Thank you for your contact request":"Merci pour votre demande de contact","The form contains errors:":"Le formulaire contient des erreurs :","This action is unauthorized.":"Cette action n’est pas autorisée.","Time":"Heure","Title":"Titre","to":"au","Toggle navigation":"Menu","Translation":"Traduction","Translations":"Traduction","Type":"Type","Unpublish":"Dépublier","Unpublished items":"Dépubliés","Unpublished":"Dépublié","Update":"Mettre à jour","Upload files":"Envoyer des fichiers","Uri":"URI","Url":"URL","User permissions":"Permissions de l’utilisateur","User":"Utilisateur","Username":"Pseudo","Users and roles":"Utilisateurs et rôles","Users":"Utilisateurs","Uses":"Utilisations","Venue":"Lieu","View list":"Voir la liste","View online":"Voir en ligne","View website":"Voir le site","View":"Voir","Webmaster Email":"Email du webmaster","Website baseline":"Baseline du site","Website title":"Titre du site","Website":"Site web","Welcome, :name!":"Bienvenue :name !","Width":"Largeur","Year":"Année","Yes":"Oui","You are receiving this email because we received a password reset request for your account.":"Vous avez reçu ce courriel car nous avons reçu une demande de réinitialisation du mot de passe pour votre compte.","Your account has been activated, you can now log in":"Votre compte a été activé, vous pouvez vous connecter.","Your account has been created, check your email for the activation link":"Votre compte a été créé, un lien d’activation vous a été envoyé.","Your account has been created, now you need to activate it.":"Votre compte a été créé, vous devez maintenant l’activer."}
 
 /***/ }),
 
