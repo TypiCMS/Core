@@ -1,9 +1,9 @@
 if (typeof TypiCMS !== 'undefined') {
-    $(function () {
+    $(function() {
         $.ajaxSetup({
             headers: {
-                'X-XSRF-TOKEN': TypiCMS.encrypted_token
-            }
+                'X-XSRF-TOKEN': TypiCMS.encrypted_token,
+            },
         });
     });
 }

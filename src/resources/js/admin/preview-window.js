@@ -1,5 +1,4 @@
-$(function () {
-
+$(function() {
     /**
      * Build modal window
      */
@@ -32,9 +31,9 @@ $(function () {
     /**
      * Open preview window
      */
-    $('.btn-preview').on('click', function (event) {
+    $('.btn-preview').on('click', function(event) {
         event.preventDefault();
-        $('#preview-content').attr({'src': this.href})
+        $('#preview-content').attr({ src: this.href });
         $('html, body').addClass('noscroll');
         $('#preview-window').addClass('typicms-modal-open');
     });
@@ -44,7 +43,7 @@ $(function () {
      */
     $('body').on('click', '#close-preview', function(event) {
         event.preventDefault();
-        $('#preview-content').attr({'src': ''})
+        $('#preview-content').attr({ src: '' });
         $('html, body').removeClass('noscroll');
         $('#preview-window').removeClass('typicms-modal-open');
     });
