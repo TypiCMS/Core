@@ -6,7 +6,6 @@ use Croppa;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
 use TypiCMS\Modules\Core\Services\FileUploader;
 
 class FileObserver
@@ -43,9 +42,9 @@ class FileObserver
      */
     public function creating(Model $model)
     {
-        if (Request::hasFile('name')) {
+        if (request()->hasFile('name')) {
             // delete prev image
-            $file = $this->fileUploader->handle(Request::file('name'));
+            $file = $this->fileUploader->handle(request()->file('name'));
             $model->name = $file['filename'];
             $model->fill(array_except($file, 'filename'));
         } else {
