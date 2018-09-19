@@ -157,7 +157,7 @@ export default {
         toggle(node) {
             let data = {};
             data[this.title + '_' + node.data.id + '_collapsed'] = node.isExpanded;
-            axios.post('/admin/users/current/updatepreferences', data).catch(error => {
+            axios.post('/api/users/current/updatepreferences', data).catch(error => {
                 alertify.error('User preference couldn’t be set.');
             });
         },
