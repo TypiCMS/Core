@@ -6,10 +6,7 @@ $(function() {
      * @return {void}
      */
     function setContentLocale(locale) {
-        $.ajax({
-            type: 'GET',
-            url: '/admin/_locale/' + locale,
-        }).fail(function() {
+        axios.get('/admin/_locale/' + locale).catch(function() {
             alertify.error('Content locale couldn’t be set to ' + locale);
         });
     }

@@ -17,15 +17,12 @@ $(function() {
         data['id'] = id;
         data[field] = 'delete';
 
-        $.ajax({
-            type: 'PATCH',
-            url: url,
-            data: data,
-        })
-            .done(function() {
+        axios
+            .patch(url, data)
+            .then(() => {
                 $this.parent().remove();
             })
-            .fail(function() {
+            .catch(() => {
                 alertify.error('An error occurred while deleting attachment.');
             });
 
