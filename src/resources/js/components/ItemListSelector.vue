@@ -9,15 +9,19 @@
         <div class="dropdown-menu" aria-labelledby="dropdownSelect">
             <button type="button" class="dropdown-item" @click="$emit('check-all')">{{ $t('All') }}</button>
             <button type="button" class="dropdown-item" @click="$emit('check-none')">{{ $t('None') }}</button>
-            <div class="dropdown-divider"></div>
-            <button type="button" class="dropdown-item" @click="$emit('check-published')">{{ $t('Published items') }}</button>
-            <button type="button" class="dropdown-item" @click="$emit('check-unpublished')">{{ $t('Unpublished items') }}</button>
+            <div class="dropdown-divider" v-if="publishable"></div>
+            <button type="button" class="dropdown-item" v-if="publishable" @click="$emit('check-published')">{{ $t('Published items') }}</button>
+            <button type="button" class="dropdown-item" v-if="publishable" @click="$emit('check-unpublished')">{{ $t('Unpublished items') }}</button>
         </div>
     </div>
 </template>
 <script>
 export default {
     props: {
+        publishable: {
+            type: Boolean,
+            default: true,
+        },
         filteredModels: {
             type: Array,
             required: true,

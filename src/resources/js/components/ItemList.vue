@@ -15,6 +15,7 @@
                 :filtered-models="filteredItems"
                 :all-checked="allChecked"
                 :loading="loading"
+                :publishable="publishable"
                 @check-all="checkAll"
                 @check-none="checkNone"
                 @check-published="checkPublished"
