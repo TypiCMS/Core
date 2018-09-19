@@ -4,9 +4,7 @@
 
         <div class="card-header">
             {{ $t('Latest changes') }}
-            <slot>
-                <button class="btn-clear-history" id="clear-history" @click="clearHistory" v-if="filteredItems.length">{{ $t('Clear') }}</button>
-            </slot>
+            <button class="btn-clear-history" id="clear-history" @click="clearHistory" v-if="filteredItems.length && clearButton">{{ $t('Clear') }}</button>
         </div>
 
         <div class="table-responsive" v-if="filteredItems.length">
@@ -56,9 +54,9 @@
 <script>
 export default {
     props: {
-        limit: {
-            type: Number,
-            default: 100,
+        clearButton: {
+            type: Boolean,
+            default: false,
         },
     },
     data() {
