@@ -5,9 +5,9 @@ $(function () {
         data[key] = value;
         $.ajax({
             type: 'POST',
-            url: '/admin/users/current/updatepreferences',
             data: data
         }).fail(function () {
+            url: '/api/users/current/updatepreferences',
             alertify.error('User preference couldn’t be set.');
         });
     }
