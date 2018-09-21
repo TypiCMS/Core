@@ -2,8 +2,8 @@
 
     <div class="item-list">
 
-        <div class="item-list-header">
-            <h1 class="item-list-title">
+        <div class="item-list-header header">
+            <h1 class="item-list-title header-title">
                 {{ $t(title.charAt(0).toUpperCase() + title.slice(1)) }}
             </h1>
             <slot name="add-button"></slot>

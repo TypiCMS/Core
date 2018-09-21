@@ -16698,21 +16698,6 @@ a.text-dark:focus {
   width: 80vw;
 }
 
-.item-list-header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  margin: 1rem 0 2.5rem;
-}
-
-.item-list-title {
-  margin-right: 1rem;
-  margin-bottom: 0;
-}
-
 .item-list-selector .btn,
 .item-list-selector .btn-clear-history,
 .item-list-selector .item-list-pagination .page-item,
@@ -16817,6 +16802,10 @@ body {
   overflow-x: hidden;
 }
 
+h1 {
+  font-weight: normal;
+}
+
 .container-menulinks {
   position: static;
 }
@@ -16892,5 +16881,24 @@ h1 a:hover {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 1rem 0 2.5rem;
+}
+
+.header-title {
+  margin-right: 1rem;
+  margin-bottom: 0;
+}
+
+.header-btn-add {
+  margin-top: 4px;
 }
 

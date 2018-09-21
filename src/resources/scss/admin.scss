@@ -16,7 +16,6 @@
 @import 'admin/filepicker-modal';
 @import 'admin/permissions';
 @import 'admin/modal';
-@import 'admin/item-list';
 @import 'admin/item-list-selector';
 @import 'admin/item-list-table';
 @import 'admin/item-list-pagination';
@@ -28,6 +27,10 @@ html {
 body {
     min-height: 100%;
     overflow-x: hidden;
+}
+
+h1 {
+    font-weight: normal;
 }
 
 .container-menulinks {
@@ -102,4 +105,17 @@ h1 {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0 2.5rem;
+    &-title {
+        margin-right: 1rem;
+        margin-bottom: 0;
+    }
+    &-btn-add {
+        margin-top: 4px;
+    }
 }

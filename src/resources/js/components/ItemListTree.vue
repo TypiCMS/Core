@@ -2,8 +2,8 @@
 
     <div class="item-list-tree">
 
-        <div class="item-list-header">
-            <h1 class="item-list-title">
+        <div class="item-list-header header">
+            <h1 class="item-list-title header-title">
                 {{ $t(title) }}
             </h1>
             <slot name="add-button"></slot>

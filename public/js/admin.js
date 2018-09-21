@@ -28026,10 +28026,10 @@ var render = function() {
         "div",
         { staticClass: "wrapper" },
         [
-          _c("div", { staticClass: "filepicker-header" }, [
+          _c("div", { staticClass: "filepicker-header header" }, [
             _c(
               "h1",
-              { staticClass: "filepicker-title" },
+              { staticClass: "filepicker-title header-title" },
               _vm._l(_vm.path, function(folder, index) {
                 return _c("span", [
                   _vm.path.length !== index + 1
@@ -28062,7 +28062,7 @@ var render = function() {
               ? _c(
                   "button",
                   {
-                    staticClass: "btn btn-sm btn-primary mr-2",
+                    staticClass: "btn btn-sm btn-primary header-btn-add",
                     attrs: { type: "button", id: "btnAddFiles" }
                   },
                   [
@@ -28494,9 +28494,9 @@ var render = function() {
     [
       _c(
         "div",
-        { staticClass: "item-list-header" },
+        { staticClass: "item-list-header header" },
         [
-          _c("h1", { staticClass: "item-list-title" }, [
+          _c("h1", { staticClass: "item-list-title header-title" }, [
             _vm._v("\n            " + _vm._s(_vm.$t(_vm.title)) + "\n        ")
           ]),
           _vm._v(" "),
@@ -29384,9 +29384,9 @@ var render = function() {
     [
       _c(
         "div",
-        { staticClass: "item-list-header" },
+        { staticClass: "item-list-header header" },
         [
-          _c("h1", { staticClass: "item-list-title" }, [
+          _c("h1", { staticClass: "item-list-title header-title" }, [
             _vm._v(
               "\n            " +
                 _vm._s(
