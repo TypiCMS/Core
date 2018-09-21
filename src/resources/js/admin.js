@@ -56,15 +56,15 @@ const i18n = new VueI18n({ locale: 'fr', messages });
 import date from './filters/Date.js';
 Vue.filter('date', date);
 
-import ItemListStatusButton from './components/ItemListStatusButton.vue';
-import ItemListCheckbox from './components/ItemListCheckbox.vue';
-
 /**
  * Lists
  */
 import ItemListColumnHeader from './components/ItemListColumnHeader.vue';
 import ItemList from './components/ItemList.vue';
 import ItemListTree from './components/ItemListTree.vue';
+import ItemListStatusButton from './components/ItemListStatusButton.vue';
+import ItemListCheckbox from './components/ItemListCheckbox.vue';
+import ItemListPositionInput from './components/ItemListPositionInput.vue';
 
 /**
  * History
@@ -86,6 +86,7 @@ new Vue({
         ItemListTree,
         ItemListStatusButton,
         ItemListCheckbox,
+        ItemListPositionInput,
         Filepicker,
         Files,
         History,

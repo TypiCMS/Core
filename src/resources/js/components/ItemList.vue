@@ -148,6 +148,7 @@ export default {
     mounted() {
         this.$on('sort', this.sort);
         this.$on('toggle-status', this.toggleStatus);
+        this.$on('update-position', this.updatePosition);
     },
     computed: {
         searchQuery() {
@@ -327,6 +328,14 @@ export default {
                 .catch(error => {
                     alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
                 });
+        },
+        updatePosition(model) {
+            let data = {
+                position: model.position,
+            };
+            axios.patch(this.urlBase + '/' + model.id, data).catch(error => {
+                alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
+            });
         },
         sort(object) {
             this.data.current_page = 1;
