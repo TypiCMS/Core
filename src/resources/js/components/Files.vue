@@ -5,9 +5,9 @@
             <p><button class="btn btn-sm btn-secondary mr-2" v-if="relatedId !== 0" @click="openFilepicker" type="button" :disabled="relatedId === 0"><i class="fa fa-plus text-white-50"></i> {{ $t('Add files') }}</button></p>
         </div>
         <div class="filemanager">
-            <draggable v-model="data.models" @end="onSort">
+            <draggable v-model="files" @end="onSort">
                 <div class="filemanager-item filemanager-item-with-name filemanager-item-file filemanager-item-removable"
-                    v-for="file in data.models"
+                    v-for="file in files"
                     :id="'item_'+file.id"
                     :key="file.id"
                     >
@@ -46,9 +46,7 @@ export default {
     },
     data() {
         return {
-            data: {
-                models: [],
-            },
+            files: [],
             loading: false,
         };
     },
@@ -59,7 +57,7 @@ export default {
     },
     mounted() {
         this.$root.$on('filesAdded', files => {
-            this.data.models = files;
+            this.files = files;
         });
     },
     computed: {
@@ -76,7 +74,7 @@ export default {
             axios
                 .get(this.url + '/files')
                 .then(response => {
-                    this.data = response.data;
+                    this.files = response.data;
                     this.loading = false;
                 })
                 .catch(error => {
@@ -97,9 +95,9 @@ export default {
             this.$root.$emit('openFilepicker', options);
         },
         remove(file) {
-            let index = this.data.models.indexOf(file);
+            let index = this.files.indexOf(file);
 
-            this.data.models.splice(index, 1);
+            this.files.splice(index, 1);
             this.loading = true;
 
             axios
@@ -114,7 +112,7 @@ export default {
         },
         onSort() {
             axios
-                .post('/api/files/sort', this.data.models)
+                .post('/api/files/sort', this.files)
                 .then(response => {})
                 .catch(error => {
                     alertify.error('Error ' + error.status + ' ' + error.statusText);

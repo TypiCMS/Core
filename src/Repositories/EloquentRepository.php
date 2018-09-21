@@ -319,14 +319,14 @@ class EloquentRepository extends BaseRepository
     }
 
     /**
-     * Add files to model.
+     * Attach files to a model.
      *
-     * @param string                   $id
-     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param \Illuminate\Http\Request            $request
      *
      * @return null
      */
-    public function addFiles($id, Request $request)
+    public function attachFiles($model, Request $request)
     {
         // Get the collection of files to add.
         $fileIds = $request->only('files')['files'];
@@ -358,7 +358,6 @@ class EloquentRepository extends BaseRepository
         $newFiles = array_merge($newFiles, $subFiles);
 
         // Get files that are already in the gallery.
-        $model = $this->find($id);
         $filesIds = $model->files->pluck('id')->toArray();
 
         // Merge with new files.

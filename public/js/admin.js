@@ -2145,7 +2145,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
             data.files = ids;
 
-            axios.patch('/api/' + this.relatedTable + '/' + this.relatedId, data).then(function (response) {
+            axios.post('/api/' + this.relatedTable + '/' + this.relatedId + '/files', data).then(function (response) {
                 _this9.selectedItems = [];
                 _this9.$root.$emit('filesAdded', response.data.models);
                 _this9.closeModal();
@@ -2314,9 +2314,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            data: {
-                models: []
-            },
+            files: [],
             loading: false
         };
     },
@@ -2329,7 +2327,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var _this = this;
 
         this.$root.$on('filesAdded', function (files) {
-            _this.data.models = files;
+            _this.files = files;
         });
     },
 
@@ -2347,7 +2345,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.loading = true;
             axios.get(this.url + '/files').then(function (response) {
-                _this2.data = response.data;
+                _this2.files = response.data;
                 _this2.loading = false;
             }).catch(function (error) {
                 alertify.error(error.response.data.message || _this2.$i18n.t('An error occurred with the data fetch.'));
@@ -2367,9 +2365,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         remove: function remove(file) {
             var _this3 = this;
 
-            var index = this.data.models.indexOf(file);
+            var index = this.files.indexOf(file);
 
-            this.data.models.splice(index, 1);
+            this.files.splice(index, 1);
             this.loading = true;
 
             axios.delete(this.url + '/files/' + file.id, { remove: file.id }).then(function (response) {
@@ -2380,7 +2378,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         onSort: function onSort() {
-            axios.post('/api/files/sort', this.data.models).then(function (response) {}).catch(function (error) {
+            axios.post('/api/files/sort', this.files).then(function (response) {}).catch(function (error) {
                 alertify.error('Error ' + error.status + ' ' + error.statusText);
             });
         }
@@ -29643,14 +29641,14 @@ var render = function() {
           {
             on: { end: _vm.onSort },
             model: {
-              value: _vm.data.models,
+              value: _vm.files,
               callback: function($$v) {
-                _vm.$set(_vm.data, "models", $$v)
+                _vm.files = $$v
               },
-              expression: "data.models"
+              expression: "files"
             }
           },
-          _vm._l(_vm.data.models, function(file) {
+          _vm._l(_vm.files, function(file) {
             return _c(
               "div",
               {

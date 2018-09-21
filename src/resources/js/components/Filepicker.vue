@@ -510,7 +510,7 @@ export default {
             data.files = ids;
 
             axios
-                .patch('/admin/' + this.relatedTable + '/' + this.relatedId, data)
+                .post('/api/' + this.relatedTable + '/' + this.relatedId + '/files', data)
                 .then(response => {
                     this.selectedItems = [];
                     this.$root.$emit('filesAdded', response.data.models);
