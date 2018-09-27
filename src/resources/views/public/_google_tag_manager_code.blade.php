@@ -1,4 +1,4 @@
-@if(app()->environment('production') and config('typicms.google_tag_manager_id'))
+@if (app()->environment('production') and config('typicms.google_tag_manager_id'))
 
 <!-- Google Tag Manager -->
 <noscript><iframe src="//www.googletagmanager.com/ns.html?id={{ config('typicms.google_tag_manager_id') }}"
