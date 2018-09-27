@@ -119,11 +119,24 @@ abstract class Base extends Model
     public function scopeTranslated($query, $columns)
     {
         $translatableColumns = [];
+        $locale = request('locale', config('app.locale'));
         if ($columns !== null) {
             $translatableColumns = explode(',', $columns);
         }
         foreach ($translatableColumns as $column) {
-            $query->selectRaw('`'.$column.'`->>"$.'.request('locale', config('app.locale')).'" COLLATE utf8mb4_unicode_ci `'.$column.'_translated`');
+            $query
+                ->selectRaw('
+                    CASE WHEN
+                    JSON_UNQUOTE(
+                        JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
+                    ) = \'null\' THEN NULL
+                    ELSE
+                    JSON_UNQUOTE(
+                        JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
+                    )
+                    END
+                    COLLATE utf8mb4_unicode_ci `'.$column.'_translated`
+                ');
         }
 
         return $query;
