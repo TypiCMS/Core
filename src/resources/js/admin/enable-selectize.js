@@ -7,11 +7,10 @@ $(function() {
      * Selectize for tags
      */
     if ($('#tags').length) {
-        $.getJSON({
-            url: '/admin/tags',
-        })
-            .done(function(data) {
-                var tags = data.map(function(x) {
+        axios
+            .get('/api/tags-list')
+            .then(function(response) {
+                var tags = response.data.map(function(x) {
                     return { item: x.tag };
                 });
                 var oldTags = $('#tags')
@@ -32,7 +31,7 @@ $(function() {
                     createOnBlur: true,
                 });
             })
-            .fail(function() {
+            .catch(function() {
                 alertify.error('An error occurred while getting tags.');
             });
     }
