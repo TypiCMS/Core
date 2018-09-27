@@ -28639,6 +28639,7 @@ var render = function() {
                   {
                     staticClass: "dropdown-item",
                     class: { active: locale === _vm.currentLocale },
+                    attrs: { type: "button" },
                     on: {
                       click: function($event) {
                         _vm.switchLocale(locale.short)
@@ -29702,6 +29703,7 @@ var render = function() {
                       {
                         staticClass: "dropdown-item",
                         class: { active: locale === _vm.currentLocale },
+                        attrs: { type: "button" },
                         on: {
                           click: function($event) {
                             _vm.switchLocale(locale.short)

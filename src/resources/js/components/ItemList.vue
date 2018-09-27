@@ -49,7 +49,7 @@
                     <span id="active-locale">{{ locales.find(item => item.short === currentLocale).long }}</span> <span class="caret"></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
-                    <button class="dropdown-item" :class="{ active: locale === currentLocale }" v-for="locale in locales" @click="switchLocale(locale.short)">{{ locale.long }}</button>
+                    <button class="dropdown-item" :class="{ active: locale === currentLocale }" type="button" v-for="locale in locales" @click="switchLocale(locale.short)">{{ locale.long }}</button>
                 </div>
             </div>
         </div>
