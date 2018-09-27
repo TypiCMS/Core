@@ -1,7 +1,7 @@
 $sidebar-width: 260px;
 
 .sidebar-menu {
-    @include list-unstyled;
+    @include list-unstyled();
 }
 
 .sidebar {

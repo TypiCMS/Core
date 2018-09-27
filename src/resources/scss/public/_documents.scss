@@ -1,0 +1,28 @@
+.documents-list {
+    @include list-unstyled();
+    &-item {
+        margin-bottom: $grid-gutter-width/2;
+        &-link {
+            @extend .btn;
+            @extend .btn-light;
+            @extend .btn-block;
+            display: flex;
+            align-items: center;
+            border: 1px solid $gray-300;
+        }
+        &-filename {
+            text-align: left;
+            margin-left: 1rem;
+            flex-grow: 1;
+            display: block;
+            font-size: 1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        &-filesize {
+            display: block;
+            font-size: 1rem;
+        }
+    }
+}
