@@ -20,7 +20,10 @@ class JavaScriptData
     {
         $locales = [];
         foreach (locales() as $locale) {
-            $locales[] = $locale;
+            $locales[] = [
+                'short' => $locale,
+                'long' => trans('languages.'.$locale),
+            ];
         }
         JavaScript::put([
             'locales' => $locales,

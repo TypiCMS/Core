@@ -40,10 +40,18 @@
             <div class="d-flex align-items-center ml-2">
                 <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
             </div>
+            <slot name="buttons"></slot>
             <small class="text-muted align-self-center" v-if="!loading">
                 {{ $tc('# ' + title, data.total, { count: data.total }) }}
             </small>
-            <slot name="buttons"></slot>
+            <div class="btn-group btn-group-sm ml-auto" v-if="translatableFields !== undefined">
+                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownLangSwitcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span id="active-locale">{{ locales.find(item => item.short === currentLocale).long }}</span> <span class="caret"></span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
+                    <button class="dropdown-item" :class="{ active: locale === currentLocale }" v-for="locale in locales" @click="switchLocale(locale.short)">{{ locale.long }}</button>
+                </div>
+            </div>
         </div>
 
         <div class="table-responsive" v-if="filteredItems.length">
@@ -125,6 +133,8 @@ export default {
             searchString: null,
             sortArray: this.sorting,
             searchableArray: this.searchable,
+            locales: window.TypiCMS.locales,
+            currentLocale: this.locale,
             loading: false,
             total: 0,
             last_page: null,
@@ -168,7 +178,7 @@ export default {
                 ']=' +
                 this.fields +
                 '&locale=' +
-                this.locale +
+                this.currentLocale +
                 '&translatable_fields=' +
                 this.translatableFields +
                 this.searchQuery +
@@ -202,6 +212,14 @@ export default {
                         error.response.data.message || this.$i18n.t('An error occurred with the data fetch.')
                     );
                 });
+        },
+        switchLocale(locale) {
+            this.loading = true;
+            this.currentLocale = locale;
+            axios.get('/admin/_locale/' + locale).then(response => {
+                this.loading = false;
+                this.fetchData();
+            });
         },
         search(string) {
             this.data.current_page = 1;
@@ -291,7 +309,7 @@ export default {
                     status: {},
                 },
                 label = status === '1' ? 'published' : 'unpublished';
-            data.status[TypiCMS.content_locale] = status;
+            data.status[this.currentLocale] = status;
 
             this.loading = true;
 
@@ -319,7 +337,7 @@ export default {
                 },
                 label = newStatus === '1' ? 'published' : 'unpublished';
             model.status_translated = newStatus;
-            data.status[TypiCMS.content_locale] = newStatus;
+            data.status[this.currentLocale] = newStatus;
             axios
                 .patch(this.urlBase + '/' + model.id, data)
                 .then(response => {

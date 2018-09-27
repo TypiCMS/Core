@@ -10,7 +10,15 @@
         </div>
 
         <div class="btn-toolbar">
-            <slot name="buttons" v-if="!loading"></slot>
+            <slot name="buttons"></slot>
+            <div class="btn-group btn-group-sm ml-auto">
+                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownLangSwitcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span id="active-locale">{{ locales.find(item => item.short === currentLocale).long }}</span> <span class="caret"></span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
+                    <button class="dropdown-item" :class="{ active: locale === currentLocale }" v-for="locale in locales" @click="switchLocale(locale.short)">{{ locale.long }}</button>
+                </div>
+            </div>
         </div>
 
         <sl-vue-tree v-model="models" :allowMultiselect="false" ref="slVueTree" @drop="drop" @toggle="toggle">
@@ -24,12 +32,12 @@
                 <a class="btn btn-light btn-xs" :href="'pages/'+node.data.id+'/edit'">Edit</a>
 
                 <div class="btn btn-xs btn-link btn-status" @click="toggleStatus(node)">
-                    <span class="fa btn-status-switch" :class="node.data.status[locale] == '1' ? 'fa-toggle-on' : 'fa-toggle-off'"></span>
+                    <span class="fa btn-status-switch" :class="node.data.status_translated == '1' ? 'fa-toggle-on' : 'fa-toggle-off'"></span>
                 </div>
 
                 <div v-if="node.data.private" class="fa fa-lock"></div>
 
-                <div class="title">{{ node.title[locale] }}</div>
+                <div class="title">{{ node.data.title_translated }}</div>
 
                 <div v-if="node.data.redirect === 1" class="fa fa-level-down text-muted" :title="$t('Redirect to first child')"></div>
 
@@ -67,19 +75,48 @@ export default {
             type: String,
             required: true,
         },
+        locale: {
+            type: String,
+            required: true,
+        },
+        table: {
+            type: String,
+            required: true,
+        },
+        fields: {
+            type: String,
+        },
+        translatableFields: {
+            type: String,
+        },
     },
     data() {
         return {
+            locales: window.TypiCMS.locales,
+            currentLocale: this.locale,
             loading: true,
             models: [],
             checkedModels: [],
-            locale: TypiCMS.content_locale,
         };
     },
     created() {
         this.fetchData();
     },
     computed: {
+        url() {
+            return (
+                this.urlBase +
+                '?' +
+                'fields[' +
+                this.table +
+                ']=' +
+                this.fields +
+                '&locale=' +
+                this.currentLocale +
+                '&translatable_fields=' +
+                this.translatableFields
+            );
+        },
         filteredModels() {
             return this.models;
         },
@@ -90,7 +127,7 @@ export default {
     methods: {
         fetchData() {
             axios
-                .get(this.urlBase)
+                .get(this.url)
                 .then(response => {
                     this.models = response.data;
                     this.loading = false;
@@ -99,9 +136,17 @@ export default {
                     alertify.error(error.response.data.message || 'An error occurred with the data fetch.');
                 });
         },
+        switchLocale(locale) {
+            this.loading = true;
+            this.currentLocale = locale;
+            axios.get('/admin/_locale/' + locale).then(response => {
+                this.loading = false;
+                this.fetchData();
+            });
+        },
         deleteFromNested(node) {
             let model = node.data;
-            let title = model.title[this.locale];
+            let title = model.title_translated;
             if (node.children && node.children.length > 0) {
                 alertify.error('This item cannot be deleted because it has children.');
                 return false;
@@ -165,14 +210,14 @@ export default {
         },
         toggleStatus(node) {
             let originalNode = JSON.parse(JSON.stringify(node)),
-                status = parseInt(node.data.status[this.locale]) || 0,
+                status = parseInt(node.data.status_translated) || 0,
                 newStatus = Math.abs(status - 1).toString(),
                 data = {
                     status: {},
                 },
                 label = newStatus === '1' ? 'published' : 'unpublished';
-            data.status[this.locale] = newStatus;
-            node.data.status[this.locale] = newStatus;
+            data.status[this.currentLocale] = newStatus;
+            node.data.status_translated = newStatus;
             this.$refs.slVueTree.updateNode(node.path, node);
             axios
                 .patch(this.urlBase + '/' + node.data.id, data)

@@ -2605,6 +2605,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2667,6 +2675,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             searchString: null,
             sortArray: this.sorting,
             searchableArray: this.searchable,
+            locales: window.TypiCMS.locales,
+            currentLocale: this.locale,
             loading: false,
             total: 0,
             last_page: null,
@@ -2705,7 +2715,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).join('&');
         },
         url: function url() {
-            return this.urlBase + '?' + 'sort=' + this.sortArray.join(',') + '&fields[' + this.table + ']=' + this.fields + '&locale=' + this.locale + '&translatable_fields=' + this.translatableFields + this.searchQuery + '&page=' + this.data.current_page + '&per_page=' + this.data.per_page;
+            return this.urlBase + '?' + 'sort=' + this.sortArray.join(',') + '&fields[' + this.table + ']=' + this.fields + '&locale=' + this.currentLocale + '&translatable_fields=' + this.translatableFields + this.searchQuery + '&page=' + this.data.current_page + '&per_page=' + this.data.per_page;
         },
         filteredItems: function filteredItems() {
             return this.data.data;
@@ -2727,6 +2737,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.loading = false;
             }).catch(function (error) {
                 alertify.error(error.response.data.message || _this2.$i18n.t('An error occurred with the data fetch.'));
+            });
+        },
+        switchLocale: function switchLocale(locale) {
+            var _this3 = this;
+
+            this.loading = true;
+            this.currentLocale = locale;
+            axios.get('/admin/_locale/' + locale).then(function (response) {
+                _this3.loading = false;
+                _this3.fetchData();
             });
         },
         search: function search(string) {
@@ -2762,7 +2782,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         destroy: function destroy() {
-            var _this3 = this;
+            var _this4 = this;
 
             this.data.current_page = 1;
             var deleteLimit = 100;
@@ -2780,17 +2800,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.loading = true;
 
             axios.all(this.checkedItems.map(function (model) {
-                return axios.delete(_this3.urlBase + '/' + model.id);
+                return axios.delete(_this4.urlBase + '/' + model.id);
             })).then(function (responses) {
                 var successes = responses.filter(function (response) {
                     return response.data.error === false;
                 });
-                _this3.loading = false;
-                alertify.success(_this3.$i18n.tc('# items deleted', successes.length, { count: successes.length }));
-                _this3.fetchData();
-                _this3.checkedItems = [];
+                _this4.loading = false;
+                alertify.success(_this4.$i18n.tc('# items deleted', successes.length, { count: successes.length }));
+                _this4.fetchData();
+                _this4.checkedItems = [];
             }).catch(function (error) {
-                alertify.error(error.response.data.message || _this3.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.response.data.message || _this4.$i18n.t('Sorry, an error occurred.'));
             });
         },
         publish: function publish() {
@@ -2810,33 +2830,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.setStatus('0');
         },
         setStatus: function setStatus(status) {
-            var _this4 = this;
+            var _this5 = this;
 
             var data = {
                 status: {}
             },
                 label = status === '1' ? 'published' : 'unpublished';
-            data.status[TypiCMS.content_locale] = status;
+            data.status[this.currentLocale] = status;
 
             this.loading = true;
 
             axios.all(this.checkedItems.map(function (model) {
-                return axios.patch(_this4.urlBase + '/' + model.id, data);
+                return axios.patch(_this5.urlBase + '/' + model.id, data);
             })).then(function (responses) {
-                _this4.loading = false;
-                alertify.success(_this4.$i18n.tc('# items ' + label, responses.length, { count: responses.length }));
-                for (var i = _this4.checkedItems.length - 1; i >= 0; i--) {
-                    var index = _this4.data.data.indexOf(_this4.checkedItems[i]);
-                    _this4.data.data[index].status_translated = status;
+                _this5.loading = false;
+                alertify.success(_this5.$i18n.tc('# items ' + label, responses.length, { count: responses.length }));
+                for (var i = _this5.checkedItems.length - 1; i >= 0; i--) {
+                    var index = _this5.data.data.indexOf(_this5.checkedItems[i]);
+                    _this5.data.data[index].status_translated = status;
                 }
-                _this4.checkedItems = [];
+                _this5.checkedItems = [];
             }).catch(function (error) {
                 console.log(error.response);
-                alertify.error(error.response.data.message || _this4.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.response.data.message || _this5.$i18n.t('Sorry, an error occurred.'));
             });
         },
         toggleStatus: function toggleStatus(model) {
-            var _this5 = this;
+            var _this6 = this;
 
             var status = parseInt(model.status_translated) || 0,
                 newStatus = Math.abs(status - 1).toString(),
@@ -2845,21 +2865,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
                 label = newStatus === '1' ? 'published' : 'unpublished';
             model.status_translated = newStatus;
-            data.status[TypiCMS.content_locale] = newStatus;
+            data.status[this.currentLocale] = newStatus;
             axios.patch(this.urlBase + '/' + model.id, data).then(function (response) {
-                alertify.success(_this5.$i18n.t('Item is ' + label + '.'));
+                alertify.success(_this6.$i18n.t('Item is ' + label + '.'));
             }).catch(function (error) {
-                alertify.error(error.response.data.message || _this5.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.response.data.message || _this6.$i18n.t('Sorry, an error occurred.'));
             });
         },
         updatePosition: function updatePosition(model) {
-            var _this6 = this;
+            var _this7 = this;
 
             var data = {
                 position: model.position
             };
             axios.patch(this.urlBase + '/' + model.id, data).catch(function (error) {
-                alertify.error(error.response.data.message || _this6.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.response.data.message || _this7.$i18n.t('Sorry, an error occurred.'));
             });
         },
         sort: function sort(object) {
@@ -3367,6 +3387,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3386,14 +3414,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         urlBase: {
             type: String,
             required: true
+        },
+        locale: {
+            type: String,
+            required: true
+        },
+        table: {
+            type: String,
+            required: true
+        },
+        fields: {
+            type: String
+        },
+        translatableFields: {
+            type: String
         }
     },
     data: function data() {
         return {
+            locales: window.TypiCMS.locales,
+            currentLocale: this.locale,
             loading: true,
             models: [],
-            checkedModels: [],
-            locale: TypiCMS.content_locale
+            checkedModels: []
         };
     },
     created: function created() {
@@ -3401,6 +3444,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     computed: {
+        url: function url() {
+            return this.urlBase + '?' + 'fields[' + this.table + ']=' + this.fields + '&locale=' + this.currentLocale + '&translatable_fields=' + this.translatableFields;
+        },
         filteredModels: function filteredModels() {
             return this.models;
         },
@@ -3412,18 +3458,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchData: function fetchData() {
             var _this = this;
 
-            axios.get(this.urlBase).then(function (response) {
+            axios.get(this.url).then(function (response) {
                 _this.models = response.data;
                 _this.loading = false;
             }).catch(function (error) {
                 alertify.error(error.response.data.message || 'An error occurred with the data fetch.');
             });
         },
-        deleteFromNested: function deleteFromNested(node) {
+        switchLocale: function switchLocale(locale) {
             var _this2 = this;
 
+            this.loading = true;
+            this.currentLocale = locale;
+            axios.get('/admin/_locale/' + locale).then(function (response) {
+                _this2.loading = false;
+                _this2.fetchData();
+            });
+        },
+        deleteFromNested: function deleteFromNested(node) {
+            var _this3 = this;
+
             var model = node.data;
-            var title = model.title[this.locale];
+            var title = model.title_translated;
             if (node.children && node.children.length > 0) {
                 alertify.error('This item cannot be deleted because it has children.');
                 return false;
@@ -3432,13 +3488,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return false;
             }
             axios.delete(this.urlBase + '/' + model.id).then(function (data) {
-                _this2.$refs.slVueTree.remove([node.path]);
+                _this3.$refs.slVueTree.remove([node.path]);
             }).catch(function (error) {
                 alertify.error('Error ' + error.response.status + ' ' + error.response.statusText);
             });
         },
         drop: function drop(draggingNodes, position) {
-            var _this3 = this;
+            var _this4 = this;
 
             var list = [];
             var draggedNode = draggingNodes[0];
@@ -3474,7 +3530,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             };
 
             axios.post(this.urlBase + '/sort', data).catch(function (error) {
-                alertify.error(error.response.data.message || _this3.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.response.data.message || _this4.$i18n.t('Sorry, an error occurred.'));
             });
         },
         toggle: function toggle(node) {
@@ -3485,23 +3541,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         toggleStatus: function toggleStatus(node) {
-            var _this4 = this;
+            var _this5 = this;
 
             var originalNode = JSON.parse(JSON.stringify(node)),
-                status = parseInt(node.data.status[this.locale]) || 0,
+                status = parseInt(node.data.status_translated) || 0,
                 newStatus = Math.abs(status - 1).toString(),
                 data = {
                 status: {}
             },
                 label = newStatus === '1' ? 'published' : 'unpublished';
-            data.status[this.locale] = newStatus;
-            node.data.status[this.locale] = newStatus;
+            data.status[this.currentLocale] = newStatus;
+            node.data.status_translated = newStatus;
             this.$refs.slVueTree.updateNode(node.path, node);
             axios.patch(this.urlBase + '/' + node.data.id, data).then(function (response) {
-                alertify.success(_this4.$i18n.t('Item is ' + label + '.'));
+                alertify.success(_this5.$i18n.t('Item is ' + label + '.'));
             }).catch(function (error) {
-                _this4.$refs.slVueTree.updateNode(node.path, originalNode);
-                alertify.error(error.response.data.message || _this4.$i18n.t('Sorry, an error occurred.'));
+                _this5.$refs.slVueTree.updateNode(node.path, originalNode);
+                alertify.error(error.response.data.message || _this5.$i18n.t('Sorry, an error occurred.'));
             });
         }
     }
@@ -28540,7 +28596,61 @@ var render = function() {
       _c(
         "div",
         { staticClass: "btn-toolbar" },
-        [!_vm.loading ? _vm._t("buttons") : _vm._e()],
+        [
+          _vm._t("buttons"),
+          _vm._v(" "),
+          _c("div", { staticClass: "btn-group btn-group-sm ml-auto" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-light dropdown-toggle",
+                attrs: {
+                  type: "button",
+                  id: "dropdownLangSwitcher",
+                  "data-toggle": "dropdown",
+                  "aria-haspopup": "true",
+                  "aria-expanded": "false"
+                }
+              },
+              [
+                _c("span", { attrs: { id: "active-locale" } }, [
+                  _vm._v(
+                    _vm._s(
+                      _vm.locales.find(function(item) {
+                        return item.short === _vm.currentLocale
+                      }).long
+                    )
+                  )
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "caret" })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "dropdown-menu dropdown-menu-right",
+                attrs: { "aria-labelledby": "dropdownLangSwitcher" }
+              },
+              _vm._l(_vm.locales, function(locale) {
+                return _c(
+                  "button",
+                  {
+                    staticClass: "dropdown-item",
+                    class: { active: locale === _vm.currentLocale },
+                    on: {
+                      click: function($event) {
+                        _vm.switchLocale(locale.short)
+                      }
+                    }
+                  },
+                  [_vm._v(_vm._s(locale.long))]
+                )
+              })
+            )
+          ])
+        ],
         2
       ),
       _vm._v(" "),
@@ -28590,7 +28700,7 @@ var render = function() {
                     _c("span", {
                       staticClass: "fa btn-status-switch",
                       class:
-                        node.data.status[_vm.locale] == "1"
+                        node.data.status_translated == "1"
                           ? "fa-toggle-on"
                           : "fa-toggle-off"
                     })
@@ -28602,7 +28712,7 @@ var render = function() {
                   : _vm._e(),
                 _vm._v(" "),
                 _c("div", { staticClass: "title" }, [
-                  _vm._v(_vm._s(node.title[_vm.locale]))
+                  _vm._v(_vm._s(node.data.title_translated))
                 ]),
                 _vm._v(" "),
                 node.data.redirect === 1
@@ -29535,6 +29645,8 @@ var render = function() {
               : _vm._e()
           ]),
           _vm._v(" "),
+          _vm._t("buttons"),
+          _vm._v(" "),
           !_vm.loading
             ? _c("small", { staticClass: "text-muted align-self-center" }, [
                 _vm._v(
@@ -29549,7 +29661,59 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm._t("buttons")
+          _vm.translatableFields !== undefined
+            ? _c("div", { staticClass: "btn-group btn-group-sm ml-auto" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-light dropdown-toggle",
+                    attrs: {
+                      type: "button",
+                      id: "dropdownLangSwitcher",
+                      "data-toggle": "dropdown",
+                      "aria-haspopup": "true",
+                      "aria-expanded": "false"
+                    }
+                  },
+                  [
+                    _c("span", { attrs: { id: "active-locale" } }, [
+                      _vm._v(
+                        _vm._s(
+                          _vm.locales.find(function(item) {
+                            return item.short === _vm.currentLocale
+                          }).long
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "caret" })
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "dropdown-menu dropdown-menu-right",
+                    attrs: { "aria-labelledby": "dropdownLangSwitcher" }
+                  },
+                  _vm._l(_vm.locales, function(locale) {
+                    return _c(
+                      "button",
+                      {
+                        staticClass: "dropdown-item",
+                        class: { active: locale === _vm.currentLocale },
+                        on: {
+                          click: function($event) {
+                            _vm.switchLocale(locale.short)
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(locale.long))]
+                    )
+                  })
+                )
+              ])
+            : _vm._e()
         ],
         2
       ),
