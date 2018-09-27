@@ -2672,6 +2672,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
+            loadingTimeout: null,
             searchString: null,
             sortArray: this.sorting,
             searchableArray: this.searchable,
@@ -2731,22 +2732,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchData: function fetchData() {
             var _this2 = this;
 
-            this.loading = true;
+            this.startLoading();
             axios.get(this.url).then(function (response) {
                 _this2.data = response.data;
-                _this2.loading = false;
+                _this2.stopLoading();
             }).catch(function (error) {
                 alertify.error(error.response.data.message || _this2.$i18n.t('An error occurred with the data fetch.'));
             });
         },
-        switchLocale: function switchLocale(locale) {
+        startLoading: function startLoading() {
             var _this3 = this;
 
-            this.loading = true;
+            this.loadingTimeout = setTimeout(function () {
+                _this3.loading = true;
+            }, 300);
+        },
+        stopLoading: function stopLoading() {
+            clearTimeout(this.loadingTimeout);
+            this.loading = false;
+        },
+        switchLocale: function switchLocale(locale) {
+            var _this4 = this;
+
+            this.startLoading();
             this.currentLocale = locale;
             axios.get('/admin/_locale/' + locale).then(function (response) {
-                _this3.loading = false;
-                _this3.fetchData();
+                _this4.stopLoading();
+                _this4.fetchData();
             });
         },
         search: function search(string) {
@@ -2782,7 +2794,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         destroy: function destroy() {
-            var _this4 = this;
+            var _this5 = this;
 
             this.data.current_page = 1;
             var deleteLimit = 100;
@@ -2797,20 +2809,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return false;
             }
 
-            this.loading = true;
+            this.startLoading();
 
             axios.all(this.checkedItems.map(function (model) {
-                return axios.delete(_this4.urlBase + '/' + model.id);
+                return axios.delete(_this5.urlBase + '/' + model.id);
             })).then(function (responses) {
                 var successes = responses.filter(function (response) {
                     return response.data.error === false;
                 });
-                _this4.loading = false;
-                alertify.success(_this4.$i18n.tc('# items deleted', successes.length, { count: successes.length }));
-                _this4.fetchData();
-                _this4.checkedItems = [];
+                _this5.stopLoading();
+                alertify.success(_this5.$i18n.tc('# items deleted', successes.length, { count: successes.length }));
+                _this5.fetchData();
+                _this5.checkedItems = [];
             }).catch(function (error) {
-                alertify.error(error.response.data.message || _this4.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.response.data.message || _this5.$i18n.t('Sorry, an error occurred.'));
             });
         },
         publish: function publish() {
@@ -2830,7 +2842,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.setStatus('0');
         },
         setStatus: function setStatus(status) {
-            var _this5 = this;
+            var _this6 = this;
 
             var data = {
                 status: {}
@@ -2838,25 +2850,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 label = status === '1' ? 'published' : 'unpublished';
             data.status[this.currentLocale] = status;
 
-            this.loading = true;
+            this.startLoading();
 
             axios.all(this.checkedItems.map(function (model) {
-                return axios.patch(_this5.urlBase + '/' + model.id, data);
+                return axios.patch(_this6.urlBase + '/' + model.id, data);
             })).then(function (responses) {
-                _this5.loading = false;
-                alertify.success(_this5.$i18n.tc('# items ' + label, responses.length, { count: responses.length }));
-                for (var i = _this5.checkedItems.length - 1; i >= 0; i--) {
-                    var index = _this5.data.data.indexOf(_this5.checkedItems[i]);
-                    _this5.data.data[index].status_translated = status;
+                _this6.stopLoading();
+                alertify.success(_this6.$i18n.tc('# items ' + label, responses.length, { count: responses.length }));
+                for (var i = _this6.checkedItems.length - 1; i >= 0; i--) {
+                    var index = _this6.data.data.indexOf(_this6.checkedItems[i]);
+                    _this6.data.data[index].status_translated = status;
                 }
-                _this5.checkedItems = [];
+                _this6.checkedItems = [];
             }).catch(function (error) {
                 console.log(error.response);
-                alertify.error(error.response.data.message || _this5.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.response.data.message || _this6.$i18n.t('Sorry, an error occurred.'));
             });
         },
         toggleStatus: function toggleStatus(model) {
-            var _this6 = this;
+            var _this7 = this;
 
             var status = parseInt(model.status_translated) || 0,
                 newStatus = Math.abs(status - 1).toString(),
@@ -2867,19 +2879,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             model.status_translated = newStatus;
             data.status[this.currentLocale] = newStatus;
             axios.patch(this.urlBase + '/' + model.id, data).then(function (response) {
-                alertify.success(_this6.$i18n.t('Item is ' + label + '.'));
+                alertify.success(_this7.$i18n.t('Item is ' + label + '.'));
             }).catch(function (error) {
-                alertify.error(error.response.data.message || _this6.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.response.data.message || _this7.$i18n.t('Sorry, an error occurred.'));
             });
         },
         updatePosition: function updatePosition(model) {
-            var _this7 = this;
+            var _this8 = this;
 
             var data = {
                 position: model.position
             };
             axios.patch(this.urlBase + '/' + model.id, data).catch(function (error) {
-                alertify.error(error.response.data.message || _this7.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.response.data.message || _this8.$i18n.t('Sorry, an error occurred.'));
             });
         },
         sort: function sort(object) {
@@ -3395,6 +3407,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -3432,9 +3447,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
+            loadingTimeout: null,
             locales: window.TypiCMS.locales,
             currentLocale: this.locale,
-            loading: true,
+            loading: false,
             models: [],
             checkedModels: []
         };
@@ -3458,25 +3474,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchData: function fetchData() {
             var _this = this;
 
+            this.startLoading();
             axios.get(this.url).then(function (response) {
                 _this.models = response.data;
-                _this.loading = false;
+                _this.stopLoading();
             }).catch(function (error) {
-                alertify.error(error.response.data.message || 'An error occurred with the data fetch.');
+                alertify.error(error.response.data.message || _this.$i18n.t('An error occurred with the data fetch.'));
             });
         },
-        switchLocale: function switchLocale(locale) {
+        startLoading: function startLoading() {
             var _this2 = this;
 
-            this.loading = true;
+            this.loadingTimeout = setTimeout(function () {
+                _this2.loading = true;
+            }, 300);
+        },
+        stopLoading: function stopLoading() {
+            clearTimeout(this.loadingTimeout);
+            this.loading = false;
+        },
+        switchLocale: function switchLocale(locale) {
+            var _this3 = this;
+
+            this.startLoading();
             this.currentLocale = locale;
             axios.get('/admin/_locale/' + locale).then(function (response) {
-                _this2.loading = false;
-                _this2.fetchData();
+                _this3.stopLoading();
+                _this3.fetchData();
             });
         },
         deleteFromNested: function deleteFromNested(node) {
-            var _this3 = this;
+            var _this4 = this;
 
             var model = node.data;
             var title = model.title_translated;
@@ -3488,13 +3516,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return false;
             }
             axios.delete(this.urlBase + '/' + model.id).then(function (data) {
-                _this3.$refs.slVueTree.remove([node.path]);
+                _this4.$refs.slVueTree.remove([node.path]);
             }).catch(function (error) {
                 alertify.error('Error ' + error.response.status + ' ' + error.response.statusText);
             });
         },
         drop: function drop(draggingNodes, position) {
-            var _this4 = this;
+            var _this5 = this;
 
             var list = [];
             var draggedNode = draggingNodes[0];
@@ -3530,7 +3558,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             };
 
             axios.post(this.urlBase + '/sort', data).catch(function (error) {
-                alertify.error(error.response.data.message || _this4.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.response.data.message || _this5.$i18n.t('Sorry, an error occurred.'));
             });
         },
         toggle: function toggle(node) {
@@ -3541,7 +3569,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         toggleStatus: function toggleStatus(node) {
-            var _this5 = this;
+            var _this6 = this;
 
             var originalNode = JSON.parse(JSON.stringify(node)),
                 status = parseInt(node.data.status_translated) || 0,
@@ -3554,10 +3582,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             node.data.status_translated = newStatus;
             this.$refs.slVueTree.updateNode(node.path, node);
             axios.patch(this.urlBase + '/' + node.data.id, data).then(function (response) {
-                alertify.success(_this5.$i18n.t('Item is ' + label + '.'));
+                alertify.success(_this6.$i18n.t('Item is ' + label + '.'));
             }).catch(function (error) {
-                _this5.$refs.slVueTree.updateNode(node.path, originalNode);
-                alertify.error(error.response.data.message || _this5.$i18n.t('Sorry, an error occurred.'));
+                _this6.$refs.slVueTree.updateNode(node.path, originalNode);
+                alertify.error(error.response.data.message || _this6.$i18n.t('Sorry, an error occurred.'));
             });
         }
     }
@@ -28599,6 +28627,12 @@ var render = function() {
         [
           _vm._t("buttons"),
           _vm._v(" "),
+          _c("div", { staticClass: "d-flex align-items-center ml-2" }, [
+            _vm.loading
+              ? _c("span", { staticClass: "fa fa-spinner fa-spin fa-fw" })
+              : _vm._e()
+          ]),
+          _vm._v(" "),
           _c("div", { staticClass: "btn-group btn-group-sm ml-auto" }, [
             _c(
               "button",
@@ -29640,13 +29674,13 @@ var render = function() {
               })
             : _vm._e(),
           _vm._v(" "),
+          _vm._t("buttons"),
+          _vm._v(" "),
           _c("div", { staticClass: "d-flex align-items-center ml-2" }, [
             _vm.loading
               ? _c("span", { staticClass: "fa fa-spinner fa-spin fa-fw" })
               : _vm._e()
           ]),
-          _vm._v(" "),
-          _vm._t("buttons"),
           _vm._v(" "),
           !_vm.loading
             ? _c("small", { staticClass: "text-muted align-self-center" }, [

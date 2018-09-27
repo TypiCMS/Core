@@ -37,10 +37,10 @@
                 :per-page="parseInt(data.per_page)"
                 @change-per-page="changeNumberOfItemsPerPage"
             ></item-list-per-page>
+            <slot name="buttons"></slot>
             <div class="d-flex align-items-center ml-2">
                 <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
             </div>
-            <slot name="buttons"></slot>
             <small class="text-muted align-self-center" v-if="!loading">
                 {{ $tc('# ' + title, data.total, { count: data.total }) }}
             </small>
@@ -130,6 +130,7 @@ export default {
     },
     data() {
         return {
+            loadingTimeout: null,
             searchString: null,
             sortArray: this.sorting,
             searchableArray: this.searchable,
@@ -200,12 +201,12 @@ export default {
     },
     methods: {
         fetchData() {
-            this.loading = true;
+            this.startLoading();
             axios
                 .get(this.url)
                 .then(response => {
                     this.data = response.data;
-                    this.loading = false;
+                    this.stopLoading();
                 })
                 .catch(error => {
                     alertify.error(
@@ -213,11 +214,20 @@ export default {
                     );
                 });
         },
+        startLoading() {
+            this.loadingTimeout = setTimeout(() => {
+                this.loading = true;
+            }, 300);
+        },
+        stopLoading() {
+            clearTimeout(this.loadingTimeout);
+            this.loading = false;
+        },
         switchLocale(locale) {
-            this.loading = true;
+            this.startLoading();
             this.currentLocale = locale;
             axios.get('/admin/_locale/' + locale).then(response => {
-                this.loading = false;
+                this.stopLoading();
                 this.fetchData();
             });
         },
@@ -265,13 +275,13 @@ export default {
                 return false;
             }
 
-            this.loading = true;
+            this.startLoading();
 
             axios
                 .all(this.checkedItems.map(model => axios.delete(this.urlBase + '/' + model.id)))
                 .then(responses => {
                     let successes = responses.filter(response => response.data.error === false);
-                    this.loading = false;
+                    this.stopLoading();
                     alertify.success(this.$i18n.tc('# items deleted', successes.length, { count: successes.length }));
                     this.fetchData();
                     this.checkedItems = [];
@@ -311,12 +321,12 @@ export default {
                 label = status === '1' ? 'published' : 'unpublished';
             data.status[this.currentLocale] = status;
 
-            this.loading = true;
+            this.startLoading();
 
             axios
                 .all(this.checkedItems.map(model => axios.patch(this.urlBase + '/' + model.id, data)))
                 .then(responses => {
-                    this.loading = false;
+                    this.stopLoading();
                     alertify.success(this.$i18n.tc('# items ' + label, responses.length, { count: responses.length }));
                     for (let i = this.checkedItems.length - 1; i >= 0; i--) {
                         let index = this.data.data.indexOf(this.checkedItems[i]);

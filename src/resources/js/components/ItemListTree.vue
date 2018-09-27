@@ -11,6 +11,9 @@
 
         <div class="btn-toolbar">
             <slot name="buttons"></slot>
+            <div class="d-flex align-items-center ml-2">
+                <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
+            </div>
             <div class="btn-group btn-group-sm ml-auto">
                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownLangSwitcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span id="active-locale">{{ locales.find(item => item.short === currentLocale).long }}</span> <span class="caret"></span>
@@ -92,9 +95,10 @@ export default {
     },
     data() {
         return {
+            loadingTimeout: null,
             locales: window.TypiCMS.locales,
             currentLocale: this.locale,
-            loading: true,
+            loading: false,
             models: [],
             checkedModels: [],
         };
@@ -126,21 +130,33 @@ export default {
     },
     methods: {
         fetchData() {
+            this.startLoading();
             axios
                 .get(this.url)
                 .then(response => {
                     this.models = response.data;
-                    this.loading = false;
+                    this.stopLoading();
                 })
                 .catch(error => {
-                    alertify.error(error.response.data.message || 'An error occurred with the data fetch.');
+                    alertify.error(
+                        error.response.data.message || this.$i18n.t('An error occurred with the data fetch.')
+                    );
                 });
         },
+        startLoading() {
+            this.loadingTimeout = setTimeout(() => {
+                this.loading = true;
+            }, 300);
+        },
+        stopLoading() {
+            clearTimeout(this.loadingTimeout);
+            this.loading = false;
+        },
         switchLocale(locale) {
-            this.loading = true;
+            this.startLoading();
             this.currentLocale = locale;
             axios.get('/admin/_locale/' + locale).then(response => {
-                this.loading = false;
+                this.stopLoading();
                 this.fetchData();
             });
         },
