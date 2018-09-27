@@ -9,7 +9,7 @@
     <article class="http-error-message">
         <h2>@lang('db.Sorry, you are not authorized to view this page').</h2>
         <p>
-            @lang('db.Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>'])
+            {!! trans('db.Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) !!}
         </p>
     </article>
 

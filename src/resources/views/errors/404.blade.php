@@ -9,7 +9,7 @@
     <article class="http-error-message">
         <h2>@lang('db.Sorry, this page was not found').</h2>
         <p>
-            @lang('db.Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>'])
+            {!! trans('db.Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) !!}
         </p>
     </article>
 
