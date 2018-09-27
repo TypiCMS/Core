@@ -3365,6 +3365,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -28602,6 +28604,13 @@ var render = function() {
                 _c("div", { staticClass: "title" }, [
                   _vm._v(_vm._s(node.title[_vm.locale]))
                 ]),
+                _vm._v(" "),
+                node.data.redirect === 1
+                  ? _c("div", {
+                      staticClass: "fa fa-level-down text-muted",
+                      attrs: { title: _vm.$t("Redirect to first child") }
+                    })
+                  : _vm._e(),
                 _vm._v(" "),
                 node.data.module
                   ? _c(

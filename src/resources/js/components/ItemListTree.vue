@@ -31,6 +31,8 @@
 
                 <div class="title">{{ node.title[locale] }}</div>
 
+                <div v-if="node.data.redirect === 1" class="fa fa-level-down text-muted" :title="$t('Redirect to first child')"></div>
+
                 <div class="badge badge-info" :href="node.data.module" v-if="node.data.module">{{ node.data.module }}</div>
 
             </template>
