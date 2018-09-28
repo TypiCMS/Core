@@ -495,6 +495,16 @@ export default {
                     alertify.error('Error ' + error.status + ' ' + error.statusText);
                 });
         },
+        addSingleFile(item) {
+            this.$root.$emit('fileAdded', item);
+            var CKEditorCleanUpFuncNum = $('#filepicker').data('CKEditorCleanUpFuncNum'),
+                CKEditorFuncNum = $('#filepicker').data('CKEditorFuncNum');
+            if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
+                parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/storage/' + item.path);
+                parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
+            }
+            this.closeModal();
+        },
         addSelectedFiles() {
             let ids = [],
                 data = {};
@@ -547,15 +557,6 @@ export default {
             } else {
                 this.addSingleFile(item);
             }
-        },
-        addSingleFile(item) {
-            var CKEditorCleanUpFuncNum = $('#filepicker').data('CKEditorCleanUpFuncNum'),
-                CKEditorFuncNum = $('#filepicker').data('CKEditorFuncNum');
-            if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
-                parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/storage/' + item.path);
-                parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
-            }
-            this.closeModal();
         },
         checkNone() {
             this.selectedItems = [];
