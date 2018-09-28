@@ -4,7 +4,6 @@ namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use JavaScript;
 
 class JavaScriptData
 {
@@ -25,7 +24,7 @@ class JavaScriptData
                 'long' => trans('languages.'.$locale),
             ];
         }
-        JavaScript::put([
+        app('JavaScript')->put([
             'locales' => $locales,
             'content_locale' => config('typicms.content_locale'),
             'locale' => config('app.locale'),
