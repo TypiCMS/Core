@@ -5,12 +5,13 @@ $sidebar-width: 260px;
 }
 
 .sidebar {
-    padding-top: 5rem;
-    background-color: $gray-700;
-    bottom: 0;
     position: fixed;
+    bottom: 0;
     top: 0;
     left: 0;
+    padding-top: 5rem;
+    background-color: $gray-700;
+    flex-shrink: 0;
     overflow-x: hidden;
     overflow-y: auto;
     z-index: 1000;
@@ -111,24 +112,19 @@ $sidebar-width: 260px;
         }
     }
 }
-.row-offcanvas {
-    padding-top: 3rem;
-}
 
-.row-offcanvas-left {
-    left: 0;
-    height: 100vh;
-}
-@media screen and (max-width: 767px) {
-    .row-offcanvas {
+@include media-breakpoint-down(sm) {
+    .sidebar,
+    .main {
         transition: all 0.25s ease-out;
     }
-
-    .row-offcanvas-left .sidebar {
-        left: -$sidebar-width;
+    .sidebar {
+        transform: translateX(-$sidebar-width);
     }
-
-    .row-offcanvas-left.active {
+    .active .sidebar {
+        transform: translateX(0);
+    }
+    .active .main {
         transform: translateX($sidebar-width);
     }
 }

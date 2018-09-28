@@ -16,10 +16,6 @@
 @import 'public/documents';
 @import 'public/images';
 
-.has-navbar {
-    padding-top: 3rem;
-}
-
 .skip-to-content {
     @include sr-only;
     @include sr-only-focusable;

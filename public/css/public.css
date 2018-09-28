@@ -15726,7 +15726,7 @@ button.swiper-pagination-bullet {
   }
 }
 
-@media (max-width: 575.98px) {
+@media (max-width: 767.98px) {
   .sidebar-offcanvas {
     background: #fff;
     bottom: 0;
@@ -15743,7 +15743,7 @@ button.swiper-pagination-bullet {
   }
 }
 
-@media (max-width: 575.98px) {
+@media (max-width: 767.98px) {
   .sidebar-offcanvas.active,
   .menu-main-item.active .sidebar-offcanvas.menu-main-link,
   .menu-social-item.active .sidebar-offcanvas.menu-social-link,
@@ -15910,10 +15910,6 @@ button.swiper-pagination-bullet {
 .images-list-image-thumb {
   max-width: 100%;
   height: auto;
-}
-
-.has-navbar {
-  padding-top: 3rem;
 }
 
 .skip-to-content {

@@ -15414,12 +15414,14 @@ a.text-dark:focus {
 }
 
 .sidebar {
-  padding-top: 5rem;
-  background-color: #495057;
-  bottom: 0;
   position: fixed;
+  bottom: 0;
   top: 0;
   left: 0;
+  padding-top: 5rem;
+  background-color: #495057;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   overflow-x: hidden;
   overflow-y: auto;
   z-index: 1000;
@@ -15535,26 +15537,24 @@ a.text-dark:focus {
   color: #eee;
 }
 
-.row-offcanvas {
-  padding-top: 3rem;
-}
-
-.row-offcanvas-left {
-  left: 0;
-  height: 100vh;
-}
-
-@media screen and (max-width: 767px) {
-  .row-offcanvas {
+@media (max-width: 767.98px) {
+  .sidebar,
+  .main {
     -webkit-transition: all 0.25s ease-out;
     transition: all 0.25s ease-out;
   }
 
-  .row-offcanvas-left .sidebar {
-    left: -260px;
+  .sidebar {
+    -webkit-transform: translateX(-260px);
+            transform: translateX(-260px);
   }
 
-  .row-offcanvas-left.active {
+  .active .sidebar {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+
+  .active .main {
     -webkit-transform: translateX(260px);
             transform: translateX(260px);
   }
@@ -15812,7 +15812,7 @@ a.text-dark:focus {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin: 1rem 0 2.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .header-title {
@@ -15939,7 +15939,7 @@ body {
 }
 
 .main {
-  padding: 2rem 1.5rem 1.5rem;
+  padding: 1.5rem;
 }
 
 @media (min-width: 768px) {

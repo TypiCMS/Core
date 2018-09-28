@@ -1,5 +1,5 @@
 @if ($navbar)
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark justify-content-between fixed-top">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark justify-content-between sticky-top">
         <button class="navbar-toggler" type="button" data-toggle="offcanvas" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="fa fa-bars fa-fw fa-inverse"></span>
         </button>

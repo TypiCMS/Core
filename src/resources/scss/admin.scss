@@ -36,7 +36,7 @@ body {
 }
 
 .main {
-    padding: 2rem 1.5rem 1.5rem;
+    padding: 1.5rem;
     @include media-breakpoint-up(md) {
         min-height: 0;
         margin-left: 260px;

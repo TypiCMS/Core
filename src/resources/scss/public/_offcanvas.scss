@@ -1,7 +1,7 @@
 $offcanvas-width: 100%;
 
 .sidebar-offcanvas {
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
         background: #fff;
         bottom: 0;
         left: -$offcanvas-width;
@@ -14,7 +14,7 @@ $offcanvas-width: 100%;
     }
 
     &.active {
-        @include media-breakpoint-down(xs) {
+        @include media-breakpoint-down(sm) {
             transform: translateX($offcanvas-width);
         }
     }
