@@ -76,6 +76,7 @@ import History from './components/History.vue';
  */
 import Filepicker from './components/Filepicker.vue';
 import Files from './components/Files.vue';
+import FileField from './components/FileField.vue';
 window.EventBus = new Vue({});
 
 new Vue({
@@ -89,6 +90,7 @@ new Vue({
         ItemListPositionInput,
         Filepicker,
         Files,
+        FileField,
         History,
     },
 }).$mount('#app');
