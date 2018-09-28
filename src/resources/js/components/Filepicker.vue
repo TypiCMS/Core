@@ -6,11 +6,10 @@
 
             <div class="filepicker-header header">
                 <h1 class="filepicker-title header-title">
-                    <span v-for="(folder, index) in path">
-                        <a v-if="path.length !== index+1" href="#" @click="openFolder(folder)">{{ folder.name }}</a>
-                        <span v-if="path.length === index+1">{{ folder.name }}</span>
-                        <span v-if="path.length !== index+1">/</span>
-                    </span>
+                    <div v-for="(folder, index) in path">
+                        <span class="filepicker-title-clickable" v-if="path.length !== index+1" href="#" @click="openFolder(folder)">{{ folder.name }}</span>
+                        <span v-else>{{ folder.name }}</span>
+                    </div>
                 </h1>
                 <button type="button" class="btn btn-sm btn-primary header-btn-add" id="btnAddFiles" v-if="dropzone">
                     <span class="fa fa-upload text-white-50"></span> {{ $t('Upload files') }}
