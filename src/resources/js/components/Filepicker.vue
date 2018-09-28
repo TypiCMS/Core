@@ -13,7 +13,7 @@
                     </span>
                 </h1>
                 <button type="button" class="btn btn-sm btn-primary header-btn-add" id="btnAddFiles" v-if="dropzone">
-                    <i class="fa fa-upload text-white-50"></i> {{ $t('Upload files') }}
+                    <span class="fa fa-upload text-white-50"></span> {{ $t('Upload files') }}
                 </button>
             </div>
 
