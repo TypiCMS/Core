@@ -1895,7 +1895,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -1941,6 +1940,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
+            loadingTimeout: null,
             dragging: false,
             loading: false,
             total: 0,
@@ -2034,16 +2034,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchData: function fetchData() {
             var _this2 = this;
 
-            this.loading = true;
+            this.startLoading();
             axios.get(this.url).then(function (response) {
                 _this2.data = response.data;
-                _this2.loading = false;
+                _this2.stopLoading();
             }).catch(function (error) {
                 alertify.error(error.response.data.message || _this2.$i18n.t('An error occurred with the data fetch.'));
             });
         },
+        startLoading: function startLoading() {
+            var _this3 = this;
+
+            this.loadingTimeout = setTimeout(function () {
+                _this3.loading = true;
+            }, 300);
+        },
+        stopLoading: function stopLoading() {
+            clearTimeout(this.loadingTimeout);
+            this.loading = false;
+        },
         dropzoneSending: function dropzoneSending(file, xhr, formData) {
-            this.loading = true;
+            this.startLoading();
             formData.append('_token', document.head.querySelector('meta[name="csrf-token"]').content);
             for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
                 formData.append('folder_id', this.folder.id);
@@ -2052,24 +2063,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         dropzoneSuccess: function dropzoneSuccess(file, response) {
-            var _this3 = this;
+            var _this4 = this;
 
             window.setTimeout(function () {
                 $(file.previewElement).fadeOut('fast', function () {
-                    _this3.$refs.dropzone.removeFile(file);
-                    _this3.data.models.push(response.model);
-                    _this3.data.models.sort(function (a, b) {
+                    _this4.$refs.dropzone.removeFile(file);
+                    _this4.data.models.push(response.model);
+                    _this4.data.models.sort(function (a, b) {
                         return a.id - b.id;
                     });
                 });
             }, 1000);
         },
         dropzoneComplete: function dropzoneComplete() {
-            var _this4 = this;
+            var _this5 = this;
 
             if (this.$refs.dropzone.getUploadingFiles().length === 0 && this.$refs.dropzone.getQueuedFiles().length === 0) {
                 setTimeout(function () {
-                    _this4.loading = false;
+                    _this5.stopLoading();
                 }, 1000);
             }
         },
@@ -2097,7 +2108,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             event.target.classList.remove('filemanager-item-over');
         },
         drop: function drop(targetItem, event) {
-            var _this5 = this;
+            var _this6 = this;
 
             event.target.classList.remove('filemanager-item-over');
             this.dragging = false;
@@ -2122,7 +2133,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             };
 
             axios.patch('/admin/files/' + ids.join(), data).then(function (response) {
-                _this5.fetchData();
+                _this6.fetchData();
             }).catch(function (error) {
                 alertify.error('Error ' + error.status + ' ' + error.statusText);
             });
@@ -2130,7 +2141,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.selectedItems = [];
         },
         newFolder: function newFolder(folderId) {
-            var _this6 = this;
+            var _this7 = this;
 
             var name = window.prompt('What is the name of the new folder?');
             if (!name) {
@@ -2145,13 +2156,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             };
 
             axios.post('/admin/files', data).then(function (response) {
-                _this6.data.models.push(response.data.model);
+                _this7.data.models.push(response.data.model);
             }).catch(function (error) {
-                alertify.error(error.response.data.message || _this6.$i18n.t('An error occurred.'));
+                alertify.error(error.response.data.message || _this7.$i18n.t('An error occurred.'));
             });
         },
         check: function check(item, $event) {
-            var _this7 = this;
+            var _this8 = this;
 
             $event.stopPropagation();
             var indexOfLastCheckedItem = this.data.models.indexOf(this.selectedItems[this.selectedItems.length - 1]);
@@ -2171,13 +2182,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         if (currentItemIndex > indexOfLastCheckedItem) {
                             if (indexOfLastCheckedItem === -1) {
                                 if (index <= currentItemIndex) {
-                                    _this7.selectedItems.push(item);
+                                    _this8.selectedItems.push(item);
                                 }
                             }
                             if (indexOfLastCheckedItem !== -1) {
                                 if (index > indexOfLastCheckedItem && index < currentItemIndex) {
-                                    if (_this7.selectedItems.indexOf(item) === -1) {
-                                        _this7.selectedItems.push(item);
+                                    if (_this8.selectedItems.indexOf(item) === -1) {
+                                        _this8.selectedItems.push(item);
                                     }
                                 }
                             }
@@ -2185,8 +2196,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         if (currentItemIndex < indexOfLastCheckedItem) {
                             if (indexOfLastCheckedItem !== -1) {
                                 if (index < indexOfLastCheckedItem && index > currentItemIndex) {
-                                    if (_this7.selectedItems.indexOf(item) === -1) {
-                                        _this7.selectedItems.push(item);
+                                    if (_this8.selectedItems.indexOf(item) === -1) {
+                                        _this8.selectedItems.push(item);
                                     }
                                 }
                             }
@@ -2196,7 +2207,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         moveToParentFolder: function moveToParentFolder() {
-            var _this8 = this;
+            var _this9 = this;
 
             if (!this.folder.id) {
                 return;
@@ -2213,20 +2224,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             models.forEach(function (item) {
                 ids.push(item.id);
-                var index = _this8.data.models.indexOf(item);
-                _this8.data.models.splice(index, 1);
+                var index = _this9.data.models.indexOf(item);
+                _this9.data.models.splice(index, 1);
             });
 
             this.selectedItems = [];
 
-            this.loading = true;
+            this.startLoading();
 
             var data = {
                 folder_id: this.path[this.path.length - 2].id
             };
 
             axios.patch('/admin/files/' + ids.join(), data).then(function (response) {
-                _this8.loading = false;
+                _this9.stopLoading();
                 if (response.data.number < number) {
                     alertify.error(number - response.data.number + ' items could not be moved.');
                 }
@@ -2234,7 +2245,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     alertify.success(response.data.number + ' items moved.');
                 }
             }).catch(function (error) {
-                _this8.loading = false;
+                _this9.stopLoading();
                 alertify.error('Error ' + error.status + ' ' + error.statusText);
             });
         },
@@ -2249,7 +2260,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.closeModal();
         },
         addSelectedFiles: function addSelectedFiles() {
-            var _this9 = this;
+            var _this10 = this;
 
             var ids = [],
                 data = {};
@@ -2265,9 +2276,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             data.files = ids;
 
             axios.post('/api/' + this.relatedTable + '/' + this.relatedId + '/files', data).then(function (response) {
-                _this9.selectedItems = [];
-                _this9.$root.$emit('filesAdded', response.data.models);
-                _this9.closeModal();
+                _this10.selectedItems = [];
+                _this10.$root.$emit('filesAdded', response.data.models);
+                _this10.closeModal();
 
                 if (response.data.number === 0) {
                     alertify.error(response.data.message);
@@ -2304,7 +2315,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.selectedItems = [];
         },
         deleteSelected: function deleteSelected() {
-            var _this10 = this;
+            var _this11 = this;
 
             var deleteLimit = 100;
 
@@ -2346,22 +2357,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return false;
             }
 
-            this.loading = true;
+            this.startLoading();
 
             axios.all(this.selectedItems.map(function (item) {
-                return axios.delete(_this10.baseUrl + '/' + item.id);
+                return axios.delete(_this11.baseUrl + '/' + item.id);
             })).then(function (responses) {
                 var successes = responses.filter(function (response) {
                     return response.data.error === false;
                 });
-                _this10.loading = false;
-                alertify.success(_this10.$i18n.tc('# items deleted', successes.length, {
+                _this11.stopLoading();
+                alertify.success(_this11.$i18n.tc('# items deleted', successes.length, {
                     count: successes.length
                 }));
-                _this10.fetchData();
-                _this10.selectedItems = [];
+                _this11.fetchData();
+                _this11.selectedItems = [];
             }).catch(function (error) {
-                alertify.error(error.response.data.message || _this10.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.response.data.message || _this11.$i18n.t('Sorry, an error occurred.'));
             });
         }
     }
@@ -28261,11 +28272,12 @@ var render = function() {
               "h1",
               { staticClass: "filepicker-title header-title" },
               _vm._l(_vm.path, function(folder, index) {
-                return _c("span", [
+                return _c("div", [
                   _vm.path.length !== index + 1
                     ? _c(
-                        "a",
+                        "span",
                         {
+                          staticClass: "filepicker-title-clickable",
                           attrs: { href: "#" },
                           on: {
                             click: function($event) {
@@ -28275,15 +28287,7 @@ var render = function() {
                         },
                         [_vm._v(_vm._s(folder.name))]
                       )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.path.length === index + 1
-                    ? _c("span", [_vm._v(_vm._s(folder.name))])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.path.length !== index + 1
-                    ? _c("span", [_vm._v("/")])
-                    : _vm._e()
+                    : _c("span", [_vm._v(_vm._s(folder.name))])
                 ])
               })
             ),

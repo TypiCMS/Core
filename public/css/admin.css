@@ -14701,6 +14701,27 @@ a.text-dark:focus {
   padding-top: 30px;
 }
 
+.filepicker-title-clickable {
+  cursor: pointer;
+  color: #6c757d;
+}
+
+.filepicker-title-clickable:hover,
+.filepicker-title-clickable:focus {
+  color: #212529;
+}
+
+.filepicker-title div {
+  display: inline-block;
+}
+
+.filepicker-title div:not(:last-child):after {
+  display: inline-block;
+  content: '/';
+  color: #495057;
+  margin: 0 5px;
+}
+
 .filemanager {
   margin-left: -10px;
   margin-right: -10px;
