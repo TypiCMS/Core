@@ -6,10 +6,12 @@
             <h1 class="item-list-title header-title">
                 {{ $t(title) }}
             </h1>
-            <slot name="add-button"></slot>
+            <div class="item-list-toolbar header-toolbar btn-toolbar">
+                <slot name="add-button"></slot>
+            </div>
         </div>
 
-        <div class="btn-toolbar">
+        <div class="btn-toolbar item-list-actions">
             <slot name="buttons"></slot>
             <div class="d-flex align-items-center ml-2">
                 <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
@@ -32,7 +34,7 @@
                     <span class="fa fa-remove"></span>
                 </div>
 
-                <a class="btn btn-light btn-xs" :href="'pages/'+node.data.id+'/edit'">Edit</a>
+                <a class="btn btn-light btn-xs" :href="table+'/'+node.data.id+'/edit'">Edit</a>
 
                 <div class="btn btn-xs btn-link btn-status" @click="toggleStatus(node)">
                     <span class="fa btn-status-switch" :class="node.data.status_translated == '1' ? 'fa-toggle-on' : 'fa-toggle-off'"></span>
