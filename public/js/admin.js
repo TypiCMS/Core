@@ -1681,7 +1681,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         type: {
             type: String,
-            required: true
+            required: true,
+            validator: function validator(value) {
+                // The value must match one of these strings
+                return ['image', 'document'].indexOf(value) !== -1;
+            }
         },
         data: {
             type: String,

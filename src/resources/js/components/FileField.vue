@@ -35,6 +35,10 @@ export default {
         type: {
             type: String,
             required: true,
+            validator: function(value) {
+                // The value must match one of these strings
+                return ['image', 'document'].indexOf(value) !== -1;
+            },
         },
         data: {
             type: String,
