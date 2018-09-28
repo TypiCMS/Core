@@ -8,6 +8,7 @@
 @import 'admin/sortable-tree';
 @import 'admin/dropzone';
 @import 'admin/files';
+@import 'admin/history';
 @import 'admin/files-list';
 @import 'admin/selectize.bootstrap4';
 @import 'admin/sidebar';
@@ -98,12 +99,6 @@ h1 {
 }
 
 .noscroll {
-    overflow: hidden;
-}
-
-.text-truncatable {
-    white-space: nowrap;
-    text-overflow: ellipsis;
     overflow: hidden;
 }
 

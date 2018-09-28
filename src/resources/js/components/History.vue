@@ -7,9 +7,9 @@
             <button class="btn-clear-history" id="clear-history" @click="clearHistory" v-if="filteredItems.length && clearButton">{{ $t('Clear') }}</button>
         </div>
 
-        <div class="table-responsive" v-if="filteredItems.length">
+        <div class="history table-responsive" v-if="filteredItems.length">
 
-            <table class="table table-main mb-0">
+            <table class="history-table table table-main mb-0">
 
                 <thead>
                     <tr>
@@ -30,10 +30,10 @@
                             <span v-if="model.locale">({{ model.locale }})</span>
                         </td>
                         <td>{{ model.historable_table }}</td>
-                        <td>
+                        <td class="action">
                             <span class="fa fa-fw" :class="model.icon_class"></span> {{ model.action }}
                         </td>
-                        <td class="user_name"><div class="text-truncatable">{{ model.user_name }}</div></td>
+                        <td><div class="user_name">{{ model.user_name }}</div></td>
                     </tr>
                 </tbody>
 
