@@ -87,7 +87,6 @@ export default {
             let options = {
                 open: true,
                 multiple: true,
-                dropzone: false,
                 overlay: true,
                 single: false,
                 modal: true,
