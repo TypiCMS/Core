@@ -8,7 +8,7 @@
                     <button class="filemanager-item-removable-button" type="button" @click="unsetData">
                         <span class="fa fa-times"></span>
                     </button>
-                    <div class="" v-if="type === 'document'">
+                    <div v-if="type === 'document'">
                         <span class="fa fa-fw fa-2x fa-file-o"></span> {{ name }}
                     </div>
                     <div class="filemanager-item-image-wrapper" v-if="type === 'image'">

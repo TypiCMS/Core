@@ -29083,7 +29083,7 @@ var render = function() {
               ),
               _vm._v(" "),
               _vm.type === "document"
-                ? _c("div", {}, [
+                ? _c("div", [
                     _c("span", { staticClass: "fa fa-fw fa-2x fa-file-o" }),
                     _vm._v(" " + _vm._s(_vm.name) + "\n                ")
                   ])
