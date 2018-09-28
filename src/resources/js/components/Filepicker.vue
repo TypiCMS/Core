@@ -19,7 +19,7 @@
 
             <button class="filepicker-btn-close" type="button" v-if="this.modal" @click="closeModal"><span class="fa fa-close"></span></button>
 
-            <div class="btn-toolbar">
+            <div class="btn-toolbar mb-4">
                 <button class="btn btn-sm btn-light mr-2" @click="newFolder(folder.id)" type="button">
                     <span class="fa fa-folder-o fa-fw"></span> {{ $t('New folder') }}
                 </button>

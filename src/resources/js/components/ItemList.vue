@@ -3,10 +3,11 @@
     <div class="item-list">
 
         <div class="item-list-header header">
+            <slot name="back-button"></slot>
             <h1 class="item-list-title header-title">
                 {{ $t(title.charAt(0).toUpperCase() + title.slice(1)) }}
             </h1>
-            <div class="item-list-toolbar btn-toolbar">
+            <div class="item-list-toolbar header-toolbar btn-toolbar">
                 <slot name="add-button"></slot>
             </div>
         </div>

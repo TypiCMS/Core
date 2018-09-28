@@ -15805,7 +15805,7 @@ a.text-dark:focus {
   width: 80vw;
 }
 
-.item-list-header {
+.header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -15815,17 +15815,30 @@ a.text-dark:focus {
   margin: 1rem 0 2.5rem;
 }
 
-.item-list-title {
+.header-title {
   margin-right: 1rem;
   margin-bottom: 0;
 }
 
-.item-list-toolbar {
+.header-toolbar {
   margin-top: 4px;
 }
 
+.header .btn-back {
+  color: #adb5bd;
+  font-size: 30px;
+  margin-right: 0.7rem;
+  -webkit-transition: 0.15s color ease-in-out;
+  transition: 0.15s color ease-in-out;
+}
+
+.header .btn-back:hover,
+.header .btn-back:focus {
+  color: #838f9b;
+}
+
 .item-list-actions {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .item-list-table {
