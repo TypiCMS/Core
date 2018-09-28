@@ -182,6 +182,7 @@ export default {
     },
     data() {
         return {
+            loadingTimeout: null,
             dragging: false,
             loading: false,
             total: 0,
@@ -289,12 +290,12 @@ export default {
     },
     methods: {
         fetchData() {
-            this.loading = true;
+            this.startLoading();
             axios
                 .get(this.url)
                 .then(response => {
                     this.data = response.data;
-                    this.loading = false;
+                    this.stopLoading();
                 })
                 .catch(error => {
                     alertify.error(
@@ -302,8 +303,17 @@ export default {
                     );
                 });
         },
+        startLoading() {
+            this.loadingTimeout = setTimeout(() => {
+                this.loading = true;
+            }, 300);
+        },
+        stopLoading() {
+            clearTimeout(this.loadingTimeout);
+            this.loading = false;
+        },
         dropzoneSending(file, xhr, formData) {
-            this.loading = true;
+            this.startLoading();
             formData.append('_token', document.head.querySelector('meta[name="csrf-token"]').content);
             for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
                 formData.append('folder_id', this.folder.id);
@@ -326,7 +336,7 @@ export default {
                 this.$refs.dropzone.getQueuedFiles().length === 0
             ) {
                 setTimeout(() => {
-                    this.loading = false;
+                    this.stopLoading();
                 }, 1000);
             }
         },
@@ -474,7 +484,7 @@ export default {
 
             this.selectedItems = [];
 
-            this.loading = true;
+            this.startLoading();
 
             let data = {
                 folder_id: this.path[this.path.length - 2].id,
@@ -483,7 +493,7 @@ export default {
             axios
                 .patch('/admin/files/' + ids.join(), data)
                 .then(response => {
-                    this.loading = false;
+                    this.stopLoading();
                     if (response.data.number < number) {
                         alertify.error(number - response.data.number + ' items could not be moved.');
                     }
@@ -492,7 +502,7 @@ export default {
                     }
                 })
                 .catch(error => {
-                    this.loading = false;
+                    this.stopLoading();
                     alertify.error('Error ' + error.status + ' ' + error.statusText);
                 });
         },
@@ -586,13 +596,13 @@ export default {
                 return false;
             }
 
-            this.loading = true;
+            this.startLoading();
 
             axios
                 .all(this.selectedItems.map(item => axios.delete(this.baseUrl + '/' + item.id)))
                 .then(responses => {
                     let successes = responses.filter(response => response.data.error === false);
-                    this.loading = false;
+                    this.stopLoading();
                     alertify.success(
                         this.$i18n.tc('# items deleted', successes.length, {
                             count: successes.length,
