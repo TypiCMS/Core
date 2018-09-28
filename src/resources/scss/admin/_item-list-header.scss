@@ -1,0 +1,14 @@
+.item-list {
+    &-header {
+        display: flex;
+        align-items: center;
+        margin: 1rem 0 2.5rem;
+    }
+    &-title {
+        margin-right: 1rem;
+        margin-bottom: 0;
+    }
+    &-toolbar {
+        margin-top: 4px;
+    }
+}

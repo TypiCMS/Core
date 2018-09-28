@@ -1,5 +1,5 @@
 @can ('create-'.str_singular($module))
-<a class="btn btn-primary btn-sm header-btn-add" href="{{ $url ?? route('admin::create-'.str_singular($module)) }}">
-    <i class="fa fa-plus text-white-50"></i> @lang('Add')
+<a class="btn btn-primary btn-sm header-btn-add mr-2" href="{{ $url ?? route('admin::create-'.str_singular($module)) }}">
+    <span class="fa fa-plus text-white-50"></span> @lang('Add')
 </a>
 @endcan

@@ -6,10 +6,12 @@
             <h1 class="item-list-title header-title">
                 {{ $t(title.charAt(0).toUpperCase() + title.slice(1)) }}
             </h1>
-            <slot name="add-button"></slot>
+            <div class="item-list-toolbar btn-toolbar">
+                <slot name="add-button"></slot>
+            </div>
         </div>
 
-        <div class="btn-toolbar">
+        <div class="btn-toolbar item-list-actions">
             <item-list-selector
                 class="mr-2"
                 :filtered-models="filteredItems"
