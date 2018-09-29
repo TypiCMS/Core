@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use TypiCMS\Modules\Users\Models\User;
 
 class Install extends Command
@@ -130,6 +131,7 @@ class Install extends Command
             'email' => $email,
             'superuser' => 1,
             'activated' => 1,
+            'api_token' => Str::uuid(),
             'password' => Hash::make($password),
         ];
 
