@@ -78,7 +78,8 @@ class Create extends Command
         $this->line('<info>The module</info> <comment>'.$this->module.'</comment> <info>was created in</info> <comment>/Modules</comment><info>, customize it!</info>');
         $this->line('<info>Add</info> <comment>TypiCMS\Modules\\'.$this->module.'\Providers\ModuleProvider::class,</comment>');
         $this->line('<info>to the providers array in</info> <comment>config/app.php</comment><info>.</info>');
-        $this->line('<info>Run the migration with the command</info> <comment>php artisan migrate</comment><info>.</info>');
+        $this->line('<info>Run the database migration with the command</info> <comment>php artisan migrate</comment><info>.</info>');
+        $this->line('<info>Run</info> <comment>npm run dev</comment> <info>to finish.</info>');
         $this->line('------------------');
     }
 
