@@ -80,7 +80,6 @@ class Create extends Command
         $this->line('<info>to the providers array in</info> <comment>config/app.php</comment><info>.</info>');
         $this->line('<info>Run the migration with the command</info> <comment>php artisan migrate</comment><info>.</info>');
         $this->line('------------------');
-        $this->call('optimize');
     }
 
     /**
