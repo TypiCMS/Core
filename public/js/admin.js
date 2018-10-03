@@ -2772,6 +2772,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return ['-id'];
             }
         },
+        pagination: {
+            type: Boolean,
+            default: true
+        },
         searchable: {
             type: Array,
             default: function _default() {
@@ -29898,7 +29902,7 @@ var render = function() {
             }
           }),
           _vm._v(" "),
-          this.data.total > 10
+          _vm.pagination && this.data.total > 10
             ? _c("item-list-per-page", {
                 staticClass: "mr-2",
                 attrs: {
@@ -30020,10 +30024,12 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _c("item-list-pagination", {
-        attrs: { data: _vm.data },
-        on: { "pagination-change-page": _vm.changePage }
-      })
+      _vm.pagination
+        ? _c("item-list-pagination", {
+            attrs: { data: _vm.data },
+            on: { "pagination-change-page": _vm.changePage }
+          })
+        : _vm._e()
     ],
     1
   )

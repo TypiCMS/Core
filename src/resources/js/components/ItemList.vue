@@ -34,7 +34,7 @@
                 @unpublish="unpublish"
             ></item-list-actions>
             <item-list-per-page
-                v-if="this.data.total > 10"
+                v-if="pagination && this.data.total > 10"
                 class="mr-2"
                 :loading="loading"
                 :per-page="parseInt(data.per_page)"
@@ -72,7 +72,7 @@
             </table>
         </div>
 
-        <item-list-pagination :data="data" @pagination-change-page="changePage"></item-list-pagination>
+        <item-list-pagination :data="data" @pagination-change-page="changePage" v-if="pagination"></item-list-pagination>
 
     </div>
 
@@ -111,6 +111,10 @@ export default {
         sorting: {
             type: Array,
             default: () => ['-id'],
+        },
+        pagination: {
+            type: Boolean,
+            default: true,
         },
         searchable: {
             type: Array,
