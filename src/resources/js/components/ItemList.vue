@@ -47,7 +47,7 @@
             <small class="text-muted align-self-center" v-if="!loading">
                 {{ $tc('# ' + title, data.total, { count: data.total }) }}
             </small>
-            <div class="btn-group btn-group-sm ml-auto" v-if="translatableFields !== undefined">
+            <div class="btn-group btn-group-sm ml-auto" v-if="translatableFields !== '' && locales.length > 1">
                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownLangSwitcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span id="active-locale">{{ locales.find(item => item.short === currentLocale).long }}</span> <span class="caret"></span>
                 </button>
@@ -126,9 +126,11 @@ export default {
         },
         fields: {
             type: String,
+            default: '',
         },
         translatableFields: {
             type: String,
+            default: '',
         },
     },
     data() {
