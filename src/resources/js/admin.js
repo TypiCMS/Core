@@ -47,8 +47,10 @@ window.Vue = Vue;
  */
 import VueI18n from 'vue-i18n';
 import fr from '../lang/fr.json';
-const messages = { fr };
-const i18n = new VueI18n({ locale: 'fr', messages });
+import en from '../lang/en.json';
+import es from '../lang/es.json';
+const messages = { fr, en, es };
+const i18n = new VueI18n({ locale: 'en', messages });
 
 /**
  * Date Filter
