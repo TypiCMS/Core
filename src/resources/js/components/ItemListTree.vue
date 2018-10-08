@@ -179,7 +179,7 @@ export default {
                     this.$refs.slVueTree.remove([node.path]);
                 })
                 .catch(error => {
-                    alertify.error('Error ' + error.response.status + ' ' + error.response.statusText);
+                    alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
                 });
         },
         drop(draggingNodes, position) {
