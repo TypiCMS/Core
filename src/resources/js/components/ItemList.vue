@@ -163,6 +163,7 @@ export default {
         };
     },
     created() {
+        this.$i18n.locale = window.TypiCMS.locale;
         this.fetchData();
     },
     mounted() {
