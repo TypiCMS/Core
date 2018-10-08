@@ -34,7 +34,7 @@
                     <span class="fa fa-remove"></span>
                 </div>
 
-                <a class="btn btn-light btn-xs" :href="table+'/'+node.data.id+'/edit'">Edit</a>
+                <a class="btn btn-light btn-xs" :href="table+'/'+node.data.id+'/edit'">{{ $t('Edit') }}</a>
 
                 <div class="btn btn-xs btn-link btn-status" @click="toggleStatus(node)">
                     <span class="fa btn-status-switch" :class="node.data.status_translated == '1' ? 'fa-toggle-on' : 'fa-toggle-off'"></span>
@@ -167,10 +167,10 @@ export default {
             let model = node.data;
             let title = model.title_translated;
             if (node.children && node.children.length > 0) {
-                alertify.error('This item cannot be deleted because it has children.');
+                alertify.error(this.$i18n.t('This item cannot be deleted because it has children.'));
                 return false;
             }
-            if (!window.confirm('Do you want to delete « ' + title + ' » ?')) {
+            if (!window.confirm(this.$i18n.t('Are you sure you want to delete “{title}”?', { title }))) {
                 return false;
             }
             axios
