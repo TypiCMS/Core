@@ -131,7 +131,6 @@ class Install extends Command
             'email' => $email,
             'superuser' => 1,
             'activated' => 1,
-            'api_token' => Str::uuid(),
             'password' => Hash::make($password),
         ];
 
