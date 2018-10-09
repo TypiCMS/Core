@@ -2854,7 +2854,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         allChecked: function allChecked() {
             return this.filteredItems.length > 0 && this.filteredItems.length === this.checkedItems.length;
         },
-        numberOfcheckedItems: function numberOfcheckedItems() {
+        numberOfCheckedItems: function numberOfCheckedItems() {
             return this.checkedItems.length;
         }
     },
@@ -2908,7 +2908,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.fetchData();
         },
         checkAll: function checkAll() {
-            this.checkedItems = this.filteredItems;
+            this.checkedItems = this.filteredItems.filter(function () {
+                return true;
+            });
         },
         checkNone: function checkNone() {
             this.checkedItems = [];
@@ -2933,8 +2935,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 alertify.error(this.$i18n.t('Impossible to delete more than # items in one go.', { deleteLimit: deleteLimit }));
                 return false;
             }
-            if (!window.confirm(this.$i18n.tc('Are you sure you want to delete # items?', this.numberOfcheckedItems, {
-                count: this.numberOfcheckedItems
+            if (!window.confirm(this.$i18n.tc('Are you sure you want to delete # items?', this.numberOfCheckedItems, {
+                count: this.numberOfCheckedItems
             }))) {
                 return false;
             }
@@ -29893,7 +29895,7 @@ var render = function() {
           _c("item-list-actions", {
             staticClass: "mr-2",
             attrs: {
-              "number-of-checked-models": _vm.numberOfcheckedItems,
+              "number-of-checked-models": _vm.numberOfCheckedItems,
               loading: _vm.loading,
               publishable: _vm.publishable
             },
