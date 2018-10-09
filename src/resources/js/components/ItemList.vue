@@ -26,7 +26,7 @@
             ></item-list-selector>
             <item-list-actions
                 class="mr-2"
-                :number-of-checked-models="numberOfcheckedItems"
+                :number-of-checked-models="numberOfCheckedItems"
                 :loading="loading"
                 :publishable="publishable"
                 @destroy="destroy"
@@ -205,7 +205,7 @@ export default {
         allChecked() {
             return this.filteredItems.length > 0 && this.filteredItems.length === this.checkedItems.length;
         },
-        numberOfcheckedItems() {
+        numberOfCheckedItems() {
             return this.checkedItems.length;
         },
     },
@@ -277,8 +277,8 @@ export default {
             }
             if (
                 !window.confirm(
-                    this.$i18n.tc('Are you sure you want to delete # items?', this.numberOfcheckedItems, {
-                        count: this.numberOfcheckedItems,
+                    this.$i18n.tc('Are you sure you want to delete # items?', this.numberOfCheckedItems, {
+                        count: this.numberOfCheckedItems,
                     })
                 )
             ) {
