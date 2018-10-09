@@ -29210,8 +29210,8 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("th", { class: _vm.classes }, [
-    _c("span", { on: { click: _vm.sort } }, [_vm._v(_vm._s(_vm.label))]),
+  return _c("th", { class: _vm.classes, on: { click: _vm.sort } }, [
+    _c("span", [_vm._v(_vm._s(_vm.label))]),
     _vm._v(" "),
     _vm.filterable
       ? _c(

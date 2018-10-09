@@ -1,6 +1,6 @@
 <template>
-    <th :class="classes">
-        <span @click="sort">{{ label }}</span>
+    <th :class="classes" @click="sort">
+        <span>{{ label }}</span>
         <form class="item-list-search-bar" v-if="filterable" @submit.prevent="search">
             <div class="input-group input-group-sm">
                 <input type="text" class="form-control" v-model="string" :placeholder="$t('Search')" :aria-label="$t('Search')">
