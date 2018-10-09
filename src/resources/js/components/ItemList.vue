@@ -256,7 +256,7 @@ export default {
             this.fetchData();
         },
         checkAll() {
-            this.checkedItems = this.filteredItems;
+            this.checkedItems = this.filteredItems.filter(() => true);
         },
         checkNone() {
             this.checkedItems = [];
