@@ -56,6 +56,11 @@ class Database extends Command
         $contents = $this->getKeyFile();
 
         $dbName = $this->argument('database');
+
+        $dbPort = $this->ask('What is your MySQL port?', '3306');
+
+        $dbAddress = $this->ask('What is your MySQL address?', '127.0.0.1');
+
         $dbUserName = $this->ask('What is your MySQL username?', 'root');
 
         $question = new Question('What is your MySQL password?', '<none>');
@@ -67,11 +72,15 @@ class Database extends Command
 
         // Update DB credentials in .env file.
         $search = [
+            '/('.preg_quote('DB_HOST=').')(.*)/',
+            '/('.preg_quote('DB_PORT=').')(.*)/',
             '/('.preg_quote('DB_DATABASE=').')(.*)/',
             '/('.preg_quote('DB_USERNAME=').')(.*)/',
             '/('.preg_quote('DB_PASSWORD=').')(.*)/',
         ];
         $replace = [
+            '$1'.$dbAddress,
+            '$1'.$dbPort,
             '$1'.$dbName,
             '$1'.$dbUserName,
             '$1'.$dbPassword,
@@ -83,6 +92,8 @@ class Database extends Command
         }
 
         // Set DB username and password in config
+        $this->laravel['config']['database.connections.mysql.host'] = $dbAddress;
+        $this->laravel['config']['database.connections.mysql.port'] = $dbPort;
         $this->laravel['config']['database.connections.mysql.username'] = $dbUserName;
         $this->laravel['config']['database.connections.mysql.password'] = $dbPassword;
 
