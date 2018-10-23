@@ -297,6 +297,7 @@ export default {
                     this.checkedItems = [];
                 })
                 .catch(error => {
+                    this.stopLoading();
                     alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
                 });
         },
