@@ -2736,6 +2736,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2790,6 +2800,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: String,
             required: true
         },
+        include: {
+            type: String,
+            default: ''
+        },
         fields: {
             type: String,
             default: ''
@@ -2841,12 +2855,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.searchString === null) {
                 return '';
             }
-            return '&' + this.searchableArray.map(function (item) {
+            return this.searchableArray.map(function (item) {
                 return 'filter[' + item + ']=' + _this.searchString;
             }).join('&');
         },
         url: function url() {
-            return this.urlBase + '?' + 'sort=' + this.sortArray.join(',') + '&fields[' + this.table + ']=' + this.fields + '&locale=' + this.currentLocale + '&translatable_fields=' + this.translatableFields + this.searchQuery + '&page=' + this.data.current_page + '&per_page=' + this.data.per_page;
+            var query = ['sort=' + this.sortArray.join(','), 'fields[' + this.table + ']=' + this.fields];
+
+            if (this.include !== '') {
+                query.push('include=' + this.include);
+            }
+            if (this.translatableFields) {
+                query.push('locale=' + this.currentLocale);
+                query.push('translatable_fields=' + this.translatableFields);
+            }
+            if (this.pagination) {
+                query.push('page=' + this.data.current_page);
+                query.push('per_page=' + this.data.per_page);
+            }
+            query.push(this.searchQuery);
+
+            return this.urlBase + '?' + query.join('&');
         },
         filteredItems: function filteredItems() {
             return this.data.data;
@@ -2870,11 +2899,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 alertify.error(error.response.data.message || _this2.$i18n.t('An error occurred with the data fetch.'));
             });
         },
-        startLoading: function startLoading() {
+        onSearchStringChanged: function onSearchStringChanged() {
             var _this3 = this;
 
+            clearTimeout(this.fetchTimeout);
+            this.fetchTimeout = setTimeout(function () {
+                _this3.fetchData();
+            }, 200);
+        },
+        startLoading: function startLoading() {
+            var _this4 = this;
+
             this.loadingTimeout = setTimeout(function () {
-                _this3.loading = true;
+                _this4.loading = true;
             }, 300);
         },
         stopLoading: function stopLoading() {
@@ -2882,13 +2919,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.loading = false;
         },
         switchLocale: function switchLocale(locale) {
-            var _this4 = this;
+            var _this5 = this;
 
             this.startLoading();
             this.currentLocale = locale;
             axios.get('/admin/_locale/' + locale).then(function (response) {
-                _this4.stopLoading();
-                _this4.fetchData();
+                _this5.stopLoading();
+                _this5.fetchData();
             });
         },
         search: function search(string) {
@@ -2926,7 +2963,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         destroy: function destroy() {
-            var _this5 = this;
+            var _this6 = this;
 
             this.data.current_page = 1;
             var deleteLimit = 100;
@@ -2944,17 +2981,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.startLoading();
 
             axios.all(this.checkedItems.map(function (model) {
-                return axios.delete(_this5.urlBase + '/' + model.id);
+                return axios.delete(_this6.urlBase + '/' + model.id);
             })).then(function (responses) {
                 var successes = responses.filter(function (response) {
                     return response.data.error === false;
                 });
-                _this5.stopLoading();
-                alertify.success(_this5.$i18n.tc('# items deleted', successes.length, { count: successes.length }));
-                _this5.fetchData();
-                _this5.checkedItems = [];
+                _this6.stopLoading();
+                alertify.success(_this6.$i18n.tc('# items deleted', successes.length, { count: successes.length }));
+                _this6.fetchData();
+                _this6.checkedItems = [];
             }).catch(function (error) {
-                alertify.error(error.response.data.message || _this5.$i18n.t('Sorry, an error occurred.'));
+                _this6.stopLoading();
+                alertify.error(error.response.data.message || _this6.$i18n.t('Sorry, an error occurred.'));
             });
         },
         publish: function publish() {
@@ -2974,7 +3012,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.setStatus('0');
         },
         setStatus: function setStatus(status) {
-            var _this6 = this;
+            var _this7 = this;
 
             var data = {
                 status: {}
@@ -2985,22 +3023,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.startLoading();
 
             axios.all(this.checkedItems.map(function (model) {
-                return axios.patch(_this6.urlBase + '/' + model.id, data);
+                return axios.patch(_this7.urlBase + '/' + model.id, data);
             })).then(function (responses) {
-                _this6.stopLoading();
-                alertify.success(_this6.$i18n.tc('# items ' + label, responses.length, { count: responses.length }));
-                for (var i = _this6.checkedItems.length - 1; i >= 0; i--) {
-                    var index = _this6.data.data.indexOf(_this6.checkedItems[i]);
-                    _this6.data.data[index].status_translated = status;
+                _this7.stopLoading();
+                alertify.success(_this7.$i18n.tc('# items ' + label, responses.length, { count: responses.length }));
+                for (var i = _this7.checkedItems.length - 1; i >= 0; i--) {
+                    var index = _this7.data.data.indexOf(_this7.checkedItems[i]);
+                    _this7.data.data[index].status_translated = status;
                 }
-                _this6.checkedItems = [];
+                _this7.checkedItems = [];
             }).catch(function (error) {
                 console.log(error.response);
-                alertify.error(error.response.data.message || _this6.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.response.data.message || _this7.$i18n.t('Sorry, an error occurred.'));
             });
         },
         toggleStatus: function toggleStatus(model) {
-            var _this7 = this;
+            var _this8 = this;
 
             var status = parseInt(model.status_translated) || 0,
                 newStatus = Math.abs(status - 1).toString(),
@@ -3011,19 +3049,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             model.status_translated = newStatus;
             data.status[this.currentLocale] = newStatus;
             axios.patch(this.urlBase + '/' + model.id, data).then(function (response) {
-                alertify.success(_this7.$i18n.t('Item is ' + label + '.'));
+                alertify.success(_this8.$i18n.t('Item is ' + label + '.'));
             }).catch(function (error) {
-                alertify.error(error.response.data.message || _this7.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.response.data.message || _this8.$i18n.t('Sorry, an error occurred.'));
             });
         },
         updatePosition: function updatePosition(model) {
-            var _this8 = this;
+            var _this9 = this;
 
             var data = {
                 position: model.position
             };
             axios.patch(this.urlBase + '/' + model.id, data).catch(function (error) {
-                alertify.error(error.response.data.message || _this8.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.response.data.message || _this9.$i18n.t('Sorry, an error occurred.'));
             });
         },
         sort: function sort(object) {
@@ -29939,60 +29977,99 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.translatableFields !== "" && _vm.locales.length > 1
-            ? _c("div", { staticClass: "btn-group btn-group-sm ml-auto" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-light dropdown-toggle",
-                    attrs: {
-                      type: "button",
-                      id: "dropdownLangSwitcher",
-                      "data-toggle": "dropdown",
-                      "aria-haspopup": "true",
-                      "aria-expanded": "false"
-                    }
-                  },
-                  [
-                    _c("span", { attrs: { id: "active-locale" } }, [
-                      _vm._v(
-                        _vm._s(
-                          _vm.locales.find(function(item) {
-                            return item.short === _vm.currentLocale
-                          }).long
-                        )
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "caret" })
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "dropdown-menu dropdown-menu-right",
-                    attrs: { "aria-labelledby": "dropdownLangSwitcher" }
-                  },
-                  _vm._l(_vm.locales, function(locale) {
-                    return _c(
-                      "button",
-                      {
-                        staticClass: "dropdown-item",
-                        class: { active: locale === _vm.currentLocale },
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            _vm.switchLocale(locale.short)
+          _c("div", { staticClass: "d-flex ml-auto" }, [
+            _vm.searchable.length > 0
+              ? _c("form", { staticClass: "filters form-inline" }, [
+                  _c(
+                    "div",
+                    { staticClass: "input-group input-group-sm mb-0" },
+                    [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.searchString,
+                            expression: "searchString"
                           }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", id: "search" },
+                        domProps: { value: _vm.searchString },
+                        on: {
+                          input: [
+                            function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.searchString = $event.target.value
+                            },
+                            _vm.onSearchStringChanged
+                          ]
                         }
-                      },
-                      [_vm._v(_vm._s(locale.long))]
-                    )
-                  })
-                )
-              ])
-            : _vm._e()
+                      })
+                    ]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.translatableFields !== "" && _vm.locales.length > 1
+              ? _c("div", { staticClass: "btn-group btn-group-sm ml-2" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-light dropdown-toggle",
+                      attrs: {
+                        type: "button",
+                        id: "dropdownLangSwitcher",
+                        "data-toggle": "dropdown",
+                        "aria-haspopup": "true",
+                        "aria-expanded": "false"
+                      }
+                    },
+                    [
+                      _c("span", { attrs: { id: "active-locale" } }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm.locales.find(function(item) {
+                              return item.short === _vm.currentLocale
+                            }).long
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "caret" })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "dropdown-menu dropdown-menu-right",
+                      attrs: { "aria-labelledby": "dropdownLangSwitcher" }
+                    },
+                    _vm._l(_vm.locales, function(locale) {
+                      return _c(
+                        "button",
+                        {
+                          staticClass: "dropdown-item",
+                          class: { active: locale === _vm.currentLocale },
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.switchLocale(locale.short)
+                            }
+                          }
+                        },
+                        [_vm._v(_vm._s(locale.long))]
+                      )
+                    })
+                  )
+                ])
+              : _vm._e()
+          ])
         ],
         2
       ),
@@ -30038,7 +30115,18 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("div", { staticClass: "input-group-text" }, [
+        _c("span", { staticClass: "fa fa-search" })
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
