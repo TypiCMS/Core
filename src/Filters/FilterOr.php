@@ -14,9 +14,12 @@ class FilterOr implements Filter
         return $query->where(function (Builder $query) use ($columns, $value) {
             foreach ($columns as $column) {
                 if (in_array($column, (array) $query->getModel()->translatable)) {
-                    $column = $column.'->'.request('locale');
+                    $query->orWhereRaw(
+                        'JSON_UNQUOTE(JSON_EXTRACT(`'.$column.'`, \'$.'.request('locale').'\')) LIKE \'%'.$value.'%\' COLLATE utf8mb4_unicode_ci'
+                    );
+                } else {
+                    $query->orWhere($column, 'like', '%'.$value.'%');
                 }
-                $query->orWhere($column, 'like', '%'.$value.'%');
             }
         });
     }
