@@ -12,7 +12,7 @@ class FilterOr implements Filter
         $columns = explode(',', $property);
         return $query->where(function (Builder $query) use ($columns, $value) {
             foreach ($columns as $column) {
-                if (in_array($column, $query->getModel()->translatable)) {
+                if (in_array($column, (array) $query->getModel()->translatable)) {
                     $column = $column.'->'.request('locale');
                 }
                 $query->orWhere($column, 'like', '%'.$value.'%');
