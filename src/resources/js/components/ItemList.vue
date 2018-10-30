@@ -47,12 +47,22 @@
             <small class="text-muted align-self-center" v-if="!loading">
                 {{ $tc('# ' + title, data.total, { count: data.total }) }}
             </small>
-            <div class="btn-group btn-group-sm ml-auto" v-if="translatableFields !== '' && locales.length > 1">
-                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownLangSwitcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span id="active-locale">{{ locales.find(item => item.short === currentLocale).long }}</span> <span class="caret"></span>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
-                    <button class="dropdown-item" :class="{ active: locale === currentLocale }" type="button" v-for="locale in locales" @click="switchLocale(locale.short)">{{ locale.long }}</button>
+            <div class="d-flex ml-auto">
+                <form class="filters form-inline" v-if="searchable.length > 0">
+                    <div class="input-group input-group-sm mb-0">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><span class="fa fa-search"></span></div>
+                        </div>
+                        <input class="form-control" type="text" id="search" v-model="searchString" @input="onSearchStringChanged">
+                    </div>
+                </form>
+                <div class="btn-group btn-group-sm ml-2" v-if="translatableFields !== '' && locales.length > 1">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownLangSwitcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span id="active-locale">{{ locales.find(item => item.short === currentLocale).long }}</span> <span class="caret"></span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
+                        <button class="dropdown-item" :class="{ active: locale === currentLocale }" type="button" v-for="locale in locales" @click="switchLocale(locale.short)">{{ locale.long }}</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -128,6 +138,10 @@ export default {
             type: String,
             required: true,
         },
+        include: {
+            type: String,
+            default: '',
+        },
         fields: {
             type: String,
             default: '',
@@ -176,28 +190,25 @@ export default {
             if (this.searchString === null) {
                 return '';
             }
-            return '&' + this.searchableArray.map(item => 'filter[' + item + ']=' + this.searchString).join('&');
+            return this.searchableArray.map(item => 'filter[' + item + ']=' + this.searchString).join('&');
         },
         url() {
-            return (
-                this.urlBase +
-                '?' +
-                'sort=' +
-                this.sortArray.join(',') +
-                '&fields[' +
-                this.table +
-                ']=' +
-                this.fields +
-                '&locale=' +
-                this.currentLocale +
-                '&translatable_fields=' +
-                this.translatableFields +
-                this.searchQuery +
-                '&page=' +
-                this.data.current_page +
-                '&per_page=' +
-                this.data.per_page
-            );
+            let query = ['sort=' + this.sortArray.join(','), 'fields[' + this.table + ']=' + this.fields];
+
+            if (this.include !== '') {
+                query.push('include=' + this.include);
+            }
+            if (this.translatableFields) {
+                query.push('locale=' + this.currentLocale);
+                query.push('translatable_fields=' + this.translatableFields);
+            }
+            if (this.pagination) {
+                query.push('page=' + this.data.current_page);
+                query.push('per_page=' + this.data.per_page);
+            }
+            query.push(this.searchQuery);
+
+            return this.urlBase + '?' + query.join('&');
         },
         filteredItems() {
             return this.data.data;
@@ -223,6 +234,12 @@ export default {
                         error.response.data.message || this.$i18n.t('An error occurred with the data fetch.')
                     );
                 });
+        },
+        onSearchStringChanged() {
+            clearTimeout(this.fetchTimeout);
+            this.fetchTimeout = setTimeout(() => {
+                this.fetchData();
+            }, 200);
         },
         startLoading() {
             this.loadingTimeout = setTimeout(() => {
