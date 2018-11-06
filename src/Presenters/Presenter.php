@@ -132,20 +132,18 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Get the path of files linked to this model.
-     *
-     * @param Model  $model
-     * @param string $field
+     * Get the path of the first image linked to this model
+     * or the path to the default image.
      *
      * @return string path
      */
-    protected function getPath(Model $model, $field = null)
+    protected function getImageUrlOrDefault()
     {
-        if (!$model->$field) {
-            return;
-        }
+        $file = '';
 
-        $file = $model->$field->path;
+        if (is_object($this->entity->image)) {
+            $file = $this->entity->image->path;
+        }
 
         if (!Storage::exists($file)) {
             $file = $this->imgNotFound();
@@ -160,23 +158,18 @@ abstract class Presenter extends BasePresenter
      * @param int    $width   width of image, null for auto
      * @param int    $height  height of image, null for auto
      * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
-     * @param string $field   column name
      *
      * @return string
      */
-    public function thumbSrc($width = null, $height = null, array $options = [], $field = 'image')
+    public function thumbSrc($width = null, $height = null, array $options = [])
     {
-        if (!$this->entity->$field) {
-            return '';
-        }
-        $src = $this->getPath($this->entity, $field);
+        $url = $this->getImageUrlOrDefault();
 
-        $extension = pathinfo($src, PATHINFO_EXTENSION);
-        if ($extension === 'svg') {
-            return url($src);
+        if (pathinfo($url, PATHINFO_EXTENSION) === 'svg') {
+            return $url;
         }
 
-        return Croppa::url($src, $width, $height, $options);
+        return Croppa::url($url, $width, $height, $options);
     }
 
     /**
@@ -185,13 +178,12 @@ abstract class Presenter extends BasePresenter
      * @param int    $width   width of image, null for auto
      * @param int    $height  height of image, null for auto
      * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
-     * @param string $field   column name
      *
      * @return string HTML markup of an image
      */
-    public function thumbUrl($width = null, $height = null, array $options = [], $field = 'image')
+    public function thumbUrl($width = null, $height = null, array $options = [])
     {
-        $src = $this->thumbSrc($width, $height, $options, $field);
+        $src = $this->thumbSrc($width, $height, $options);
 
         return url($src);
     }
@@ -202,13 +194,12 @@ abstract class Presenter extends BasePresenter
      * @param int    $width   width of image, null for auto
      * @param int    $height  height of image, null for auto
      * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
-     * @param string $field   column name
      *
      * @return string HTML img tag
      */
-    public function thumb($width = null, $height = null, array $options = [], $field = 'image')
+    public function thumb($width = null, $height = null, array $options = [])
     {
-        $src = $this->thumbSrc($width, $height, $options, $field);
+        $src = $this->thumbSrc($width, $height, $options);
 
         return $this->img($src);
     }
@@ -219,15 +210,14 @@ abstract class Presenter extends BasePresenter
      * @param int    $width   width of image, null for auto
      * @param int    $height  height of image, null for auto
      * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
-     * @param string $field   column name
      *
      * @deprecated
      *
      * @return string HTML img tag
      */
-    public function thumb2x($width = null, $height = null, array $options = [], $field = 'image')
+    public function thumb2x($width = null, $height = null, array $options = [])
     {
-        return $this->thumb($width, $height, $options, $field);
+        return $this->thumb($width, $height, $options);
     }
 
     /**
@@ -265,30 +255,6 @@ abstract class Presenter extends BasePresenter
         }
 
         return $file;
-    }
-
-    /**
-     * Return an icon and file name.
-     *
-     * @param int    $size  icon size
-     * @param string $field column name
-     *
-     * @return string
-     */
-    public function icon($size = 2, $field = 'document')
-    {
-        $file = $this->getPath($this->entity, $field);
-        $html = '<div class="doc">';
-        $html .= '<span class="doc-icon fa fa-file-text-o fa-'.$size.'x"></span>';
-        $html .= ' <a class="doc-anchor" href="'.$file.'">';
-        $html .= $this->entity->$field;
-        $html .= '</a>';
-        if (!is_file(public_path().$file)) {
-            $html .= ' <span class="doc-warning text-warning">('.__('Not found').')</span>';
-        }
-        $html .= '</div>';
-
-        return $html;
     }
 
     /**
