@@ -155,9 +155,9 @@ abstract class Presenter extends BasePresenter
     /**
      * Return src string of a resized or cropped image.
      *
-     * @param int    $width   width of image, null for auto
-     * @param int    $height  height of image, null for auto
-     * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
+     * @param int   $width   width of image, null for auto
+     * @param int   $height  height of image, null for auto
+     * @param array $options see Croppa doc for options (https://github.com/BKWLD/croppa)
      *
      * @return string
      */
@@ -175,9 +175,9 @@ abstract class Presenter extends BasePresenter
     /**
      * Return url of a thumb.
      *
-     * @param int    $width   width of image, null for auto
-     * @param int    $height  height of image, null for auto
-     * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
+     * @param int   $width   width of image, null for auto
+     * @param int   $height  height of image, null for auto
+     * @param array $options see Croppa doc for options (https://github.com/BKWLD/croppa)
      *
      * @return string HTML markup of an image
      */
@@ -191,9 +191,9 @@ abstract class Presenter extends BasePresenter
     /**
      * Return a resized or cropped img tag.
      *
-     * @param int    $width   width of image, null for auto
-     * @param int    $height  height of image, null for auto
-     * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
+     * @param int   $width   width of image, null for auto
+     * @param int   $height  height of image, null for auto
+     * @param array $options see Croppa doc for options (https://github.com/BKWLD/croppa)
      *
      * @return string HTML img tag
      */
@@ -207,9 +207,9 @@ abstract class Presenter extends BasePresenter
     /**
      * Alias of thumb method.
      *
-     * @param int    $width   width of image, null for auto
-     * @param int    $height  height of image, null for auto
-     * @param array  $options see Croppa doc for options (https://github.com/BKWLD/croppa)
+     * @param int   $width   width of image, null for auto
+     * @param int   $height  height of image, null for auto
+     * @param array $options see Croppa doc for options (https://github.com/BKWLD/croppa)
      *
      * @deprecated
      *
