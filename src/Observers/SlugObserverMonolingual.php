@@ -9,6 +9,7 @@ class SlugObserverMonolingual
     public function saving(Model $model)
     {
         $slug = $model->slug ?: str_slug($model->title);
+        $model->slug = $slug;
 
         if ($slug) {
             $i = 0;
