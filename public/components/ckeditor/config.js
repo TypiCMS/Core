@@ -48,7 +48,6 @@ CKEDITOR.editorConfig = function(config) {
 
     config.height = 500;
     config.contentsCss = ['/css/public.css', '/components/ckeditor/custom.css'];
-    config.allowedContent = true;
 
     // codemirror
     config.codemirror = {
