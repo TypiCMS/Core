@@ -41,10 +41,6 @@ class ModuleProvider extends ServiceProvider
         ], 'views');
 
         $this->publishes([
-            __DIR__.'/../resources' => resource_path(),
-        ], 'resources');
-
-        $this->publishes([
             __DIR__.'/../../public' => public_path(),
         ], 'public');
 
