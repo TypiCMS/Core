@@ -1,5 +1,11 @@
 .auth-background {
     background-color: $gray-200;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .container-login {
@@ -9,16 +15,11 @@
 }
 
 .small-container {
+    @include box-shadow(0 2px 5px #ddd);
     background-color: #fff;
-    margin: 0 auto;
-
-    @include media-breakpoint-up(sm) {
-        @include box-shadow(0 2px 5px #ddd);
-
-        margin-top: 70px;
-        max-width: 380px;
-        padding-top: 25px;
-    }
+    margin: 0 auto 50px;
+    padding-top: 25px;
+    max-width: 380px;
 
     &-title {
         font-size: 20px;
@@ -29,18 +30,12 @@
     }
 
     &-form {
-        padding: 0 25px;
-
-        @include media-breakpoint-up(sm) {
-            padding-top: 25px;
-            padding-bottom: 15px;
-        }
+        padding: 25px;
     }
 
     &-back-to-website {
         display: flex;
         justify-content: center;
-
         &-link {
             font-size: 12px;
             position: absolute;
