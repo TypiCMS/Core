@@ -1,11 +1,10 @@
 .auth-background {
-    background-color: $gray-200;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    justify-content: center;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    @include media-breakpoint-up(sm) {
+        background-color: $gray-200;
+    }
 }
 
 .container-login {
@@ -17,9 +16,12 @@
 .small-container {
     @include box-shadow(0 2px 5px #ddd);
     background-color: #fff;
-    margin: 0 auto 50px;
+    margin: 5vh auto 0;
     padding-top: 25px;
     max-width: 380px;
+    @include media-breakpoint-up(sm) {
+        margin-top: 15vh;
+    }
 
     &-title {
         font-size: 20px;
