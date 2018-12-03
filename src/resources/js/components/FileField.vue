@@ -2,17 +2,15 @@
     <div class="mb-4">
         <div class="form-group">
             <label :for="field">{{ type === 'document' ? $t('Document') : $t('Image') }}</label>
-            <input type="hidden" :name="field" :id="field" :rel="field" v-model="id">
+            <input type="hidden" :name="field" :id="field" :rel="field" v-model="id" />
             <div>
                 <div v-if="id !== null" class="filemanager-item-removable">
                     <button class="filemanager-item-removable-button" type="button" @click="unsetData">
                         <span class="fa fa-times"></span>
                     </button>
-                    <div v-if="type === 'document'">
-                        <span class="fa fa-fw fa-2x fa-file-o"></span> {{ name }}
-                    </div>
+                    <div v-if="type === 'document'"><span class="fa fa-fw fa-2x fa-file-o"></span> {{ name }}</div>
                     <div class="filemanager-item-image-wrapper" v-if="type === 'image'">
-                        <img class="filemanager-item-image" :src="src" :alt="alt">
+                        <img class="filemanager-item-image" :src="src" :alt="alt" />
                     </div>
                 </div>
             </div>

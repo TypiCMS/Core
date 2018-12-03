@@ -1,13 +1,32 @@
 <template>
     <nav class="pagination item-list-pagination" v-if="data.total > data.per_page">
-        <button class="page-item pagination-prev-nav" :disabled="!data.prev_page_url" :aria-label="$t('Previous')" @click="selectPage(--data.current_page)">
-            <small aria-hidden="true">←</small>
-            <small>{{ $t('Previous') }}</small>
+        <button
+            class="page-item pagination-prev-nav"
+            :disabled="!data.prev_page_url"
+            :aria-label="$t('Previous')"
+            @click="selectPage(--data.current_page)"
+        >
+            <small aria-hidden="true">←</small> <small>{{ $t('Previous') }}</small>
         </button>
-        <button class="page-item pagination-page-nav" v-for="page in getPages()" :disabled="page === '…'" :class="{ 'btn-secondary': page == data.current_page && page !== '…', 'btn-light': page !== data.current_page && page !== '…' }" @click="selectPage(page)">{{ page }}</button>
-        <button class="page-item pagination-next-nav" :disabled="!data.next_page_url" :aria-label="$t('Next')" @click="selectPage(++data.current_page)">
-            <small>{{ $t('Next') }}</small>
-            <small aria-hidden="true">→</small>
+        <button
+            class="page-item pagination-page-nav"
+            v-for="page in getPages()"
+            :disabled="page === '…'"
+            :class="{
+                'btn-secondary': page == data.current_page && page !== '…',
+                'btn-light': page !== data.current_page && page !== '…',
+            }"
+            @click="selectPage(page)"
+        >
+            {{ page }}
+        </button>
+        <button
+            class="page-item pagination-next-nav"
+            :disabled="!data.next_page_url"
+            :aria-label="$t('Next')"
+            @click="selectPage(++data.current_page)"
+        >
+            <small>{{ $t('Next') }}</small> <small aria-hidden="true">→</small>
         </button>
     </nav>
 </template>

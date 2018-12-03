@@ -1,15 +1,9 @@
 <template>
-
     <div class="item-list">
-
         <div class="item-list-header header">
             <slot name="back-button"></slot>
-            <h1 class="item-list-title header-title">
-                {{ $t(title.charAt(0).toUpperCase() + title.slice(1)) }}
-            </h1>
-            <div class="item-list-toolbar header-toolbar btn-toolbar">
-                <slot name="add-button"></slot>
-            </div>
+            <h1 class="item-list-title header-title">{{ $t(title.charAt(0).toUpperCase() + title.slice(1)) }}</h1>
+            <div class="item-list-toolbar header-toolbar btn-toolbar"><slot name="add-button"></slot></div>
         </div>
 
         <div class="btn-toolbar item-list-actions">
@@ -53,15 +47,37 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text"><span class="fa fa-search"></span></div>
                         </div>
-                        <input class="form-control" type="text" id="search" v-model="searchString" @input="onSearchStringChanged">
+                        <input
+                            class="form-control"
+                            type="text"
+                            id="search"
+                            v-model="searchString"
+                            @input="onSearchStringChanged"
+                        />
                     </div>
                 </form>
                 <div class="btn-group btn-group-sm ml-2" v-if="translatableFields !== '' && locales.length > 1">
-                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownLangSwitcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span id="active-locale">{{ locales.find(item => item.short === currentLocale).long }}</span> <span class="caret"></span>
+                    <button
+                        class="btn btn-light dropdown-toggle"
+                        type="button"
+                        id="dropdownLangSwitcher"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    >
+                        <span id="active-locale">{{ locales.find(item => item.short === currentLocale).long }}</span>
+                        <span class="caret"></span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
-                        <button class="dropdown-item" :class="{ active: locale === currentLocale }" type="button" v-for="locale in locales" @click="switchLocale(locale.short)">{{ locale.long }}</button>
+                        <button
+                            class="dropdown-item"
+                            :class="{ active: locale === currentLocale }"
+                            type="button"
+                            v-for="locale in locales"
+                            @click="switchLocale(locale.short)"
+                        >
+                            {{ locale.long }}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -82,10 +98,12 @@
             </table>
         </div>
 
-        <item-list-pagination :data="data" @pagination-change-page="changePage" v-if="pagination"></item-list-pagination>
-
+        <item-list-pagination
+            :data="data"
+            @pagination-change-page="changePage"
+            v-if="pagination"
+        ></item-list-pagination>
     </div>
-
 </template>
 
 <script>

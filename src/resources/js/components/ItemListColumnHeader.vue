@@ -3,11 +3,16 @@
         <span>{{ label }}</span>
         <form class="item-list-search-bar" v-if="filterable" @submit.prevent="search">
             <div class="input-group input-group-sm">
-                <input type="text" class="form-control" v-model="string" :placeholder="$t('Search')" :aria-label="$t('Search')">
+                <input
+                    type="text"
+                    class="form-control"
+                    v-model="string"
+                    :placeholder="$t('Search')"
+                    :aria-label="$t('Search')"
+                />
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="submit">
-                        <span class="fa fa-search fa-fw"></span>
-                        <span class="sr-only">{{ $t('Search') }}</span>
+                        <span class="fa fa-search fa-fw"></span> <span class="sr-only">{{ $t('Search') }}</span>
                     </button>
                 </div>
             </div>

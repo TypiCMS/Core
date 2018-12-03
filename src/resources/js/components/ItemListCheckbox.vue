@@ -1,5 +1,5 @@
 <template>
-    <input type="checkbox" :disabled="loading" :id="model.id" :value="model" v-model="checkedModels" @click="check">
+    <input type="checkbox" :disabled="loading" :id="model.id" :value="model" v-model="checkedModels" @click="check" />
 </template>
 
 <script>

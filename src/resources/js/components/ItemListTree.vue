@@ -1,14 +1,8 @@
 <template>
-
     <div class="item-list-tree">
-
         <div class="item-list-header header">
-            <h1 class="item-list-title header-title">
-                {{ $t(title) }}
-            </h1>
-            <div class="item-list-toolbar header-toolbar btn-toolbar">
-                <slot name="add-button"></slot>
-            </div>
+            <h1 class="item-list-title header-title">{{ $t(title) }}</h1>
+            <div class="item-list-toolbar header-toolbar btn-toolbar"><slot name="add-button"></slot></div>
         </div>
 
         <div class="btn-toolbar item-list-actions">
@@ -17,47 +11,73 @@
                 <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
             </div>
             <div class="btn-group btn-group-sm ml-auto">
-                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownLangSwitcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span id="active-locale">{{ locales.find(item => item.short === currentLocale).long }}</span> <span class="caret"></span>
+                <button
+                    class="btn btn-light dropdown-toggle"
+                    type="button"
+                    id="dropdownLangSwitcher"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                >
+                    <span id="active-locale">{{ locales.find(item => item.short === currentLocale).long }}</span>
+                    <span class="caret"></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
-                    <button class="dropdown-item" :class="{ active: locale === currentLocale }" type="button" v-for="locale in locales" @click="switchLocale(locale.short)">{{ locale.long }}</button>
+                    <button
+                        class="dropdown-item"
+                        :class="{ active: locale === currentLocale }"
+                        type="button"
+                        v-for="locale in locales"
+                        @click="switchLocale(locale.short)"
+                    >
+                        {{ locale.long }}
+                    </button>
                 </div>
             </div>
         </div>
 
         <sl-vue-tree v-model="models" :allowMultiselect="false" ref="slVueTree" @drop="drop" @toggle="toggle">
-
             <template slot="title" slot-scope="{ node }">
-
                 <div @click="deleteFromNested(node)" class="btn btn-xs btn-link">
                     <span class="fa fa-remove"></span>
                 </div>
 
-                <a class="btn btn-light btn-xs" :href="table+'/'+node.data.id+'/edit'">{{ $t('Edit') }}</a>
+                <a class="btn btn-light btn-xs" :href="table + '/' + node.data.id + '/edit'">{{ $t('Edit') }}</a>
 
                 <div class="btn btn-xs btn-link btn-status" @click="toggleStatus(node)">
-                    <span class="fa btn-status-switch" :class="node.data.status_translated == '1' ? 'fa-toggle-on' : 'fa-toggle-off'"></span>
+                    <span
+                        class="fa btn-status-switch"
+                        :class="node.data.status_translated == '1' ? 'fa-toggle-on' : 'fa-toggle-off'"
+                    ></span>
                 </div>
 
                 <div v-if="node.data.private" class="fa fa-lock"></div>
 
                 <div class="title">{{ node.data.title_translated }}</div>
 
-                <div v-if="node.data.redirect === 1" class="fa fa-level-down text-muted" :title="$t('Redirect to first child')"></div>
+                <div
+                    v-if="node.data.redirect === 1"
+                    class="fa fa-level-down text-muted"
+                    :title="$t('Redirect to first child')"
+                ></div>
 
-                <div class="badge badge-info" :href="node.data.module" v-if="node.data.module">{{ node.data.module }}</div>
-
+                <div class="badge badge-info" :href="node.data.module" v-if="node.data.module">
+                    {{ node.data.module }}
+                </div>
             </template>
 
             <template slot="toggle" slot-scope="{ node }">
-                <div class="disclose fa fa-fw" :class="{'fa-caret-right': !node.isExpanded, 'fa-caret-down': node.isExpanded, 'd-none': !node.children.length}"></div>
+                <div
+                    class="disclose fa fa-fw"
+                    :class="{
+                        'fa-caret-right': !node.isExpanded,
+                        'fa-caret-down': node.isExpanded,
+                        'd-none': !node.children.length,
+                    }"
+                ></div>
             </template>
-
         </sl-vue-tree>
-
     </div>
-
 </template>
 
 <script>

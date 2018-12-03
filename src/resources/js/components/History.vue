@@ -1,16 +1,19 @@
 <template>
-
     <div class="card">
-
         <div class="card-header">
             {{ $t('Latest changes') }}
-            <button class="btn-clear-history" id="clear-history" @click="clearHistory" v-if="filteredItems.length && clearButton">{{ $t('Clear') }}</button>
+            <button
+                class="btn-clear-history"
+                id="clear-history"
+                @click="clearHistory"
+                v-if="filteredItems.length && clearButton"
+            >
+                {{ $t('Clear') }}
+            </button>
         </div>
 
         <div class="history table-responsive" v-if="filteredItems.length">
-
             <table class="history-table table table-main mb-0">
-
                 <thead>
                     <tr>
                         <th class="created_at">{{ $t('Date') }}</th>
@@ -25,7 +28,7 @@
                     <tr v-for="model in filteredItems">
                         <td>{{ model.created_at | date }}</td>
                         <td>
-                            <a v-if="model.href" :href="model.href+'?locale='+model.locale">{{ model.title }}</a>
+                            <a v-if="model.href" :href="model.href + '?locale=' + model.locale">{{ model.title }}</a>
                             <span v-if="!model.href">{{ model.title }}</span>
                             <span v-if="model.locale">({{ model.locale }})</span>
                         </td>
@@ -33,22 +36,18 @@
                         <td class="action">
                             <span class="fa fa-fw" :class="model.icon_class"></span> {{ model.action }}
                         </td>
-                        <td><div class="user_name">{{ model.user_name }}</div></td>
+                        <td>
+                            <div class="user_name">{{ model.user_name }}</div>
+                        </td>
                     </tr>
                 </tbody>
-
             </table>
-
         </div>
 
         <div class="card-body" v-else>
-
             <span class="text-muted">{{ $t('History is empty.') }}</span>
-
         </div>
-
     </div>
-
 </template>
 
 <script>

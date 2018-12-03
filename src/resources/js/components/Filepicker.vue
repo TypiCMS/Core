@@ -1,13 +1,16 @@
 <template>
-
     <div class="filepicker" :class="classes" id="filepicker" ref="filepicker">
-
         <div class="wrapper">
-
             <div class="filepicker-header header">
                 <h1 class="filepicker-title header-title">
                     <div v-for="(folder, index) in path">
-                        <span class="filepicker-title-clickable" v-if="path.length !== index+1" href="#" @click="openFolder(folder)">{{ folder.name }}</span>
+                        <span
+                            class="filepicker-title-clickable"
+                            v-if="path.length !== index + 1"
+                            href="#"
+                            @click="openFolder(folder)"
+                            >{{ folder.name }}</span
+                        >
                         <span v-else>{{ folder.name }}</span>
                     </div>
                 </h1>
@@ -16,26 +19,34 @@
                 </button>
             </div>
 
-            <button class="filepicker-btn-close" type="button" v-if="this.modal" @click="closeModal"><span class="fa fa-close"></span></button>
+            <button class="filepicker-btn-close" type="button" v-if="this.modal" @click="closeModal">
+                <span class="fa fa-close"></span>
+            </button>
 
             <div class="btn-toolbar mb-4">
                 <button class="btn btn-sm btn-light mr-2" @click="newFolder(folder.id)" type="button">
                     <span class="fa fa-folder-o fa-fw"></span> {{ $t('New folder') }}
                 </button>
                 <div class="btn-group btn-group-sm dropdown mr-2">
-                    <button class="btn btn-light dropdown-toggle"
-                        :class="{disabled: !selectedItems.length}"
+                    <button
+                        class="btn btn-light dropdown-toggle"
+                        :class="{ disabled: !selectedItems.length }"
                         type="button"
                         id="dropdownMenu1"
                         data-toggle="dropdown"
                         aria-haspopup="true"
-                        aria-expanded="true">
-                        {{ $t('Action') }}
-                        <span class="caret"></span>
+                        aria-expanded="true"
+                    >
+                        {{ $t('Action') }} <span class="caret"></span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <button class="dropdown-item" type="button" @click="deleteSelected">{{ $t('Delete') }}</button></li>
-                        <button class="dropdown-item" :class="{disabled: !folder.id}" type="button" @click="moveToParentFolder()">
+                        <button class="dropdown-item" type="button" @click="deleteSelected">{{ $t('Delete') }}</button>
+                        <button
+                            class="dropdown-item"
+                            :class="{ disabled: !folder.id }"
+                            type="button"
+                            @click="moveToParentFolder()"
+                        >
                             {{ $t('Move to parent folder') }}
                         </button>
                         <div class="dropdown-divider"></div>
@@ -45,16 +56,20 @@
                     </div>
                 </div>
                 <div class="btn-group btn-group-sm">
-                    <button class="btn btn-light"
-                        :class="{active: view === 'grid'}"
+                    <button
+                        class="btn btn-light"
+                        :class="{ active: view === 'grid' }"
                         type="button"
-                        @click="switchView('grid')">
+                        @click="switchView('grid')"
+                    >
                         <span class="fa fa-fw fa-th"></span> Grid
                     </button>
-                    <button class="btn btn-light"
-                        :class="{active: view === 'list'}"
+                    <button
+                        class="btn btn-light"
+                        :class="{ active: view === 'list' }"
                         type="button"
-                        @click="switchView('list')">
+                        @click="switchView('list')"
+                    >
                         <span class="fa fa-fw fa-bars"></span> List
                     </button>
                 </div>
@@ -71,14 +86,15 @@
                 @vdropzone-sending="dropzoneSending"
                 @vdropzone-complete="dropzoneComplete"
                 v-if="dropzone"
-                >
+            >
             </vue-dropzone>
 
-            <div @click="checkNone()" class="filemanager" :class="{'filemanager-list': view === 'list'}">
-                <div class="filemanager-item filemanager-item-with-name filemanager-item-editable"
+            <div @click="checkNone()" class="filemanager" :class="{ 'filemanager-list': view === 'list' }">
+                <div
+                    class="filemanager-item filemanager-item-with-name filemanager-item-editable"
                     v-for="item in filteredItems"
                     @click="check(item, $event)"
-                    :id="'item_'+item.id"
+                    :id="'item_' + item.id"
                     :class="{
                         'filemanager-item-selected': selectedItems.indexOf(item) !== -1,
                         'filemanager-item-folder': item.type === 'f',
@@ -93,25 +109,28 @@
                     @dragleave="dragLeave($event)"
                     @dragend="dragEnd($event)"
                     @dblclick="item.type === 'f' ? openFolder(item) : onDoubleClick(item)"
-                    >
+                >
                     <div class="filemanager-item-wrapper">
                         <div class="filemanager-item-icon" v-if="item.type === 'i'">
                             <div class="filemanager-item-image-wrapper">
-                                <img class="filemanager-item-image"
+                                <img
+                                    class="filemanager-item-image"
                                     :src="item.thumb_sm"
-                                    :alt="item.alt_attribute_translated">
+                                    :alt="item.alt_attribute_translated"
+                                />
                             </div>
                         </div>
-                        <div class="filemanager-item-icon" :class="'filemanager-item-icon-'+item.type" v-else></div>
+                        <div class="filemanager-item-icon" :class="'filemanager-item-icon-' + item.type" v-else></div>
                         <div class="filemanager-item-name">{{ item.name }}</div>
-                        <a class="filemanager-item-editable-button" :href="'/admin/files/'+item.id+'/edit'">
+                        <a class="filemanager-item-editable-button" :href="'/admin/files/' + item.id + '/edit'">
                             <span class="fa fa-pencil"></span>
                         </a>
                     </div>
                 </div>
             </div>
 
-            <button class="btn btn-success filepicker-btn-add btn-add-multiple"
+            <button
+                class="btn btn-success filepicker-btn-add btn-add-multiple"
                 type="button"
                 :disabled="selectedFiles.length < 1"
                 @click="addSelectedFiles()"
@@ -121,7 +140,8 @@
                 {{ $t('Add selected files') }}
             </button>
 
-            <button class="btn btn-success filepicker-btn-add btn-add-single"
+            <button
+                class="btn btn-success filepicker-btn-add btn-add-single"
                 :disabled="selectedFiles.length !== 1"
                 type="button"
                 @click="addSingleFile(selectedFiles[0])"
@@ -130,11 +150,8 @@
             >
                 {{ $t('Add selected file') }}
             </button>
-
         </div>
-
     </div>
-
 </template>
 
 <script>
