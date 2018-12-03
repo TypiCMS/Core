@@ -42,7 +42,7 @@
                 {{ $tc('# ' + title, data.total, { count: data.total }) }}
             </small>
             <div class="d-flex ml-auto">
-                <form class="filters form-inline" v-if="searchable.length > 0">
+                <div class="filters form-inline" v-if="searchable.length > 0">
                     <div class="input-group input-group-sm mb-0">
                         <div class="input-group-prepend">
                             <div class="input-group-text"><span class="fa fa-search"></span></div>
@@ -55,7 +55,7 @@
                             @input="onSearchStringChanged"
                         />
                     </div>
-                </form>
+                </div>
                 <div class="btn-group btn-group-sm ml-2" v-if="translatableFields !== '' && locales.length > 1">
                     <button
                         class="btn btn-light dropdown-toggle"
