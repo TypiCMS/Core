@@ -332,10 +332,10 @@ export default {
         dropzoneSending(file, xhr, formData) {
             this.startLoading();
             formData.append('_token', document.head.querySelector('meta[name="csrf-token"]').content);
+            formData.append('folder_id', this.folder.id);
             for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
-                formData.append('folder_id', this.folder.id);
-                formData.append('description[' + TypiCMS.locales[i] + ']', '');
-                formData.append('alt_attribute[' + TypiCMS.locales[i] + ']', '');
+                formData.append('description[' + TypiCMS.locales[i].short + ']', '');
+                formData.append('alt_attribute[' + TypiCMS.locales[i].short + ']', '');
             }
         },
         dropzoneSuccess(file, response) {
