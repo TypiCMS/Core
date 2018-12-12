@@ -71,10 +71,6 @@ class Install extends Command
         // Create a super user
         $this->createSuperUser();
 
-        // Set cache key prefix
-        $this->call('cache:prefix', ['prefix' => $dbName]);
-        $this->line('------------------');
-
         // Composer install
         if (function_exists('system')) {
             system('find storage -type d -exec chmod 755 {} \;');

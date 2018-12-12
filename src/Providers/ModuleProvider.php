@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
-use TypiCMS\Modules\Core\Commands\CacheKeyPrefix;
 use TypiCMS\Modules\Core\Commands\Create;
 use TypiCMS\Modules\Core\Commands\Database;
 use TypiCMS\Modules\Core\Commands\Install;
@@ -122,7 +121,6 @@ class ModuleProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
         $this->commands([
-            CacheKeyPrefix::class,
             Create::class,
             Database::class,
             Install::class,
