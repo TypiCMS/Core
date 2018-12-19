@@ -2,11 +2,9 @@
 
 namespace TypiCMS\Modules\Core\Models;
 
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
-use TypiCMS\Modules\Core\Facades\TypiCMS;
+use Illuminate\Support\Facades\Route;
 use TypiCMS\Modules\Tags\Models\Tag;
 
 abstract class Base extends Model
@@ -33,9 +31,9 @@ abstract class Base extends Model
     public function uri($locale = null)
     {
         $locale = $locale ?: config('app.locale');
-        $page = TypiCMS::getPageLinkedToModule($this->getTable());
-        if ($page) {
-            return $page->uri($locale).'/'.$this->translate('slug', $locale);
+        $route = $locale.'::'.str_singular($this->getTable());
+        if (Route::has($route)) {
+            return route($route, $this->slug);
         }
 
         return '/';
@@ -95,11 +93,12 @@ abstract class Base extends Model
      */
     public function editUrl()
     {
-        try {
-            return route('admin::edit-'.str_singular($this->getTable()), $this->id);
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
+        $route = 'admin::edit-'.str_singular($this->getTable());
+        if (Route::has($route)) {
+            return route($route, $this->id);
         }
+
+        return route('dashboard');
     }
 
     /**
@@ -109,11 +108,12 @@ abstract class Base extends Model
      */
     public function indexUrl()
     {
-        try {
-            return route('admin::index-'.$this->getTable());
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
+        $route = 'admin::index-'.$this->getTable();
+        if (Route::has($route)) {
+            return route($route);
         }
+
+        return route('dashboard');
     }
 
     public function scopeTranslated($query, $columns)
