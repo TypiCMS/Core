@@ -94,7 +94,7 @@
 /***/ (function(module, exports) {
 
 // ==================================================
-// fancyBox v3.5.3
+// fancyBox v3.5.2
 //
 // Licensed GPLv3 for open source use
 // or fancyBox Commercial License for commercial use
@@ -206,7 +206,7 @@
     iframe: {
       // Iframe template
       tpl:
-        '<iframe id="fancybox-frame{rnd}" name="fancybox-frame{rnd}" class="fancybox-iframe" allowfullscreen="allowfullscreen" allow="autoplay; fullscreen" src=""></iframe>',
+        '<iframe id="fancybox-frame{rnd}" name="fancybox-frame{rnd}" class="fancybox-iframe" allowfullscreen allow="autoplay; fullscreen" src=""></iframe>',
 
       // Preload iframe before displaying it
       // This allows to calculate iframe content width and height
@@ -489,17 +489,17 @@
         ZOOM: "Zoom"
       },
       de: {
-        CLOSE: "Schlie&szlig;en",
+        CLOSE: "Schliessen",
         NEXT: "Weiter",
-        PREV: "Zur&uuml;ck",
-        ERROR: "Die angeforderten Daten konnten nicht geladen werden. <br/> Bitte versuchen Sie es sp&auml;ter nochmal.",
+        PREV: "Zurück",
+        ERROR: "Die angeforderten Daten konnten nicht geladen werden. <br/> Bitte versuchen Sie es später nochmal.",
         PLAY_START: "Diaschau starten",
         PLAY_STOP: "Diaschau beenden",
         FULL_SCREEN: "Vollbild",
         THUMBS: "Vorschaubilder",
         DOWNLOAD: "Herunterladen",
         SHARE: "Teilen",
-        ZOOM: "Vergr&ouml;&szlig;ern"
+        ZOOM: "Maßstab"
       }
     }
   };
@@ -740,7 +740,13 @@
       var arr = obj.opts.i18n[obj.opts.lang] || obj.opts.i18n.en;
 
       return str.replace(/\{\{(\w+)\}\}/g, function(match, n) {
-        return arr[n] === undefined ? match : arr[n];
+        var value = arr[n];
+
+        if (value === undefined) {
+          return match;
+        }
+
+        return value;
       });
     },
 
@@ -1011,14 +1017,11 @@
             self.$refs.stage.hide();
           }
 
-          setTimeout(
-            function() {
-              self.$refs.stage.show();
+          setTimeout(function() {
+            self.$refs.stage.show();
 
-              self.update(e);
-            },
-            $.fancybox.isMobile ? 600 : 250
-          );
+            self.update(e);
+          }, $.fancybox.isMobile ? 600 : 250);
         }
       });
 
@@ -1041,7 +1044,7 @@
         // Enable keyboard navigation
         // ==========================
 
-        if (!current.opts.keyboard || e.ctrlKey || e.altKey || e.shiftKey || $(e.target).is("input,textarea,video,audio")) {
+        if (!current.opts.keyboard || e.ctrlKey || e.altKey || e.shiftKey || $(e.target).is("input") || $(e.target).is("textarea")) {
           return;
         }
 
@@ -1417,7 +1420,7 @@
           scaleX: scaleX,
           scaleY: scaleY
         },
-        duration || 366,
+        duration || 330,
         function() {
           self.isAnimating = false;
         }
@@ -1458,7 +1461,7 @@
           scaleX: end.width / $content.width(),
           scaleY: end.height / $content.height()
         },
-        duration || 366,
+        duration || 330,
         function() {
           self.isAnimating = false;
         }
@@ -2078,6 +2081,11 @@
         $slide = slide.$slide,
         $iframe;
 
+      // Fix responsive iframes on iOS (along with `position:absolute;` for iframe element)
+      if ($.fancybox.isMobile) {
+        opts.css.overflow = "scroll";
+      }
+
       slide.$content = $('<div class="fancybox-content' + (opts.preload ? " fancybox-is-hidden" : "") + '"></div>')
         .css(opts.css)
         .appendTo($slide);
@@ -2121,7 +2129,7 @@
             $body = $contents.find("body");
           } catch (ignore) {}
 
-          // Calculate content dimensions, if it is accessible
+          // Calculate contnet dimensions if it is accessible
           if ($body && $body.length && $body.children().length) {
             // Avoid scrolling to top (if multiple instances)
             $slide.css("overflow", "visible");
@@ -2399,12 +2407,9 @@
         current = slide || self.current,
         caption = current.opts.caption,
         $caption = self.$refs.caption,
-        captionH = false,
-        preventOverlap = current.opts.preventCaptionOverlap;
+        captionH = false;
 
-      $caption.toggleClass("fancybox-caption--separate", preventOverlap);
-
-      if (preventOverlap && caption && caption.length) {
+      if (current.opts.preventCaptionOverlap && caption && caption.length) {
         if (current.pos !== self.currPos) {
           $caption = $caption
             .clone()
@@ -2739,8 +2744,6 @@
           "iframe",
           "object",
           "embed",
-          "video",
-          "audio",
           "[contenteditable]",
           '[tabindex]:not([tabindex^="-"])'
         ].join(","),
@@ -3133,7 +3136,7 @@
   });
 
   $.fancybox = {
-    version: "3.5.3",
+    version: "3.5.2",
     defaults: defaults,
 
     // Get current instance and execute a command.
@@ -3537,8 +3540,8 @@
       },
       paramPlace: 8,
       type: "iframe",
-      url: "https://www.youtube-nocookie.com/embed/$4",
-      thumb: "https://img.youtube.com/vi/$4/hqdefault.jpg"
+      url: "//www.youtube-nocookie.com/embed/$4",
+      thumb: "//img.youtube.com/vi/$4/hqdefault.jpg"
     },
 
     vimeo: {
@@ -4542,7 +4545,7 @@
     newPos.width = self.contentStartPos.width;
     newPos.height = self.contentStartPos.height;
 
-    $.fancybox.animate(self.$content, newPos, 366);
+    $.fancybox.animate(self.$content, newPos, 330);
   };
 
   Guestures.prototype.endZooming = function() {
@@ -5036,13 +5039,11 @@
       if (instance) {
         // If image is zooming, then force to stop and reposition properly
         if (instance.current && instance.current.type === "image" && instance.isAnimating) {
+          instance.current.$content.css("transition", "none");
+
           instance.isAnimating = false;
 
           instance.update(true, true, 0);
-
-          if (!instance.isComplete) {
-            instance.complete();
-          }
         }
 
         instance.trigger("onFullscreenChange", isFullscreen);
@@ -20066,7 +20067,7 @@ return jQuery;
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(global) {/**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
- * @version 1.14.4
+ * @version 1.14.6
  * @license
  * Copyright (c) 2016 Federico Zivolo and contributors
  *
@@ -20163,7 +20164,8 @@ function getStyleComputedProperty(element, property) {
     return [];
   }
   // NOTE: 1 DOM access here
-  var css = getComputedStyle(element, null);
+  var window = element.ownerDocument.defaultView;
+  var css = window.getComputedStyle(element, null);
   return property ? css[property] : css;
 }
 
@@ -20251,7 +20253,7 @@ function getOffsetParent(element) {
   var noOffsetParent = isIE(10) ? document.body : null;
 
   // NOTE: 1 DOM access here
-  var offsetParent = element.offsetParent;
+  var offsetParent = element.offsetParent || null;
   // Skip hidden elements which don't have an offsetParent
   while (offsetParent === noOffsetParent && element.nextElementSibling) {
     offsetParent = (element = element.nextElementSibling).offsetParent;
@@ -20263,9 +20265,9 @@ function getOffsetParent(element) {
     return element ? element.ownerDocument.documentElement : document.documentElement;
   }
 
-  // .offsetParent will return the closest TD or TABLE in case
+  // .offsetParent will return the closest TH, TD or TABLE in case
   // no offsetParent is present, I hate this job...
-  if (['TD', 'TABLE'].indexOf(offsetParent.nodeName) !== -1 && getStyleComputedProperty(offsetParent, 'position') === 'static') {
+  if (['TH', 'TD', 'TABLE'].indexOf(offsetParent.nodeName) !== -1 && getStyleComputedProperty(offsetParent, 'position') === 'static') {
     return getOffsetParent(offsetParent);
   }
 
@@ -20813,9 +20815,10 @@ function getReferenceOffsets(state, popper, reference) {
  * @returns {Object} object containing width and height properties
  */
 function getOuterSizes(element) {
-  var styles = getComputedStyle(element);
-  var x = parseFloat(styles.marginTop) + parseFloat(styles.marginBottom);
-  var y = parseFloat(styles.marginLeft) + parseFloat(styles.marginRight);
+  var window = element.ownerDocument.defaultView;
+  var styles = window.getComputedStyle(element);
+  var x = parseFloat(styles.marginTop || 0) + parseFloat(styles.marginBottom || 0);
+  var y = parseFloat(styles.marginLeft || 0) + parseFloat(styles.marginRight || 0);
   var result = {
     width: element.offsetWidth + y,
     height: element.offsetHeight + x
@@ -21267,6 +21270,52 @@ function applyStyleOnLoad(reference, popper, options, modifierOptions, state) {
 
 /**
  * @function
+ * @memberof Popper.Utils
+ * @argument {Object} data - The data object generated by `update` method
+ * @argument {Boolean} shouldRound - If the offsets should be rounded at all
+ * @returns {Object} The popper's position offsets rounded
+ *
+ * The tale of pixel-perfect positioning. It's still not 100% perfect, but as
+ * good as it can be within reason.
+ * Discussion here: https://github.com/FezVrasta/popper.js/pull/715
+ *
+ * Low DPI screens cause a popper to be blurry if not using full pixels (Safari
+ * as well on High DPI screens).
+ *
+ * Firefox prefers no rounding for positioning and does not have blurriness on
+ * high DPI screens.
+ *
+ * Only horizontal placement and left/right values need to be considered.
+ */
+function getRoundedOffsets(data, shouldRound) {
+  var _data$offsets = data.offsets,
+      popper = _data$offsets.popper,
+      reference = _data$offsets.reference;
+
+
+  var isVertical = ['left', 'right'].indexOf(data.placement) !== -1;
+  var isVariation = data.placement.indexOf('-') !== -1;
+  var sameWidthOddness = reference.width % 2 === popper.width % 2;
+  var bothOddWidth = reference.width % 2 === 1 && popper.width % 2 === 1;
+  var noRound = function noRound(v) {
+    return v;
+  };
+
+  var horizontalToInteger = !shouldRound ? noRound : isVertical || isVariation || sameWidthOddness ? Math.round : Math.floor;
+  var verticalToInteger = !shouldRound ? noRound : Math.round;
+
+  return {
+    left: horizontalToInteger(bothOddWidth && !isVariation && shouldRound ? popper.left - 1 : popper.left),
+    top: verticalToInteger(popper.top),
+    bottom: verticalToInteger(popper.bottom),
+    right: horizontalToInteger(popper.right)
+  };
+}
+
+var isFirefox = isBrowser && /Firefox/i.test(navigator.userAgent);
+
+/**
+ * @function
  * @memberof Modifiers
  * @argument {Object} data - The data object generated by `update` method
  * @argument {Object} options - Modifiers configuration and options
@@ -21295,15 +21344,7 @@ function computeStyle(data, options) {
     position: popper.position
   };
 
-  // Avoid blurry text by using full pixel integers.
-  // For pixel-perfect positioning, top/bottom prefers rounded
-  // values, while left/right prefers floored values.
-  var offsets = {
-    left: Math.floor(popper.left),
-    top: Math.round(popper.top),
-    bottom: Math.round(popper.bottom),
-    right: Math.floor(popper.right)
-  };
+  var offsets = getRoundedOffsets(data, window.devicePixelRatio < 2 || !isFirefox);
 
   var sideA = x === 'bottom' ? 'top' : 'bottom';
   var sideB = y === 'right' ? 'left' : 'right';
