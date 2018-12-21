@@ -9,7 +9,4 @@
     &-link {
         @extend .nav-link;
     }
-    &-item.active &-link {
-        @extend .active;
-    }
 }
