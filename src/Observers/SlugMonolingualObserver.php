@@ -4,7 +4,7 @@ namespace TypiCMS\Modules\Core\Observers;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SlugObserverMonolingual
+class SlugMonolingualObserver
 {
     public function saving(Model $model)
     {
