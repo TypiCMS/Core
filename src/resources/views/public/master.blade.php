@@ -55,7 +55,9 @@
             @section('site-title')
             <div class="site-title">@include('core::public._site-title')</div>
             @show
+            @if(TypiCMS::baseline())
             <p class="site-baseline">{{ TypiCMS::baseline() }}</p>
+            @endif
         </header>
         @show
 
