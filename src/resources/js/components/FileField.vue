@@ -1,7 +1,10 @@
 <template>
     <div class="mb-4">
         <div class="form-group">
-            <label :for="field">{{ type === 'document' ? $t('Document') : $t('Image') }}</label>
+            <label :for="field">
+                <span v-if="label"> {{ label }} </span>
+                <span v-else> {{ type === 'document' ? $t('Document') : $t('Image') }} </span>
+            </label>
             <input type="hidden" :name="field" :id="field" :rel="field" v-model="id" />
             <div>
                 <div v-if="id !== null" class="filemanager-item-removable">
@@ -29,6 +32,9 @@ export default {
         field: {
             type: String,
             required: true,
+        },
+        label: {
+            type: String,
         },
         type: {
             type: String,
