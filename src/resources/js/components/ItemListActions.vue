@@ -9,7 +9,7 @@
             aria-expanded="true"
             id="dropdownActions"
         >
-            {{ $t('Action') }} <span class="caret"></span>
+            {{ $t('Action') }}
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownActions">
             <button type="button" class="dropdown-item" v-if="publishable" @click="$emit('publish')">

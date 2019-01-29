@@ -9,7 +9,7 @@
             aria-expanded="true"
             id="dropdownActions"
         >
-            {{ perPage }} {{ $t('per page') }} <span class="caret"></span>
+            {{ perPage }} {{ $t('per page') }}
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownActions">
             <button

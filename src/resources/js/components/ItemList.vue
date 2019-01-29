@@ -66,7 +66,6 @@
                         aria-expanded="false"
                     >
                         <span id="active-locale">{{ locales.find(item => item.short === currentLocale).long }}</span>
-                        <span class="caret"></span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
                         <button

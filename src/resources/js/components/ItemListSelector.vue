@@ -18,7 +18,6 @@
             aria-expanded="false"
             id="dropdownSelect"
         >
-            <span class="caret"></span>
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownSelect">
             <button type="button" class="dropdown-item" @click="$emit('check-all')">{{ $t('All') }}</button>

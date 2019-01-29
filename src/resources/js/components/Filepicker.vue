@@ -37,7 +37,7 @@
                         aria-haspopup="true"
                         aria-expanded="true"
                     >
-                        {{ $t('Action') }} <span class="caret"></span>
+                        {{ $t('Action') }}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
                         <button class="dropdown-item" type="button" @click="deleteSelected">{{ $t('Delete') }}</button>

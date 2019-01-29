@@ -1,7 +1,7 @@
 @if (count($locales) > 1)
     <div class="btn-group btn-group-sm ml-auto">
         <button class="btn btn-light dropdown-toggle" type="button" id="dropdownLangSwitcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span id="active-locale">{{ $locale ? : __('All languages') }}</span> <span class="caret"></span>
+            <span id="active-locale">{{ $locale ? : __('All languages') }}</span>
         </button>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
             @foreach ($locales as $lang)

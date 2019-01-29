@@ -2,7 +2,6 @@
 <nav class="lang-switcher dropdown">
     <button class="lang-switcher-btn btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownLangSwitcher">
         {{ $lang }}
-        <span class="caret"></span>
     </button>
     <div class="lang-switcher-list dropdown-menu" aria-labelledby="dropdownLangSwitcher">
         @foreach ($enabledLocales as $locale)
