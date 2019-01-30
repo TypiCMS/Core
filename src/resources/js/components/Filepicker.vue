@@ -231,6 +231,7 @@ export default {
                     'application/postscript',
                     'application/zip',
                     'text/plain',
+                    'image/svg+xml',
                     'image/tiff',
                     'image/jpeg',
                     'image/gif',
