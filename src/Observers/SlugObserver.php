@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Observers;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class SlugObserver
 {
@@ -12,7 +13,7 @@ class SlugObserver
         $slugs = $model->getTranslations('slug');
 
         foreach ($titles as $locale => $title) {
-            $slug = $slugs[$locale] ?: str_slug($title);
+            $slug = $slugs[$locale] ?: Str::slug($title);
 
             // slug = null if empty string
             $model->setTranslation('slug', $locale, $slug ?: null);

@@ -3,7 +3,7 @@
         <button class="navbar-toggler" type="button" data-toggle="offcanvas" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="fa fa-bars fa-fw fa-inverse"></span>
         </button>
-        <a class="navbar-brand" href="{{ route('dashboard') }}">{{ str_limit(TypiCMS::title(config('typicms.admin_locale')), 50, '…') }}</a>
+        <a class="navbar-brand" href="{{ route('dashboard') }}">{{ Illuminate\Support\Str::limit(TypiCMS::title(config('typicms.admin_locale')), 50, '…') }}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#userMenu" aria-controls="userMenu" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="fa fa-chevron-down fa-fw fa-inverse"></span>
         </button>

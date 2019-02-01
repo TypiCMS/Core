@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 use League\Flysystem\Adapter\Local as LocalAdapter;
 use League\Flysystem\Filesystem as Flysystem;
 use League\Flysystem\MountManager;
@@ -62,7 +63,7 @@ class Create extends Command
             return $this->error('Only alphabetic characters are allowed.');
         }
 
-        $this->module = str_plural(ucfirst(strtolower($this->argument('module'))));
+        $this->module = Str::plural(ucfirst(strtolower($this->argument('module'))));
 
         if ($this->moduleExists()) {
             return $this->error('A module named ['.$this->module.'] already exists.');
@@ -118,9 +119,9 @@ class Create extends Command
         ];
         $replace = [
             strtolower($this->module),
-            strtolower(str_singular($this->module)),
+            strtolower(Str::singular($this->module)),
             $this->module,
-            str_singular($this->module),
+            Str::singular($this->module),
         ];
 
         foreach ($manager->listContents('directory://', true) as $file) {
@@ -194,7 +195,7 @@ class Create extends Command
      */
     public function transformFilename($path)
     {
-        return str_replace('Object', str_singular($this->module), $path);
+        return str_replace('Object', Str::singular($this->module), $path);
     }
 
     /**

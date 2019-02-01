@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Core\Observers;
 use Croppa;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use TypiCMS\Modules\Core\Services\FileUploader;
 
@@ -46,7 +47,7 @@ class FileObserver
             // delete prev image
             $file = $this->fileUploader->handle(request()->file('name'));
             $model->name = $file['filename'];
-            $model->fill(array_except($file, 'filename'));
+            $model->fill(Arr::except($file, 'filename'));
         } else {
             if ($model->type !== 'f') {
                 return false;

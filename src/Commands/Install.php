@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use TypiCMS\Modules\Users\Models\User;
 
 class Install extends Command
@@ -102,7 +103,7 @@ class Install extends Command
             $segments = array_reverse(explode(DIRECTORY_SEPARATOR, app_path()));
             $name = explode('.', $segments[1])[0];
 
-            return str_slug($name);
+            return Str::slug($name);
         } catch (Exception $e) {
             return '';
         }

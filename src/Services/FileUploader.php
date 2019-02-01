@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Services;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -31,7 +32,7 @@ class FileUploader
             $filename = $fileName.'_'.$filecounter++.'.'.$extension;
         }
         $path = $file->storeAs($path, $filename);
-        $type = array_get(config('file.types'), $extension, 'd');
+        $type = Arr::get(config('file.types'), $extension, 'd');
 
         return compact('filesize', 'mimetype', 'extension', 'filename', 'width', 'height', 'path', 'type');
     }

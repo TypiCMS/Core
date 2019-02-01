@@ -3,12 +3,13 @@
 namespace TypiCMS\Modules\Core\Observers;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class SlugMonolingualObserver
 {
     public function saving(Model $model)
     {
-        $slug = $model->slug ?: str_slug($model->title);
+        $slug = $model->slug ?: Str::slug($model->title);
         $model->slug = $slug;
 
         if ($slug) {

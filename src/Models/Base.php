@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Core\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use TypiCMS\Modules\Tags\Models\Tag;
 
 abstract class Base extends Model
@@ -31,7 +32,7 @@ abstract class Base extends Model
     public function uri($locale = null)
     {
         $locale = $locale ?: config('app.locale');
-        $route = $locale.'::'.str_singular($this->getTable());
+        $route = $locale.'::'.Str::singular($this->getTable());
         if (Route::has($route)) {
             return route($route, $this->slug);
         }
@@ -93,7 +94,7 @@ abstract class Base extends Model
      */
     public function editUrl()
     {
-        $route = 'admin::edit-'.str_singular($this->getTable());
+        $route = 'admin::edit-'.Str::singular($this->getTable());
         if (Route::has($route)) {
             return route($route, $this->id);
         }
