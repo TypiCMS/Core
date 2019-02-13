@@ -79,11 +79,11 @@ class Database extends Command
             '/('.preg_quote('DB_PASSWORD=').')(.*)/',
         ];
         $replace = [
-            '$1'.$dbAddress,
-            '$1'.$dbPort,
-            '$1'.$dbName,
-            '$1'.$dbUserName,
-            '$1'.$dbPassword,
+            '${1}'.$dbAddress,
+            '${1}'.$dbPort,
+            '${1}'.$dbName,
+            '${1}'.$dbUserName,
+            '${1}'.$dbPassword,
         ];
         $contents = preg_replace($search, $replace, $contents);
 
