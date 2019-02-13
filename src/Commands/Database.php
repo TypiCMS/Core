@@ -57,9 +57,9 @@ class Database extends Command
 
         $dbName = $this->argument('database');
 
-        $dbPort = $this->ask('What is your MySQL port?', '3306');
-
         $dbAddress = $this->ask('What is your MySQL address?', '127.0.0.1');
+
+        $dbPort = $this->ask('What is your MySQL port?', '3306');
 
         $dbUserName = $this->ask('What is your MySQL username?', 'root');
 
