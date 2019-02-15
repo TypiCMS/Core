@@ -14446,6 +14446,10 @@ a.text-dark:hover, a.text-dark:focus {
   max-height: 120px;
 }
 
+.filemanager-item-image[src$='.svg'] {
+  width: 100%;
+}
+
 .filemanager-item-image-wrapper {
   -webkit-border-radius: 3px;
           border-radius: 3px;
