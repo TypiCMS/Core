@@ -153,11 +153,7 @@ class ModuleProvider extends ServiceProvider
     private function registerModuleRoutes()
     {
         $this->app->singleton('typicms.routes', function (Application $app) {
-            try {
-                return $app->make('Pages')->with('files')->getForRoutes();
-            } catch (Exception $e) {
-                return [];
-            }
+            return $app->make('Pages')->with('files')->getForRoutes();
         });
     }
 }
