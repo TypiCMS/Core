@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Providers;
 
+use Exception;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
