@@ -4,7 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
 
-class SetFallbackLocaleToNull
+class SetTranslatableFallbackLocaleToNull
 {
     /**
      * Handle an incoming request.
