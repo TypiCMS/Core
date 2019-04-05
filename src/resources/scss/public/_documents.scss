@@ -1,5 +1,7 @@
-.documents-list {
-    @include list-unstyled();
+.document-list {
+    &-list {
+        @include list-unstyled();
+    }
     &-item {
         margin-bottom: $grid-gutter-width/2;
         &-link {
