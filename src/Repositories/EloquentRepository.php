@@ -112,7 +112,7 @@ class EloquentRepository extends BaseRepository
             $this->published();
         }
 
-        return $this->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () use ($number) {
+        return $this->executeCallback(static::class, __FUNCTION__, func_get_args(), function () use ($number) {
             return $this->prepareQuery($this->createModel())
                 ->order()
                 ->take($number)
@@ -134,7 +134,7 @@ class EloquentRepository extends BaseRepository
             $this->published();
         }
 
-        return $this->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () use ($key, $value) {
+        return $this->executeCallback(static::class, __FUNCTION__, func_get_args(), function () use ($key, $value) {
             return $this->prepareQuery($this->createModel())
                 ->where($key, $value)
                 ->order()
@@ -156,7 +156,7 @@ class EloquentRepository extends BaseRepository
             $this->published();
         }
 
-        return $this->executeCallback(get_called_class(), __FUNCTION__, func_get_args(), function () {
+        return $this->executeCallback(static::class, __FUNCTION__, func_get_args(), function () {
             return $this->prepareQuery($this->createModel())
                 ->order()
                 ->get();
@@ -170,7 +170,7 @@ class EloquentRepository extends BaseRepository
             $this->published();
         }
 
-        return $this->executeCallback(get_called_class(), __FUNCTION__, array_merge(func_get_args(), compact('page')), function () use ($perPage, $attributes, $pageName, $page) {
+        return $this->executeCallback(static::class, __FUNCTION__, array_merge(func_get_args(), compact('page')), function () use ($perPage, $attributes, $pageName, $page) {
             return $this->prepareQuery($this->createModel())->order()->paginate($perPage, $attributes, $pageName, $page);
         });
     }
