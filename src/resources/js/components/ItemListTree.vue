@@ -46,7 +46,7 @@
                 <div class="btn btn-xs btn-link btn-status" @click="toggleStatus(node)">
                     <span
                         class="fa btn-status-switch"
-                        :class="node.data.status_translated == '1' ? 'fa-toggle-on' : 'fa-toggle-off'"
+                        :class="node.data.status_translated === 1 ? 'fa-toggle-on' : 'fa-toggle-off'"
                     ></span>
                 </div>
 
@@ -249,11 +249,11 @@ export default {
         toggleStatus(node) {
             let originalNode = JSON.parse(JSON.stringify(node)),
                 status = parseInt(node.data.status_translated) || 0,
-                newStatus = Math.abs(status - 1).toString(),
+                newStatus = Math.abs(status - 1),
                 data = {
                     status: {},
                 },
-                label = newStatus === '1' ? 'published' : 'unpublished';
+                label = newStatus === 1 ? 'published' : 'unpublished';
             data.status[this.currentLocale] = newStatus;
             node.data.status_translated = newStatus;
             this.$refs.slVueTree.updateNode(node.path, node);

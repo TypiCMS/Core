@@ -151,6 +151,10 @@ export default {
             type: Boolean,
             default: true,
         },
+        multilingual: {
+            type: Boolean,
+            default: true,
+        },
         table: {
             type: String,
             required: true,
@@ -296,10 +300,10 @@ export default {
             this.checkedItems = [];
         },
         checkPublished() {
-            this.checkedItems = this.filteredItems.filter(model => model.status_translated === '1');
+            this.checkedItems = this.filteredItems.filter(model => model.status_translated === 1);
         },
         checkUnpublished() {
-            this.checkedItems = this.filteredItems.filter(model => model.status_translated === '0');
+            this.checkedItems = this.filteredItems.filter(model => model.status_translated === 0);
         },
         destroy() {
             this.data.current_page = 1;
@@ -345,7 +349,7 @@ export default {
             ) {
                 return false;
             }
-            this.setStatus('1');
+            this.setStatus(1);
         },
         unpublish() {
             if (
@@ -357,14 +361,21 @@ export default {
             ) {
                 return false;
             }
-            this.setStatus('0');
+            this.setStatus(0);
         },
         setStatus(status) {
             let data = {
                     status: {},
                 },
-                label = status === '1' ? 'published' : 'unpublished';
-            data.status[this.currentLocale] = status;
+                label = status === 1 ? 'published' : 'unpublished',
+                statusVar = 'status';
+
+            if (this.multilingual) {
+                statusVar = 'status_translated';
+                data.status[this.currentLocale] = status;
+            } else {
+                data.status = status;
+            }
 
             this.startLoading();
 
@@ -375,7 +386,7 @@ export default {
                     alertify.success(this.$i18n.tc('# items ' + label, responses.length, { count: responses.length }));
                     for (let i = this.checkedItems.length - 1; i >= 0; i--) {
                         let index = this.data.data.indexOf(this.checkedItems[i]);
-                        this.data.data[index].status_translated = status;
+                        this.data.data[index][statusVar] = status;
                     }
                     this.checkedItems = [];
                 })
@@ -385,14 +396,19 @@ export default {
                 });
         },
         toggleStatus(model) {
-            let status = parseInt(model.status_translated) || 0,
-                newStatus = Math.abs(status - 1).toString(),
+            let status = this.multilingual ? model.status_translated : model.status,
+                newStatus = Math.abs(status - 1),
                 data = {
                     status: {},
                 },
-                label = newStatus === '1' ? 'published' : 'unpublished';
-            model.status_translated = newStatus;
-            data.status[this.currentLocale] = newStatus;
+                label = newStatus === 1 ? 'published' : 'unpublished';
+            if (this.multilingual) {
+                model.status_translated = newStatus;
+                data.status[this.currentLocale] = newStatus;
+            } else {
+                model.status = newStatus;
+                data.status = newStatus;
+            }
             axios
                 .patch(this.urlBase + '/' + model.id, data)
                 .then(response => {
