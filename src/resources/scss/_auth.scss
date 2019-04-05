@@ -8,21 +8,23 @@
 }
 
 .container-login {
-    .small-container-title {
+    .auth-container-title {
         @include sr-only;
     }
 }
 
-.small-container {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+.auth-container {
     background-color: #fff;
     margin: 5vh auto 0;
     padding-top: 25px;
-    max-width: 380px;
+    max-width: 580px;
     @include media-breakpoint-up(sm) {
-        margin-top: 15vh;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        margin-top: 10vh;
     }
-
+    &-sm {
+        max-width: 380px;
+    }
     &-title {
         font-size: 20px;
         text-align: center;
