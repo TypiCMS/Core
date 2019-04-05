@@ -72,6 +72,7 @@ class Create extends Command
         $this->renameModelsAndRepositories();
         $this->searchAndReplaceInFiles();
         $this->publishViews();
+        $this->publishScssFiles();
         $this->moveMigrationFile();
         $this->addTranslations();
         $this->deleteResourcesDirectory();
@@ -142,6 +143,8 @@ class Create extends Command
             $moduleDir.'/Models/Object.php',
             $moduleDir.'/Facades/Objects.php',
             $moduleDir.'/Repositories/EloquentObject.php',
+            $moduleDir.'/resources/scss/public/_object.scss',
+            $moduleDir.'/resources/scss/public/_object-list.scss',
         ];
         foreach ($paths as $path) {
             $this->files->move($path, $this->transformFilename($path));
@@ -155,6 +158,16 @@ class Create extends Command
     {
         $from = base_path('Modules/'.$this->module.'/resources/views');
         $to = resource_path('views/vendor/'.strtolower($this->module));
+        $this->publishDirectory($from, $to);
+    }
+
+    /**
+     * Publish scss files.
+     */
+    public function publishScssFiles()
+    {
+        $from = base_path('Modules/'.$this->module.'/resources/scss/public');
+        $to = resource_path('scss/public');
         $this->publishDirectory($from, $to);
     }
 
@@ -195,7 +208,10 @@ class Create extends Command
      */
     public function transformFilename($path)
     {
-        return str_replace('Object', Str::singular($this->module), $path);
+        $pathTransformed = str_replace('object', strtolower(Str::singular($this->module)), $path);
+        $pathTransformed = str_replace('Object', Str::singular($this->module), $pathTransformed);
+
+        return $pathTransformed;
     }
 
     /**
