@@ -162,7 +162,7 @@ abstract class Presenter extends BasePresenter
      *
      * @return string
      */
-    public function thumbSrc($width = null, $height = null, array $options = [])
+    public function image($width = null, $height = null, array $options = [])
     {
         $url = $this->getImageUrlOrDefault();
 
@@ -170,77 +170,7 @@ abstract class Presenter extends BasePresenter
             return $url;
         }
 
-        return Croppa::url($url, $width, $height, $options);
-    }
-
-    /**
-     * Return url of a thumb.
-     *
-     * @param int   $width   width of image, null for auto
-     * @param int   $height  height of image, null for auto
-     * @param array $options see Croppa doc for options (https://github.com/BKWLD/croppa)
-     *
-     * @return string HTML markup of an image
-     */
-    public function thumbUrl($width = null, $height = null, array $options = [])
-    {
-        $src = $this->thumbSrc($width, $height, $options);
-
-        return url($src);
-    }
-
-    /**
-     * Return a resized or cropped img tag.
-     *
-     * @param int   $width   width of image, null for auto
-     * @param int   $height  height of image, null for auto
-     * @param array $options see Croppa doc for options (https://github.com/BKWLD/croppa)
-     *
-     * @return string HTML img tag
-     */
-    public function thumb($width = null, $height = null, array $options = [])
-    {
-        $src = $this->thumbSrc($width, $height, $options);
-
-        return $this->img($src);
-    }
-
-    /**
-     * Alias of thumb method.
-     *
-     * @param int   $width   width of image, null for auto
-     * @param int   $height  height of image, null for auto
-     * @param array $options see Croppa doc for options (https://github.com/BKWLD/croppa)
-     *
-     * @deprecated
-     *
-     * @return string HTML img tag
-     */
-    public function thumb2x($width = null, $height = null, array $options = [])
-    {
-        return $this->thumb($width, $height, $options);
-    }
-
-    /**
-     * Build image tag.
-     *
-     * @param string $src
-     * @param int    $width
-     * @param int    $height
-     *
-     * @return string HTML img tag
-     */
-    private function img($src, $width = null, $height = null)
-    {
-        $size = [];
-        if ($width !== null) {
-            $size[] = 'width="'.$width.'"';
-        }
-        if ($height !== null) {
-            $size[] = 'height="'.$height.'"';
-        }
-
-        return '<img src="'.$src.'" alt="" '.implode(' ', $size).'>';
+        return url(Croppa::url($url, $width, $height, $options));
     }
 
     /**
