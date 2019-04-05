@@ -77,7 +77,7 @@ abstract class Presenter extends BasePresenter
     {
         $date = $this->entity->$column ?: Carbon::now();
 
-        return $date->format('Y-m-d G:i:s');
+        return $date->format('Y-m-d\TH:i');
     }
 
     /**
@@ -105,7 +105,7 @@ abstract class Presenter extends BasePresenter
     {
         $date = $this->entity->$column ?: Carbon::now();
 
-        return $date->format('G:i');
+        return $date->format('H:i');
     }
 
     /**
