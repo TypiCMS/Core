@@ -14,7 +14,7 @@
 }
 
 .small-container {
-    @include box-shadow(0 2px 5px #ddd);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     background-color: #fff;
     margin: 5vh auto 0;
     padding-top: 25px;
@@ -88,5 +88,9 @@
         border-radius: inherit;
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
+    }
+
+    .alert-not-a-member {
+        margin-bottom: 0;
     }
 }
