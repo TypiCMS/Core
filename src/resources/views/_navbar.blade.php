@@ -33,9 +33,9 @@
                                 </p>
                                 @endcan
                                 <p>
-                                    <form action="{{ route('logout') }}" method="post">
+                                    <form action="{{ route(app()->getLocale().'::logout') }}" method="post">
                                         {{ csrf_field() }}
-                                        <button class="btn btn-secondary btn-sm" type="submit">@lang('Log out', [], config('typicms.admin_locale'))</button>
+                                        <button class="btn btn-secondary btn-sm" type="submit">@lang('Logout', [], config('typicms.admin_locale'))</button>
                                     </form>
                                 </p>
                             </div>

@@ -25,7 +25,7 @@ class PublicAccess
                 return Response::make('Unauthorized', 401);
             }
 
-            return Redirect::guest(route('login'));
+            return Redirect::guest(route(app()->getLocale().'::login'));
         }
 
         return $next($request);
