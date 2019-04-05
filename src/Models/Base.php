@@ -125,19 +125,28 @@ abstract class Base extends Model
             $translatableColumns = explode(',', $columns);
         }
         foreach ($translatableColumns as $column) {
-            $query
-                ->selectRaw('
-                    CASE WHEN
-                    JSON_UNQUOTE(
-                        JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
-                    ) = \'null\' THEN NULL
-                    ELSE
-                    JSON_UNQUOTE(
-                        JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
-                    )
-                    END
-                    COLLATE utf8mb4_unicode_ci `'.$column.'_translated`
-                ');
+            if ($column === 'status') {
+                $query
+                    ->selectRaw('
+                        CAST(JSON_UNQUOTE(
+                            JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
+                        ) as UNSIGNED) as `'.$column.'_translated`
+                    ');
+            } else {
+                $query
+                    ->selectRaw('
+                        CASE WHEN
+                        JSON_UNQUOTE(
+                            JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
+                        ) = \'null\' THEN NULL
+                        ELSE
+                        JSON_UNQUOTE(
+                            JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
+                        )
+                        END
+                        COLLATE utf8mb4_unicode_ci `'.$column.'_translated`
+                    ');
+            }
         }
 
         return $query;
