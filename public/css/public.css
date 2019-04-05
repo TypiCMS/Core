@@ -15920,7 +15920,7 @@ button.swiper-pagination-bullet {
   display: none;
 }
 
-.documents-list {
+.documents-list-list {
   padding-left: 0;
   list-style: none;
 }
@@ -15961,7 +15961,7 @@ button.swiper-pagination-bullet {
   font-size: 1rem;
 }
 
-.images-list {
+.images-list-list {
   padding-left: 0;
   list-style: none;
   display: -webkit-box;
@@ -16008,7 +16008,7 @@ button.swiper-pagination-bullet {
   }
 }
 
-.images-list-image-thumb {
+.images-list-item-image {
   max-width: 100%;
   height: auto;
 }

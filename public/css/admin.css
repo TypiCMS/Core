@@ -14329,6 +14329,8 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .small-container {
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   background-color: #fff;
   margin: 5vh auto 0;
   padding-top: 25px;
@@ -14417,6 +14419,10 @@ a.text-dark:hover, a.text-dark:focus {
           border-bottom-right-radius: 0;
   -webkit-border-bottom-left-radius: 0;
           border-bottom-left-radius: 0;
+}
+
+.small-container .alert-not-a-member {
+  margin-bottom: 0;
 }
 
 /* Fancybox custom styling goes here */
