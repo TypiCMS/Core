@@ -3004,6 +3004,10 @@ __webpack_require__.r(__webpack_exports__);
       type: Boolean,
       default: true
     },
+    multilingual: {
+      type: Boolean,
+      default: true
+    },
     table: {
       type: String,
       required: true
@@ -3165,12 +3169,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     checkPublished: function checkPublished() {
       this.checkedItems = this.filteredItems.filter(function (model) {
-        return model.status_translated === '1';
+        return model.status_translated === 1;
       });
     },
     checkUnpublished: function checkUnpublished() {
       this.checkedItems = this.filteredItems.filter(function (model) {
-        return model.status_translated === '0';
+        return model.status_translated === 0;
       });
     },
     destroy: function destroy() {
@@ -3222,7 +3226,7 @@ __webpack_require__.r(__webpack_exports__);
         return false;
       }
 
-      this.setStatus('1');
+      this.setStatus(1);
     },
     unpublish: function unpublish() {
       if (!window.confirm(this.$i18n.tc('Are you sure you want to unpublish # items?', this.checkedItems.length, {
@@ -3231,7 +3235,7 @@ __webpack_require__.r(__webpack_exports__);
         return false;
       }
 
-      this.setStatus('0');
+      this.setStatus(0);
     },
     setStatus: function setStatus(status) {
       var _this7 = this;
@@ -3239,8 +3243,16 @@ __webpack_require__.r(__webpack_exports__);
       var data = {
         status: {}
       },
-          label = status === '1' ? 'published' : 'unpublished';
-      data.status[this.currentLocale] = status;
+          label = status === 1 ? 'published' : 'unpublished',
+          statusVar = 'status';
+
+      if (this.multilingual) {
+        statusVar = 'status_translated';
+        data.status[this.currentLocale] = status;
+      } else {
+        data.status = status;
+      }
+
       this.startLoading();
       axios.all(this.checkedItems.map(function (model) {
         return axios.patch(_this7.urlBase + '/' + model.id, data);
@@ -3254,7 +3266,7 @@ __webpack_require__.r(__webpack_exports__);
         for (var i = _this7.checkedItems.length - 1; i >= 0; i--) {
           var index = _this7.data.data.indexOf(_this7.checkedItems[i]);
 
-          _this7.data.data[index].status_translated = status;
+          _this7.data.data[index][statusVar] = status;
         }
 
         _this7.checkedItems = [];
@@ -3266,14 +3278,21 @@ __webpack_require__.r(__webpack_exports__);
     toggleStatus: function toggleStatus(model) {
       var _this8 = this;
 
-      var status = parseInt(model.status_translated) || 0,
-          newStatus = Math.abs(status - 1).toString(),
+      var status = this.multilingual ? model.status_translated : model.status,
+          newStatus = Math.abs(status - 1),
           data = {
         status: {}
       },
-          label = newStatus === '1' ? 'published' : 'unpublished';
-      model.status_translated = newStatus;
-      data.status[this.currentLocale] = newStatus;
+          label = newStatus === 1 ? 'published' : 'unpublished';
+
+      if (this.multilingual) {
+        model.status_translated = newStatus;
+        data.status[this.currentLocale] = newStatus;
+      } else {
+        model.status = newStatus;
+        data.status = newStatus;
+      }
+
       axios.patch(this.urlBase + '/' + model.id, data).then(function (response) {
         alertify.success(_this8.$i18n.t('Item is ' + label + '.'));
       }).catch(function (error) {
@@ -4114,11 +4133,11 @@ __webpack_require__.r(__webpack_exports__);
 
       var originalNode = JSON.parse(JSON.stringify(node)),
           status = parseInt(node.data.status_translated) || 0,
-          newStatus = Math.abs(status - 1).toString(),
+          newStatus = Math.abs(status - 1),
           data = {
         status: {}
       },
-          label = newStatus === '1' ? 'published' : 'unpublished';
+          label = newStatus === 1 ? 'published' : 'unpublished';
       data.status[this.currentLocale] = newStatus;
       node.data.status_translated = newStatus;
       this.$refs.slVueTree.updateNode(node.path, node);
@@ -31824,7 +31843,7 @@ var render = function() {
       _c("span", {
         staticClass: "fa btn-status-switch",
         class:
-          _vm.model.status_translated === "1" ? "fa-toggle-on" : "fa-toggle-off"
+          _vm.model.status_translated === 1 ? "fa-toggle-on" : "fa-toggle-off"
       })
     ]
   )
@@ -31987,7 +32006,7 @@ var render = function() {
                     _c("span", {
                       staticClass: "fa btn-status-switch",
                       class:
-                        node.data.status_translated == "1"
+                        node.data.status_translated === 1
                           ? "fa-toggle-on"
                           : "fa-toggle-off"
                     })
