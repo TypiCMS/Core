@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Core\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use TypiCMS\Modules\Users\Models\User;
@@ -128,6 +129,7 @@ class Install extends Command
             'superuser' => 1,
             'activated' => 1,
             'password' => Hash::make($password),
+            'email_verified_at' => Carbon::now(),
         ];
 
         try {
