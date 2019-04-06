@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\Filters\Filter;
 
 class FilterOr implements Filter
@@ -19,7 +20,7 @@ class FilterOr implements Filter
             foreach ($columns as $column) {
                 if (in_array($column, (array) $query->getModel()->translatable)) {
                     $query->orWhereRaw(
-                        'JSON_UNQUOTE(JSON_EXTRACT(`'.$column.'`, \'$.'.request('locale').'\')) LIKE \'%'.$value.'%\' COLLATE utf8mb4_unicode_ci'
+                        'JSON_UNQUOTE(JSON_EXTRACT(`'.$column.'`, \'$.'.request('locale').'\')) LIKE \'%'.$value.'%\' COLLATE '.(DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci')
                     );
                 } else {
                     $query->orWhere($column, 'like', '%'.$value.'%');

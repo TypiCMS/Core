@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use TypiCMS\Modules\Tags\Models\Tag;
@@ -144,7 +145,7 @@ abstract class Base extends Model
                             JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
                         )
                         END
-                        COLLATE utf8mb4_unicode_ci `'.$column.'_translated`
+                        COLLATE '.(DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci').' `'.$column.'_translated`
                     ');
             }
         }
