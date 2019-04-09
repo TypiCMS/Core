@@ -136,16 +136,14 @@ abstract class Base extends Model
             } else {
                 $query
                     ->selectRaw('
-                        CASE WHEN
                         JSON_UNQUOTE(
-                            JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
-                        ) = \'null\' THEN NULL
-                        ELSE
-                        JSON_UNQUOTE(
-                            JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
+                            CASE
+                                WHEN JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\') = \'null\' THEN NULL
+                                ELSE JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
+                            END
+                            COLLATE '.(DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci').'
                         )
-                        END
-                        COLLATE '.(DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci').' `'.$column.'_translated`
+                        AS `'.$column.'_translated`
                     ');
             }
         }
