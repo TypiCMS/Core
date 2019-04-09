@@ -131,7 +131,7 @@ abstract class Base extends Model
                     ->selectRaw('
                         CAST(JSON_UNQUOTE(
                             JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
-                        ) as UNSIGNED) as `'.$column.'_translated`
+                        ) AS UNSIGNED) AS `'.$column.'_translated`
                     ');
             } else {
                 $query
@@ -145,7 +145,8 @@ abstract class Base extends Model
                             JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
                         )
                         END
-                        COLLATE '.(DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci').' `'.$column.'_translated`
+                        COLLATE '.(DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci').'
+                        AS `'.$column.'_translated`
                     ');
             }
         }
