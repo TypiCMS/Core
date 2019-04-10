@@ -144,8 +144,8 @@ abstract class Base extends Model
                         JSON_UNQUOTE(
                             JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
                         )
-                        END
-                        COLLATE '.(DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci').'
+                        END '.
+                        (config('typicms.mariadb') === false ? 'COLLATE '.(DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci'):'').'
                         AS `'.$column.'_translated`
                     ');
             }
