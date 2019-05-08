@@ -140,17 +140,17 @@ abstract class Presenter extends BasePresenter
      */
     protected function getImageUrlOrDefault()
     {
-        $file = '';
+        $path = '';
 
         if (is_object($this->entity->image)) {
-            $file = $this->entity->image->path;
+            $path = $this->entity->image->path;
         }
 
-        if (!Storage::exists($file)) {
-            $file = $this->imgNotFound();
+        if (!Storage::exists($path)) {
+            $path = $this->imgNotFound();
         }
 
-        return Storage::url($file);
+        return $path;
     }
 
     /**
