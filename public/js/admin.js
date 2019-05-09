@@ -2417,7 +2417,7 @@ __webpack_require__.r(__webpack_exports__);
           CKEditorFuncNum = $('#filepicker').data('CKEditorFuncNum');
 
       if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
-        parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/storage/' + item.path);
+        parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, item.url);
         parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
       }
 
