@@ -138,7 +138,7 @@ abstract class Presenter extends BasePresenter
      *
      * @return string path
      */
-    protected function getImageUrlOrDefault()
+    protected function getImagePathOrDefault()
     {
         $path = '';
 
@@ -164,13 +164,13 @@ abstract class Presenter extends BasePresenter
      */
     public function image($width = null, $height = null, array $options = [])
     {
-        $url = $this->getImageUrlOrDefault();
+        $url = $this->getImagePathOrDefault();
 
         if (pathinfo($url, PATHINFO_EXTENSION) === 'svg') {
             return $url;
         }
 
-        return url(Croppa::url($url, $width, $height, $options));
+        return url(Croppa::url('storage/'.$url, $width, $height, $options));
     }
 
     /**
