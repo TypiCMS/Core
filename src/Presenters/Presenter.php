@@ -164,13 +164,13 @@ abstract class Presenter extends BasePresenter
      */
     public function image($width = null, $height = null, array $options = [])
     {
-        $url = $this->getImagePathOrDefault();
+        $url = 'storage/'.$this->getImagePathOrDefault();
 
         if (pathinfo($url, PATHINFO_EXTENSION) === 'svg') {
-            return $url;
+            return Storage::url($url);
         }
 
-        return url(Croppa::url('storage/'.$url, $width, $height, $options));
+        return url(Croppa::url($url, $width, $height, $options));
     }
 
     /**
