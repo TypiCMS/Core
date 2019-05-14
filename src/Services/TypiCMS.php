@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Services;
 
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +17,7 @@ class TypiCMS
     public function homeUrl()
     {
         $uri = '/';
-        if (config('typicms.main_locale_in_url') || config('app.fallback_locale') != config('app.locale')) {
+        if (config('typicms.main_locale_in_url') || $this->mainLocale() !== config('app.locale')) {
             $uri .= config('app.locale');
         }
 
@@ -38,6 +39,16 @@ class TypiCMS
         }
 
         return $locales;
+    }
+
+    /**
+     * Return the first locale.
+     *
+     * @return array
+     */
+    function mainLocale()
+    {
+        return Arr::first(locales());
     }
 
     /**
