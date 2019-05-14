@@ -46,7 +46,7 @@ class TypiCMS
      *
      * @return array
      */
-    function mainLocale()
+    public function mainLocale()
     {
         return Arr::first(locales());
     }
