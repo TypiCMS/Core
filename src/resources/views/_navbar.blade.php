@@ -33,7 +33,7 @@
                                 </p>
                                 @endcan
                                 <p>
-                                    <form action="{{ route(app()->getLocale().'::logout') }}" method="post">
+                                    <form action="{{ route(TypiCMS::mainLocale().'::logout') }}" method="post">
                                         {{ csrf_field() }}
                                         <button class="btn btn-secondary btn-sm" type="submit">@lang('Logout', [], config('typicms.admin_locale'))</button>
                                     </form>
