@@ -75,7 +75,7 @@
 
         </div>
 
-        <main class="main" id="main" role="main">
+        <main class="main" id="main">
             @yield('content')
         </main>
 
