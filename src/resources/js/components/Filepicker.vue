@@ -62,7 +62,7 @@
                         type="button"
                         @click="switchView('grid')"
                     >
-                        <span class="fa fa-fw fa-th"></span> Grid
+                        <span class="fa fa-fw fa-th"></span> {{ $t('Grid') }}
                     </button>
                     <button
                         class="btn btn-light"
@@ -70,7 +70,7 @@
                         type="button"
                         @click="switchView('list')"
                     >
-                        <span class="fa fa-fw fa-bars"></span> List
+                        <span class="fa fa-fw fa-bars"></span> {{ $t('List') }}
                     </button>
                 </div>
                 <div class="d-flex align-items-center ml-2">
