@@ -1,13 +1,5 @@
-@extends('core::admin.master')
+@extends('errors::minimal')
 
-@section('title', 'Error 403')
-
-@section('bodyClass', 'error-403')
-
-@section('content')
-
-    <article class="http-error-message">
-        <h2>{{ __($exception->getMessage()) }}</h2>
-    </article>
-
-@endsection
+@section('title', __('Forbidden'))
+@section('code', '403')
+@section('message', __($exception->getMessage() ?: 'Forbidden'))
