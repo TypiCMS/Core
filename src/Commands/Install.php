@@ -58,6 +58,11 @@ class Install extends Command
 
         $this->info('Publishing vendor packages...');
         $this->call('vendor:publish', ['--all' => true]);
+        $this->call('vendor:publish', [
+            '--provider' => 'TypiCMS\Modules\Core\Providers\ModuleProvider',
+            '--tag' => 'views',
+            '--force' => true,
+        ]);
         $this->line('------------------');
 
         $this->laravel['env'] = 'local';
