@@ -7,18 +7,18 @@
         @foreach ($enabledLocales as $locale)
             @if (isset($model) and isset($page))
                 @if ($model->category and $model->translate('status', $locale))
-                    <a class="lang-switcher-item dropdown-item" href="{{ url($page->uri($locale).'/'.$model->category->translate('slug', $locale).'/'.$model->translate('slug', $locale)) }}" @if ($locale == config('app.locale'))active @endif>{{ $locale }}</a>
+                    <a class="lang-switcher-item dropdown-item @if ($locale == config('app.locale'))active @endif" href="{{ url($page->uri($locale).'/'.$model->category->translate('slug', $locale).'/'.$model->translate('slug', $locale)) }}">{{ $locale }}</a>
                 @elseif ($model->translate('status', $locale))
-                    <a class="lang-switcher-item dropdown-item" href="{{ url($page->uri($locale).'/'.$model->translate('slug', $locale)) }}" @if ($locale == config('app.locale'))active @endif>{{ $locale }}</a>
+                    <a class="lang-switcher-item dropdown-item @if ($locale == config('app.locale'))active @endif" href="{{ url($page->uri($locale).'/'.$model->translate('slug', $locale)) }}">{{ $locale }}</a>
                 @else
-                    <a class="lang-switcher-item dropdown-item" href="{{ url($page->uri($locale)) }}" @if ($locale == config('app.locale'))active @endif>{{ $locale }}</a>
+                    <a class="lang-switcher-item dropdown-item @if ($locale == config('app.locale'))active @endif" href="{{ url($page->uri($locale)) }}">{{ $locale }}</a>
                 @endif
             @elseif (isset($page) && Route::current()->hasParameter('category'))
-            <a class="lang-switcher-item dropdown-item" href="{{ url($page->uri($locale).'/'.$category->translate('slug', $locale)) }}" @if ($locale == config('app.locale'))active @endif>{{ $locale }}</a>
+            <a class="lang-switcher-item dropdown-item @if ($locale == config('app.locale'))active @endif" href="{{ url($page->uri($locale).'/'.$category->translate('slug', $locale)) }}">{{ $locale }}</a>
             @elseif (isset($page))
-            <a class="lang-switcher-item dropdown-item" href="{{ url($page->uri($locale)) }}" @if ($locale == config('app.locale'))active @endif>{{ $locale }}</a>
+            <a class="lang-switcher-item dropdown-item @if ($locale == config('app.locale'))active @endif" href="{{ url($page->uri($locale)) }}">{{ $locale }}</a>
             @else
-            <a class="lang-switcher-item dropdown-item" href="{{ url('/') }}" @if ($locale == config('app.locale'))active @endif>{{ $locale }}</a>
+            <a class="lang-switcher-item dropdown-item @if ($locale == config('app.locale'))active @endif" href="{{ url('/') }}">{{ $locale }}</a>
             @endif
         @endforeach
     </div>
