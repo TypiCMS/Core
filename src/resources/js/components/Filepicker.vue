@@ -108,7 +108,7 @@
                     @dragenter="dragEnter($event)"
                     @dragleave="dragLeave($event)"
                     @dragend="dragEnd($event)"
-                    @dblclick="item.type === 'f' ? openFolder(item) : onDoubleClick(item)"
+                    @dblclick="onDoubleClick(item)"
                 >
                     <div class="filemanager-item-wrapper">
                         <div class="filemanager-item-icon" v-if="item.type === 'i'">
@@ -581,10 +581,16 @@ export default {
             this.selectedItems = [];
         },
         onDoubleClick(item) {
-            if (this.options.multiple) {
-                this.addSelectedFiles();
-            } else {
-                this.addSingleFile(item);
+            if (item.type === 'f') {
+                this.openFolder(item);
+                return;
+            }
+            if (this.modal) {
+                if (this.options.multiple) {
+                    this.addSelectedFiles();
+                } else {
+                    this.addSingleFile(item);
+                }
             }
         },
         checkNone() {
