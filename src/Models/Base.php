@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Models;
 
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,8 @@ use TypiCMS\Modules\Tags\Models\Tag;
 
 abstract class Base extends Model
 {
+    use Cachable;
+
     /**
      * Get preview uri.
      *
