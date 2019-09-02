@@ -158,6 +158,7 @@ class ModuleProvider extends ServiceProvider
                 ->where('module', '!=', null)
                 ->with('files')
                 ->get();
+
             try {
                 return Page::with('files')
                     ->where('module', '!=', null)
