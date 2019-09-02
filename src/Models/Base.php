@@ -5,9 +5,12 @@ namespace TypiCMS\Modules\Core\Models;
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+use TypiCMS\Modules\Files\Models\File;
 use TypiCMS\Modules\Tags\Models\Tag;
 
 abstract class Base extends Model
@@ -155,5 +158,73 @@ abstract class Base extends Model
         }
 
         return $query;
+    }
+
+    public function detachFile(File $file): array
+    {
+        $filesIds = $this->files->pluck('id')->toArray();
+        $pivotData = [];
+        $position = 1;
+        foreach ($filesIds as $fileId) {
+            if ($fileId != $file->id) {
+                $pivotData[$fileId] = ['position' => $position++];
+            }
+        }
+        $this->files()->sync($pivotData);
+    }
+
+    public function attachFiles(Request $request): JsonResponse
+    {
+        // Get the collection of files to add.
+        $fileIds = $request->only('files')['files'];
+        $files = File::whereIn('id', $fileIds)->get();
+
+        // Empty collection that will contain files that are in selected directories.
+        $subFiles = collect();
+
+        // Remove folders and build array of ids.
+        $newFiles = $files->each(function (Model $item) use ($subFiles) {
+                if ($item->type === 'f') {
+                    foreach ($item->children as $file) {
+                        if ($file->type !== 'f') {
+                            // Add files in this directory to collection of SubFiles
+                            $subFiles->push($file);
+                        }
+                    }
+                }
+            })->reject(function (Model $item) {
+                return $item->type === 'f';
+            })
+            ->pluck('id')
+            ->toArray();
+
+        // Transform subfiles collection to array of ids.
+        $subFiles = $subFiles->pluck('id')->toArray();
+
+        // Merge files with files in directory.
+        $newFiles = array_merge($newFiles, $subFiles);
+
+        // Get files that are already in the gallery.
+        $filesIds = $this->files->pluck('id')->toArray();
+
+        // Merge with new files.
+        $files = array_unique(array_merge($filesIds, $newFiles));
+        $number = count($files) - count($filesIds);
+
+        // Prepare synchronisation.
+        $pivotData = [];
+        $position = 1;
+        foreach ($files as $fileId) {
+            $pivotData[$fileId] = ['position' => $position++];
+        }
+
+        // Sync.
+        $this->files()->sync($pivotData);
+
+        return response()->json([
+            'number' => $number,
+            'message' => __(':number items were added.', compact('number')),
+            'models' => $this->files()->get(),
+        ]);
     }
 }
