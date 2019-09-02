@@ -155,7 +155,7 @@ class ModuleProvider extends ServiceProvider
     {
         $this->app->singleton('typicms.routes', function (Application $app) {
             try {
-                return Page::with('files')
+                return Page::with('images','documents')
                     ->where('module', '!=', null)
                     ->with('files')
                     ->get();
