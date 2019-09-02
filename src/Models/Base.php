@@ -184,17 +184,17 @@ abstract class Base extends Model
 
         // Remove folders and build array of ids.
         $newFiles = $files->each(function (Model $item) use ($subFiles) {
-                if ($item->type === 'f') {
-                    foreach ($item->children as $file) {
-                        if ($file->type !== 'f') {
-                            // Add files in this directory to collection of SubFiles
-                            $subFiles->push($file);
-                        }
+            if ($item->type === 'f') {
+                foreach ($item->children as $file) {
+                    if ($file->type !== 'f') {
+                        // Add files in this directory to collection of SubFiles
+                        $subFiles->push($file);
                     }
                 }
-            })->reject(function (Model $item) {
-                return $item->type === 'f';
-            })
+            }
+        })->reject(function (Model $item) {
+            return $item->type === 'f';
+        })
             ->pluck('id')
             ->toArray();
 
