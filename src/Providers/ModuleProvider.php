@@ -154,11 +154,6 @@ class ModuleProvider extends ServiceProvider
     private function registerModuleRoutes()
     {
         $this->app->singleton('typicms.routes', function (Application $app) {
-            return Page::with('files')
-                ->where('module', '!=', null)
-                ->with('files')
-                ->get();
-
             try {
                 return Page::with('files')
                     ->where('module', '!=', null)
