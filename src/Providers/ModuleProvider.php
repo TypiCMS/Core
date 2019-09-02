@@ -15,6 +15,7 @@ use TypiCMS\Modules\Core\Composers\LocalesComposer;
 use TypiCMS\Modules\Core\Composers\MasterViewComposer;
 use TypiCMS\Modules\Core\Composers\SidebarViewCreator;
 use TypiCMS\Modules\Core\Services\TypiCMS;
+use TypiCMS\Modules\Pages\Models\Page;
 
 class ModuleProvider extends ServiceProvider
 {
@@ -153,8 +154,15 @@ class ModuleProvider extends ServiceProvider
     private function registerModuleRoutes()
     {
         $this->app->singleton('typicms.routes', function (Application $app) {
+            return Page::with('files')
+                ->where('module', '!=', null)
+                ->with('files')
+                ->get();
             try {
-                return $app->make('Pages')->with('files')->getForRoutes();
+                return Page::with('files')
+                    ->where('module', '!=', null)
+                    ->with('files')
+                    ->get();
             } catch (Exception $e) {
                 return [];
             }
