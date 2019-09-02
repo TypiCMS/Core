@@ -6,10 +6,4 @@ use Illuminate\Routing\Controller;
 
 abstract class BaseApiController extends Controller
 {
-    protected $repository;
-
-    public function __construct($repository = null)
-    {
-        $this->repository = $repository;
-    }
 }
