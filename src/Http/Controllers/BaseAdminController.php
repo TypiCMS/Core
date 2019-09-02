@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 
 abstract class BaseAdminController extends Controller
@@ -14,15 +15,7 @@ abstract class BaseAdminController extends Controller
         $this->repository = $repository;
     }
 
-    /**
-     * Redirect after a form is saved.
-     *
-     * @param $request
-     * @param $model
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    protected function redirect($request, $model)
+    protected function redirect($request, $model): RedirectResponse
     {
         if (is_array($model)) {
             $model = end($model);
