@@ -216,7 +216,7 @@ export default {
             },
             dropOptions: {
                 clickable: ['#btnAddFiles'],
-                url: '/admin/files',
+                url: '/api/files',
                 dictDefaultMessage: this.$i18n.t('Drop to upload.'),
                 acceptedFiles: [
                     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -405,7 +405,7 @@ export default {
             };
 
             axios
-                .patch('/admin/files/' + ids.join(), data)
+                .patch('/api/files/' + ids.join(), data)
                 .then(response => {
                     this.fetchData();
                 })
@@ -429,7 +429,7 @@ export default {
             };
 
             axios
-                .post('/admin/files', data)
+                .post('/api/files', data)
                 .then(response => {
                     this.data.models.push(response.data.model);
                 })
@@ -509,14 +509,14 @@ export default {
             };
 
             axios
-                .patch('/admin/files/' + ids.join(), data)
+                .patch('/api/files/' + ids.join(), data)
                 .then(response => {
                     this.stopLoading();
                     if (response.data.number < number) {
-                        alertify.error(number - response.data.number + ' items could not be moved.');
+                        alertify.error(this.$i18n.tc('# files could not be moved.', number - response.data.number, { count: number - response.data.number }));
                     }
                     if (response.data.number > 0) {
-                        alertify.success(response.data.number + ' items moved.');
+                        alertify.success(this.$i18n.tc('# files moved.', response.data.number, { count: response.data.number }));
                     }
                 })
                 .catch(error => {
