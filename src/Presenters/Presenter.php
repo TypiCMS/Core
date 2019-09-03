@@ -204,8 +204,9 @@ abstract class Presenter extends BasePresenter
             foreach ($matches as $match) {
                 $patterns[] = $match[0];
                 $module = $match[1];
-                $repository = app('TypiCMS\Modules\\'.ucfirst(Str::plural($module)).'\Repositories\Eloquent'.ucfirst($module));
-                $model = $repository->published()->find($match[2]);
+                $model = app('TypiCMS\Modules\\'.ucfirst(Str::plural($module)).'\Models\\'.ucfirst($module))
+                    ->published()
+                    ->find($match[2]);
                 if (!$model) {
                     continue;
                 }
