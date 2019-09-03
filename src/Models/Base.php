@@ -98,7 +98,7 @@ abstract class Base extends Model
 
     public function scopeBySlug($query, $slug): Builder
     {
-        return $this->where(column('slug'), $slug);
+        return $query->where(column('slug'), $slug);
     }
 
     public function tags(): MorphToMany
