@@ -52,6 +52,16 @@ abstract class Base extends Model
         return $query->where($field, '1');
     }
 
+    public function scopeWhereSlugIs($query, $slug): Builder
+    {
+        $field = 'slug';
+        if (in_array($field, (array) $this->translatable)) {
+            $field .= '->'.config('app.locale');
+        }
+
+        return $query->where($field, $slug);
+    }
+
     public function scopeOrder(Builder $query): Builder
     {
         if ($order = config('typicms.'.$this->getTable().'.order')) {
@@ -97,11 +107,6 @@ abstract class Base extends Model
         }
 
         return $query;
-    }
-
-    public function scopeBySlug($query, $slug): Builder
-    {
-        return $query->where(column('slug'), $slug);
     }
 
     public function tags(): MorphToMany
