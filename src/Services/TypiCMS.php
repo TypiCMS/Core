@@ -106,7 +106,7 @@ class TypiCMS
 
         $pages = [];
         foreach ($routes as $page) {
-            if ($page->module == $module) {
+            if ($page->module === $module) {
                 $pages[] = $page;
             }
         }
