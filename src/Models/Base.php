@@ -41,6 +41,9 @@ abstract class Base extends Model
 
     public function scopePublished(Builder $query): Builder
     {
+        if (request('preview')) {
+            return $query;
+        }
         $field = 'status';
         if (in_array($field, (array) $this->translatable)) {
             $field .= '->'.config('app.locale');
