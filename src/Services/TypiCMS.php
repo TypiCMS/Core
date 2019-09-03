@@ -4,17 +4,14 @@ namespace TypiCMS\Modules\Core\Services;
 
 use Exception;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use TypiCMS\Modules\Pages\Models\Page;
 
 class TypiCMS
 {
-    /**
-     * Get Homepage URL.
-     *
-     * @return string
-     */
-    public function homeUrl()
+    public function homeUrl(): string
     {
         $uri = '/';
         if (config('typicms.main_locale_in_url') || $this->mainLocale() !== config('app.locale')) {
@@ -24,12 +21,7 @@ class TypiCMS
         return url($uri);
     }
 
-    /**
-     * Return enabled public locales.
-     *
-     * @return array
-     */
-    public function enabledLocales()
+    public function enabledLocales(): array
     {
         $locales = [];
         foreach (locales() as $locale) {
@@ -41,32 +33,17 @@ class TypiCMS
         return $locales;
     }
 
-    /**
-     * Return the first locale.
-     *
-     * @return array
-     */
-    public function mainLocale()
+    public function mainLocale(): string
     {
         return Arr::first(locales());
     }
 
-    /**
-     * Check if locale is enabled.
-     *
-     * @return bool
-     */
-    public function isLocaleEnabled($locale)
+    public function isLocaleEnabled($locale): bool
     {
         return in_array($locale, $this->enabledLocales());
     }
 
-    /**
-     * Get all modules for permissions table.
-     *
-     * @return array
-     */
-    public function modules()
+    public function modules(): array
     {
         $modules = config('typicms.modules');
         ksort($modules);
@@ -74,12 +51,7 @@ class TypiCMS
         return $modules;
     }
 
-    /**
-     * Get all modules for a select/options.
-     *
-     * @return array
-     */
-    public function getModulesForSelect()
+    public function getModulesForSelect(): array
     {
         $modules = config('typicms.modules');
         $options = ['' => ''];
@@ -93,12 +65,7 @@ class TypiCMS
         return $options;
     }
 
-    /**
-     * Get all permissions registered.
-     *
-     * @return array
-     */
-    public function permissions()
+    public function permissions(): array
     {
         $permissions = [];
         foreach (config('typicms.permissions') as $module => $perms) {
@@ -110,58 +77,29 @@ class TypiCMS
         return $permissions;
     }
 
-    /**
-     * Check if there is a logo.
-     *
-     * @return bool
-     */
-    public function hasLogo()
+    public function hasLogo(): bool
     {
         return (bool) config('typicms.image');
     }
 
-    /**
-     * Get website title.
-     *
-     * @return string
-     */
-    public function title($locale = null)
+    public function title($locale = null): string
     {
         return config('typicms.'.($locale ?: config('app.locale')).'.website_title');
     }
 
-    /**
-     * Get website baseline.
-     *
-     * @return string
-     */
-    public function baseline($locale = null)
+    public function baseline($locale = null): ?string
     {
         return config('typicms.'.($locale ?: config('app.locale')).'.website_baseline');
     }
 
-    /**
-     * Return the first page found linked to a module.
-     *
-     * @param string $module
-     *
-     * @return \TypiCMS\Modules\Pages\Models\Page
-     */
-    public function getPageLinkedToModule($module = null)
+    public function getPageLinkedToModule($module = null): ?Page
     {
         $pages = $this->getPagesLinkedToModule($module);
 
-        return reset($pages);
+        return Arr::first($pages);
     }
 
-    /**
-     * Return an array of pages linked to a module.
-     *
-     * @param string $module
-     *
-     * @return array
-     */
-    public function getPagesLinkedToModule($module = null)
+    public function getPagesLinkedToModule($module = null): array
     {
         $module = strtolower($module);
         $routes = app('typicms.routes');
@@ -176,12 +114,7 @@ class TypiCMS
         return $pages;
     }
 
-    /**
-     * List templates files from directory.
-     *
-     * @return array
-     */
-    public function templates()
+    public function templates(): array
     {
         try {
             $directory = $this->getTemplateDir();
@@ -204,7 +137,7 @@ class TypiCMS
         return ['' => 'Default'] + $templates;
     }
 
-    public function getTemplateDir()
+    public function getTemplateDir(): string
     {
         $templateDir = config('typicms.template_dir', 'public');
         $viewPath = app()['view']->getFinder()->getHints()['pages'][0];
@@ -212,7 +145,7 @@ class TypiCMS
         return rtrim($viewPath.DIRECTORY_SEPARATOR.$templateDir, DIRECTORY_SEPARATOR);
     }
 
-    public function feeds()
+    public function feeds(): Collection
     {
         $locale = config('app.locale');
         $feeds = collect(config('typicms.modules'))
