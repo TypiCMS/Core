@@ -142,7 +142,6 @@ class Create extends Command
         $paths = [
             $moduleDir.'/Models/Object.php',
             $moduleDir.'/Facades/Objects.php',
-            $moduleDir.'/Repositories/EloquentObject.php',
             $moduleDir.'/resources/scss/public/_object.scss',
             $moduleDir.'/resources/scss/public/_object-list.scss',
         ];
