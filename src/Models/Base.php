@@ -145,14 +145,15 @@ abstract class Base extends Model
     {
         $currentModel = $model;
         if ($category_id !== null) {
-            $models = $this->with('category')
+            $models = $this->published()
+                ->with('category')
                 ->where('category_id', $category_id)
-                ->get('id', 'category_id', 'slug');
+                ->get(['id', 'category_id', 'slug']);
         } else {
-            $models = $this->all(['id', 'slug']);
+            $models = $this->published()->get(['id', 'slug']);
         }
         foreach ($models as $key => $model) {
-            if ($currentModel->id == $model->id) {
+            if ($currentModel->id === $model->id) {
                 $adjacentKey = $key + $direction;
 
                 return isset($models[$adjacentKey]) ? $models[$adjacentKey] : null;
