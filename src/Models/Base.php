@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Core\Models;
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,26 +18,17 @@ abstract class Base extends Model
 {
     use Cachable;
 
-    /**
-     * Get preview uri.
-     *
-     * @return null|string string or null
-     */
-    public function previewUri()
+    public function previewUri(): string
     {
-        if (!$this->id) {
-            return '/';
+        $uri = '/';
+        if ($this->id) {
+            $uri = $this->uri();
         }
 
-        return url($this->uri());
+        return url($uri);
     }
 
-    /**
-     * Get public uri.
-     *
-     * @return string
-     */
-    public function uri($locale = null)
+    public function uri($locale = null): string
     {
         $locale = $locale ?: config('app.locale');
         $route = $locale.'::'.Str::singular($this->getTable());
@@ -47,14 +39,7 @@ abstract class Base extends Model
         return '/';
     }
 
-    /**
-     * Get published models.
-     *
-     * @param Builder $query
-     *
-     * @return Builder $query
-     */
-    public function scopePublished(Builder $query)
+    public function scopePublished(Builder $query): Builder
     {
         $field = 'status';
         if (in_array($field, (array) $this->translatable)) {
@@ -64,14 +49,7 @@ abstract class Base extends Model
         return $query->where($field, '1');
     }
 
-    /**
-     * Order items.
-     *
-     * @param Builder $query
-     *
-     * @return Builder $query
-     */
-    public function scopeOrder(Builder $query)
+    public function scopeOrder(Builder $query): Builder
     {
         if ($order = config('typicms.'.$this->getTable().'.order')) {
             foreach ($order as $column => $direction) {
@@ -82,49 +60,7 @@ abstract class Base extends Model
         return $query;
     }
 
-    /**
-     * A model has many tags.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    public function tags()
-    {
-        return $this->morphToMany(Tag::class, 'taggable')
-            ->orderBy('tag')
-            ->withTimestamps();
-    }
-
-    /**
-     * Get back office’s edit url of model.
-     *
-     * @return string|void
-     */
-    public function editUrl()
-    {
-        $route = 'admin::edit-'.Str::singular($this->getTable());
-        if (Route::has($route)) {
-            return route($route, $this->id);
-        }
-
-        return route('dashboard');
-    }
-
-    /**
-     * Get back office’s index of models url.
-     *
-     * @return string|void
-     */
-    public function indexUrl()
-    {
-        $route = 'admin::index-'.$this->getTable();
-        if (Route::has($route)) {
-            return route($route);
-        }
-
-        return route('dashboard');
-    }
-
-    public function scopeTranslated($query, $columns)
+    public function scopeTranslated($query, $columns): Builder
     {
         $translatableColumns = [];
         $locale = request('locale', config('app.locale'));
@@ -158,6 +94,67 @@ abstract class Base extends Model
         }
 
         return $query;
+    }
+
+    public function scopeBySlug($query, $slug): Builder
+    {
+        return $this->where(column('slug'), $slug);
+    }
+
+    public function tags(): MorphToMany
+    {
+        return $this->morphToMany(Tag::class, 'taggable')
+            ->orderBy('tag')
+            ->withTimestamps();
+    }
+
+    public function editUrl(): string
+    {
+        $route = 'admin::edit-'.Str::singular($this->getTable());
+        if (Route::has($route)) {
+            return route($route, $this->id);
+        }
+
+        return route('dashboard');
+    }
+
+    public function indexUrl(): string
+    {
+        $route = 'admin::index-'.$this->getTable();
+        if (Route::has($route)) {
+            return route($route);
+        }
+
+        return route('dashboard');
+    }
+
+    public function next(Model $model, int $category_id = null): ?Model
+    {
+        return $this->adjacent(1, $model, $category_id);
+    }
+
+    public function prev(Model $model, int $category_id = null): ?Model
+    {
+        return $this->adjacent(-1, $model, $category_id);
+    }
+
+    public function adjacent(int $direction, Model $model, int $category_id = null): ?Model
+    {
+        $currentModel = $model;
+        if ($category_id !== null) {
+            $models = $this->with('category')
+                ->where('category_id', $category_id)
+                ->get('id', 'category_id', 'slug');
+        } else {
+            $models = $this->all(['id', 'slug']);
+        }
+        foreach ($models as $key => $model) {
+            if ($currentModel->id == $model->id) {
+                $adjacentKey = $key + $direction;
+
+                return isset($models[$adjacentKey]) ? $models[$adjacentKey] : null;
+            }
+        }
     }
 
     public function detachFile(File $file): array
