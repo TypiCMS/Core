@@ -161,7 +161,7 @@ abstract class Base extends Model
         }
     }
 
-    public function detachFile(File $file): array
+    public function detachFile(File $file): void
     {
         $filesIds = $this->files->pluck('id')->toArray();
         $pivotData = [];
