@@ -244,6 +244,9 @@ export default {
                 timeout: null,
                 maxFilesize: 60,
                 paramName: 'name',
+                headers: {
+                    Authorization: 'Bearer ' + document.head.querySelector('meta[name="api-token"]').content,
+                },
             },
             folder: {
                 id: '',
