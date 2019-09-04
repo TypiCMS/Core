@@ -166,7 +166,7 @@ abstract class Presenter extends BasePresenter
     {
         $url = $this->getImagePathOrDefault();
 
-        if (pathinfo($url, PATHINFO_EXTENSION) === 'svg') {
+        if (in_array(pathinfo($url, PATHINFO_EXTENSION), ['svg', 'gif'])) {
             return Storage::url($url);
         }
 
