@@ -515,10 +515,16 @@ export default {
                 .then(response => {
                     this.stopLoading();
                     if (response.data.number < number) {
-                        alertify.error(this.$i18n.tc('# files could not be moved.', number - response.data.number, { count: number - response.data.number }));
+                        alertify.error(
+                            this.$i18n.tc('# files could not be moved.', number - response.data.number, {
+                                count: number - response.data.number,
+                            })
+                        );
                     }
                     if (response.data.number > 0) {
-                        alertify.success(this.$i18n.tc('# files moved.', response.data.number, { count: response.data.number }));
+                        alertify.success(
+                            this.$i18n.tc('# files moved.', response.data.number, { count: response.data.number })
+                        );
                     }
                 })
                 .catch(error => {
