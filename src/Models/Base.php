@@ -65,44 +65,45 @@ abstract class Base extends Model
     public function scopeOrder(Builder $query): Builder
     {
         if ($order = config('typicms.'.$this->getTable().'.order')) {
-            foreach ($order as $column => $direction) {
-                $query->orderBy($column, $direction);
+            foreach ($order as $field => $direction) {
+                $query->orderBy($field, $direction);
             }
         }
 
         return $query;
     }
 
-    public function scopeTranslated($query, $columns): Builder
+    public function scopeSelectFields($query, string $fields): Builder
     {
-        $translatableColumns = [];
         $locale = request('locale', config('app.locale'));
-        if ($columns !== null) {
-            $translatableColumns = explode(',', $columns);
-        }
-        foreach ($translatableColumns as $column) {
-            if ($column === 'status') {
-                $query
-                    ->selectRaw('
-                        CAST(JSON_UNQUOTE(
-                            JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
-                        ) AS UNSIGNED) AS `'.$column.'_translated`
-                    ');
+        $fields = explode(',', $fields);
+        foreach ($fields as $field) {
+            if (isset($this->translatable) && $this->isTranslatableAttribute($field)) {
+                if ($field === 'status') {
+                    $query
+                        ->selectRaw('
+                            CAST(JSON_UNQUOTE(
+                                JSON_EXTRACT(`'.$field.'`, \'$.'.$locale.'\')
+                            ) AS UNSIGNED) AS `'.$field.'_translated`
+                        ');
+                } else {
+                    $query
+                        ->selectRaw('
+                            CASE WHEN
+                            JSON_UNQUOTE(
+                                JSON_EXTRACT(`'.$field.'`, \'$.'.$locale.'\')
+                            ) = \'null\' THEN NULL
+                            ELSE
+                            JSON_UNQUOTE(
+                                JSON_EXTRACT(`'.$field.'`, \'$.'.$locale.'\')
+                            )
+                            END '.
+                            (config('typicms.mariadb') === false ? 'COLLATE '.(DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci') : '').'
+                            AS `'.$field.'_translated`
+                        ');
+                }
             } else {
-                $query
-                    ->selectRaw('
-                        CASE WHEN
-                        JSON_UNQUOTE(
-                            JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
-                        ) = \'null\' THEN NULL
-                        ELSE
-                        JSON_UNQUOTE(
-                            JSON_EXTRACT(`'.$column.'`, \'$.'.$locale.'\')
-                        )
-                        END '.
-                        (config('typicms.mariadb') === false ? 'COLLATE '.(DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci') : '').'
-                        AS `'.$column.'_translated`
-                    ');
+                $query->addSelect($field);
             }
         }
 

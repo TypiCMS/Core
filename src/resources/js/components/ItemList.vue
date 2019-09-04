@@ -56,7 +56,7 @@
                         />
                     </div>
                 </div>
-                <div class="btn-group btn-group-sm ml-2" v-if="translatableFields !== '' && locales.length > 1">
+                <div class="btn-group btn-group-sm ml-2" v-if="multilingual && locales.length > 1">
                     <button
                         class="btn btn-light dropdown-toggle"
                         type="button"
@@ -167,10 +167,6 @@ export default {
             type: String,
             default: '',
         },
-        translatableFields: {
-            type: String,
-            default: '',
-        },
     },
     data() {
         return {
@@ -219,9 +215,8 @@ export default {
             if (this.include !== '') {
                 query.push('include=' + this.include);
             }
-            if (this.translatableFields) {
+            if (this.multilingual) {
                 query.push('locale=' + this.currentLocale);
-                query.push('translatable_fields=' + this.translatableFields);
             }
             if (this.pagination) {
                 query.push('page=' + this.data.current_page);
