@@ -110,6 +110,10 @@ export default {
         fields: {
             type: String,
         },
+        appends: {
+            type: String,
+            default: '',
+        },
     },
     data() {
         return {
@@ -127,7 +131,14 @@ export default {
     },
     computed: {
         url() {
-            return this.urlBase + '?' + 'fields[' + this.table + ']=' + this.fields + '&locale=' + this.currentLocale;
+            let query = ['fields[' + this.table + ']=' + this.fields];
+
+            if (this.appends !== '') {
+                query.push('append=' + this.appends);
+            }
+            query.push('locale=' + this.currentLocale);
+
+            return this.urlBase + '?' + query.join('&');
         },
         filteredModels() {
             return this.models;

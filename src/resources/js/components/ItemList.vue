@@ -167,6 +167,10 @@ export default {
             type: String,
             default: '',
         },
+        appends: {
+            type: String,
+            default: '',
+        },
     },
     data() {
         return {
@@ -214,6 +218,9 @@ export default {
 
             if (this.include !== '') {
                 query.push('include=' + this.include);
+            }
+            if (this.appends !== '') {
+                query.push('append=' + this.appends);
             }
             if (this.multilingual) {
                 query.push('locale=' + this.currentLocale);
