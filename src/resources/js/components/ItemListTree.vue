@@ -110,9 +110,6 @@ export default {
         fields: {
             type: String,
         },
-        translatableFields: {
-            type: String,
-        },
     },
     data() {
         return {
@@ -130,18 +127,7 @@ export default {
     },
     computed: {
         url() {
-            return (
-                this.urlBase +
-                '?' +
-                'fields[' +
-                this.table +
-                ']=' +
-                this.fields +
-                '&locale=' +
-                this.currentLocale +
-                '&translatable_fields=' +
-                this.translatableFields
-            );
+            return this.urlBase + '?' + 'fields[' + this.table + ']=' + this.fields + '&locale=' + this.currentLocale;
         },
         filteredModels() {
             return this.models;
