@@ -110,6 +110,16 @@ abstract class Base extends Model
         return $query;
     }
 
+    public function setStatusAttribute($status)
+    {
+        if (is_array($status)) {
+            $status = array_map(function ($item) {
+                return (int) $item[0];
+            }, $status);
+            $this->attributes['status'] = json_encode($status);
+        }
+    }
+
     public function tags(): MorphToMany
     {
         return $this->morphToMany(Tag::class, 'taggable')
