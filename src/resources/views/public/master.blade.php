@@ -75,6 +75,10 @@
 
         </div>
 
+        @if (session('verified'))
+            <div class="alert alert-success">@lang('Your email address has been verified.')</div>
+        @endif
+
         <main class="main" id="main">
             @yield('content')
         </main>
