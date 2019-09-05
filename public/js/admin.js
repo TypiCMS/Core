@@ -3131,6 +3131,10 @@ __webpack_require__.r(__webpack_exports__);
     fields: {
       type: String,
       "default": ''
+    },
+    appends: {
+      type: String,
+      "default": ''
     }
   },
   data: function data() {
@@ -3184,6 +3188,10 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.include !== '') {
         query.push('include=' + this.include);
+      }
+
+      if (this.appends !== '') {
+        query.push('append=' + this.appends);
       }
 
       if (this.multilingual) {
@@ -4098,6 +4106,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     fields: {
       type: String
+    },
+    appends: {
+      type: String,
+      "default": ''
     }
   },
   data: function data() {
@@ -4116,7 +4128,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     url: function url() {
-      return this.urlBase + '?' + 'fields[' + this.table + ']=' + this.fields + '&locale=' + this.currentLocale;
+      var query = ['fields[' + this.table + ']=' + this.fields];
+
+      if (this.appends !== '') {
+        query.push('append=' + this.appends);
+      }
+
+      query.push('locale=' + this.currentLocale);
+      return this.urlBase + '?' + query.join('&');
     },
     filteredModels: function filteredModels() {
       return this.models;
