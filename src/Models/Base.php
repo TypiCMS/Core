@@ -18,6 +18,18 @@ abstract class Base extends Model
 {
     use Cachable;
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        /**
+         * This provide a way to add fields to the model’s translatable attributes.
+         */
+        if (config('typicms.pages.translatable') && property_exists($this, 'translatable')) {
+            $this->translatable = config('typicms.pages.translatable');
+        }
+    }
+
     public function previewUri(): string
     {
         $uri = '/';
