@@ -2,25 +2,14 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between">
             {{ $t('Latest changes') }}
-            <div class="d-flex">
-                <!--
-                <input
-                    class="form-control form-control-sm mr-2"
-                    type="text"
-                    id="search"
-                    v-model="searchString"
-                    @input="onSearchStringChanged"
-                />
- -->
-                <button
-                    class="btn-clear-history"
-                    id="clear-history"
-                    @click="clearHistory"
-                    v-if="filteredItems.length && clearButton"
-                >
-                    {{ $t('Clear') }}
-                </button>
-            </div>
+            <button
+                class="btn-clear-history"
+                id="clear-history"
+                @click="clearHistory"
+                v-if="filteredItems.length && clearButton"
+            >
+                {{ $t('Clear') }}
+            </button>
         </div>
 
         <div class="history table-responsive" v-if="filteredItems.length">
@@ -61,7 +50,7 @@
                 }}</span>
             </div>
         </div>
-        <div class="card-footer">
+        <div class="card-footer" v-if="data.total > data.per_page">
             <item-list-pagination
                 class="justify-content-center"
                 :data="data"
@@ -216,7 +205,6 @@ export default {
                 });
         },
         sort(object) {
-            console.table(object);
             this.data.current_page = 1;
             this.sortArray = object;
             this.fetchData();
