@@ -46,7 +46,7 @@ import fr from '../lang/fr.json';
 import en from '../lang/en.json';
 import es from '../lang/es.json';
 const messages = { fr, en, es };
-const i18n = new VueI18n({ locale: 'fr', messages });
+const i18n = new VueI18n({ locale: 'en', messages });
 
 /**
  * Date Filter
