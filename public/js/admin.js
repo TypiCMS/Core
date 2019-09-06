@@ -2822,6 +2822,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ItemListPagination__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ItemListPagination */ "./resources/js/components/ItemListPagination.vue");
 //
 //
 //
@@ -2874,18 +2875,61 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    ItemListPagination: _ItemListPagination__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   props: {
     clearButton: {
       type: Boolean,
       "default": false
+    },
+    pagination: {
+      type: Boolean,
+      "default": true
+    },
+    sorting: {
+      type: Array,
+      "default": function _default() {
+        return ['-created_at'];
+      }
+    },
+    searchable: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    },
+    fields: {
+      type: String,
+      "default": ''
+    },
+    include: {
+      type: String,
+      "default": ''
+    },
+    appends: {
+      type: String,
+      "default": ''
     }
   },
   data: function data() {
     return {
       urlBase: '/api/history',
       searchString: null,
-      sortArray: ['-id'],
+      sortArray: this.sorting,
       searchableArray: this.searchable,
       loading: false,
       total: 0,
@@ -2903,9 +2947,43 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
+  mounted: function mounted() {
+    this.$on('sort', this.sort);
+  },
   computed: {
+    searchQuery: function searchQuery() {
+      var _this = this;
+
+      if (this.searchString === null) {
+        return '';
+      }
+
+      return this.searchableArray.map(function (item) {
+        return 'filter[' + item + ']=' + _this.searchString;
+      }).join('&');
+    },
     url: function url() {
-      return this.urlBase + '?' + 'sort=' + this.sortArray.join(',') + '&fields[' + this.table + ']=' + this.fields + '&page=' + this.data.current_page + '&per_page=' + this.data.per_page;
+      var query = ['sort=' + this.sortArray.join(','), 'fields[history]=' + this.fields];
+
+      if (this.include !== '') {
+        query.push('include=' + this.include);
+      }
+
+      if (this.appends !== '') {
+        query.push('append=' + this.appends);
+      }
+
+      if (this.multilingual) {
+        query.push('locale=' + this.currentLocale);
+      }
+
+      if (this.pagination) {
+        query.push('page=' + this.data.current_page);
+        query.push('per_page=' + this.data.per_page);
+      }
+
+      query.push(this.searchQuery);
+      return this.urlBase + '?' + query.join('&');
     },
     filteredItems: function filteredItems() {
       return this.data.data;
@@ -2916,18 +2994,36 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     fetchData: function fetchData() {
-      var _this = this;
+      var _this2 = this;
 
       this.loading = true;
       axios.get(this.url).then(function (response) {
-        _this.data = response.data;
-        _this.loading = false;
+        _this2.data = response.data;
+        _this2.loading = false;
       })["catch"](function (error) {
-        alertify.error(error.response.data.message || _this.$i18n.t('An error occurred with the data fetch.'));
+        alertify.error(error.response.data.message || _this2.$i18n.t('An error occurred with the data fetch.'));
       });
     },
+    onSearchStringChanged: function onSearchStringChanged() {
+      var _this3 = this;
+
+      clearTimeout(this.fetchTimeout);
+      this.fetchTimeout = setTimeout(function () {
+        _this3.fetchData();
+      }, 200);
+    },
+    search: function search(string) {
+      this.data.current_page = 1;
+      this.searchString = string;
+      this.fetchData();
+    },
+    changePage: function changePage() {
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      this.data.current_page = page;
+      this.fetchData();
+    },
     clearHistory: function clearHistory() {
-      var _this2 = this;
+      var _this4 = this;
 
       if (!window.confirm(this.$i18n.t('Do you want to clear history?'))) {
         return false;
@@ -2935,11 +3031,16 @@ __webpack_require__.r(__webpack_exports__);
 
       this.loading = true;
       axios["delete"](this.url).then(function (response) {
-        _this2.data.data = [];
-        _this2.loading = false;
+        _this4.data.data = [];
+        _this4.loading = false;
       })["catch"](function (error) {
-        alertify.error(error.response.data.message || _this2.$i18n.t('An error occurred with the data fetch.'));
+        alertify.error(error.response.data.message || _this4.$i18n.t('An error occurred with the data fetch.'));
       });
+    },
+    sort: function sort(object) {
+      this.data.current_page = 1;
+      this.sortArray = object;
+      this.fetchData();
     }
   }
 });
@@ -34939,7 +35040,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _c("div", { staticClass: "card-header" }, [
+    _c("div", { staticClass: "card-header d-flex justify-content-between" }, [
       _vm._v("\n        " + _vm._s(_vm.$t("Latest changes")) + "\n        "),
       _vm.filteredItems.length && _vm.clearButton
         ? _c(
@@ -34958,27 +35059,11 @@ var render = function() {
       ? _c("div", { staticClass: "history table-responsive" }, [
           _c("table", { staticClass: "history-table table table-main mb-0" }, [
             _c("thead", [
-              _c("tr", [
-                _c("th", { staticClass: "created_at" }, [
-                  _vm._v(_vm._s(_vm.$t("Date")))
-                ]),
-                _vm._v(" "),
-                _c("th", { staticClass: "title" }, [
-                  _vm._v(_vm._s(_vm.$t("Title")))
-                ]),
-                _vm._v(" "),
-                _c("th", { staticClass: "historable_table" }, [
-                  _vm._v(_vm._s(_vm.$t("Module")))
-                ]),
-                _vm._v(" "),
-                _c("th", { staticClass: "action" }, [
-                  _vm._v(_vm._s(_vm.$t("Action")))
-                ]),
-                _vm._v(" "),
-                _c("th", { staticClass: "user_name" }, [
-                  _vm._v(_vm._s(_vm.$t("User")))
-                ])
-              ])
+              _c(
+                "tr",
+                [_vm._t("columns", null, { sortArray: _vm.sortArray })],
+                2
+              )
             ]),
             _vm._v(" "),
             _c(
@@ -35009,7 +35094,15 @@ var render = function() {
                       : _vm._e()
                   ]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(model.historable_table))]),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(
+                        model.historable_type.substring(
+                          model.historable_type.lastIndexOf("\\") + 1
+                        )
+                      )
+                    )
+                  ]),
                   _vm._v(" "),
                   _c("td", { staticClass: "action" }, [
                     _c("span", {
@@ -35033,10 +35126,41 @@ var render = function() {
           ])
         ])
       : _c("div", { staticClass: "card-body" }, [
-          _c("span", { staticClass: "text-muted" }, [
-            _vm._v(_vm._s(_vm.$t("History is empty.")))
-          ])
-        ])
+          _vm.loading
+            ? _c("div", [
+                _c("span", { staticClass: "text-muted" }, [
+                  _vm._v(_vm._s(_vm.$t("Loading…")))
+                ])
+              ])
+            : _c("div", [
+                _c("span", { staticClass: "text-muted" }, [
+                  _vm._v(
+                    _vm._s(
+                      _vm.searchString !== ""
+                        ? _vm.$t("Nothing found.")
+                        : _vm.$t("History is empty.")
+                    )
+                  )
+                ])
+              ])
+        ]),
+    _vm._v(" "),
+    _vm.data.total > _vm.data.per_page
+      ? _c(
+          "div",
+          { staticClass: "card-footer" },
+          [
+            _vm.pagination
+              ? _c("item-list-pagination", {
+                  staticClass: "justify-content-center",
+                  attrs: { data: _vm.data },
+                  on: { "pagination-change-page": _vm.changePage }
+                })
+              : _vm._e()
+          ],
+          1
+        )
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
