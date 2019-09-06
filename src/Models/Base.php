@@ -25,8 +25,8 @@ abstract class Base extends Model
         /*
          * This provide a way to add fields to the model’s translatable attributes.
          */
-        if (config('typicms.pages.translatable') && property_exists($this, 'translatable')) {
-            $this->translatable = config('typicms.pages.translatable');
+        if (config('typicms.'.$this->getTable().'.translatable') && property_exists($this, 'translatable')) {
+            $this->translatable = config('typicms.'.$this->getTable().'.translatable');
         }
     }
 
