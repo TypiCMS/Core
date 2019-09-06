@@ -22,7 +22,7 @@ abstract class Base extends Model
     {
         parent::__construct($attributes);
 
-        /**
+        /*
          * This provide a way to add fields to the model’s translatable attributes.
          */
         if (config('typicms.pages.translatable') && property_exists($this, 'translatable')) {
