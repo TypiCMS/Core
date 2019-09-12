@@ -4,9 +4,11 @@ namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use TypiCMS\Modules\Core\Facades\TypiCMS;
 
 class SetLocale
 {
@@ -25,6 +27,17 @@ class SetLocale
         if (in_array($firstSegment, locales())) {
             $locale = $firstSegment;
             App::setLocale($locale);
+        }
+
+        // Add locale prefix to URL if required.
+        if (
+            $firstSegment !== 'admin' &&
+            !in_array($firstSegment, locales()) &&
+            config('typicms.main_locale_in_url')
+        ) {
+            $segments = $request->segments();
+            $segments = Arr::prepend($segments, TypiCMS::mainLocale());
+            return redirect()->to(implode('/', $segments));
         }
 
         // Not reliable, to be refactored.
