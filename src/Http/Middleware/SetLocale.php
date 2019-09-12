@@ -37,6 +37,7 @@ class SetLocale
         ) {
             $segments = $request->segments();
             $segments = Arr::prepend($segments, TypiCMS::mainLocale());
+
             return redirect()->to(implode('/', $segments));
         }
 
