@@ -29,7 +29,7 @@ CKEDITOR.editorConfig = function(config) {
         },
         { name: 'align', groups: ['align'], items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
         { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
-        { name: 'insert', items: ['Image', 'oembed', 'Table', 'HorizontalRule', 'PageBreak', 'Iframe'] },
+        { name: 'insert', items: ['SpecialChar', 'Image', 'oembed', 'Table', 'HorizontalRule', 'PageBreak', 'Iframe'] },
         { name: 'colors', items: ['TextColor', 'BGColor'] },
         { name: 'tools', items: ['Maximize', 'ShowBlocks', 'Source'] },
     ];
@@ -41,7 +41,7 @@ CKEDITOR.editorConfig = function(config) {
     config.entities = false;
 
     // Set the most common block elements.
-    config.format_tags = 'p;h1;h2;h3;h4;h5;h6;pre';
+    config.format_tags = 'p;h1;h2;h3;h4;h5;h6;pre;address;div';
 
     config.extraPlugins = 'image2,codemirror,panelbutton,oembed,justify,showblocks,div,dialogadvtab';
     config.removePlugins = 'image';
