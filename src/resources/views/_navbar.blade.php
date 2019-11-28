@@ -1,8 +1,10 @@
 @if ($navbar)
     <nav class="navbar navbar-expand-md navbar-dark bg-dark justify-content-between sticky-top">
+        @if (Request::segment(1) === 'admin')
         <button class="navbar-toggler" type="button" data-toggle="offcanvas" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="fa fa-bars fa-fw fa-inverse"></span>
         </button>
+        @endif
         <a class="navbar-brand" href="{{ route('dashboard') }}">{{ Illuminate\Support\Str::limit(TypiCMS::title(config('typicms.admin_locale')), 50, '…') }}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#userMenu" aria-controls="userMenu" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="fa fa-chevron-down fa-fw fa-inverse"></span>
@@ -11,7 +13,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     @section('otherSideLink')
-                        @if (Request::segment(1) == 'admin')
+                        @if (Request::segment(1) === 'admin')
                             @include('core::admin._navbar-public-link')
                         @else
                             @include('core::public._navbar-admin-link')
@@ -26,18 +28,18 @@
                                 <img src="https://www.gravatar.com/avatar/{{ md5(auth()->user()->email) }}?d=mm" class="pull-left">
                             </div>
                             <div class="info">
-                                <p>{{ auth()->user()->email }}</p>
+                                <div class="mt-1 mb-1">{{ auth()->user()->email }}</div>
                                 @can ('update-user')
-                                <p>
+                                <div class="mb-3">
                                     <a href="{{ route('admin::edit-user', Auth::id()) }}">{{ __('Profile', [], config('typicms.admin_locale')) }}</a>
-                                </p>
+                                </div>
                                 @endcan
-                                <p>
+                                <div class="mb-2">
                                     <form action="{{ route(TypiCMS::mainLocale().'::logout') }}" method="post">
                                         {{ csrf_field() }}
                                         <button class="btn btn-secondary btn-sm" type="submit">@lang('Logout', [], config('typicms.admin_locale'))</button>
                                     </form>
-                                </p>
+                                </div>
                             </div>
                         </div>
                     </div>
