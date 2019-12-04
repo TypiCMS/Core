@@ -4386,14 +4386,14 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
-  * Bootstrap v4.3.1 (https://getbootstrap.com/)
+  * Bootstrap v4.4.1 (https://getbootstrap.com/)
   * Copyright 2011-2019 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
 (function (global, factory) {
    true ? factory(exports, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")) :
   undefined;
-}(this, function (exports, $, Popper) { 'use strict';
+}(this, (function (exports, $, Popper) { 'use strict';
 
   $ = $ && $.hasOwnProperty('default') ? $['default'] : $;
   Popper = Popper && Popper.hasOwnProperty('default') ? Popper['default'] : Popper;
@@ -4429,20 +4429,35 @@ __webpack_require__.r(__webpack_exports__);
     return obj;
   }
 
-  function _objectSpread(target) {
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      if (enumerableOnly) symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+      keys.push.apply(keys, symbols);
+    }
+
+    return keys;
+  }
+
+  function _objectSpread2(target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i] != null ? arguments[i] : {};
-      var ownKeys = Object.keys(source);
 
-      if (typeof Object.getOwnPropertySymbols === 'function') {
-        ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-          return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-        }));
+      if (i % 2) {
+        ownKeys(Object(source), true).forEach(function (key) {
+          _defineProperty(target, key, source[key]);
+        });
+      } else if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+      } else {
+        ownKeys(Object(source)).forEach(function (key) {
+          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
       }
-
-      ownKeys.forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
     }
 
     return target;
@@ -4456,7 +4471,7 @@ __webpack_require__.r(__webpack_exports__);
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v4.3.1): util.js
+   * Bootstrap (v4.4.1): util.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
    * --------------------------------------------------------------------------
    */
@@ -4605,8 +4620,25 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return Util.findShadowRoot(element.parentNode);
+    },
+    jQueryDetection: function jQueryDetection() {
+      if (typeof $ === 'undefined') {
+        throw new TypeError('Bootstrap\'s JavaScript requires jQuery. jQuery must be included before Bootstrap\'s JavaScript.');
+      }
+
+      var version = $.fn.jquery.split(' ')[0].split('.');
+      var minMajor = 1;
+      var ltMajor = 2;
+      var minMinor = 9;
+      var minPatch = 1;
+      var maxMajor = 4;
+
+      if (version[0] < ltMajor && version[1] < minMinor || version[0] === minMajor && version[1] === minMinor && version[2] < minPatch || version[0] >= maxMajor) {
+        throw new Error('Bootstrap\'s JavaScript requires at least jQuery v1.9.1 but less than v4.0.0');
+      }
     }
   };
+  Util.jQueryDetection();
   setTransitionEndSupport();
 
   /**
@@ -4616,7 +4648,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME = 'alert';
-  var VERSION = '4.3.1';
+  var VERSION = '4.4.1';
   var DATA_KEY = 'bs.alert';
   var EVENT_KEY = "." + DATA_KEY;
   var DATA_API_KEY = '.data-api';
@@ -4633,13 +4665,12 @@ __webpack_require__.r(__webpack_exports__);
     ALERT: 'alert',
     FADE: 'fade',
     SHOW: 'show'
-    /**
-     * ------------------------------------------------------------------------
-     * Class Definition
-     * ------------------------------------------------------------------------
-     */
-
   };
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
 
   var Alert =
   /*#__PURE__*/
@@ -4781,7 +4812,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$1 = 'button';
-  var VERSION$1 = '4.3.1';
+  var VERSION$1 = '4.4.1';
   var DATA_KEY$1 = 'bs.button';
   var EVENT_KEY$1 = "." + DATA_KEY$1;
   var DATA_API_KEY$1 = '.data-api';
@@ -4793,21 +4824,23 @@ __webpack_require__.r(__webpack_exports__);
   };
   var Selector$1 = {
     DATA_TOGGLE_CARROT: '[data-toggle^="button"]',
-    DATA_TOGGLE: '[data-toggle="buttons"]',
+    DATA_TOGGLES: '[data-toggle="buttons"]',
+    DATA_TOGGLE: '[data-toggle="button"]',
+    DATA_TOGGLES_BUTTONS: '[data-toggle="buttons"] .btn',
     INPUT: 'input:not([type="hidden"])',
     ACTIVE: '.active',
     BUTTON: '.btn'
   };
   var Event$1 = {
     CLICK_DATA_API: "click" + EVENT_KEY$1 + DATA_API_KEY$1,
-    FOCUS_BLUR_DATA_API: "focus" + EVENT_KEY$1 + DATA_API_KEY$1 + " " + ("blur" + EVENT_KEY$1 + DATA_API_KEY$1)
-    /**
-     * ------------------------------------------------------------------------
-     * Class Definition
-     * ------------------------------------------------------------------------
-     */
-
+    FOCUS_BLUR_DATA_API: "focus" + EVENT_KEY$1 + DATA_API_KEY$1 + " " + ("blur" + EVENT_KEY$1 + DATA_API_KEY$1),
+    LOAD_DATA_API: "load" + EVENT_KEY$1 + DATA_API_KEY$1
   };
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
 
   var Button =
   /*#__PURE__*/
@@ -4823,7 +4856,7 @@ __webpack_require__.r(__webpack_exports__);
     _proto.toggle = function toggle() {
       var triggerChangeEvent = true;
       var addAriaPressed = true;
-      var rootElement = $(this._element).closest(Selector$1.DATA_TOGGLE)[0];
+      var rootElement = $(this._element).closest(Selector$1.DATA_TOGGLES)[0];
 
       if (rootElement) {
         var input = this._element.querySelector(Selector$1.INPUT);
@@ -4839,13 +4872,16 @@ __webpack_require__.r(__webpack_exports__);
                 $(activeElement).removeClass(ClassName$1.ACTIVE);
               }
             }
+          } else if (input.type === 'checkbox') {
+            if (this._element.tagName === 'LABEL' && input.checked === this._element.classList.contains(ClassName$1.ACTIVE)) {
+              triggerChangeEvent = false;
+            }
+          } else {
+            // if it's not a radio button or checkbox don't add a pointless/invalid checked property to the input
+            triggerChangeEvent = false;
           }
 
           if (triggerChangeEvent) {
-            if (input.hasAttribute('disabled') || rootElement.hasAttribute('disabled') || input.classList.contains('disabled') || rootElement.classList.contains('disabled')) {
-              return;
-            }
-
             input.checked = !this._element.classList.contains(ClassName$1.ACTIVE);
             $(input).trigger('change');
           }
@@ -4855,12 +4891,14 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
-      if (addAriaPressed) {
-        this._element.setAttribute('aria-pressed', !this._element.classList.contains(ClassName$1.ACTIVE));
-      }
+      if (!(this._element.hasAttribute('disabled') || this._element.classList.contains('disabled'))) {
+        if (addAriaPressed) {
+          this._element.setAttribute('aria-pressed', !this._element.classList.contains(ClassName$1.ACTIVE));
+        }
 
-      if (triggerChangeEvent) {
-        $(this._element).toggleClass(ClassName$1.ACTIVE);
+        if (triggerChangeEvent) {
+          $(this._element).toggleClass(ClassName$1.ACTIVE);
+        }
       }
     };
 
@@ -4902,17 +4940,57 @@ __webpack_require__.r(__webpack_exports__);
 
 
   $(document).on(Event$1.CLICK_DATA_API, Selector$1.DATA_TOGGLE_CARROT, function (event) {
-    event.preventDefault();
     var button = event.target;
 
     if (!$(button).hasClass(ClassName$1.BUTTON)) {
-      button = $(button).closest(Selector$1.BUTTON);
+      button = $(button).closest(Selector$1.BUTTON)[0];
     }
 
-    Button._jQueryInterface.call($(button), 'toggle');
+    if (!button || button.hasAttribute('disabled') || button.classList.contains('disabled')) {
+      event.preventDefault(); // work around Firefox bug #1540995
+    } else {
+      var inputBtn = button.querySelector(Selector$1.INPUT);
+
+      if (inputBtn && (inputBtn.hasAttribute('disabled') || inputBtn.classList.contains('disabled'))) {
+        event.preventDefault(); // work around Firefox bug #1540995
+
+        return;
+      }
+
+      Button._jQueryInterface.call($(button), 'toggle');
+    }
   }).on(Event$1.FOCUS_BLUR_DATA_API, Selector$1.DATA_TOGGLE_CARROT, function (event) {
     var button = $(event.target).closest(Selector$1.BUTTON)[0];
     $(button).toggleClass(ClassName$1.FOCUS, /^focus(in)?$/.test(event.type));
+  });
+  $(window).on(Event$1.LOAD_DATA_API, function () {
+    // ensure correct active class is set to match the controls' actual values/states
+    // find all checkboxes/readio buttons inside data-toggle groups
+    var buttons = [].slice.call(document.querySelectorAll(Selector$1.DATA_TOGGLES_BUTTONS));
+
+    for (var i = 0, len = buttons.length; i < len; i++) {
+      var button = buttons[i];
+      var input = button.querySelector(Selector$1.INPUT);
+
+      if (input.checked || input.hasAttribute('checked')) {
+        button.classList.add(ClassName$1.ACTIVE);
+      } else {
+        button.classList.remove(ClassName$1.ACTIVE);
+      }
+    } // find all button toggles
+
+
+    buttons = [].slice.call(document.querySelectorAll(Selector$1.DATA_TOGGLE));
+
+    for (var _i = 0, _len = buttons.length; _i < _len; _i++) {
+      var _button = buttons[_i];
+
+      if (_button.getAttribute('aria-pressed') === 'true') {
+        _button.classList.add(ClassName$1.ACTIVE);
+      } else {
+        _button.classList.remove(ClassName$1.ACTIVE);
+      }
+    }
   });
   /**
    * ------------------------------------------------------------------------
@@ -4935,7 +5013,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$2 = 'carousel';
-  var VERSION$2 = '4.3.1';
+  var VERSION$2 = '4.4.1';
   var DATA_KEY$2 = 'bs.carousel';
   var EVENT_KEY$2 = "." + DATA_KEY$2;
   var DATA_API_KEY$2 = '.data-api';
@@ -5008,13 +5086,12 @@ __webpack_require__.r(__webpack_exports__);
   var PointerType = {
     TOUCH: 'touch',
     PEN: 'pen'
-    /**
-     * ------------------------------------------------------------------------
-     * Class Definition
-     * ------------------------------------------------------------------------
-     */
-
   };
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
 
   var Carousel =
   /*#__PURE__*/
@@ -5134,7 +5211,7 @@ __webpack_require__.r(__webpack_exports__);
     ;
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread({}, Default, config);
+      config = _objectSpread2({}, Default, {}, config);
       Util.typeCheckConfig(NAME$2, config, DefaultType);
       return config;
     };
@@ -5146,7 +5223,8 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      var direction = absDeltax / this.touchDeltaX; // swipe left
+      var direction = absDeltax / this.touchDeltaX;
+      this.touchDeltaX = 0; // swipe left
 
       if (direction > 0) {
         this.prev();
@@ -5272,8 +5350,6 @@ __webpack_require__.r(__webpack_exports__);
           event.preventDefault();
           this.next();
           break;
-
-        default:
       }
     };
 
@@ -5425,10 +5501,10 @@ __webpack_require__.r(__webpack_exports__);
       return this.each(function () {
         var data = $(this).data(DATA_KEY$2);
 
-        var _config = _objectSpread({}, Default, $(this).data());
+        var _config = _objectSpread2({}, Default, {}, $(this).data());
 
         if (typeof config === 'object') {
-          _config = _objectSpread({}, _config, config);
+          _config = _objectSpread2({}, _config, {}, config);
         }
 
         var action = typeof config === 'string' ? config : _config.slide;
@@ -5466,7 +5542,7 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      var config = _objectSpread({}, $(target).data(), $(this).data());
+      var config = _objectSpread2({}, $(target).data(), {}, $(this).data());
 
       var slideIndex = this.getAttribute('data-slide-to');
 
@@ -5535,7 +5611,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$3 = 'collapse';
-  var VERSION$3 = '4.3.1';
+  var VERSION$3 = '4.4.1';
   var DATA_KEY$3 = 'bs.collapse';
   var EVENT_KEY$3 = "." + DATA_KEY$3;
   var DATA_API_KEY$3 = '.data-api';
@@ -5568,13 +5644,12 @@ __webpack_require__.r(__webpack_exports__);
   var Selector$3 = {
     ACTIVES: '.show, .collapsing',
     DATA_TOGGLE: '[data-toggle="collapse"]'
-    /**
-     * ------------------------------------------------------------------------
-     * Class Definition
-     * ------------------------------------------------------------------------
-     */
-
   };
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
 
   var Collapse =
   /*#__PURE__*/
@@ -5761,7 +5836,7 @@ __webpack_require__.r(__webpack_exports__);
     ;
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread({}, Default$1, config);
+      config = _objectSpread2({}, Default$1, {}, config);
       config.toggle = Boolean(config.toggle); // Coerce string values
 
       Util.typeCheckConfig(NAME$3, config, DefaultType$1);
@@ -5815,7 +5890,7 @@ __webpack_require__.r(__webpack_exports__);
         var $this = $(this);
         var data = $this.data(DATA_KEY$3);
 
-        var _config = _objectSpread({}, Default$1, $this.data(), typeof config === 'object' && config ? config : {});
+        var _config = _objectSpread2({}, Default$1, {}, $this.data(), {}, typeof config === 'object' && config ? config : {});
 
         if (!data && _config.toggle && /show|hide/.test(config)) {
           _config.toggle = false;
@@ -5895,7 +5970,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$4 = 'dropdown';
-  var VERSION$4 = '4.3.1';
+  var VERSION$4 = '4.4.1';
   var DATA_KEY$4 = 'bs.dropdown';
   var EVENT_KEY$4 = "." + DATA_KEY$4;
   var DATA_API_KEY$4 = '.data-api';
@@ -5955,21 +6030,22 @@ __webpack_require__.r(__webpack_exports__);
     flip: true,
     boundary: 'scrollParent',
     reference: 'toggle',
-    display: 'dynamic'
+    display: 'dynamic',
+    popperConfig: null
   };
   var DefaultType$2 = {
     offset: '(number|string|function)',
     flip: 'boolean',
     boundary: '(string|element)',
     reference: '(string|element)',
-    display: 'string'
-    /**
-     * ------------------------------------------------------------------------
-     * Class Definition
-     * ------------------------------------------------------------------------
-     */
-
+    display: 'string',
+    popperConfig: '(null|object)'
   };
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
 
   var Dropdown =
   /*#__PURE__*/
@@ -5993,8 +6069,6 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      var parent = Dropdown._getParentFromElement(this._element);
-
       var isActive = $(this._menu).hasClass(ClassName$4.SHOW);
 
       Dropdown._clearMenus();
@@ -6003,10 +6077,25 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
+      this.show(true);
+    };
+
+    _proto.show = function show(usePopper) {
+      if (usePopper === void 0) {
+        usePopper = false;
+      }
+
+      if (this._element.disabled || $(this._element).hasClass(ClassName$4.DISABLED) || $(this._menu).hasClass(ClassName$4.SHOW)) {
+        return;
+      }
+
       var relatedTarget = {
         relatedTarget: this._element
       };
       var showEvent = $.Event(Event$4.SHOW, relatedTarget);
+
+      var parent = Dropdown._getParentFromElement(this._element);
+
       $(parent).trigger(showEvent);
 
       if (showEvent.isDefaultPrevented()) {
@@ -6014,7 +6103,7 @@ __webpack_require__.r(__webpack_exports__);
       } // Disable totally Popper.js for Dropdown in Navbar
 
 
-      if (!this._inNavbar) {
+      if (!this._inNavbar && usePopper) {
         /**
          * Check for Popper dependency
          * Popper - https://popper.js.org
@@ -6061,28 +6150,6 @@ __webpack_require__.r(__webpack_exports__);
       $(parent).toggleClass(ClassName$4.SHOW).trigger($.Event(Event$4.SHOWN, relatedTarget));
     };
 
-    _proto.show = function show() {
-      if (this._element.disabled || $(this._element).hasClass(ClassName$4.DISABLED) || $(this._menu).hasClass(ClassName$4.SHOW)) {
-        return;
-      }
-
-      var relatedTarget = {
-        relatedTarget: this._element
-      };
-      var showEvent = $.Event(Event$4.SHOW, relatedTarget);
-
-      var parent = Dropdown._getParentFromElement(this._element);
-
-      $(parent).trigger(showEvent);
-
-      if (showEvent.isDefaultPrevented()) {
-        return;
-      }
-
-      $(this._menu).toggleClass(ClassName$4.SHOW);
-      $(parent).toggleClass(ClassName$4.SHOW).trigger($.Event(Event$4.SHOWN, relatedTarget));
-    };
-
     _proto.hide = function hide() {
       if (this._element.disabled || $(this._element).hasClass(ClassName$4.DISABLED) || !$(this._menu).hasClass(ClassName$4.SHOW)) {
         return;
@@ -6099,6 +6166,10 @@ __webpack_require__.r(__webpack_exports__);
 
       if (hideEvent.isDefaultPrevented()) {
         return;
+      }
+
+      if (this._popper) {
+        this._popper.destroy();
       }
 
       $(this._menu).toggleClass(ClassName$4.SHOW);
@@ -6139,7 +6210,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread({}, this.constructor.Default, $(this._element).data(), config);
+      config = _objectSpread2({}, this.constructor.Default, {}, $(this._element).data(), {}, config);
       Util.typeCheckConfig(NAME$4, config, this.constructor.DefaultType);
       return config;
     };
@@ -6188,7 +6259,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (typeof this._config.offset === 'function') {
         offset.fn = function (data) {
-          data.offsets = _objectSpread({}, data.offsets, _this2._config.offset(data.offsets, _this2._element) || {});
+          data.offsets = _objectSpread2({}, data.offsets, {}, _this2._config.offset(data.offsets, _this2._element) || {});
           return data;
         };
       } else {
@@ -6209,9 +6280,8 @@ __webpack_require__.r(__webpack_exports__);
           preventOverflow: {
             boundariesElement: this._config.boundary
           }
-        } // Disable Popper.js if we have a static display
-
-      };
+        }
+      }; // Disable Popper.js if we have a static display
 
       if (this._config.display === 'static') {
         popperConfig.modifiers.applyStyle = {
@@ -6219,7 +6289,7 @@ __webpack_require__.r(__webpack_exports__);
         };
       }
 
-      return popperConfig;
+      return _objectSpread2({}, popperConfig, {}, this._config.popperConfig);
     } // Static
     ;
 
@@ -6291,6 +6361,11 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         toggles[i].setAttribute('aria-expanded', 'false');
+
+        if (context._popper) {
+          context._popper.destroy();
+        }
+
         $(dropdownMenu).removeClass(ClassName$4.SHOW);
         $(parent).removeClass(ClassName$4.SHOW).trigger($.Event(Event$4.HIDDEN, relatedTarget));
       }
@@ -6331,6 +6406,10 @@ __webpack_require__.r(__webpack_exports__);
 
       var isActive = $(parent).hasClass(ClassName$4.SHOW);
 
+      if (!isActive && event.which === ESCAPE_KEYCODE) {
+        return;
+      }
+
       if (!isActive || isActive && (event.which === ESCAPE_KEYCODE || event.which === SPACE_KEYCODE)) {
         if (event.which === ESCAPE_KEYCODE) {
           var toggle = parent.querySelector(Selector$4.DATA_TOGGLE);
@@ -6341,7 +6420,9 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      var items = [].slice.call(parent.querySelectorAll(Selector$4.VISIBLE_ITEMS));
+      var items = [].slice.call(parent.querySelectorAll(Selector$4.VISIBLE_ITEMS)).filter(function (item) {
+        return $(item).is(':visible');
+      });
 
       if (items.length === 0) {
         return;
@@ -6421,7 +6502,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$5 = 'modal';
-  var VERSION$5 = '4.3.1';
+  var VERSION$5 = '4.4.1';
   var DATA_KEY$5 = 'bs.modal';
   var EVENT_KEY$5 = "." + DATA_KEY$5;
   var DATA_API_KEY$5 = '.data-api';
@@ -6442,6 +6523,7 @@ __webpack_require__.r(__webpack_exports__);
   };
   var Event$5 = {
     HIDE: "hide" + EVENT_KEY$5,
+    HIDE_PREVENTED: "hidePrevented" + EVENT_KEY$5,
     HIDDEN: "hidden" + EVENT_KEY$5,
     SHOW: "show" + EVENT_KEY$5,
     SHOWN: "shown" + EVENT_KEY$5,
@@ -6459,7 +6541,8 @@ __webpack_require__.r(__webpack_exports__);
     BACKDROP: 'modal-backdrop',
     OPEN: 'modal-open',
     FADE: 'fade',
-    SHOW: 'show'
+    SHOW: 'show',
+    STATIC: 'modal-static'
   };
   var Selector$5 = {
     DIALOG: '.modal-dialog',
@@ -6468,13 +6551,12 @@ __webpack_require__.r(__webpack_exports__);
     DATA_DISMISS: '[data-dismiss="modal"]',
     FIXED_CONTENT: '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top',
     STICKY_CONTENT: '.sticky-top'
-    /**
-     * ------------------------------------------------------------------------
-     * Class Definition
-     * ------------------------------------------------------------------------
-     */
-
   };
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
 
   var Modal =
   /*#__PURE__*/
@@ -6620,15 +6702,40 @@ __webpack_require__.r(__webpack_exports__);
     ;
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread({}, Default$3, config);
+      config = _objectSpread2({}, Default$3, {}, config);
       Util.typeCheckConfig(NAME$5, config, DefaultType$3);
       return config;
     };
 
-    _proto._showElement = function _showElement(relatedTarget) {
+    _proto._triggerBackdropTransition = function _triggerBackdropTransition() {
       var _this3 = this;
 
+      if (this._config.backdrop === 'static') {
+        var hideEventPrevented = $.Event(Event$5.HIDE_PREVENTED);
+        $(this._element).trigger(hideEventPrevented);
+
+        if (hideEventPrevented.defaultPrevented) {
+          return;
+        }
+
+        this._element.classList.add(ClassName$5.STATIC);
+
+        var modalTransitionDuration = Util.getTransitionDurationFromElement(this._element);
+        $(this._element).one(Util.TRANSITION_END, function () {
+          _this3._element.classList.remove(ClassName$5.STATIC);
+        }).emulateTransitionEnd(modalTransitionDuration);
+
+        this._element.focus();
+      } else {
+        this.hide();
+      }
+    };
+
+    _proto._showElement = function _showElement(relatedTarget) {
+      var _this4 = this;
+
       var transition = $(this._element).hasClass(ClassName$5.FADE);
+      var modalBody = this._dialog ? this._dialog.querySelector(Selector$5.MODAL_BODY) : null;
 
       if (!this._element.parentNode || this._element.parentNode.nodeType !== Node.ELEMENT_NODE) {
         // Don't move modal's DOM position
@@ -6641,8 +6748,8 @@ __webpack_require__.r(__webpack_exports__);
 
       this._element.setAttribute('aria-modal', true);
 
-      if ($(this._dialog).hasClass(ClassName$5.SCROLLABLE)) {
-        this._dialog.querySelector(Selector$5.MODAL_BODY).scrollTop = 0;
+      if ($(this._dialog).hasClass(ClassName$5.SCROLLABLE) && modalBody) {
+        modalBody.scrollTop = 0;
       } else {
         this._element.scrollTop = 0;
       }
@@ -6662,12 +6769,12 @@ __webpack_require__.r(__webpack_exports__);
       });
 
       var transitionComplete = function transitionComplete() {
-        if (_this3._config.focus) {
-          _this3._element.focus();
+        if (_this4._config.focus) {
+          _this4._element.focus();
         }
 
-        _this3._isTransitioning = false;
-        $(_this3._element).trigger(shownEvent);
+        _this4._isTransitioning = false;
+        $(_this4._element).trigger(shownEvent);
       };
 
       if (transition) {
@@ -6679,25 +6786,23 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     _proto._enforceFocus = function _enforceFocus() {
-      var _this4 = this;
+      var _this5 = this;
 
       $(document).off(Event$5.FOCUSIN) // Guard against infinite focus loop
       .on(Event$5.FOCUSIN, function (event) {
-        if (document !== event.target && _this4._element !== event.target && $(_this4._element).has(event.target).length === 0) {
-          _this4._element.focus();
+        if (document !== event.target && _this5._element !== event.target && $(_this5._element).has(event.target).length === 0) {
+          _this5._element.focus();
         }
       });
     };
 
     _proto._setEscapeEvent = function _setEscapeEvent() {
-      var _this5 = this;
+      var _this6 = this;
 
       if (this._isShown && this._config.keyboard) {
         $(this._element).on(Event$5.KEYDOWN_DISMISS, function (event) {
           if (event.which === ESCAPE_KEYCODE$1) {
-            event.preventDefault();
-
-            _this5.hide();
+            _this6._triggerBackdropTransition();
           }
         });
       } else if (!this._isShown) {
@@ -6706,11 +6811,11 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     _proto._setResizeEvent = function _setResizeEvent() {
-      var _this6 = this;
+      var _this7 = this;
 
       if (this._isShown) {
         $(window).on(Event$5.RESIZE, function (event) {
-          return _this6.handleUpdate(event);
+          return _this7.handleUpdate(event);
         });
       } else {
         $(window).off(Event$5.RESIZE);
@@ -6718,7 +6823,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     _proto._hideModal = function _hideModal() {
-      var _this7 = this;
+      var _this8 = this;
 
       this._element.style.display = 'none';
 
@@ -6731,11 +6836,11 @@ __webpack_require__.r(__webpack_exports__);
       this._showBackdrop(function () {
         $(document.body).removeClass(ClassName$5.OPEN);
 
-        _this7._resetAdjustments();
+        _this8._resetAdjustments();
 
-        _this7._resetScrollbar();
+        _this8._resetScrollbar();
 
-        $(_this7._element).trigger(Event$5.HIDDEN);
+        $(_this8._element).trigger(Event$5.HIDDEN);
       });
     };
 
@@ -6747,7 +6852,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     _proto._showBackdrop = function _showBackdrop(callback) {
-      var _this8 = this;
+      var _this9 = this;
 
       var animate = $(this._element).hasClass(ClassName$5.FADE) ? ClassName$5.FADE : '';
 
@@ -6761,8 +6866,8 @@ __webpack_require__.r(__webpack_exports__);
 
         $(this._backdrop).appendTo(document.body);
         $(this._element).on(Event$5.CLICK_DISMISS, function (event) {
-          if (_this8._ignoreBackdropClick) {
-            _this8._ignoreBackdropClick = false;
+          if (_this9._ignoreBackdropClick) {
+            _this9._ignoreBackdropClick = false;
             return;
           }
 
@@ -6770,11 +6875,7 @@ __webpack_require__.r(__webpack_exports__);
             return;
           }
 
-          if (_this8._config.backdrop === 'static') {
-            _this8._element.focus();
-          } else {
-            _this8.hide();
-          }
+          _this9._triggerBackdropTransition();
         });
 
         if (animate) {
@@ -6798,7 +6899,7 @@ __webpack_require__.r(__webpack_exports__);
         $(this._backdrop).removeClass(ClassName$5.SHOW);
 
         var callbackRemove = function callbackRemove() {
-          _this8._removeBackdrop();
+          _this9._removeBackdrop();
 
           if (callback) {
             callback();
@@ -6845,7 +6946,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     _proto._setScrollbar = function _setScrollbar() {
-      var _this9 = this;
+      var _this10 = this;
 
       if (this._isBodyOverflowing) {
         // Note: DOMNode.style.paddingRight returns the actual value or '' if not set
@@ -6856,13 +6957,13 @@ __webpack_require__.r(__webpack_exports__);
         $(fixedContent).each(function (index, element) {
           var actualPadding = element.style.paddingRight;
           var calculatedPadding = $(element).css('padding-right');
-          $(element).data('padding-right', actualPadding).css('padding-right', parseFloat(calculatedPadding) + _this9._scrollbarWidth + "px");
+          $(element).data('padding-right', actualPadding).css('padding-right', parseFloat(calculatedPadding) + _this10._scrollbarWidth + "px");
         }); // Adjust sticky content margin
 
         $(stickyContent).each(function (index, element) {
           var actualMargin = element.style.marginRight;
           var calculatedMargin = $(element).css('margin-right');
-          $(element).data('margin-right', actualMargin).css('margin-right', parseFloat(calculatedMargin) - _this9._scrollbarWidth + "px");
+          $(element).data('margin-right', actualMargin).css('margin-right', parseFloat(calculatedMargin) - _this10._scrollbarWidth + "px");
         }); // Adjust body padding
 
         var actualPadding = document.body.style.paddingRight;
@@ -6911,7 +7012,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.each(function () {
         var data = $(this).data(DATA_KEY$5);
 
-        var _config = _objectSpread({}, Default$3, $(this).data(), typeof config === 'object' && config ? config : {});
+        var _config = _objectSpread2({}, Default$3, {}, $(this).data(), {}, typeof config === 'object' && config ? config : {});
 
         if (!data) {
           data = new Modal(this, _config);
@@ -6952,7 +7053,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
   $(document).on(Event$5.CLICK_DATA_API, Selector$5.DATA_TOGGLE, function (event) {
-    var _this10 = this;
+    var _this11 = this;
 
     var target;
     var selector = Util.getSelectorFromElement(this);
@@ -6961,7 +7062,7 @@ __webpack_require__.r(__webpack_exports__);
       target = document.querySelector(selector);
     }
 
-    var config = $(target).data(DATA_KEY$5) ? 'toggle' : _objectSpread({}, $(target).data(), $(this).data());
+    var config = $(target).data(DATA_KEY$5) ? 'toggle' : _objectSpread2({}, $(target).data(), {}, $(this).data());
 
     if (this.tagName === 'A' || this.tagName === 'AREA') {
       event.preventDefault();
@@ -6974,8 +7075,8 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       $target.one(Event$5.HIDDEN, function () {
-        if ($(_this10).is(':visible')) {
-          _this10.focus();
+        if ($(_this11).is(':visible')) {
+          _this11.focus();
         }
       });
     });
@@ -6998,7 +7099,7 @@ __webpack_require__.r(__webpack_exports__);
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v4.3.1): tools/sanitizer.js
+   * Bootstrap (v4.4.1): tools/sanitizer.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
    * --------------------------------------------------------------------------
    */
@@ -7036,13 +7137,13 @@ __webpack_require__.r(__webpack_exports__);
     strong: [],
     u: [],
     ul: []
-    /**
-     * A pattern that recognizes a commonly useful subset of URLs that are safe.
-     *
-     * Shoutout to Angular 7 https://github.com/angular/angular/blob/7.2.4/packages/core/src/sanitization/url_sanitizer.ts
-     */
-
   };
+  /**
+   * A pattern that recognizes a commonly useful subset of URLs that are safe.
+   *
+   * Shoutout to Angular 7 https://github.com/angular/angular/blob/7.2.4/packages/core/src/sanitization/url_sanitizer.ts
+   */
+
   var SAFE_URL_PATTERN = /^(?:(?:https?|mailto|ftp|tel|file):|[^&:/?#]*(?:[/?#]|$))/gi;
   /**
    * A pattern that matches safe data URLs. Only matches image, video and audio types.
@@ -7109,7 +7210,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     for (var i = 0, len = elements.length; i < len; i++) {
-      var _ret = _loop(i, len);
+      var _ret = _loop(i);
 
       if (_ret === "continue") continue;
     }
@@ -7124,7 +7225,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$6 = 'tooltip';
-  var VERSION$6 = '4.3.1';
+  var VERSION$6 = '4.4.1';
   var DATA_KEY$6 = 'bs.tooltip';
   var EVENT_KEY$6 = "." + DATA_KEY$6;
   var JQUERY_NO_CONFLICT$6 = $.fn[NAME$6];
@@ -7146,7 +7247,8 @@ __webpack_require__.r(__webpack_exports__);
     boundary: '(string|element)',
     sanitize: 'boolean',
     sanitizeFn: '(null|function)',
-    whiteList: 'object'
+    whiteList: 'object',
+    popperConfig: '(null|object)'
   };
   var AttachmentMap$1 = {
     AUTO: 'auto',
@@ -7170,7 +7272,8 @@ __webpack_require__.r(__webpack_exports__);
     boundary: 'scrollParent',
     sanitize: true,
     sanitizeFn: null,
-    whiteList: DefaultWhitelist
+    whiteList: DefaultWhitelist,
+    popperConfig: null
   };
   var HoverState = {
     SHOW: 'show',
@@ -7202,22 +7305,17 @@ __webpack_require__.r(__webpack_exports__);
     FOCUS: 'focus',
     CLICK: 'click',
     MANUAL: 'manual'
-    /**
-     * ------------------------------------------------------------------------
-     * Class Definition
-     * ------------------------------------------------------------------------
-     */
-
   };
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
 
   var Tooltip =
   /*#__PURE__*/
   function () {
     function Tooltip(element, config) {
-      /**
-       * Check for Popper dependency
-       * Popper - https://popper.js.org
-       */
       if (typeof Popper === 'undefined') {
         throw new TypeError('Bootstrap\'s tooltips require Popper.js (https://popper.js.org/)');
       } // private
@@ -7288,7 +7386,7 @@ __webpack_require__.r(__webpack_exports__);
       clearTimeout(this._timeout);
       $.removeData(this.element, this.constructor.DATA_KEY);
       $(this.element).off(this.constructor.EVENT_KEY);
-      $(this.element).closest('.modal').off('hide.bs.modal');
+      $(this.element).closest('.modal').off('hide.bs.modal', this._hideModalHandler);
 
       if (this.tip) {
         $(this.tip).remove();
@@ -7299,7 +7397,7 @@ __webpack_require__.r(__webpack_exports__);
       this._hoverState = null;
       this._activeTrigger = null;
 
-      if (this._popper !== null) {
+      if (this._popper) {
         this._popper.destroy();
       }
 
@@ -7352,29 +7450,7 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         $(this.element).trigger(this.constructor.Event.INSERTED);
-        this._popper = new Popper(this.element, tip, {
-          placement: attachment,
-          modifiers: {
-            offset: this._getOffset(),
-            flip: {
-              behavior: this.config.fallbackPlacement
-            },
-            arrow: {
-              element: Selector$6.ARROW
-            },
-            preventOverflow: {
-              boundariesElement: this.config.boundary
-            }
-          },
-          onCreate: function onCreate(data) {
-            if (data.originalPlacement !== data.placement) {
-              _this._handlePopperPlacementChange(data);
-            }
-          },
-          onUpdate: function onUpdate(data) {
-            return _this._handlePopperPlacementChange(data);
-          }
-        });
+        this._popper = new Popper(this.element, tip, this._getPopperConfig(attachment));
         $(tip).addClass(ClassName$6.SHOW); // If this is a touch-enabled device we add extra
         // empty mouseover listeners to the body's immediate children;
         // only needed because of broken event delegation on iOS
@@ -7522,14 +7598,43 @@ __webpack_require__.r(__webpack_exports__);
     } // Private
     ;
 
-    _proto._getOffset = function _getOffset() {
+    _proto._getPopperConfig = function _getPopperConfig(attachment) {
       var _this3 = this;
+
+      var defaultBsConfig = {
+        placement: attachment,
+        modifiers: {
+          offset: this._getOffset(),
+          flip: {
+            behavior: this.config.fallbackPlacement
+          },
+          arrow: {
+            element: Selector$6.ARROW
+          },
+          preventOverflow: {
+            boundariesElement: this.config.boundary
+          }
+        },
+        onCreate: function onCreate(data) {
+          if (data.originalPlacement !== data.placement) {
+            _this3._handlePopperPlacementChange(data);
+          }
+        },
+        onUpdate: function onUpdate(data) {
+          return _this3._handlePopperPlacementChange(data);
+        }
+      };
+      return _objectSpread2({}, defaultBsConfig, {}, this.config.popperConfig);
+    };
+
+    _proto._getOffset = function _getOffset() {
+      var _this4 = this;
 
       var offset = {};
 
       if (typeof this.config.offset === 'function') {
         offset.fn = function (data) {
-          data.offsets = _objectSpread({}, data.offsets, _this3.config.offset(data.offsets, _this3.element) || {});
+          data.offsets = _objectSpread2({}, data.offsets, {}, _this4.config.offset(data.offsets, _this4.element) || {});
           return data;
         };
       } else {
@@ -7556,32 +7661,35 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     _proto._setListeners = function _setListeners() {
-      var _this4 = this;
+      var _this5 = this;
 
       var triggers = this.config.trigger.split(' ');
       triggers.forEach(function (trigger) {
         if (trigger === 'click') {
-          $(_this4.element).on(_this4.constructor.Event.CLICK, _this4.config.selector, function (event) {
-            return _this4.toggle(event);
+          $(_this5.element).on(_this5.constructor.Event.CLICK, _this5.config.selector, function (event) {
+            return _this5.toggle(event);
           });
         } else if (trigger !== Trigger.MANUAL) {
-          var eventIn = trigger === Trigger.HOVER ? _this4.constructor.Event.MOUSEENTER : _this4.constructor.Event.FOCUSIN;
-          var eventOut = trigger === Trigger.HOVER ? _this4.constructor.Event.MOUSELEAVE : _this4.constructor.Event.FOCUSOUT;
-          $(_this4.element).on(eventIn, _this4.config.selector, function (event) {
-            return _this4._enter(event);
-          }).on(eventOut, _this4.config.selector, function (event) {
-            return _this4._leave(event);
+          var eventIn = trigger === Trigger.HOVER ? _this5.constructor.Event.MOUSEENTER : _this5.constructor.Event.FOCUSIN;
+          var eventOut = trigger === Trigger.HOVER ? _this5.constructor.Event.MOUSELEAVE : _this5.constructor.Event.FOCUSOUT;
+          $(_this5.element).on(eventIn, _this5.config.selector, function (event) {
+            return _this5._enter(event);
+          }).on(eventOut, _this5.config.selector, function (event) {
+            return _this5._leave(event);
           });
-        }
-      });
-      $(this.element).closest('.modal').on('hide.bs.modal', function () {
-        if (_this4.element) {
-          _this4.hide();
         }
       });
 
+      this._hideModalHandler = function () {
+        if (_this5.element) {
+          _this5.hide();
+        }
+      };
+
+      $(this.element).closest('.modal').on('hide.bs.modal', this._hideModalHandler);
+
       if (this.config.selector) {
-        this.config = _objectSpread({}, this.config, {
+        this.config = _objectSpread2({}, this.config, {
           trigger: 'manual',
           selector: ''
         });
@@ -7681,7 +7789,7 @@ __webpack_require__.r(__webpack_exports__);
           delete dataAttributes[dataAttr];
         }
       });
-      config = _objectSpread({}, this.constructor.Default, dataAttributes, typeof config === 'object' && config ? config : {});
+      config = _objectSpread2({}, this.constructor.Default, {}, dataAttributes, {}, typeof config === 'object' && config ? config : {});
 
       if (typeof config.delay === 'number') {
         config.delay = {
@@ -7841,21 +7949,21 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$7 = 'popover';
-  var VERSION$7 = '4.3.1';
+  var VERSION$7 = '4.4.1';
   var DATA_KEY$7 = 'bs.popover';
   var EVENT_KEY$7 = "." + DATA_KEY$7;
   var JQUERY_NO_CONFLICT$7 = $.fn[NAME$7];
   var CLASS_PREFIX$1 = 'bs-popover';
   var BSCLS_PREFIX_REGEX$1 = new RegExp("(^|\\s)" + CLASS_PREFIX$1 + "\\S+", 'g');
 
-  var Default$5 = _objectSpread({}, Tooltip.Default, {
+  var Default$5 = _objectSpread2({}, Tooltip.Default, {
     placement: 'right',
     trigger: 'click',
     content: '',
     template: '<div class="popover" role="tooltip">' + '<div class="arrow"></div>' + '<h3 class="popover-header"></h3>' + '<div class="popover-body"></div></div>'
   });
 
-  var DefaultType$5 = _objectSpread({}, Tooltip.DefaultType, {
+  var DefaultType$5 = _objectSpread2({}, Tooltip.DefaultType, {
     content: '(string|element|function)'
   });
 
@@ -7878,13 +7986,12 @@ __webpack_require__.r(__webpack_exports__);
     FOCUSOUT: "focusout" + EVENT_KEY$7,
     MOUSEENTER: "mouseenter" + EVENT_KEY$7,
     MOUSELEAVE: "mouseleave" + EVENT_KEY$7
-    /**
-     * ------------------------------------------------------------------------
-     * Class Definition
-     * ------------------------------------------------------------------------
-     */
-
   };
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
 
   var Popover =
   /*#__PURE__*/
@@ -8028,7 +8135,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$8 = 'scrollspy';
-  var VERSION$8 = '4.3.1';
+  var VERSION$8 = '4.4.1';
   var DATA_KEY$8 = 'bs.scrollspy';
   var EVENT_KEY$8 = "." + DATA_KEY$8;
   var DATA_API_KEY$6 = '.data-api';
@@ -8067,13 +8174,12 @@ __webpack_require__.r(__webpack_exports__);
   var OffsetMethod = {
     OFFSET: 'offset',
     POSITION: 'position'
-    /**
-     * ------------------------------------------------------------------------
-     * Class Definition
-     * ------------------------------------------------------------------------
-     */
-
   };
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
 
   var ScrollSpy =
   /*#__PURE__*/
@@ -8155,7 +8261,7 @@ __webpack_require__.r(__webpack_exports__);
     ;
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread({}, Default$6, typeof config === 'object' && config ? config : {});
+      config = _objectSpread2({}, Default$6, {}, typeof config === 'object' && config ? config : {});
 
       if (typeof config.target !== 'string') {
         var id = $(config.target).attr('id');
@@ -8335,7 +8441,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$9 = 'tab';
-  var VERSION$9 = '4.3.1';
+  var VERSION$9 = '4.4.1';
   var DATA_KEY$9 = 'bs.tab';
   var EVENT_KEY$9 = "." + DATA_KEY$9;
   var DATA_API_KEY$7 = '.data-api';
@@ -8362,13 +8468,12 @@ __webpack_require__.r(__webpack_exports__);
     DATA_TOGGLE: '[data-toggle="tab"], [data-toggle="pill"], [data-toggle="list"]',
     DROPDOWN_TOGGLE: '.dropdown-toggle',
     DROPDOWN_ACTIVE_CHILD: '> .dropdown-menu .active'
-    /**
-     * ------------------------------------------------------------------------
-     * Class Definition
-     * ------------------------------------------------------------------------
-     */
-
   };
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
 
   var Tab =
   /*#__PURE__*/
@@ -8570,7 +8675,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$a = 'toast';
-  var VERSION$a = '4.3.1';
+  var VERSION$a = '4.4.1';
   var DATA_KEY$a = 'bs.toast';
   var EVENT_KEY$a = "." + DATA_KEY$a;
   var JQUERY_NO_CONFLICT$a = $.fn[NAME$a];
@@ -8599,13 +8704,12 @@ __webpack_require__.r(__webpack_exports__);
   };
   var Selector$a = {
     DATA_DISMISS: '[data-dismiss="toast"]'
-    /**
-     * ------------------------------------------------------------------------
-     * Class Definition
-     * ------------------------------------------------------------------------
-     */
-
   };
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
 
   var Toast =
   /*#__PURE__*/
@@ -8625,7 +8729,12 @@ __webpack_require__.r(__webpack_exports__);
     _proto.show = function show() {
       var _this = this;
 
-      $(this._element).trigger(Event$a.SHOW);
+      var showEvent = $.Event(Event$a.SHOW);
+      $(this._element).trigger(showEvent);
+
+      if (showEvent.isDefaultPrevented()) {
+        return;
+      }
 
       if (this._config.animation) {
         this._element.classList.add(ClassName$a.FADE);
@@ -8639,11 +8748,15 @@ __webpack_require__.r(__webpack_exports__);
         $(_this._element).trigger(Event$a.SHOWN);
 
         if (_this._config.autohide) {
-          _this.hide();
+          _this._timeout = setTimeout(function () {
+            _this.hide();
+          }, _this._config.delay);
         }
       };
 
       this._element.classList.remove(ClassName$a.HIDE);
+
+      Util.reflow(this._element);
 
       this._element.classList.add(ClassName$a.SHOWING);
 
@@ -8655,22 +8768,19 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
 
-    _proto.hide = function hide(withoutTimeout) {
-      var _this2 = this;
-
+    _proto.hide = function hide() {
       if (!this._element.classList.contains(ClassName$a.SHOW)) {
         return;
       }
 
-      $(this._element).trigger(Event$a.HIDE);
+      var hideEvent = $.Event(Event$a.HIDE);
+      $(this._element).trigger(hideEvent);
 
-      if (withoutTimeout) {
-        this._close();
-      } else {
-        this._timeout = setTimeout(function () {
-          _this2._close();
-        }, this._config.delay);
+      if (hideEvent.isDefaultPrevented()) {
+        return;
       }
+
+      this._close();
     };
 
     _proto.dispose = function dispose() {
@@ -8689,26 +8799,26 @@ __webpack_require__.r(__webpack_exports__);
     ;
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread({}, Default$7, $(this._element).data(), typeof config === 'object' && config ? config : {});
+      config = _objectSpread2({}, Default$7, {}, $(this._element).data(), {}, typeof config === 'object' && config ? config : {});
       Util.typeCheckConfig(NAME$a, config, this.constructor.DefaultType);
       return config;
     };
 
     _proto._setListeners = function _setListeners() {
-      var _this3 = this;
+      var _this2 = this;
 
       $(this._element).on(Event$a.CLICK_DISMISS, Selector$a.DATA_DISMISS, function () {
-        return _this3.hide(true);
+        return _this2.hide();
       });
     };
 
     _proto._close = function _close() {
-      var _this4 = this;
+      var _this3 = this;
 
       var complete = function complete() {
-        _this4._element.classList.add(ClassName$a.HIDE);
+        _this3._element.classList.add(ClassName$a.HIDE);
 
-        $(_this4._element).trigger(Event$a.HIDDEN);
+        $(_this3._element).trigger(Event$a.HIDDEN);
       };
 
       this._element.classList.remove(ClassName$a.SHOW);
@@ -8778,31 +8888,6 @@ __webpack_require__.r(__webpack_exports__);
     return Toast._jQueryInterface;
   };
 
-  /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v4.3.1): index.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
-   * --------------------------------------------------------------------------
-   */
-
-  (function () {
-    if (typeof $ === 'undefined') {
-      throw new TypeError('Bootstrap\'s JavaScript requires jQuery. jQuery must be included before Bootstrap\'s JavaScript.');
-    }
-
-    var version = $.fn.jquery.split(' ')[0].split('.');
-    var minMajor = 1;
-    var ltMajor = 2;
-    var minMinor = 9;
-    var minPatch = 1;
-    var maxMajor = 4;
-
-    if (version[0] < ltMajor && version[1] < minMinor || version[0] === minMajor && version[1] === minMinor && version[2] < minPatch || version[0] >= maxMajor) {
-      throw new Error('Bootstrap\'s JavaScript requires at least jQuery v1.9.1 but less than v4.0.0');
-    }
-  })();
-
-  exports.Util = Util;
   exports.Alert = Alert;
   exports.Button = Button;
   exports.Carousel = Carousel;
@@ -8814,10 +8899,11 @@ __webpack_require__.r(__webpack_exports__);
   exports.Tab = Tab;
   exports.Toast = Toast;
   exports.Tooltip = Tooltip;
+  exports.Util = Util;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));
 //# sourceMappingURL=bootstrap.js.map
 
 
@@ -8831,13 +8917,13 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
- * Cropper.js v1.5.3
+ * Cropper.js v1.5.6
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-07-10T12:07:44.557Z
+ * Date: 2019-10-04T04:33:48.372Z
  */
 
 (function (global, factory) {
@@ -8881,6 +8967,55 @@ __webpack_require__.r(__webpack_exports__);
     return Constructor;
   }
 
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
+  }
+
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      if (enumerableOnly) symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+      keys.push.apply(keys, symbols);
+    }
+
+    return keys;
+  }
+
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+
+      if (i % 2) {
+        ownKeys(source, true).forEach(function (key) {
+          _defineProperty(target, key, source[key]);
+        });
+      } else if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+      } else {
+        ownKeys(source).forEach(function (key) {
+          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+      }
+    }
+
+    return target;
+  }
+
   function _toConsumableArray(arr) {
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
   }
@@ -8901,7 +9036,7 @@ __webpack_require__.r(__webpack_exports__);
     throw new TypeError("Invalid attempt to spread non-iterable instance");
   }
 
-  var IS_BROWSER = typeof window !== 'undefined';
+  var IS_BROWSER = typeof window !== 'undefined' && typeof window.document !== 'undefined';
   var WINDOW = IS_BROWSER ? window : {};
   var IS_TOUCH_DEVICE = IS_BROWSER ? 'ontouchstart' in WINDOW.document.documentElement : false;
   var HAS_POINTER_EVENT = IS_BROWSER ? 'PointerEvent' in WINDOW : false;
@@ -8954,6 +9089,7 @@ __webpack_require__.r(__webpack_exports__);
   var MIME_TYPE_JPEG = 'image/jpeg'; // RegExps
 
   var REGEXP_ACTIONS = /^e|w|s|n|se|sw|ne|nw|all|crop|move|zoom$/;
+  var REGEXP_DATA_URL = /^data:/;
   var REGEXP_DATA_URL_JPEG = /^data:image\/jpeg;base64,/;
   var REGEXP_TAG_NAME = /^img|canvas$/i; // Misc
   // Inspired by the default width and height of a canvas element.
@@ -9570,7 +9706,8 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   function getMaxZoomRatio(pointers) {
-    var pointers2 = assign({}, pointers);
+    var pointers2 = _objectSpread2({}, pointers);
+
     var ratios = [];
     forEach(pointers, function (pointer, pointerId) {
       delete pointers2[pointerId];
@@ -9604,7 +9741,7 @@ __webpack_require__.r(__webpack_exports__);
       endX: pageX,
       endY: pageY
     };
-    return endOnly ? end : assign({
+    return endOnly ? end : _objectSpread2({
       startX: pageX,
       startY: pageY
     }, end);
@@ -10355,9 +10492,11 @@ __webpack_require__.r(__webpack_exports__);
 
   var preview = {
     initPreview: function initPreview() {
-      var crossOrigin = this.crossOrigin;
+      var element = this.element,
+          crossOrigin = this.crossOrigin;
       var preview = this.options.preview;
       var url = crossOrigin ? this.crossOriginUrl : this.url;
+      var alt = element.alt || 'The image to preview';
       var image = document.createElement('img');
 
       if (crossOrigin) {
@@ -10365,6 +10504,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       image.src = url;
+      image.alt = alt;
       this.viewBox.appendChild(image);
       this.viewBoxImage = image;
 
@@ -10375,7 +10515,7 @@ __webpack_require__.r(__webpack_exports__);
       var previews = preview;
 
       if (typeof preview === 'string') {
-        previews = this.element.ownerDocument.querySelectorAll(preview);
+        previews = element.ownerDocument.querySelectorAll(preview);
       } else if (preview.querySelector) {
         previews = [preview];
       }
@@ -10395,6 +10535,7 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         img.src = url;
+        img.alt = alt;
         /**
          * Override img element styles
          * Add `display:block` to avoid margin top issue
@@ -10644,10 +10785,10 @@ __webpack_require__.r(__webpack_exports__);
       var buttons = event.buttons,
           button = event.button;
 
-      if (this.disabled // No primary button (Usually the left button)
-      // Note that touch events have no `buttons` or `button` property
-      || isNumber(buttons) && buttons !== 1 || isNumber(button) && button !== 0 // Open context menu
-      || event.ctrlKey) {
+      if (this.disabled // Handle mouse event and pointer event and ignore touch event
+      || (event.type === 'mousedown' || event.type === 'pointerdown' && event.pointerType === 'mouse') && ( // No primary button (Usually the left button)
+      isNumber(buttons) && buttons !== 1 || isNumber(button) && button !== 0 // Open context menu
+      || event.ctrlKey)) {
         return;
       }
 
@@ -12058,13 +12199,23 @@ __webpack_require__.r(__webpack_exports__);
         if (!options.checkOrientation || !window.ArrayBuffer) {
           this.clone();
           return;
-        } // Read ArrayBuffer from Data URL of JPEG images directly for better performance.
+        } // Detect the mime type of the image directly if it is a Data URL
 
 
-        if (REGEXP_DATA_URL_JPEG.test(url)) {
-          this.read(dataURLToArrayBuffer(url));
+        if (REGEXP_DATA_URL.test(url)) {
+          // Read ArrayBuffer from Data URL of JPEG images directly for better performance
+          if (REGEXP_DATA_URL_JPEG.test(url)) {
+            this.read(dataURLToArrayBuffer(url));
+          } else {
+            // Only a JPEG image may contains Exif Orientation information,
+            // the rest types of Data URLs are not necessary to check orientation at all.
+            this.clone();
+          }
+
           return;
-        }
+        } // 1. Detect the mime type of the image by a XMLHttpRequest.
+        // 2. Load the image as ArrayBuffer for reading orientation if its a JPEG image.
+
 
         var xhr = new XMLHttpRequest();
         var clone = this.clone.bind(this);
@@ -12079,6 +12230,7 @@ __webpack_require__.r(__webpack_exports__);
         xhr.ontimeout = clone;
 
         xhr.onprogress = function () {
+          // Abort the request directly if it not a JPEG image for better performance
           if (xhr.getResponseHeader('content-type') !== MIME_TYPE_JPEG) {
             xhr.abort();
           }
@@ -12142,12 +12294,10 @@ __webpack_require__.r(__webpack_exports__);
       value: function clone() {
         var element = this.element,
             url = this.url;
-        var crossOrigin;
-        var crossOriginUrl;
+        var crossOrigin = element.crossOrigin;
+        var crossOriginUrl = url;
 
         if (this.options.checkCrossOrigin && isCrossOriginURL(url)) {
-          crossOrigin = element.crossOrigin;
-
           if (!crossOrigin) {
             crossOrigin = 'anonymous';
           } // Bust cache when there is not a "crossOrigin" property (#519)
@@ -12165,6 +12315,7 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         image.src = crossOriginUrl || url;
+        image.alt = element.alt || 'The image to crop';
         this.image = image;
         image.onload = this.start.bind(this);
         image.onerror = this.stop.bind(this);
@@ -12176,7 +12327,7 @@ __webpack_require__.r(__webpack_exports__);
       value: function start() {
         var _this2 = this;
 
-        var image = this.isImg ? this.element : this.image;
+        var image = this.image;
         image.onload = null;
         image.onerror = null;
         this.sizing = true; // Match all browsers that use WebKit as the layout engine in iOS devices,
@@ -23150,7 +23301,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(global) {/**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
- * @version 1.15.0
+ * @version 1.16.0
  * @license
  * Copyright (c) 2016 Federico Zivolo and contributors
  *
@@ -23172,16 +23323,17 @@ __webpack_require__.r(__webpack_exports__);
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined' && typeof navigator !== 'undefined';
 
-var longerTimeoutBrowsers = ['Edge', 'Trident', 'Firefox'];
-var timeoutDuration = 0;
-for (var i = 0; i < longerTimeoutBrowsers.length; i += 1) {
-  if (isBrowser && navigator.userAgent.indexOf(longerTimeoutBrowsers[i]) >= 0) {
-    timeoutDuration = 1;
-    break;
+var timeoutDuration = function () {
+  var longerTimeoutBrowsers = ['Edge', 'Trident', 'Firefox'];
+  for (var i = 0; i < longerTimeoutBrowsers.length; i += 1) {
+    if (isBrowser && navigator.userAgent.indexOf(longerTimeoutBrowsers[i]) >= 0) {
+      return 1;
+    }
   }
-}
+  return 0;
+}();
 
 function microtaskDebounce(fn) {
   var called = false;
@@ -23299,6 +23451,17 @@ function getScrollParent(element) {
   }
 
   return getScrollParent(getParentNode(element));
+}
+
+/**
+ * Returns the reference node of the reference object, or the reference object itself.
+ * @method
+ * @memberof Popper.Utils
+ * @param {Element|Object} reference - the reference element (the popper will be relative to this)
+ * @returns {Element} parent
+ */
+function getReferenceNode(reference) {
+  return reference && reference.referenceNode ? reference.referenceNode : reference;
 }
 
 var isIE11 = isBrowser && !!(window.MSInputMethodContext && document.documentMode);
@@ -23609,8 +23772,8 @@ function getBoundingClientRect(element) {
 
   // subtract scrollbar size from sizes
   var sizes = element.nodeName === 'HTML' ? getWindowSizes(element.ownerDocument) : {};
-  var width = sizes.width || element.clientWidth || result.right - result.left;
-  var height = sizes.height || element.clientHeight || result.bottom - result.top;
+  var width = sizes.width || element.clientWidth || result.width;
+  var height = sizes.height || element.clientHeight || result.height;
 
   var horizScrollbar = element.offsetWidth - width;
   var vertScrollbar = element.offsetHeight - height;
@@ -23762,7 +23925,7 @@ function getBoundaries(popper, reference, padding, boundariesElement) {
   // NOTE: 1 DOM access here
 
   var boundaries = { top: 0, left: 0 };
-  var offsetParent = fixedPosition ? getFixedPositionOffsetParent(popper) : findCommonOffsetParent(popper, reference);
+  var offsetParent = fixedPosition ? getFixedPositionOffsetParent(popper) : findCommonOffsetParent(popper, getReferenceNode(reference));
 
   // Handle viewport case
   if (boundariesElement === 'viewport') {
@@ -23890,7 +24053,7 @@ function computeAutoPlacement(placement, refRect, popper, reference, boundariesE
 function getReferenceOffsets(state, popper, reference) {
   var fixedPosition = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
 
-  var commonOffsetParent = fixedPosition ? getFixedPositionOffsetParent(popper) : findCommonOffsetParent(popper, reference);
+  var commonOffsetParent = fixedPosition ? getFixedPositionOffsetParent(popper) : findCommonOffsetParent(popper, getReferenceNode(reference));
   return getOffsetRectRelativeToArbitraryNode(reference, commonOffsetParent, fixedPosition);
 }
 
@@ -24152,7 +24315,7 @@ function destroy() {
 
   this.disableEventListeners();
 
-  // remove the popper if user explicity asked for the deletion on destroy
+  // remove the popper if user explicitly asked for the deletion on destroy
   // do not use `remove` because IE11 doesn't support it
   if (this.options.removeOnDestroy) {
     this.popper.parentNode.removeChild(this.popper);
@@ -29935,2471 +30098,3711 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 
 /***/ }),
 
-/***/ "./node_modules/sortablejs/Sortable.js":
-/*!*********************************************!*\
-  !*** ./node_modules/sortablejs/Sortable.js ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "./node_modules/sortablejs/modular/sortable.esm.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/sortablejs/modular/sortable.esm.js ***!
+  \*********************************************************/
+/*! exports provided: default, MultiDrag, Sortable, Swap */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**!
- * Sortable
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MultiDrag", function() { return MultiDragPlugin; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Sortable", function() { return Sortable; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Swap", function() { return SwapPlugin; });
+/**!
+ * Sortable 1.10.1
  * @author	RubaXa   <trash@rubaxa.org>
  * @author	owenm    <owen23355@gmail.com>
  * @license MIT
  */
-
-(function sortableModule(factory) {
-	"use strict";
-
-	if (true) {
-		!(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
-				__WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}
-	else {}
-})(function sortableFactory() {
-	"use strict";
-
-	if (typeof window === "undefined" || !window.document) {
-		return function sortableError() {
-			throw new Error("Sortable.js requires a window with a document");
-		};
-	}
-
-	var dragEl,
-		parentEl,
-		ghostEl,
-		cloneEl,
-		rootEl,
-		nextEl,
-		lastDownEl,
-
-		scrollEl,
-		scrollParentEl,
-		scrollCustomFn,
-
-		oldIndex,
-		newIndex,
-		oldDraggableIndex,
-		newDraggableIndex,
-
-		activeGroup,
-		putSortable,
-
-		autoScrolls = [],
-		scrolling = false,
-
-		awaitingDragStarted = false,
-		ignoreNextClick = false,
-		sortables = [],
-
-		pointerElemChangedInterval,
-		lastPointerElemX,
-		lastPointerElemY,
-
-		tapEvt,
-		touchEvt,
-
-		moved,
-
-
-		lastTarget,
-		lastDirection,
-		pastFirstInvertThresh = false,
-		isCircumstantialInvert = false,
-		lastMode, // 'swap' or 'insert'
-
-		targetMoveDistance,
-
-		// For positioning ghost absolutely
-		ghostRelativeParent,
-		ghostRelativeParentInitialScroll = [], // (left, top)
-
-		realDragElRect, // dragEl rect after current animation
-
-		/** @const */
-		R_SPACE = /\s+/g,
-
-		expando = 'Sortable' + (new Date).getTime(),
-
-		win = window,
-		document = win.document,
-		parseInt = win.parseInt,
-		setTimeout = win.setTimeout,
-
-		$ = win.jQuery || win.Zepto,
-		Polymer = win.Polymer,
-
-		captureMode = {
-			capture: false,
-			passive: false
-		},
-
-		IE11OrLess = !!navigator.userAgent.match(/(?:Trident.*rv[ :]?11\.|msie|iemobile)/i),
-		Edge = !!navigator.userAgent.match(/Edge/i),
-		FireFox = !!navigator.userAgent.match(/firefox/i),
-		Safari = !!(navigator.userAgent.match(/safari/i) && !navigator.userAgent.match(/chrome/i) && !navigator.userAgent.match(/android/i)),
-		IOS = !!(navigator.userAgent.match(/iP(ad|od|hone)/i)),
-
-		PositionGhostAbsolutely = IOS,
-
-		CSSFloatProperty = Edge || IE11OrLess ? 'cssFloat' : 'float',
-
-		// This will not pass for IE9, because IE9 DnD only works on anchors
-		supportDraggable = ('draggable' in document.createElement('div')),
-
-		supportCssPointerEvents = (function() {
-			// false when <= IE11
-			if (IE11OrLess) {
-				return false;
-			}
-			var el = document.createElement('x');
-			el.style.cssText = 'pointer-events:auto';
-			return el.style.pointerEvents === 'auto';
-		})(),
-
-		_silent = false,
-		_alignedSilent = false,
-
-		abs = Math.abs,
-		min = Math.min,
-		max = Math.max,
-
-		savedInputChecked = [],
-
-		_detectDirection = function(el, options) {
-			var elCSS = _css(el),
-				elWidth = parseInt(elCSS.width)
-					- parseInt(elCSS.paddingLeft)
-					- parseInt(elCSS.paddingRight)
-					- parseInt(elCSS.borderLeftWidth)
-					- parseInt(elCSS.borderRightWidth),
-				child1 = _getChild(el, 0, options),
-				child2 = _getChild(el, 1, options),
-				firstChildCSS = child1 && _css(child1),
-				secondChildCSS = child2 && _css(child2),
-				firstChildWidth = firstChildCSS && parseInt(firstChildCSS.marginLeft) + parseInt(firstChildCSS.marginRight) + _getRect(child1).width,
-				secondChildWidth = secondChildCSS && parseInt(secondChildCSS.marginLeft) + parseInt(secondChildCSS.marginRight) + _getRect(child2).width;
-
-			if (elCSS.display === 'flex') {
-				return elCSS.flexDirection === 'column' || elCSS.flexDirection === 'column-reverse'
-				? 'vertical' : 'horizontal';
-			}
-
-			if (elCSS.display === 'grid') {
-				return elCSS.gridTemplateColumns.split(' ').length <= 1 ? 'vertical' : 'horizontal';
-			}
-
-			if (child1 && firstChildCSS.float !== 'none') {
-				var touchingSideChild2 = firstChildCSS.float === 'left' ? 'left' : 'right';
-
-				return child2 && (secondChildCSS.clear === 'both' || secondChildCSS.clear === touchingSideChild2) ?
-					'vertical' : 'horizontal';
-			}
-
-			return (child1 &&
-				(
-					firstChildCSS.display === 'block' ||
-					firstChildCSS.display === 'flex' ||
-					firstChildCSS.display === 'table' ||
-					firstChildCSS.display === 'grid' ||
-					firstChildWidth >= elWidth &&
-					elCSS[CSSFloatProperty] === 'none' ||
-					child2 &&
-					elCSS[CSSFloatProperty] === 'none' &&
-					firstChildWidth + secondChildWidth > elWidth
-				) ?
-				'vertical' : 'horizontal'
-			);
-		},
-
-		/**
-		 * Detects first nearest empty sortable to X and Y position using emptyInsertThreshold.
-		 * @param  {Number} x      X position
-		 * @param  {Number} y      Y position
-		 * @return {HTMLElement}   Element of the first found nearest Sortable
-		 */
-		_detectNearestEmptySortable = function(x, y) {
-			for (var i = 0; i < sortables.length; i++) {
-				if (_lastChild(sortables[i])) continue;
-
-				var rect = _getRect(sortables[i]),
-					threshold = sortables[i][expando].options.emptyInsertThreshold,
-					insideHorizontally = x >= (rect.left - threshold) && x <= (rect.right + threshold),
-					insideVertically = y >= (rect.top - threshold) && y <= (rect.bottom + threshold);
-
-				if (threshold && insideHorizontally && insideVertically) {
-					return sortables[i];
-				}
-			}
-		},
-
-		_isClientInRowColumn = function(x, y, el, axis, options) {
-			var targetRect = _getRect(el),
-				targetS1Opp = axis === 'vertical' ? targetRect.left : targetRect.top,
-				targetS2Opp = axis === 'vertical' ? targetRect.right : targetRect.bottom,
-				mouseOnOppAxis = axis === 'vertical' ? x : y;
-
-			return targetS1Opp < mouseOnOppAxis && mouseOnOppAxis < targetS2Opp;
-		},
-
-		_isElInRowColumn = function(el1, el2, axis) {
-			var el1Rect = el1 === dragEl && realDragElRect || _getRect(el1),
-				el2Rect = el2 === dragEl && realDragElRect || _getRect(el2),
-				el1S1Opp = axis === 'vertical' ? el1Rect.left : el1Rect.top,
-				el1S2Opp = axis === 'vertical' ? el1Rect.right : el1Rect.bottom,
-				el1OppLength = axis === 'vertical' ? el1Rect.width : el1Rect.height,
-				el2S1Opp = axis === 'vertical' ? el2Rect.left : el2Rect.top,
-				el2S2Opp = axis === 'vertical' ? el2Rect.right : el2Rect.bottom,
-				el2OppLength = axis === 'vertical' ? el2Rect.width : el2Rect.height;
-
-			return (
-				el1S1Opp === el2S1Opp ||
-				el1S2Opp === el2S2Opp ||
-				(el1S1Opp + el1OppLength / 2) === (el2S1Opp + el2OppLength / 2)
-			);
-		},
-
-		_getParentAutoScrollElement = function(el, includeSelf) {
-			// skip to window
-			if (!el || !el.getBoundingClientRect) return _getWindowScrollingElement();
-
-			var elem = el;
-			var gotSelf = false;
-			do {
-				// we don't need to get elem css if it isn't even overflowing in the first place (performance)
-				if (elem.clientWidth < elem.scrollWidth || elem.clientHeight < elem.scrollHeight) {
-					var elemCSS = _css(elem);
-					if (
-						elem.clientWidth < elem.scrollWidth && (elemCSS.overflowX == 'auto' || elemCSS.overflowX == 'scroll') ||
-						elem.clientHeight < elem.scrollHeight && (elemCSS.overflowY == 'auto' || elemCSS.overflowY == 'scroll')
-					) {
-						if (!elem || !elem.getBoundingClientRect || elem === document.body) return _getWindowScrollingElement();
-
-						if (gotSelf || includeSelf) return elem;
-						gotSelf = true;
-					}
-				}
-			/* jshint boss:true */
-			} while (elem = elem.parentNode);
-
-			return _getWindowScrollingElement();
-		},
-
-		_getWindowScrollingElement = function() {
-			if (IE11OrLess) {
-				return document.documentElement;
-			} else {
-				return document.scrollingElement;
-			}
-		},
-
-		_scrollBy = function(el, x, y) {
-			el.scrollLeft += x;
-			el.scrollTop += y;
-		},
-
-		_autoScroll = _throttle(function (/**Event*/evt, /**Object*/options, /**HTMLElement*/rootEl, /**Boolean*/isFallback) {
-			// Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=505521
-			if (options.scroll) {
-				var _this = rootEl ? rootEl[expando] : window,
-					sens = options.scrollSensitivity,
-					speed = options.scrollSpeed,
-
-					x = evt.clientX,
-					y = evt.clientY,
-
-					winScroller = _getWindowScrollingElement(),
-
-					scrollThisInstance = false;
-
-				// Detect scrollEl
-				if (scrollParentEl !== rootEl) {
-					_clearAutoScrolls();
-
-					scrollEl = options.scroll;
-					scrollCustomFn = options.scrollFn;
-
-					if (scrollEl === true) {
-						scrollEl = _getParentAutoScrollElement(rootEl, true);
-						scrollParentEl = scrollEl;
-					}
-				}
-
-
-				var layersOut = 0;
-				var currentParent = scrollEl;
-				do {
-					var	el = currentParent,
-						rect = _getRect(el),
-
-						top = rect.top,
-						bottom = rect.bottom,
-						left = rect.left,
-						right = rect.right,
-
-						width = rect.width,
-						height = rect.height,
-
-						scrollWidth,
-						scrollHeight,
-
-						css,
-
-						vx,
-						vy,
-
-						canScrollX,
-						canScrollY,
-
-						scrollPosX,
-						scrollPosY;
-
-
-					scrollWidth = el.scrollWidth;
-					scrollHeight = el.scrollHeight;
-
-					css = _css(el);
-
-					scrollPosX = el.scrollLeft;
-					scrollPosY = el.scrollTop;
-
-					if (el === winScroller) {
-						canScrollX = width < scrollWidth && (css.overflowX === 'auto' || css.overflowX === 'scroll' || css.overflowX === 'visible');
-						canScrollY = height < scrollHeight && (css.overflowY === 'auto' || css.overflowY === 'scroll' || css.overflowY === 'visible');
-					} else {
-						canScrollX = width < scrollWidth && (css.overflowX === 'auto' || css.overflowX === 'scroll');
-						canScrollY = height < scrollHeight && (css.overflowY === 'auto' || css.overflowY === 'scroll');
-					}
-
-					vx = canScrollX && (abs(right - x) <= sens && (scrollPosX + width) < scrollWidth) - (abs(left - x) <= sens && !!scrollPosX);
-
-					vy = canScrollY && (abs(bottom - y) <= sens && (scrollPosY + height) < scrollHeight) - (abs(top - y) <= sens && !!scrollPosY);
-
-
-					if (!autoScrolls[layersOut]) {
-						for (var i = 0; i <= layersOut; i++) {
-							if (!autoScrolls[i]) {
-								autoScrolls[i] = {};
-							}
-						}
-					}
-
-					if (autoScrolls[layersOut].vx != vx || autoScrolls[layersOut].vy != vy || autoScrolls[layersOut].el !== el) {
-						autoScrolls[layersOut].el = el;
-						autoScrolls[layersOut].vx = vx;
-						autoScrolls[layersOut].vy = vy;
-
-						clearInterval(autoScrolls[layersOut].pid);
-
-						if (el && (vx != 0 || vy != 0)) {
-							scrollThisInstance = true;
-							/* jshint loopfunc:true */
-							autoScrolls[layersOut].pid = setInterval((function () {
-								// emulate drag over during autoscroll (fallback), emulating native DnD behaviour
-								if (isFallback && this.layer === 0) {
-									Sortable.active._emulateDragOver(true);
-									Sortable.active._onTouchMove(touchEvt, true);
-								}
-								var scrollOffsetY = autoScrolls[this.layer].vy ? autoScrolls[this.layer].vy * speed : 0;
-								var scrollOffsetX = autoScrolls[this.layer].vx ? autoScrolls[this.layer].vx * speed : 0;
-
-								if ('function' === typeof(scrollCustomFn)) {
-									if (scrollCustomFn.call(_this, scrollOffsetX, scrollOffsetY, evt, touchEvt, autoScrolls[this.layer].el) !== 'continue') {
-										return;
-									}
-								}
-
-								_scrollBy(autoScrolls[this.layer].el, scrollOffsetX, scrollOffsetY);
-							}).bind({layer: layersOut}), 24);
-						}
-					}
-					layersOut++;
-				} while (options.bubbleScroll && currentParent !== winScroller && (currentParent = _getParentAutoScrollElement(currentParent, false)));
-				scrolling = scrollThisInstance; // in case another function catches scrolling as false in between when it is not
-			}
-		}, 30),
-
-		_clearAutoScrolls = function () {
-			autoScrolls.forEach(function(autoScroll) {
-				clearInterval(autoScroll.pid);
-			});
-			autoScrolls = [];
-		},
-
-		_prepareGroup = function (options) {
-			function toFn(value, pull) {
-				return function(to, from, dragEl, evt) {
-					var sameGroup = to.options.group.name &&
-									from.options.group.name &&
-									to.options.group.name === from.options.group.name;
-
-					if (value == null && (pull || sameGroup)) {
-						// Default pull value
-						// Default pull and put value if same group
-						return true;
-					} else if (value == null || value === false) {
-						return false;
-					} else if (pull && value === 'clone') {
-						return value;
-					} else if (typeof value === 'function') {
-						return toFn(value(to, from, dragEl, evt), pull)(to, from, dragEl, evt);
-					} else {
-						var otherGroup = (pull ? to : from).options.group.name;
-
-						return (value === true ||
-						(typeof value === 'string' && value === otherGroup) ||
-						(value.join && value.indexOf(otherGroup) > -1));
-					}
-				};
-			}
-
-			var group = {};
-			var originalGroup = options.group;
-
-			if (!originalGroup || typeof originalGroup != 'object') {
-				originalGroup = {name: originalGroup};
-			}
-
-			group.name = originalGroup.name;
-			group.checkPull = toFn(originalGroup.pull, true);
-			group.checkPut = toFn(originalGroup.put);
-			group.revertClone = originalGroup.revertClone;
-
-			options.group = group;
-		},
-
-		_checkAlignment = function(evt) {
-			if (!dragEl || !dragEl.parentNode) return;
-			dragEl.parentNode[expando] && dragEl.parentNode[expando]._computeIsAligned(evt);
-		},
-
-		_hideGhostForTarget = function() {
-			if (!supportCssPointerEvents && ghostEl) {
-				_css(ghostEl, 'display', 'none');
-			}
-		},
-
-		_unhideGhostForTarget = function() {
-			if (!supportCssPointerEvents && ghostEl) {
-				_css(ghostEl, 'display', '');
-			}
-		};
-
-
-	// #1184 fix - Prevent click event on fallback if dragged but item not changed position
-	document.addEventListener('click', function(evt) {
-		if (ignoreNextClick) {
-			evt.preventDefault();
-			evt.stopPropagation && evt.stopPropagation();
-			evt.stopImmediatePropagation && evt.stopImmediatePropagation();
-			ignoreNextClick = false;
-			return false;
-		}
-	}, true);
-
-	var nearestEmptyInsertDetectEvent = function(evt) {
-		if (dragEl) {
-			evt = evt.touches ? evt.touches[0] : evt;
-			var nearest = _detectNearestEmptySortable(evt.clientX, evt.clientY);
-
-			if (nearest) {
-				// Create imitation event
-				var event = {};
-				for (var i in evt) {
-					event[i] = evt[i];
-				}
-				event.target = event.rootEl = nearest;
-				event.preventDefault = void 0;
-				event.stopPropagation = void 0;
-				nearest[expando]._onDragOver(event);
-			}
-		}
-	};
-
-	/**
-	 * @class  Sortable
-	 * @param  {HTMLElement}  el
-	 * @param  {Object}       [options]
-	 */
-	function Sortable(el, options) {
-		if (!(el && el.nodeType && el.nodeType === 1)) {
-			throw 'Sortable: `el` must be HTMLElement, not ' + {}.toString.call(el);
-		}
-
-		this.el = el; // root element
-		this.options = options = _extend({}, options);
-
-
-		// Export instance
-		el[expando] = this;
-
-		// Default options
-		var defaults = {
-			group: null,
-			sort: true,
-			disabled: false,
-			store: null,
-			handle: null,
-			scroll: true,
-			scrollSensitivity: 30,
-			scrollSpeed: 10,
-			bubbleScroll: true,
-			draggable: /[uo]l/i.test(el.nodeName) ? '>li' : '>*',
-			swapThreshold: 1, // percentage; 0 <= x <= 1
-			invertSwap: false, // invert always
-			invertedSwapThreshold: null, // will be set to same as swapThreshold if default
-			removeCloneOnHide: true,
-			direction: function() {
-				return _detectDirection(el, this.options);
-			},
-			ghostClass: 'sortable-ghost',
-			chosenClass: 'sortable-chosen',
-			dragClass: 'sortable-drag',
-			ignore: 'a, img',
-			filter: null,
-			preventOnFilter: true,
-			animation: 0,
-			easing: null,
-			setData: function (dataTransfer, dragEl) {
-				dataTransfer.setData('Text', dragEl.textContent);
-			},
-			dropBubble: false,
-			dragoverBubble: false,
-			dataIdAttr: 'data-id',
-			delay: 0,
-			delayOnTouchOnly: false,
-			touchStartThreshold: parseInt(window.devicePixelRatio, 10) || 1,
-			forceFallback: false,
-			fallbackClass: 'sortable-fallback',
-			fallbackOnBody: false,
-			fallbackTolerance: 0,
-			fallbackOffset: {x: 0, y: 0},
-			supportPointer: Sortable.supportPointer !== false && ('PointerEvent' in window),
-			emptyInsertThreshold: 5
-		};
-
-
-		// Set default options
-		for (var name in defaults) {
-			!(name in options) && (options[name] = defaults[name]);
-		}
-
-		_prepareGroup(options);
-
-		// Bind all private methods
-		for (var fn in this) {
-			if (fn.charAt(0) === '_' && typeof this[fn] === 'function') {
-				this[fn] = this[fn].bind(this);
-			}
-		}
-
-		// Setup drag mode
-		this.nativeDraggable = options.forceFallback ? false : supportDraggable;
-
-		if (this.nativeDraggable) {
-			// Touch start threshold cannot be greater than the native dragstart threshold
-			this.options.touchStartThreshold = 1;
-		}
-
-		// Bind events
-		if (options.supportPointer) {
-			_on(el, 'pointerdown', this._onTapStart);
-		} else {
-			_on(el, 'mousedown', this._onTapStart);
-			_on(el, 'touchstart', this._onTapStart);
-		}
-
-		if (this.nativeDraggable) {
-			_on(el, 'dragover', this);
-			_on(el, 'dragenter', this);
-		}
-
-		sortables.push(this.el);
-
-		// Restore sorting
-		options.store && options.store.get && this.sort(options.store.get(this) || []);
-	}
-
-	Sortable.prototype = /** @lends Sortable.prototype */ {
-		constructor: Sortable,
-
-		_computeIsAligned: function(evt) {
-			var target;
-
-			if (ghostEl && !supportCssPointerEvents) {
-				_hideGhostForTarget();
-				target = document.elementFromPoint(evt.clientX, evt.clientY);
-				_unhideGhostForTarget();
-			} else {
-				target = evt.target;
-			}
-
-			target = _closest(target, this.options.draggable, this.el, false);
-			if (_alignedSilent) return;
-			if (!dragEl || dragEl.parentNode !== this.el) return;
-
-			var children = this.el.children;
-			for (var i = 0; i < children.length; i++) {
-				// Don't change for target in case it is changed to aligned before onDragOver is fired
-				if (_closest(children[i], this.options.draggable, this.el, false) && children[i] !== target) {
-					children[i].sortableMouseAligned = _isClientInRowColumn(evt.clientX, evt.clientY, children[i], this._getDirection(evt, null), this.options);
-				}
-			}
-			// Used for nulling last target when not in element, nothing to do with checking if aligned
-			if (!_closest(target, this.options.draggable, this.el, true)) {
-				lastTarget = null;
-			}
-
-			_alignedSilent = true;
-			setTimeout(function() {
-				_alignedSilent = false;
-			}, 30);
-
-		},
-
-		_getDirection: function(evt, target) {
-			return (typeof this.options.direction === 'function') ? this.options.direction.call(this, evt, target, dragEl) : this.options.direction;
-		},
-
-		_onTapStart: function (/** Event|TouchEvent */evt) {
-			if (!evt.cancelable) return;
-			var _this = this,
-				el = this.el,
-				options = this.options,
-				preventOnFilter = options.preventOnFilter,
-				type = evt.type,
-				touch = evt.touches && evt.touches[0],
-				target = (touch || evt).target,
-				originalTarget = evt.target.shadowRoot && ((evt.path && evt.path[0]) || (evt.composedPath && evt.composedPath()[0])) || target,
-				filter = options.filter,
-				startIndex,
-				startDraggableIndex;
-
-			_saveInputCheckedState(el);
-
-			// Don't trigger start event when an element is been dragged, otherwise the evt.oldindex always wrong when set option.group.
-			if (dragEl) {
-				return;
-			}
-
-			if (/mousedown|pointerdown/.test(type) && evt.button !== 0 || options.disabled) {
-				return; // only left button and enabled
-			}
-
-			// cancel dnd if original target is content editable
-			if (originalTarget.isContentEditable) {
-				return;
-			}
-
-			target = _closest(target, options.draggable, el, false);
-
-
-			if (lastDownEl === target) {
-				// Ignoring duplicate `down`
-				return;
-			}
-
-			// Get the index of the dragged element within its parent
-			startIndex = _index(target);
-			startDraggableIndex = _index(target, options.draggable);
-
-			// Check filter
-			if (typeof filter === 'function') {
-				if (filter.call(this, evt, target, this)) {
-					_dispatchEvent(_this, originalTarget, 'filter', target, el, el, startIndex, undefined, startDraggableIndex);
-					preventOnFilter && evt.cancelable && evt.preventDefault();
-					return; // cancel dnd
-				}
-			}
-			else if (filter) {
-				filter = filter.split(',').some(function (criteria) {
-					criteria = _closest(originalTarget, criteria.trim(), el, false);
-
-					if (criteria) {
-						_dispatchEvent(_this, criteria, 'filter', target, el, el, startIndex, undefined, startDraggableIndex);
-						return true;
-					}
-				});
-
-				if (filter) {
-					preventOnFilter && evt.cancelable && evt.preventDefault();
-					return; // cancel dnd
-				}
-			}
-
-			if (options.handle && !_closest(originalTarget, options.handle, el, false)) {
-				return;
-			}
-
-			// Prepare `dragstart`
-			this._prepareDragStart(evt, touch, target, startIndex, startDraggableIndex);
-		},
-
-
-		_handleAutoScroll: function(evt, fallback) {
-			if (!dragEl || !this.options.scroll) return;
-			var x = evt.clientX,
-				y = evt.clientY,
-
-				elem = document.elementFromPoint(x, y),
-				_this = this;
-
-			// IE does not seem to have native autoscroll,
-			// Edge's autoscroll seems too conditional,
-			// MACOS Safari does not have autoscroll,
-			// Firefox and Chrome are good
-			if (fallback || Edge || IE11OrLess || Safari) {
-				_autoScroll(evt, _this.options, elem, fallback);
-
-				// Listener for pointer element change
-				var ogElemScroller = _getParentAutoScrollElement(elem, true);
-				if (
-					scrolling &&
-					(
-						!pointerElemChangedInterval ||
-						x !== lastPointerElemX ||
-						y !== lastPointerElemY
-					)
-				) {
-
-					pointerElemChangedInterval && clearInterval(pointerElemChangedInterval);
-					// Detect for pointer elem change, emulating native DnD behaviour
-					pointerElemChangedInterval = setInterval(function() {
-						if (!dragEl) return;
-						// could also check if scroll direction on newElem changes due to parent autoscrolling
-						var newElem = _getParentAutoScrollElement(document.elementFromPoint(x, y), true);
-						if (newElem !== ogElemScroller) {
-							ogElemScroller = newElem;
-							_clearAutoScrolls();
-							_autoScroll(evt, _this.options, ogElemScroller, fallback);
-						}
-					}, 10);
-					lastPointerElemX = x;
-					lastPointerElemY = y;
-				}
-
-			} else {
-				// if DnD is enabled (and browser has good autoscrolling), first autoscroll will already scroll, so get parent autoscroll of first autoscroll
-				if (!_this.options.bubbleScroll || _getParentAutoScrollElement(elem, true) === _getWindowScrollingElement()) {
-					_clearAutoScrolls();
-					return;
-				}
-				_autoScroll(evt, _this.options, _getParentAutoScrollElement(elem, false), false);
-			}
-		},
-
-		_prepareDragStart: function (/** Event */evt, /** Touch */touch, /** HTMLElement */target, /** Number */startIndex, /** Number */startDraggableIndex) {
-			var _this = this,
-				el = _this.el,
-				options = _this.options,
-				ownerDocument = el.ownerDocument,
-				dragStartFn;
-
-			if (target && !dragEl && (target.parentNode === el)) {
-				rootEl = el;
-				dragEl = target;
-				parentEl = dragEl.parentNode;
-				nextEl = dragEl.nextSibling;
-				lastDownEl = target;
-				activeGroup = options.group;
-				oldIndex = startIndex;
-				oldDraggableIndex = startDraggableIndex;
-
-				tapEvt = {
-					target: dragEl,
-					clientX: (touch || evt).clientX,
-					clientY: (touch || evt).clientY
-				};
-
-				this._lastX = (touch || evt).clientX;
-				this._lastY = (touch || evt).clientY;
-
-				dragEl.style['will-change'] = 'all';
-				// undo animation if needed
-				dragEl.style.transition = '';
-				dragEl.style.transform = '';
-
-				dragStartFn = function () {
-					// Delayed drag has been triggered
-					// we can re-enable the events: touchmove/mousemove
-					_this._disableDelayedDragEvents();
-
-					if (!FireFox && _this.nativeDraggable) {
-						dragEl.draggable = true;
-					}
-
-					// Bind the events: dragstart/dragend
-					_this._triggerDragStart(evt, touch);
-
-					// Drag start event
-					_dispatchEvent(_this, rootEl, 'choose', dragEl, rootEl, rootEl, oldIndex, undefined, oldDraggableIndex);
-
-					// Chosen item
-					_toggleClass(dragEl, options.chosenClass, true);
-				};
-
-				// Disable "draggable"
-				options.ignore.split(',').forEach(function (criteria) {
-					_find(dragEl, criteria.trim(), _disableDraggable);
-				});
-
-				_on(ownerDocument, 'dragover', nearestEmptyInsertDetectEvent);
-				_on(ownerDocument, 'mousemove', nearestEmptyInsertDetectEvent);
-				_on(ownerDocument, 'touchmove', nearestEmptyInsertDetectEvent);
-
-				_on(ownerDocument, 'mouseup', _this._onDrop);
-				_on(ownerDocument, 'touchend', _this._onDrop);
-				_on(ownerDocument, 'touchcancel', _this._onDrop);
-
-				// Make dragEl draggable (must be before delay for FireFox)
-				if (FireFox && this.nativeDraggable) {
-					this.options.touchStartThreshold = 4;
-					dragEl.draggable = true;
-				}
-
-				// Delay is impossible for native DnD in Edge or IE
-				if (options.delay && (options.delayOnTouchOnly ? touch : true) && (!this.nativeDraggable || !(Edge || IE11OrLess))) {
-					// If the user moves the pointer or let go the click or touch
-					// before the delay has been reached:
-					// disable the delayed drag
-					_on(ownerDocument, 'mouseup', _this._disableDelayedDrag);
-					_on(ownerDocument, 'touchend', _this._disableDelayedDrag);
-					_on(ownerDocument, 'touchcancel', _this._disableDelayedDrag);
-					_on(ownerDocument, 'mousemove', _this._delayedDragTouchMoveHandler);
-					_on(ownerDocument, 'touchmove', _this._delayedDragTouchMoveHandler);
-					options.supportPointer && _on(ownerDocument, 'pointermove', _this._delayedDragTouchMoveHandler);
-
-					_this._dragStartTimer = setTimeout(dragStartFn, options.delay);
-				} else {
-					dragStartFn();
-				}
-			}
-		},
-
-		_delayedDragTouchMoveHandler: function (/** TouchEvent|PointerEvent **/e) {
-			var touch = e.touches ? e.touches[0] : e;
-			if (max(abs(touch.clientX - this._lastX), abs(touch.clientY - this._lastY))
-					>= Math.floor(this.options.touchStartThreshold / (this.nativeDraggable && window.devicePixelRatio || 1))
-			) {
-				this._disableDelayedDrag();
-			}
-		},
-
-		_disableDelayedDrag: function () {
-			dragEl && _disableDraggable(dragEl);
-			clearTimeout(this._dragStartTimer);
-
-			this._disableDelayedDragEvents();
-		},
-
-		_disableDelayedDragEvents: function () {
-			var ownerDocument = this.el.ownerDocument;
-			_off(ownerDocument, 'mouseup', this._disableDelayedDrag);
-			_off(ownerDocument, 'touchend', this._disableDelayedDrag);
-			_off(ownerDocument, 'touchcancel', this._disableDelayedDrag);
-			_off(ownerDocument, 'mousemove', this._delayedDragTouchMoveHandler);
-			_off(ownerDocument, 'touchmove', this._delayedDragTouchMoveHandler);
-			_off(ownerDocument, 'pointermove', this._delayedDragTouchMoveHandler);
-		},
-
-		_triggerDragStart: function (/** Event */evt, /** Touch */touch) {
-			touch = touch || (evt.pointerType == 'touch' ? evt : null);
-
-			if (!this.nativeDraggable || touch) {
-				if (this.options.supportPointer) {
-					_on(document, 'pointermove', this._onTouchMove);
-				} else if (touch) {
-					_on(document, 'touchmove', this._onTouchMove);
-				} else {
-					_on(document, 'mousemove', this._onTouchMove);
-				}
-			} else {
-				_on(dragEl, 'dragend', this);
-				_on(rootEl, 'dragstart', this._onDragStart);
-			}
-
-			try {
-				if (document.selection) {
-					// Timeout neccessary for IE9
-					_nextTick(function () {
-						document.selection.empty();
-					});
-				} else {
-					window.getSelection().removeAllRanges();
-				}
-			} catch (err) {
-			}
-		},
-
-		_dragStarted: function (fallback, evt) {
-			awaitingDragStarted = false;
-			if (rootEl && dragEl) {
-				if (this.nativeDraggable) {
-					_on(document, 'dragover', this._handleAutoScroll);
-					_on(document, 'dragover', _checkAlignment);
-				}
-				var options = this.options;
-
-				// Apply effect
-				!fallback && _toggleClass(dragEl, options.dragClass, false);
-				_toggleClass(dragEl, options.ghostClass, true);
-
-				// In case dragging an animated element
-				_css(dragEl, 'transform', '');
-
-				Sortable.active = this;
-
-				fallback && this._appendGhost();
-
-				// Drag start event
-				_dispatchEvent(this, rootEl, 'start', dragEl, rootEl, rootEl, oldIndex, undefined, oldDraggableIndex, undefined, evt);
-			} else {
-				this._nulling();
-			}
-		},
-
-		_emulateDragOver: function (forAutoScroll) {
-			if (touchEvt) {
-				if (this._lastX === touchEvt.clientX && this._lastY === touchEvt.clientY && !forAutoScroll) {
-					return;
-				}
-				this._lastX = touchEvt.clientX;
-				this._lastY = touchEvt.clientY;
-
-				_hideGhostForTarget();
-
-				var target = document.elementFromPoint(touchEvt.clientX, touchEvt.clientY);
-				var parent = target;
-
-				while (target && target.shadowRoot) {
-					target = target.shadowRoot.elementFromPoint(touchEvt.clientX, touchEvt.clientY);
-					if (target === parent) break;
-					parent = target;
-				}
-
-				if (parent) {
-					do {
-						if (parent[expando]) {
-							var inserted;
-
-							inserted = parent[expando]._onDragOver({
-								clientX: touchEvt.clientX,
-								clientY: touchEvt.clientY,
-								target: target,
-								rootEl: parent
-							});
-
-							if (inserted && !this.options.dragoverBubble) {
-								break;
-							}
-						}
-
-						target = parent; // store last element
-					}
-					/* jshint boss:true */
-					while (parent = parent.parentNode);
-				}
-				dragEl.parentNode[expando]._computeIsAligned(touchEvt);
-
-				_unhideGhostForTarget();
-			}
-		},
-
-
-		_onTouchMove: function (/**TouchEvent*/evt, forAutoScroll) {
-			if (tapEvt) {
-				var	options = this.options,
-					fallbackTolerance = options.fallbackTolerance,
-					fallbackOffset = options.fallbackOffset,
-					touch = evt.touches ? evt.touches[0] : evt,
-					matrix = ghostEl && _matrix(ghostEl),
-					scaleX = ghostEl && matrix && matrix.a,
-					scaleY = ghostEl && matrix && matrix.d,
-					relativeScrollOffset = PositionGhostAbsolutely && ghostRelativeParent && _getRelativeScrollOffset(ghostRelativeParent),
-					dx = ((touch.clientX - tapEvt.clientX)
-							+ fallbackOffset.x) / (scaleX || 1)
-							+ (relativeScrollOffset ? (relativeScrollOffset[0] - ghostRelativeParentInitialScroll[0]) : 0) / (scaleX || 1),
-					dy = ((touch.clientY - tapEvt.clientY)
-							+ fallbackOffset.y) / (scaleY || 1)
-							+ (relativeScrollOffset ? (relativeScrollOffset[1] - ghostRelativeParentInitialScroll[1]) : 0) / (scaleY || 1),
-					translate3d = evt.touches ? 'translate3d(' + dx + 'px,' + dy + 'px,0)' : 'translate(' + dx + 'px,' + dy + 'px)';
-
-				// only set the status to dragging, when we are actually dragging
-				if (!Sortable.active && !awaitingDragStarted) {
-					if (fallbackTolerance &&
-						min(abs(touch.clientX - this._lastX), abs(touch.clientY - this._lastY)) < fallbackTolerance
-					) {
-						return;
-					}
-					this._onDragStart(evt, true);
-				}
-
-				!forAutoScroll && this._handleAutoScroll(touch, true);
-
-				moved = true;
-				touchEvt = touch;
-
-				_css(ghostEl, 'webkitTransform', translate3d);
-				_css(ghostEl, 'mozTransform', translate3d);
-				_css(ghostEl, 'msTransform', translate3d);
-				_css(ghostEl, 'transform', translate3d);
-
-				evt.cancelable && evt.preventDefault();
-			}
-		},
-
-		_appendGhost: function () {
-			// Bug if using scale(): https://stackoverflow.com/questions/2637058
-			// Not being adjusted for
-			if (!ghostEl) {
-				var container = this.options.fallbackOnBody ? document.body : rootEl,
-					rect = _getRect(dragEl, true, container, !PositionGhostAbsolutely),
-					css = _css(dragEl),
-					options = this.options;
-
-				// Position absolutely
-				if (PositionGhostAbsolutely) {
-					// Get relatively positioned parent
-					ghostRelativeParent = container;
-
-					while (
-						_css(ghostRelativeParent, 'position') === 'static' &&
-						_css(ghostRelativeParent, 'transform') === 'none' &&
-						ghostRelativeParent !== document
-					) {
-						ghostRelativeParent = ghostRelativeParent.parentNode;
-					}
-
-					if (ghostRelativeParent !== document) {
-						var ghostRelativeParentRect = _getRect(ghostRelativeParent, true);
-
-						rect.top -= ghostRelativeParentRect.top;
-						rect.left -= ghostRelativeParentRect.left;
-					}
-
-					if (ghostRelativeParent !== document.body && ghostRelativeParent !== document.documentElement) {
-						if (ghostRelativeParent === document) ghostRelativeParent = _getWindowScrollingElement();
-
-						rect.top += ghostRelativeParent.scrollTop;
-						rect.left += ghostRelativeParent.scrollLeft;
-					} else {
-						ghostRelativeParent = _getWindowScrollingElement();
-					}
-					ghostRelativeParentInitialScroll = _getRelativeScrollOffset(ghostRelativeParent);
-				}
-
-
-				ghostEl = dragEl.cloneNode(true);
-
-				_toggleClass(ghostEl, options.ghostClass, false);
-				_toggleClass(ghostEl, options.fallbackClass, true);
-				_toggleClass(ghostEl, options.dragClass, true);
-
-				_css(ghostEl, 'box-sizing', 'border-box');
-				_css(ghostEl, 'margin', 0);
-				_css(ghostEl, 'top', rect.top);
-				_css(ghostEl, 'left', rect.left);
-				_css(ghostEl, 'width', rect.width);
-				_css(ghostEl, 'height', rect.height);
-				_css(ghostEl, 'opacity', '0.8');
-				_css(ghostEl, 'position', (PositionGhostAbsolutely ? 'absolute' : 'fixed'));
-				_css(ghostEl, 'zIndex', '100000');
-				_css(ghostEl, 'pointerEvents', 'none');
-
-				container.appendChild(ghostEl);
-			}
-		},
-
-		_onDragStart: function (/**Event*/evt, /**boolean*/fallback) {
-			var _this = this;
-			var dataTransfer = evt.dataTransfer;
-			var options = _this.options;
-
-			// Setup clone
-			cloneEl = _clone(dragEl);
-
-			cloneEl.draggable = false;
-			cloneEl.style['will-change'] = '';
-
-			this._hideClone();
-
-			_toggleClass(cloneEl, _this.options.chosenClass, false);
-
-
-			// #1143: IFrame support workaround
-			_this._cloneId = _nextTick(function () {
-				if (!_this.options.removeCloneOnHide) {
-					rootEl.insertBefore(cloneEl, dragEl);
-				}
-				_dispatchEvent(_this, rootEl, 'clone', dragEl);
-			});
-
-
-			!fallback && _toggleClass(dragEl, options.dragClass, true);
-
-			// Set proper drop events
-			if (fallback) {
-				ignoreNextClick = true;
-				_this._loopId = setInterval(_this._emulateDragOver, 50);
-			} else {
-				// Undo what was set in _prepareDragStart before drag started
-				_off(document, 'mouseup', _this._onDrop);
-				_off(document, 'touchend', _this._onDrop);
-				_off(document, 'touchcancel', _this._onDrop);
-
-				if (dataTransfer) {
-					dataTransfer.effectAllowed = 'move';
-					options.setData && options.setData.call(_this, dataTransfer, dragEl);
-				}
-
-				_on(document, 'drop', _this);
-
-				// #1276 fix:
-				_css(dragEl, 'transform', 'translateZ(0)');
-			}
-
-			awaitingDragStarted = true;
-
-			_this._dragStartId = _nextTick(_this._dragStarted.bind(_this, fallback, evt));
-			_on(document, 'selectstart', _this);
-			if (Safari) {
-				_css(document.body, 'user-select', 'none');
-			}
-		},
-
-
-		// Returns true - if no further action is needed (either inserted or another condition)
-		_onDragOver: function (/**Event*/evt) {
-			var el = this.el,
-				target = evt.target,
-				dragRect,
-				targetRect,
-				revert,
-				options = this.options,
-				group = options.group,
-				activeSortable = Sortable.active,
-				isOwner = (activeGroup === group),
-				canSort = options.sort,
-				_this = this;
-
-			if (_silent) return;
-
-			// Return invocation when dragEl is inserted (or completed)
-			function completed(insertion) {
-				if (insertion) {
-					if (isOwner) {
-						activeSortable._hideClone();
-					} else {
-						activeSortable._showClone(_this);
-					}
-
-					if (activeSortable) {
-						// Set ghost class to new sortable's ghost class
-						_toggleClass(dragEl, putSortable ? putSortable.options.ghostClass : activeSortable.options.ghostClass, false);
-						_toggleClass(dragEl, options.ghostClass, true);
-					}
-
-					if (putSortable !== _this && _this !== Sortable.active) {
-						putSortable = _this;
-					} else if (_this === Sortable.active) {
-						putSortable = null;
-					}
-
-					// Animation
-					dragRect && _this._animate(dragRect, dragEl);
-					target && targetRect && _this._animate(targetRect, target);
-				}
-
-
-				// Null lastTarget if it is not inside a previously swapped element
-				if ((target === dragEl && !dragEl.animated) || (target === el && !target.animated)) {
-					lastTarget = null;
-				}
-
-				// no bubbling and not fallback
-				if (!options.dragoverBubble && !evt.rootEl && target !== document) {
-					_this._handleAutoScroll(evt);
-					dragEl.parentNode[expando]._computeIsAligned(evt);
-
-					// Do not detect for empty insert if already inserted
-					!insertion && nearestEmptyInsertDetectEvent(evt);
-				}
-
-				!options.dragoverBubble && evt.stopPropagation && evt.stopPropagation();
-
-				return true;
-			}
-
-			// Call when dragEl has been inserted
-			function changed() {
-				_dispatchEvent(_this, rootEl, 'change', target, el, rootEl, oldIndex, _index(dragEl), oldDraggableIndex, _index(dragEl, options.draggable), evt);
-			}
-
-
-			if (evt.preventDefault !== void 0) {
-				evt.cancelable && evt.preventDefault();
-			}
-
-
-			moved = true;
-
-			target = _closest(target, options.draggable, el, true);
-
-			// target is dragEl or target is animated
-			if (dragEl.contains(evt.target) || target.animated) {
-				return completed(false);
-			}
-
-			if (target !== dragEl) {
-				ignoreNextClick = false;
-			}
-
-			if (activeSortable && !options.disabled &&
-				(isOwner
-					? canSort || (revert = !rootEl.contains(dragEl)) // Reverting item into the original list
-					: (
-						putSortable === this ||
-						(
-							(this.lastPutMode = activeGroup.checkPull(this, activeSortable, dragEl, evt)) &&
-							group.checkPut(this, activeSortable, dragEl, evt)
-						)
-					)
-				)
-			) {
-				var axis = this._getDirection(evt, target);
-
-				dragRect = _getRect(dragEl);
-
-				if (revert) {
-					this._hideClone();
-					parentEl = rootEl; // actualization
-
-					if (nextEl) {
-						rootEl.insertBefore(dragEl, nextEl);
-					} else {
-						rootEl.appendChild(dragEl);
-					}
-
-					return completed(true);
-				}
-
-				var elLastChild = _lastChild(el);
-
-				if (!elLastChild || _ghostIsLast(evt, axis, el) && !elLastChild.animated) {
-					// assign target only if condition is true
-					if (elLastChild && el === evt.target) {
-						target = elLastChild;
-					}
-
-					if (target) {
-						targetRect = _getRect(target);
-					}
-
-					if (isOwner) {
-						activeSortable._hideClone();
-					} else {
-						activeSortable._showClone(this);
-					}
-
-					if (_onMove(rootEl, el, dragEl, dragRect, target, targetRect, evt, !!target) !== false) {
-						el.appendChild(dragEl);
-						parentEl = el; // actualization
-						realDragElRect = null;
-
-						changed();
-						return completed(true);
-					}
-				}
-				else if (target && target !== dragEl && target.parentNode === el) {
-					var direction = 0,
-						targetBeforeFirstSwap,
-						aligned = target.sortableMouseAligned,
-						differentLevel = dragEl.parentNode !== el,
-						side1 = axis === 'vertical' ? 'top' : 'left',
-						scrolledPastTop = _isScrolledPast(target, 'top') || _isScrolledPast(dragEl, 'top'),
-						scrollBefore = scrolledPastTop ? scrolledPastTop.scrollTop : void 0;
-
-
-					if (lastTarget !== target) {
-						lastMode = null;
-						targetBeforeFirstSwap = _getRect(target)[side1];
-						pastFirstInvertThresh = false;
-					}
-
-					// Reference: https://www.lucidchart.com/documents/view/10fa0e93-e362-4126-aca2-b709ee56bd8b/0
-					if (
-						_isElInRowColumn(dragEl, target, axis) && aligned ||
-						differentLevel ||
-						scrolledPastTop ||
-						options.invertSwap ||
-						lastMode === 'insert' ||
-						// Needed, in the case that we are inside target and inserted because not aligned... aligned will stay false while inside
-						// and lastMode will change to 'insert', but we must swap
-						lastMode === 'swap'
-					) {
-						// New target that we will be inside
-						if (lastMode !== 'swap') {
-							isCircumstantialInvert = options.invertSwap || differentLevel;
-						}
-
-						direction = _getSwapDirection(evt, target, axis,
-							options.swapThreshold, options.invertedSwapThreshold == null ? options.swapThreshold : options.invertedSwapThreshold,
-							isCircumstantialInvert,
-							lastTarget === target);
-						lastMode = 'swap';
-					} else {
-						// Insert at position
-						direction = _getInsertDirection(target);
-						lastMode = 'insert';
-					}
-					if (direction === 0) return completed(false);
-
-					realDragElRect = null;
-					lastTarget = target;
-
-					lastDirection = direction;
-
-					targetRect = _getRect(target);
-
-					var nextSibling = target.nextElementSibling,
-						after = false;
-
-					after = direction === 1;
-
-					var moveVector = _onMove(rootEl, el, dragEl, dragRect, target, targetRect, evt, after);
-
-					if (moveVector !== false) {
-						if (moveVector === 1 || moveVector === -1) {
-							after = (moveVector === 1);
-						}
-
-						_silent = true;
-						setTimeout(_unsilent, 30);
-
-						if (isOwner) {
-							activeSortable._hideClone();
-						} else {
-							activeSortable._showClone(this);
-						}
-
-						if (after && !nextSibling) {
-							el.appendChild(dragEl);
-						} else {
-							target.parentNode.insertBefore(dragEl, after ? nextSibling : target);
-						}
-
-						// Undo chrome's scroll adjustment
-						if (scrolledPastTop) {
-							_scrollBy(scrolledPastTop, 0, scrollBefore - scrolledPastTop.scrollTop);
-						}
-
-						parentEl = dragEl.parentNode; // actualization
-
-						// must be done before animation
-						if (targetBeforeFirstSwap !== undefined && !isCircumstantialInvert) {
-							targetMoveDistance = abs(targetBeforeFirstSwap - _getRect(target)[side1]);
-						}
-						changed();
-
-						return completed(true);
-					}
-				}
-
-				if (el.contains(dragEl)) {
-					return completed(false);
-				}
-			}
-
-			return false;
-		},
-
-		_animate: function (prevRect, target) {
-			var ms = this.options.animation;
-
-			if (ms) {
-				var currentRect = _getRect(target);
-
-				if (target === dragEl) {
-					realDragElRect = currentRect;
-				}
-
-				if (prevRect.nodeType === 1) {
-					prevRect = _getRect(prevRect);
-				}
-
-				// Check if actually moving position
-				if ((prevRect.left + prevRect.width / 2) !== (currentRect.left + currentRect.width / 2)
-					|| (prevRect.top + prevRect.height / 2) !== (currentRect.top + currentRect.height / 2)
-				) {
-					var matrix = _matrix(this.el),
-						scaleX = matrix && matrix.a,
-						scaleY = matrix && matrix.d;
-
-					_css(target, 'transition', 'none');
-					_css(target, 'transform', 'translate3d('
-						+ (prevRect.left - currentRect.left) / (scaleX ? scaleX : 1) + 'px,'
-						+ (prevRect.top - currentRect.top) / (scaleY ? scaleY : 1) + 'px,0)'
-					);
-
-					this._repaint(target);
-					_css(target, 'transition', 'transform ' + ms + 'ms' + (this.options.easing ? ' ' + this.options.easing : ''));
-					_css(target, 'transform', 'translate3d(0,0,0)');
-				}
-
-				(typeof target.animated === 'number') && clearTimeout(target.animated);
-				target.animated = setTimeout(function () {
-					_css(target, 'transition', '');
-					_css(target, 'transform', '');
-					target.animated = false;
-				}, ms);
-			}
-		},
-
-		_repaint: function(target) {
-			return target.offsetWidth;
-		},
-
-		_offMoveEvents: function() {
-			_off(document, 'touchmove', this._onTouchMove);
-			_off(document, 'pointermove', this._onTouchMove);
-			_off(document, 'dragover', nearestEmptyInsertDetectEvent);
-			_off(document, 'mousemove', nearestEmptyInsertDetectEvent);
-			_off(document, 'touchmove', nearestEmptyInsertDetectEvent);
-		},
-
-		_offUpEvents: function () {
-			var ownerDocument = this.el.ownerDocument;
-
-			_off(ownerDocument, 'mouseup', this._onDrop);
-			_off(ownerDocument, 'touchend', this._onDrop);
-			_off(ownerDocument, 'pointerup', this._onDrop);
-			_off(ownerDocument, 'touchcancel', this._onDrop);
-			_off(document, 'selectstart', this);
-		},
-
-		_onDrop: function (/**Event*/evt) {
-			var el = this.el,
-				options = this.options;
-			awaitingDragStarted = false;
-			scrolling = false;
-			isCircumstantialInvert = false;
-			pastFirstInvertThresh = false;
-
-			clearInterval(this._loopId);
-
-			clearInterval(pointerElemChangedInterval);
-			_clearAutoScrolls();
-			_cancelThrottle();
-
-			clearTimeout(this._dragStartTimer);
-
-			_cancelNextTick(this._cloneId);
-			_cancelNextTick(this._dragStartId);
-
-			// Unbind events
-			_off(document, 'mousemove', this._onTouchMove);
-
-
-			if (this.nativeDraggable) {
-				_off(document, 'drop', this);
-				_off(el, 'dragstart', this._onDragStart);
-				_off(document, 'dragover', this._handleAutoScroll);
-				_off(document, 'dragover', _checkAlignment);
-			}
-
-			if (Safari) {
-				_css(document.body, 'user-select', '');
-			}
-
-			this._offMoveEvents();
-			this._offUpEvents();
-
-			if (evt) {
-				if (moved) {
-					evt.cancelable && evt.preventDefault();
-					!options.dropBubble && evt.stopPropagation();
-				}
-
-				ghostEl && ghostEl.parentNode && ghostEl.parentNode.removeChild(ghostEl);
-
-				if (rootEl === parentEl || (putSortable && putSortable.lastPutMode !== 'clone')) {
-					// Remove clone
-					cloneEl && cloneEl.parentNode && cloneEl.parentNode.removeChild(cloneEl);
-				}
-
-				if (dragEl) {
-					if (this.nativeDraggable) {
-						_off(dragEl, 'dragend', this);
-					}
-
-					_disableDraggable(dragEl);
-					dragEl.style['will-change'] = '';
-
-					// Remove class's
-					_toggleClass(dragEl, putSortable ? putSortable.options.ghostClass : this.options.ghostClass, false);
-					_toggleClass(dragEl, this.options.chosenClass, false);
-
-					// Drag stop event
-					_dispatchEvent(this, rootEl, 'unchoose', dragEl, parentEl, rootEl, oldIndex, null, oldDraggableIndex, null, evt);
-
-					if (rootEl !== parentEl) {
-						newIndex = _index(dragEl);
-						newDraggableIndex = _index(dragEl, options.draggable);
-
-						if (newIndex >= 0) {
-							// Add event
-							_dispatchEvent(null, parentEl, 'add', dragEl, parentEl, rootEl, oldIndex, newIndex, oldDraggableIndex, newDraggableIndex, evt);
-
-							// Remove event
-							_dispatchEvent(this, rootEl, 'remove', dragEl, parentEl, rootEl, oldIndex, newIndex, oldDraggableIndex, newDraggableIndex, evt);
-
-							// drag from one list and drop into another
-							_dispatchEvent(null, parentEl, 'sort', dragEl, parentEl, rootEl, oldIndex, newIndex, oldDraggableIndex, newDraggableIndex, evt);
-							_dispatchEvent(this, rootEl, 'sort', dragEl, parentEl, rootEl, oldIndex, newIndex, oldDraggableIndex, newDraggableIndex, evt);
-						}
-
-						putSortable && putSortable.save();
-					}
-					else {
-						if (dragEl.nextSibling !== nextEl) {
-							// Get the index of the dragged element within its parent
-							newIndex = _index(dragEl);
-							newDraggableIndex = _index(dragEl, options.draggable);
-
-							if (newIndex >= 0) {
-								// drag & drop within the same list
-								_dispatchEvent(this, rootEl, 'update', dragEl, parentEl, rootEl, oldIndex, newIndex, oldDraggableIndex, newDraggableIndex, evt);
-								_dispatchEvent(this, rootEl, 'sort', dragEl, parentEl, rootEl, oldIndex, newIndex, oldDraggableIndex, newDraggableIndex, evt);
-							}
-						}
-					}
-
-					if (Sortable.active) {
-						/* jshint eqnull:true */
-						if (newIndex == null || newIndex === -1) {
-							newIndex = oldIndex;
-							newDraggableIndex = oldDraggableIndex;
-						}
-						_dispatchEvent(this, rootEl, 'end', dragEl, parentEl, rootEl, oldIndex, newIndex, oldDraggableIndex, newDraggableIndex, evt);
-
-						// Save sorting
-						this.save();
-					}
-				}
-
-			}
-			this._nulling();
-		},
-
-		_nulling: function() {
-			rootEl =
-			dragEl =
-			parentEl =
-			ghostEl =
-			nextEl =
-			cloneEl =
-			lastDownEl =
-
-			scrollEl =
-			scrollParentEl =
-			autoScrolls.length =
-
-			pointerElemChangedInterval =
-			lastPointerElemX =
-			lastPointerElemY =
-
-			tapEvt =
-			touchEvt =
-
-			moved =
-			newIndex =
-			oldIndex =
-
-			lastTarget =
-			lastDirection =
-
-			realDragElRect =
-
-			putSortable =
-			activeGroup =
-			Sortable.active = null;
-
-			savedInputChecked.forEach(function (el) {
-				el.checked = true;
-			});
-
-			savedInputChecked.length = 0;
-		},
-
-		handleEvent: function (/**Event*/evt) {
-			switch (evt.type) {
-				case 'drop':
-				case 'dragend':
-					this._onDrop(evt);
-					break;
-
-				case 'dragenter':
-				case 'dragover':
-					if (dragEl) {
-						this._onDragOver(evt);
-						_globalDragOver(evt);
-					}
-					break;
-
-				case 'selectstart':
-					evt.preventDefault();
-					break;
-			}
-		},
-
-
-		/**
-		 * Serializes the item into an array of string.
-		 * @returns {String[]}
-		 */
-		toArray: function () {
-			var order = [],
-				el,
-				children = this.el.children,
-				i = 0,
-				n = children.length,
-				options = this.options;
-
-			for (; i < n; i++) {
-				el = children[i];
-				if (_closest(el, options.draggable, this.el, false)) {
-					order.push(el.getAttribute(options.dataIdAttr) || _generateId(el));
-				}
-			}
-
-			return order;
-		},
-
-
-		/**
-		 * Sorts the elements according to the array.
-		 * @param  {String[]}  order  order of the items
-		 */
-		sort: function (order) {
-			var items = {}, rootEl = this.el;
-
-			this.toArray().forEach(function (id, i) {
-				var el = rootEl.children[i];
-
-				if (_closest(el, this.options.draggable, rootEl, false)) {
-					items[id] = el;
-				}
-			}, this);
-
-			order.forEach(function (id) {
-				if (items[id]) {
-					rootEl.removeChild(items[id]);
-					rootEl.appendChild(items[id]);
-				}
-			});
-		},
-
-
-		/**
-		 * Save the current sorting
-		 */
-		save: function () {
-			var store = this.options.store;
-			store && store.set && store.set(this);
-		},
-
-
-		/**
-		 * For each element in the set, get the first element that matches the selector by testing the element itself and traversing up through its ancestors in the DOM tree.
-		 * @param   {HTMLElement}  el
-		 * @param   {String}       [selector]  default: `options.draggable`
-		 * @returns {HTMLElement|null}
-		 */
-		closest: function (el, selector) {
-			return _closest(el, selector || this.options.draggable, this.el, false);
-		},
-
-
-		/**
-		 * Set/get option
-		 * @param   {string} name
-		 * @param   {*}      [value]
-		 * @returns {*}
-		 */
-		option: function (name, value) {
-			var options = this.options;
-
-			if (value === void 0) {
-				return options[name];
-			} else {
-				options[name] = value;
-
-				if (name === 'group') {
-					_prepareGroup(options);
-				}
-			}
-		},
-
-
-		/**
-		 * Destroy
-		 */
-		destroy: function () {
-			var el = this.el;
-
-			el[expando] = null;
-
-			_off(el, 'mousedown', this._onTapStart);
-			_off(el, 'touchstart', this._onTapStart);
-			_off(el, 'pointerdown', this._onTapStart);
-
-			if (this.nativeDraggable) {
-				_off(el, 'dragover', this);
-				_off(el, 'dragenter', this);
-			}
-			// Remove draggable attributes
-			Array.prototype.forEach.call(el.querySelectorAll('[draggable]'), function (el) {
-				el.removeAttribute('draggable');
-			});
-
-			this._onDrop();
-
-			sortables.splice(sortables.indexOf(this.el), 1);
-
-			this.el = el = null;
-		},
-
-		_hideClone: function() {
-			if (!cloneEl.cloneHidden) {
-				_css(cloneEl, 'display', 'none');
-				cloneEl.cloneHidden = true;
-				if (cloneEl.parentNode && this.options.removeCloneOnHide) {
-					cloneEl.parentNode.removeChild(cloneEl);
-				}
-			}
-		},
-
-		_showClone: function(putSortable) {
-			if (putSortable.lastPutMode !== 'clone') {
-				this._hideClone();
-				return;
-			}
-
-			if (cloneEl.cloneHidden) {
-				// show clone at dragEl or original position
-				if (rootEl.contains(dragEl) && !this.options.group.revertClone) {
-					rootEl.insertBefore(cloneEl, dragEl);
-				} else if (nextEl) {
-					rootEl.insertBefore(cloneEl, nextEl);
-				} else {
-					rootEl.appendChild(cloneEl);
-				}
-
-				if (this.options.group.revertClone) {
-					this._animate(dragEl, cloneEl);
-				}
-				_css(cloneEl, 'display', '');
-				cloneEl.cloneHidden = false;
-			}
-		}
-	};
-
-	function _closest(/**HTMLElement*/el, /**String*/selector, /**HTMLElement*/ctx, includeCTX) {
-		if (el) {
-			ctx = ctx || document;
-
-			do {
-				if (
-					selector != null &&
-					(
-						selector[0] === '>' ?
-						el.parentNode === ctx && _matches(el, selector) :
-						_matches(el, selector)
-					) ||
-					includeCTX && el === ctx
-				) {
-					return el;
-				}
-
-				if (el === ctx) break;
-				/* jshint boss:true */
-			} while (el = _getParentOrHost(el));
-		}
-
-		return null;
-	}
-
-
-	function _getParentOrHost(el) {
-		return (el.host && el !== document && el.host.nodeType)
-			? el.host
-			: el.parentNode;
-	}
-
-
-	function _globalDragOver(/**Event*/evt) {
-		if (evt.dataTransfer) {
-			evt.dataTransfer.dropEffect = 'move';
-		}
-		evt.cancelable && evt.preventDefault();
-	}
-
-
-	function _on(el, event, fn) {
-		el.addEventListener(event, fn, IE11OrLess ? false : captureMode);
-	}
-
-
-	function _off(el, event, fn) {
-		el.removeEventListener(event, fn, IE11OrLess ? false : captureMode);
-	}
-
-
-	function _toggleClass(el, name, state) {
-		if (el && name) {
-			if (el.classList) {
-				el.classList[state ? 'add' : 'remove'](name);
-			}
-			else {
-				var className = (' ' + el.className + ' ').replace(R_SPACE, ' ').replace(' ' + name + ' ', ' ');
-				el.className = (className + (state ? ' ' + name : '')).replace(R_SPACE, ' ');
-			}
-		}
-	}
-
-
-	function _css(el, prop, val) {
-		var style = el && el.style;
-
-		if (style) {
-			if (val === void 0) {
-				if (document.defaultView && document.defaultView.getComputedStyle) {
-					val = document.defaultView.getComputedStyle(el, '');
-				}
-				else if (el.currentStyle) {
-					val = el.currentStyle;
-				}
-
-				return prop === void 0 ? val : val[prop];
-			}
-			else {
-				if (!(prop in style) && prop.indexOf('webkit') === -1) {
-					prop = '-webkit-' + prop;
-				}
-
-				style[prop] = val + (typeof val === 'string' ? '' : 'px');
-			}
-		}
-	}
-
-	function _matrix(el) {
-		var appliedTransforms = '';
-		do {
-			var transform = _css(el, 'transform');
-
-			if (transform && transform !== 'none') {
-				appliedTransforms = transform + ' ' + appliedTransforms;
-			}
-			/* jshint boss:true */
-		} while (el = el.parentNode);
-
-		if (window.DOMMatrix) {
-			return new DOMMatrix(appliedTransforms);
-		} else if (window.WebKitCSSMatrix) {
-			return new WebKitCSSMatrix(appliedTransforms);
-		} else if (window.CSSMatrix) {
-			return new CSSMatrix(appliedTransforms);
-		}
-	}
-
-
-	function _find(ctx, tagName, iterator) {
-		if (ctx) {
-			var list = ctx.getElementsByTagName(tagName), i = 0, n = list.length;
-
-			if (iterator) {
-				for (; i < n; i++) {
-					iterator(list[i], i);
-				}
-			}
-
-			return list;
-		}
-
-		return [];
-	}
-
-
-
-	function _dispatchEvent(
-		sortable, rootEl, name,
-		targetEl, toEl, fromEl,
-		startIndex, newIndex,
-		startDraggableIndex, newDraggableIndex,
-		originalEvt
-	) {
-		sortable = (sortable || rootEl[expando]);
-		var evt,
-			options = sortable.options,
-			onName = 'on' + name.charAt(0).toUpperCase() + name.substr(1);
-		// Support for new CustomEvent feature
-		if (window.CustomEvent && !IE11OrLess && !Edge) {
-			evt = new CustomEvent(name, {
-				bubbles: true,
-				cancelable: true
-			});
-		} else {
-			evt = document.createEvent('Event');
-			evt.initEvent(name, true, true);
-		}
-
-		evt.to = toEl || rootEl;
-		evt.from = fromEl || rootEl;
-		evt.item = targetEl || rootEl;
-		evt.clone = cloneEl;
-
-		evt.oldIndex = startIndex;
-		evt.newIndex = newIndex;
-
-		evt.oldDraggableIndex = startDraggableIndex;
-		evt.newDraggableIndex = newDraggableIndex;
-
-		evt.originalEvent = originalEvt;
-		evt.pullMode = putSortable ? putSortable.lastPutMode : undefined;
-
-		if (rootEl) {
-			rootEl.dispatchEvent(evt);
-		}
-
-		if (options[onName]) {
-			options[onName].call(sortable, evt);
-		}
-	}
-
-
-	function _onMove(fromEl, toEl, dragEl, dragRect, targetEl, targetRect, originalEvt, willInsertAfter) {
-		var evt,
-			sortable = fromEl[expando],
-			onMoveFn = sortable.options.onMove,
-			retVal;
-		// Support for new CustomEvent feature
-		if (window.CustomEvent && !IE11OrLess && !Edge) {
-			evt = new CustomEvent('move', {
-				bubbles: true,
-				cancelable: true
-			});
-		} else {
-			evt = document.createEvent('Event');
-			evt.initEvent('move', true, true);
-		}
-
-		evt.to = toEl;
-		evt.from = fromEl;
-		evt.dragged = dragEl;
-		evt.draggedRect = dragRect;
-		evt.related = targetEl || toEl;
-		evt.relatedRect = targetRect || _getRect(toEl);
-		evt.willInsertAfter = willInsertAfter;
-
-		evt.originalEvent = originalEvt;
-
-		fromEl.dispatchEvent(evt);
-
-		if (onMoveFn) {
-			retVal = onMoveFn.call(sortable, evt, originalEvt);
-		}
-
-		return retVal;
-	}
-
-	function _disableDraggable(el) {
-		el.draggable = false;
-	}
-
-	function _unsilent() {
-		_silent = false;
-	}
-
-	/**
-	 * Gets nth child of el, ignoring hidden children, sortable's elements (does not ignore clone if it's visible)
-	 * and non-draggable elements
-	 * @param  {HTMLElement} el       The parent element
-	 * @param  {Number} childNum      The index of the child
-	 * @param  {Object} options       Parent Sortable's options
-	 * @return {HTMLElement}          The child at index childNum, or null if not found
-	 */
-	function _getChild(el, childNum, options) {
-		var currentChild = 0,
-			i = 0,
-			children = el.children;
-
-		while (i < children.length) {
-			if (
-				children[i].style.display !== 'none' &&
-				children[i] !== ghostEl &&
-				children[i] !== dragEl &&
-				_closest(children[i], options.draggable, el, false)
-			) {
-				if (currentChild === childNum) {
-					return children[i];
-				}
-				currentChild++;
-			}
-
-			i++;
-		}
-		return null;
-	}
-
-	/**
-	 * Gets the last child in the el, ignoring ghostEl or invisible elements (clones)
-	 * @param  {HTMLElement} el       Parent element
-	 * @return {HTMLElement}          The last child, ignoring ghostEl
-	 */
-	function _lastChild(el) {
-		var last = el.lastElementChild;
-
-		while (last && (last === ghostEl || _css(last, 'display') === 'none')) {
-			last = last.previousElementSibling;
-		}
-
-		return last || null;
-	}
-
-	function _ghostIsLast(evt, axis, el) {
-		var elRect = _getRect(_lastChild(el)),
-			mouseOnAxis = axis === 'vertical' ? evt.clientY : evt.clientX,
-			mouseOnOppAxis = axis === 'vertical' ? evt.clientX : evt.clientY,
-			targetS2 = axis === 'vertical' ? elRect.bottom : elRect.right,
-			targetS1Opp = axis === 'vertical' ? elRect.left : elRect.top,
-			targetS2Opp = axis === 'vertical' ? elRect.right : elRect.bottom,
-			spacer = 10;
-
-		return (
-			axis === 'vertical' ?
-				(mouseOnOppAxis > targetS2Opp + spacer || mouseOnOppAxis <= targetS2Opp && mouseOnAxis > targetS2 && mouseOnOppAxis >= targetS1Opp) :
-				(mouseOnAxis > targetS2 && mouseOnOppAxis > targetS1Opp || mouseOnAxis <= targetS2 && mouseOnOppAxis > targetS2Opp + spacer)
-		);
-	}
-
-	function _getSwapDirection(evt, target, axis, swapThreshold, invertedSwapThreshold, invertSwap, isLastTarget) {
-		var targetRect = _getRect(target),
-			mouseOnAxis = axis === 'vertical' ? evt.clientY : evt.clientX,
-			targetLength = axis === 'vertical' ? targetRect.height : targetRect.width,
-			targetS1 = axis === 'vertical' ? targetRect.top : targetRect.left,
-			targetS2 = axis === 'vertical' ? targetRect.bottom : targetRect.right,
-			dragRect = _getRect(dragEl),
-			invert = false;
-
-
-		if (!invertSwap) {
-			// Never invert or create dragEl shadow when target movemenet causes mouse to move past the end of regular swapThreshold
-			if (isLastTarget && targetMoveDistance < targetLength * swapThreshold) { // multiplied only by swapThreshold because mouse will already be inside target by (1 - threshold) * targetLength / 2
-				// check if past first invert threshold on side opposite of lastDirection
-				if (!pastFirstInvertThresh &&
-					(lastDirection === 1 ?
-						(
-							mouseOnAxis > targetS1 + targetLength * invertedSwapThreshold / 2
-						) :
-						(
-							mouseOnAxis < targetS2 - targetLength * invertedSwapThreshold / 2
-						)
-					)
-				)
-				{
-					// past first invert threshold, do not restrict inverted threshold to dragEl shadow
-					pastFirstInvertThresh = true;
-				}
-
-				if (!pastFirstInvertThresh) {
-					var dragS1 = axis === 'vertical' ? dragRect.top : dragRect.left,
-						dragS2 = axis === 'vertical' ? dragRect.bottom : dragRect.right;
-					// dragEl shadow (target move distance shadow)
-					if (
-						lastDirection === 1 ?
-						(
-							mouseOnAxis < targetS1 + targetMoveDistance // over dragEl shadow
-						) :
-						(
-							mouseOnAxis > targetS2 - targetMoveDistance
-						)
-					)
-					{
-						return lastDirection * -1;
-					}
-				} else {
-					invert = true;
-				}
-			} else {
-				// Regular
-				if (
-					mouseOnAxis > targetS1 + (targetLength * (1 - swapThreshold) / 2) &&
-					mouseOnAxis < targetS2 - (targetLength * (1 - swapThreshold) / 2)
-				) {
-					return _getInsertDirection(target);
-				}
-			}
-		}
-
-		invert = invert || invertSwap;
-
-		if (invert) {
-			// Invert of regular
-			if (
-				mouseOnAxis < targetS1 + (targetLength * invertedSwapThreshold / 2) ||
-				mouseOnAxis > targetS2 - (targetLength * invertedSwapThreshold / 2)
-			)
-			{
-				return ((mouseOnAxis > targetS1 + targetLength / 2) ? 1 : -1);
-			}
-		}
-
-		return 0;
-	}
-
-	/**
-	 * Gets the direction dragEl must be swapped relative to target in order to make it
-	 * seem that dragEl has been "inserted" into that element's position
-	 * @param  {HTMLElement} target       The target whose position dragEl is being inserted at
-	 * @return {Number}                   Direction dragEl must be swapped
-	 */
-	function _getInsertDirection(target) {
-		var dragElIndex = _index(dragEl),
-			targetIndex = _index(target);
-
-		if (dragElIndex < targetIndex) {
-			return 1;
-		} else {
-			return -1;
-		}
-	}
-
-
-	/**
-	 * Generate id
-	 * @param   {HTMLElement} el
-	 * @returns {String}
-	 * @private
-	 */
-	function _generateId(el) {
-		var str = el.tagName + el.className + el.src + el.href + el.textContent,
-			i = str.length,
-			sum = 0;
-
-		while (i--) {
-			sum += str.charCodeAt(i);
-		}
-
-		return sum.toString(36);
-	}
-
-	/**
-	 * Returns the index of an element within its parent for a selected set of
-	 * elements
-	 * @param  {HTMLElement} el
-	 * @param  {selector} selector
-	 * @return {number}
-	 */
-	function _index(el, selector) {
-		var index = 0;
-
-		if (!el || !el.parentNode) {
-			return -1;
-		}
-
-		while (el && (el = el.previousElementSibling)) {
-			if ((el.nodeName.toUpperCase() !== 'TEMPLATE') && el !== cloneEl && (!selector || _matches(el, selector))) {
-				index++;
-			}
-		}
-
-		return index;
-	}
-
-	function _matches(/**HTMLElement*/el, /**String*/selector) {
-		if (!selector) return;
-
-		selector[0] === '>' && (selector = selector.substring(1));
-
-		if (el) {
-			try {
-				if (el.matches) {
-					return el.matches(selector);
-				} else if (el.msMatchesSelector) {
-					return el.msMatchesSelector(selector);
-				} else if (el.webkitMatchesSelector) {
-					return el.webkitMatchesSelector(selector);
-				}
-			} catch(_) {
-				return false;
-			}
-		}
-
-		return false;
-	}
-
-	var _throttleTimeout;
-	function _throttle(callback, ms) {
-		return function () {
-			if (!_throttleTimeout) {
-				var args = arguments,
-					_this = this;
-
-				_throttleTimeout = setTimeout(function () {
-					if (args.length === 1) {
-						callback.call(_this, args[0]);
-					} else {
-						callback.apply(_this, args);
-					}
-
-					_throttleTimeout = void 0;
-				}, ms);
-			}
-		};
-	}
-
-	function _cancelThrottle() {
-		clearTimeout(_throttleTimeout);
-		_throttleTimeout = void 0;
-	}
-
-	function _extend(dst, src) {
-		if (dst && src) {
-			for (var key in src) {
-				if (src.hasOwnProperty(key)) {
-					dst[key] = src[key];
-				}
-			}
-		}
-
-		return dst;
-	}
-
-	function _clone(el) {
-		if (Polymer && Polymer.dom) {
-			return Polymer.dom(el).cloneNode(true);
-		}
-		else if ($) {
-			return $(el).clone(true)[0];
-		}
-		else {
-			return el.cloneNode(true);
-		}
-	}
-
-	function _saveInputCheckedState(root) {
-		savedInputChecked.length = 0;
-
-		var inputs = root.getElementsByTagName('input');
-		var idx = inputs.length;
-
-		while (idx--) {
-			var el = inputs[idx];
-			el.checked && savedInputChecked.push(el);
-		}
-	}
-
-	function _nextTick(fn) {
-		return setTimeout(fn, 0);
-	}
-
-	function _cancelNextTick(id) {
-		return clearTimeout(id);
-	}
-
-
-	/**
-	 * Returns the "bounding client rect" of given element
-	 * @param  {HTMLElement} el                The element whose boundingClientRect is wanted
-	 * @param  {[HTMLElement]} container       the parent the element will be placed in
-	 * @param  {[Boolean]} adjustForTransform  Whether the rect should compensate for parent's transform
-	 * @return {Object}                        The boundingClientRect of el
-	 */
-	function _getRect(el, adjustForTransform, container, adjustForFixed) {
-		if (!el.getBoundingClientRect && el !== win) return;
-
-		var elRect,
-			top,
-			left,
-			bottom,
-			right,
-			height,
-			width;
-
-		if (el !== win && el !== _getWindowScrollingElement()) {
-			elRect = el.getBoundingClientRect();
-			top = elRect.top;
-			left = elRect.left;
-			bottom = elRect.bottom;
-			right = elRect.right;
-			height = elRect.height;
-			width = elRect.width;
-		} else {
-			top = 0;
-			left = 0;
-			bottom = window.innerHeight;
-			right = window.innerWidth;
-			height = window.innerHeight;
-			width = window.innerWidth;
-		}
-
-		if (adjustForFixed && el !== win) {
-			// Adjust for translate()
-			container = container || el.parentNode;
-
-			// solves #1123 (see: https://stackoverflow.com/a/37953806/6088312)
-			// Not needed on <= IE11
-			if (!IE11OrLess) {
-				do {
-					if (container && container.getBoundingClientRect && _css(container, 'transform') !== 'none') {
-						var containerRect = container.getBoundingClientRect();
-
-						// Set relative to edges of padding box of container
-						top -= containerRect.top + parseInt(_css(container, 'border-top-width'));
-						left -= containerRect.left + parseInt(_css(container, 'border-left-width'));
-						bottom = top + elRect.height;
-						right = left + elRect.width;
-
-						break;
-					}
-					/* jshint boss:true */
-				} while (container = container.parentNode);
-			}
-		}
-
-		if (adjustForTransform && el !== win) {
-			// Adjust for scale()
-			var matrix = _matrix(container || el),
-				scaleX = matrix && matrix.a,
-				scaleY = matrix && matrix.d;
-
-			if (matrix) {
-				top /= scaleY;
-				left /= scaleX;
-
-				width /= scaleX;
-				height /= scaleY;
-
-				bottom = top + height;
-				right = left + width;
-			}
-		}
-
-		return {
-			top: top,
-			left: left,
-			bottom: bottom,
-			right: right,
-			width: width,
-			height: height
-		};
-	}
-
-
-	/**
-	 * Checks if a side of an element is scrolled past a side of it's parents
-	 * @param  {HTMLElement}  el       The element who's side being scrolled out of view is in question
-	 * @param  {String}       side     Side of the element in question ('top', 'left', 'right', 'bottom')
-	 * @return {HTMLElement}           The parent scroll element that the el's side is scrolled past, or null if there is no such element
-	 */
-	function _isScrolledPast(el, side) {
-		var parent = _getParentAutoScrollElement(el, true),
-			elSide = _getRect(el)[side];
-
-		/* jshint boss:true */
-		while (parent) {
-			var parentSide = _getRect(parent)[side],
-				visible;
-
-			if (side === 'top' || side === 'left') {
-				visible = elSide >= parentSide;
-			} else {
-				visible = elSide <= parentSide;
-			}
-
-			if (!visible) return parent;
-
-			if (parent === _getWindowScrollingElement()) break;
-
-			parent = _getParentAutoScrollElement(parent, false);
-		}
-
-		return false;
-	}
-
-	/**
-	 * Returns the scroll offset of the given element, added with all the scroll offsets of parent elements.
-	 * The value is returned in real pixels.
-	 * @param  {HTMLElement} el
-	 * @return {Array}             Offsets in the format of [left, top]
-	 */
-	function _getRelativeScrollOffset(el) {
-		var offsetLeft = 0,
-			offsetTop = 0,
-			winScroller = _getWindowScrollingElement();
-
-		if (el) {
-			do {
-				var matrix = _matrix(el),
-					scaleX = matrix.a,
-					scaleY = matrix.d;
-
-				offsetLeft += el.scrollLeft * scaleX;
-				offsetTop += el.scrollTop * scaleY;
-			} while (el !== winScroller && (el = el.parentNode));
-		}
-
-		return [offsetLeft, offsetTop];
-	}
-
-	// Fixed #973:
-	_on(document, 'touchmove', function(evt) {
-		if ((Sortable.active || awaitingDragStarted) && evt.cancelable) {
-			evt.preventDefault();
-		}
-	});
-
-
-	// Export utils
-	Sortable.utils = {
-		on: _on,
-		off: _off,
-		css: _css,
-		find: _find,
-		is: function (el, selector) {
-			return !!_closest(el, selector, el, false);
-		},
-		extend: _extend,
-		throttle: _throttle,
-		closest: _closest,
-		toggleClass: _toggleClass,
-		clone: _clone,
-		index: _index,
-		nextTick: _nextTick,
-		cancelNextTick: _cancelNextTick,
-		detectDirection: _detectDirection,
-		getChild: _getChild
-	};
-
-
-	/**
-	 * Create sortable instance
-	 * @param {HTMLElement}  el
-	 * @param {Object}      [options]
-	 */
-	Sortable.create = function (el, options) {
-		return new Sortable(el, options);
-	};
-
-
-	// Export
-	Sortable.version = '1.9.0';
-	return Sortable;
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+    var ownKeys = Object.keys(source);
+
+    if (typeof Object.getOwnPropertySymbols === 'function') {
+      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+      }));
+    }
+
+    ownKeys.forEach(function (key) {
+      _defineProperty(target, key, source[key]);
+    });
+  }
+
+  return target;
+}
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+function _objectWithoutProperties(source, excluded) {
+  if (source == null) return {};
+
+  var target = _objectWithoutPropertiesLoose(source, excluded);
+
+  var key, i;
+
+  if (Object.getOwnPropertySymbols) {
+    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+
+    for (i = 0; i < sourceSymbolKeys.length; i++) {
+      key = sourceSymbolKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
+      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+      target[key] = source[key];
+    }
+  }
+
+  return target;
+}
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+}
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  }
+}
+
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
+
+var version = "1.10.1";
+
+function userAgent(pattern) {
+  if (typeof window !== 'undefined' && window.navigator) {
+    return !!
+    /*@__PURE__*/
+    navigator.userAgent.match(pattern);
+  }
+}
+
+var IE11OrLess = userAgent(/(?:Trident.*rv[ :]?11\.|msie|iemobile|Windows Phone)/i);
+var Edge = userAgent(/Edge/i);
+var FireFox = userAgent(/firefox/i);
+var Safari = userAgent(/safari/i) && !userAgent(/chrome/i) && !userAgent(/android/i);
+var IOS = userAgent(/iP(ad|od|hone)/i);
+var ChromeForAndroid = userAgent(/chrome/i) && userAgent(/android/i);
+
+var captureMode = {
+  capture: false,
+  passive: false
+};
+
+function on(el, event, fn) {
+  el.addEventListener(event, fn, !IE11OrLess && captureMode);
+}
+
+function off(el, event, fn) {
+  el.removeEventListener(event, fn, !IE11OrLess && captureMode);
+}
+
+function matches(
+/**HTMLElement*/
+el,
+/**String*/
+selector) {
+  if (!selector) return;
+  selector[0] === '>' && (selector = selector.substring(1));
+
+  if (el) {
+    try {
+      if (el.matches) {
+        return el.matches(selector);
+      } else if (el.msMatchesSelector) {
+        return el.msMatchesSelector(selector);
+      } else if (el.webkitMatchesSelector) {
+        return el.webkitMatchesSelector(selector);
+      }
+    } catch (_) {
+      return false;
+    }
+  }
+
+  return false;
+}
+
+function getParentOrHost(el) {
+  return el.host && el !== document && el.host.nodeType ? el.host : el.parentNode;
+}
+
+function closest(
+/**HTMLElement*/
+el,
+/**String*/
+selector,
+/**HTMLElement*/
+ctx, includeCTX) {
+  if (el) {
+    ctx = ctx || document;
+
+    do {
+      if (selector != null && (selector[0] === '>' ? el.parentNode === ctx && matches(el, selector) : matches(el, selector)) || includeCTX && el === ctx) {
+        return el;
+      }
+
+      if (el === ctx) break;
+      /* jshint boss:true */
+    } while (el = getParentOrHost(el));
+  }
+
+  return null;
+}
+
+var R_SPACE = /\s+/g;
+
+function toggleClass(el, name, state) {
+  if (el && name) {
+    if (el.classList) {
+      el.classList[state ? 'add' : 'remove'](name);
+    } else {
+      var className = (' ' + el.className + ' ').replace(R_SPACE, ' ').replace(' ' + name + ' ', ' ');
+      el.className = (className + (state ? ' ' + name : '')).replace(R_SPACE, ' ');
+    }
+  }
+}
+
+function css(el, prop, val) {
+  var style = el && el.style;
+
+  if (style) {
+    if (val === void 0) {
+      if (document.defaultView && document.defaultView.getComputedStyle) {
+        val = document.defaultView.getComputedStyle(el, '');
+      } else if (el.currentStyle) {
+        val = el.currentStyle;
+      }
+
+      return prop === void 0 ? val : val[prop];
+    } else {
+      if (!(prop in style) && prop.indexOf('webkit') === -1) {
+        prop = '-webkit-' + prop;
+      }
+
+      style[prop] = val + (typeof val === 'string' ? '' : 'px');
+    }
+  }
+}
+
+function matrix(el, selfOnly) {
+  var appliedTransforms = '';
+
+  if (typeof el === 'string') {
+    appliedTransforms = el;
+  } else {
+    do {
+      var transform = css(el, 'transform');
+
+      if (transform && transform !== 'none') {
+        appliedTransforms = transform + ' ' + appliedTransforms;
+      }
+      /* jshint boss:true */
+
+    } while (!selfOnly && (el = el.parentNode));
+  }
+
+  var matrixFn = window.DOMMatrix || window.WebKitCSSMatrix || window.CSSMatrix;
+  /*jshint -W056 */
+
+  return matrixFn && new matrixFn(appliedTransforms);
+}
+
+function find(ctx, tagName, iterator) {
+  if (ctx) {
+    var list = ctx.getElementsByTagName(tagName),
+        i = 0,
+        n = list.length;
+
+    if (iterator) {
+      for (; i < n; i++) {
+        iterator(list[i], i);
+      }
+    }
+
+    return list;
+  }
+
+  return [];
+}
+
+function getWindowScrollingElement() {
+  if (IE11OrLess) {
+    return document.documentElement;
+  } else {
+    return document.scrollingElement;
+  }
+}
+/**
+ * Returns the "bounding client rect" of given element
+ * @param  {HTMLElement} el                       The element whose boundingClientRect is wanted
+ * @param  {[Boolean]} relativeToContainingBlock  Whether the rect should be relative to the containing block of (including) the container
+ * @param  {[Boolean]} relativeToNonStaticParent  Whether the rect should be relative to the relative parent of (including) the contaienr
+ * @param  {[Boolean]} undoScale                  Whether the container's scale() should be undone
+ * @param  {[HTMLElement]} container              The parent the element will be placed in
+ * @return {Object}                               The boundingClientRect of el, with specified adjustments
+ */
+
+
+function getRect(el, relativeToContainingBlock, relativeToNonStaticParent, undoScale, container) {
+  if (!el.getBoundingClientRect && el !== window) return;
+  var elRect, top, left, bottom, right, height, width;
+
+  if (el !== window && el !== getWindowScrollingElement()) {
+    elRect = el.getBoundingClientRect();
+    top = elRect.top;
+    left = elRect.left;
+    bottom = elRect.bottom;
+    right = elRect.right;
+    height = elRect.height;
+    width = elRect.width;
+  } else {
+    top = 0;
+    left = 0;
+    bottom = window.innerHeight;
+    right = window.innerWidth;
+    height = window.innerHeight;
+    width = window.innerWidth;
+  }
+
+  if ((relativeToContainingBlock || relativeToNonStaticParent) && el !== window) {
+    // Adjust for translate()
+    container = container || el.parentNode; // solves #1123 (see: https://stackoverflow.com/a/37953806/6088312)
+    // Not needed on <= IE11
+
+    if (!IE11OrLess) {
+      do {
+        if (container && container.getBoundingClientRect && (css(container, 'transform') !== 'none' || relativeToNonStaticParent && css(container, 'position') !== 'static')) {
+          var containerRect = container.getBoundingClientRect(); // Set relative to edges of padding box of container
+
+          top -= containerRect.top + parseInt(css(container, 'border-top-width'));
+          left -= containerRect.left + parseInt(css(container, 'border-left-width'));
+          bottom = top + elRect.height;
+          right = left + elRect.width;
+          break;
+        }
+        /* jshint boss:true */
+
+      } while (container = container.parentNode);
+    }
+  }
+
+  if (undoScale && el !== window) {
+    // Adjust for scale()
+    var elMatrix = matrix(container || el),
+        scaleX = elMatrix && elMatrix.a,
+        scaleY = elMatrix && elMatrix.d;
+
+    if (elMatrix) {
+      top /= scaleY;
+      left /= scaleX;
+      width /= scaleX;
+      height /= scaleY;
+      bottom = top + height;
+      right = left + width;
+    }
+  }
+
+  return {
+    top: top,
+    left: left,
+    bottom: bottom,
+    right: right,
+    width: width,
+    height: height
+  };
+}
+/**
+ * Checks if a side of an element is scrolled past a side of its parents
+ * @param  {HTMLElement}  el           The element who's side being scrolled out of view is in question
+ * @param  {String}       elSide       Side of the element in question ('top', 'left', 'right', 'bottom')
+ * @param  {String}       parentSide   Side of the parent in question ('top', 'left', 'right', 'bottom')
+ * @return {HTMLElement}               The parent scroll element that the el's side is scrolled past, or null if there is no such element
+ */
+
+
+function isScrolledPast(el, elSide, parentSide) {
+  var parent = getParentAutoScrollElement(el, true),
+      elSideVal = getRect(el)[elSide];
+  /* jshint boss:true */
+
+  while (parent) {
+    var parentSideVal = getRect(parent)[parentSide],
+        visible = void 0;
+
+    if (parentSide === 'top' || parentSide === 'left') {
+      visible = elSideVal >= parentSideVal;
+    } else {
+      visible = elSideVal <= parentSideVal;
+    }
+
+    if (!visible) return parent;
+    if (parent === getWindowScrollingElement()) break;
+    parent = getParentAutoScrollElement(parent, false);
+  }
+
+  return false;
+}
+/**
+ * Gets nth child of el, ignoring hidden children, sortable's elements (does not ignore clone if it's visible)
+ * and non-draggable elements
+ * @param  {HTMLElement} el       The parent element
+ * @param  {Number} childNum      The index of the child
+ * @param  {Object} options       Parent Sortable's options
+ * @return {HTMLElement}          The child at index childNum, or null if not found
+ */
+
+
+function getChild(el, childNum, options) {
+  var currentChild = 0,
+      i = 0,
+      children = el.children;
+
+  while (i < children.length) {
+    if (children[i].style.display !== 'none' && children[i] !== Sortable.ghost && children[i] !== Sortable.dragged && closest(children[i], options.draggable, el, false)) {
+      if (currentChild === childNum) {
+        return children[i];
+      }
+
+      currentChild++;
+    }
+
+    i++;
+  }
+
+  return null;
+}
+/**
+ * Gets the last child in the el, ignoring ghostEl or invisible elements (clones)
+ * @param  {HTMLElement} el       Parent element
+ * @param  {selector} selector    Any other elements that should be ignored
+ * @return {HTMLElement}          The last child, ignoring ghostEl
+ */
+
+
+function lastChild(el, selector) {
+  var last = el.lastElementChild;
+
+  while (last && (last === Sortable.ghost || css(last, 'display') === 'none' || selector && !matches(last, selector))) {
+    last = last.previousElementSibling;
+  }
+
+  return last || null;
+}
+/**
+ * Returns the index of an element within its parent for a selected set of
+ * elements
+ * @param  {HTMLElement} el
+ * @param  {selector} selector
+ * @return {number}
+ */
+
+
+function index(el, selector) {
+  var index = 0;
+
+  if (!el || !el.parentNode) {
+    return -1;
+  }
+  /* jshint boss:true */
+
+
+  while (el = el.previousElementSibling) {
+    if (el.nodeName.toUpperCase() !== 'TEMPLATE' && el !== Sortable.clone && (!selector || matches(el, selector))) {
+      index++;
+    }
+  }
+
+  return index;
+}
+/**
+ * Returns the scroll offset of the given element, added with all the scroll offsets of parent elements.
+ * The value is returned in real pixels.
+ * @param  {HTMLElement} el
+ * @return {Array}             Offsets in the format of [left, top]
+ */
+
+
+function getRelativeScrollOffset(el) {
+  var offsetLeft = 0,
+      offsetTop = 0,
+      winScroller = getWindowScrollingElement();
+
+  if (el) {
+    do {
+      var elMatrix = matrix(el),
+          scaleX = elMatrix.a,
+          scaleY = elMatrix.d;
+      offsetLeft += el.scrollLeft * scaleX;
+      offsetTop += el.scrollTop * scaleY;
+    } while (el !== winScroller && (el = el.parentNode));
+  }
+
+  return [offsetLeft, offsetTop];
+}
+/**
+ * Returns the index of the object within the given array
+ * @param  {Array} arr   Array that may or may not hold the object
+ * @param  {Object} obj  An object that has a key-value pair unique to and identical to a key-value pair in the object you want to find
+ * @return {Number}      The index of the object in the array, or -1
+ */
+
+
+function indexOfObject(arr, obj) {
+  for (var i in arr) {
+    if (!arr.hasOwnProperty(i)) continue;
+
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key) && obj[key] === arr[i][key]) return Number(i);
+    }
+  }
+
+  return -1;
+}
+
+function getParentAutoScrollElement(el, includeSelf) {
+  // skip to window
+  if (!el || !el.getBoundingClientRect) return getWindowScrollingElement();
+  var elem = el;
+  var gotSelf = false;
+
+  do {
+    // we don't need to get elem css if it isn't even overflowing in the first place (performance)
+    if (elem.clientWidth < elem.scrollWidth || elem.clientHeight < elem.scrollHeight) {
+      var elemCSS = css(elem);
+
+      if (elem.clientWidth < elem.scrollWidth && (elemCSS.overflowX == 'auto' || elemCSS.overflowX == 'scroll') || elem.clientHeight < elem.scrollHeight && (elemCSS.overflowY == 'auto' || elemCSS.overflowY == 'scroll')) {
+        if (!elem.getBoundingClientRect || elem === document.body) return getWindowScrollingElement();
+        if (gotSelf || includeSelf) return elem;
+        gotSelf = true;
+      }
+    }
+    /* jshint boss:true */
+
+  } while (elem = elem.parentNode);
+
+  return getWindowScrollingElement();
+}
+
+function extend(dst, src) {
+  if (dst && src) {
+    for (var key in src) {
+      if (src.hasOwnProperty(key)) {
+        dst[key] = src[key];
+      }
+    }
+  }
+
+  return dst;
+}
+
+function isRectEqual(rect1, rect2) {
+  return Math.round(rect1.top) === Math.round(rect2.top) && Math.round(rect1.left) === Math.round(rect2.left) && Math.round(rect1.height) === Math.round(rect2.height) && Math.round(rect1.width) === Math.round(rect2.width);
+}
+
+var _throttleTimeout;
+
+function throttle(callback, ms) {
+  return function () {
+    if (!_throttleTimeout) {
+      var args = arguments,
+          _this = this;
+
+      if (args.length === 1) {
+        callback.call(_this, args[0]);
+      } else {
+        callback.apply(_this, args);
+      }
+
+      _throttleTimeout = setTimeout(function () {
+        _throttleTimeout = void 0;
+      }, ms);
+    }
+  };
+}
+
+function cancelThrottle() {
+  clearTimeout(_throttleTimeout);
+  _throttleTimeout = void 0;
+}
+
+function scrollBy(el, x, y) {
+  el.scrollLeft += x;
+  el.scrollTop += y;
+}
+
+function clone(el) {
+  var Polymer = window.Polymer;
+  var $ = window.jQuery || window.Zepto;
+
+  if (Polymer && Polymer.dom) {
+    return Polymer.dom(el).cloneNode(true);
+  } else if ($) {
+    return $(el).clone(true)[0];
+  } else {
+    return el.cloneNode(true);
+  }
+}
+
+function setRect(el, rect) {
+  css(el, 'position', 'absolute');
+  css(el, 'top', rect.top);
+  css(el, 'left', rect.left);
+  css(el, 'width', rect.width);
+  css(el, 'height', rect.height);
+}
+
+function unsetRect(el) {
+  css(el, 'position', '');
+  css(el, 'top', '');
+  css(el, 'left', '');
+  css(el, 'width', '');
+  css(el, 'height', '');
+}
+
+var expando = 'Sortable' + new Date().getTime();
+
+function AnimationStateManager() {
+  var animationStates = [],
+      animationCallbackId;
+  return {
+    captureAnimationState: function captureAnimationState() {
+      animationStates = [];
+      if (!this.options.animation) return;
+      var children = [].slice.call(this.el.children);
+      children.forEach(function (child) {
+        if (css(child, 'display') === 'none' || child === Sortable.ghost) return;
+        animationStates.push({
+          target: child,
+          rect: getRect(child)
+        });
+
+        var fromRect = _objectSpread({}, animationStates[animationStates.length - 1].rect); // If animating: compensate for current animation
+
+
+        if (child.thisAnimationDuration) {
+          var childMatrix = matrix(child, true);
+
+          if (childMatrix) {
+            fromRect.top -= childMatrix.f;
+            fromRect.left -= childMatrix.e;
+          }
+        }
+
+        child.fromRect = fromRect;
+      });
+    },
+    addAnimationState: function addAnimationState(state) {
+      animationStates.push(state);
+    },
+    removeAnimationState: function removeAnimationState(target) {
+      animationStates.splice(indexOfObject(animationStates, {
+        target: target
+      }), 1);
+    },
+    animateAll: function animateAll(callback) {
+      var _this = this;
+
+      if (!this.options.animation) {
+        clearTimeout(animationCallbackId);
+        if (typeof callback === 'function') callback();
+        return;
+      }
+
+      var animating = false,
+          animationTime = 0;
+      animationStates.forEach(function (state) {
+        var time = 0,
+            target = state.target,
+            fromRect = target.fromRect,
+            toRect = getRect(target),
+            prevFromRect = target.prevFromRect,
+            prevToRect = target.prevToRect,
+            animatingRect = state.rect,
+            targetMatrix = matrix(target, true);
+
+        if (targetMatrix) {
+          // Compensate for current animation
+          toRect.top -= targetMatrix.f;
+          toRect.left -= targetMatrix.e;
+        }
+
+        target.toRect = toRect;
+
+        if (target.thisAnimationDuration) {
+          // Could also check if animatingRect is between fromRect and toRect
+          if (isRectEqual(prevFromRect, toRect) && !isRectEqual(fromRect, toRect) && // Make sure animatingRect is on line between toRect & fromRect
+          (animatingRect.top - toRect.top) / (animatingRect.left - toRect.left) === (fromRect.top - toRect.top) / (fromRect.left - toRect.left)) {
+            // If returning to same place as started from animation and on same axis
+            time = calculateRealTime(animatingRect, prevFromRect, prevToRect, _this.options);
+          }
+        } // if fromRect != toRect: animate
+
+
+        if (!isRectEqual(toRect, fromRect)) {
+          target.prevFromRect = fromRect;
+          target.prevToRect = toRect;
+
+          if (!time) {
+            time = _this.options.animation;
+          }
+
+          _this.animate(target, animatingRect, toRect, time);
+        }
+
+        if (time) {
+          animating = true;
+          animationTime = Math.max(animationTime, time);
+          clearTimeout(target.animationResetTimer);
+          target.animationResetTimer = setTimeout(function () {
+            target.animationTime = 0;
+            target.prevFromRect = null;
+            target.fromRect = null;
+            target.prevToRect = null;
+            target.thisAnimationDuration = null;
+          }, time);
+          target.thisAnimationDuration = time;
+        }
+      });
+      clearTimeout(animationCallbackId);
+
+      if (!animating) {
+        if (typeof callback === 'function') callback();
+      } else {
+        animationCallbackId = setTimeout(function () {
+          if (typeof callback === 'function') callback();
+        }, animationTime);
+      }
+
+      animationStates = [];
+    },
+    animate: function animate(target, currentRect, toRect, duration) {
+      if (duration) {
+        css(target, 'transition', '');
+        css(target, 'transform', '');
+        var elMatrix = matrix(this.el),
+            scaleX = elMatrix && elMatrix.a,
+            scaleY = elMatrix && elMatrix.d,
+            translateX = (currentRect.left - toRect.left) / (scaleX || 1),
+            translateY = (currentRect.top - toRect.top) / (scaleY || 1);
+        target.animatingX = !!translateX;
+        target.animatingY = !!translateY;
+        css(target, 'transform', 'translate3d(' + translateX + 'px,' + translateY + 'px,0)');
+        repaint(target); // repaint
+
+        css(target, 'transition', 'transform ' + duration + 'ms' + (this.options.easing ? ' ' + this.options.easing : ''));
+        css(target, 'transform', 'translate3d(0,0,0)');
+        typeof target.animated === 'number' && clearTimeout(target.animated);
+        target.animated = setTimeout(function () {
+          css(target, 'transition', '');
+          css(target, 'transform', '');
+          target.animated = false;
+          target.animatingX = false;
+          target.animatingY = false;
+        }, duration);
+      }
+    }
+  };
+}
+
+function repaint(target) {
+  return target.offsetWidth;
+}
+
+function calculateRealTime(animatingRect, fromRect, toRect, options) {
+  return Math.sqrt(Math.pow(fromRect.top - animatingRect.top, 2) + Math.pow(fromRect.left - animatingRect.left, 2)) / Math.sqrt(Math.pow(fromRect.top - toRect.top, 2) + Math.pow(fromRect.left - toRect.left, 2)) * options.animation;
+}
+
+var plugins = [];
+var defaults = {
+  initializeByDefault: true
+};
+var PluginManager = {
+  mount: function mount(plugin) {
+    // Set default static properties
+    for (var option in defaults) {
+      if (defaults.hasOwnProperty(option) && !(option in plugin)) {
+        plugin[option] = defaults[option];
+      }
+    }
+
+    plugins.push(plugin);
+  },
+  pluginEvent: function pluginEvent(eventName, sortable, evt) {
+    var _this = this;
+
+    this.eventCanceled = false;
+
+    evt.cancel = function () {
+      _this.eventCanceled = true;
+    };
+
+    var eventNameGlobal = eventName + 'Global';
+    plugins.forEach(function (plugin) {
+      if (!sortable[plugin.pluginName]) return; // Fire global events if it exists in this sortable
+
+      if (sortable[plugin.pluginName][eventNameGlobal]) {
+        sortable[plugin.pluginName][eventNameGlobal](_objectSpread({
+          sortable: sortable
+        }, evt));
+      } // Only fire plugin event if plugin is enabled in this sortable,
+      // and plugin has event defined
+
+
+      if (sortable.options[plugin.pluginName] && sortable[plugin.pluginName][eventName]) {
+        sortable[plugin.pluginName][eventName](_objectSpread({
+          sortable: sortable
+        }, evt));
+      }
+    });
+  },
+  initializePlugins: function initializePlugins(sortable, el, defaults, options) {
+    plugins.forEach(function (plugin) {
+      var pluginName = plugin.pluginName;
+      if (!sortable.options[pluginName] && !plugin.initializeByDefault) return;
+      var initialized = new plugin(sortable, el, sortable.options);
+      initialized.sortable = sortable;
+      initialized.options = sortable.options;
+      sortable[pluginName] = initialized; // Add default options from plugin
+
+      _extends(defaults, initialized.defaults);
+    });
+
+    for (var option in sortable.options) {
+      if (!sortable.options.hasOwnProperty(option)) continue;
+      var modified = this.modifyOption(sortable, option, sortable.options[option]);
+
+      if (typeof modified !== 'undefined') {
+        sortable.options[option] = modified;
+      }
+    }
+  },
+  getEventProperties: function getEventProperties(name, sortable) {
+    var eventProperties = {};
+    plugins.forEach(function (plugin) {
+      if (typeof plugin.eventProperties !== 'function') return;
+
+      _extends(eventProperties, plugin.eventProperties.call(sortable[plugin.pluginName], name));
+    });
+    return eventProperties;
+  },
+  modifyOption: function modifyOption(sortable, name, value) {
+    var modifiedValue;
+    plugins.forEach(function (plugin) {
+      // Plugin must exist on the Sortable
+      if (!sortable[plugin.pluginName]) return; // If static option listener exists for this option, call in the context of the Sortable's instance of this plugin
+
+      if (plugin.optionListeners && typeof plugin.optionListeners[name] === 'function') {
+        modifiedValue = plugin.optionListeners[name].call(sortable[plugin.pluginName], value);
+      }
+    });
+    return modifiedValue;
+  }
+};
+
+function dispatchEvent(_ref) {
+  var sortable = _ref.sortable,
+      rootEl = _ref.rootEl,
+      name = _ref.name,
+      targetEl = _ref.targetEl,
+      cloneEl = _ref.cloneEl,
+      toEl = _ref.toEl,
+      fromEl = _ref.fromEl,
+      oldIndex = _ref.oldIndex,
+      newIndex = _ref.newIndex,
+      oldDraggableIndex = _ref.oldDraggableIndex,
+      newDraggableIndex = _ref.newDraggableIndex,
+      originalEvent = _ref.originalEvent,
+      putSortable = _ref.putSortable,
+      extraEventProperties = _ref.extraEventProperties;
+  sortable = sortable || rootEl && rootEl[expando];
+  if (!sortable) return;
+  var evt,
+      options = sortable.options,
+      onName = 'on' + name.charAt(0).toUpperCase() + name.substr(1); // Support for new CustomEvent feature
+
+  if (window.CustomEvent && !IE11OrLess && !Edge) {
+    evt = new CustomEvent(name, {
+      bubbles: true,
+      cancelable: true
+    });
+  } else {
+    evt = document.createEvent('Event');
+    evt.initEvent(name, true, true);
+  }
+
+  evt.to = toEl || rootEl;
+  evt.from = fromEl || rootEl;
+  evt.item = targetEl || rootEl;
+  evt.clone = cloneEl;
+  evt.oldIndex = oldIndex;
+  evt.newIndex = newIndex;
+  evt.oldDraggableIndex = oldDraggableIndex;
+  evt.newDraggableIndex = newDraggableIndex;
+  evt.originalEvent = originalEvent;
+  evt.pullMode = putSortable ? putSortable.lastPutMode : undefined;
+
+  var allEventProperties = _objectSpread({}, extraEventProperties, PluginManager.getEventProperties(name, sortable));
+
+  for (var option in allEventProperties) {
+    evt[option] = allEventProperties[option];
+  }
+
+  if (rootEl) {
+    rootEl.dispatchEvent(evt);
+  }
+
+  if (options[onName]) {
+    options[onName].call(sortable, evt);
+  }
+}
+
+var pluginEvent = function pluginEvent(eventName, sortable) {
+  var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+      originalEvent = _ref.evt,
+      data = _objectWithoutProperties(_ref, ["evt"]);
+
+  PluginManager.pluginEvent.bind(Sortable)(eventName, sortable, _objectSpread({
+    dragEl: dragEl,
+    parentEl: parentEl,
+    ghostEl: ghostEl,
+    rootEl: rootEl,
+    nextEl: nextEl,
+    lastDownEl: lastDownEl,
+    cloneEl: cloneEl,
+    cloneHidden: cloneHidden,
+    dragStarted: moved,
+    putSortable: putSortable,
+    activeSortable: Sortable.active,
+    originalEvent: originalEvent,
+    oldIndex: oldIndex,
+    oldDraggableIndex: oldDraggableIndex,
+    newIndex: newIndex,
+    newDraggableIndex: newDraggableIndex,
+    hideGhostForTarget: _hideGhostForTarget,
+    unhideGhostForTarget: _unhideGhostForTarget,
+    cloneNowHidden: function cloneNowHidden() {
+      cloneHidden = true;
+    },
+    cloneNowShown: function cloneNowShown() {
+      cloneHidden = false;
+    },
+    dispatchSortableEvent: function dispatchSortableEvent(name) {
+      _dispatchEvent({
+        sortable: sortable,
+        name: name,
+        originalEvent: originalEvent
+      });
+    }
+  }, data));
+};
+
+function _dispatchEvent(info) {
+  dispatchEvent(_objectSpread({
+    putSortable: putSortable,
+    cloneEl: cloneEl,
+    targetEl: dragEl,
+    rootEl: rootEl,
+    oldIndex: oldIndex,
+    oldDraggableIndex: oldDraggableIndex,
+    newIndex: newIndex,
+    newDraggableIndex: newDraggableIndex
+  }, info));
+}
+
+var dragEl,
+    parentEl,
+    ghostEl,
+    rootEl,
+    nextEl,
+    lastDownEl,
+    cloneEl,
+    cloneHidden,
+    oldIndex,
+    newIndex,
+    oldDraggableIndex,
+    newDraggableIndex,
+    activeGroup,
+    putSortable,
+    awaitingDragStarted = false,
+    ignoreNextClick = false,
+    sortables = [],
+    tapEvt,
+    touchEvt,
+    lastDx,
+    lastDy,
+    tapDistanceLeft,
+    tapDistanceTop,
+    moved,
+    lastTarget,
+    lastDirection,
+    pastFirstInvertThresh = false,
+    isCircumstantialInvert = false,
+    targetMoveDistance,
+    // For positioning ghost absolutely
+ghostRelativeParent,
+    ghostRelativeParentInitialScroll = [],
+    // (left, top)
+_silent = false,
+    savedInputChecked = [];
+/** @const */
+
+var documentExists = typeof document !== 'undefined',
+    PositionGhostAbsolutely = IOS,
+    CSSFloatProperty = Edge || IE11OrLess ? 'cssFloat' : 'float',
+    // This will not pass for IE9, because IE9 DnD only works on anchors
+supportDraggable = documentExists && !ChromeForAndroid && !IOS && 'draggable' in document.createElement('div'),
+    supportCssPointerEvents = function () {
+  if (!documentExists) return; // false when <= IE11
+
+  if (IE11OrLess) {
+    return false;
+  }
+
+  var el = document.createElement('x');
+  el.style.cssText = 'pointer-events:auto';
+  return el.style.pointerEvents === 'auto';
+}(),
+    _detectDirection = function _detectDirection(el, options) {
+  var elCSS = css(el),
+      elWidth = parseInt(elCSS.width) - parseInt(elCSS.paddingLeft) - parseInt(elCSS.paddingRight) - parseInt(elCSS.borderLeftWidth) - parseInt(elCSS.borderRightWidth),
+      child1 = getChild(el, 0, options),
+      child2 = getChild(el, 1, options),
+      firstChildCSS = child1 && css(child1),
+      secondChildCSS = child2 && css(child2),
+      firstChildWidth = firstChildCSS && parseInt(firstChildCSS.marginLeft) + parseInt(firstChildCSS.marginRight) + getRect(child1).width,
+      secondChildWidth = secondChildCSS && parseInt(secondChildCSS.marginLeft) + parseInt(secondChildCSS.marginRight) + getRect(child2).width;
+
+  if (elCSS.display === 'flex') {
+    return elCSS.flexDirection === 'column' || elCSS.flexDirection === 'column-reverse' ? 'vertical' : 'horizontal';
+  }
+
+  if (elCSS.display === 'grid') {
+    return elCSS.gridTemplateColumns.split(' ').length <= 1 ? 'vertical' : 'horizontal';
+  }
+
+  if (child1 && firstChildCSS["float"] && firstChildCSS["float"] !== 'none') {
+    var touchingSideChild2 = firstChildCSS["float"] === 'left' ? 'left' : 'right';
+    return child2 && (secondChildCSS.clear === 'both' || secondChildCSS.clear === touchingSideChild2) ? 'vertical' : 'horizontal';
+  }
+
+  return child1 && (firstChildCSS.display === 'block' || firstChildCSS.display === 'flex' || firstChildCSS.display === 'table' || firstChildCSS.display === 'grid' || firstChildWidth >= elWidth && elCSS[CSSFloatProperty] === 'none' || child2 && elCSS[CSSFloatProperty] === 'none' && firstChildWidth + secondChildWidth > elWidth) ? 'vertical' : 'horizontal';
+},
+    _dragElInRowColumn = function _dragElInRowColumn(dragRect, targetRect, vertical) {
+  var dragElS1Opp = vertical ? dragRect.left : dragRect.top,
+      dragElS2Opp = vertical ? dragRect.right : dragRect.bottom,
+      dragElOppLength = vertical ? dragRect.width : dragRect.height,
+      targetS1Opp = vertical ? targetRect.left : targetRect.top,
+      targetS2Opp = vertical ? targetRect.right : targetRect.bottom,
+      targetOppLength = vertical ? targetRect.width : targetRect.height;
+  return dragElS1Opp === targetS1Opp || dragElS2Opp === targetS2Opp || dragElS1Opp + dragElOppLength / 2 === targetS1Opp + targetOppLength / 2;
+},
+
+/**
+ * Detects first nearest empty sortable to X and Y position using emptyInsertThreshold.
+ * @param  {Number} x      X position
+ * @param  {Number} y      Y position
+ * @return {HTMLElement}   Element of the first found nearest Sortable
+ */
+_detectNearestEmptySortable = function _detectNearestEmptySortable(x, y) {
+  var ret;
+  sortables.some(function (sortable) {
+    if (lastChild(sortable)) return;
+    var rect = getRect(sortable),
+        threshold = sortable[expando].options.emptyInsertThreshold,
+        insideHorizontally = x >= rect.left - threshold && x <= rect.right + threshold,
+        insideVertically = y >= rect.top - threshold && y <= rect.bottom + threshold;
+
+    if (threshold && insideHorizontally && insideVertically) {
+      return ret = sortable;
+    }
+  });
+  return ret;
+},
+    _prepareGroup = function _prepareGroup(options) {
+  function toFn(value, pull) {
+    return function (to, from, dragEl, evt) {
+      var sameGroup = to.options.group.name && from.options.group.name && to.options.group.name === from.options.group.name;
+
+      if (value == null && (pull || sameGroup)) {
+        // Default pull value
+        // Default pull and put value if same group
+        return true;
+      } else if (value == null || value === false) {
+        return false;
+      } else if (pull && value === 'clone') {
+        return value;
+      } else if (typeof value === 'function') {
+        return toFn(value(to, from, dragEl, evt), pull)(to, from, dragEl, evt);
+      } else {
+        var otherGroup = (pull ? to : from).options.group.name;
+        return value === true || typeof value === 'string' && value === otherGroup || value.join && value.indexOf(otherGroup) > -1;
+      }
+    };
+  }
+
+  var group = {};
+  var originalGroup = options.group;
+
+  if (!originalGroup || _typeof(originalGroup) != 'object') {
+    originalGroup = {
+      name: originalGroup
+    };
+  }
+
+  group.name = originalGroup.name;
+  group.checkPull = toFn(originalGroup.pull, true);
+  group.checkPut = toFn(originalGroup.put);
+  group.revertClone = originalGroup.revertClone;
+  options.group = group;
+},
+    _hideGhostForTarget = function _hideGhostForTarget() {
+  if (!supportCssPointerEvents && ghostEl) {
+    css(ghostEl, 'display', 'none');
+  }
+},
+    _unhideGhostForTarget = function _unhideGhostForTarget() {
+  if (!supportCssPointerEvents && ghostEl) {
+    css(ghostEl, 'display', '');
+  }
+}; // #1184 fix - Prevent click event on fallback if dragged but item not changed position
+
+
+if (documentExists) {
+  document.addEventListener('click', function (evt) {
+    if (ignoreNextClick) {
+      evt.preventDefault();
+      evt.stopPropagation && evt.stopPropagation();
+      evt.stopImmediatePropagation && evt.stopImmediatePropagation();
+      ignoreNextClick = false;
+      return false;
+    }
+  }, true);
+}
+
+var nearestEmptyInsertDetectEvent = function nearestEmptyInsertDetectEvent(evt) {
+  if (dragEl) {
+    evt = evt.touches ? evt.touches[0] : evt;
+
+    var nearest = _detectNearestEmptySortable(evt.clientX, evt.clientY);
+
+    if (nearest) {
+      // Create imitation event
+      var event = {};
+
+      for (var i in evt) {
+        if (evt.hasOwnProperty(i)) {
+          event[i] = evt[i];
+        }
+      }
+
+      event.target = event.rootEl = nearest;
+      event.preventDefault = void 0;
+      event.stopPropagation = void 0;
+
+      nearest[expando]._onDragOver(event);
+    }
+  }
+};
+
+var _checkOutsideTargetEl = function _checkOutsideTargetEl(evt) {
+  if (dragEl) {
+    dragEl.parentNode[expando]._isOutsideThisEl(evt.target);
+  }
+};
+/**
+ * @class  Sortable
+ * @param  {HTMLElement}  el
+ * @param  {Object}       [options]
+ */
+
+
+function Sortable(el, options) {
+  if (!(el && el.nodeType && el.nodeType === 1)) {
+    throw "Sortable: `el` must be an HTMLElement, not ".concat({}.toString.call(el));
+  }
+
+  this.el = el; // root element
+
+  this.options = options = _extends({}, options); // Export instance
+
+  el[expando] = this;
+  var defaults = {
+    group: null,
+    sort: true,
+    disabled: false,
+    store: null,
+    handle: null,
+    draggable: /^[uo]l$/i.test(el.nodeName) ? '>li' : '>*',
+    swapThreshold: 1,
+    // percentage; 0 <= x <= 1
+    invertSwap: false,
+    // invert always
+    invertedSwapThreshold: null,
+    // will be set to same as swapThreshold if default
+    removeCloneOnHide: true,
+    direction: function direction() {
+      return _detectDirection(el, this.options);
+    },
+    ghostClass: 'sortable-ghost',
+    chosenClass: 'sortable-chosen',
+    dragClass: 'sortable-drag',
+    ignore: 'a, img',
+    filter: null,
+    preventOnFilter: true,
+    animation: 0,
+    easing: null,
+    setData: function setData(dataTransfer, dragEl) {
+      dataTransfer.setData('Text', dragEl.textContent);
+    },
+    dropBubble: false,
+    dragoverBubble: false,
+    dataIdAttr: 'data-id',
+    delay: 0,
+    delayOnTouchOnly: false,
+    touchStartThreshold: (Number.parseInt ? Number : window).parseInt(window.devicePixelRatio, 10) || 1,
+    forceFallback: false,
+    fallbackClass: 'sortable-fallback',
+    fallbackOnBody: false,
+    fallbackTolerance: 0,
+    fallbackOffset: {
+      x: 0,
+      y: 0
+    },
+    supportPointer: Sortable.supportPointer !== false && 'PointerEvent' in window,
+    emptyInsertThreshold: 5
+  };
+  PluginManager.initializePlugins(this, el, defaults); // Set default options
+
+  for (var name in defaults) {
+    !(name in options) && (options[name] = defaults[name]);
+  }
+
+  _prepareGroup(options); // Bind all private methods
+
+
+  for (var fn in this) {
+    if (fn.charAt(0) === '_' && typeof this[fn] === 'function') {
+      this[fn] = this[fn].bind(this);
+    }
+  } // Setup drag mode
+
+
+  this.nativeDraggable = options.forceFallback ? false : supportDraggable;
+
+  if (this.nativeDraggable) {
+    // Touch start threshold cannot be greater than the native dragstart threshold
+    this.options.touchStartThreshold = 1;
+  } // Bind events
+
+
+  if (options.supportPointer) {
+    on(el, 'pointerdown', this._onTapStart);
+  } else {
+    on(el, 'mousedown', this._onTapStart);
+    on(el, 'touchstart', this._onTapStart);
+  }
+
+  if (this.nativeDraggable) {
+    on(el, 'dragover', this);
+    on(el, 'dragenter', this);
+  }
+
+  sortables.push(this.el); // Restore sorting
+
+  options.store && options.store.get && this.sort(options.store.get(this) || []); // Add animation state manager
+
+  _extends(this, AnimationStateManager());
+}
+
+Sortable.prototype =
+/** @lends Sortable.prototype */
+{
+  constructor: Sortable,
+  _isOutsideThisEl: function _isOutsideThisEl(target) {
+    if (!this.el.contains(target) && target !== this.el) {
+      lastTarget = null;
+    }
+  },
+  _getDirection: function _getDirection(evt, target) {
+    return typeof this.options.direction === 'function' ? this.options.direction.call(this, evt, target, dragEl) : this.options.direction;
+  },
+  _onTapStart: function _onTapStart(
+  /** Event|TouchEvent */
+  evt) {
+    if (!evt.cancelable) return;
+
+    var _this = this,
+        el = this.el,
+        options = this.options,
+        preventOnFilter = options.preventOnFilter,
+        type = evt.type,
+        touch = evt.touches && evt.touches[0] || evt.pointerType && evt.pointerType === 'touch' && evt,
+        target = (touch || evt).target,
+        originalTarget = evt.target.shadowRoot && (evt.path && evt.path[0] || evt.composedPath && evt.composedPath()[0]) || target,
+        filter = options.filter;
+
+    _saveInputCheckedState(el); // Don't trigger start event when an element is been dragged, otherwise the evt.oldindex always wrong when set option.group.
+
+
+    if (dragEl) {
+      return;
+    }
+
+    if (/mousedown|pointerdown/.test(type) && evt.button !== 0 || options.disabled) {
+      return; // only left button and enabled
+    } // cancel dnd if original target is content editable
+
+
+    if (originalTarget.isContentEditable) {
+      return;
+    }
+
+    target = closest(target, options.draggable, el, false);
+
+    if (target && target.animated) {
+      return;
+    }
+
+    if (lastDownEl === target) {
+      // Ignoring duplicate `down`
+      return;
+    } // Get the index of the dragged element within its parent
+
+
+    oldIndex = index(target);
+    oldDraggableIndex = index(target, options.draggable); // Check filter
+
+    if (typeof filter === 'function') {
+      if (filter.call(this, evt, target, this)) {
+        _dispatchEvent({
+          sortable: _this,
+          rootEl: originalTarget,
+          name: 'filter',
+          targetEl: target,
+          toEl: el,
+          fromEl: el
+        });
+
+        pluginEvent('filter', _this, {
+          evt: evt
+        });
+        preventOnFilter && evt.cancelable && evt.preventDefault();
+        return; // cancel dnd
+      }
+    } else if (filter) {
+      filter = filter.split(',').some(function (criteria) {
+        criteria = closest(originalTarget, criteria.trim(), el, false);
+
+        if (criteria) {
+          _dispatchEvent({
+            sortable: _this,
+            rootEl: criteria,
+            name: 'filter',
+            targetEl: target,
+            fromEl: el,
+            toEl: el
+          });
+
+          pluginEvent('filter', _this, {
+            evt: evt
+          });
+          return true;
+        }
+      });
+
+      if (filter) {
+        preventOnFilter && evt.cancelable && evt.preventDefault();
+        return; // cancel dnd
+      }
+    }
+
+    if (options.handle && !closest(originalTarget, options.handle, el, false)) {
+      return;
+    } // Prepare `dragstart`
+
+
+    this._prepareDragStart(evt, touch, target);
+  },
+  _prepareDragStart: function _prepareDragStart(
+  /** Event */
+  evt,
+  /** Touch */
+  touch,
+  /** HTMLElement */
+  target) {
+    var _this = this,
+        el = _this.el,
+        options = _this.options,
+        ownerDocument = el.ownerDocument,
+        dragStartFn;
+
+    if (target && !dragEl && target.parentNode === el) {
+      var dragRect = getRect(target);
+      rootEl = el;
+      dragEl = target;
+      parentEl = dragEl.parentNode;
+      nextEl = dragEl.nextSibling;
+      lastDownEl = target;
+      activeGroup = options.group;
+      Sortable.dragged = dragEl;
+      tapEvt = {
+        target: dragEl,
+        clientX: (touch || evt).clientX,
+        clientY: (touch || evt).clientY
+      };
+      tapDistanceLeft = tapEvt.clientX - dragRect.left;
+      tapDistanceTop = tapEvt.clientY - dragRect.top;
+      this._lastX = (touch || evt).clientX;
+      this._lastY = (touch || evt).clientY;
+      dragEl.style['will-change'] = 'all';
+
+      dragStartFn = function dragStartFn() {
+        pluginEvent('delayEnded', _this, {
+          evt: evt
+        });
+
+        if (Sortable.eventCanceled) {
+          _this._onDrop();
+
+          return;
+        } // Delayed drag has been triggered
+        // we can re-enable the events: touchmove/mousemove
+
+
+        _this._disableDelayedDragEvents();
+
+        if (!FireFox && _this.nativeDraggable) {
+          dragEl.draggable = true;
+        } // Bind the events: dragstart/dragend
+
+
+        _this._triggerDragStart(evt, touch); // Drag start event
+
+
+        _dispatchEvent({
+          sortable: _this,
+          name: 'choose',
+          originalEvent: evt
+        }); // Chosen item
+
+
+        toggleClass(dragEl, options.chosenClass, true);
+      }; // Disable "draggable"
+
+
+      options.ignore.split(',').forEach(function (criteria) {
+        find(dragEl, criteria.trim(), _disableDraggable);
+      });
+      on(ownerDocument, 'dragover', nearestEmptyInsertDetectEvent);
+      on(ownerDocument, 'mousemove', nearestEmptyInsertDetectEvent);
+      on(ownerDocument, 'touchmove', nearestEmptyInsertDetectEvent);
+      on(ownerDocument, 'mouseup', _this._onDrop);
+      on(ownerDocument, 'touchend', _this._onDrop);
+      on(ownerDocument, 'touchcancel', _this._onDrop); // Make dragEl draggable (must be before delay for FireFox)
+
+      if (FireFox && this.nativeDraggable) {
+        this.options.touchStartThreshold = 4;
+        dragEl.draggable = true;
+      }
+
+      pluginEvent('delayStart', this, {
+        evt: evt
+      }); // Delay is impossible for native DnD in Edge or IE
+
+      if (options.delay && (!options.delayOnTouchOnly || touch) && (!this.nativeDraggable || !(Edge || IE11OrLess))) {
+        if (Sortable.eventCanceled) {
+          this._onDrop();
+
+          return;
+        } // If the user moves the pointer or let go the click or touch
+        // before the delay has been reached:
+        // disable the delayed drag
+
+
+        on(ownerDocument, 'mouseup', _this._disableDelayedDrag);
+        on(ownerDocument, 'touchend', _this._disableDelayedDrag);
+        on(ownerDocument, 'touchcancel', _this._disableDelayedDrag);
+        on(ownerDocument, 'mousemove', _this._delayedDragTouchMoveHandler);
+        on(ownerDocument, 'touchmove', _this._delayedDragTouchMoveHandler);
+        options.supportPointer && on(ownerDocument, 'pointermove', _this._delayedDragTouchMoveHandler);
+        _this._dragStartTimer = setTimeout(dragStartFn, options.delay);
+      } else {
+        dragStartFn();
+      }
+    }
+  },
+  _delayedDragTouchMoveHandler: function _delayedDragTouchMoveHandler(
+  /** TouchEvent|PointerEvent **/
+  e) {
+    var touch = e.touches ? e.touches[0] : e;
+
+    if (Math.max(Math.abs(touch.clientX - this._lastX), Math.abs(touch.clientY - this._lastY)) >= Math.floor(this.options.touchStartThreshold / (this.nativeDraggable && window.devicePixelRatio || 1))) {
+      this._disableDelayedDrag();
+    }
+  },
+  _disableDelayedDrag: function _disableDelayedDrag() {
+    dragEl && _disableDraggable(dragEl);
+    clearTimeout(this._dragStartTimer);
+
+    this._disableDelayedDragEvents();
+  },
+  _disableDelayedDragEvents: function _disableDelayedDragEvents() {
+    var ownerDocument = this.el.ownerDocument;
+    off(ownerDocument, 'mouseup', this._disableDelayedDrag);
+    off(ownerDocument, 'touchend', this._disableDelayedDrag);
+    off(ownerDocument, 'touchcancel', this._disableDelayedDrag);
+    off(ownerDocument, 'mousemove', this._delayedDragTouchMoveHandler);
+    off(ownerDocument, 'touchmove', this._delayedDragTouchMoveHandler);
+    off(ownerDocument, 'pointermove', this._delayedDragTouchMoveHandler);
+  },
+  _triggerDragStart: function _triggerDragStart(
+  /** Event */
+  evt,
+  /** Touch */
+  touch) {
+    touch = touch || evt.pointerType == 'touch' && evt;
+
+    if (!this.nativeDraggable || touch) {
+      if (this.options.supportPointer) {
+        on(document, 'pointermove', this._onTouchMove);
+      } else if (touch) {
+        on(document, 'touchmove', this._onTouchMove);
+      } else {
+        on(document, 'mousemove', this._onTouchMove);
+      }
+    } else {
+      on(dragEl, 'dragend', this);
+      on(rootEl, 'dragstart', this._onDragStart);
+    }
+
+    try {
+      if (document.selection) {
+        // Timeout neccessary for IE9
+        _nextTick(function () {
+          document.selection.empty();
+        });
+      } else {
+        window.getSelection().removeAllRanges();
+      }
+    } catch (err) {}
+  },
+  _dragStarted: function _dragStarted(fallback, evt) {
+
+    awaitingDragStarted = false;
+
+    if (rootEl && dragEl) {
+      pluginEvent('dragStarted', this, {
+        evt: evt
+      });
+
+      if (this.nativeDraggable) {
+        on(document, 'dragover', _checkOutsideTargetEl);
+      }
+
+      var options = this.options; // Apply effect
+
+      !fallback && toggleClass(dragEl, options.dragClass, false);
+      toggleClass(dragEl, options.ghostClass, true);
+      Sortable.active = this;
+      fallback && this._appendGhost(); // Drag start event
+
+      _dispatchEvent({
+        sortable: this,
+        name: 'start',
+        originalEvent: evt
+      });
+    } else {
+      this._nulling();
+    }
+  },
+  _emulateDragOver: function _emulateDragOver() {
+    if (touchEvt) {
+      this._lastX = touchEvt.clientX;
+      this._lastY = touchEvt.clientY;
+
+      _hideGhostForTarget();
+
+      var target = document.elementFromPoint(touchEvt.clientX, touchEvt.clientY);
+      var parent = target;
+
+      while (target && target.shadowRoot) {
+        target = target.shadowRoot.elementFromPoint(touchEvt.clientX, touchEvt.clientY);
+        if (target === parent) break;
+        parent = target;
+      }
+
+      dragEl.parentNode[expando]._isOutsideThisEl(target);
+
+      if (parent) {
+        do {
+          if (parent[expando]) {
+            var inserted = void 0;
+            inserted = parent[expando]._onDragOver({
+              clientX: touchEvt.clientX,
+              clientY: touchEvt.clientY,
+              target: target,
+              rootEl: parent
+            });
+
+            if (inserted && !this.options.dragoverBubble) {
+              break;
+            }
+          }
+
+          target = parent; // store last element
+        }
+        /* jshint boss:true */
+        while (parent = parent.parentNode);
+      }
+
+      _unhideGhostForTarget();
+    }
+  },
+  _onTouchMove: function _onTouchMove(
+  /**TouchEvent*/
+  evt) {
+    if (tapEvt) {
+      var options = this.options,
+          fallbackTolerance = options.fallbackTolerance,
+          fallbackOffset = options.fallbackOffset,
+          touch = evt.touches ? evt.touches[0] : evt,
+          ghostMatrix = ghostEl && matrix(ghostEl),
+          scaleX = ghostEl && ghostMatrix && ghostMatrix.a,
+          scaleY = ghostEl && ghostMatrix && ghostMatrix.d,
+          relativeScrollOffset = PositionGhostAbsolutely && ghostRelativeParent && getRelativeScrollOffset(ghostRelativeParent),
+          dx = (touch.clientX - tapEvt.clientX + fallbackOffset.x) / (scaleX || 1) + (relativeScrollOffset ? relativeScrollOffset[0] - ghostRelativeParentInitialScroll[0] : 0) / (scaleX || 1),
+          dy = (touch.clientY - tapEvt.clientY + fallbackOffset.y) / (scaleY || 1) + (relativeScrollOffset ? relativeScrollOffset[1] - ghostRelativeParentInitialScroll[1] : 0) / (scaleY || 1); // only set the status to dragging, when we are actually dragging
+
+      if (!Sortable.active && !awaitingDragStarted) {
+        if (fallbackTolerance && Math.max(Math.abs(touch.clientX - this._lastX), Math.abs(touch.clientY - this._lastY)) < fallbackTolerance) {
+          return;
+        }
+
+        this._onDragStart(evt, true);
+      }
+
+      if (ghostEl) {
+        if (ghostMatrix) {
+          ghostMatrix.e += dx - (lastDx || 0);
+          ghostMatrix.f += dy - (lastDy || 0);
+        } else {
+          ghostMatrix = {
+            a: 1,
+            b: 0,
+            c: 0,
+            d: 1,
+            e: dx,
+            f: dy
+          };
+        }
+
+        var cssMatrix = "matrix(".concat(ghostMatrix.a, ",").concat(ghostMatrix.b, ",").concat(ghostMatrix.c, ",").concat(ghostMatrix.d, ",").concat(ghostMatrix.e, ",").concat(ghostMatrix.f, ")");
+        css(ghostEl, 'webkitTransform', cssMatrix);
+        css(ghostEl, 'mozTransform', cssMatrix);
+        css(ghostEl, 'msTransform', cssMatrix);
+        css(ghostEl, 'transform', cssMatrix);
+        lastDx = dx;
+        lastDy = dy;
+        touchEvt = touch;
+      }
+
+      evt.cancelable && evt.preventDefault();
+    }
+  },
+  _appendGhost: function _appendGhost() {
+    // Bug if using scale(): https://stackoverflow.com/questions/2637058
+    // Not being adjusted for
+    if (!ghostEl) {
+      var container = this.options.fallbackOnBody ? document.body : rootEl,
+          rect = getRect(dragEl, true, PositionGhostAbsolutely, true, container),
+          options = this.options; // Position absolutely
+
+      if (PositionGhostAbsolutely) {
+        // Get relatively positioned parent
+        ghostRelativeParent = container;
+
+        while (css(ghostRelativeParent, 'position') === 'static' && css(ghostRelativeParent, 'transform') === 'none' && ghostRelativeParent !== document) {
+          ghostRelativeParent = ghostRelativeParent.parentNode;
+        }
+
+        if (ghostRelativeParent !== document.body && ghostRelativeParent !== document.documentElement) {
+          if (ghostRelativeParent === document) ghostRelativeParent = getWindowScrollingElement();
+          rect.top += ghostRelativeParent.scrollTop;
+          rect.left += ghostRelativeParent.scrollLeft;
+        } else {
+          ghostRelativeParent = getWindowScrollingElement();
+        }
+
+        ghostRelativeParentInitialScroll = getRelativeScrollOffset(ghostRelativeParent);
+      }
+
+      ghostEl = dragEl.cloneNode(true);
+      toggleClass(ghostEl, options.ghostClass, false);
+      toggleClass(ghostEl, options.fallbackClass, true);
+      toggleClass(ghostEl, options.dragClass, true);
+      css(ghostEl, 'transition', '');
+      css(ghostEl, 'transform', '');
+      css(ghostEl, 'box-sizing', 'border-box');
+      css(ghostEl, 'margin', 0);
+      css(ghostEl, 'top', rect.top);
+      css(ghostEl, 'left', rect.left);
+      css(ghostEl, 'width', rect.width);
+      css(ghostEl, 'height', rect.height);
+      css(ghostEl, 'opacity', '0.8');
+      css(ghostEl, 'position', PositionGhostAbsolutely ? 'absolute' : 'fixed');
+      css(ghostEl, 'zIndex', '100000');
+      css(ghostEl, 'pointerEvents', 'none');
+      Sortable.ghost = ghostEl;
+      container.appendChild(ghostEl); // Set transform-origin
+
+      css(ghostEl, 'transform-origin', tapDistanceLeft / parseInt(ghostEl.style.width) * 100 + '% ' + tapDistanceTop / parseInt(ghostEl.style.height) * 100 + '%');
+    }
+  },
+  _onDragStart: function _onDragStart(
+  /**Event*/
+  evt,
+  /**boolean*/
+  fallback) {
+    var _this = this;
+
+    var dataTransfer = evt.dataTransfer;
+    var options = _this.options;
+    pluginEvent('dragStart', this, {
+      evt: evt
+    });
+
+    if (Sortable.eventCanceled) {
+      this._onDrop();
+
+      return;
+    }
+
+    pluginEvent('setupClone', this);
+
+    if (!Sortable.eventCanceled) {
+      cloneEl = clone(dragEl);
+      cloneEl.draggable = false;
+      cloneEl.style['will-change'] = '';
+
+      this._hideClone();
+
+      toggleClass(cloneEl, this.options.chosenClass, false);
+      Sortable.clone = cloneEl;
+    } // #1143: IFrame support workaround
+
+
+    _this.cloneId = _nextTick(function () {
+      pluginEvent('clone', _this);
+      if (Sortable.eventCanceled) return;
+
+      if (!_this.options.removeCloneOnHide) {
+        rootEl.insertBefore(cloneEl, dragEl);
+      }
+
+      _this._hideClone();
+
+      _dispatchEvent({
+        sortable: _this,
+        name: 'clone'
+      });
+    });
+    !fallback && toggleClass(dragEl, options.dragClass, true); // Set proper drop events
+
+    if (fallback) {
+      ignoreNextClick = true;
+      _this._loopId = setInterval(_this._emulateDragOver, 50);
+    } else {
+      // Undo what was set in _prepareDragStart before drag started
+      off(document, 'mouseup', _this._onDrop);
+      off(document, 'touchend', _this._onDrop);
+      off(document, 'touchcancel', _this._onDrop);
+
+      if (dataTransfer) {
+        dataTransfer.effectAllowed = 'move';
+        options.setData && options.setData.call(_this, dataTransfer, dragEl);
+      }
+
+      on(document, 'drop', _this); // #1276 fix:
+
+      css(dragEl, 'transform', 'translateZ(0)');
+    }
+
+    awaitingDragStarted = true;
+    _this._dragStartId = _nextTick(_this._dragStarted.bind(_this, fallback, evt));
+    on(document, 'selectstart', _this);
+    moved = true;
+
+    if (Safari) {
+      css(document.body, 'user-select', 'none');
+    }
+  },
+  // Returns true - if no further action is needed (either inserted or another condition)
+  _onDragOver: function _onDragOver(
+  /**Event*/
+  evt) {
+    var el = this.el,
+        target = evt.target,
+        dragRect,
+        targetRect,
+        revert,
+        options = this.options,
+        group = options.group,
+        activeSortable = Sortable.active,
+        isOwner = activeGroup === group,
+        canSort = options.sort,
+        fromSortable = putSortable || activeSortable,
+        vertical,
+        _this = this,
+        completedFired = false;
+
+    if (_silent) return;
+
+    function dragOverEvent(name, extra) {
+      pluginEvent(name, _this, _objectSpread({
+        evt: evt,
+        isOwner: isOwner,
+        axis: vertical ? 'vertical' : 'horizontal',
+        revert: revert,
+        dragRect: dragRect,
+        targetRect: targetRect,
+        canSort: canSort,
+        fromSortable: fromSortable,
+        target: target,
+        completed: completed,
+        onMove: function onMove(target, after) {
+          return _onMove(rootEl, el, dragEl, dragRect, target, getRect(target), evt, after);
+        },
+        changed: changed
+      }, extra));
+    } // Capture animation state
+
+
+    function capture() {
+      dragOverEvent('dragOverAnimationCapture');
+
+      _this.captureAnimationState();
+
+      if (_this !== fromSortable) {
+        fromSortable.captureAnimationState();
+      }
+    } // Return invocation when dragEl is inserted (or completed)
+
+
+    function completed(insertion) {
+      dragOverEvent('dragOverCompleted', {
+        insertion: insertion
+      });
+
+      if (insertion) {
+        // Clones must be hidden before folding animation to capture dragRectAbsolute properly
+        if (isOwner) {
+          activeSortable._hideClone();
+        } else {
+          activeSortable._showClone(_this);
+        }
+
+        if (_this !== fromSortable) {
+          // Set ghost class to new sortable's ghost class
+          toggleClass(dragEl, putSortable ? putSortable.options.ghostClass : activeSortable.options.ghostClass, false);
+          toggleClass(dragEl, options.ghostClass, true);
+        }
+
+        if (putSortable !== _this && _this !== Sortable.active) {
+          putSortable = _this;
+        } else if (_this === Sortable.active && putSortable) {
+          putSortable = null;
+        } // Animation
+
+
+        if (fromSortable === _this) {
+          _this._ignoreWhileAnimating = target;
+        }
+
+        _this.animateAll(function () {
+          dragOverEvent('dragOverAnimationComplete');
+          _this._ignoreWhileAnimating = null;
+        });
+
+        if (_this !== fromSortable) {
+          fromSortable.animateAll();
+          fromSortable._ignoreWhileAnimating = null;
+        }
+      } // Null lastTarget if it is not inside a previously swapped element
+
+
+      if (target === dragEl && !dragEl.animated || target === el && !target.animated) {
+        lastTarget = null;
+      } // no bubbling and not fallback
+
+
+      if (!options.dragoverBubble && !evt.rootEl && target !== document) {
+        dragEl.parentNode[expando]._isOutsideThisEl(evt.target); // Do not detect for empty insert if already inserted
+
+
+        !insertion && nearestEmptyInsertDetectEvent(evt);
+      }
+
+      !options.dragoverBubble && evt.stopPropagation && evt.stopPropagation();
+      return completedFired = true;
+    } // Call when dragEl has been inserted
+
+
+    function changed() {
+      newIndex = index(dragEl);
+      newDraggableIndex = index(dragEl, options.draggable);
+
+      _dispatchEvent({
+        sortable: _this,
+        name: 'change',
+        toEl: el,
+        newIndex: newIndex,
+        newDraggableIndex: newDraggableIndex,
+        originalEvent: evt
+      });
+    }
+
+    if (evt.preventDefault !== void 0) {
+      evt.cancelable && evt.preventDefault();
+    }
+
+    target = closest(target, options.draggable, el, true);
+    dragOverEvent('dragOver');
+    if (Sortable.eventCanceled) return completedFired;
+
+    if (dragEl.contains(evt.target) || target.animated && target.animatingX && target.animatingY || _this._ignoreWhileAnimating === target) {
+      return completed(false);
+    }
+
+    ignoreNextClick = false;
+
+    if (activeSortable && !options.disabled && (isOwner ? canSort || (revert = !rootEl.contains(dragEl)) // Reverting item into the original list
+    : putSortable === this || (this.lastPutMode = activeGroup.checkPull(this, activeSortable, dragEl, evt)) && group.checkPut(this, activeSortable, dragEl, evt))) {
+      vertical = this._getDirection(evt, target) === 'vertical';
+      dragRect = getRect(dragEl);
+      dragOverEvent('dragOverValid');
+      if (Sortable.eventCanceled) return completedFired;
+
+      if (revert) {
+        parentEl = rootEl; // actualization
+
+        capture();
+
+        this._hideClone();
+
+        dragOverEvent('revert');
+
+        if (!Sortable.eventCanceled) {
+          if (nextEl) {
+            rootEl.insertBefore(dragEl, nextEl);
+          } else {
+            rootEl.appendChild(dragEl);
+          }
+        }
+
+        return completed(true);
+      }
+
+      var elLastChild = lastChild(el, options.draggable);
+
+      if (!elLastChild || _ghostIsLast(evt, vertical, this) && !elLastChild.animated) {
+        // If already at end of list: Do not insert
+        if (elLastChild === dragEl) {
+          return completed(false);
+        } // assign target only if condition is true
+
+
+        if (elLastChild && el === evt.target) {
+          target = elLastChild;
+        }
+
+        if (target) {
+          targetRect = getRect(target);
+        }
+
+        if (_onMove(rootEl, el, dragEl, dragRect, target, targetRect, evt, !!target) !== false) {
+          capture();
+          el.appendChild(dragEl);
+          parentEl = el; // actualization
+
+          changed();
+          return completed(true);
+        }
+      } else if (target.parentNode === el) {
+        targetRect = getRect(target);
+        var direction = 0,
+            targetBeforeFirstSwap,
+            differentLevel = dragEl.parentNode !== el,
+            differentRowCol = !_dragElInRowColumn(dragEl.animated && dragEl.toRect || dragRect, target.animated && target.toRect || targetRect, vertical),
+            side1 = vertical ? 'top' : 'left',
+            scrolledPastTop = isScrolledPast(target, 'top', 'top') || isScrolledPast(dragEl, 'top', 'top'),
+            scrollBefore = scrolledPastTop ? scrolledPastTop.scrollTop : void 0;
+
+        if (lastTarget !== target) {
+          targetBeforeFirstSwap = targetRect[side1];
+          pastFirstInvertThresh = false;
+          isCircumstantialInvert = !differentRowCol && options.invertSwap || differentLevel;
+        }
+
+        direction = _getSwapDirection(evt, target, targetRect, vertical, differentRowCol ? 1 : options.swapThreshold, options.invertedSwapThreshold == null ? options.swapThreshold : options.invertedSwapThreshold, isCircumstantialInvert, lastTarget === target);
+        var sibling;
+
+        if (direction !== 0) {
+          // Check if target is beside dragEl in respective direction (ignoring hidden elements)
+          var dragIndex = index(dragEl);
+
+          do {
+            dragIndex -= direction;
+            sibling = parentEl.children[dragIndex];
+          } while (sibling && (css(sibling, 'display') === 'none' || sibling === ghostEl));
+        } // If dragEl is already beside target: Do not insert
+
+
+        if (direction === 0 || sibling === target) {
+          return completed(false);
+        }
+
+        lastTarget = target;
+        lastDirection = direction;
+        var nextSibling = target.nextElementSibling,
+            after = false;
+        after = direction === 1;
+
+        var moveVector = _onMove(rootEl, el, dragEl, dragRect, target, targetRect, evt, after);
+
+        if (moveVector !== false) {
+          if (moveVector === 1 || moveVector === -1) {
+            after = moveVector === 1;
+          }
+
+          _silent = true;
+          setTimeout(_unsilent, 30);
+          capture();
+
+          if (after && !nextSibling) {
+            el.appendChild(dragEl);
+          } else {
+            target.parentNode.insertBefore(dragEl, after ? nextSibling : target);
+          } // Undo chrome's scroll adjustment (has no effect on other browsers)
+
+
+          if (scrolledPastTop) {
+            scrollBy(scrolledPastTop, 0, scrollBefore - scrolledPastTop.scrollTop);
+          }
+
+          parentEl = dragEl.parentNode; // actualization
+          // must be done before animation
+
+          if (targetBeforeFirstSwap !== undefined && !isCircumstantialInvert) {
+            targetMoveDistance = Math.abs(targetBeforeFirstSwap - getRect(target)[side1]);
+          }
+
+          changed();
+          return completed(true);
+        }
+      }
+
+      if (el.contains(dragEl)) {
+        return completed(false);
+      }
+    }
+
+    return false;
+  },
+  _ignoreWhileAnimating: null,
+  _offMoveEvents: function _offMoveEvents() {
+    off(document, 'mousemove', this._onTouchMove);
+    off(document, 'touchmove', this._onTouchMove);
+    off(document, 'pointermove', this._onTouchMove);
+    off(document, 'dragover', nearestEmptyInsertDetectEvent);
+    off(document, 'mousemove', nearestEmptyInsertDetectEvent);
+    off(document, 'touchmove', nearestEmptyInsertDetectEvent);
+  },
+  _offUpEvents: function _offUpEvents() {
+    var ownerDocument = this.el.ownerDocument;
+    off(ownerDocument, 'mouseup', this._onDrop);
+    off(ownerDocument, 'touchend', this._onDrop);
+    off(ownerDocument, 'pointerup', this._onDrop);
+    off(ownerDocument, 'touchcancel', this._onDrop);
+    off(document, 'selectstart', this);
+  },
+  _onDrop: function _onDrop(
+  /**Event*/
+  evt) {
+    var el = this.el,
+        options = this.options; // Get the index of the dragged element within its parent
+
+    newIndex = index(dragEl);
+    newDraggableIndex = index(dragEl, options.draggable);
+    pluginEvent('drop', this, {
+      evt: evt
+    });
+    parentEl = dragEl && dragEl.parentNode; // Get again after plugin event
+
+    newIndex = index(dragEl);
+    newDraggableIndex = index(dragEl, options.draggable);
+
+    if (Sortable.eventCanceled) {
+      this._nulling();
+
+      return;
+    }
+
+    awaitingDragStarted = false;
+    isCircumstantialInvert = false;
+    pastFirstInvertThresh = false;
+    clearInterval(this._loopId);
+    clearTimeout(this._dragStartTimer);
+
+    _cancelNextTick(this.cloneId);
+
+    _cancelNextTick(this._dragStartId); // Unbind events
+
+
+    if (this.nativeDraggable) {
+      off(document, 'drop', this);
+      off(el, 'dragstart', this._onDragStart);
+    }
+
+    this._offMoveEvents();
+
+    this._offUpEvents();
+
+    if (Safari) {
+      css(document.body, 'user-select', '');
+    }
+
+    if (evt) {
+      if (moved) {
+        evt.cancelable && evt.preventDefault();
+        !options.dropBubble && evt.stopPropagation();
+      }
+
+      ghostEl && ghostEl.parentNode && ghostEl.parentNode.removeChild(ghostEl);
+
+      if (rootEl === parentEl || putSortable && putSortable.lastPutMode !== 'clone') {
+        // Remove clone(s)
+        cloneEl && cloneEl.parentNode && cloneEl.parentNode.removeChild(cloneEl);
+      }
+
+      if (dragEl) {
+        if (this.nativeDraggable) {
+          off(dragEl, 'dragend', this);
+        }
+
+        _disableDraggable(dragEl);
+
+        dragEl.style['will-change'] = ''; // Remove classes
+        // ghostClass is added in dragStarted
+
+        if (moved && !awaitingDragStarted) {
+          toggleClass(dragEl, putSortable ? putSortable.options.ghostClass : this.options.ghostClass, false);
+        }
+
+        toggleClass(dragEl, this.options.chosenClass, false); // Drag stop event
+
+        _dispatchEvent({
+          sortable: this,
+          name: 'unchoose',
+          toEl: parentEl,
+          newIndex: null,
+          newDraggableIndex: null,
+          originalEvent: evt
+        });
+
+        if (rootEl !== parentEl) {
+          if (newIndex >= 0) {
+            // Add event
+            _dispatchEvent({
+              rootEl: parentEl,
+              name: 'add',
+              toEl: parentEl,
+              fromEl: rootEl,
+              originalEvent: evt
+            }); // Remove event
+
+
+            _dispatchEvent({
+              sortable: this,
+              name: 'remove',
+              toEl: parentEl,
+              originalEvent: evt
+            }); // drag from one list and drop into another
+
+
+            _dispatchEvent({
+              rootEl: parentEl,
+              name: 'sort',
+              toEl: parentEl,
+              fromEl: rootEl,
+              originalEvent: evt
+            });
+
+            _dispatchEvent({
+              sortable: this,
+              name: 'sort',
+              toEl: parentEl,
+              originalEvent: evt
+            });
+          }
+
+          putSortable && putSortable.save();
+        } else {
+          if (newIndex !== oldIndex) {
+            if (newIndex >= 0) {
+              // drag & drop within the same list
+              _dispatchEvent({
+                sortable: this,
+                name: 'update',
+                toEl: parentEl,
+                originalEvent: evt
+              });
+
+              _dispatchEvent({
+                sortable: this,
+                name: 'sort',
+                toEl: parentEl,
+                originalEvent: evt
+              });
+            }
+          }
+        }
+
+        if (Sortable.active) {
+          /* jshint eqnull:true */
+          if (newIndex == null || newIndex === -1) {
+            newIndex = oldIndex;
+            newDraggableIndex = oldDraggableIndex;
+          }
+
+          _dispatchEvent({
+            sortable: this,
+            name: 'end',
+            toEl: parentEl,
+            originalEvent: evt
+          }); // Save sorting
+
+
+          this.save();
+        }
+      }
+    }
+
+    this._nulling();
+  },
+  _nulling: function _nulling() {
+    pluginEvent('nulling', this);
+    rootEl = dragEl = parentEl = ghostEl = nextEl = cloneEl = lastDownEl = cloneHidden = tapEvt = touchEvt = moved = newIndex = newDraggableIndex = oldIndex = oldDraggableIndex = lastTarget = lastDirection = putSortable = activeGroup = Sortable.dragged = Sortable.ghost = Sortable.clone = Sortable.active = null;
+    savedInputChecked.forEach(function (el) {
+      el.checked = true;
+    });
+    savedInputChecked.length = lastDx = lastDy = 0;
+  },
+  handleEvent: function handleEvent(
+  /**Event*/
+  evt) {
+    switch (evt.type) {
+      case 'drop':
+      case 'dragend':
+        this._onDrop(evt);
+
+        break;
+
+      case 'dragenter':
+      case 'dragover':
+        if (dragEl) {
+          this._onDragOver(evt);
+
+          _globalDragOver(evt);
+        }
+
+        break;
+
+      case 'selectstart':
+        evt.preventDefault();
+        break;
+    }
+  },
+
+  /**
+   * Serializes the item into an array of string.
+   * @returns {String[]}
+   */
+  toArray: function toArray() {
+    var order = [],
+        el,
+        children = this.el.children,
+        i = 0,
+        n = children.length,
+        options = this.options;
+
+    for (; i < n; i++) {
+      el = children[i];
+
+      if (closest(el, options.draggable, this.el, false)) {
+        order.push(el.getAttribute(options.dataIdAttr) || _generateId(el));
+      }
+    }
+
+    return order;
+  },
+
+  /**
+   * Sorts the elements according to the array.
+   * @param  {String[]}  order  order of the items
+   */
+  sort: function sort(order) {
+    var items = {},
+        rootEl = this.el;
+    this.toArray().forEach(function (id, i) {
+      var el = rootEl.children[i];
+
+      if (closest(el, this.options.draggable, rootEl, false)) {
+        items[id] = el;
+      }
+    }, this);
+    order.forEach(function (id) {
+      if (items[id]) {
+        rootEl.removeChild(items[id]);
+        rootEl.appendChild(items[id]);
+      }
+    });
+  },
+
+  /**
+   * Save the current sorting
+   */
+  save: function save() {
+    var store = this.options.store;
+    store && store.set && store.set(this);
+  },
+
+  /**
+   * For each element in the set, get the first element that matches the selector by testing the element itself and traversing up through its ancestors in the DOM tree.
+   * @param   {HTMLElement}  el
+   * @param   {String}       [selector]  default: `options.draggable`
+   * @returns {HTMLElement|null}
+   */
+  closest: function closest$1(el, selector) {
+    return closest(el, selector || this.options.draggable, this.el, false);
+  },
+
+  /**
+   * Set/get option
+   * @param   {string} name
+   * @param   {*}      [value]
+   * @returns {*}
+   */
+  option: function option(name, value) {
+    var options = this.options;
+
+    if (value === void 0) {
+      return options[name];
+    } else {
+      var modifiedValue = PluginManager.modifyOption(this, name, value);
+
+      if (typeof modifiedValue !== 'undefined') {
+        options[name] = modifiedValue;
+      } else {
+        options[name] = value;
+      }
+
+      if (name === 'group') {
+        _prepareGroup(options);
+      }
+    }
+  },
+
+  /**
+   * Destroy
+   */
+  destroy: function destroy() {
+    pluginEvent('destroy', this);
+    var el = this.el;
+    el[expando] = null;
+    off(el, 'mousedown', this._onTapStart);
+    off(el, 'touchstart', this._onTapStart);
+    off(el, 'pointerdown', this._onTapStart);
+
+    if (this.nativeDraggable) {
+      off(el, 'dragover', this);
+      off(el, 'dragenter', this);
+    } // Remove draggable attributes
+
+
+    Array.prototype.forEach.call(el.querySelectorAll('[draggable]'), function (el) {
+      el.removeAttribute('draggable');
+    });
+
+    this._onDrop();
+
+    sortables.splice(sortables.indexOf(this.el), 1);
+    this.el = el = null;
+  },
+  _hideClone: function _hideClone() {
+    if (!cloneHidden) {
+      pluginEvent('hideClone', this);
+      if (Sortable.eventCanceled) return;
+      css(cloneEl, 'display', 'none');
+
+      if (this.options.removeCloneOnHide && cloneEl.parentNode) {
+        cloneEl.parentNode.removeChild(cloneEl);
+      }
+
+      cloneHidden = true;
+    }
+  },
+  _showClone: function _showClone(putSortable) {
+    if (putSortable.lastPutMode !== 'clone') {
+      this._hideClone();
+
+      return;
+    }
+
+    if (cloneHidden) {
+      pluginEvent('showClone', this);
+      if (Sortable.eventCanceled) return; // show clone at dragEl or original position
+
+      if (rootEl.contains(dragEl) && !this.options.group.revertClone) {
+        rootEl.insertBefore(cloneEl, dragEl);
+      } else if (nextEl) {
+        rootEl.insertBefore(cloneEl, nextEl);
+      } else {
+        rootEl.appendChild(cloneEl);
+      }
+
+      if (this.options.group.revertClone) {
+        this.animate(dragEl, cloneEl);
+      }
+
+      css(cloneEl, 'display', '');
+      cloneHidden = false;
+    }
+  }
+};
+
+function _globalDragOver(
+/**Event*/
+evt) {
+  if (evt.dataTransfer) {
+    evt.dataTransfer.dropEffect = 'move';
+  }
+
+  evt.cancelable && evt.preventDefault();
+}
+
+function _onMove(fromEl, toEl, dragEl, dragRect, targetEl, targetRect, originalEvent, willInsertAfter) {
+  var evt,
+      sortable = fromEl[expando],
+      onMoveFn = sortable.options.onMove,
+      retVal; // Support for new CustomEvent feature
+
+  if (window.CustomEvent && !IE11OrLess && !Edge) {
+    evt = new CustomEvent('move', {
+      bubbles: true,
+      cancelable: true
+    });
+  } else {
+    evt = document.createEvent('Event');
+    evt.initEvent('move', true, true);
+  }
+
+  evt.to = toEl;
+  evt.from = fromEl;
+  evt.dragged = dragEl;
+  evt.draggedRect = dragRect;
+  evt.related = targetEl || toEl;
+  evt.relatedRect = targetRect || getRect(toEl);
+  evt.willInsertAfter = willInsertAfter;
+  evt.originalEvent = originalEvent;
+  fromEl.dispatchEvent(evt);
+
+  if (onMoveFn) {
+    retVal = onMoveFn.call(sortable, evt, originalEvent);
+  }
+
+  return retVal;
+}
+
+function _disableDraggable(el) {
+  el.draggable = false;
+}
+
+function _unsilent() {
+  _silent = false;
+}
+
+function _ghostIsLast(evt, vertical, sortable) {
+  var rect = getRect(lastChild(sortable.el, sortable.options.draggable));
+  var spacer = 10;
+  return vertical ? evt.clientX > rect.right + spacer || evt.clientX <= rect.right && evt.clientY > rect.bottom && evt.clientX >= rect.left : evt.clientX > rect.right && evt.clientY > rect.top || evt.clientX <= rect.right && evt.clientY > rect.bottom + spacer;
+}
+
+function _getSwapDirection(evt, target, targetRect, vertical, swapThreshold, invertedSwapThreshold, invertSwap, isLastTarget) {
+  var mouseOnAxis = vertical ? evt.clientY : evt.clientX,
+      targetLength = vertical ? targetRect.height : targetRect.width,
+      targetS1 = vertical ? targetRect.top : targetRect.left,
+      targetS2 = vertical ? targetRect.bottom : targetRect.right,
+      invert = false;
+
+  if (!invertSwap) {
+    // Never invert or create dragEl shadow when target movemenet causes mouse to move past the end of regular swapThreshold
+    if (isLastTarget && targetMoveDistance < targetLength * swapThreshold) {
+      // multiplied only by swapThreshold because mouse will already be inside target by (1 - threshold) * targetLength / 2
+      // check if past first invert threshold on side opposite of lastDirection
+      if (!pastFirstInvertThresh && (lastDirection === 1 ? mouseOnAxis > targetS1 + targetLength * invertedSwapThreshold / 2 : mouseOnAxis < targetS2 - targetLength * invertedSwapThreshold / 2)) {
+        // past first invert threshold, do not restrict inverted threshold to dragEl shadow
+        pastFirstInvertThresh = true;
+      }
+
+      if (!pastFirstInvertThresh) {
+        // dragEl shadow (target move distance shadow)
+        if (lastDirection === 1 ? mouseOnAxis < targetS1 + targetMoveDistance // over dragEl shadow
+        : mouseOnAxis > targetS2 - targetMoveDistance) {
+          return -lastDirection;
+        }
+      } else {
+        invert = true;
+      }
+    } else {
+      // Regular
+      if (mouseOnAxis > targetS1 + targetLength * (1 - swapThreshold) / 2 && mouseOnAxis < targetS2 - targetLength * (1 - swapThreshold) / 2) {
+        return _getInsertDirection(target);
+      }
+    }
+  }
+
+  invert = invert || invertSwap;
+
+  if (invert) {
+    // Invert of regular
+    if (mouseOnAxis < targetS1 + targetLength * invertedSwapThreshold / 2 || mouseOnAxis > targetS2 - targetLength * invertedSwapThreshold / 2) {
+      return mouseOnAxis > targetS1 + targetLength / 2 ? 1 : -1;
+    }
+  }
+
+  return 0;
+}
+/**
+ * Gets the direction dragEl must be swapped relative to target in order to make it
+ * seem that dragEl has been "inserted" into that element's position
+ * @param  {HTMLElement} target       The target whose position dragEl is being inserted at
+ * @return {Number}                   Direction dragEl must be swapped
+ */
+
+
+function _getInsertDirection(target) {
+  if (index(dragEl) < index(target)) {
+    return 1;
+  } else {
+    return -1;
+  }
+}
+/**
+ * Generate id
+ * @param   {HTMLElement} el
+ * @returns {String}
+ * @private
+ */
+
+
+function _generateId(el) {
+  var str = el.tagName + el.className + el.src + el.href + el.textContent,
+      i = str.length,
+      sum = 0;
+
+  while (i--) {
+    sum += str.charCodeAt(i);
+  }
+
+  return sum.toString(36);
+}
+
+function _saveInputCheckedState(root) {
+  savedInputChecked.length = 0;
+  var inputs = root.getElementsByTagName('input');
+  var idx = inputs.length;
+
+  while (idx--) {
+    var el = inputs[idx];
+    el.checked && savedInputChecked.push(el);
+  }
+}
+
+function _nextTick(fn) {
+  return setTimeout(fn, 0);
+}
+
+function _cancelNextTick(id) {
+  return clearTimeout(id);
+} // Fixed #973:
+
+
+if (documentExists) {
+  on(document, 'touchmove', function (evt) {
+    if ((Sortable.active || awaitingDragStarted) && evt.cancelable) {
+      evt.preventDefault();
+    }
+  });
+} // Export utils
+
+
+Sortable.utils = {
+  on: on,
+  off: off,
+  css: css,
+  find: find,
+  is: function is(el, selector) {
+    return !!closest(el, selector, el, false);
+  },
+  extend: extend,
+  throttle: throttle,
+  closest: closest,
+  toggleClass: toggleClass,
+  clone: clone,
+  index: index,
+  nextTick: _nextTick,
+  cancelNextTick: _cancelNextTick,
+  detectDirection: _detectDirection,
+  getChild: getChild
+};
+/**
+ * Get the Sortable instance of an element
+ * @param  {HTMLElement} element The element
+ * @return {Sortable|undefined}         The instance of Sortable
+ */
+
+Sortable.get = function (element) {
+  return element[expando];
+};
+/**
+ * Mount a plugin to Sortable
+ * @param  {...SortablePlugin|SortablePlugin[]} plugins       Plugins being mounted
+ */
+
+
+Sortable.mount = function () {
+  for (var _len = arguments.length, plugins = new Array(_len), _key = 0; _key < _len; _key++) {
+    plugins[_key] = arguments[_key];
+  }
+
+  if (plugins[0].constructor === Array) plugins = plugins[0];
+  plugins.forEach(function (plugin) {
+    if (!plugin.prototype || !plugin.prototype.constructor) {
+      throw "Sortable: Mounted plugin must be a constructor function, not ".concat({}.toString.call(plugin));
+    }
+
+    if (plugin.utils) Sortable.utils = _objectSpread({}, Sortable.utils, plugin.utils);
+    PluginManager.mount(plugin);
+  });
+};
+/**
+ * Create sortable instance
+ * @param {HTMLElement}  el
+ * @param {Object}      [options]
+ */
+
+
+Sortable.create = function (el, options) {
+  return new Sortable(el, options);
+}; // Export
+
+
+Sortable.version = version;
+
+var autoScrolls = [],
+    scrollEl,
+    scrollRootEl,
+    scrolling = false,
+    lastAutoScrollX,
+    lastAutoScrollY,
+    touchEvt$1,
+    pointerElemChangedInterval;
+
+function AutoScrollPlugin() {
+  function AutoScroll() {
+    this.defaults = {
+      scroll: true,
+      scrollSensitivity: 30,
+      scrollSpeed: 10,
+      bubbleScroll: true
+    }; // Bind all private methods
+
+    for (var fn in this) {
+      if (fn.charAt(0) === '_' && typeof this[fn] === 'function') {
+        this[fn] = this[fn].bind(this);
+      }
+    }
+  }
+
+  AutoScroll.prototype = {
+    dragStarted: function dragStarted(_ref) {
+      var originalEvent = _ref.originalEvent;
+
+      if (this.sortable.nativeDraggable) {
+        on(document, 'dragover', this._handleAutoScroll);
+      } else {
+        if (this.options.supportPointer) {
+          on(document, 'pointermove', this._handleFallbackAutoScroll);
+        } else if (originalEvent.touches) {
+          on(document, 'touchmove', this._handleFallbackAutoScroll);
+        } else {
+          on(document, 'mousemove', this._handleFallbackAutoScroll);
+        }
+      }
+    },
+    dragOverCompleted: function dragOverCompleted(_ref2) {
+      var originalEvent = _ref2.originalEvent;
+
+      // For when bubbling is canceled and using fallback (fallback 'touchmove' always reached)
+      if (!this.options.dragOverBubble && !originalEvent.rootEl) {
+        this._handleAutoScroll(originalEvent);
+      }
+    },
+    drop: function drop() {
+      if (this.sortable.nativeDraggable) {
+        off(document, 'dragover', this._handleAutoScroll);
+      } else {
+        off(document, 'pointermove', this._handleFallbackAutoScroll);
+        off(document, 'touchmove', this._handleFallbackAutoScroll);
+        off(document, 'mousemove', this._handleFallbackAutoScroll);
+      }
+
+      clearPointerElemChangedInterval();
+      clearAutoScrolls();
+      cancelThrottle();
+    },
+    nulling: function nulling() {
+      touchEvt$1 = scrollRootEl = scrollEl = scrolling = pointerElemChangedInterval = lastAutoScrollX = lastAutoScrollY = null;
+      autoScrolls.length = 0;
+    },
+    _handleFallbackAutoScroll: function _handleFallbackAutoScroll(evt) {
+      this._handleAutoScroll(evt, true);
+    },
+    _handleAutoScroll: function _handleAutoScroll(evt, fallback) {
+      var _this = this;
+
+      var x = (evt.touches ? evt.touches[0] : evt).clientX,
+          y = (evt.touches ? evt.touches[0] : evt).clientY,
+          elem = document.elementFromPoint(x, y);
+      touchEvt$1 = evt; // IE does not seem to have native autoscroll,
+      // Edge's autoscroll seems too conditional,
+      // MACOS Safari does not have autoscroll,
+      // Firefox and Chrome are good
+
+      if (fallback || Edge || IE11OrLess || Safari) {
+        autoScroll(evt, this.options, elem, fallback); // Listener for pointer element change
+
+        var ogElemScroller = getParentAutoScrollElement(elem, true);
+
+        if (scrolling && (!pointerElemChangedInterval || x !== lastAutoScrollX || y !== lastAutoScrollY)) {
+          pointerElemChangedInterval && clearPointerElemChangedInterval(); // Detect for pointer elem change, emulating native DnD behaviour
+
+          pointerElemChangedInterval = setInterval(function () {
+            var newElem = getParentAutoScrollElement(document.elementFromPoint(x, y), true);
+
+            if (newElem !== ogElemScroller) {
+              ogElemScroller = newElem;
+              clearAutoScrolls();
+            }
+
+            autoScroll(evt, _this.options, newElem, fallback);
+          }, 10);
+          lastAutoScrollX = x;
+          lastAutoScrollY = y;
+        }
+      } else {
+        // if DnD is enabled (and browser has good autoscrolling), first autoscroll will already scroll, so get parent autoscroll of first autoscroll
+        if (!this.options.bubbleScroll || getParentAutoScrollElement(elem, true) === getWindowScrollingElement()) {
+          clearAutoScrolls();
+          return;
+        }
+
+        autoScroll(evt, this.options, getParentAutoScrollElement(elem, false), false);
+      }
+    }
+  };
+  return _extends(AutoScroll, {
+    pluginName: 'scroll',
+    initializeByDefault: true
+  });
+}
+
+function clearAutoScrolls() {
+  autoScrolls.forEach(function (autoScroll) {
+    clearInterval(autoScroll.pid);
+  });
+  autoScrolls = [];
+}
+
+function clearPointerElemChangedInterval() {
+  clearInterval(pointerElemChangedInterval);
+}
+
+var autoScroll = throttle(function (evt, options, rootEl, isFallback) {
+  // Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=505521
+  if (!options.scroll) return;
+  var x = (evt.touches ? evt.touches[0] : evt).clientX,
+      y = (evt.touches ? evt.touches[0] : evt).clientY,
+      sens = options.scrollSensitivity,
+      speed = options.scrollSpeed,
+      winScroller = getWindowScrollingElement();
+  var scrollThisInstance = false,
+      scrollCustomFn; // New scroll root, set scrollEl
+
+  if (scrollRootEl !== rootEl) {
+    scrollRootEl = rootEl;
+    clearAutoScrolls();
+    scrollEl = options.scroll;
+    scrollCustomFn = options.scrollFn;
+
+    if (scrollEl === true) {
+      scrollEl = getParentAutoScrollElement(rootEl, true);
+    }
+  }
+
+  var layersOut = 0;
+  var currentParent = scrollEl;
+
+  do {
+    var el = currentParent,
+        rect = getRect(el),
+        top = rect.top,
+        bottom = rect.bottom,
+        left = rect.left,
+        right = rect.right,
+        width = rect.width,
+        height = rect.height,
+        canScrollX = void 0,
+        canScrollY = void 0,
+        scrollWidth = el.scrollWidth,
+        scrollHeight = el.scrollHeight,
+        elCSS = css(el),
+        scrollPosX = el.scrollLeft,
+        scrollPosY = el.scrollTop;
+
+    if (el === winScroller) {
+      canScrollX = width < scrollWidth && (elCSS.overflowX === 'auto' || elCSS.overflowX === 'scroll' || elCSS.overflowX === 'visible');
+      canScrollY = height < scrollHeight && (elCSS.overflowY === 'auto' || elCSS.overflowY === 'scroll' || elCSS.overflowY === 'visible');
+    } else {
+      canScrollX = width < scrollWidth && (elCSS.overflowX === 'auto' || elCSS.overflowX === 'scroll');
+      canScrollY = height < scrollHeight && (elCSS.overflowY === 'auto' || elCSS.overflowY === 'scroll');
+    }
+
+    var vx = canScrollX && (Math.abs(right - x) <= sens && scrollPosX + width < scrollWidth) - (Math.abs(left - x) <= sens && !!scrollPosX);
+    var vy = canScrollY && (Math.abs(bottom - y) <= sens && scrollPosY + height < scrollHeight) - (Math.abs(top - y) <= sens && !!scrollPosY);
+
+    if (!autoScrolls[layersOut]) {
+      for (var i = 0; i <= layersOut; i++) {
+        if (!autoScrolls[i]) {
+          autoScrolls[i] = {};
+        }
+      }
+    }
+
+    if (autoScrolls[layersOut].vx != vx || autoScrolls[layersOut].vy != vy || autoScrolls[layersOut].el !== el) {
+      autoScrolls[layersOut].el = el;
+      autoScrolls[layersOut].vx = vx;
+      autoScrolls[layersOut].vy = vy;
+      clearInterval(autoScrolls[layersOut].pid);
+
+      if (vx != 0 || vy != 0) {
+        scrollThisInstance = true;
+        /* jshint loopfunc:true */
+
+        autoScrolls[layersOut].pid = setInterval(function () {
+          // emulate drag over during autoscroll (fallback), emulating native DnD behaviour
+          if (isFallback && this.layer === 0) {
+            Sortable.active._onTouchMove(touchEvt$1); // To move ghost if it is positioned absolutely
+
+          }
+
+          var scrollOffsetY = autoScrolls[this.layer].vy ? autoScrolls[this.layer].vy * speed : 0;
+          var scrollOffsetX = autoScrolls[this.layer].vx ? autoScrolls[this.layer].vx * speed : 0;
+
+          if (typeof scrollCustomFn === 'function') {
+            if (scrollCustomFn.call(Sortable.dragged.parentNode[expando], scrollOffsetX, scrollOffsetY, evt, touchEvt$1, autoScrolls[this.layer].el) !== 'continue') {
+              return;
+            }
+          }
+
+          scrollBy(autoScrolls[this.layer].el, scrollOffsetX, scrollOffsetY);
+        }.bind({
+          layer: layersOut
+        }), 24);
+      }
+    }
+
+    layersOut++;
+  } while (options.bubbleScroll && currentParent !== winScroller && (currentParent = getParentAutoScrollElement(currentParent, false)));
+
+  scrolling = scrollThisInstance; // in case another function catches scrolling as false in between when it is not
+}, 30);
+
+var drop = function drop(_ref) {
+  var originalEvent = _ref.originalEvent,
+      putSortable = _ref.putSortable,
+      dragEl = _ref.dragEl,
+      activeSortable = _ref.activeSortable,
+      dispatchSortableEvent = _ref.dispatchSortableEvent,
+      hideGhostForTarget = _ref.hideGhostForTarget,
+      unhideGhostForTarget = _ref.unhideGhostForTarget;
+  if (!originalEvent) return;
+  var toSortable = putSortable || activeSortable;
+  hideGhostForTarget();
+  var touch = originalEvent.changedTouches && originalEvent.changedTouches.length ? originalEvent.changedTouches[0] : originalEvent;
+  var target = document.elementFromPoint(touch.clientX, touch.clientY);
+  unhideGhostForTarget();
+
+  if (toSortable && !toSortable.el.contains(target)) {
+    dispatchSortableEvent('spill');
+    this.onSpill({
+      dragEl: dragEl,
+      putSortable: putSortable
+    });
+  }
+};
+
+function Revert() {}
+
+Revert.prototype = {
+  startIndex: null,
+  dragStart: function dragStart(_ref2) {
+    var oldDraggableIndex = _ref2.oldDraggableIndex;
+    this.startIndex = oldDraggableIndex;
+  },
+  onSpill: function onSpill(_ref3) {
+    var dragEl = _ref3.dragEl,
+        putSortable = _ref3.putSortable;
+    this.sortable.captureAnimationState();
+
+    if (putSortable) {
+      putSortable.captureAnimationState();
+    }
+
+    var nextSibling = getChild(this.sortable.el, this.startIndex, this.options);
+
+    if (nextSibling) {
+      this.sortable.el.insertBefore(dragEl, nextSibling);
+    } else {
+      this.sortable.el.appendChild(dragEl);
+    }
+
+    this.sortable.animateAll();
+
+    if (putSortable) {
+      putSortable.animateAll();
+    }
+  },
+  drop: drop
+};
+
+_extends(Revert, {
+  pluginName: 'revertOnSpill'
 });
+
+function Remove() {}
+
+Remove.prototype = {
+  onSpill: function onSpill(_ref4) {
+    var dragEl = _ref4.dragEl,
+        putSortable = _ref4.putSortable;
+    var parentSortable = putSortable || this.sortable;
+    parentSortable.captureAnimationState();
+    dragEl.parentNode && dragEl.parentNode.removeChild(dragEl);
+    parentSortable.animateAll();
+  },
+  drop: drop
+};
+
+_extends(Remove, {
+  pluginName: 'removeOnSpill'
+});
+
+var lastSwapEl;
+
+function SwapPlugin() {
+  function Swap() {
+    this.defaults = {
+      swapClass: 'sortable-swap-highlight'
+    };
+  }
+
+  Swap.prototype = {
+    dragStart: function dragStart(_ref) {
+      var dragEl = _ref.dragEl;
+      lastSwapEl = dragEl;
+    },
+    dragOverValid: function dragOverValid(_ref2) {
+      var completed = _ref2.completed,
+          target = _ref2.target,
+          onMove = _ref2.onMove,
+          activeSortable = _ref2.activeSortable,
+          changed = _ref2.changed,
+          cancel = _ref2.cancel;
+      if (!activeSortable.options.swap) return;
+      var el = this.sortable.el,
+          options = this.options;
+
+      if (target && target !== el) {
+        var prevSwapEl = lastSwapEl;
+
+        if (onMove(target) !== false) {
+          toggleClass(target, options.swapClass, true);
+          lastSwapEl = target;
+        } else {
+          lastSwapEl = null;
+        }
+
+        if (prevSwapEl && prevSwapEl !== lastSwapEl) {
+          toggleClass(prevSwapEl, options.swapClass, false);
+        }
+      }
+
+      changed();
+      completed(true);
+      cancel();
+    },
+    drop: function drop(_ref3) {
+      var activeSortable = _ref3.activeSortable,
+          putSortable = _ref3.putSortable,
+          dragEl = _ref3.dragEl;
+      var toSortable = putSortable || this.sortable;
+      var options = this.options;
+      lastSwapEl && toggleClass(lastSwapEl, options.swapClass, false);
+
+      if (lastSwapEl && (options.swap || putSortable && putSortable.options.swap)) {
+        if (dragEl !== lastSwapEl) {
+          toSortable.captureAnimationState();
+          if (toSortable !== activeSortable) activeSortable.captureAnimationState();
+          swapNodes(dragEl, lastSwapEl);
+          toSortable.animateAll();
+          if (toSortable !== activeSortable) activeSortable.animateAll();
+        }
+      }
+    },
+    nulling: function nulling() {
+      lastSwapEl = null;
+    }
+  };
+  return _extends(Swap, {
+    pluginName: 'swap',
+    eventProperties: function eventProperties() {
+      return {
+        swapItem: lastSwapEl
+      };
+    }
+  });
+}
+
+function swapNodes(n1, n2) {
+  var p1 = n1.parentNode,
+      p2 = n2.parentNode,
+      i1,
+      i2;
+  if (!p1 || !p2 || p1.isEqualNode(n2) || p2.isEqualNode(n1)) return;
+  i1 = index(n1);
+  i2 = index(n2);
+
+  if (p1.isEqualNode(p2) && i1 < i2) {
+    i2++;
+  }
+
+  p1.insertBefore(n2, p1.children[i1]);
+  p2.insertBefore(n1, p2.children[i2]);
+}
+
+var multiDragElements = [],
+    multiDragClones = [],
+    lastMultiDragSelect,
+    // for selection with modifier key down (SHIFT)
+multiDragSortable,
+    initialFolding = false,
+    // Initial multi-drag fold when drag started
+folding = false,
+    // Folding any other time
+dragStarted = false,
+    dragEl$1,
+    clonesFromRect,
+    clonesHidden;
+
+function MultiDragPlugin() {
+  function MultiDrag(sortable) {
+    // Bind all private methods
+    for (var fn in this) {
+      if (fn.charAt(0) === '_' && typeof this[fn] === 'function') {
+        this[fn] = this[fn].bind(this);
+      }
+    }
+
+    if (sortable.options.supportPointer) {
+      on(document, 'pointerup', this._deselectMultiDrag);
+    } else {
+      on(document, 'mouseup', this._deselectMultiDrag);
+      on(document, 'touchend', this._deselectMultiDrag);
+    }
+
+    on(document, 'keydown', this._checkKeyDown);
+    on(document, 'keyup', this._checkKeyUp);
+    this.defaults = {
+      selectedClass: 'sortable-selected',
+      multiDragKey: null,
+      setData: function setData(dataTransfer, dragEl) {
+        var data = '';
+
+        if (multiDragElements.length && multiDragSortable === sortable) {
+          multiDragElements.forEach(function (multiDragElement, i) {
+            data += (!i ? '' : ', ') + multiDragElement.textContent;
+          });
+        } else {
+          data = dragEl.textContent;
+        }
+
+        dataTransfer.setData('Text', data);
+      }
+    };
+  }
+
+  MultiDrag.prototype = {
+    multiDragKeyDown: false,
+    isMultiDrag: false,
+    delayStartGlobal: function delayStartGlobal(_ref) {
+      var dragged = _ref.dragEl;
+      dragEl$1 = dragged;
+    },
+    delayEnded: function delayEnded() {
+      this.isMultiDrag = ~multiDragElements.indexOf(dragEl$1);
+    },
+    setupClone: function setupClone(_ref2) {
+      var sortable = _ref2.sortable,
+          cancel = _ref2.cancel;
+      if (!this.isMultiDrag) return;
+
+      for (var i = 0; i < multiDragElements.length; i++) {
+        multiDragClones.push(clone(multiDragElements[i]));
+        multiDragClones[i].sortableIndex = multiDragElements[i].sortableIndex;
+        multiDragClones[i].draggable = false;
+        multiDragClones[i].style['will-change'] = '';
+        toggleClass(multiDragClones[i], this.options.selectedClass, false);
+        multiDragElements[i] === dragEl$1 && toggleClass(multiDragClones[i], this.options.chosenClass, false);
+      }
+
+      sortable._hideClone();
+
+      cancel();
+    },
+    clone: function clone(_ref3) {
+      var sortable = _ref3.sortable,
+          rootEl = _ref3.rootEl,
+          dispatchSortableEvent = _ref3.dispatchSortableEvent,
+          cancel = _ref3.cancel;
+      if (!this.isMultiDrag) return;
+
+      if (!this.options.removeCloneOnHide) {
+        if (multiDragElements.length && multiDragSortable === sortable) {
+          insertMultiDragClones(true, rootEl);
+          dispatchSortableEvent('clone');
+          cancel();
+        }
+      }
+    },
+    showClone: function showClone(_ref4) {
+      var cloneNowShown = _ref4.cloneNowShown,
+          rootEl = _ref4.rootEl,
+          cancel = _ref4.cancel;
+      if (!this.isMultiDrag) return;
+      insertMultiDragClones(false, rootEl);
+      multiDragClones.forEach(function (clone) {
+        css(clone, 'display', '');
+      });
+      cloneNowShown();
+      clonesHidden = false;
+      cancel();
+    },
+    hideClone: function hideClone(_ref5) {
+      var _this = this;
+
+      var sortable = _ref5.sortable,
+          cloneNowHidden = _ref5.cloneNowHidden,
+          cancel = _ref5.cancel;
+      if (!this.isMultiDrag) return;
+      multiDragClones.forEach(function (clone) {
+        css(clone, 'display', 'none');
+
+        if (_this.options.removeCloneOnHide && clone.parentNode) {
+          clone.parentNode.removeChild(clone);
+        }
+      });
+      cloneNowHidden();
+      clonesHidden = true;
+      cancel();
+    },
+    dragStartGlobal: function dragStartGlobal(_ref6) {
+      var sortable = _ref6.sortable;
+
+      if (!this.isMultiDrag && multiDragSortable) {
+        multiDragSortable.multiDrag._deselectMultiDrag();
+      }
+
+      multiDragElements.forEach(function (multiDragElement) {
+        multiDragElement.sortableIndex = index(multiDragElement);
+      }); // Sort multi-drag elements
+
+      multiDragElements = multiDragElements.sort(function (a, b) {
+        return a.sortableIndex - b.sortableIndex;
+      });
+      dragStarted = true;
+    },
+    dragStarted: function dragStarted(_ref7) {
+      var _this2 = this;
+
+      var sortable = _ref7.sortable;
+      if (!this.isMultiDrag) return;
+
+      if (this.options.sort) {
+        // Capture rects,
+        // hide multi drag elements (by positioning them absolute),
+        // set multi drag elements rects to dragRect,
+        // show multi drag elements,
+        // animate to rects,
+        // unset rects & remove from DOM
+        sortable.captureAnimationState();
+
+        if (this.options.animation) {
+          multiDragElements.forEach(function (multiDragElement) {
+            if (multiDragElement === dragEl$1) return;
+            css(multiDragElement, 'position', 'absolute');
+          });
+          var dragRect = getRect(dragEl$1, false, true, true);
+          multiDragElements.forEach(function (multiDragElement) {
+            if (multiDragElement === dragEl$1) return;
+            setRect(multiDragElement, dragRect);
+          });
+          folding = true;
+          initialFolding = true;
+        }
+      }
+
+      sortable.animateAll(function () {
+        folding = false;
+        initialFolding = false;
+
+        if (_this2.options.animation) {
+          multiDragElements.forEach(function (multiDragElement) {
+            unsetRect(multiDragElement);
+          });
+        } // Remove all auxiliary multidrag items from el, if sorting enabled
+
+
+        if (_this2.options.sort) {
+          removeMultiDragElements();
+        }
+      });
+    },
+    dragOver: function dragOver(_ref8) {
+      var target = _ref8.target,
+          completed = _ref8.completed,
+          cancel = _ref8.cancel;
+
+      if (folding && ~multiDragElements.indexOf(target)) {
+        completed(false);
+        cancel();
+      }
+    },
+    revert: function revert(_ref9) {
+      var fromSortable = _ref9.fromSortable,
+          rootEl = _ref9.rootEl,
+          sortable = _ref9.sortable,
+          dragRect = _ref9.dragRect;
+
+      if (multiDragElements.length > 1) {
+        // Setup unfold animation
+        multiDragElements.forEach(function (multiDragElement) {
+          sortable.addAnimationState({
+            target: multiDragElement,
+            rect: folding ? getRect(multiDragElement) : dragRect
+          });
+          unsetRect(multiDragElement);
+          multiDragElement.fromRect = dragRect;
+          fromSortable.removeAnimationState(multiDragElement);
+        });
+        folding = false;
+        insertMultiDragElements(!this.options.removeCloneOnHide, rootEl);
+      }
+    },
+    dragOverCompleted: function dragOverCompleted(_ref10) {
+      var sortable = _ref10.sortable,
+          isOwner = _ref10.isOwner,
+          insertion = _ref10.insertion,
+          activeSortable = _ref10.activeSortable,
+          parentEl = _ref10.parentEl,
+          putSortable = _ref10.putSortable;
+      var options = this.options;
+
+      if (insertion) {
+        // Clones must be hidden before folding animation to capture dragRectAbsolute properly
+        if (isOwner) {
+          activeSortable._hideClone();
+        }
+
+        initialFolding = false; // If leaving sort:false root, or already folding - Fold to new location
+
+        if (options.animation && multiDragElements.length > 1 && (folding || !isOwner && !activeSortable.options.sort && !putSortable)) {
+          // Fold: Set all multi drag elements's rects to dragEl's rect when multi-drag elements are invisible
+          var dragRectAbsolute = getRect(dragEl$1, false, true, true);
+          multiDragElements.forEach(function (multiDragElement) {
+            if (multiDragElement === dragEl$1) return;
+            setRect(multiDragElement, dragRectAbsolute); // Move element(s) to end of parentEl so that it does not interfere with multi-drag clones insertion if they are inserted
+            // while folding, and so that we can capture them again because old sortable will no longer be fromSortable
+
+            parentEl.appendChild(multiDragElement);
+          });
+          folding = true;
+        } // Clones must be shown (and check to remove multi drags) after folding when interfering multiDragElements are moved out
+
+
+        if (!isOwner) {
+          // Only remove if not folding (folding will remove them anyways)
+          if (!folding) {
+            removeMultiDragElements();
+          }
+
+          if (multiDragElements.length > 1) {
+            var clonesHiddenBefore = clonesHidden;
+
+            activeSortable._showClone(sortable); // Unfold animation for clones if showing from hidden
+
+
+            if (activeSortable.options.animation && !clonesHidden && clonesHiddenBefore) {
+              multiDragClones.forEach(function (clone) {
+                activeSortable.addAnimationState({
+                  target: clone,
+                  rect: clonesFromRect
+                });
+                clone.fromRect = clonesFromRect;
+                clone.thisAnimationDuration = null;
+              });
+            }
+          } else {
+            activeSortable._showClone(sortable);
+          }
+        }
+      }
+    },
+    dragOverAnimationCapture: function dragOverAnimationCapture(_ref11) {
+      var dragRect = _ref11.dragRect,
+          isOwner = _ref11.isOwner,
+          activeSortable = _ref11.activeSortable;
+      multiDragElements.forEach(function (multiDragElement) {
+        multiDragElement.thisAnimationDuration = null;
+      });
+
+      if (activeSortable.options.animation && !isOwner && activeSortable.multiDrag.isMultiDrag) {
+        clonesFromRect = _extends({}, dragRect);
+        var dragMatrix = matrix(dragEl$1, true);
+        clonesFromRect.top -= dragMatrix.f;
+        clonesFromRect.left -= dragMatrix.e;
+      }
+    },
+    dragOverAnimationComplete: function dragOverAnimationComplete() {
+      if (folding) {
+        folding = false;
+        removeMultiDragElements();
+      }
+    },
+    drop: function drop(_ref12) {
+      var evt = _ref12.originalEvent,
+          rootEl = _ref12.rootEl,
+          parentEl = _ref12.parentEl,
+          sortable = _ref12.sortable,
+          dispatchSortableEvent = _ref12.dispatchSortableEvent,
+          oldIndex = _ref12.oldIndex,
+          putSortable = _ref12.putSortable;
+      var toSortable = putSortable || this.sortable;
+      if (!evt) return;
+      var options = this.options,
+          children = parentEl.children; // Multi-drag selection
+
+      if (!dragStarted) {
+        if (options.multiDragKey && !this.multiDragKeyDown) {
+          this._deselectMultiDrag();
+        }
+
+        toggleClass(dragEl$1, options.selectedClass, !~multiDragElements.indexOf(dragEl$1));
+
+        if (!~multiDragElements.indexOf(dragEl$1)) {
+          multiDragElements.push(dragEl$1);
+          dispatchEvent({
+            sortable: sortable,
+            rootEl: rootEl,
+            name: 'select',
+            targetEl: dragEl$1,
+            originalEvt: evt
+          }); // Modifier activated, select from last to dragEl
+
+          if (evt.shiftKey && lastMultiDragSelect && sortable.el.contains(lastMultiDragSelect)) {
+            var lastIndex = index(lastMultiDragSelect),
+                currentIndex = index(dragEl$1);
+
+            if (~lastIndex && ~currentIndex && lastIndex !== currentIndex) {
+              // Must include lastMultiDragSelect (select it), in case modified selection from no selection
+              // (but previous selection existed)
+              var n, i;
+
+              if (currentIndex > lastIndex) {
+                i = lastIndex;
+                n = currentIndex;
+              } else {
+                i = currentIndex;
+                n = lastIndex + 1;
+              }
+
+              for (; i < n; i++) {
+                if (~multiDragElements.indexOf(children[i])) continue;
+                toggleClass(children[i], options.selectedClass, true);
+                multiDragElements.push(children[i]);
+                dispatchEvent({
+                  sortable: sortable,
+                  rootEl: rootEl,
+                  name: 'select',
+                  targetEl: children[i],
+                  originalEvt: evt
+                });
+              }
+            }
+          } else {
+            lastMultiDragSelect = dragEl$1;
+          }
+
+          multiDragSortable = toSortable;
+        } else {
+          multiDragElements.splice(multiDragElements.indexOf(dragEl$1), 1);
+          lastMultiDragSelect = null;
+          dispatchEvent({
+            sortable: sortable,
+            rootEl: rootEl,
+            name: 'deselect',
+            targetEl: dragEl$1,
+            originalEvt: evt
+          });
+        }
+      } // Multi-drag drop
+
+
+      if (dragStarted && this.isMultiDrag) {
+        // Do not "unfold" after around dragEl if reverted
+        if ((parentEl[expando].options.sort || parentEl !== rootEl) && multiDragElements.length > 1) {
+          var dragRect = getRect(dragEl$1),
+              multiDragIndex = index(dragEl$1, ':not(.' + this.options.selectedClass + ')');
+          if (!initialFolding && options.animation) dragEl$1.thisAnimationDuration = null;
+          toSortable.captureAnimationState();
+
+          if (!initialFolding) {
+            if (options.animation) {
+              dragEl$1.fromRect = dragRect;
+              multiDragElements.forEach(function (multiDragElement) {
+                multiDragElement.thisAnimationDuration = null;
+
+                if (multiDragElement !== dragEl$1) {
+                  var rect = folding ? getRect(multiDragElement) : dragRect;
+                  multiDragElement.fromRect = rect; // Prepare unfold animation
+
+                  toSortable.addAnimationState({
+                    target: multiDragElement,
+                    rect: rect
+                  });
+                }
+              });
+            } // Multi drag elements are not necessarily removed from the DOM on drop, so to reinsert
+            // properly they must all be removed
+
+
+            removeMultiDragElements();
+            multiDragElements.forEach(function (multiDragElement) {
+              if (children[multiDragIndex]) {
+                parentEl.insertBefore(multiDragElement, children[multiDragIndex]);
+              } else {
+                parentEl.appendChild(multiDragElement);
+              }
+
+              multiDragIndex++;
+            }); // If initial folding is done, the elements may have changed position because they are now
+            // unfolding around dragEl, even though dragEl may not have his index changed, so update event
+            // must be fired here as Sortable will not.
+
+            if (oldIndex === index(dragEl$1)) {
+              var update = false;
+              multiDragElements.forEach(function (multiDragElement) {
+                if (multiDragElement.sortableIndex !== index(multiDragElement)) {
+                  update = true;
+                  return;
+                }
+              });
+
+              if (update) {
+                dispatchSortableEvent('update');
+              }
+            }
+          } // Must be done after capturing individual rects (scroll bar)
+
+
+          multiDragElements.forEach(function (multiDragElement) {
+            unsetRect(multiDragElement);
+          });
+          toSortable.animateAll();
+        }
+
+        multiDragSortable = toSortable;
+      } // Remove clones if necessary
+
+
+      if (rootEl === parentEl || putSortable && putSortable.lastPutMode !== 'clone') {
+        multiDragClones.forEach(function (clone) {
+          clone.parentNode && clone.parentNode.removeChild(clone);
+        });
+      }
+    },
+    nullingGlobal: function nullingGlobal() {
+      this.isMultiDrag = dragStarted = false;
+      multiDragClones.length = 0;
+    },
+    destroyGlobal: function destroyGlobal() {
+      this._deselectMultiDrag();
+
+      off(document, 'pointerup', this._deselectMultiDrag);
+      off(document, 'mouseup', this._deselectMultiDrag);
+      off(document, 'touchend', this._deselectMultiDrag);
+      off(document, 'keydown', this._checkKeyDown);
+      off(document, 'keyup', this._checkKeyUp);
+    },
+    _deselectMultiDrag: function _deselectMultiDrag(evt) {
+      if (dragStarted) return; // Only deselect if selection is in this sortable
+
+      if (multiDragSortable !== this.sortable) return; // Only deselect if target is not item in this sortable
+
+      if (evt && closest(evt.target, this.options.draggable, this.sortable.el, false)) return; // Only deselect if left click
+
+      if (evt && evt.button !== 0) return;
+
+      while (multiDragElements.length) {
+        var el = multiDragElements[0];
+        toggleClass(el, this.options.selectedClass, false);
+        multiDragElements.shift();
+        dispatchEvent({
+          sortable: this.sortable,
+          rootEl: this.sortable.el,
+          name: 'deselect',
+          targetEl: el,
+          originalEvt: evt
+        });
+      }
+    },
+    _checkKeyDown: function _checkKeyDown(evt) {
+      if (evt.key === this.options.multiDragKey) {
+        this.multiDragKeyDown = true;
+      }
+    },
+    _checkKeyUp: function _checkKeyUp(evt) {
+      if (evt.key === this.options.multiDragKey) {
+        this.multiDragKeyDown = false;
+      }
+    }
+  };
+  return _extends(MultiDrag, {
+    // Static methods & properties
+    pluginName: 'multiDrag',
+    utils: {
+      /**
+       * Selects the provided multi-drag item
+       * @param  {HTMLElement} el    The element to be selected
+       */
+      select: function select(el) {
+        var sortable = el.parentNode[expando];
+        if (!sortable || !sortable.options.multiDrag || ~multiDragElements.indexOf(el)) return;
+
+        if (multiDragSortable && multiDragSortable !== sortable) {
+          multiDragSortable.multiDrag._deselectMultiDrag();
+
+          multiDragSortable = sortable;
+        }
+
+        toggleClass(el, sortable.options.selectedClass, true);
+        multiDragElements.push(el);
+      },
+
+      /**
+       * Deselects the provided multi-drag item
+       * @param  {HTMLElement} el    The element to be deselected
+       */
+      deselect: function deselect(el) {
+        var sortable = el.parentNode[expando],
+            index = multiDragElements.indexOf(el);
+        if (!sortable || !sortable.options.multiDrag || !~index) return;
+        toggleClass(el, sortable.options.selectedClass, false);
+        multiDragElements.splice(index, 1);
+      }
+    },
+    eventProperties: function eventProperties() {
+      var _this3 = this;
+
+      var oldIndicies = [],
+          newIndicies = [];
+      multiDragElements.forEach(function (multiDragElement) {
+        oldIndicies.push({
+          multiDragElement: multiDragElement,
+          index: multiDragElement.sortableIndex
+        }); // multiDragElements will already be sorted if folding
+
+        var newIndex;
+
+        if (folding && multiDragElement !== dragEl$1) {
+          newIndex = -1;
+        } else if (folding) {
+          newIndex = index(multiDragElement, ':not(.' + _this3.options.selectedClass + ')');
+        } else {
+          newIndex = index(multiDragElement);
+        }
+
+        newIndicies.push({
+          multiDragElement: multiDragElement,
+          index: newIndex
+        });
+      });
+      return {
+        items: _toConsumableArray(multiDragElements),
+        clones: [].concat(multiDragClones),
+        oldIndicies: oldIndicies,
+        newIndicies: newIndicies
+      };
+    },
+    optionListeners: {
+      multiDragKey: function multiDragKey(key) {
+        key = key.toLowerCase();
+
+        if (key === 'ctrl') {
+          key = 'Control';
+        } else if (key.length > 1) {
+          key = key.charAt(0).toUpperCase() + key.substr(1);
+        }
+
+        return key;
+      }
+    }
+  });
+}
+
+function insertMultiDragElements(clonesInserted, rootEl) {
+  multiDragElements.forEach(function (multiDragElement, i) {
+    var target = rootEl.children[multiDragElement.sortableIndex + (clonesInserted ? Number(i) : 0)];
+
+    if (target) {
+      rootEl.insertBefore(multiDragElement, target);
+    } else {
+      rootEl.appendChild(multiDragElement);
+    }
+  });
+}
+/**
+ * Insert multi-drag clones
+ * @param  {[Boolean]} elementsInserted  Whether the multi-drag elements are inserted
+ * @param  {HTMLElement} rootEl
+ */
+
+
+function insertMultiDragClones(elementsInserted, rootEl) {
+  multiDragClones.forEach(function (clone, i) {
+    var target = rootEl.children[clone.sortableIndex + (elementsInserted ? Number(i) : 0)];
+
+    if (target) {
+      rootEl.insertBefore(clone, target);
+    } else {
+      rootEl.appendChild(clone);
+    }
+  });
+}
+
+function removeMultiDragElements() {
+  multiDragElements.forEach(function (multiDragElement) {
+    if (multiDragElement === dragEl$1) return;
+    multiDragElement.parentNode && multiDragElement.parentNode.removeChild(multiDragElement);
+  });
+}
+
+Sortable.mount(new AutoScrollPlugin());
+Sortable.mount(Remove, Revert);
+
+/* harmony default export */ __webpack_exports__["default"] = (Sortable);
+
 
 
 /***/ }),
@@ -32489,7 +33892,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /*!
- * vue-i18n v8.12.0 
+ * vue-i18n v8.15.1 
  * (c) 2019 kazuya kawaguchi
  * Released under the MIT License.
  */
@@ -32718,7 +34121,7 @@ var mixin = {
             });
           } catch (e) {
             if (true) {
-              warn("Cannot parse locale messages via custom blocks.", e);
+              error("Cannot parse locale messages via custom blocks.", e);
             }
           }
         }
@@ -32730,6 +34133,7 @@ var mixin = {
           options.i18n.root = this.$root;
           options.i18n.formatter = this.$root.$i18n.formatter;
           options.i18n.fallbackLocale = this.$root.$i18n.fallbackLocale;
+          options.i18n.formatFallbackMessages = this.$root.$i18n.formatFallbackMessages;
           options.i18n.silentTranslationWarn = this.$root.$i18n.silentTranslationWarn;
           options.i18n.silentFallbackWarn = this.$root.$i18n.silentFallbackWarn;
           options.i18n.pluralizationRules = this.$root.$i18n.pluralizationRules;
@@ -32836,8 +34240,7 @@ var interpolationComponent = {
   functional: true,
   props: {
     tag: {
-      type: String,
-      default: 'span'
+      type: String
     },
     path: {
       type: String,
@@ -32851,65 +34254,90 @@ var interpolationComponent = {
     }
   },
   render: function render (h, ref) {
-    var props = ref.props;
     var data = ref.data;
-    var children = ref.children;
     var parent = ref.parent;
+    var props = ref.props;
+    var slots = ref.slots;
 
-    var i18n = parent.$i18n;
-
-    children = (children || []).filter(function (child) {
-      return child.tag || (child.text = child.text.trim())
-    });
-
-    if (!i18n) {
+    var $i18n = parent.$i18n;
+    if (!$i18n) {
       if (true) {
         warn('Cannot find VueI18n instance!');
       }
-      return children
+      return
     }
 
     var path = props.path;
     var locale = props.locale;
+    var places = props.places;
+    var params = slots();
+    var children = $i18n.i(
+      path,
+      locale,
+      onlyHasDefaultPlace(params) || places
+        ? useLegacyPlaces(params.default, places)
+        : params
+    );
 
-    var params = {};
-    var places = props.places || {};
-
-    var hasPlaces = Array.isArray(places)
-      ? places.length > 0
-      : Object.keys(places).length > 0;
-
-    var everyPlace = children.every(function (child) {
-      if (child.data && child.data.attrs) {
-        var place = child.data.attrs.place;
-        return (typeof place !== 'undefined') && place !== ''
-      }
-    });
-
-    if ( true && hasPlaces && children.length > 0 && !everyPlace) {
-      warn('If places prop is set, all child elements must have place prop set.');
-    }
-
-    if (Array.isArray(places)) {
-      places.forEach(function (el, i) {
-        params[i] = el;
-      });
-    } else {
-      Object.keys(places).forEach(function (key) {
-        params[key] = places[key];
-      });
-    }
-
-    children.forEach(function (child, i) {
-      var key = everyPlace
-        ? ("" + (child.data.attrs.place))
-        : ("" + i);
-      params[key] = child;
-    });
-
-    return h(props.tag, data, i18n.i(path, locale, params))
+    var tag = props.tag || 'span';
+    return tag ? h(tag, data, children) : children
   }
 };
+
+function onlyHasDefaultPlace (params) {
+  var prop;
+  for (prop in params) {
+    if (prop !== 'default') { return false }
+  }
+  return Boolean(prop)
+}
+
+function useLegacyPlaces (children, places) {
+  var params = places ? createParamsFromPlaces(places) : {};
+
+  if (!children) { return params }
+
+  // Filter empty text nodes
+  children = children.filter(function (child) {
+    return child.tag || child.text.trim() !== ''
+  });
+
+  var everyPlace = children.every(vnodeHasPlaceAttribute);
+  if ( true && everyPlace) {
+    warn('`place` attribute is deprecated in next major version. Please switch to Vue slots.');
+  }
+
+  return children.reduce(
+    everyPlace ? assignChildPlace : assignChildIndex,
+    params
+  )
+}
+
+function createParamsFromPlaces (places) {
+  if (true) {
+    warn('`places` prop is deprecated in next major version. Please switch to Vue slots.');
+  }
+
+  return Array.isArray(places)
+    ? places.reduce(assignChildIndex, {})
+    : Object.assign({}, places)
+}
+
+function assignChildPlace (params, child) {
+  if (child.data && child.data.attrs && child.data.attrs.place) {
+    params[child.data.attrs.place] = child;
+  }
+  return params
+}
+
+function assignChildIndex (params, child, index) {
+  params[index] = child;
+  return params
+}
+
+function vnodeHasPlaceAttribute (vnode) {
+  return Boolean(vnode.data && vnode.data.attrs && vnode.data.attrs.place)
+}
 
 /*  */
 
@@ -33436,6 +34864,7 @@ function parse$1 (path) {
       actions[APPEND]();
     } else {
       subPathDepth = 0;
+      if (key === undefined) { return false }
       key = formatSubPath(key);
       if (key === false) {
         return false
@@ -33546,7 +34975,7 @@ var htmlTagMatcher = /<\/?[\w\s="/.':;#-\/]+>/;
 var linkKeyMatcher = /(?:@(?:\.[a-z]+)?:(?:[\w\-_|.]+|\([\w\-_|.]+\)))/g;
 var linkKeyPrefixMatcher = /^@(?:\.([a-z]+))?:/;
 var bracketsMatcher = /[()]/g;
-var formatters = {
+var defaultModifiers = {
   'upper': function (str) { return str.toLocaleUpperCase(); },
   'lower': function (str) { return str.toLocaleLowerCase(); }
 };
@@ -33573,15 +35002,19 @@ var VueI18n = function VueI18n (options) {
 
   this._vm = null;
   this._formatter = options.formatter || defaultFormatter;
+  this._modifiers = options.modifiers || {};
   this._missing = options.missing || null;
   this._root = options.root || null;
   this._sync = options.sync === undefined ? true : !!options.sync;
   this._fallbackRoot = options.fallbackRoot === undefined
     ? true
     : !!options.fallbackRoot;
+  this._formatFallbackMessages = options.formatFallbackMessages === undefined
+    ? false
+    : !!options.formatFallbackMessages;
   this._silentTranslationWarn = options.silentTranslationWarn === undefined
     ? false
-    : !!options.silentTranslationWarn;
+    : options.silentTranslationWarn;
   this._silentFallbackWarn = options.silentFallbackWarn === undefined
     ? false
     : !!options.silentFallbackWarn;
@@ -33618,7 +35051,7 @@ var VueI18n = function VueI18n (options) {
   });
 };
 
-var prototypeAccessors = { vm: { configurable: true },messages: { configurable: true },dateTimeFormats: { configurable: true },numberFormats: { configurable: true },availableLocales: { configurable: true },locale: { configurable: true },fallbackLocale: { configurable: true },missing: { configurable: true },formatter: { configurable: true },silentTranslationWarn: { configurable: true },silentFallbackWarn: { configurable: true },preserveDirectiveContent: { configurable: true },warnHtmlInMessage: { configurable: true } };
+var prototypeAccessors = { vm: { configurable: true },messages: { configurable: true },dateTimeFormats: { configurable: true },numberFormats: { configurable: true },availableLocales: { configurable: true },locale: { configurable: true },fallbackLocale: { configurable: true },formatFallbackMessages: { configurable: true },missing: { configurable: true },formatter: { configurable: true },silentTranslationWarn: { configurable: true },silentFallbackWarn: { configurable: true },preserveDirectiveContent: { configurable: true },warnHtmlInMessage: { configurable: true } };
 
 VueI18n.prototype._checkLocaleMessage = function _checkLocaleMessage (locale, level, message) {
   var paths = [];
@@ -33727,6 +35160,9 @@ prototypeAccessors.fallbackLocale.set = function (locale) {
   this._vm.$set(this._vm, 'fallbackLocale', locale);
 };
 
+prototypeAccessors.formatFallbackMessages.get = function () { return this._formatFallbackMessages };
+prototypeAccessors.formatFallbackMessages.set = function (fallback) { this._formatFallbackMessages = fallback; };
+
 prototypeAccessors.missing.get = function () { return this._missing };
 prototypeAccessors.missing.set = function (handler) { this._missing = handler; };
 
@@ -33768,22 +35204,40 @@ VueI18n.prototype._warnDefault = function _warnDefault (locale, key, result, vm,
       return missingRet
     }
   } else {
-    if ( true && !this._silentTranslationWarn) {
+    if ( true && !this._isSilentTranslationWarn(key)) {
       warn(
         "Cannot translate the value of keypath '" + key + "'. " +
         'Use the value of keypath as default.'
       );
     }
   }
-  return key
+
+  if (this._formatFallbackMessages) {
+    var parsedArgs = parseArgs.apply(void 0, values);
+    return this._render(key, 'string', parsedArgs.params, key)
+  } else {
+    return key
+  }
 };
 
 VueI18n.prototype._isFallbackRoot = function _isFallbackRoot (val) {
   return !val && !isNull(this._root) && this._fallbackRoot
 };
 
-VueI18n.prototype._isSilentFallback = function _isSilentFallback (locale) {
-  return this._silentFallbackWarn && (this._isFallbackRoot() || locale !== this.fallbackLocale)
+VueI18n.prototype._isSilentFallbackWarn = function _isSilentFallbackWarn (key) {
+  return this._silentFallbackWarn instanceof RegExp
+    ? this._silentFallbackWarn.test(key)
+    : this._silentFallbackWarn
+};
+
+VueI18n.prototype._isSilentFallback = function _isSilentFallback (locale, key) {
+  return this._isSilentFallbackWarn(key) && (this._isFallbackRoot() || locale !== this.fallbackLocale)
+};
+
+VueI18n.prototype._isSilentTranslationWarn = function _isSilentTranslationWarn (key) {
+  return this._silentTranslationWarn instanceof RegExp
+    ? this._silentTranslationWarn.test(key)
+    : this._silentTranslationWarn
 };
 
 VueI18n.prototype._interpolate = function _interpolate (
@@ -33806,7 +35260,7 @@ VueI18n.prototype._interpolate = function _interpolate (
     if (isPlainObject(message)) {
       ret = message[key];
       if (typeof ret !== 'string') {
-        if ( true && !this._silentTranslationWarn && !this._isSilentFallback(locale)) {
+        if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallback(locale, key)) {
           warn(("Value of key '" + key + "' is not a string!"));
         }
         return null
@@ -33819,7 +35273,7 @@ VueI18n.prototype._interpolate = function _interpolate (
     if (typeof pathRet === 'string') {
       ret = pathRet;
     } else {
-      if ( true && !this._silentTranslationWarn && !this._isSilentFallback(locale)) {
+      if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallback(locale, key)) {
         warn(("Value of key '" + key + "' is not a string!"));
       }
       return null
@@ -33880,7 +35334,7 @@ VueI18n.prototype._link = function _link (
     );
 
     if (this._isFallbackRoot(translated)) {
-      if ( true && !this._silentTranslationWarn) {
+      if ( true && !this._isSilentTranslationWarn(linkPlaceholder)) {
         warn(("Fall back to translate the link placeholder '" + linkPlaceholder + "' with root locale."));
       }
       /* istanbul ignore if */
@@ -33895,8 +35349,11 @@ VueI18n.prototype._link = function _link (
       locale, linkPlaceholder, translated, host,
       Array.isArray(values) ? values : [values]
     );
-    if (formatters.hasOwnProperty(formatterName)) {
-      translated = formatters[formatterName](translated);
+
+    if (this._modifiers.hasOwnProperty(formatterName)) {
+      translated = this._modifiers[formatterName](translated);
+    } else if (defaultModifiers.hasOwnProperty(formatterName)) {
+      translated = defaultModifiers[formatterName](translated);
     }
 
     visitedLinkStack.pop();
@@ -33936,7 +35393,7 @@ VueI18n.prototype._translate = function _translate (
 
   res = this._interpolate(fallback, messages[fallback], key, host, interpolateMode, args, [key]);
   if (!isNull(res)) {
-    if ( true && !this._silentTranslationWarn && !this._silentFallbackWarn) {
+    if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
       warn(("Fall back to translate the keypath '" + key + "' with '" + fallback + "' locale."));
     }
     return res
@@ -33960,7 +35417,7 @@ VueI18n.prototype._t = function _t (key, _locale, messages, host) {
     host, 'string', parsedArgs.params
   );
   if (this._isFallbackRoot(ret)) {
-    if ( true && !this._silentTranslationWarn && !this._silentFallbackWarn) {
+    if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
       warn(("Fall back to translate the keypath '" + key + "' with root locale."));
     }
     /* istanbul ignore if */
@@ -33983,7 +35440,7 @@ VueI18n.prototype._i = function _i (key, locale, messages, host, values) {
   var ret =
     this._translate(messages, locale, this.fallbackLocale, key, host, 'raw', values);
   if (this._isFallbackRoot(ret)) {
-    if ( true && !this._silentTranslationWarn) {
+    if ( true && !this._isSilentTranslationWarn(key)) {
       warn(("Fall back to interpolate the keypath '" + key + "' with root locale."));
     }
     if (!this._root) { throw Error('unexpected error') }
@@ -34129,8 +35586,8 @@ VueI18n.prototype._localizeDateTime = function _localizeDateTime (
 
   // fallback locale
   if (isNull(formats) || isNull(formats[key])) {
-    if ( true && !this._silentTranslationWarn) {
-      warn(("Fall back to '" + fallback + "' datetime formats from '" + locale + " datetime formats."));
+    if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
+      warn(("Fall back to '" + fallback + "' datetime formats from '" + locale + "' datetime formats."));
     }
     _locale = fallback;
     formats = dateTimeFormats[_locale];
@@ -34163,8 +35620,8 @@ VueI18n.prototype._d = function _d (value, locale, key) {
   var ret =
     this._localizeDateTime(value, locale, this.fallbackLocale, this._getDateTimeFormats(), key);
   if (this._isFallbackRoot(ret)) {
-    if ( true && !this._silentTranslationWarn) {
-      warn(("Fall back to datetime localization of root: key '" + key + "' ."));
+    if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
+      warn(("Fall back to datetime localization of root: key '" + key + "'."));
     }
     /* istanbul ignore if */
     if (!this._root) { throw Error('unexpected error') }
@@ -34229,8 +35686,8 @@ VueI18n.prototype._getNumberFormatter = function _getNumberFormatter (
 
   // fallback locale
   if (isNull(formats) || isNull(formats[key])) {
-    if ( true && !this._silentTranslationWarn) {
-      warn(("Fall back to '" + fallback + "' number formats from '" + locale + " number formats."));
+    if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
+      warn(("Fall back to '" + fallback + "' number formats from '" + locale + "' number formats."));
     }
     _locale = fallback;
     formats = numberFormats[_locale];
@@ -34273,8 +35730,8 @@ VueI18n.prototype._n = function _n (value, locale, key, options) {
   var formatter = this._getNumberFormatter(value, locale, this.fallbackLocale, this._getNumberFormats(), key, options);
   var ret = formatter && formatter.format(value);
   if (this._isFallbackRoot(ret)) {
-    if ( true && !this._silentTranslationWarn) {
-      warn(("Fall back to number localization of root: key '" + key + "' ."));
+    if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
+      warn(("Fall back to number localization of root: key '" + key + "'."));
     }
     /* istanbul ignore if */
     if (!this._root) { throw Error('unexpected error') }
@@ -34342,7 +35799,7 @@ VueI18n.prototype._ntp = function _ntp (value, locale, key, options) {
   var formatter = this._getNumberFormatter(value, locale, this.fallbackLocale, this._getNumberFormats(), key, options);
   var ret = formatter && formatter.formatToParts(value);
   if (this._isFallbackRoot(ret)) {
-    if ( true && !this._silentTranslationWarn) {
+    if ( true && !this._isSilentTranslationWarn(key)) {
       warn(("Fall back to format number to parts of root: key '" + key + "' ."));
     }
     /* istanbul ignore if */
@@ -34372,7 +35829,7 @@ Object.defineProperty(VueI18n, 'availabilities', {
 });
 
 VueI18n.install = install;
-VueI18n.version = '8.12.0';
+VueI18n.version = '8.15.1';
 
 /* harmony default export */ __webpack_exports__["default"] = (VueI18n);
 
@@ -50412,7 +51869,7 @@ module.exports = Object.create || function create(O, Properties) {
 /***/ "a352":
 /***/ (function(module, exports) {
 
-module.exports = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/Sortable.js");
+module.exports = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
 
 /***/ }),
 
@@ -50762,8 +52219,8 @@ module.exports = Object.keys || function keys(O) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return removeNode; });
 /* harmony import */ var core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("a481");
 /* harmony import */ var core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_replace__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var F_source_vuedraggable_node_modules_babel_runtime_corejs2_core_js_object_create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("4aa6");
-/* harmony import */ var F_source_vuedraggable_node_modules_babel_runtime_corejs2_core_js_object_create__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(F_source_vuedraggable_node_modules_babel_runtime_corejs2_core_js_object_create__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var F_source_Vue_Draggable_node_modules_babel_runtime_corejs2_core_js_object_create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("4aa6");
+/* harmony import */ var F_source_Vue_Draggable_node_modules_babel_runtime_corejs2_core_js_object_create__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(F_source_Vue_Draggable_node_modules_babel_runtime_corejs2_core_js_object_create__WEBPACK_IMPORTED_MODULE_1__);
 
 
 
@@ -50778,7 +52235,7 @@ function getConsole() {
 var console = getConsole();
 
 function cached(fn) {
-  var cache = F_source_vuedraggable_node_modules_babel_runtime_corejs2_core_js_object_create__WEBPACK_IMPORTED_MODULE_1___default()(null);
+  var cache = F_source_Vue_Draggable_node_modules_babel_runtime_corejs2_core_js_object_create__WEBPACK_IMPORTED_MODULE_1___default()(null);
 
   return function cachedFn(str) {
     var hit = cache[str];
@@ -53991,11 +55448,11 @@ module.exports = JSON.parse("{\"# blocks\":\"no blocks | 1 block | {count} block
 /*!********************************!*\
   !*** ./resources/lang/es.json ***!
   \********************************/
-/*! exports provided: # blocks, # categories, # contacts, # events, # files could not be moved., # files moved., # items deleted, # items published, # items selected, # items unpublished, # menus, # news, # pages, # partners, # places, # projects, # roles, # sections, # slides, # tags, # translations, # users, A fresh verification link has been sent to your email address., A non-empty folder cannot be deleted., A page containing subpages cannot be linked to a module, Access dashboard, Action, Activate my account, Activated, Active locale, Active tab, Add files, Add selected file, Add selected files, Add to menu, Add, address, Address, Administration Language, Administration Welcome Message, Age, All languages, All rights reserved., All, Alt attribute, An error occurred with the data fetch., Are you sure you want to delete # items?, Are you sure you want to delete “{title}”?, Are you sure you want to publish # items?, Are you sure you want to unpublish # items?, Authenticate to view website, Available, Back, Back-office, Before proceeding, please check your email for a verification link., Blocks, Body, Cache cleared, Cache, Cancel, Categories, Category, Change Password, Change settings, City, Class, Clear cache, Clear, click here to request another, Comments enabled, Company, Confirm Password, Contact information, Contacts, Content blocks, Content, Country, Create, Created at, Css, Currency, Dashboard, Date, Day, DDMMYYYY HHMM, DDMMYYYY, Delete, Description, Deselect all, Destroy, Disabled, Do you want to clear history?, Document, Download count, Drop files to upload, Drop to upload., E-Mail Address, Edit block, Edit event, Edit file, Edit menu, Edit menulink, Edit news, Edit object, Edit page, Edit partner, Edit place, Edit project, Edit role, Edit slide, Edit tag, Edit translation, Edit, Email, Empty history, En ligne/Hors ligne, Enabled, End date, End time, Enter a name for the new folder., Environment, Error, Events, Excerpt, Exit, Extension, Fax, File information, File, Filename, Files, Filter, Find nearest, First name, Forbidden, Forgot your password?, Forgot Your Password?, from, Front office, Gender, Generate, Go Home, Google Analytics Tracking Id, Groups, Height, Hello!, HH:MM, hi, History is empty., Home, Homepage, Hour, Icon class, If you did not create an account, no further action is required., If you did not receive the email, If you did not request a password reset, no further action is required., If you’re having trouble clicking the ":actionText" button, copy and paste the URL below
-into your web browser: [:actionURL](:actionURL), Image, Images, Impossible to delete more than # items in one go., Index, Info, Insert, Is home, Item is published., Item is unpublished., Js, KB, Key, Keywords, Lang Chooser, Language, Last name, Latest changes, Latitude, Locales, Location, Login, Logo, Logout, Longitude, Mandatory fields, Max :size MB, Max, MB, Media, Menu, Menulink, Menulinks, Menus, Message, Meta description, Meta keywords, Meta title, Meta, Mimetype, Minute, Mobile, Modify, Module name, Module, Month, Move to parent folder, Mr, Mrs, Name, New block, New contact request from, New contact request, New contact, New event, New file, New folder, New menu, New menulink, New news, New object, New page section, New page, New partner, New password, New place, New project category, New project, New role, New slide, New tab, New tag, New translation, New user, News feed, News, Next, No default page found, No file, No menu found with name “:name”, No, None, Not found, Objects, Offline, Oh no, on, Online, Options, Page Expired, Page Not Found, Page sections, Page, Pages, Partners, Password confirmation, Password, Path, per page, Permissions, Phone, Places, Please click the button below to verify your email address., Position, Postcode, Preview, Previous, Price, Private, Profile, Project categories, Projects, Publish website, Publish, Published items, Published on, Published, Redirect to first child, Regards, Register, Registration allowed, Remember Me, Remember, Replace file, Replace image, Replace, Reset Password Notification, Reset Password, Reset, Restricted to, Role permissions, Roles, Save and exit, Save this item first, then add files., Save this page first, then add sections., Save, Search, Second, Sections, See history, See navbar, See settings, Select all, Send password reset link, Send Password Reset Link, Send, Service Unavailable, Settings, Show categories, Show on map, Side, Size (px), Size, Slides, Slug, Sorry, an error occurred., Sorry, the page you are looking for could not be found., Sorry, we are doing some maintenance. Please check back soon., Sorry, you are forbidden from accessing this page., Sorry, you are making too many requests to our servers., Sorry, you are not authorized to access this page., Sorry, your session has expired. Please refresh and try again., Sorry, your session seems to have expired. Please try again., Sort, Start date, Start time, Status, Store, Submit, Summary, Superuser, System info, System locales, Tag, Tags, Target, Template, Thank you for your contact request., The form contains errors:, This action is unauthorized., This item cannot be deleted because it has children., This password reset link will expire in :count minutes., Time, Title, to, Toggle navigation, Too Many Requests, Translation, Translations, Type, Unauthorized, Unpublish, Unpublished items, Unpublished, Update, Upload files, Uri, Url, User permissions, User, Username, Users and roles, Users, Uses, Venue, Verify Email Address, Verify Your Email Address, View list, View online, View website, View, Webmaster Email, Website baseline, Website title, Website, Welcome, :name!, Whoops!, Whoops, something went wrong on our servers., Width, Year, Yes, You are receiving this email because we received a password reset request for your account., Your account has been activated, you can now log in, Your account has been created, check your email for the verification link., Your account has been created, now you need to verify it., Your email address has been verified., default */
+/*! exports provided: # blocks, # categories, # contacts, # events, # files could not be moved., # files moved., # items deleted, # items published, # items selected, # items unpublished, # menus, # news, # pages, # partners, # places, # projects, # roles, # sections, # slides, # tags, # translations, # users, A fresh verification link has been sent to your email address., A non-empty folder cannot be deleted., A page containing subpages cannot be linked to a module, Access dashboard, Action, Activate my account, Activated, Active locale, Active tab, Add files, Add selected file, Add selected files, Add to menu, Add, address, Address, Administration Language, Administration Welcome Message, Age, All languages, All rights reserved., All, Alt attribute, An error occurred with the data fetch., and get access to all the content of our website., Are you sure you want to delete # items?, Are you sure you want to delete “{title}”?, Are you sure you want to publish # items?, Are you sure you want to unpublish # items?, Authenticate to view website, Available, Back to the website, Back, Back-office, Become a member, Before proceeding, please check your email for a verification link., Blocks, Body, Cache cleared, Cache, Cancel, Categories, Category, Change Password, Change settings, City, Class, Clear cache, Clear, click here to request another, Comments enabled, Company, Confirm Password, Contact information, Contacts, Content blocks, Content, Copied to the clipboard, Copy, Country, Create, Created at, Css, Currency, Dashboard, Date, Day, DDMMYYYY HHMM, DDMMYYYY, Delete, Description, Deselect all, Destroy, Disabled, Do you want to clear history?, Document, Download count, Drop files to upload, Drop to upload., E-Mail Address, Edit block, Edit event, Edit file, Edit menu, Edit menulink, Edit news, Edit object, Edit page, Edit partner, Edit place, Edit project, Edit role, Edit slide, Edit tag, Edit translation, Edit, Email, Empty history, En ligne/Hors ligne, Enabled, End date, End time, Enter a name for the new folder., Environment, Error, Events, Excerpt, Exit, Extension, Fax, File information, File, Filename, Files, Filter, Find nearest, First name, Forbidden, Forgot your password?, Forgot Your Password?, from, Front office, Gender, Generate, Go Home, Google Analytics Tracking Id, Groups, Height, Hello!, HH:MM, hi, History is empty., Home, Homepage, Hour, Icon class, If you did not create an account, no further action is required., If you did not receive the email, If you did not request a password reset, no further action is required., If you’re having trouble clicking the ":actionText" button, copy and paste the URL below
+into your web browser: [:actionURL](:actionURL), Image, Images, Impossible to delete more than # items in one go., Index, Info, Insert, Is home, Item is published., Item is unpublished., Js, KB, Key, Keywords, Lang Chooser, Language, Last name, Latest changes, Latitude, List, Loading…, Locales, Location, Login, Logo, Logout, Longitude, Mandatory fields, Max :size MB, Max, MB, Media, Menu, Menulink, Menulinks, Menus, Message, Meta description, Meta keywords, Meta title, Meta, Mimetype, Minute, Mobile, Modify, Module name, Module, Month, Move to parent folder, Mr, Mrs, Name, New block, New contact request from, New contact request, New contact, New event, New file, New folder, New menu, New menulink, New news, New object, New page section, New page, New partner, New password, New place, New project category, New project, New role, New slide, New tab, New tag, New translation, New user, News feed, News, Next, No default page found, No file, No menu found with name “:name”, No, None, Not a member?, Not found, Nothing found., Objects, Offline, Oh no, on, Online, Options, Page Expired, Page Not Found, Page sections, Page, Pages, Partners, Password confirmation, Password, Past events, Path, per page, Permissions, Phone, Places, Please click the button below to verify your email address., Position, Postcode, Preview, Previous, Price, Private, Profile, Project categories, Projects, Publish website, Publish, Published items, Published on, Published, Read more, Redirect to first child, Regards, Register, Registration allowed, Remember Me, Replace file, Replace image, Replace, Reset Password Notification, Reset Password, Reset, Restricted to, Role permissions, Roles, Save and exit, Save this item first, then add files., Save this page first, then add sections., Save, Search, Second, Sections, See history, See navbar, See settings, Select all, Send password reset link, Send Password Reset Link, Send, Service Unavailable, Settings, Show categories, Show on map, Side, Size (px), Size, Slides, Slug, Sorry, an error occurred., Sorry, the page you are looking for could not be found., Sorry, we are doing some maintenance. Please check back soon., Sorry, you are forbidden from accessing this page., Sorry, you are making too many requests to our servers., Sorry, you are not authorized to access this page., Sorry, your session has expired. Please refresh and try again., Sort, Start date, Start time, Status, Store, Submit, Summary, Superuser, System info, System locales, Tag, Tags, Target, Template, Thank you for your contact request., The form contains errors:, The password is incorrect., This action is unauthorized., This item cannot be deleted because it has children., This password reset link will expire in :count minutes., This user is not activated., This user was not found., Time, Title, to, Toggle navigation, Too Many Requests, Translation, Translations, Type, Unauthorized, Unpublish, Unpublished items, Unpublished, Upcoming events, Update, Upload files, Uri, Url, User permissions, User, Username, Users and roles, Users, Uses, Venue, Verify Email Address, Verify Your Email Address, View list, View online, View website, View, Webmaster Email, Website baseline, Website title, Website, Welcome, :name!, Whoops!, Whoops, something went wrong on our servers., Width, Year, Yes, You are receiving this email because we received a password reset request for your account., Your account has been activated, you can now log in, Your account has been created, check your email for the verification link., Your account has been created, now you need to verify it., Your email address has been verified., default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"# blocks\":\"Ningún bloque | 1 bloque | {count} bloques\",\"# categories\":\"Ningún categoría | 1 categoría | {count} categorías\",\"# contacts\":\"Ningún contacto | 1 contacto | {count} contactos\",\"# events\":\"Ningún evento | 1 evento | {count} eventos\",\"# files could not be moved.\":\"No se han podido mover archivos. | 1 archivo no se ha podido mover. | {count} archivos no se han podido mover.\",\"# files moved.\":\"No se han movido archivos. | 1 archivo movido. | {count} archivos movidos.\",\"# items deleted\":\"1 elemento eliminado | {count} elementos eliminados\",\"# items published\":\"1 elemento publicado | {count} elementos publicados\",\"# items selected\":\"Ningún elemento seleccionado | 1 elemento seleccionado | {count} elementos seleccionados\",\"# items unpublished\":\"1 elemento no publicado | {count} elementos no publicados\",\"# menus\":\"Ningún menú | 1 menú | {count} menús\",\"# news\":\"Ningún noticia | 1 noticia | {count} noticias\",\"# pages\":\"Ningún página | 1 página | {count} páginas\",\"# partners\":\"Ningún socio | 1 socio | {count} socios\",\"# places\":\"Ningún lugar | 1 lugar | {count} lugares\",\"# projects\":\"Ningún proyecto | 1 proyecto | {count} proyectos\",\"# roles\":\"Ningún rol | 1 rol | {count} roles\",\"# sections\":\"Ningún sección | 1 sección | {count} secciónes\",\"# slides\":\"Ningún slide | 1 slide | {count} slides\",\"# tags\":\"Ningún tag | 1 tag | {count} tags\",\"# translations\":\"Ningún traducción | 1 traducción | {count} traducciónes\",\"# users\":\"Ningún usuario | 1 usuario | {count} usuarios\",\"A fresh verification link has been sent to your email address.\":\"Se ha enviado un nuevo enlace de verificación a su correo electrónico.\",\"A non-empty folder cannot be deleted.\":\"Una carpeta no vacía no puede ser eliminada.\",\"A page containing subpages cannot be linked to a module\":\"Una página con subpáginas no puede estar relacionada con un módulo.\",\"Access dashboard\":\"Tablero de control\",\"Action\":\"Acción\",\"Activate my account\":\"Activar mi cuenta\",\"Activated\":\"Activado\",\"Active locale\":\"Idioma activo\",\"Active tab\":\"Pestaña activa\",\"Add files\":\"Añadir archivos\",\"Add selected file\":\"Añadir el archivo seleccionado\",\"Add selected files\":\"Añadir archivos seleccionados\",\"Add to menu\":\"Añadir al menú\",\"Add\":\"Añadir\",\"address\":\"direccion\",\"Address\":\"Dirección\",\"Administration Language\":\"Idioma de la administración\",\"Administration Welcome Message\":\"Administration welcome message\",\"Age\":\"Edad\",\"All languages\":\"Todos los idiomas\",\"All rights reserved.\":\"Todos los derechos reservados.\",\"All\":\"Todos\",\"Alt attribute\":\"Alt attribute\",\"An error occurred with the data fetch.\":\"Se produjo un error durante la carga de datos.\",\"Are you sure you want to delete # items?\":\"¿Seguro que quieres eliminar {count} elemento? | ¿Seguro que quieres eliminar {count} elementos?\",\"Are you sure you want to delete “{title}”?\":\"¿Estás seguro de que quieres eliminar «{title}»?\",\"Are you sure you want to publish # items?\":\"¿Seguro que quieres publicar 1 elemento? | ¿Seguro que quieres publicar {count} elementos?\",\"Are you sure you want to unpublish # items?\":\"¿Seguro que quieres anular la publicación de 1 elemento? | ¿Seguro que quieres anular la publicación de {count} elementos?\",\"Authenticate to view website\":\"Autenticarse para ver la web\",\"Available\":\"Disponible\",\"Back\":\"Volver\",\"Back-office\":\"Administración\",\"Before proceeding, please check your email for a verification link.\":\"Antes de continuar, por favor, confirme su correo electrónico con el enlace de verificación que le fue enviado.\",\"Blocks\":\"Bloques\",\"Body\":\"Contenido principal\",\"Cache cleared\":\"Cache vaciada\",\"Cache\":\"Cache\",\"Cancel\":\"Cancelar\",\"Categories\":\"Categorías\",\"Category\":\"Categoría\",\"Change Password\":\"Cambiar contraseña\",\"Change settings\":\"Configuración\",\"City\":\"Ciudad\",\"Class\":\"Clase\",\"Clear cache\":\"Vaciar cache\",\"Clear\":\"Limpiar historial\",\"click here to request another\":\"haga clic aquí para solicitar otro\",\"Comments enabled\":\"Comentarios habilitados\",\"Company\":\"Empresa\",\"Confirm Password\":\"Confirmar contraseña\",\"Contact information\":\"Contacto\",\"Contacts\":\"Contactos\",\"Content blocks\":\"Bloques\",\"Content\":\"Contenido\",\"Country\":\"País\",\"Create\":\"Crear\",\"Created at\":\"Creado el\",\"Css\":\"CSS\",\"Currency\":\"Moneda\",\"Dashboard\":\"Tablero de control\",\"Date\":\"Fecha\",\"Day\":\"Día\",\"DDMMYYYY HHMM\":\"DD.MM.YYYY HH:MM\",\"DDMMYYYY\":\"DD.MM.YYYY\",\"Delete\":\"Borrar\",\"Description\":\"Descripción\",\"Deselect all\":\"Deseleccionar todo\",\"Destroy\":\"Borrar\",\"Disabled\":\"Discapacitado\",\"Do you want to clear history?\":\"¿Quieres borrar la historia?\",\"Document\":\"Documento\",\"Download count\":\"Número de descargas\",\"Drop files to upload\":\"Soltar archivos para subir\",\"Drop to upload.\":\"Soltar para subir.\",\"E-Mail Address\":\"Correo electrónico\",\"Edit block\":\"Editar el bloque\",\"Edit event\":\"Editar evento\",\"Edit file\":\"Editar archivo\",\"Edit menu\":\"Editar menú\",\"Edit menulink\":\"Editar enlace del menú\",\"Edit news\":\"Editar noticia\",\"Edit object\":\"Editar objeto\",\"Edit page\":\"Editar página\",\"Edit partner\":\"Editar socio\",\"Edit place\":\"Editar lugar\",\"Edit project\":\"Editar proyecto\",\"Edit role\":\"Editar rol\",\"Edit slide\":\"Editar slide\",\"Edit tag\":\"Editar tag\",\"Edit translation\":\"Editar traducción\",\"Edit\":\"Editar\",\"Email\":\"Email\",\"Empty history\":\"Limpiar historial\",\"En ligne/Hors ligne\":\"En línea/Fuera de línea\",\"Enabled\":\"Activado\",\"End date\":\"Fecha de finalización\",\"End time\":\"Hora de finalización\",\"Enter a name for the new folder.\":\"Ingrese un nombre para la nueva carpeta.\",\"Environment\":\"Entorno\",\"Error\":\"Error \",\"Events\":\"Eventos\",\"Excerpt\":\"Extracto\",\"Exit\":\"Salir\",\"Extension\":\"Extensión\",\"Fax\":\"Fax\",\"File information\":\"Información del archivo\",\"File\":\"Archivo\",\"Filename\":\"Nombre de archivo\",\"Files\":\"Archivos\",\"Filter\":\"Filtrar\",\"Find nearest\":\"Encontrar dirección más cercana\",\"First name\":\"Nombre\",\"Forbidden\":\"Prohibido\",\"Forgot your password?\":\"¿Olvidaste tu contraseña?\",\"Forgot Your Password?\":\"¿Olvidó su contraseña?\",\"from\":\"desde\",\"Front office\":\"Front office\",\"Gender\":\"Género\",\"Generate\":\"Generar\",\"Go Home\":\"Ir a inicio\",\"Google Analytics Tracking Id\":\"Google Analytics Tracking Id\",\"Groups\":\"Grupos\",\"Height\":\"Altura\",\"Hello!\":\"¡Hola!\",\"HH:MM\":\"HH:MM\",\"hi\":\"hola\",\"History is empty.\":\"La historia esta vacia.\",\"Home\":\"Inicio\",\"Homepage\":\"En página de inicio\",\"Hour\":\"Hora\",\"Icon class\":\"Clase de icono\",\"If you did not create an account, no further action is required.\":\"Si no ha creado una cuenta, no se requiere ninguna acción adicional.\",\"If you did not receive the email\":\"Si no ha recibido el correo electrónico\",\"If you did not request a password reset, no further action is required.\":\"Si no solicitó un restablecimiento de contraseña, no se requieren más acciones.\",\"If you’re having trouble clicking the \\\":actionText\\\" button, copy and paste the URL below\\ninto your web browser: [:actionURL](:actionURL)\":\"Si tiene problemas para hacer clic en el botón \\\":actionText\\\", copie y pegue la siguiente URL \\nen su navegador web: [:actionURL](:actionURL)\",\"Image\":\"Imagen\",\"Images\":\"Imágenes\",\"Impossible to delete more than # items in one go.\":\"No se pueden eliminar más de {deleteLimit} elementos de una vez.\",\"Index\":\"Listar\",\"Info\":\"Información\",\"Insert\":\"Insertar\",\"Is home\":\"Es inicio\",\"Item is published.\":\"El elemento está publicado.\",\"Item is unpublished.\":\"El elemento no está publicado.\",\"Js\":\"JavaScript\",\"KB\":\"KB\",\"Key\":\"Clave\",\"Keywords\":\"Palabras clave\",\"Lang Chooser\":\"Selector de idioma\",\"Language\":\"Idioma\",\"Last name\":\"Apellidos\",\"Latest changes\":\"Últimos cambios\",\"Latitude\":\"Latitud\",\"Locales\":\"Idiomas\",\"Location\":\"Ubicación\",\"Login\":\"Entrar\",\"Logo\":\"Logo\",\"Logout\":\"Salir\",\"Longitude\":\"Longitud\",\"Mandatory fields\":\"Campos obligatorios\",\"Max :size MB\":\"Máximo :size MB\",\"Max\":\"Máximo\",\"MB\":\"MB\",\"Media\":\"Media\",\"Menu\":\"Menú\",\"Menulink\":\"Enlace de menú\",\"Menulinks\":\"Enlaces de menú\",\"Menus\":\"Menús\",\"Message\":\"Mensaje\",\"Meta description\":\"Meta description\",\"Meta keywords\":\"Meta keywords\",\"Meta title\":\"Meta title\",\"Meta\":\"Meta\",\"Mimetype\":\"Tipo Mime\",\"Minute\":\"Minuto\",\"Mobile\":\"Móvil\",\"Modify\":\"Modicar\",\"Module name\":\"Nombre del módulo\",\"Module\":\"Módulo\",\"Month\":\"Mes\",\"Move to parent folder\":\"Mover a la carpeta principal\",\"Mr\":\"Sr\",\"Mrs\":\"Sra\",\"Name\":\"Nombre\",\"New block\":\"Nuevo bloque\",\"New contact request from\":\"Nueva petición de contacto de\",\"New contact request\":\"Nueva petición de contacto\",\"New contact\":\"Nuevo contacto\",\"New event\":\"Nuevo evento\",\"New file\":\"Nuevo archivo\",\"New folder\":\"Nouveau dossier\",\"New menu\":\"Nuevo menú\",\"New menulink\":\"Nuevo enlace de menú\",\"New news\":\"Nueva noticia\",\"New object\":\"Nuevo objeto\",\"New page section\":\"Nueva sección de página\",\"New page\":\"Nueva página\",\"New partner\":\"Nuevo socio\",\"New password\":\"Nueva contraseña\",\"New place\":\"Nuevo lugar\",\"New project category\":\"Nuevo categoría de proyectos\",\"New project\":\"Nuevo proyecto\",\"New role\":\"Nuevo rol\",\"New slide\":\"Nuevo slide\",\"New tab\":\"Nueva pestaña\",\"New tag\":\"Nueva tag\",\"New translation\":\"Nueva traducción\",\"New user\":\"Nuevo usuario\",\"News feed\":\"Feed de noticias\",\"News\":\"Noticias\",\"Next\":\"Suivant\",\"No default page found\":\"No se ha encontrado página por defecto\",\"No file\":\"Sin archivo\",\"No menu found with name “:name”\":\"No se ha encontrado un menú con el nombre “:name”.\",\"No\":\"No\",\"None\":\"No\",\"Not found\":\"No encontrado\",\"Objects\":\"Objetos\",\"Offline\":\"Fuera de línea\",\"Oh no\":\"Oh no \",\"on\":\"la\",\"Online\":\"En línea\",\"Options\":\"Opciones\",\"Page Expired\":\"Página Expirada\",\"Page Not Found\":\"Página no encontrada\",\"Page sections\":\"Secciones de página\",\"Page\":\"Página\",\"Pages\":\"Páginas\",\"Partners\":\"Socios\",\"Password confirmation\":\"Confirmación de contraseña\",\"Password\":\"Contraseña\",\"Path\":\"Ruta\",\"per page\":\"por página\",\"Permissions\":\"Permisos\",\"Phone\":\"Teléfono\",\"Places\":\"Lugares\",\"Please click the button below to verify your email address.\":\"Por favor, haga clic en el botón de abajo para verificar su dirección de correo electrónico.\",\"Position\":\"Posición\",\"Postcode\":\"Código Postal\",\"Preview\":\"Previsualizar\",\"Previous\":\"Précédent\",\"Price\":\"Precio\",\"Private\":\"Privado\",\"Profile\":\"Perfil\",\"Project categories\":\"Categorías de proyectos\",\"Projects\":\"Proyectos\",\"Publish website\":\"Publicar sitio web\",\"Publish\":\"Publicar\",\"Published items\":\"Publicados\",\"Published on\":\"Publicada en\",\"Published\":\"Publicado\",\"Redirect to first child\":\"Redireccionar al primer hijo\",\"Regards\":\"Saludos\",\"Register\":\"Registrar\",\"Registration allowed\":\"Registro permitido\",\"Remember Me\":\"Recuérdame\",\"Remember\":\"Recuérdame\",\"Replace file\":\"Reemplazar archivo\",\"Replace image\":\"Reemplazar imagen\",\"Replace\":\"Reemplazar\",\"Reset Password Notification\":\"Notificación de restablecimiento de contraseña\",\"Reset Password\":\"Restablecer contraseña\",\"Reset\":\"Resetear\",\"Restricted to\":\"Restringido a\",\"Role permissions\":\"Permisos de rol\",\"Roles\":\"Roles\",\"Save and exit\":\"Guardar y salir\",\"Save this item first, then add files.\":\"Guarda este artículo primero, luego agrega archivos.\",\"Save this page first, then add sections.\":\"Guarda esta página primero, luego agrega secciones.\",\"Save\":\"Guardar\",\"Search\":\"Buscar\",\"Second\":\"Segundo\",\"Sections\":\"Secciones\",\"See history\":\"Historial\",\"See navbar\":\"Mostrar la barra de navegación\",\"See settings\":\"Mostrar la configuración\",\"Select all\":\"Seleccionar todo\",\"Send password reset link\":\"Enviar enlace de restablecimiento de contraseña\",\"Send Password Reset Link\":\"Enviar enlace para restablecer la contraseña\",\"Send\":\"Enviar\",\"Service Unavailable\":\"Servicio no disponible\",\"Settings\":\"Configuración\",\"Show categories\":\"Mostrar categorías\",\"Show on map\":\"Mostrar en el mapa\",\"Side\":\"Lado\",\"Size (px)\":\"Tamaño (px)\",\"Size\":\"Tamañao\",\"Slides\":\"Slides\",\"Slug\":\"Slug\",\"Sorry, an error occurred.\":\"Disculpe, ocurrió un error.\",\"Sorry, the page you are looking for could not be found.\":\"Lo sentimos, la página que está buscando no se pudo encontrar.\",\"Sorry, we are doing some maintenance. Please check back soon.\":\"Lo sentimos, estamos haciendo un poco de mantenimiento. Por favor, vuelva pronto.\",\"Sorry, you are forbidden from accessing this page.\":\"Lo sentimos, se le prohíbe el acceso a esta página.\",\"Sorry, you are making too many requests to our servers.\":\"Lo sentimos, estás haciendo demasiadas peticiones a nuestros servidores.\",\"Sorry, you are not authorized to access this page.\":\"Lo sentimos, no estás autorizado para acceder a esta página.\",\"Sorry, your session has expired. Please refresh and try again.\":\"Lo sentimos, tu sesión ha expirado. Por favor, actualice y vuelva a intentarlo.\",\"Sorry, your session seems to have expired. Please try again.\":\"El token de Seguridad ha expirado. Por favor, repite la solicitud.\",\"Sort\":\"Ordenar\",\"Start date\":\"Fecha de inicio\",\"Start time\":\"Hora de inicio\",\"Status\":\"Estado\",\"Store\":\"Guardar\",\"Submit\":\"Enviar\",\"Summary\":\"Resumen\",\"Superuser\":\"Superusuario\",\"System info\":\"Información del sistema\",\"System locales\":\"Idiomas del sistema\",\"Tag\":\"Etiqueta\",\"Tags\":\"Etiquetas\",\"Target\":\"Objetivo\",\"Template\":\"Plantilla\",\"Thank you for your contact request.\":\"Gracias por la petición de contacto.\",\"The form contains errors:\":\"Le formulaire contient des erreurs :\",\"This action is unauthorized.\":\"Cette action n’est pas autorisée.\",\"This item cannot be deleted because it has children.\":\"Este elemento no puede ser eliminado porque tiene hijos.\",\"This password reset link will expire in :count minutes.\":\"Este enlace de restablecimiento de contraseña caducará en :count minutos.\",\"Time\":\"Hora\",\"Title\":\"Título\",\"to\":\"a\",\"Toggle navigation\":\"Conmutar navegación\",\"Too Many Requests\":\"Demasiadas peticiones\",\"Translation\":\"Traducción\",\"Translations\":\"Traducciones\",\"Type\":\"Tipo\",\"Unauthorized\":\"No autorizado\",\"Unpublish\":\"Despublicación\",\"Unpublished items\":\"No publicados\",\"Unpublished\":\"Inédito\",\"Update\":\"Actualizar\",\"Upload files\":\"Enviar archivos\",\"Uri\":\"Uri\",\"Url\":\"URL\",\"User permissions\":\"Permisos de usuario\",\"User\":\"Usuario\",\"Username\":\"Nombre de usuario\",\"Users and roles\":\"Usuarios y roles\",\"Users\":\"Usuarios\",\"Uses\":\"Usos\",\"Venue\":\"Llegada\",\"Verify Email Address\":\"Confirma tu correo electrónico\",\"Verify Your Email Address\":\"Verifica tu correo electrónico\",\"View list\":\"Mostrar lista\",\"View online\":\"Ver en línea\",\"View website\":\"Ver web\",\"View\":\"Vista\",\"Webmaster Email\":\"Email del Maestro de la Web\",\"Website baseline\":\"Baseline de la web\",\"Website title\":\"Título de la web\",\"Website\":\"Sitio Web\",\"Welcome, :name!\":\"Bienvenid@ :name !\",\"Whoops!\":\"¡Vaya!\",\"Whoops, something went wrong on our servers.\":\"Vaya, algo salió mal en nuestros servidores.\",\"Width\":\"Anchura\",\"Year\":\"Año\",\"Yes\":\"Sí\",\"You are receiving this email because we received a password reset request for your account.\":\"Ha recibido este mensaje porque se solicitó un restablecimiento de contraseña para su cuenta.\",\"Your account has been activated, you can now log in\":\"Su cuenta ha sido activada, ahora puede iniciar sesión.\",\"Your account has been created, check your email for the verification link.\":\"Su cuenta ha sido creada, revise su correo electrónico para el enlace de verificación.\",\"Your account has been created, now you need to verify it.\":\"Tu cuenta ha sido creada, ahora necesita verificarla.\",\"Your email address has been verified.\":\"Su dirección de correo electrónico ha sido verificada.\"}");
+module.exports = JSON.parse("{\"# blocks\":\"Ningún bloque | 1 bloque | {count} bloques\",\"# categories\":\"Ningún categoría | 1 categoría | {count} categorías\",\"# contacts\":\"Ningún contacto | 1 contacto | {count} contactos\",\"# events\":\"Ningún evento | 1 evento | {count} eventos\",\"# files could not be moved.\":\"No se han podido mover archivos. | 1 archivo no se ha podido mover. | {count} archivos no se han podido mover.\",\"# files moved.\":\"No se han movido archivos. | 1 archivo movido. | {count} archivos movidos.\",\"# items deleted\":\"1 elemento eliminado | {count} elementos eliminados\",\"# items published\":\"1 elemento publicado | {count} elementos publicados\",\"# items selected\":\"Ningún elemento seleccionado | 1 elemento seleccionado | {count} elementos seleccionados\",\"# items unpublished\":\"1 elemento no publicado | {count} elementos no publicados\",\"# menus\":\"Ningún menú | 1 menú | {count} menús\",\"# news\":\"Ningún noticia | 1 noticia | {count} noticias\",\"# pages\":\"Ningún página | 1 página | {count} páginas\",\"# partners\":\"Ningún socio | 1 socio | {count} socios\",\"# places\":\"Ningún lugar | 1 lugar | {count} lugares\",\"# projects\":\"Ningún proyecto | 1 proyecto | {count} proyectos\",\"# roles\":\"Ningún rol | 1 rol | {count} roles\",\"# sections\":\"Ningún sección | 1 sección | {count} secciónes\",\"# slides\":\"Ningún slide | 1 slide | {count} slides\",\"# tags\":\"Ningún tag | 1 tag | {count} tags\",\"# translations\":\"Ningún traducción | 1 traducción | {count} traducciónes\",\"# users\":\"Ningún usuario | 1 usuario | {count} usuarios\",\"A fresh verification link has been sent to your email address.\":\"Se ha enviado un nuevo enlace de verificación a su correo electrónico.\",\"A non-empty folder cannot be deleted.\":\"Una carpeta no vacía no puede ser eliminada.\",\"A page containing subpages cannot be linked to a module\":\"Una página con subpáginas no puede estar relacionada con un módulo.\",\"Access dashboard\":\"Tablero de control\",\"Action\":\"Acción\",\"Activate my account\":\"Activar mi cuenta\",\"Activated\":\"Activado\",\"Active locale\":\"Idioma activo\",\"Active tab\":\"Pestaña activa\",\"Add files\":\"Añadir archivos\",\"Add selected file\":\"Añadir el archivo seleccionado\",\"Add selected files\":\"Añadir archivos seleccionados\",\"Add to menu\":\"Añadir al menú\",\"Add\":\"Añadir\",\"address\":\"direccion\",\"Address\":\"Dirección\",\"Administration Language\":\"Idioma de la administración\",\"Administration Welcome Message\":\"Administration welcome message\",\"Age\":\"Edad\",\"All languages\":\"Todos los idiomas\",\"All rights reserved.\":\"Todos los derechos reservados.\",\"All\":\"Todos\",\"Alt attribute\":\"Alt attribute\",\"An error occurred with the data fetch.\":\"Se produjo un error durante la carga de datos.\",\"and get access to all the content of our website.\":\"y acceder a todo el contenido de nuestro sitio web.\",\"Are you sure you want to delete # items?\":\"¿Seguro que quieres eliminar {count} elemento? | ¿Seguro que quieres eliminar {count} elementos?\",\"Are you sure you want to delete “{title}”?\":\"¿Estás seguro de que quieres eliminar «{title}»?\",\"Are you sure you want to publish # items?\":\"¿Seguro que quieres publicar 1 elemento? | ¿Seguro que quieres publicar {count} elementos?\",\"Are you sure you want to unpublish # items?\":\"¿Seguro que quieres anular la publicación de 1 elemento? | ¿Seguro que quieres anular la publicación de {count} elementos?\",\"Authenticate to view website\":\"Autenticarse para ver la web\",\"Available\":\"Disponible\",\"Back to the website\":\"Volver a la página web\",\"Back\":\"Volver\",\"Back-office\":\"Administración\",\"Become a member\":\"Hágase miembro\",\"Before proceeding, please check your email for a verification link.\":\"Antes de continuar, por favor, confirme su correo electrónico con el enlace de verificación que le fue enviado.\",\"Blocks\":\"Bloques\",\"Body\":\"Contenido principal\",\"Cache cleared\":\"Cache vaciada\",\"Cache\":\"Cache\",\"Cancel\":\"Cancelar\",\"Categories\":\"Categorías\",\"Category\":\"Categoría\",\"Change Password\":\"Cambiar contraseña\",\"Change settings\":\"Configuración\",\"City\":\"Ciudad\",\"Class\":\"Clase\",\"Clear cache\":\"Vaciar cache\",\"Clear\":\"Limpiar historial\",\"click here to request another\":\"haga clic aquí para solicitar otro\",\"Comments enabled\":\"Comentarios habilitados\",\"Company\":\"Empresa\",\"Confirm Password\":\"Confirmar contraseña\",\"Contact information\":\"Contacto\",\"Contacts\":\"Contactos\",\"Content blocks\":\"Bloques\",\"Content\":\"Contenido\",\"Copied to the clipboard\":\"Copiado al portapapeles\",\"Copy\":\"Copiar\",\"Country\":\"País\",\"Create\":\"Crear\",\"Created at\":\"Creado el\",\"Css\":\"CSS\",\"Currency\":\"Moneda\",\"Dashboard\":\"Tablero de control\",\"Date\":\"Fecha\",\"Day\":\"Día\",\"DDMMYYYY HHMM\":\"DD.MM.YYYY HH:MM\",\"DDMMYYYY\":\"DD.MM.YYYY\",\"Delete\":\"Borrar\",\"Description\":\"Descripción\",\"Deselect all\":\"Deseleccionar todo\",\"Destroy\":\"Borrar\",\"Disabled\":\"Discapacitado\",\"Do you want to clear history?\":\"¿Quieres borrar la historia?\",\"Document\":\"Documento\",\"Download count\":\"Número de descargas\",\"Drop files to upload\":\"Soltar archivos para subir\",\"Drop to upload.\":\"Soltar para subir.\",\"E-Mail Address\":\"Correo electrónico\",\"Edit block\":\"Editar el bloque\",\"Edit event\":\"Editar evento\",\"Edit file\":\"Editar archivo\",\"Edit menu\":\"Editar menú\",\"Edit menulink\":\"Editar enlace del menú\",\"Edit news\":\"Editar noticia\",\"Edit object\":\"Editar objeto\",\"Edit page\":\"Editar página\",\"Edit partner\":\"Editar socio\",\"Edit place\":\"Editar lugar\",\"Edit project\":\"Editar proyecto\",\"Edit role\":\"Editar rol\",\"Edit slide\":\"Editar slide\",\"Edit tag\":\"Editar tag\",\"Edit translation\":\"Editar traducción\",\"Edit\":\"Editar\",\"Email\":\"Email\",\"Empty history\":\"Limpiar historial\",\"En ligne/Hors ligne\":\"En línea/Fuera de línea\",\"Enabled\":\"Activado\",\"End date\":\"Fecha de finalización\",\"End time\":\"Hora de finalización\",\"Enter a name for the new folder.\":\"Ingrese un nombre para la nueva carpeta.\",\"Environment\":\"Entorno\",\"Error\":\"Error \",\"Events\":\"Eventos\",\"Excerpt\":\"Extracto\",\"Exit\":\"Salir\",\"Extension\":\"Extensión\",\"Fax\":\"Fax\",\"File information\":\"Información del archivo\",\"File\":\"Archivo\",\"Filename\":\"Nombre de archivo\",\"Files\":\"Archivos\",\"Filter\":\"Filtrar\",\"Find nearest\":\"Encontrar dirección más cercana\",\"First name\":\"Nombre\",\"Forbidden\":\"Prohibido\",\"Forgot your password?\":\"¿Olvidaste tu contraseña?\",\"Forgot Your Password?\":\"¿Olvidó su contraseña?\",\"from\":\"desde\",\"Front office\":\"Front office\",\"Gender\":\"Género\",\"Generate\":\"Generar\",\"Go Home\":\"Ir a inicio\",\"Google Analytics Tracking Id\":\"Google Analytics Tracking Id\",\"Groups\":\"Grupos\",\"Height\":\"Altura\",\"Hello!\":\"¡Hola!\",\"HH:MM\":\"HH:MM\",\"hi\":\"hola\",\"History is empty.\":\"La historia está vacía.\",\"Home\":\"Inicio\",\"Homepage\":\"En página de inicio\",\"Hour\":\"Hora\",\"Icon class\":\"Clase de icono\",\"If you did not create an account, no further action is required.\":\"Si no ha creado una cuenta, no se requiere ninguna acción adicional.\",\"If you did not receive the email\":\"Si no ha recibido el correo electrónico\",\"If you did not request a password reset, no further action is required.\":\"Si no solicitó un restablecimiento de contraseña, no se requieren más acciones.\",\"If you’re having trouble clicking the \\\":actionText\\\" button, copy and paste the URL below\\ninto your web browser: [:actionURL](:actionURL)\":\"Si tiene problemas para hacer clic en el botón \\\":actionText\\\", copie y pegue la siguiente URL \\nen su navegador web: [:actionURL](:actionURL)\",\"Image\":\"Imagen\",\"Images\":\"Imágenes\",\"Impossible to delete more than # items in one go.\":\"No se pueden eliminar más de {deleteLimit} elementos de una vez.\",\"Index\":\"Listar\",\"Info\":\"Información\",\"Insert\":\"Insertar\",\"Is home\":\"Es inicio\",\"Item is published.\":\"El elemento está publicado.\",\"Item is unpublished.\":\"El elemento no está publicado.\",\"Js\":\"JavaScript\",\"KB\":\"KB\",\"Key\":\"Clave\",\"Keywords\":\"Palabras clave\",\"Lang Chooser\":\"Selector de idioma\",\"Language\":\"Idioma\",\"Last name\":\"Apellidos\",\"Latest changes\":\"Últimos cambios\",\"Latitude\":\"Latitud\",\"List\":\"Listado\",\"Loading…\":\"Cargando…\",\"Locales\":\"Idiomas\",\"Location\":\"Ubicación\",\"Login\":\"Entrar\",\"Logo\":\"Logo\",\"Logout\":\"Salir\",\"Longitude\":\"Longitud\",\"Mandatory fields\":\"Campos obligatorios\",\"Max :size MB\":\"Máximo :size MB\",\"Max\":\"Máximo\",\"MB\":\"MB\",\"Media\":\"Media\",\"Menu\":\"Menú\",\"Menulink\":\"Enlace de menú\",\"Menulinks\":\"Enlaces de menú\",\"Menus\":\"Menús\",\"Message\":\"Mensaje\",\"Meta description\":\"Meta description\",\"Meta keywords\":\"Meta keywords\",\"Meta title\":\"Meta title\",\"Meta\":\"Meta\",\"Mimetype\":\"Tipo Mime\",\"Minute\":\"Minuto\",\"Mobile\":\"Móvil\",\"Modify\":\"Modicar\",\"Module name\":\"Nombre del módulo\",\"Module\":\"Módulo\",\"Month\":\"Mes\",\"Move to parent folder\":\"Mover a la carpeta principal\",\"Mr\":\"Sr\",\"Mrs\":\"Sra\",\"Name\":\"Nombre\",\"New block\":\"Nuevo bloque\",\"New contact request from\":\"Nueva petición de contacto de\",\"New contact request\":\"Nueva petición de contacto\",\"New contact\":\"Nuevo contacto\",\"New event\":\"Nuevo evento\",\"New file\":\"Nuevo archivo\",\"New folder\":\"Nouveau dossier\",\"New menu\":\"Nuevo menú\",\"New menulink\":\"Nuevo enlace de menú\",\"New news\":\"Nueva noticia\",\"New object\":\"Nuevo objeto\",\"New page section\":\"Nueva sección de página\",\"New page\":\"Nueva página\",\"New partner\":\"Nuevo socio\",\"New password\":\"Nueva contraseña\",\"New place\":\"Nuevo lugar\",\"New project category\":\"Nuevo categoría de proyectos\",\"New project\":\"Nuevo proyecto\",\"New role\":\"Nuevo rol\",\"New slide\":\"Nuevo slide\",\"New tab\":\"Nueva pestaña\",\"New tag\":\"Nueva tag\",\"New translation\":\"Nueva traducción\",\"New user\":\"Nuevo usuario\",\"News feed\":\"Feed de noticias\",\"News\":\"Noticias\",\"Next\":\"Suivant\",\"No default page found\":\"No se ha encontrado página por defecto\",\"No file\":\"Sin archivo\",\"No menu found with name “:name”\":\"No se ha encontrado un menú con el nombre “:name”.\",\"No\":\"No\",\"None\":\"No\",\"Not a member?\":\"¿No es miembro?\",\"Not found\":\"No encontrado\",\"Nothing found.\":\"No se encontró nada.\",\"Objects\":\"Objetos\",\"Offline\":\"Fuera de línea\",\"Oh no\":\"Oh no \",\"on\":\"la\",\"Online\":\"En línea\",\"Options\":\"Opciones\",\"Page Expired\":\"Página Expirada\",\"Page Not Found\":\"Página no encontrada\",\"Page sections\":\"Secciones de página\",\"Page\":\"Página\",\"Pages\":\"Páginas\",\"Partners\":\"Socios\",\"Password confirmation\":\"Confirmación de contraseña\",\"Password\":\"Contraseña\",\"Past events\":\"Eventos pasados\",\"Path\":\"Ruta\",\"per page\":\"por página\",\"Permissions\":\"Permisos\",\"Phone\":\"Teléfono\",\"Places\":\"Lugares\",\"Please click the button below to verify your email address.\":\"Por favor, haga clic en el botón de abajo para verificar su dirección de correo electrónico.\",\"Position\":\"Posición\",\"Postcode\":\"Código Postal\",\"Preview\":\"Previsualizar\",\"Previous\":\"Précédent\",\"Price\":\"Precio\",\"Private\":\"Privado\",\"Profile\":\"Perfil\",\"Project categories\":\"Categorías de proyectos\",\"Projects\":\"Proyectos\",\"Publish website\":\"Publicar sitio web\",\"Publish\":\"Publicar\",\"Published items\":\"Publicados\",\"Published on\":\"Publicada en\",\"Published\":\"Publicado\",\"Read more\":\"Leer más\",\"Redirect to first child\":\"Redireccionar al primer hijo\",\"Regards\":\"Saludos\",\"Register\":\"Registrar\",\"Registration allowed\":\"Registro permitido\",\"Remember Me\":\"Recuérdame\",\"Replace file\":\"Reemplazar archivo\",\"Replace image\":\"Reemplazar imagen\",\"Replace\":\"Reemplazar\",\"Reset Password Notification\":\"Notificación de restablecimiento de contraseña\",\"Reset Password\":\"Restablecer contraseña\",\"Reset\":\"Resetear\",\"Restricted to\":\"Restringido a\",\"Role permissions\":\"Permisos de rol\",\"Roles\":\"Roles\",\"Save and exit\":\"Guardar y salir\",\"Save this item first, then add files.\":\"Guarda este artículo primero, luego agrega archivos.\",\"Save this page first, then add sections.\":\"Guarda esta página primero, luego agrega secciones.\",\"Save\":\"Guardar\",\"Search\":\"Buscar\",\"Second\":\"Segundo\",\"Sections\":\"Secciones\",\"See history\":\"Historial\",\"See navbar\":\"Mostrar la barra de navegación\",\"See settings\":\"Mostrar la configuración\",\"Select all\":\"Seleccionar todo\",\"Send password reset link\":\"Enviar enlace de restablecimiento de contraseña\",\"Send Password Reset Link\":\"Enviar enlace para restablecer la contraseña\",\"Send\":\"Enviar\",\"Service Unavailable\":\"Servicio no disponible\",\"Settings\":\"Configuración\",\"Show categories\":\"Mostrar categorías\",\"Show on map\":\"Mostrar en el mapa\",\"Side\":\"Lado\",\"Size (px)\":\"Tamaño (px)\",\"Size\":\"Tamañao\",\"Slides\":\"Slides\",\"Slug\":\"Slug\",\"Sorry, an error occurred.\":\"Disculpe, ocurrió un error.\",\"Sorry, the page you are looking for could not be found.\":\"Lo sentimos, la página que está buscando no se pudo encontrar.\",\"Sorry, we are doing some maintenance. Please check back soon.\":\"Lo sentimos, estamos haciendo un poco de mantenimiento. Por favor, vuelva pronto.\",\"Sorry, you are forbidden from accessing this page.\":\"Lo sentimos, se le prohíbe el acceso a esta página.\",\"Sorry, you are making too many requests to our servers.\":\"Lo sentimos, estás haciendo demasiadas peticiones a nuestros servidores.\",\"Sorry, you are not authorized to access this page.\":\"Lo sentimos, no estás autorizado para acceder a esta página.\",\"Sorry, your session has expired. Please refresh and try again.\":\"Lo sentimos, tu sesión ha expirado. Por favor, actualice y vuelva a intentarlo.\",\"Sort\":\"Ordenar\",\"Start date\":\"Fecha de inicio\",\"Start time\":\"Hora de inicio\",\"Status\":\"Estado\",\"Store\":\"Guardar\",\"Submit\":\"Enviar\",\"Summary\":\"Resumen\",\"Superuser\":\"Superusuario\",\"System info\":\"Información del sistema\",\"System locales\":\"Idiomas del sistema\",\"Tag\":\"Etiqueta\",\"Tags\":\"Etiquetas\",\"Target\":\"Objetivo\",\"Template\":\"Plantilla\",\"Thank you for your contact request.\":\"Gracias por la petición de contacto.\",\"The form contains errors:\":\"El formulario contiene errores:\",\"The password is incorrect.\":\"El lema de paso es incorrecto.\",\"This action is unauthorized.\":\"Esta acción no está permitida.\",\"This item cannot be deleted because it has children.\":\"Este elemento no puede ser eliminado porque tiene hijos.\",\"This password reset link will expire in :count minutes.\":\"Este enlace de restablecimiento de contraseña caducará en :count minutos.\",\"This user is not activated.\":\"Este usuario no ha sido activado.\",\"This user was not found.\":\"Este usuario no ha sido encontrado.\",\"Time\":\"Hora\",\"Title\":\"Título\",\"to\":\"a\",\"Toggle navigation\":\"Conmutar navegación\",\"Too Many Requests\":\"Demasiadas peticiones\",\"Translation\":\"Traducción\",\"Translations\":\"Traducciones\",\"Type\":\"Tipo\",\"Unauthorized\":\"No autorizado\",\"Unpublish\":\"Despublicación\",\"Unpublished items\":\"No publicados\",\"Unpublished\":\"Inédito\",\"Upcoming events\":\"Próximos eventos\",\"Update\":\"Actualizar\",\"Upload files\":\"Enviar archivos\",\"Uri\":\"Uri\",\"Url\":\"URL\",\"User permissions\":\"Permisos de usuario\",\"User\":\"Usuario\",\"Username\":\"Nombre de usuario\",\"Users and roles\":\"Usuarios y roles\",\"Users\":\"Usuarios\",\"Uses\":\"Usos\",\"Venue\":\"Llegada\",\"Verify Email Address\":\"Confirma tu correo electrónico\",\"Verify Your Email Address\":\"Verifica tu correo electrónico\",\"View list\":\"Mostrar lista\",\"View online\":\"Ver en línea\",\"View website\":\"Ver web\",\"View\":\"Vista\",\"Webmaster Email\":\"Email del Maestro de la Web\",\"Website baseline\":\"Baseline de la web\",\"Website title\":\"Título de la web\",\"Website\":\"Sitio Web\",\"Welcome, :name!\":\"Bienvenid@ :name !\",\"Whoops!\":\"¡Vaya!\",\"Whoops, something went wrong on our servers.\":\"Vaya, algo salió mal en nuestros servidores.\",\"Width\":\"Anchura\",\"Year\":\"Año\",\"Yes\":\"Sí\",\"You are receiving this email because we received a password reset request for your account.\":\"Ha recibido este mensaje porque se solicitó un restablecimiento de contraseña para su cuenta.\",\"Your account has been activated, you can now log in\":\"Su cuenta ha sido activada, ahora puede iniciar sesión.\",\"Your account has been created, check your email for the verification link.\":\"Su cuenta ha sido creada, revise su correo electrónico para el enlace de verificación.\",\"Your account has been created, now you need to verify it.\":\"Tu cuenta ha sido creada, ahora necesita verificarla.\",\"Your email address has been verified.\":\"Su dirección de correo electrónico ha sido verificada.\"}");
 
 /***/ }),
 
@@ -54004,10 +55461,10 @@ module.exports = JSON.parse("{\"# blocks\":\"Ningún bloque | 1 bloque | {count}
   !*** ./resources/lang/fr.json ***!
   \********************************/
 /*! exports provided: # blocks, # categories, # contacts, # events, # files could not be moved., # files moved., # items deleted, # items published, # items selected, # items unpublished, # menus, # news, # pages, # partners, # places, # projects, # roles, # sections, # slides, # tags, # translations, # users, A fresh verification link has been sent to your email address., A non-empty folder cannot be deleted., A page containing subpages cannot be linked to a module, Access dashboard, Action, Activate my account, Activated, Active locale, Active tab, Add files, Add selected file, Add selected files, Add to menu, Add, address, Address, Administration Language, Administration Welcome Message, Age, All languages, All rights reserved., All, Alt attribute, An error occurred with the data fetch., and get access to all the content of our website., Are you sure you want to delete # items?, Are you sure you want to delete “{title}”?, Are you sure you want to publish # items?, Are you sure you want to unpublish # items?, Authenticate to view website, Available, Back to the website, Back, Back-office, Become a member, Before proceeding, please check your email for a verification link., Blocks, Body, Cache cleared, Cache, Cancel, Categories, Category, Change Password, Change settings, City, Class, Clear cache, Clear, click here to request another, Comments enabled, Company, Confirm Password, Contact information, Contacts, Content blocks, Content, Copied to the clipboard, Copy, Country, Create, Created at, Css, Currency, Dashboard, Date, Day, DDMMYYYY HHMM, DDMMYYYY, Delete, Description, Deselect all, Destroy, Disabled, Do you want to clear history?, Document, Download count, Drop files to upload, Drop to upload., E-Mail Address, Edit block, Edit event, Edit file, Edit menu, Edit menulink, Edit news, Edit object, Edit page, Edit partner, Edit place, Edit project, Edit role, Edit slide, Edit tag, Edit translation, Edit, Email, Empty history, En ligne/Hors ligne, Enabled, End date, End time, Enter a name for the new folder., Environment, Error, Events, Excerpt, Exit, Extension, Fax, File information, File, Filename, Files, Filter, Find nearest, First name, Forbidden, Forgot Your Password?, from, Front office, Gender, Generate, Go Home, Google Analytics Tracking Id, Grid, Groups, Height, Hello!, HH:MM, hi, History is empty., Home, Homepage, Hour, Icon class, If you did not create an account, no further action is required., If you did not receive the email, If you did not request a password reset, no further action is required., If you’re having trouble clicking the ":actionText" button, copy and paste the URL below
-into your web browser: [:actionURL](:actionURL), Image, Images, Impossible to delete more than # items in one go., Index, Info, Insert, Is home, Item is published., Item is unpublished., Js, KB, Key, Keywords, Lang Chooser, Language, Last name, Latest changes, Latitude, List, Locales, Location, Login, Logo, Logout, Longitude, Mandatory fields, Max :size MB, Max, MB, Media, Menu, Menulink, Menulinks, Menus, Message, Meta description, Meta keywords, Meta title, Meta, Mimetype, Minute, Mobile, Modify, Module name, Module, Month, Move to parent folder, Mr, Mrs, Name, New block, New contact request from, New contact request, New contact, New event, New file, New folder, New menu, New menulink, New news, New object, New page section, New page, New partner, New password, New place, New project category, New project, New role, New slide, New tab, New tag, New translation, New user, News feed, News, Next, No default page found, No file, No menu found with name “:name”, No, None, Not a member?, Not found, Objects, Offline, Oh no, on, Online, Options, Page Expired, Page Not Found, Page sections, Page, Pages, Partners, Password confirmation, Password, Past events, Path, per page, Permissions, Phone, Places, Please click the button below to verify your email address., Position, Postcode, Preview, Previous, Price, Private, Profile, Project categories, Projects, Publish website, Publish, Published items, Published on, Published, Redirect to first child, Regards, Register, Registration allowed, Remember Me, Replace file, Replace image, Replace, Reset Password Notification, Reset Password, Reset, Restricted to, Role permissions, Roles, Save and exit, Save this item first, then add files., Save this page first, then add sections., Save, Search, Second, Sections, See history, See navbar, See online, See settings, Select all, Send Password Reset Link, Send, Service Unavailable, Settings, Show categories, Show on map, Side, Size (px), Size, Slides, Slug, Sorry, an error occurred., Sorry, the page you are looking for could not be found., Sorry, we are doing some maintenance. Please check back soon., Sorry, you are forbidden from accessing this page., Sorry, you are making too many requests to our servers., Sorry, you are not authorized to access this page., Sorry, your session has expired. Please refresh and try again., Sort, Start date, Start time, Status, Store, Submit, Summary, Superuser, System info, System locales, Tag, Tags, Target, Template, Thank you for your contact request., The form contains errors:, The password is incorrect., This action is unauthorized., This item cannot be deleted because it has children., This password reset link will expire in :count minutes., This user is not activated., This user was not found., Time, Title, to, Toggle navigation, Too Many Requests, Translation, Translations, Type, Unauthorized, Unpublish, Unpublished items, Unpublished, Upcoming events, Update, Upload files, Uri, Url, User permissions, User, Username, Users and roles, Users, Uses, Venue, Verify Email Address, Verify Your Email Address, View list, View online, View website, View, Webmaster Email, Website baseline, Website title, Website, Welcome, :name!, Whoops!, Whoops, something went wrong on our servers., Width, Year, Yes, You are receiving this email because we received a password reset request for your account., Your account has been activated, you can now log in, Your account has been created, check your email for the verification link., Your account has been created, now you need to verify it., Your email address has been verified., default */
+into your web browser: [:actionURL](:actionURL), Image, Images, Impossible to delete more than # items in one go., Index, Info, Insert, Is home, Item is published., Item is unpublished., Js, KB, Key, Keywords, Lang Chooser, Language, Last name, Latest changes, Latitude, List, Loading…, Locales, Location, Login, Logo, Logout, Longitude, Mandatory fields, Max :size MB, Max, MB, Media, Menu, Menulink, Menulinks, Menus, Message, Meta description, Meta keywords, Meta title, Meta, Mimetype, Minute, Mobile, Modify, Module name, Module, Month, Move to parent folder, Mr, Mrs, Name, New block, New contact request from, New contact request, New contact, New event, New file, New folder, New menu, New menulink, New news, New object, New page section, New page, New partner, New password, New place, New project category, New project, New role, New slide, New tab, New tag, New translation, New user, News feed, News, Next, No default page found, No file, No menu found with name “:name”, No, None, Not a member?, Not found, Nothing found., Objects, Offline, Oh no, on, Online, Options, Page Expired, Page Not Found, Page sections, Page, Pages, Partners, Password confirmation, Password, Past events, Path, per page, Permissions, Phone, Places, Please click the button below to verify your email address., Position, Postcode, Preview, Previous, Price, Private, Profile, Project categories, Projects, Publish website, Publish, Published items, Published on, Published, Read more, Redirect to first child, Regards, Register, Registration allowed, Remember Me, Replace file, Replace image, Replace, Reset Password Notification, Reset Password, Reset, Restricted to, Role permissions, Roles, Save and exit, Save this item first, then add files., Save this page first, then add sections., Save, Search, Second, Sections, See history, See navbar, See online, See settings, Select all, Send Password Reset Link, Send, Service Unavailable, Settings, Show categories, Show on map, Side, Size (px), Size, Slides, Slug, Sorry, an error occurred., Sorry, the page you are looking for could not be found., Sorry, we are doing some maintenance. Please check back soon., Sorry, you are forbidden from accessing this page., Sorry, you are making too many requests to our servers., Sorry, you are not authorized to access this page., Sorry, your session has expired. Please refresh and try again., Sort, Start date, Start time, Status, Store, Submit, Summary, Superuser, System info, System locales, Tag, Tags, Target, Template, Thank you for your contact request., The form contains errors:, The password is incorrect., This action is unauthorized., This item cannot be deleted because it has children., This password reset link will expire in :count minutes., This user is not activated., This user was not found., Time, Title, to, Toggle navigation, Too Many Requests, Translation, Translations, Type, Unauthorized, Unpublish, Unpublished items, Unpublished, Upcoming events, Update, Upload files, Uri, Url, User permissions, User, Username, Users and roles, Users, Uses, Venue, Verify Email Address, Verify Your Email Address, View list, View online, View website, View, Webmaster Email, Website baseline, Website title, Website, Welcome, :name!, Whoops!, Whoops, something went wrong on our servers., Width, Year, Yes, You are receiving this email because we received a password reset request for your account., Your account has been activated, you can now log in, Your account has been created, check your email for the verification link., Your account has been created, now you need to verify it., Your email address has been verified., default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"# blocks\":\"Aucun bloc de contenu | 1 bloc de contenu | {count} blocs de contenu\",\"# categories\":\"Aucune catégorie | 1 catégorie | {count} catégories\",\"# contacts\":\"Aucun contact | 1 contact | {count} contacts\",\"# events\":\"Aucun événement | 1 événement | {count} événements\",\"# files could not be moved.\":\"Aucun fichier n’a pu être déplacé. | 1 fichier n’a pas pu être déplacé. | {count} fichiers n’ont pas pu être déplacés.\",\"# files moved.\":\"Aucun fichier déplacé. | 1 fichier déplacé. | {count} fichiers déplacés.\",\"# items deleted\":\"1 élément supprimé | {count} éléments supprimés\",\"# items published\":\"1 élément publié | {count} éléments publiés\",\"# items selected\":\"Aucun élément sélectionné | 1 élément sélectionné | {count} éléments sélectionnés\",\"# items unpublished\":\"1 élément dépublié | {count} éléments dépubliés\",\"# menus\":\"Aucun menu | 1 menu | {count} menus\",\"# news\":\"Aucune actualité | 1 actualité | {count} actualités\",\"# pages\":\"Aucune page | 1 page | {count} pages\",\"# partners\":\"Aucun partenaire | 1 partenaire | {count} partenaires\",\"# places\":\"Aucune adresse | 1 adresse | {count} adresses\",\"# projects\":\"Aucun projet | 1 projet | {count} projets\",\"# roles\":\"Aucun rôle | 1 rôle | {count} rôles\",\"# sections\":\"Aucune section | 1 section | {count} sections\",\"# slides\":\"Aucun slide | 1 slide | {count} slides\",\"# tags\":\"Aucun tag | 1 tag | {count} tags\",\"# translations\":\"Aucune traduction | 1 traduction | {count} traductions\",\"# users\":\"Aucun utilisateur | 1 utilisateur | {count} utilisateurs\",\"A fresh verification link has been sent to your email address.\":\"Un nouveau lien de vérification a été envoyé à votre adresse email.\",\"A non-empty folder cannot be deleted.\":\"Un dossier non-vide ne peut pas être supprimé.\",\"A page containing subpages cannot be linked to a module\":\"Une page ayant des sous-pages ne peut pas être liée à un module.\",\"Access dashboard\":\"Accéder au tableau de bord\",\"Action\":\"Action\",\"Activate my account\":\"Activer mon compte\",\"Activated\":\"Activé\",\"Active locale\":\"Langue active\",\"Active tab\":\"Onglet actif\",\"Add files\":\"Ajouter des fichiers\",\"Add selected file\":\"Ajouter le fichier sélectionné\",\"Add selected files\":\"Ajouter les fichiers sélectionnés\",\"Add to menu\":\"Ajouter au menu\",\"Add\":\"Ajouter\",\"address\":\"adresse\",\"Address\":\"Adresse\",\"Administration Language\":\"Langue de l’interface d’administration\",\"Administration Welcome Message\":\"Message d’accueil de l’interface d’administration\",\"Age\":\"Âge\",\"All languages\":\"Toutes les langues\",\"All rights reserved.\":\"Tous droits réservés.\",\"All\":\"Tous\",\"Alt attribute\":\"Texte alternatif\",\"An error occurred with the data fetch.\":\"Une erreur s’est produite lors du chargement des données.\",\"and get access to all the content of our website.\":\"et accédez à tout le contenu de notre site.\",\"Are you sure you want to delete # items?\":\"Voulez-vous supprimer {count} élément ? | Voulez-vous supprimer {count} éléments ?\",\"Are you sure you want to delete “{title}”?\":\"Êtes-vous certain de vouloir supprimer « {title} » ?\",\"Are you sure you want to publish # items?\":\"Voulez-vous publier 1 élément ? | Voulez-vous publier {count} éléments ?\",\"Are you sure you want to unpublish # items?\":\"Voulez-vous dépublier 1 élément ? | Voulez-vous dépublier {count} éléments ?\",\"Authenticate to view website\":\"Se connecter pour voir le site\",\"Available\":\"Disponible\",\"Back to the website\":\"Retour au site web\",\"Back\":\"Retour\",\"Back-office\":\"Administration\",\"Become a member\":\"Devenez membre\",\"Before proceeding, please check your email for a verification link.\":\"Avant de continuer, veuillez vérifier votre courrier électronique pour un lien de vérification.\",\"Blocks\":\"Blocs de contenu\",\"Body\":\"Corps\",\"Cache cleared\":\"Le cache a été vidé\",\"Cache\":\"Cache\",\"Cancel\":\"Annuler\",\"Categories\":\"Catégories\",\"Category\":\"Catégorie\",\"Change Password\":\"Modifier le mot de passe\",\"Change settings\":\"Changer la configuration\",\"City\":\"Ville\",\"Class\":\"Class\",\"Clear cache\":\"Vider le cache\",\"Clear\":\"Vider l’historique\",\"click here to request another\":\"cliquer ici pour faire une autre demande\",\"Comments enabled\":\"Activer les commentaires\",\"Company\":\"Société\",\"Confirm Password\":\"Confirmez le mot de passe\",\"Contact information\":\"Coordonnées\",\"Contacts\":\"Contacts\",\"Content blocks\":\"Blocs de contenu\",\"Content\":\"Contenu\",\"Copied to the clipboard\":\"Copié dans le presse-papier\",\"Copy\":\"Copier\",\"Country\":\"Pays\",\"Create\":\"Créer\",\"Created at\":\"Créé le\",\"Css\":\"Code CSS\",\"Currency\":\"Moneda\",\"Dashboard\":\"Tableau de bord\",\"Date\":\"Date\",\"Day\":\"Jour\",\"DDMMYYYY HHMM\":\"JJ.MM.AAAA HH:MM\",\"DDMMYYYY\":\"JJ.MM.AAAA\",\"Delete\":\"Supprimer\",\"Description\":\"Description\",\"Deselect all\":\"Tout désélectionner\",\"Destroy\":\"Supprimer\",\"Disabled\":\"Désactivé\",\"Do you want to clear history?\":\"Voulez-vous vider l’historique ?\",\"Document\":\"Document\",\"Download count\":\"Nombre de téléchargements\",\"Drop files to upload\":\"Glisser des fichiers pour les envoyer.\",\"Drop to upload.\":\"Déposer pour envoyer.\",\"E-Mail Address\":\"Adresse email\",\"Edit block\":\"Modifier le bloc de contenu\",\"Edit event\":\"Modifier l’événement\",\"Edit file\":\"Modifier le fichier\",\"Edit menu\":\"Modifier le menu\",\"Edit menulink\":\"Modifier le lien de menu\",\"Edit news\":\"Modifier l’actualité\",\"Edit object\":\"Modifier object\",\"Edit page\":\"Modifier la page\",\"Edit partner\":\"Modifier le partenaire\",\"Edit place\":\"Modifier l’adresse\",\"Edit project\":\"Modifier le projet\",\"Edit role\":\"Modifier le rôle\",\"Edit slide\":\"Modifier le slide\",\"Edit tag\":\"Modifier le tag\",\"Edit translation\":\"Modifier la traduction\",\"Edit\":\"Modifier\",\"Email\":\"E-mail\",\"Empty history\":\"Vider l’historique\",\"En ligne/Hors ligne\":\"En ligne/Hors ligne\",\"Enabled\":\"Activé\",\"End date\":\"Date de fin\",\"End time\":\"Heure de fin\",\"Enter a name for the new folder.\":\"Entrez le nom du nouveau dossier.\",\"Environment\":\"Environnement\",\"Error\":\"Erreur\",\"Events\":\"Événements\",\"Excerpt\":\"Extrait\",\"Exit\":\"Sortir\",\"Extension\":\"Extension\",\"Fax\":\"Fax\",\"File information\":\"Informations sur le fichier\",\"File\":\"Fichier\",\"Filename\":\"Nom du fichier\",\"Files\":\"Fichiers\",\"Filter\":\"Filtrer\",\"Find nearest\":\"Trouver l’adresse la plus proche\",\"First name\":\"Prénom\",\"Forbidden\":\"Interdit\",\"Forgot Your Password?\":\"Vous avez oublié votre mot de passe ?\",\"from\":\"du\",\"Front office\":\"Public\",\"Gender\":\"Genre\",\"Generate\":\"Générer\",\"Go Home\":\"Aller à l’accueil\",\"Google Analytics Tracking Id\":\"Google Analytics Tracking Id\",\"Grid\":\"Grille\",\"Groups\":\"Groupes\",\"Height\":\"Hauteur\",\"Hello!\":\"Bonjour !\",\"HH:MM\":\"HH:MM\",\"hi\":\"salut\",\"History is empty.\":\"L’historique est vide.\",\"Home\":\"Accueil\",\"Homepage\":\"Sur la page d’accueil\",\"Hour\":\"Heure\",\"Icon class\":\"Class d’icône\",\"If you did not create an account, no further action is required.\":\"Si vous n’avez pas créé de compte, aucune action supplémentaire n’est requise.\",\"If you did not receive the email\":\"Si vous n’avez pas reçu l’email\",\"If you did not request a password reset, no further action is required.\":\"Si vous n’avez pas demandé de réinitialisation de mot de passe, aucune autre action n’est requise.\",\"If you’re having trouble clicking the \\\":actionText\\\" button, copy and paste the URL below\\ninto your web browser: [:actionURL](:actionURL)\":\"Si vous avez des problèmes en cliquant sur le bouton “:actionText”, faites un copié/collé de l’url ci-dessous dans votre navigateur : [:actionURL](:actionURL)\",\"Image\":\"Image\",\"Images\":\"Images\",\"Impossible to delete more than # items in one go.\":\"Impossible de supprimer plus de {deleteLimit} éléments en une fois.\",\"Index\":\"Voir liste\",\"Info\":\"Info\",\"Insert\":\"Insérer\",\"Is home\":\"Définir en tant que page d’accueil\",\"Item is published.\":\"L’élément a été publié.\",\"Item is unpublished.\":\"L’élément a été dépublié.\",\"Js\":\"Code JavaScript\",\"KB\":\"Ko\",\"Key\":\"Clé\",\"Keywords\":\"Mots-clés\",\"Lang Chooser\":\"Page de choix de langue\",\"Language\":\"Langue\",\"Last name\":\"Nom\",\"Latest changes\":\"Activité récente\",\"Latitude\":\"Latitude\",\"List\":\"Liste\",\"Locales\":\"Langues\",\"Location\":\"Lieu\",\"Login\":\"Connexion\",\"Logo\":\"Logo\",\"Logout\":\"Déconnexion\",\"Longitude\":\"Longitude\",\"Mandatory fields\":\"Champs obligatoires\",\"Max :size MB\":\"Maximum :size Mo\",\"Max\":\"Maximum\",\"MB\":\"Mo\",\"Media\":\"Médias\",\"Menu\":\"Menu\",\"Menulink\":\"Lien de menu\",\"Menulinks\":\"Liens de menu\",\"Menus\":\"Menus\",\"Message\":\"Message\",\"Meta description\":\"Meta description\",\"Meta keywords\":\"Meta mots clés\",\"Meta title\":\"Meta titre\",\"Meta\":\"Meta\",\"Mimetype\":\"Type Mime\",\"Minute\":\"Minute\",\"Mobile\":\"Portable\",\"Modify\":\"Modifier\",\"Module name\":\"Nom du module\",\"Module\":\"Module\",\"Month\":\"Mois\",\"Move to parent folder\":\"Placer dans le dossier parent\",\"Mr\":\"M.\",\"Mrs\":\"Mme\",\"Name\":\"Nom\",\"New block\":\"Nouveau bloc de contenu\",\"New contact request from\":\"Nouvelle demande de contact de\",\"New contact request\":\"Nouvelle demande de contact\",\"New contact\":\"Nouveau contact\",\"New event\":\"Nouvel événement\",\"New file\":\"Nouveau fichier\",\"New folder\":\"Nouveau dossier\",\"New menu\":\"Nouveau menu\",\"New menulink\":\"Nouveau lien de menu\",\"New news\":\"Nouvelle actualité\",\"New object\":\"Nouveau object\",\"New page section\":\"Nouvelle section de page\",\"New page\":\"Nouvelle page\",\"New partner\":\"Nouveau partenaire\",\"New password\":\"Nouveau mot de passe\",\"New place\":\"Nouvelle adresse\",\"New project category\":\"Nouvelle catégorie de Projets\",\"New project\":\"Nouveau projet\",\"New role\":\"Nouveau rôle\",\"New slide\":\"Nouveau slide\",\"New tab\":\"Nouvel onglet\",\"New tag\":\"Nouveau tag\",\"New translation\":\"Nouvelle traduction\",\"New user\":\"Nouvel utilisateur\",\"News feed\":\"Flux d’actualités\",\"News\":\"Actualités\",\"Next\":\"Suivant\",\"No default page found\":\"Aucune page d’accueil trouvée\",\"No file\":\"Aucun fichier\",\"No menu found with name “:name”\":\"Le menu « :name » n’a pas été trouvé.\",\"No\":\"Non\",\"None\":\"Aucun\",\"Not a member?\":\"Vous n'êtes pas membre ?\",\"Not found\":\"Introuvable\",\"Objects\":\"Objects\",\"Offline\":\"Hors ligne\",\"Oh no\":\"Oh non\",\"on\":\"le\",\"Online\":\"En ligne\",\"Options\":\"Options\",\"Page Expired\":\"Page expirée\",\"Page Not Found\":\"Page non trouvée\",\"Page sections\":\"Sections de page\",\"Page\":\"Page\",\"Pages\":\"Pages\",\"Partners\":\"Partenaires\",\"Password confirmation\":\"Confirmer le mot de passe\",\"Password\":\"Mot de passe\",\"Past events\":\"Événements passés\",\"Path\":\"Chemin\",\"per page\":\"par page\",\"Permissions\":\"Permissions\",\"Phone\":\"Téléphone\",\"Places\":\"Adresses\",\"Please click the button below to verify your email address.\":\"Veuillez cliquer sur le bouton ci-dessous pour vérifier votre adresse email.\",\"Position\":\"Position\",\"Postcode\":\"Code postal\",\"Preview\":\"Prévisualisation\",\"Previous\":\"Précédent\",\"Price\":\"Prix\",\"Private\":\"Privée\",\"Profile\":\"Profil\",\"Project categories\":\"Catégories de projets\",\"Projects\":\"Projets\",\"Publish website\":\"Publier le site web\",\"Publish\":\"Publier\",\"Published items\":\"Publiés\",\"Published on\":\"Publié le\",\"Published\":\"Publié\",\"Redirect to first child\":\"Rediriger vers le premier enfant\",\"Regards\":\"Cordialement\",\"Register\":\"S’inscrire\",\"Registration allowed\":\"Permettre la création de comptes utilisateurs\",\"Remember Me\":\"Se souvenir de moi\",\"Replace file\":\"Remplacer le fichier\",\"Replace image\":\"Remplacer l’image\",\"Replace\":\"Remplacer\",\"Reset Password Notification\":\"Notification de réinitialisation du mot de passe\",\"Reset Password\":\"Réinitialiser le mot de passe\",\"Reset\":\"Réinitialiser\",\"Restricted to\":\"Restreint à\",\"Role permissions\":\"Permissions du rôle\",\"Roles\":\"Rôles\",\"Save and exit\":\"Enregistrer et sortir\",\"Save this item first, then add files.\":\"Enregistrez d’abord cet élément, puis ajoutez des fichiers.\",\"Save this page first, then add sections.\":\"Enregistrez d’abord cette page, puis ajoutez des sections.\",\"Save\":\"Enregistrer\",\"Search\":\"Chercher\",\"Second\":\"Seconde\",\"Sections\":\"Sections\",\"See history\":\"Voir l’historique\",\"See navbar\":\"Voir la barre de navigation\",\"See online\":\"Voir en ligne\",\"See settings\":\"Voir la configuration\",\"Select all\":\"Tout sélectionner\",\"Send Password Reset Link\":\"Envoyer le lien de réinitialisation\",\"Send\":\"Envoyer\",\"Service Unavailable\":\"Service indisponible\",\"Settings\":\"Configuration\",\"Show categories\":\"Afficher les catégories\",\"Show on map\":\"afficher sur la carte\",\"Side\":\"Côté\",\"Size (px)\":\"Taille (px)\",\"Size\":\"Taille\",\"Slides\":\"Slides\",\"Slug\":\"Slug\",\"Sorry, an error occurred.\":\"Désolé, une erreur est survenue.\",\"Sorry, the page you are looking for could not be found.\":\"Désolé, la page que vous recherchez est introuvable.\",\"Sorry, we are doing some maintenance. Please check back soon.\":\"Désolé, nous sommes en maintenance. Veuillez revenir plus tard.\",\"Sorry, you are forbidden from accessing this page.\":\"Désolé, vous ne pouvez accéder à cette page.\",\"Sorry, you are making too many requests to our servers.\":\"Désolé, vous faites trop de requêtes vers nos serveurs.\",\"Sorry, you are not authorized to access this page.\":\"Désolé, vous n’êtes pas autorisé à accéder à cette page.\",\"Sorry, your session has expired. Please refresh and try again.\":\"Désolé, votre session a expiré. Veuillez actualiser la page et réessayer.\",\"Sort\":\"Ordonner\",\"Start date\":\"Date de début\",\"Start time\":\"Heure de début\",\"Status\":\"Statut\",\"Store\":\"Créer\",\"Submit\":\"Envoyer\",\"Summary\":\"Résumé\",\"Superuser\":\"Super utilisateur\",\"System info\":\"Informations système\",\"System locales\":\"Locales du système\",\"Tag\":\"Tag\",\"Tags\":\"Tags\",\"Target\":\"Cible\",\"Template\":\"Template\",\"Thank you for your contact request.\":\"Merci pour votre demande de contact.\",\"The form contains errors:\":\"Le formulaire contient des erreurs :\",\"The password is incorrect.\":\"Le mot de passe est incorrect.\",\"This action is unauthorized.\":\"Cette action n’est pas autorisée.\",\"This item cannot be deleted because it has children.\":\"Cet élément ne peut pas être supprimé car il a des descendants.\",\"This password reset link will expire in :count minutes.\":\"Ce lien de réinitialisation du mot de passe expirera dans :count minutes.\",\"This user is not activated.\":\"Cet utilisateur n’a pas été activé.\",\"This user was not found.\":\"Cet utilisateur n’a pas été trouvé.\",\"Time\":\"Heure\",\"Title\":\"Titre\",\"to\":\"au\",\"Toggle navigation\":\"Menu\",\"Too Many Requests\":\"Trop de requêtes\",\"Translation\":\"Traduction\",\"Translations\":\"Traductions\",\"Type\":\"Type\",\"Unauthorized\":\"Non autorisé\",\"Unpublish\":\"Dépublier\",\"Unpublished items\":\"Dépubliés\",\"Unpublished\":\"Dépublié\",\"Upcoming events\":\"Événements à venir\",\"Update\":\"Mettre à jour\",\"Upload files\":\"Envoyer des fichiers\",\"Uri\":\"URI\",\"Url\":\"URL\",\"User permissions\":\"Permissions de l’utilisateur\",\"User\":\"Utilisateur\",\"Username\":\"Pseudo\",\"Users and roles\":\"Utilisateurs et rôles\",\"Users\":\"Utilisateurs\",\"Uses\":\"Utilisations\",\"Venue\":\"Lieu\",\"Verify Email Address\":\"Vérification de l’adresse email\",\"Verify Your Email Address\":\"Vérifiez votre adresse email\",\"View list\":\"Voir la liste\",\"View online\":\"Voir en ligne\",\"View website\":\"Voir le site\",\"View\":\"Voir\",\"Webmaster Email\":\"Email du webmaster\",\"Website baseline\":\"Baseline du site\",\"Website title\":\"Titre du site\",\"Website\":\"Site web\",\"Welcome, :name!\":\"Bienvenue :name !\",\"Whoops!\":\"Oups !\",\"Whoops, something went wrong on our servers.\":\"Oups, quelque chose s’est mal passé sur nos serveurs.\",\"Width\":\"Largeur\",\"Year\":\"Année\",\"Yes\":\"Oui\",\"You are receiving this email because we received a password reset request for your account.\":\"Vous recevez cet email car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte.\",\"Your account has been activated, you can now log in\":\"Votre compte a été activé, vous pouvez vous connecter.\",\"Your account has been created, check your email for the verification link.\":\"Votre compte a été créé, un lien de vérification vous a été envoyé.\",\"Your account has been created, now you need to verify it.\":\"Votre compte a été créé, vous devez maintenant le vérifier.\",\"Your email address has been verified.\":\"Votre adresse email a bien été vérifiée.\"}");
+module.exports = JSON.parse("{\"# blocks\":\"Aucun bloc de contenu | 1 bloc de contenu | {count} blocs de contenu\",\"# categories\":\"Aucune catégorie | 1 catégorie | {count} catégories\",\"# contacts\":\"Aucun contact | 1 contact | {count} contacts\",\"# events\":\"Aucun événement | 1 événement | {count} événements\",\"# files could not be moved.\":\"Aucun fichier n’a pu être déplacé. | 1 fichier n’a pas pu être déplacé. | {count} fichiers n’ont pas pu être déplacés.\",\"# files moved.\":\"Aucun fichier déplacé. | 1 fichier déplacé. | {count} fichiers déplacés.\",\"# items deleted\":\"1 élément supprimé | {count} éléments supprimés\",\"# items published\":\"1 élément publié | {count} éléments publiés\",\"# items selected\":\"Aucun élément sélectionné | 1 élément sélectionné | {count} éléments sélectionnés\",\"# items unpublished\":\"1 élément dépublié | {count} éléments dépubliés\",\"# menus\":\"Aucun menu | 1 menu | {count} menus\",\"# news\":\"Aucune actualité | 1 actualité | {count} actualités\",\"# pages\":\"Aucune page | 1 page | {count} pages\",\"# partners\":\"Aucun partenaire | 1 partenaire | {count} partenaires\",\"# places\":\"Aucune adresse | 1 adresse | {count} adresses\",\"# projects\":\"Aucun projet | 1 projet | {count} projets\",\"# roles\":\"Aucun rôle | 1 rôle | {count} rôles\",\"# sections\":\"Aucune section | 1 section | {count} sections\",\"# slides\":\"Aucun slide | 1 slide | {count} slides\",\"# tags\":\"Aucun tag | 1 tag | {count} tags\",\"# translations\":\"Aucune traduction | 1 traduction | {count} traductions\",\"# users\":\"Aucun utilisateur | 1 utilisateur | {count} utilisateurs\",\"A fresh verification link has been sent to your email address.\":\"Un nouveau lien de vérification a été envoyé à votre adresse email.\",\"A non-empty folder cannot be deleted.\":\"Un dossier non-vide ne peut pas être supprimé.\",\"A page containing subpages cannot be linked to a module\":\"Une page ayant des sous-pages ne peut pas être liée à un module.\",\"Access dashboard\":\"Accéder au tableau de bord\",\"Action\":\"Action\",\"Activate my account\":\"Activer mon compte\",\"Activated\":\"Activé\",\"Active locale\":\"Langue active\",\"Active tab\":\"Onglet actif\",\"Add files\":\"Ajouter des fichiers\",\"Add selected file\":\"Ajouter le fichier sélectionné\",\"Add selected files\":\"Ajouter les fichiers sélectionnés\",\"Add to menu\":\"Ajouter au menu\",\"Add\":\"Ajouter\",\"address\":\"adresse\",\"Address\":\"Adresse\",\"Administration Language\":\"Langue de l’interface d’administration\",\"Administration Welcome Message\":\"Message d’accueil de l’interface d’administration\",\"Age\":\"Âge\",\"All languages\":\"Toutes les langues\",\"All rights reserved.\":\"Tous droits réservés.\",\"All\":\"Tous\",\"Alt attribute\":\"Texte alternatif\",\"An error occurred with the data fetch.\":\"Une erreur s’est produite lors du chargement des données.\",\"and get access to all the content of our website.\":\"et accédez à tout le contenu de notre site.\",\"Are you sure you want to delete # items?\":\"Voulez-vous supprimer {count} élément ? | Voulez-vous supprimer {count} éléments ?\",\"Are you sure you want to delete “{title}”?\":\"Êtes-vous certain de vouloir supprimer « {title} » ?\",\"Are you sure you want to publish # items?\":\"Voulez-vous publier 1 élément ? | Voulez-vous publier {count} éléments ?\",\"Are you sure you want to unpublish # items?\":\"Voulez-vous dépublier 1 élément ? | Voulez-vous dépublier {count} éléments ?\",\"Authenticate to view website\":\"Se connecter pour voir le site\",\"Available\":\"Disponible\",\"Back to the website\":\"Retour au site web\",\"Back\":\"Retour\",\"Back-office\":\"Administration\",\"Become a member\":\"Devenez membre\",\"Before proceeding, please check your email for a verification link.\":\"Avant de continuer, veuillez vérifier votre courrier électronique pour un lien de vérification.\",\"Blocks\":\"Blocs de contenu\",\"Body\":\"Corps\",\"Cache cleared\":\"Le cache a été vidé\",\"Cache\":\"Cache\",\"Cancel\":\"Annuler\",\"Categories\":\"Catégories\",\"Category\":\"Catégorie\",\"Change Password\":\"Modifier le mot de passe\",\"Change settings\":\"Changer la configuration\",\"City\":\"Ville\",\"Class\":\"Class\",\"Clear cache\":\"Vider le cache\",\"Clear\":\"Vider l’historique\",\"click here to request another\":\"cliquer ici pour faire une autre demande\",\"Comments enabled\":\"Activer les commentaires\",\"Company\":\"Société\",\"Confirm Password\":\"Confirmez le mot de passe\",\"Contact information\":\"Coordonnées\",\"Contacts\":\"Contacts\",\"Content blocks\":\"Blocs de contenu\",\"Content\":\"Contenu\",\"Copied to the clipboard\":\"Copié dans le presse-papier\",\"Copy\":\"Copier\",\"Country\":\"Pays\",\"Create\":\"Créer\",\"Created at\":\"Créé le\",\"Css\":\"Code CSS\",\"Currency\":\"Moneda\",\"Dashboard\":\"Tableau de bord\",\"Date\":\"Date\",\"Day\":\"Jour\",\"DDMMYYYY HHMM\":\"JJ.MM.AAAA HH:MM\",\"DDMMYYYY\":\"JJ.MM.AAAA\",\"Delete\":\"Supprimer\",\"Description\":\"Description\",\"Deselect all\":\"Tout désélectionner\",\"Destroy\":\"Supprimer\",\"Disabled\":\"Désactivé\",\"Do you want to clear history?\":\"Voulez-vous vider l’historique ?\",\"Document\":\"Document\",\"Download count\":\"Nombre de téléchargements\",\"Drop files to upload\":\"Glisser des fichiers pour les envoyer.\",\"Drop to upload.\":\"Déposer pour envoyer.\",\"E-Mail Address\":\"Adresse email\",\"Edit block\":\"Modifier le bloc de contenu\",\"Edit event\":\"Modifier l’événement\",\"Edit file\":\"Modifier le fichier\",\"Edit menu\":\"Modifier le menu\",\"Edit menulink\":\"Modifier le lien de menu\",\"Edit news\":\"Modifier l’actualité\",\"Edit object\":\"Modifier object\",\"Edit page\":\"Modifier la page\",\"Edit partner\":\"Modifier le partenaire\",\"Edit place\":\"Modifier l’adresse\",\"Edit project\":\"Modifier le projet\",\"Edit role\":\"Modifier le rôle\",\"Edit slide\":\"Modifier le slide\",\"Edit tag\":\"Modifier le tag\",\"Edit translation\":\"Modifier la traduction\",\"Edit\":\"Modifier\",\"Email\":\"E-mail\",\"Empty history\":\"Vider l’historique\",\"En ligne/Hors ligne\":\"En ligne/Hors ligne\",\"Enabled\":\"Activé\",\"End date\":\"Date de fin\",\"End time\":\"Heure de fin\",\"Enter a name for the new folder.\":\"Entrez le nom du nouveau dossier.\",\"Environment\":\"Environnement\",\"Error\":\"Erreur\",\"Events\":\"Événements\",\"Excerpt\":\"Extrait\",\"Exit\":\"Sortir\",\"Extension\":\"Extension\",\"Fax\":\"Fax\",\"File information\":\"Informations sur le fichier\",\"File\":\"Fichier\",\"Filename\":\"Nom du fichier\",\"Files\":\"Fichiers\",\"Filter\":\"Filtrer\",\"Find nearest\":\"Trouver l’adresse la plus proche\",\"First name\":\"Prénom\",\"Forbidden\":\"Interdit\",\"Forgot Your Password?\":\"Vous avez oublié votre mot de passe ?\",\"from\":\"du\",\"Front office\":\"Public\",\"Gender\":\"Genre\",\"Generate\":\"Générer\",\"Go Home\":\"Aller à l’accueil\",\"Google Analytics Tracking Id\":\"Google Analytics Tracking Id\",\"Grid\":\"Grille\",\"Groups\":\"Groupes\",\"Height\":\"Hauteur\",\"Hello!\":\"Bonjour !\",\"HH:MM\":\"HH:MM\",\"hi\":\"salut\",\"History is empty.\":\"L’historique est vide.\",\"Home\":\"Accueil\",\"Homepage\":\"Sur la page d’accueil\",\"Hour\":\"Heure\",\"Icon class\":\"Class d’icône\",\"If you did not create an account, no further action is required.\":\"Si vous n’avez pas créé de compte, aucune action supplémentaire n’est requise.\",\"If you did not receive the email\":\"Si vous n’avez pas reçu l’email\",\"If you did not request a password reset, no further action is required.\":\"Si vous n’avez pas demandé de réinitialisation de mot de passe, aucune autre action n’est requise.\",\"If you’re having trouble clicking the \\\":actionText\\\" button, copy and paste the URL below\\ninto your web browser: [:actionURL](:actionURL)\":\"Si vous avez des problèmes en cliquant sur le bouton “:actionText”, faites un copié/collé de l’url ci-dessous dans votre navigateur : [:actionURL](:actionURL)\",\"Image\":\"Image\",\"Images\":\"Images\",\"Impossible to delete more than # items in one go.\":\"Impossible de supprimer plus de {deleteLimit} éléments en une fois.\",\"Index\":\"Voir liste\",\"Info\":\"Info\",\"Insert\":\"Insérer\",\"Is home\":\"Définir en tant que page d’accueil\",\"Item is published.\":\"L’élément a été publié.\",\"Item is unpublished.\":\"L’élément a été dépublié.\",\"Js\":\"Code JavaScript\",\"KB\":\"Ko\",\"Key\":\"Clé\",\"Keywords\":\"Mots-clés\",\"Lang Chooser\":\"Page de choix de langue\",\"Language\":\"Langue\",\"Last name\":\"Nom\",\"Latest changes\":\"Activité récente\",\"Latitude\":\"Latitude\",\"List\":\"Liste\",\"Loading…\":\"Chargement…\",\"Locales\":\"Langues\",\"Location\":\"Lieu\",\"Login\":\"Connexion\",\"Logo\":\"Logo\",\"Logout\":\"Déconnexion\",\"Longitude\":\"Longitude\",\"Mandatory fields\":\"Champs obligatoires\",\"Max :size MB\":\"Maximum :size Mo\",\"Max\":\"Maximum\",\"MB\":\"Mo\",\"Media\":\"Médias\",\"Menu\":\"Menu\",\"Menulink\":\"Lien de menu\",\"Menulinks\":\"Liens de menu\",\"Menus\":\"Menus\",\"Message\":\"Message\",\"Meta description\":\"Meta description\",\"Meta keywords\":\"Meta mots clés\",\"Meta title\":\"Meta titre\",\"Meta\":\"Meta\",\"Mimetype\":\"Type Mime\",\"Minute\":\"Minute\",\"Mobile\":\"Portable\",\"Modify\":\"Modifier\",\"Module name\":\"Nom du module\",\"Module\":\"Module\",\"Month\":\"Mois\",\"Move to parent folder\":\"Placer dans le dossier parent\",\"Mr\":\"M.\",\"Mrs\":\"Mme\",\"Name\":\"Nom\",\"New block\":\"Nouveau bloc de contenu\",\"New contact request from\":\"Nouvelle demande de contact de\",\"New contact request\":\"Nouvelle demande de contact\",\"New contact\":\"Nouveau contact\",\"New event\":\"Nouvel événement\",\"New file\":\"Nouveau fichier\",\"New folder\":\"Nouveau dossier\",\"New menu\":\"Nouveau menu\",\"New menulink\":\"Nouveau lien de menu\",\"New news\":\"Nouvelle actualité\",\"New object\":\"Nouveau object\",\"New page section\":\"Nouvelle section de page\",\"New page\":\"Nouvelle page\",\"New partner\":\"Nouveau partenaire\",\"New password\":\"Nouveau mot de passe\",\"New place\":\"Nouvelle adresse\",\"New project category\":\"Nouvelle catégorie de Projets\",\"New project\":\"Nouveau projet\",\"New role\":\"Nouveau rôle\",\"New slide\":\"Nouveau slide\",\"New tab\":\"Nouvel onglet\",\"New tag\":\"Nouveau tag\",\"New translation\":\"Nouvelle traduction\",\"New user\":\"Nouvel utilisateur\",\"News feed\":\"Flux d’actualités\",\"News\":\"Actualités\",\"Next\":\"Suivant\",\"No default page found\":\"Aucune page d’accueil trouvée\",\"No file\":\"Aucun fichier\",\"No menu found with name “:name”\":\"Le menu « :name » n’a pas été trouvé.\",\"No\":\"Non\",\"None\":\"Aucun\",\"Not a member?\":\"Vous n'êtes pas membre ?\",\"Not found\":\"Introuvable\",\"Nothing found.\":\"Rien n’a été trouvé.\",\"Objects\":\"Objects\",\"Offline\":\"Hors ligne\",\"Oh no\":\"Oh non\",\"on\":\"le\",\"Online\":\"En ligne\",\"Options\":\"Options\",\"Page Expired\":\"Page expirée\",\"Page Not Found\":\"Page non trouvée\",\"Page sections\":\"Sections de page\",\"Page\":\"Page\",\"Pages\":\"Pages\",\"Partners\":\"Partenaires\",\"Password confirmation\":\"Confirmer le mot de passe\",\"Password\":\"Mot de passe\",\"Past events\":\"Événements passés\",\"Path\":\"Chemin\",\"per page\":\"par page\",\"Permissions\":\"Permissions\",\"Phone\":\"Téléphone\",\"Places\":\"Adresses\",\"Please click the button below to verify your email address.\":\"Veuillez cliquer sur le bouton ci-dessous pour vérifier votre adresse email.\",\"Position\":\"Position\",\"Postcode\":\"Code postal\",\"Preview\":\"Prévisualisation\",\"Previous\":\"Précédent\",\"Price\":\"Prix\",\"Private\":\"Privée\",\"Profile\":\"Profil\",\"Project categories\":\"Catégories de projets\",\"Projects\":\"Projets\",\"Publish website\":\"Publier le site web\",\"Publish\":\"Publier\",\"Published items\":\"Publiés\",\"Published on\":\"Publié le\",\"Published\":\"Publié\",\"Read more\":\"En savoir plus\",\"Redirect to first child\":\"Rediriger vers le premier enfant\",\"Regards\":\"Cordialement\",\"Register\":\"S’inscrire\",\"Registration allowed\":\"Permettre la création de comptes utilisateurs\",\"Remember Me\":\"Se souvenir de moi\",\"Replace file\":\"Remplacer le fichier\",\"Replace image\":\"Remplacer l’image\",\"Replace\":\"Remplacer\",\"Reset Password Notification\":\"Notification de réinitialisation du mot de passe\",\"Reset Password\":\"Réinitialiser le mot de passe\",\"Reset\":\"Réinitialiser\",\"Restricted to\":\"Restreint à\",\"Role permissions\":\"Permissions du rôle\",\"Roles\":\"Rôles\",\"Save and exit\":\"Enregistrer et sortir\",\"Save this item first, then add files.\":\"Enregistrez d’abord cet élément, puis ajoutez des fichiers.\",\"Save this page first, then add sections.\":\"Enregistrez d’abord cette page, puis ajoutez des sections.\",\"Save\":\"Enregistrer\",\"Search\":\"Chercher\",\"Second\":\"Seconde\",\"Sections\":\"Sections\",\"See history\":\"Voir l’historique\",\"See navbar\":\"Voir la barre de navigation\",\"See online\":\"Voir en ligne\",\"See settings\":\"Voir la configuration\",\"Select all\":\"Tout sélectionner\",\"Send Password Reset Link\":\"Envoyer le lien de réinitialisation\",\"Send\":\"Envoyer\",\"Service Unavailable\":\"Service indisponible\",\"Settings\":\"Configuration\",\"Show categories\":\"Afficher les catégories\",\"Show on map\":\"afficher sur la carte\",\"Side\":\"Côté\",\"Size (px)\":\"Taille (px)\",\"Size\":\"Taille\",\"Slides\":\"Slides\",\"Slug\":\"Slug\",\"Sorry, an error occurred.\":\"Désolé, une erreur est survenue.\",\"Sorry, the page you are looking for could not be found.\":\"Désolé, la page que vous recherchez est introuvable.\",\"Sorry, we are doing some maintenance. Please check back soon.\":\"Désolé, nous sommes en maintenance. Veuillez revenir plus tard.\",\"Sorry, you are forbidden from accessing this page.\":\"Désolé, vous ne pouvez accéder à cette page.\",\"Sorry, you are making too many requests to our servers.\":\"Désolé, vous faites trop de requêtes vers nos serveurs.\",\"Sorry, you are not authorized to access this page.\":\"Désolé, vous n’êtes pas autorisé à accéder à cette page.\",\"Sorry, your session has expired. Please refresh and try again.\":\"Désolé, votre session a expiré. Veuillez actualiser la page et réessayer.\",\"Sort\":\"Ordonner\",\"Start date\":\"Date de début\",\"Start time\":\"Heure de début\",\"Status\":\"Statut\",\"Store\":\"Créer\",\"Submit\":\"Envoyer\",\"Summary\":\"Résumé\",\"Superuser\":\"Super utilisateur\",\"System info\":\"Informations système\",\"System locales\":\"Locales du système\",\"Tag\":\"Tag\",\"Tags\":\"Tags\",\"Target\":\"Cible\",\"Template\":\"Template\",\"Thank you for your contact request.\":\"Merci pour votre demande de contact.\",\"The form contains errors:\":\"Le formulaire contient des erreurs :\",\"The password is incorrect.\":\"Le mot de passe est incorrect.\",\"This action is unauthorized.\":\"Cette action n’est pas autorisée.\",\"This item cannot be deleted because it has children.\":\"Cet élément ne peut pas être supprimé car il a des descendants.\",\"This password reset link will expire in :count minutes.\":\"Ce lien de réinitialisation du mot de passe expirera dans :count minutes.\",\"This user is not activated.\":\"Cet utilisateur n’a pas été activé.\",\"This user was not found.\":\"Cet utilisateur n’a pas été trouvé.\",\"Time\":\"Heure\",\"Title\":\"Titre\",\"to\":\"au\",\"Toggle navigation\":\"Menu\",\"Too Many Requests\":\"Trop de requêtes\",\"Translation\":\"Traduction\",\"Translations\":\"Traductions\",\"Type\":\"Type\",\"Unauthorized\":\"Non autorisé\",\"Unpublish\":\"Dépublier\",\"Unpublished items\":\"Dépubliés\",\"Unpublished\":\"Dépublié\",\"Upcoming events\":\"Événements à venir\",\"Update\":\"Mettre à jour\",\"Upload files\":\"Envoyer des fichiers\",\"Uri\":\"URI\",\"Url\":\"URL\",\"User permissions\":\"Permissions de l’utilisateur\",\"User\":\"Utilisateur\",\"Username\":\"Pseudo\",\"Users and roles\":\"Utilisateurs et rôles\",\"Users\":\"Utilisateurs\",\"Uses\":\"Utilisations\",\"Venue\":\"Lieu\",\"Verify Email Address\":\"Vérification de l’adresse email\",\"Verify Your Email Address\":\"Vérifiez votre adresse email\",\"View list\":\"Voir la liste\",\"View online\":\"Voir en ligne\",\"View website\":\"Voir le site\",\"View\":\"Voir\",\"Webmaster Email\":\"Email du webmaster\",\"Website baseline\":\"Baseline du site\",\"Website title\":\"Titre du site\",\"Website\":\"Site web\",\"Welcome, :name!\":\"Bienvenue :name !\",\"Whoops!\":\"Oups !\",\"Whoops, something went wrong on our servers.\":\"Oups, quelque chose s’est mal passé sur nos serveurs.\",\"Width\":\"Largeur\",\"Year\":\"Année\",\"Yes\":\"Oui\",\"You are receiving this email because we received a password reset request for your account.\":\"Vous recevez cet email car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte.\",\"Your account has been activated, you can now log in\":\"Votre compte a été activé, vous pouvez vous connecter.\",\"Your account has been created, check your email for the verification link.\":\"Votre compte a été créé, un lien de vérification vous a été envoyé.\",\"Your account has been created, now you need to verify it.\":\"Votre compte a été créé, vous devez maintenant le vérifier.\",\"Your email address has been verified.\":\"Votre adresse email a bien été vérifiée.\"}");
 
 /***/ }),
 
@@ -54040,9 +55497,9 @@ module.exports = JSON.parse("{\"# blocks\":\"Aucun bloc de contenu | 1 bloc de c
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/samuel/Sites/typicms/resources/js/admin.js */"./resources/js/admin.js");
-__webpack_require__(/*! /Users/samuel/Sites/typicms/resources/scss/admin.scss */"./resources/scss/admin.scss");
-module.exports = __webpack_require__(/*! /Users/samuel/Sites/typicms/resources/scss/public.scss */"./resources/scss/public.scss");
+__webpack_require__(/*! /Users/samueldebacker/Sites/typicms/resources/js/admin.js */"./resources/js/admin.js");
+__webpack_require__(/*! /Users/samueldebacker/Sites/typicms/resources/scss/admin.scss */"./resources/scss/admin.scss");
+module.exports = __webpack_require__(/*! /Users/samueldebacker/Sites/typicms/resources/scss/public.scss */"./resources/scss/public.scss");
 
 
 /***/ })
