@@ -19,7 +19,6 @@
 .skip-to-content {
     @include sr-only;
     @include sr-only-focusable;
-
     &:active,
     &:focus {
         position: absolute;
@@ -34,20 +33,12 @@ table {
     @extend .container;
 }
 
-img[style*='float:left'] {
-    margin-right: 20px;
-}
-
-img[style*='float:right'] {
-    margin-left: 20px;
-}
-
 blockquote {
     color: $gray-700;
     border-left: 5px solid $gray-300;
     padding: 18px 25px 18px 22px;
     background-color: $gray-100;
-    quotes: '\201C' '\201D' '\2018' '\2019';
+    quotes: '\201C''\201D''\2018''\2019';
     &:before {
         color: #ccc;
         content: open-quote;
@@ -55,5 +46,17 @@ blockquote {
         line-height: 0.1em;
         vertical-align: -0.4em;
         margin-left: -0.5rem;
+    }
+}
+
+.rich-content {
+    img {
+        @include img-fluid;
+        &[style*='float:left'] {
+            margin-right: 20px;
+        }
+        &[style*='float:right'] {
+            margin-left: 20px;
+        }
     }
 }
