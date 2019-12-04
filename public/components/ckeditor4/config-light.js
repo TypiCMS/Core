@@ -8,7 +8,7 @@ for (var i = 0; i < editors.length; ++i) {
         ],
         entities: false,
         height: 240,
-        contentsCss: ['/css/public.css', '/components/ckeditor/custom.css'],
+        contentsCss: ['/css/public.css', '/components/ckeditor4/custom.css'],
         language: $('html').attr('lang'),
         stylesSet: [],
         extraPlugins: 'codemirror',
