@@ -10,7 +10,7 @@
             <div class="d-flex align-items-center ml-2">
                 <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
             </div>
-            <div class="btn-group btn-group-sm ml-auto">
+            <div class="btn-group btn-group-sm ml-auto" v-if="locales.length > 1">
                 <button
                     class="btn btn-light dropdown-toggle"
                     type="button"
