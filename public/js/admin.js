@@ -37717,63 +37717,65 @@ var render = function() {
               : _vm._e()
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "btn-group btn-group-sm ml-auto" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-light dropdown-toggle",
-                attrs: {
-                  type: "button",
-                  id: "dropdownLangSwitcher",
-                  "data-toggle": "dropdown",
-                  "aria-haspopup": "true",
-                  "aria-expanded": "false"
-                }
-              },
-              [
-                _c("span", { attrs: { id: "active-locale" } }, [
-                  _vm._v(
-                    _vm._s(
-                      _vm.locales.find(function(item) {
-                        return item.short === _vm.currentLocale
-                      }).long
-                    )
-                  )
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "dropdown-menu dropdown-menu-right",
-                attrs: { "aria-labelledby": "dropdownLangSwitcher" }
-              },
-              _vm._l(_vm.locales, function(locale) {
-                return _c(
+          _vm.locales.length > 1
+            ? _c("div", { staticClass: "btn-group btn-group-sm ml-auto" }, [
+                _c(
                   "button",
                   {
-                    staticClass: "dropdown-item",
-                    class: { active: locale === _vm.currentLocale },
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        return _vm.switchLocale(locale.short)
-                      }
+                    staticClass: "btn btn-light dropdown-toggle",
+                    attrs: {
+                      type: "button",
+                      id: "dropdownLangSwitcher",
+                      "data-toggle": "dropdown",
+                      "aria-haspopup": "true",
+                      "aria-expanded": "false"
                     }
                   },
                   [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(locale.long) +
-                        "\n                "
-                    )
+                    _c("span", { attrs: { id: "active-locale" } }, [
+                      _vm._v(
+                        _vm._s(
+                          _vm.locales.find(function(item) {
+                            return item.short === _vm.currentLocale
+                          }).long
+                        )
+                      )
+                    ])
                   ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "dropdown-menu dropdown-menu-right",
+                    attrs: { "aria-labelledby": "dropdownLangSwitcher" }
+                  },
+                  _vm._l(_vm.locales, function(locale) {
+                    return _c(
+                      "button",
+                      {
+                        staticClass: "dropdown-item",
+                        class: { active: locale === _vm.currentLocale },
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.switchLocale(locale.short)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(locale.long) +
+                            "\n                "
+                        )
+                      ]
+                    )
+                  }),
+                  0
                 )
-              }),
-              0
-            )
-          ])
+              ])
+            : _vm._e()
         ],
         2
       ),
