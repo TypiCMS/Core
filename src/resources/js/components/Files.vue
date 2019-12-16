@@ -1,8 +1,9 @@
 <template>
     <div class="mb-4">
         <div class="form-group">
-            <label for=""
-                >{{ $t('Files') }}
+            <label>
+                <span v-if="label">{{ label }}</span>
+                <span v-else>{{ $t('Files') }}</span>
                 <small class="form-text text-muted" v-if="relatedId === 0">{{
                     $t('Save this item first, then add files.')
                 }}</small></label
@@ -57,6 +58,9 @@ export default {
         draggable,
     },
     props: {
+        label: {
+            type: String,
+        },
         relatedTable: {
             type: String,
             required: true,
