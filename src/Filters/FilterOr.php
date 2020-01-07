@@ -8,7 +8,7 @@ use Spatie\QueryBuilder\Filters\Filter;
 
 class FilterOr implements Filter
 {
-    public function __invoke(Builder $query, $value, string $property) : Builder
+    public function __invoke(Builder $query, $value, string $property): Builder
     {
         if (is_array($value)) {
             $value = implode(',', $value);
