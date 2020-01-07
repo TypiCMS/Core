@@ -125,10 +125,9 @@ abstract class Base extends Model
     public function setStatusAttribute($status)
     {
         if (is_array($status)) {
-            $status = array_map(function ($item) {
-                return (int) $item[0];
-            }, $status);
-            $this->attributes['status'] = json_encode($status);
+            $this->attributes['status'] = json_encode(array_map(function ($item) {
+                return (int) $item;
+            }, $status));
         }
     }
 
