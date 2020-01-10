@@ -46,7 +46,7 @@ for (var i = 0; i < editors.length; ++i) {
         ],
         extraPlugins: 'image2,codemirror,panelbutton,oembed,justify,showblocks,div,dialogadvtab',
         removePlugins: 'image',
-        extraAllowedContent: 'dl dt dd',
+        extraAllowedContent: 'dl;dt;dd',
         bodyClass: 'rich-content',
         height: 500,
         contentsCss: ['/css/public.css', '/components/ckeditor4/custom.css'],
