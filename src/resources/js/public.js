@@ -1,12 +1,12 @@
 /**
- * jQuery
+ * jQuery and the Bootstrap jQuery plugin
  */
-window.$ = window.jQuery = require('jquery');
+try {
+    window.Popper = require('popper.js').default;
+    window.$ = window.jQuery = require('jquery');
 
-/**
- * Bootstrap
- */
-require('bootstrap');
+    require('bootstrap');
+} catch (e) {}
 
 /**
  * Fancybox
