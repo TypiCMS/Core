@@ -1,0 +1,26 @@
+.pagination {
+    .page-item {
+        margin: 0 0.2rem;
+        &.active {
+            .page-link {
+                @extend .btn-secondary;
+            }
+        }
+        &.disabled {
+            .page-link {
+                border-color: transparent;
+                color: $gray-300;
+            }
+        }
+    }
+    .page-link {
+        @extend .btn;
+        @extend .btn-sm;
+        padding: 0;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
