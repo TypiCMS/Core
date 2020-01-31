@@ -204,13 +204,17 @@ abstract class Presenter extends BasePresenter
             foreach ($matches as $match) {
                 $patterns[] = $match[0];
                 $module = $match[1];
-                $model = app('TypiCMS\Modules\\'.ucfirst(Str::plural($module)).'\Models\\'.ucfirst($module))
-                    ->published()
-                    ->find($match[2]);
-                if (!$model) {
+                $classname = 'TypiCMS\Modules\\'.ucfirst(Str::plural($module)).'\Models\\'.ucfirst($module);
+                $model = null;
+                if (class_exists($classname)){
+                    $model = app($classname)
+                        ->published()
+                        ->find($match[2]);
+                }
+                if ($model === null) {
                     continue;
                 }
-                if ($module == 'page') {
+                if ($module === 'page') {
                     $replacements[] = url($model->uri($lang));
                 } else {
                     if (Route::has($lang.'::'.$module)) {
