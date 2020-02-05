@@ -206,7 +206,7 @@ abstract class Presenter extends BasePresenter
                 $module = $match[1];
                 $classname = 'TypiCMS\Modules\\'.ucfirst(Str::plural($module)).'\Models\\'.ucfirst($module);
                 $model = null;
-                if (class_exists($classname)){
+                if (class_exists($classname)) {
                     $model = app($classname)
                         ->published()
                         ->find($match[2]);
