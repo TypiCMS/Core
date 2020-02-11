@@ -82,7 +82,7 @@ class TypiCMS
         return (bool) config('typicms.image');
     }
 
-    public function title($locale = null): string
+    public function title($locale = null): ?string
     {
         return config('typicms.'.($locale ?: config('app.locale')).'.website_title');
     }
