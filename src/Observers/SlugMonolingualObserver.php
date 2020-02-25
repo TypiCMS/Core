@@ -16,7 +16,7 @@ class SlugMonolingualObserver
             $i = 0;
             // Check slug is unique
             while ($this->slugExists($model)) {
-                ++$i;
+                $i++;
                 // increment slug if exists
                 $model->slug = $slug.'-'.$i;
             }
