@@ -35,8 +35,6 @@ class Install extends Command
 
     /**
      * Create a new command.
-     *
-     * @param \Illuminate\Filesystem\Filesystem $files
      */
     public function __construct(Filesystem $files)
     {

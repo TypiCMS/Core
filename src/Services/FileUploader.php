@@ -13,8 +13,7 @@ class FileUploader
      * Handle the file upload. Returns the array on success, or false
      * on failure.
      *
-     * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
-     * @param string                                              $path where to upload file
+     * @param string $path where to upload file
      *
      * @return array|bool
      */

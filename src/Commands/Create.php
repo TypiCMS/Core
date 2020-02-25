@@ -42,8 +42,6 @@ class Create extends Command
 
     /**
      * Create a new key generator command.
-     *
-     * @param \Illuminate\Filesystem\Filesystem $files
      */
     public function __construct(Filesystem $files)
     {

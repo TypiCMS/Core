@@ -12,9 +12,6 @@ class SidebarViewCreator
      */
     private $manager;
 
-    /**
-     * @param SidebarManager $manager
-     */
     public function __construct(SidebarManager $manager)
     {
         $this->manager = $manager;
