@@ -45,7 +45,7 @@ import fr from '../lang/fr.json';
 import en from '../lang/en.json';
 import es from '../lang/es.json';
 const messages = { fr, en, es };
-const i18n = new VueI18n({ locale: 'en', messages });
+const i18n = new VueI18n({ locale: window.TypiCMS.locale, messages });
 
 /**
  * Date Filter
