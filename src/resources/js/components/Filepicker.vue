@@ -418,7 +418,7 @@ export default {
             this.selectedItems = [];
         },
         newFolder(folderId) {
-            let name = window.prompt('What is the name of the new folder?');
+            let name = window.prompt(this.$i18n.t('Enter a name for the new folder.'));
             if (!name) {
                 return;
             }
