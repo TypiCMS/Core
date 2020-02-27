@@ -52,8 +52,6 @@ class Create extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return null
      */
     public function handle()
     {
@@ -188,8 +186,6 @@ class Create extends Command
 
     /**
      * Delete resources directory.
-     *
-     * @return null
      */
     public function deleteResourcesDirectory()
     {
@@ -216,8 +212,6 @@ class Create extends Command
      *
      * @param string $from
      * @param string $to
-     *
-     * @return null
      */
     protected function publishFile($from, $to)
     {
@@ -235,8 +229,6 @@ class Create extends Command
      *
      * @param string $from
      * @param string $to
-     *
-     * @return null
      */
     protected function publishDirectory($from, $to)
     {
@@ -256,8 +248,6 @@ class Create extends Command
      * Create the directory to house the published files if needed.
      *
      * @param string $directory
-     *
-     * @return null
      */
     protected function createParentDirectory($directory)
     {

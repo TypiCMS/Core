@@ -52,8 +52,6 @@ class Publish extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return null
      */
     public function handle()
     {
@@ -96,8 +94,6 @@ class Publish extends Command
      *
      * @param string $from
      * @param string $to
-     *
-     * @return null
      */
     protected function publishDirectory($from, $to)
     {
@@ -125,8 +121,6 @@ class Publish extends Command
      * @param string $from
      * @param string $to
      * @param string $type
-     *
-     * @return null
      */
     protected function status($from, $to, $type)
     {
@@ -139,8 +133,6 @@ class Publish extends Command
 
     /**
      * Move migration files.
-     *
-     * @return null
      */
     public function moveMigrationFiles()
     {
