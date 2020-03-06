@@ -8,6 +8,7 @@
 
         <div class="btn-toolbar item-list-actions">
             <item-list-selector
+                v-if="selector"
                 class="mr-2"
                 :filtered-models="filteredItems"
                 :all-checked="allChecked"
@@ -19,6 +20,7 @@
                 @check-unpublished="checkUnpublished"
             ></item-list-selector>
             <item-list-actions
+                v-if="actions"
                 class="mr-2"
                 :number-of-checked-models="numberOfCheckedItems"
                 :loading="loading"
@@ -138,6 +140,14 @@ export default {
         sorting: {
             type: Array,
             default: () => ['-id'],
+        },
+        selector: {
+            type: Boolean,
+            default: true,
+        },
+        actions: {
+            type: Boolean,
+            default: true,
         },
         pagination: {
             type: Boolean,
