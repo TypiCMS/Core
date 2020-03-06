@@ -28,8 +28,6 @@ class ModuleProvider extends ServiceProvider
 
     /**
      * Bootstrap the application events.
-     *
-     * @return null
      */
     public function boot()
     {
@@ -70,8 +68,6 @@ class ModuleProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return null
      */
     public function register()
     {

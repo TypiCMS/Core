@@ -22,7 +22,7 @@ class SlugObserver
                 $i = 0;
                 // Check slug is unique
                 while ($this->slugExists($model, $locale)) {
-                    $i++;
+                    ++$i;
                     // increment slug if exists
                     $model->setTranslation('slug', $locale, $slug.'-'.$i);
                 }

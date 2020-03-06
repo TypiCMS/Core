@@ -46,8 +46,6 @@ class Database extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return null
      */
     public function handle()
     {
