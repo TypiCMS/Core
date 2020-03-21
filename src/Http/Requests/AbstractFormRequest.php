@@ -16,6 +16,14 @@ abstract class AbstractFormRequest extends FormRequest
     {
         return true;
     }
+
+    public function messages()
+    {
+        return [
+            'slug.*.required_if' => __('The slug is required if published.'),
+        ];
+    }
+
     public function attributes()
     {
         return [
