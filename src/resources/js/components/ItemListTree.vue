@@ -28,6 +28,7 @@
                         type="button"
                         v-for="locale in locales"
                         @click="switchLocale(locale.short)"
+                        :key="locale.short"
                     >
                         {{ locale.long }}
                     </button>
