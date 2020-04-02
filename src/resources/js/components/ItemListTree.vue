@@ -51,7 +51,7 @@
                     ></span>
                 </div>
 
-                <div v-if="node.data.private" class="fa fa-lock"></div>
+                <span class="fa fa-fw fa-lock text-muted" v-if="node.data.private === 1"></span>
 
                 <div class="title">{{ node.data.title_translated }}</div>
 
