@@ -51,6 +51,8 @@
                     ></span>
                 </div>
 
+                <span class="fa fa-fw fa-home text-muted" v-if="node.data.is_home === 1"></span>
+
                 <span class="fa fa-fw fa-lock text-muted" v-if="node.data.private === 1"></span>
 
                 <div class="title">{{ node.data.title_translated }}</div>
