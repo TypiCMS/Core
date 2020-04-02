@@ -61,9 +61,9 @@
                     :title="$t('Redirect to first child')"
                 ></div>
 
-                <div class="badge badge-info" :href="node.data.module" v-if="node.data.module">
+                <a class="badge badge-info" :href="'/admin/' + node.data.module" v-if="node.data.module">
                     {{ node.data.module }}
-                </div>
+                </a>
             </template>
 
             <template slot="toggle" slot-scope="{ node }">
