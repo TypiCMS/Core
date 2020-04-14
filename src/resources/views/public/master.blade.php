@@ -85,10 +85,10 @@
 
         @section('site-footer')
         <footer class="site-footer">
-            <nav class="social-nav">
+            <nav class="site-footer-nav">
                 @menu('social')
             </nav>
-            <nav class="footer-nav">
+            <nav class="site-footer-nav">
                 @menu('footer')
             </nav>
         </footer>
