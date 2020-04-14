@@ -91,6 +91,9 @@
             <nav class="site-footer-nav">
                 @menu('footer')
             </nav>
+            <nav class="site-footer-nav">
+                @menu('legal')
+            </nav>
         </footer>
         @show
 
