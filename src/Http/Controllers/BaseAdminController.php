@@ -7,7 +7,7 @@ use Illuminate\Routing\Controller;
 
 abstract class BaseAdminController extends Controller
 {
-    public function __construct($repository = null)
+    public function __construct()
     {
         $this->middleware('verified:'.config('typicms.admin_locale').'::verification.notice');
     }
