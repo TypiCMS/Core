@@ -22,8 +22,9 @@ class AdminLocale
             $request->session()->put('locale', $locale);
         }
 
-        // Set app.locale to admin_locale
-        app()->setLocale(config('typicms.admin_locale'));
+        // Set app.locale to user locale or value in config
+        $adminLocale = auth()->user()->locale ?? config('typicms.admin_locale');
+        app()->setLocale($adminLocale);
 
         // Set translatable locale to locale
         // Don’t set translatable locale if locale is 'all'
