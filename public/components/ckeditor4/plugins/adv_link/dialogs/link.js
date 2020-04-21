@@ -8,6 +8,7 @@
 (function() {
     CKEDITOR.dialog.add('link', function(editor) {
         var plugin = CKEDITOR.plugins.link,
+            localPageHrefPattern = new RegExp('{!! page:[0-9]+ !!}'),
             initialLinkText;
 
         function createRangeForLink(editor, link) {
@@ -417,29 +418,43 @@
                                 {
                                     type: 'select',
                                     label: advLinkLang.selectPageLabel,
-                                    id: 'localPage',
+                                    id: 'href',
                                     items: [],
-                                    setup: function(data) {
-                                        var self = this;
-                                        axios
-                                            .get('/api/pages/links-for-editor')
-                                            .then((response) => {
-                                                response.data.forEach(function(item) {
-                                                    self.add(item[0], item[1]);
-                                                });
-                                                if (data.localPage) {
-                                                    this.setValue(data.localPage || '');
-                                                }
-                                            })
-                                            .catch((error) => {
-                                                alertify.error('An error occurred while getting the pages.');
+                                    onLoad: function() {
+                                        if (typeof localPages !== 'undefined') {
+                                            var widget = this;
+                                            localPages.forEach(function(item) {
+                                                widget.add(item[0], item[1]);
                                             });
+                                        }
+                                    },
+                                    setup: function(data) {
+                                        if (data.localPage) {
+                                            this.setValue(data.localPage.href || '');
+                                        }
                                     },
                                     commit: function(data) {
                                         if (!data.localPage) {
                                             data.localPage = {};
                                         }
-                                        data.localPage = this.getValue();
+                                        data.localPage.href = this.getValue();
+                                    },
+                                },
+                                {
+                                    type: 'text',
+                                    id: 'hash',
+                                    label: advLinkLang.hash,
+                                    setup: function(data) {
+                                        if (data.localPage) {
+                                            this.setValue(data.localPage.hash);
+                                        }
+                                    },
+                                    commit: function(data) {
+                                        if (!data.localPage) {
+                                            data.localPage = {};
+                                        }
+
+                                        data.localPage.hash = this.getValue();
                                     },
                                 },
                             ],
@@ -1124,13 +1139,13 @@
                 // Record down the selected element in the dialog.
                 this._.selectedElements = elements;
 
-                if (
-                    data.type == 'url' &&
-                    data.url.protocol == undefined &&
-                    data.url.url.match(/{!! page:[0-9]+ !!}/g)
-                ) {
+                if (data.type == 'url' && data.url.protocol == undefined && localPageHrefPattern.test(data.url.url)) {
                     data.type = 'localPage';
-                    data.localPage = data.url.url;
+                    if (!data.localPage) {
+                        data.localPage = {};
+                    }
+                    data.localPage.href = data.url.url.match(localPageHrefPattern)[0];
+                    data.localPage.hash = elements[0].$.hash;
                     delete data.url;
                 }
 
@@ -1142,10 +1157,13 @@
                 // Collect data from fields.
                 this.commitContent(data);
 
-                if (data.type == 'localPage' && data.localPage.match(/{!! page:[0-9]+ !!}/g)) {
+                if (data.type == 'localPage' && localPageHrefPattern.test(data.localPage.href)) {
                     data.type = 'url';
                     data.url.protocol = '';
-                    data.url.url = data.localPage;
+                    if (data.localPage.hash.length > 0 && data.localPage.hash.charAt(0) != '#') {
+                        data.localPage.hash = '#' + data.localPage.hash;
+                    }
+                    data.url.url = data.localPage.href + data.localPage.hash;
                     delete data.localPage;
                 }
 
@@ -1216,14 +1234,14 @@
  *
  * Both approaches require JavaScript to be enabled.
  *
- *		// href="mailto:tester@ckeditor.com?subject=subject&body=body"
- *		config.emailProtection = '';
+ *      // href="mailto:tester@ckeditor.com?subject=subject&body=body"
+ *      config.emailProtection = '';
  *
- *		// href="<a href=\"javascript:void(location.href=\'mailto:\'+String.fromCharCode(116,101,115,116,101,114,64,99,107,101,100,105,116,111,114,46,99,111,109)+\'?subject=subject&body=body\')\">e-mail</a>"
- *		config.emailProtection = 'encode';
+ *      // href="<a href=\"javascript:void(location.href=\'mailto:\'+String.fromCharCode(116,101,115,116,101,114,64,99,107,101,100,105,116,111,114,46,99,111,109)+\'?subject=subject&body=body\')\">e-mail</a>"
+ *      config.emailProtection = 'encode';
  *
- *		// href="javascript:mt('tester','ckeditor.com','subject','body')"
- *		config.emailProtection = 'mt(NAME,DOMAIN,SUBJECT,BODY)';
+ *      // href="javascript:mt('tester','ckeditor.com','subject','body')"
+ *      config.emailProtection = 'mt(NAME,DOMAIN,SUBJECT,BODY)';
  *
  * @since 3.1.0
  * @cfg {String} [emailProtection='' (empty string = disabled)]
