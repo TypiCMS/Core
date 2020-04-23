@@ -54,6 +54,12 @@ import date from './filters/Date.js';
 Vue.filter('date', date);
 
 /**
+ * Datetime Filter
+ */
+import datetime from './filters/Datetime.js';
+Vue.filter('datetime', datetime);
+
+/**
  * Lists
  */
 import ItemListColumnHeader from './components/ItemListColumnHeader.vue';
