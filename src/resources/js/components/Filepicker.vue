@@ -7,7 +7,6 @@
                         <span
                             class="filepicker-title-clickable"
                             v-if="path.length !== index + 1"
-                            href="#"
                             @click="openFolder(folder)"
                             >{{ folder.name }}</span
                         >
