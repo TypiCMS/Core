@@ -20,33 +20,32 @@
                 </button>
             </p>
         </div>
-        <div class="filemanager">
-            <draggable v-model="files" @end="onSort">
-                <div
-                    class="filemanager-item filemanager-item-with-name filemanager-item-file filemanager-item-removable"
-                    v-for="file in files"
-                    :id="'item_' + file.id"
-                    :key="file.id"
-                >
-                    <div class="filemanager-item-wrapper">
-                        <a class="filemanager-item-removable-button" @click="remove(file)" href="#"
-                            ><span class="fa fa-times"></span
-                        ></a>
-                        <div class="filemanager-item-icon" v-if="file.type === 'i'">
-                            <div class="filemanager-item-image-wrapper">
-                                <img
-                                    class="filemanager-item-image"
-                                    :src="file.thumb_sm"
-                                    :alt="file.alt_attribute_translated"
-                                />
-                            </div>
+
+        <draggable class="filemanager" v-model="files" @end="onSort">
+            <div
+                class="filemanager-item filemanager-item-with-name filemanager-item-file filemanager-item-removable"
+                v-for="file in files"
+                :id="'item_' + file.id"
+                :key="file.id"
+            >
+                <div class="filemanager-item-wrapper">
+                    <button class="filemanager-item-removable-button" @click="remove(file)" type="button">
+                        <span class="fa fa-times"></span>
+                    </button>
+                    <div class="filemanager-item-icon" v-if="file.type === 'i'">
+                        <div class="filemanager-item-image-wrapper">
+                            <img
+                                class="filemanager-item-image"
+                                :src="file.thumb_sm"
+                                :alt="file.alt_attribute_translated"
+                            />
                         </div>
-                        <div class="filemanager-item-icon" :class="'filemanager-item-icon-' + file.type" v-else></div>
-                        <div class="filemanager-item-name">{{ file.name }}</div>
                     </div>
+                    <div class="filemanager-item-icon" :class="'filemanager-item-icon-' + file.type" v-else></div>
+                    <div class="filemanager-item-name">{{ file.name }}</div>
                 </div>
-            </draggable>
-        </div>
+            </div>
+        </draggable>
     </div>
 </template>
 
