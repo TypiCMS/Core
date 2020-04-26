@@ -82,7 +82,7 @@ export default {
         }
     },
     mounted() {
-        this.$root.$on('filesAdded', files => {
+        this.$root.$on('filesAdded', (files) => {
             this.files = files;
         });
     },
@@ -99,11 +99,11 @@ export default {
             this.loading = true;
             axios
                 .get(this.url + '/files')
-                .then(response => {
+                .then((response) => {
                     this.files = response.data;
                     this.loading = false;
                 })
-                .catch(error => {
+                .catch((error) => {
                     alertify.error(
                         error.response.data.message || this.$i18n.t('An error occurred with the data fetch.')
                     );
@@ -127,10 +127,10 @@ export default {
 
             axios
                 .delete(this.url + '/files/' + file.id, { remove: file.id })
-                .then(response => {
+                .then((response) => {
                     this.loading = false;
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.loading = false;
                     alertify.error('Error ' + error.status + ' ' + error.statusText);
                 });
@@ -138,8 +138,8 @@ export default {
         onSort() {
             axios
                 .post('/api/files/sort', this.files)
-                .then(response => {})
-                .catch(error => {
+                .then((response) => {})
+                .catch((error) => {
                     alertify.error('Error ' + error.status + ' ' + error.statusText);
                 });
         },
