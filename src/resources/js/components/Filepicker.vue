@@ -4,12 +4,7 @@
             <div class="filepicker-header header">
                 <h1 class="filepicker-title header-title">
                     <div v-for="(folder, index) in path">
-                        <span
-                            class="filepicker-title-clickable"
-                            v-if="path.length !== index + 1"
-                            @click="openFolder(folder)"
-                            >{{ folder.name }}</span
-                        >
+                        <span class="filepicker-title-clickable" v-if="path.length !== index + 1" href="#" @click="openFolder(folder)">{{ folder.name }}</span>
                         <span v-else>{{ folder.name }}</span>
                     </div>
                 </h1>
@@ -40,12 +35,7 @@
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
                         <button class="dropdown-item" type="button" @click="deleteSelected">{{ $t('Delete') }}</button>
-                        <button
-                            class="dropdown-item"
-                            :class="{ disabled: !folder.id }"
-                            type="button"
-                            @click="moveToParentFolder()"
-                        >
+                        <button class="dropdown-item" :class="{ disabled: !folder.id }" type="button" @click="moveToParentFolder()">
                             {{ $t('Move to parent folder') }}
                         </button>
                         <div class="dropdown-divider"></div>
@@ -55,20 +45,10 @@
                     </div>
                 </div>
                 <div class="btn-group btn-group-sm">
-                    <button
-                        class="btn btn-light"
-                        :class="{ active: view === 'grid' }"
-                        type="button"
-                        @click="switchView('grid')"
-                    >
+                    <button class="btn btn-light" :class="{ active: view === 'grid' }" type="button" @click="switchView('grid')">
                         <span class="fa fa-fw fa-th"></span> {{ $t('Grid') }}
                     </button>
-                    <button
-                        class="btn btn-light"
-                        :class="{ active: view === 'list' }"
-                        type="button"
-                        @click="switchView('list')"
-                    >
+                    <button class="btn btn-light" :class="{ active: view === 'list' }" type="button" @click="switchView('list')">
                         <span class="fa fa-fw fa-bars"></span> {{ $t('List') }}
                     </button>
                 </div>
@@ -112,11 +92,7 @@
                     <div class="filemanager-item-wrapper">
                         <div class="filemanager-item-icon" v-if="item.type === 'i'">
                             <div class="filemanager-item-image-wrapper">
-                                <img
-                                    class="filemanager-item-image"
-                                    :src="item.thumb_sm"
-                                    :alt="item.alt_attribute_translated"
-                                />
+                                <img class="filemanager-item-image" :src="item.thumb_sm" :alt="item.alt_attribute_translated" />
                             </div>
                         </div>
                         <div class="filemanager-item-icon" :class="'filemanager-item-icon-' + item.type" v-else></div>
@@ -263,11 +239,11 @@ export default {
         if (sessionStorage.getItem('view')) {
             this.view = JSON.parse(sessionStorage.getItem('view'));
         }
-        window.EventBus.$on('openFilepickerForCKEditor', (options) => {
+        window.EventBus.$on('openFilepickerForCKEditor', options => {
             $('html, body').addClass('noscroll');
             this.options = options;
         });
-        this.$root.$on('openFilepicker', (options) => {
+        this.$root.$on('openFilepicker', options => {
             $('html, body').addClass('noscroll');
             this.options = options;
         });
@@ -305,7 +281,7 @@ export default {
             return this.selectedItems.length;
         },
         selectedFiles() {
-            return this.selectedItems.filter((item) => item.type !== 'f');
+            return this.selectedItems.filter(item => item.type !== 'f');
         },
     },
     methods: {
@@ -313,14 +289,12 @@ export default {
             this.startLoading();
             axios
                 .get(this.url)
-                .then((response) => {
+                .then(response => {
                     this.data = response.data;
                     this.stopLoading();
                 })
-                .catch((error) => {
-                    alertify.error(
-                        error.response.data.message || this.$i18n.t('An error occurred with the data fetch.')
-                    );
+                .catch(error => {
+                    alertify.error(error.response.data.message || this.$i18n.t('An error occurred with the data fetch.'));
                 });
         },
         startLoading() {
@@ -350,10 +324,7 @@ export default {
             }, 1000);
         },
         dropzoneComplete() {
-            if (
-                this.$refs.dropzone.getUploadingFiles().length === 0 &&
-                this.$refs.dropzone.getQueuedFiles().length === 0
-            ) {
+            if (this.$refs.dropzone.getUploadingFiles().length === 0 && this.$refs.dropzone.getQueuedFiles().length === 0) {
                 setTimeout(() => {
                     this.stopLoading();
                 }, 1000);
@@ -387,7 +358,7 @@ export default {
             this.dragging = false;
 
             let ids = [];
-            this.selectedItems.forEach((item) => {
+            this.selectedItems.forEach(item => {
                 ids.push(item.id);
             });
 
@@ -407,17 +378,17 @@ export default {
 
             axios
                 .patch('/api/files/' + ids.join(), data)
-                .then((response) => {
+                .then(response => {
                     this.fetchData();
                 })
-                .catch((error) => {
+                .catch(error => {
                     alertify.error('Error ' + error.status + ' ' + error.statusText);
                 });
 
             this.selectedItems = [];
         },
         newFolder(folderId) {
-            let name = window.prompt(this.$i18n.t('Enter a name for the new folder.'));
+            let name = window.prompt(this.$i18n.t('What is the name of the new folder?'));
             if (!name) {
                 return;
             }
@@ -431,10 +402,10 @@ export default {
 
             axios
                 .post('/api/files', data)
-                .then((response) => {
+                .then(response => {
                     this.data.models.push(response.data.model);
                 })
-                .catch((error) => {
+                .catch(error => {
                     alertify.error(error.response.data.message || this.$i18n.t('An error occurred.'));
                 });
         },
@@ -495,7 +466,7 @@ export default {
                 return false;
             }
 
-            models.forEach((item) => {
+            models.forEach(item => {
                 ids.push(item.id);
                 var index = this.data.models.indexOf(item);
                 this.data.models.splice(index, 1);
@@ -511,7 +482,7 @@ export default {
 
             axios
                 .patch('/api/files/' + ids.join(), data)
-                .then((response) => {
+                .then(response => {
                     this.stopLoading();
                     if (response.data.number < number) {
                         alertify.error(
@@ -521,12 +492,10 @@ export default {
                         );
                     }
                     if (response.data.number > 0) {
-                        alertify.success(
-                            this.$i18n.tc('# files moved.', response.data.number, { count: response.data.number })
-                        );
+                        alertify.success(this.$i18n.tc('# files moved.', response.data.number, { count: response.data.number }));
                     }
                 })
-                .catch((error) => {
+                .catch(error => {
                     this.stopLoading();
                     alertify.error('Error ' + error.status + ' ' + error.statusText);
                 });
@@ -550,14 +519,14 @@ export default {
                 return;
             }
 
-            this.selectedFiles.forEach((file) => {
+            this.selectedFiles.forEach(file => {
                 ids.push(file.id);
             });
             data.files = ids;
 
             axios
                 .post('/api/' + this.relatedTable + '/' + this.relatedId + '/files', data)
-                .then((response) => {
+                .then(response => {
                     this.selectedItems = [];
                     this.$root.$emit('filesAdded', response.data.models);
                     this.closeModal();
@@ -568,7 +537,7 @@ export default {
                         alertify.success(response.data.message);
                     }
                 })
-                .catch((error) => {
+                .catch(error => {
                     console.log(error);
                     alertify.error('Error ' + error.status + ' ' + error.statusText);
                 });
@@ -630,9 +599,9 @@ export default {
             this.startLoading();
 
             axios
-                .all(this.selectedItems.map((item) => axios.delete(this.baseUrl + '/' + item.id)))
-                .then((responses) => {
-                    let successes = responses.filter((response) => response.data.error === false);
+                .all(this.selectedItems.map(item => axios.delete(this.baseUrl + '/' + item.id)))
+                .then(responses => {
+                    let successes = responses.filter(response => response.data.error === false);
                     this.stopLoading();
                     alertify.success(
                         this.$i18n.tc('# items deleted', successes.length, {
@@ -642,7 +611,7 @@ export default {
                     this.fetchData();
                     this.selectedItems = [];
                 })
-                .catch((error) => {
+                .catch(error => {
                     alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
                 });
         },
