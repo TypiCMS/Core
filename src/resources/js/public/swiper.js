@@ -1,13 +1,20 @@
 /**
- * Sliders
+ * Carousel
  */
-var mySwiper = new Swiper('.swiper-container', {
+new Swiper('.carousel', {
     loop: true,
     grabCursor: true,
-    autoplay: 6000,
-    setWrapperSize: true,
-    // slidesPerView: 'auto',
-    // spaceBetween: 30,
-    nextButton: '.swiper-button-next',
-    prevButton: '.swiper-button-prev'
+    speed: 500,
+    autoplay: {
+        delay: 6000,
+    },
+    // setWrapperSize: true, // Explorer compatibility
+    pagination: {
+        el: '.carrousel-pagination',
+        clickable: true,
+    },
+    navigation: {
+        nextEl: '.carrousel-button-next',
+        prevEl: '.carrousel-button-prev',
+    },
 });
