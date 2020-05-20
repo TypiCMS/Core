@@ -18,6 +18,9 @@
     <meta property="og:url" content="{{ URL::full() }}">
     <meta property="og:image" content="@yield('image')">
 
+    {{-- <meta name="twitter:site" content=""> --}}
+    <meta name="twitter:card" content="summary_large_image">
+
     <link href="{{ App::environment('production') ? mix('css/public.css') : asset('css/public.css') }}" rel="stylesheet">
 
     @include('core::public._feed-links')
