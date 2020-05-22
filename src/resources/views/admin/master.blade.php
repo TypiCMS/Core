@@ -68,7 +68,7 @@
                 alertify.success('{{ session('message') }}');
             @endif
             @if (session('success'))
-                alertify.info('{{ session('success') }}');
+                alertify.success('{{ session('success') }}');
             @endif
             @if (session('error'))
                 alertify.error('{{ session('error') }}');
