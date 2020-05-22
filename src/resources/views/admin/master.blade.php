@@ -67,6 +67,12 @@
             @if (session('message'))
                 alertify.success('{{ session('message') }}');
             @endif
+            @if (session('success'))
+                alertify.info('{{ session('success') }}');
+            @endif
+            @if (session('error'))
+                alertify.error('{{ session('error') }}');
+            @endif
         </script>
 
     </div>
