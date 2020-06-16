@@ -67,7 +67,7 @@
                         aria-haspopup="true"
                         aria-expanded="false"
                     >
-                        <span id="active-locale">{{ locales.find(item => item.short === currentLocale).long }}</span>
+                        <span id="active-locale">{{ locales.find((item) => item.short === currentLocale).long }}</span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
                         <button
@@ -220,7 +220,7 @@ export default {
             if (this.searchString === null) {
                 return '';
             }
-            return this.searchableArray.map(item => 'filter[' + item + ']=' + this.searchString).join('&');
+            return this.searchableArray.map((item) => 'filter[' + item + ']=' + this.searchString).join('&');
         },
         url() {
             let query = ['sort=' + this.sortArray.join(','), 'fields[' + this.table + ']=' + this.fields];
@@ -257,11 +257,11 @@ export default {
             this.startLoading();
             axios
                 .get(this.url)
-                .then(response => {
+                .then((response) => {
                     this.data = response.data;
                     this.stopLoading();
                 })
-                .catch(error => {
+                .catch((error) => {
                     alertify.error(
                         error.response.data.message || this.$i18n.t('An error occurred with the data fetch.')
                     );
@@ -285,7 +285,7 @@ export default {
         switchLocale(locale) {
             this.startLoading();
             this.currentLocale = locale;
-            axios.get('/admin/_locale/' + locale).then(response => {
+            axios.get('/admin/_locale/' + locale).then((response) => {
                 this.stopLoading();
                 this.fetchData();
             });
@@ -311,10 +311,10 @@ export default {
             this.checkedItems = [];
         },
         checkPublished() {
-            this.checkedItems = this.filteredItems.filter(model => model.status_translated === 1);
+            this.checkedItems = this.filteredItems.filter((model) => model.status_translated === 1);
         },
         checkUnpublished() {
-            this.checkedItems = this.filteredItems.filter(model => model.status_translated === 0);
+            this.checkedItems = this.filteredItems.filter((model) => model.status_translated === 0);
         },
         destroy() {
             this.data.current_page = 1;
@@ -337,15 +337,15 @@ export default {
             this.startLoading();
 
             axios
-                .all(this.checkedItems.map(model => axios.delete(this.urlBase + '/' + model.id)))
-                .then(responses => {
-                    let successes = responses.filter(response => response.data.error === false);
+                .all(this.checkedItems.map((model) => axios.delete(this.urlBase + '/' + model.id)))
+                .then((responses) => {
+                    let successes = responses.filter((response) => response.data.error === false);
                     this.stopLoading();
                     alertify.success(this.$i18n.tc('# items deleted', successes.length, { count: successes.length }));
                     this.fetchData();
                     this.checkedItems = [];
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.stopLoading();
                     alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
                 });
@@ -391,8 +391,8 @@ export default {
             this.startLoading();
 
             axios
-                .all(this.checkedItems.map(model => axios.patch(this.urlBase + '/' + model.id, data)))
-                .then(responses => {
+                .all(this.checkedItems.map((model) => axios.patch(this.urlBase + '/' + model.id, data)))
+                .then((responses) => {
                     this.stopLoading();
                     alertify.success(this.$i18n.tc('# items ' + label, responses.length, { count: responses.length }));
                     for (let i = this.checkedItems.length - 1; i >= 0; i--) {
@@ -401,7 +401,7 @@ export default {
                     }
                     this.checkedItems = [];
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.log(error.response);
                     alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
                 });
@@ -422,10 +422,10 @@ export default {
             }
             axios
                 .patch(this.urlBase + '/' + model.id, data)
-                .then(response => {
+                .then((response) => {
                     alertify.success(this.$i18n.t('Item is ' + label + '.'));
                 })
-                .catch(error => {
+                .catch((error) => {
                     alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
                 });
         },
@@ -433,7 +433,7 @@ export default {
             let data = {
                 position: model.position,
             };
-            axios.patch(this.urlBase + '/' + model.id, data).catch(error => {
+            axios.patch(this.urlBase + '/' + model.id, data).catch((error) => {
                 alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
             });
         },
