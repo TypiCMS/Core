@@ -146,7 +146,7 @@ abstract class Presenter extends BasePresenter
             $path = $this->entity->image->path;
         }
 
-        if (!Storage::exists($path)) {
+        if (!is_file(Storage::path($file))) {
             $path = $this->imgNotFound();
         }
 
