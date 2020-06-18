@@ -33,7 +33,7 @@ class SetLocale
             config('typicms.main_locale_in_url')
         ) {
             $segments = $request->segments();
-            $segments = Arr::prepend($segments, TypiCMS::mainLocale());
+            $segments = Arr::prepend($segments, $this->getBrowserLanguageOrDefault());
 
             return redirect()->to(implode('/', $segments));
         }
@@ -54,5 +54,17 @@ class SetLocale
         }
 
         return $next($request);
+    }
+
+    private function getBrowserLanguageOrDefault()
+    {
+        if ($browserLanguage = getenv('HTTP_ACCEPT_LANGUAGE')) {
+            $browserLocale = mb_substr($browserLanguage, 0, 2);
+            if (in_array($browserLocale, TypiCMS::enabledLocales())) {
+                return $browserLocale;
+            }
+        }
+
+        return TypiCMS::mainLocale();
     }
 }
