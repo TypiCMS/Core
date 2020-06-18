@@ -26,7 +26,7 @@ for (var i = 0; i < editors.length; ++i) {
             { name: 'Alert Warning', element: 'div', attributes: { class: 'alert alert-warning' } },
             { name: 'Alert Danger', element: 'div', attributes: { class: 'alert alert-danger' } },
 
-            { name: 'Clear Container', element: 'div', styles: { clear: 'both' } },
+            { name: 'Small', element: 'small' },
 
             { name: 'Typewriter', element: 'tt' },
 
@@ -46,7 +46,7 @@ for (var i = 0; i < editors.length; ++i) {
         ],
         extraPlugins: 'adv_link,image2,codemirror,panelbutton,oembed,justify,showblocks,div,dialogadvtab',
         removePlugins: 'image,link',
-        extraAllowedContent: 'dl;dt;dd',
+        extraAllowedContent: 'dl;dt;dd;small',
         bodyClass: 'rich-content',
         height: 500,
         contentsCss: ['/css/public.css', '/components/ckeditor4/custom.css'],

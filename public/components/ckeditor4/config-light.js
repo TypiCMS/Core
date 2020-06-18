@@ -4,6 +4,7 @@ for (var i = 0; i < editors.length; ++i) {
         toolbar: [
             { items: ['Bold', 'Italic', 'Subscript', 'Superscript'] },
             { items: ['RemoveFormat'] },
+            { items: ['Link', 'Unlink'] },
             { items: ['Source'] },
         ],
         entities: false,
@@ -11,7 +12,8 @@ for (var i = 0; i < editors.length; ++i) {
         contentsCss: ['/css/public.css', '/components/ckeditor4/custom.css'],
         language: $('html').attr('lang'),
         stylesSet: [],
-        extraPlugins: 'codemirror',
+        extraPlugins: 'adv_link,codemirror',
+        removePlugins: 'link',
         codemirror: {
             theme: 'twilight',
         },
