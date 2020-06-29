@@ -174,10 +174,11 @@ abstract class Base extends Model
         if ($category_id !== null) {
             $models = $this->published()
                 ->with('category')
+                ->order()
                 ->where('category_id', $category_id)
                 ->get(['id', 'category_id', 'slug']);
         } else {
-            $models = $this->published()->get(['id', 'slug']);
+            $models = $this->published()->order()->get(['id', 'slug']);
         }
         foreach ($models as $key => $model) {
             if ($currentModel->id === $model->id) {
