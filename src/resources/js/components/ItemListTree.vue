@@ -64,7 +64,7 @@
                 ></div>
 
                 <a class="badge badge-info" :href="'/admin/' + node.data.module" v-if="node.data.module">
-                    {{ node.data.module }}
+                    {{ $t(node.data.module.charAt(0).toUpperCase() + node.data.module.slice(1)) }}
                 </a>
             </template>
 
