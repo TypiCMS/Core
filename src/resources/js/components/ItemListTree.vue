@@ -19,7 +19,7 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                 >
-                    <span id="active-locale">{{ locales.find(item => item.short === currentLocale).long }}</span>
+                    <span id="active-locale">{{ locales.find((item) => item.short === currentLocale).long }}</span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
                     <button
@@ -154,11 +154,11 @@ export default {
             this.startLoading();
             axios
                 .get(this.url)
-                .then(response => {
+                .then((response) => {
                     this.models = response.data;
                     this.stopLoading();
                 })
-                .catch(error => {
+                .catch((error) => {
                     alertify.error(
                         error.response.data.message || this.$i18n.t('An error occurred with the data fetch.')
                     );
@@ -176,7 +176,7 @@ export default {
         switchLocale(locale) {
             this.startLoading();
             this.currentLocale = locale;
-            axios.get('/admin/_locale/' + locale).then(response => {
+            axios.get('/admin/_locale/' + locale).then((response) => {
                 this.stopLoading();
                 this.fetchData();
             });
@@ -193,10 +193,10 @@ export default {
             }
             axios
                 .delete(this.urlBase + '/' + model.id)
-                .then(data => {
+                .then((data) => {
                     this.$refs.slVueTree.remove([node.path]);
                 })
-                .catch(error => {
+                .catch((error) => {
                     alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
                 });
         },
@@ -214,7 +214,7 @@ export default {
                 }
                 if (parentId !== null) {
                     if (node.data.id === parentId) {
-                        list = node.children.map(item => {
+                        list = node.children.map((item) => {
                             item.data.parent_id = parentId;
                             if (node.data.private === 1) {
                                 item.data.private = 1;
@@ -234,14 +234,14 @@ export default {
                 item: list,
             };
 
-            axios.post(this.urlBase + '/sort', data).catch(error => {
+            axios.post(this.urlBase + '/sort', data).catch((error) => {
                 alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
             });
         },
         toggle(node) {
             let data = {};
             data[this.title + '_' + node.data.id + '_collapsed'] = node.isExpanded;
-            axios.post('/api/users/current/updatepreferences', data).catch(error => {
+            axios.post('/api/users/current/updatepreferences', data).catch((error) => {
                 alertify.error('User preference couldn’t be set.');
             });
         },
@@ -258,10 +258,10 @@ export default {
             this.$refs.slVueTree.updateNode(node.path, node);
             axios
                 .patch(this.urlBase + '/' + node.data.id, data)
-                .then(response => {
+                .then((response) => {
                     alertify.success(this.$i18n.t('Item is ' + label + '.'));
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.$refs.slVueTree.updateNode(node.path, originalNode);
                     alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
                 });

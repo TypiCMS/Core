@@ -36,7 +36,7 @@ export default {
     props: {
         data: {
             type: Object,
-            default: function() {
+            default: function () {
                 return {
                     current_page: 1,
                     data: [],
@@ -56,14 +56,14 @@ export default {
         },
     },
     methods: {
-        selectPage: function(page) {
+        selectPage: function (page) {
             if (page === '…') {
                 return;
             }
 
             this.$emit('pagination-change-page', page);
         },
-        getPages: function() {
+        getPages: function () {
             if (this.limit === -1) {
                 return 0;
             }
@@ -85,7 +85,7 @@ export default {
                 }
             }
 
-            range.forEach(function(i) {
+            range.forEach(function (i) {
                 if (l) {
                     if (i - l === 2) {
                         pages.push(l + 1);

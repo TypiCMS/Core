@@ -17,8 +17,7 @@
             aria-haspopup="true"
             aria-expanded="false"
             id="dropdownSelect"
-        >
-        </button>
+        ></button>
         <div class="dropdown-menu" aria-labelledby="dropdownSelect">
             <button type="button" class="dropdown-item" @click="$emit('check-all')">{{ $t('All') }}</button>
             <button type="button" class="dropdown-item" @click="$emit('check-none')">{{ $t('None') }}</button>
