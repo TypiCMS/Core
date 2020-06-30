@@ -25,6 +25,7 @@ class AdminLocale
         // Set app.locale to user locale or value in config
         $adminLocale = auth()->user()->locale ?? config('typicms.admin_locale');
         app()->setLocale($adminLocale);
+        config(['typicms.admin_locale' => $adminLocale]);
 
         // Set translatable locale to locale
         // Don’t set translatable locale if locale is 'all'
