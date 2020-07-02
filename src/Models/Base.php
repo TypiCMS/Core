@@ -128,6 +128,8 @@ abstract class Base extends Model
             $this->attributes['status'] = json_encode(array_map(function ($item) {
                 return (int) $item;
             }, $status));
+        } else {
+            $this->attributes['status'] = $status;
         }
     }
 
