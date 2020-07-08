@@ -4,6 +4,9 @@
             <label>
                 <span v-if="label">{{ label }}</span>
                 <span v-else>{{ $t('Files') }}</span>
+                <small class="form-text text-muted" v-if="relatedId === 0">
+                    {{ $t('Save this item first, then add files.') }}
+                </small>
             </label>
             <p>
                 <button
