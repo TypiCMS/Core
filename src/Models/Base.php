@@ -51,6 +51,13 @@ abstract class Base extends Model
         return '/';
     }
 
+    public function isPublished($locale = null): bool
+    {
+        $locale = $locale ?: app()->getLocale();
+
+        return (bool) $this->translate('status', $locale);
+    }
+
     public function scopePublished(Builder $query): Builder
     {
         if (request('preview')) {
