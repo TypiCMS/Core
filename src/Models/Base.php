@@ -198,6 +198,9 @@ abstract class Base extends Model
         }
     }
 
+    /**
+     * @deprecated
+     */
     public function detachFile(File $file): void
     {
         $filesIds = $this->files->pluck('id')->toArray();
@@ -211,6 +214,9 @@ abstract class Base extends Model
         $this->files()->sync($pivotData);
     }
 
+    /**
+     * @deprecated
+     */
     public function attachFiles(Request $request): JsonResponse
     {
         // Get the collection of files to add.
