@@ -2,8 +2,12 @@
     <div class="item-list">
         <div class="item-list-header header">
             <slot name="back-button"></slot>
-            <h1 class="item-list-title header-title">{{ $t(title.charAt(0).toUpperCase() + title.slice(1)) }}</h1>
-            <div class="item-list-toolbar header-toolbar btn-toolbar"><slot name="add-button"></slot></div>
+            <h1 class="item-list-title header-title">
+                {{ $t(title.charAt(0).toUpperCase() + title.slice(1)) }}
+            </h1>
+            <div class="item-list-toolbar header-toolbar btn-toolbar">
+                <slot name="add-button"></slot>
+            </div>
         </div>
 
         <div class="btn-toolbar item-list-actions">
@@ -47,7 +51,9 @@
                 <div class="filters form-inline" v-if="searchable.length > 0">
                     <div class="input-group input-group-sm mb-0">
                         <div class="input-group-prepend">
-                            <div class="input-group-text"><span class="fa fa-search"></span></div>
+                            <div class="input-group-text">
+                                <span class="fa fa-search"></span>
+                            </div>
                         </div>
                         <input
                             class="form-control"
@@ -321,7 +327,11 @@ export default {
             const deleteLimit = 100;
 
             if (this.checkedItems.length > deleteLimit) {
-                alertify.error(this.$i18n.t('Impossible to delete more than # items in one go.', { deleteLimit }));
+                alertify.error(
+                    this.$i18n.t('Impossible to delete more than # items in one go.', {
+                        deleteLimit,
+                    })
+                );
                 return false;
             }
             if (
@@ -340,7 +350,11 @@ export default {
                 .all(this.checkedItems.map((model) => axios.delete(this.urlBase + '/' + model.id)))
                 .then((responses) => {
                     let successes = responses.filter((response) => response.data.error === false);
-                    alertify.success(this.$i18n.tc('# items deleted', successes.length, { count: successes.length }));
+                    alertify.success(
+                        this.$i18n.tc('# items deleted', successes.length, {
+                            count: successes.length,
+                        })
+                    );
                     this.checkedItems = [];
                 })
                 .catch((error) => {
@@ -395,7 +409,11 @@ export default {
                 .all(this.checkedItems.map((model) => axios.patch(this.urlBase + '/' + model.id, data)))
                 .then((responses) => {
                     this.stopLoading();
-                    alertify.success(this.$i18n.tc('# items ' + label, responses.length, { count: responses.length }));
+                    alertify.success(
+                        this.$i18n.tc('# items ' + label, responses.length, {
+                            count: responses.length,
+                        })
+                    );
                     for (let i = this.checkedItems.length - 1; i >= 0; i--) {
                         let index = this.data.data.indexOf(this.checkedItems[i]);
                         this.data.data[index][statusVar] = status;

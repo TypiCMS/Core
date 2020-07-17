@@ -113,6 +113,6 @@ require('selectize');
  * All files in /reources/js/admin
  */
 var req = require.context('./admin', true, /^(.*\.(js$))[^.]*$/im);
-req.keys().forEach(function(key) {
+req.keys().forEach(function (key) {
     req(key);
 });

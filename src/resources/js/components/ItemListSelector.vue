@@ -19,8 +19,12 @@
             id="dropdownSelect"
         ></button>
         <div class="dropdown-menu" aria-labelledby="dropdownSelect">
-            <button type="button" class="dropdown-item" @click="$emit('check-all')">{{ $t('All') }}</button>
-            <button type="button" class="dropdown-item" @click="$emit('check-none')">{{ $t('None') }}</button>
+            <button type="button" class="dropdown-item" @click="$emit('check-all')">
+                {{ $t('All') }}
+            </button>
+            <button type="button" class="dropdown-item" @click="$emit('check-none')">
+                {{ $t('None') }}
+            </button>
             <div class="dropdown-divider" v-if="publishable"></div>
             <button type="button" class="dropdown-item" v-if="publishable" @click="$emit('check-published')">
                 {{ $t('Published items') }}

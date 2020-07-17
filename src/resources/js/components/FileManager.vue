@@ -15,7 +15,8 @@
                     </div>
                 </h1>
                 <button type="button" class="btn btn-sm btn-primary header-btn-add" id="btnAddFiles" v-if="dropzone">
-                    <span class="fa fa-upload text-white-50"></span> {{ $t('Upload files') }}
+                    <span class="fa fa-upload text-white-50"></span>
+                    {{ $t('Upload files') }}
                 </button>
             </div>
 
@@ -40,7 +41,9 @@
                         {{ $t('Action') }}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <button class="dropdown-item" type="button" @click="deleteSelected">{{ $t('Delete') }}</button>
+                        <button class="dropdown-item" type="button" @click="deleteSelected">
+                            {{ $t('Delete') }}
+                        </button>
                         <button
                             class="dropdown-item"
                             :class="{ disabled: !folder.id }"
@@ -51,7 +54,11 @@
                         </button>
                         <div class="dropdown-divider"></div>
                         <button class="dropdown-item disabled" type="button">
-                            {{ $tc('# items selected', selectedItems.length, { count: selectedItems.length }) }}
+                            {{
+                                $tc('# items selected', selectedItems.length, {
+                                    count: selectedItems.length,
+                                })
+                            }}
                         </button>
                     </div>
                 </div>
@@ -515,7 +522,9 @@ export default {
                     }
                     if (response.data.number > 0) {
                         alertify.success(
-                            this.$i18n.tc('# files moved.', response.data.number, { count: response.data.number })
+                            this.$i18n.tc('# files moved.', response.data.number, {
+                                count: response.data.number,
+                            })
                         );
                     }
                 })
@@ -591,7 +600,11 @@ export default {
             }
 
             if (this.selectedItems.length > deleteLimit) {
-                alertify.error(this.$i18n.t('Impossible to delete more than # items in one go.', { deleteLimit }));
+                alertify.error(
+                    this.$i18n.t('Impossible to delete more than # items in one go.', {
+                        deleteLimit,
+                    })
+                );
                 return false;
             }
             if (

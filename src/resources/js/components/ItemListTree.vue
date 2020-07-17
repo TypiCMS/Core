@@ -2,7 +2,9 @@
     <div class="item-list-tree">
         <div class="item-list-header header">
             <h1 class="item-list-title header-title">{{ $t(title) }}</h1>
-            <div class="item-list-toolbar header-toolbar btn-toolbar"><slot name="add-button"></slot></div>
+            <div class="item-list-toolbar header-toolbar btn-toolbar">
+                <slot name="add-button"></slot>
+            </div>
         </div>
 
         <div class="btn-toolbar item-list-actions">

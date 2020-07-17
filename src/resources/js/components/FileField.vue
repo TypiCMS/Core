@@ -3,7 +3,9 @@
         <div class="form-group">
             <label :for="field">
                 <span v-if="label"> {{ label }} </span>
-                <span v-else> {{ type === 'document' ? $t('Document') : $t('Image') }} </span>
+                <span v-else>
+                    {{ type === 'document' ? $t('Document') : $t('Image') }}
+                </span>
             </label>
             <input type="hidden" :name="field" :id="field" :rel="field" v-model="id" />
             <div>
@@ -39,7 +41,7 @@ export default {
         type: {
             type: String,
             required: true,
-            validator: function(value) {
+            validator: function (value) {
                 // The value must match one of these strings
                 return ['image', 'document'].indexOf(value) !== -1;
             },
@@ -65,7 +67,7 @@ export default {
         }
     },
     mounted() {
-        this.$root.$on('fileAdded', file => {
+        this.$root.$on('fileAdded', (file) => {
             if (this.choosingFile === true) {
                 this.setData(file);
             }

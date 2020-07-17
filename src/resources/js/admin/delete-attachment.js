@@ -1,8 +1,8 @@
-$(function() {
+$(function () {
     /**
      * Delete attachment
      */
-    $('.delete-attachment').click(function() {
+    $('.delete-attachment').click(function () {
         var field = $(this).data('field'),
             id = $(this).data('id'),
             table = $(this).data('table'),

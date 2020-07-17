@@ -19,10 +19,16 @@
                 {{ $t('Unpublish') }} <span class="text-muted">({{ locale }})</span>
             </button>
             <div class="dropdown-divider" v-if="publishable"></div>
-            <button type="button" class="dropdown-item" @click="$emit('destroy')">{{ $t('Delete') }}</button>
+            <button type="button" class="dropdown-item" @click="$emit('destroy')">
+                {{ $t('Delete') }}
+            </button>
             <div role="separator" class="divider"></div>
             <button type="button" class="dropdown-item" disabled>
-                <small>{{ $tc('# items selected', numberOfCheckedModels, { count: numberOfCheckedModels }) }}</small>
+                <small>{{
+                    $tc('# items selected', numberOfCheckedModels, {
+                        count: numberOfCheckedModels,
+                    })
+                }}</small>
             </button>
         </div>
     </div>

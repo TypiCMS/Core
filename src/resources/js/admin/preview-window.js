@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
     /**
      * Build modal window
      */
@@ -31,7 +31,7 @@ $(function() {
     /**
      * Open preview window
      */
-    $('.btn-preview').on('click', function(event) {
+    $('.btn-preview').on('click', function (event) {
         event.preventDefault();
         $('#preview-content').attr({ src: this.href });
         $('html, body').addClass('noscroll');
@@ -41,7 +41,7 @@ $(function() {
     /**
      * Close preview window
      */
-    $('body').on('click', '#close-preview', function(event) {
+    $('body').on('click', '#close-preview', function (event) {
         event.preventDefault();
         $('#preview-content').attr({ src: '' });
         $('html, body').removeClass('noscroll');

@@ -1,5 +1,7 @@
 <template>
-    <button @click="delete" class="btn btn-xs btn-link" aria-label="delete"><span class="fa fa-remove"></span></button>
+    <button @click="delete" class="btn btn-xs btn-link" aria-label="delete">
+        <span class="fa fa-remove"></span>
+    </button>
 </template>
 
 <script>

@@ -28,9 +28,12 @@
                             <span v-if="!model.href">{{ model.title }}</span>
                             <span v-if="model.locale">({{ model.locale }})</span>
                         </td>
-                        <td>{{ model.historable_type.substring(model.historable_type.lastIndexOf('\\') + 1) }}</td>
+                        <td>
+                            {{ model.historable_type.substring(model.historable_type.lastIndexOf('\\') + 1) }}
+                        </td>
                         <td class="action">
-                            <span class="fa fa-fw" :class="model.icon_class"></span> {{ model.action }}
+                            <span class="fa fa-fw" :class="model.icon_class"></span>
+                            {{ model.action }}
                         </td>
                         <td>
                             <div class="user_name">{{ model.user_name }}</div>
@@ -128,7 +131,7 @@ export default {
             if (this.searchString === null) {
                 return '';
             }
-            return this.searchableArray.map(item => 'filter[' + item + ']=' + this.searchString).join('&');
+            return this.searchableArray.map((item) => 'filter[' + item + ']=' + this.searchString).join('&');
         },
         url() {
             let query = ['sort=' + this.sortArray.join(','), 'fields[history]=' + this.fields];
@@ -162,11 +165,11 @@ export default {
             this.loading = true;
             axios
                 .get(this.url)
-                .then(response => {
+                .then((response) => {
                     this.data = response.data;
                     this.loading = false;
                 })
-                .catch(error => {
+                .catch((error) => {
                     alertify.error(
                         error.response.data.message || this.$i18n.t('An error occurred with the data fetch.')
                     );
@@ -194,11 +197,11 @@ export default {
             this.loading = true;
             axios
                 .delete(this.url)
-                .then(response => {
+                .then((response) => {
                     this.data.data = [];
                     this.loading = false;
                 })
-                .catch(error => {
+                .catch((error) => {
                     alertify.error(
                         error.response.data.message || this.$i18n.t('An error occurred with the data fetch.')
                     );
