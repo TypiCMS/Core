@@ -340,14 +340,15 @@ export default {
                 .all(this.checkedItems.map((model) => axios.delete(this.urlBase + '/' + model.id)))
                 .then((responses) => {
                     let successes = responses.filter((response) => response.data.error === false);
-                    this.stopLoading();
                     alertify.success(this.$i18n.tc('# items deleted', successes.length, { count: successes.length }));
-                    this.fetchData();
                     this.checkedItems = [];
                 })
                 .catch((error) => {
-                    this.stopLoading();
                     alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
+                })
+                .then(() => {
+                    this.stopLoading();
+                    this.fetchData();
                 });
         },
         publish() {
