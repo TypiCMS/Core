@@ -358,11 +358,13 @@ export default {
                 )
                 .then((responses) => {
                     let successes = responses.filter((response) => response.statusText === 'OK');
-                    alertify.success(
-                        this.$i18n.tc('# items deleted', successes.length, {
-                            count: successes.length,
-                        })
-                    );
+                    if (successes.length > 0) {
+                        alertify.success(
+                            this.$i18n.tc('# items deleted', successes.length, {
+                                count: successes.length,
+                            })
+                        );
+                    }
                     this.checkNone();
                     this.stopLoading();
                     this.fetchData();
@@ -420,11 +422,13 @@ export default {
                 )
                 .then((responses) => {
                     let successes = responses.filter((response) => response.statusText === 'OK');
-                    alertify.success(
-                        this.$i18n.tc('# items ' + label, successes.length, {
-                            count: successes.length,
-                        })
-                    );
+                    if (successes.length > 0) {
+                        alertify.success(
+                            this.$i18n.tc('# items ' + label, successes.length, {
+                                count: successes.length,
+                            })
+                        );
+                    }
                     for (let i = this.checkedItems.length - 1; i >= 0; i--) {
                         let index = this.data.data.indexOf(this.checkedItems[i]);
                         this.data.data[index][statusVar] = status;
