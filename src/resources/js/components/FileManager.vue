@@ -599,7 +599,8 @@ export default {
             for (let item of this.selectedItems) {
                 if (item.children.length > 0) {
                     alertify.error(this.$i18n.t('A non-empty folder cannot be deleted.'));
-                    return false;
+                    let index = this.selectedItems.indexOf(item);
+                    this.selectedItems.splice(index, 1);
                 }
             }
 
