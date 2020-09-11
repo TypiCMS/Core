@@ -15,7 +15,7 @@ class CollectionExtensions extends ServiceProvider
             return $this->map(function ($item) use ($locale) {
                 foreach ($item->getAttributes() as $key => $value) {
                     if (in_array($key, $item->translatable)) {
-                        $item->$key = $item->translate($key, $locale);
+                        $item->{$key} = $item->translate($key, $locale);
                     }
                 }
 

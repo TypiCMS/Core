@@ -39,7 +39,7 @@ class SetLocale
         }
 
         // Not reliable, to be refactored.
-        $localeAndCountry = $locale.'_'.strtoupper($locale);
+        $localeAndCountry = $locale.'_'.mb_strtoupper($locale);
 
         setlocale(LC_ALL, $localeAndCountry.'.utf8', $localeAndCountry.'.utf-8', $localeAndCountry.'.UTF-8', $localeAndCountry);
 

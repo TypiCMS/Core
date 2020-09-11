@@ -101,7 +101,7 @@ class TypiCMS
 
     public function getPagesLinkedToModule($module = null): array
     {
-        $module = strtolower($module);
+        $module = mb_strtolower($module);
         $routes = app('typicms.routes');
 
         $pages = [];

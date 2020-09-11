@@ -55,7 +55,7 @@ class Publish extends Command
      */
     public function handle()
     {
-        $this->module = strtolower($this->argument('module'));
+        $this->module = mb_strtolower($this->argument('module'));
         if (!is_dir(base_path('vendor/typicms/'.$this->module))) {
             throw new Exception('Module “'.$this->module.'” not found in vendor directory.');
         }
@@ -104,7 +104,7 @@ class Publish extends Command
 
         foreach ($manager->listContents('from://', true) as $file) {
             $path = $file['path'];
-            if (substr($path, 0, 15) === 'resources/views' || substr($path, 0, 16) === 'resources/assets') {
+            if (mb_substr($path, 0, 15) === 'resources/views' || mb_substr($path, 0, 16) === 'resources/assets') {
                 continue;
             }
             if ($file['type'] === 'file' && (!$manager->has('to://'.$file['path']) || $this->option('force'))) {

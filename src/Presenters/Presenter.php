@@ -51,7 +51,7 @@ abstract class Presenter extends BasePresenter
      */
     public function dateLocalized($column = 'date')
     {
-        return $this->entity->$column->formatLocalized('%e %B %Y');
+        return $this->entity->{$column}->formatLocalized('%e %B %Y');
     }
 
     /**
@@ -63,7 +63,7 @@ abstract class Presenter extends BasePresenter
      */
     public function dateTimeLocalized($column = 'datetime')
     {
-        return $this->entity->$column->formatLocalized('%e %B %Y %H:%M');
+        return $this->entity->{$column}->formatLocalized('%e %B %Y %H:%M');
     }
 
     /**
@@ -75,7 +75,7 @@ abstract class Presenter extends BasePresenter
      */
     public function datetimeOrNow($column = 'date')
     {
-        $date = $this->entity->$column ?: Carbon::now();
+        $date = $this->entity->{$column} ?: Carbon::now();
 
         return $date->format('Y-m-d\TH:i');
     }
@@ -89,7 +89,7 @@ abstract class Presenter extends BasePresenter
      */
     public function dateOrNow($column = 'date')
     {
-        $date = $this->entity->$column ?: Carbon::now();
+        $date = $this->entity->{$column} ?: Carbon::now();
 
         return $date->format('Y-m-d');
     }
@@ -103,7 +103,7 @@ abstract class Presenter extends BasePresenter
      */
     public function timeOrNow($column = 'date')
     {
-        $date = $this->entity->$column ?: Carbon::now();
+        $date = $this->entity->{$column} ?: Carbon::now();
 
         return $date->format('H:i');
     }
@@ -117,7 +117,7 @@ abstract class Presenter extends BasePresenter
      */
     public function urlWithoutScheme($column = 'website')
     {
-        return str_replace(['http://', 'https://'], '', $this->entity->$column);
+        return str_replace(['http://', 'https://'], '', $this->entity->{$column});
     }
 
     /**
@@ -129,7 +129,7 @@ abstract class Presenter extends BasePresenter
      */
     public function link($column = 'website')
     {
-        return '<a href="'.$this->entity->$column.'" target="_blank" rel="noopener noreferrer">'.$this->urlWithoutScheme($column).'</a>';
+        return '<a href="'.$this->entity->{$column}.'" target="_blank" rel="noopener noreferrer">'.$this->urlWithoutScheme($column).'</a>';
     }
 
     /**

@@ -8,6 +8,8 @@ class LocaleController extends BaseAdminController
 {
     /**
      * Change content locale.
+     *
+     * @param mixed $locale
      */
     public function setContentLocale($locale)
     {

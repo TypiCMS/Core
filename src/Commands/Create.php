@@ -59,7 +59,7 @@ class Create extends Command
             return $this->error('Only alphabetic characters are allowed.');
         }
 
-        $this->module = Str::plural(ucfirst(strtolower($this->argument('module'))));
+        $this->module = Str::plural(ucfirst(mb_strtolower($this->argument('module'))));
 
         if ($this->moduleExists()) {
             return $this->error('A module named ['.$this->module.'] already exists.');
@@ -115,8 +115,8 @@ class Create extends Command
             'Object',
         ];
         $replace = [
-            strtolower($this->module),
-            strtolower(Str::singular($this->module)),
+            mb_strtolower($this->module),
+            mb_strtolower(Str::singular($this->module)),
             $this->module,
             Str::singular($this->module),
         ];
@@ -152,7 +152,7 @@ class Create extends Command
     public function publishViews()
     {
         $from = base_path('Modules/'.$this->module.'/resources/views');
-        $to = resource_path('views/vendor/'.strtolower($this->module));
+        $to = resource_path('views/vendor/'.mb_strtolower($this->module));
         $this->publishDirectory($from, $to);
     }
 
@@ -172,7 +172,7 @@ class Create extends Command
     public function moveMigrationFile()
     {
         $from = base_path('Modules/'.$this->module.'/database/migrations/2016_01_04_225000_create_objects_table.php');
-        $to = base_path('database/migrations/'.date('Y_m_d_His').'_create_'.strtolower($this->module).'_table.php');
+        $to = base_path('database/migrations/'.date('Y_m_d_His').'_create_'.mb_strtolower($this->module).'_table.php');
         $this->files->move($from, $to);
     }
 
@@ -201,7 +201,7 @@ class Create extends Command
      */
     public function transformFilename($path)
     {
-        $pathTransformed = str_replace('object', strtolower(Str::singular($this->module)), $path);
+        $pathTransformed = str_replace('object', mb_strtolower(Str::singular($this->module)), $path);
         $pathTransformed = str_replace('Object', Str::singular($this->module), $pathTransformed);
 
         return $pathTransformed;
@@ -264,7 +264,7 @@ class Create extends Command
     public function moduleExists()
     {
         $location1 = $this->files->isDirectory(base_path('Modules/'.$this->module));
-        $location2 = $this->files->isDirectory(base_path('vendor/typicms/'.strtolower($this->module)));
+        $location2 = $this->files->isDirectory(base_path('vendor/typicms/'.mb_strtolower($this->module)));
 
         return $location1 || $location2;
     }

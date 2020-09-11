@@ -21,7 +21,7 @@ class FileUploader
     {
         $filesize = $file->getClientSize();
         $mimetype = $file->getClientMimeType();
-        $extension = strtolower($file->getClientOriginalExtension());
+        $extension = mb_strtolower($file->getClientOriginalExtension());
         $fileName = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
         $filename = $fileName.'.'.$extension;
         list($width, $height) = getimagesize($file);

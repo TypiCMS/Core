@@ -34,6 +34,7 @@ class SlugObserver
      * Search for item with same slug.
      *
      * @param mixed $model
+     * @param mixed $locale
      *
      * @return bool
      */
