@@ -13,7 +13,7 @@
             v-for="page in getPages()"
             :disabled="page === '…'"
             :class="{
-                'btn-secondary': page == data.current_page && page !== '…',
+                active: page == data.current_page && page !== '…',
                 'btn-light': page !== data.current_page && page !== '…',
             }"
             @click="selectPage(page)"

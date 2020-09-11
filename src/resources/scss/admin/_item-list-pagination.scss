@@ -5,6 +5,10 @@
         margin: 0 0.2rem;
         padding-top: 0.1rem;
         padding-bottom: 0.1rem;
+        &.active {
+            @extend .btn-secondary;
+            cursor: default !important;
+        }
     }
     .pagination-prev-nav,
     .pagination-next-nav {
