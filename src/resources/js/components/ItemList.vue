@@ -347,20 +347,23 @@ export default {
             this.startLoading();
 
             axios
-                .all(this.checkedItems.map((model) => axios.delete(this.urlBase + '/' + model.id)))
+                .all(
+                    this.checkedItems.map((model) =>
+                        axios
+                            .delete(this.urlBase + '/' + model.id)
+                            .catch((error) =>
+                                alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'))
+                            )
+                    )
+                )
                 .then((responses) => {
-                    let successes = responses.filter((response) => response.data.error === false);
+                    let successes = responses.filter((response) => response.statusText === 'OK');
                     alertify.success(
                         this.$i18n.tc('# items deleted', successes.length, {
                             count: successes.length,
                         })
                     );
-                    this.checkedItems = [];
-                })
-                .catch((error) => {
-                    alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
-                })
-                .then(() => {
+                    this.checkNone();
                     this.stopLoading();
                     this.fetchData();
                 });
@@ -406,23 +409,28 @@ export default {
             this.startLoading();
 
             axios
-                .all(this.checkedItems.map((model) => axios.patch(this.urlBase + '/' + model.id, data)))
+                .all(
+                    this.checkedItems.map((model) =>
+                        axios
+                            .patch(this.urlBase + '/' + model.id, data)
+                            .catch((error) =>
+                                alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'))
+                            )
+                    )
+                )
                 .then((responses) => {
-                    this.stopLoading();
+                    let successes = responses.filter((response) => response.statusText === 'OK');
                     alertify.success(
-                        this.$i18n.tc('# items ' + label, responses.length, {
-                            count: responses.length,
+                        this.$i18n.tc('# items ' + label, successes.length, {
+                            count: successes.length,
                         })
                     );
                     for (let i = this.checkedItems.length - 1; i >= 0; i--) {
                         let index = this.data.data.indexOf(this.checkedItems[i]);
                         this.data.data[index][statusVar] = status;
                     }
-                    this.checkedItems = [];
-                })
-                .catch((error) => {
-                    console.log(error.response);
-                    alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
+                    this.checkNone();
+                    this.stopLoading();
                 });
         },
         toggleStatus(model) {
