@@ -375,7 +375,7 @@ export default {
             event.dataTransfer.setData('text', '');
             this.dragging = true;
             if (this.selectedItems.indexOf(item) === -1) {
-                this.selectedItems = [];
+                this.checkNone();
                 this.selectedItems.push(item);
             }
         },
@@ -426,7 +426,7 @@ export default {
                     alertify.error('Error ' + error.status + ' ' + error.statusText);
                 });
 
-            this.selectedItems = [];
+            this.checkNone();
         },
         newFolder(folderId) {
             let name = window.prompt(this.$i18n.t('What is the name of the new folder?'));
@@ -455,7 +455,7 @@ export default {
             let indexOfLastCheckedItem = this.data.models.indexOf(this.selectedItems[this.selectedItems.length - 1]);
             let index = this.selectedItems.indexOf(item);
             if (!($event.ctrlKey || $event.metaKey || $event.shiftKey)) {
-                this.selectedItems = [];
+                this.checkNone();
             }
             if (index !== -1 && ($event.metaKey || $event.ctrlKey)) {
                 this.selectedItems.splice(index, 1);
@@ -513,7 +513,7 @@ export default {
                 this.data.models.splice(index, 1);
             });
 
-            this.selectedItems = [];
+            this.checkNone();
 
             this.startLoading();
 
@@ -572,7 +572,7 @@ export default {
             axios
                 .post('/api/' + this.relatedTable + '/' + this.relatedId + '/files', data)
                 .then((response) => {
-                    this.selectedItems = [];
+                    this.checkNone();
                     this.$root.$emit('filesAdded', response.data.models);
                     this.closeModal();
 
@@ -599,7 +599,7 @@ export default {
             this.folder = folder;
             sessionStorage.setItem('folder', JSON.stringify(folder));
             this.fetchData();
-            this.selectedItems = [];
+            this.checkNone();
         },
         onDoubleClick(item) {
             if (item.type === 'f') {
