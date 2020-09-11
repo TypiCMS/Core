@@ -92,6 +92,7 @@
                 @vdropzone-success="dropzoneSuccess"
                 @vdropzone-sending="dropzoneSending"
                 @vdropzone-complete="dropzoneComplete"
+                @vdropzone-error="dropzoneError"
                 v-if="dropzone"
             >
             </vue-dropzone>
@@ -366,6 +367,9 @@ export default {
                     this.stopLoading();
                 }, 1000);
             }
+        },
+        dropzoneError(file, message, xhr) {
+            file.previewElement.querySelectorAll('.dz-error-message span')[0].textContent = message.errors.name;
         },
         dragStart(item, event) {
             event.dataTransfer.setData('text', '');

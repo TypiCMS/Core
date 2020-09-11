@@ -465,7 +465,7 @@
 
             border-radius: 8px;
             font-size: 13px;
-            top: $image-size + 10px;
+            bottom: $image-size + 10px;
             left: -10px;
             width: $width;
             background: $color;
@@ -477,13 +477,13 @@
             &:after {
                 content: '';
                 position: absolute;
-                top: -6px;
+                bottom: -6px;
                 left: $width / 2 - 6px;
                 width: 0;
                 height: 0;
                 border-left: 6px solid transparent;
                 border-right: 6px solid transparent;
-                border-bottom: 6px solid $color;
+                border-top: 6px solid $color;
             }
         }
     }
