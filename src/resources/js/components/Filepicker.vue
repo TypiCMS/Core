@@ -648,20 +648,27 @@ export default {
             this.startLoading();
 
             axios
-                .all(this.selectedItems.map((item) => axios.delete(this.baseUrl + '/' + item.id)))
+                .all(
+                    this.selectedItems.map((item) =>
+                        axios
+                            .delete(this.baseUrl + '/' + item.id)
+                            .catch((error) =>
+                                alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'))
+                            )
+                    )
+                )
                 .then((responses) => {
-                    let successes = responses.filter((response) => response.data.error === false);
+                    let successes = responses.filter((response) => response.statusText === 'OK');
+                    if (successes.length > 0) {
+                        alertify.success(
+                            this.$i18n.tc('# items deleted', successes.length, {
+                                count: successes.length,
+                            })
+                        );
+                    }
                     this.stopLoading();
-                    alertify.success(
-                        this.$i18n.tc('# items deleted', successes.length, {
-                            count: successes.length,
-                        })
-                    );
+                    this.checkNone();
                     this.fetchData();
-                    this.selectedItems = [];
-                })
-                .catch((error) => {
-                    alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
                 });
         },
     },
