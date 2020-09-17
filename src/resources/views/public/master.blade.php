@@ -29,7 +29,7 @@
 
 </head>
 
-<body ontouchstart="" class="body-{{ $lang }} @yield('bodyClass') @if ($navbar)has-navbar @endif">
+<body class="body-{{ $lang }} @yield('bodyClass') @if ($navbar)has-navbar @endif">
 
     @include('core::public._google_tag_manager_code')
 
