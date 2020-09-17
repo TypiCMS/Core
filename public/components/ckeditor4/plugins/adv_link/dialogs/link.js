@@ -5,8 +5,8 @@
 
 'use strict';
 
-(function() {
-    CKEDITOR.dialog.add('link', function(editor) {
+(function () {
+    CKEDITOR.dialog.add('link', function (editor) {
         var plugin = CKEDITOR.plugins.link,
             localPageHrefPattern = new RegExp('{!! page:[0-9]+ !!}'),
             initialLinkText;
@@ -120,7 +120,7 @@
         }
 
         // Handles the event when the "Target" selection box is changed.
-        var targetChanged = function() {
+        var targetChanged = function () {
             var dialog = this.getDialog(),
                 popupFeatures = dialog.getContentElement('target', 'popupFeatures'),
                 targetName = dialog.getContentElement('target', 'linkTargetName'),
@@ -152,7 +152,7 @@
         };
 
         // Handles the event when the "Type" selection box is changed.
-        var linkTypeChanged = function() {
+        var linkTypeChanged = function () {
             var dialog = this.getDialog(),
                 partIds = ['urlOptions', 'localPageOptions', 'anchorOptions', 'emailOptions', 'telOptions'],
                 typeValue = this.getValue(),
@@ -179,10 +179,7 @@
                     continue;
                 }
 
-                element = element
-                    .getElement()
-                    .getParent()
-                    .getParent();
+                element = element.getElement().getParent().getParent();
                 if (partIds[i] == typeValue + 'Options') {
                     element.show();
                 } else {
@@ -193,21 +190,21 @@
             dialog.layout();
         };
 
-        var setupParams = function(page, data) {
+        var setupParams = function (page, data) {
             if (data[page]) {
                 this.setValue(data[page][this.id] || '');
             }
         };
 
-        var setupPopupParams = function(data) {
+        var setupPopupParams = function (data) {
             return setupParams.call(this, 'target', data);
         };
 
-        var setupAdvParams = function(data) {
+        var setupAdvParams = function (data) {
             return setupParams.call(this, 'advanced', data);
         };
 
-        var commitParams = function(page, data) {
+        var commitParams = function (page, data) {
             if (!data[page]) {
                 data[page] = {};
             }
@@ -215,11 +212,11 @@
             data[page][this.id] = this.getValue() || '';
         };
 
-        var commitPopupParams = function(data) {
+        var commitPopupParams = function (data) {
             return commitParams.call(this, 'target', data);
         };
 
-        var commitAdvParams = function(data) {
+        var commitAdvParams = function (data) {
             return commitParams.call(this, 'advanced', data);
         };
 
@@ -232,7 +229,7 @@
             title: linkLang.title,
             minWidth: (CKEDITOR.skinName || editor.config.skin) == 'moono-lisa' ? 450 : 350,
             minHeight: 240,
-            getModel: function(editor) {
+            getModel: function (editor) {
                 var elements = plugin.getSelectedLink(editor, true),
                     firstLink = elements[0] || null;
 
@@ -248,7 +245,7 @@
                             type: 'text',
                             id: 'linkDisplayText',
                             label: linkLang.displayText,
-                            setup: function() {
+                            setup: function () {
                                 this.enable();
 
                                 this.setValue(editor.getSelection().getSelectedText());
@@ -257,7 +254,7 @@
                                 // we get value stripped from new line chars which is important when comparing the value later on.
                                 initialLinkText = this.getValue();
                             },
-                            commit: function(data) {
+                            commit: function (data) {
                                 data.linkText = this.isEnabled() ? this.getValue() : '';
                             },
                         },
@@ -274,10 +271,10 @@
                                 [linkLang.toPhone, 'tel'],
                             ],
                             onChange: linkTypeChanged,
-                            setup: function(data) {
+                            setup: function (data) {
                                 this.setValue(data.type || 'url');
                             },
-                            commit: function(data) {
+                            commit: function (data) {
                                 data.type = this.getValue();
                             },
                         },
@@ -302,12 +299,12 @@
                                                 [linkLang.other, ''],
                                             ],
                                             default: editor.config.linkDefaultProtocol,
-                                            setup: function(data) {
+                                            setup: function (data) {
                                                 if (data.url) {
                                                     this.setValue(data.url.protocol || '');
                                                 }
                                             },
-                                            commit: function(data) {
+                                            commit: function (data) {
                                                 if (!data.url) {
                                                     data.url = {};
                                                 }
@@ -320,10 +317,10 @@
                                             id: 'url',
                                             label: commonLang.url,
                                             required: true,
-                                            onLoad: function() {
+                                            onLoad: function () {
                                                 this.allowOnChange = true;
                                             },
-                                            onKeyUp: function() {
+                                            onKeyUp: function () {
                                                 this.allowOnChange = false;
                                                 var protocolCmb = this.getDialog().getContentElement(
                                                         'info',
@@ -343,13 +340,13 @@
 
                                                 this.allowOnChange = true;
                                             },
-                                            onChange: function() {
+                                            onChange: function () {
                                                 // Dont't call on dialog load.
                                                 if (this.allowOnChange) {
                                                     this.onKeyUp();
                                                 }
                                             },
-                                            validate: function() {
+                                            validate: function () {
                                                 var dialog = this.getDialog();
 
                                                 if (
@@ -375,14 +372,14 @@
                                                 var func = CKEDITOR.dialog.validate.notEmpty(linkLang.noUrl);
                                                 return func.apply(this);
                                             },
-                                            setup: function(data) {
+                                            setup: function (data) {
                                                 this.allowOnChange = false;
                                                 if (data.url) {
                                                     this.setValue(data.url.url);
                                                 }
                                                 this.allowOnChange = true;
                                             },
-                                            commit: function(data) {
+                                            commit: function (data) {
                                                 // IE will not trigger the onChange event if the mouse has been used
                                                 // to carry all the operations https://dev.ckeditor.com/ticket/4724
                                                 this.onChange();
@@ -396,7 +393,7 @@
                                             },
                                         },
                                     ],
-                                    setup: function() {
+                                    setup: function () {
                                         if (!this.getDialog().getContentElement('info', 'linkType')) {
                                             this.getElement().show();
                                         }
@@ -420,20 +417,20 @@
                                     label: advLinkLang.selectPageLabel,
                                     id: 'href',
                                     items: [],
-                                    onLoad: function() {
+                                    onLoad: function () {
                                         if (typeof localPages !== 'undefined') {
                                             var widget = this;
-                                            localPages.forEach(function(item) {
+                                            localPages.forEach(function (item) {
                                                 widget.add(item[0], item[1]);
                                             });
                                         }
                                     },
-                                    setup: function(data) {
+                                    setup: function (data) {
                                         if (data.localPage) {
                                             this.setValue(data.localPage.href || '');
                                         }
                                     },
-                                    commit: function(data) {
+                                    commit: function (data) {
                                         if (!data.localPage) {
                                             data.localPage = {};
                                         }
@@ -444,12 +441,12 @@
                                     type: 'text',
                                     id: 'hash',
                                     label: advLinkLang.hash,
-                                    setup: function(data) {
+                                    setup: function (data) {
                                         if (data.localPage) {
                                             this.setValue(data.localPage.hash);
                                         }
                                     },
-                                    commit: function(data) {
+                                    commit: function (data) {
                                         if (!data.localPage) {
                                             data.localPage = {};
                                         }
@@ -470,7 +467,7 @@
                                     type: 'fieldset',
                                     id: 'selectAnchorText',
                                     label: linkLang.selectAnchor,
-                                    setup: function() {
+                                    setup: function () {
                                         anchors = plugin.getEditorAnchors(editor);
 
                                         this.getElement()[anchors && anchors.length ? 'show' : 'hide']();
@@ -487,7 +484,7 @@
                                                     label: linkLang.anchorName,
                                                     style: 'width: 100%;',
                                                     items: [['']],
-                                                    setup: function(data) {
+                                                    setup: function (data) {
                                                         this.clear();
                                                         this.add('');
 
@@ -511,7 +508,7 @@
                                                             this.focus();
                                                         }
                                                     },
-                                                    commit: function(data) {
+                                                    commit: function (data) {
                                                         if (!data.anchor) {
                                                             data.anchor = {};
                                                         }
@@ -526,7 +523,7 @@
                                                     label: linkLang.anchorId,
                                                     style: 'width: 100%;',
                                                     items: [['']],
-                                                    setup: function(data) {
+                                                    setup: function (data) {
                                                         this.clear();
                                                         this.add('');
 
@@ -542,7 +539,7 @@
                                                             this.setValue(data.anchor.id);
                                                         }
                                                     },
-                                                    commit: function(data) {
+                                                    commit: function (data) {
                                                         if (!data.anchor) {
                                                             data.anchor = {};
                                                         }
@@ -551,7 +548,7 @@
                                                     },
                                                 },
                                             ],
-                                            setup: function() {
+                                            setup: function () {
                                                 this.getElement()[anchors && anchors.length ? 'show' : 'hide']();
                                             },
                                         },
@@ -567,12 +564,12 @@
                                         '</div>',
                                     // Focus the first element defined in above html.
                                     focus: true,
-                                    setup: function() {
+                                    setup: function () {
                                         this.getElement()[anchors && anchors.length ? 'hide' : 'show']();
                                     },
                                 },
                             ],
-                            setup: function() {
+                            setup: function () {
                                 if (!this.getDialog().getContentElement('info', 'linkType')) {
                                     this.getElement().hide();
                                 }
@@ -588,7 +585,7 @@
                                     id: 'emailAddress',
                                     label: linkLang.emailAddress,
                                     required: true,
-                                    validate: function() {
+                                    validate: function () {
                                         var dialog = this.getDialog();
 
                                         if (
@@ -601,7 +598,7 @@
                                         var func = CKEDITOR.dialog.validate.notEmpty(linkLang.noEmail);
                                         return func.apply(this);
                                     },
-                                    setup: function(data) {
+                                    setup: function (data) {
                                         if (data.email) {
                                             this.setValue(data.email.address);
                                         }
@@ -611,7 +608,7 @@
                                             this.select();
                                         }
                                     },
-                                    commit: function(data) {
+                                    commit: function (data) {
                                         if (!data.email) {
                                             data.email = {};
                                         }
@@ -623,12 +620,12 @@
                                     type: 'text',
                                     id: 'emailSubject',
                                     label: linkLang.emailSubject,
-                                    setup: function(data) {
+                                    setup: function (data) {
                                         if (data.email) {
                                             this.setValue(data.email.subject);
                                         }
                                     },
-                                    commit: function(data) {
+                                    commit: function (data) {
                                         if (!data.email) {
                                             data.email = {};
                                         }
@@ -642,12 +639,12 @@
                                     label: linkLang.emailBody,
                                     rows: 3,
                                     default: '',
-                                    setup: function(data) {
+                                    setup: function (data) {
                                         if (data.email) {
                                             this.setValue(data.email.body);
                                         }
                                     },
-                                    commit: function(data) {
+                                    commit: function (data) {
                                         if (!data.email) {
                                             data.email = {};
                                         }
@@ -656,7 +653,7 @@
                                     },
                                 },
                             ],
-                            setup: function() {
+                            setup: function () {
                                 if (!this.getDialog().getContentElement('info', 'linkType')) {
                                     this.getElement().hide();
                                 }
@@ -673,7 +670,7 @@
                                     label: linkLang.phoneNumber,
                                     required: true,
                                     validate: validateTelNumber,
-                                    setup: function(data) {
+                                    setup: function (data) {
                                         if (data.tel) {
                                             this.setValue(data.tel);
                                         }
@@ -683,12 +680,12 @@
                                             this.select();
                                         }
                                     },
-                                    commit: function(data) {
+                                    commit: function (data) {
                                         data.tel = this.getValue();
                                     },
                                 },
                             ],
-                            setup: function() {
+                            setup: function () {
                                 if (!this.getDialog().getContentElement('info', 'linkType')) {
                                     this.getElement().hide();
                                 }
@@ -722,13 +719,13 @@
                                         [commonLang.targetParent, '_parent'],
                                     ],
                                     onChange: targetChanged,
-                                    setup: function(data) {
+                                    setup: function (data) {
                                         if (data.target) {
                                             this.setValue(data.target.type || 'notSet');
                                         }
                                         targetChanged.call(this);
                                     },
-                                    commit: function(data) {
+                                    commit: function (data) {
                                         if (!data.target) {
                                             data.target = {};
                                         }
@@ -741,12 +738,12 @@
                                     id: 'linkTargetName',
                                     label: linkLang.targetFrameName,
                                     default: '',
-                                    setup: function(data) {
+                                    setup: function (data) {
                                         if (data.target) {
                                             this.setValue(data.target.name);
                                         }
                                     },
-                                    commit: function(data) {
+                                    commit: function (data) {
                                         if (!data.target) {
                                             data.target = {};
                                         }
@@ -1090,12 +1087,12 @@
                                             id: 'download',
                                             requiredContent: 'a[download]',
                                             label: linkLang.download,
-                                            setup: function(data) {
+                                            setup: function (data) {
                                                 if (data.download !== undefined) {
                                                     this.setValue('checked', 'checked');
                                                 }
                                             },
-                                            commit: function(data) {
+                                            commit: function (data) {
                                                 if (this.getValue()) {
                                                     data.download = this.getValue();
                                                 }
@@ -1108,7 +1105,7 @@
                     ],
                 },
             ],
-            onShow: function() {
+            onShow: function () {
                 var editor = this.getParentEditor(),
                     selection = editor.getSelection(),
                     displayTextField = this.getContentElement('info', 'linkDisplayText')
@@ -1151,7 +1148,7 @@
 
                 this.setupContent(data);
             },
-            onOk: function() {
+            onOk: function () {
                 var data = {};
 
                 // Collect data from fields.
@@ -1175,7 +1172,7 @@
                     delete this._.selectedElements;
                 }
             },
-            onLoad: function() {
+            onLoad: function () {
                 if (!editor.config.linkShowAdvancedTab) {
                     this.hidePage('advanced'); //Hide Advanded tab.
                 }
@@ -1185,7 +1182,7 @@
                 }
             },
             // Inital focus on 'url' field if link is of type URL.
-            onFocus: function() {
+            onFocus: function () {
                 var linkType = this.getContentElement('info', 'linkType'),
                     urlField;
 
