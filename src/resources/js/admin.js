@@ -48,6 +48,12 @@ const messages = { fr, en, es };
 const i18n = new VueI18n({ locale: window.TypiCMS.locale, messages });
 
 /**
+ * Permissions mixin
+ */
+import Permissions from './mixins/Permissions';
+Vue.mixin(Permissions);
+
+/**
  * Date Filter
  */
 import date from './filters/Date.js';

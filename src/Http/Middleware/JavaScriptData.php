@@ -25,6 +25,7 @@ class JavaScriptData
             'locales' => $locales,
             'content_locale' => config('typicms.content_locale'),
             'locale' => config('app.locale'),
+            'permissions' => $request->user()->allPermissions,
         ]);
 
         return $next($request);
