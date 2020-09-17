@@ -34,8 +34,8 @@
     @include('core::public._google_tag_manager_code')
 
     @section('skip-links')
-    <a href="#main" class="skip-to-content">@lang('db.Skip to content')</a>
-    <a href="#site-nav" class="d-block d-md-none btn-offcanvas" data-toggle="offcanvas" title="@lang('db.Open navigation')" aria-label="@lang('db.Open navigation')" role="button" aria-controls="navigation" aria-expanded="false"><span class="fa fa-bars fa-fw" aria-hidden="true"></span></a>
+    <a href="#main" class="skip-to-content">@lang('Skip to content')</a>
+    <a href="#site-nav" class="d-block d-md-none btn-offcanvas" data-toggle="offcanvas" title="@lang('Open navigation')" aria-label="@lang('Open navigation')" role="button" aria-controls="navigation" aria-expanded="false"><span class="fa fa-bars fa-fw" aria-hidden="true"></span></a>
     @show
 
     @include('core::_navbar')
@@ -53,7 +53,7 @@
 
         <div class="sidebar-offcanvas">
 
-            <button class="d-block d-md-none btn-offcanvas btn-offcanvas-close" data-toggle="offcanvas" title="@lang('db.Close navigation')" aria-label="@lang('db.Close navigation')"><span class="fa fa-close fa-fw" aria-hidden="true"></span></button>
+            <button class="d-block d-md-none btn-offcanvas btn-offcanvas-close" data-toggle="offcanvas" title="@lang('Close navigation')" aria-label="@lang('Close navigation')"><span class="fa fa-close fa-fw" aria-hidden="true"></span></button>
 
             @section('lang-switcher')
                 @include('core::public._lang-switcher')
