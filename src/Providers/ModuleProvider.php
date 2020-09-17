@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Providers;
 
 use Exception;
 use Illuminate\Foundation\Application;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use TypiCMS\Modules\Core\Commands\Create;
@@ -31,6 +32,8 @@ class ModuleProvider extends ServiceProvider
      */
     public function boot()
     {
+        Paginator::useBootstrap();
+
         $this->loadViewsFrom(__DIR__.'/../resources/views/', 'core');
 
         $this->publishes([
