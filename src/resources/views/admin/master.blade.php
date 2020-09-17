@@ -16,7 +16,7 @@
 
 </head>
 
-<body ontouchstart="" class="@can('see-navbar')has-navbar @endcan @yield('bodyClass')">
+<body ontouchstart="" class="@can('see navbar')has-navbar @endcan @yield('bodyClass')">
 
 @section('navbar')
     @include('core::_navbar')

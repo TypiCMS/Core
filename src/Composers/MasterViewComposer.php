@@ -14,7 +14,7 @@ class MasterViewComposer
         if (
             $user &&
             (
-                $user->can('see-navbar') ||
+                $user->can('see navbar') ||
                 $user->isSuperUser()
             ) &&
             !request('preview')
