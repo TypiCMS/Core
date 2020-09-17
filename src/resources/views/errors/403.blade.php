@@ -6,11 +6,17 @@
 
 @section('content')
 
-    <article class="http-error-message">
-        <h2>@lang('db.Sorry, you are not authorized to view this page').</h2>
-        <p>
-            {!! trans('db.Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) !!}
-        </p>
-    </article>
+<header class="page-header">
+    <div class="page-header-container">
+        <h1 class="page-title">@lang('Error')</h1>
+    </div>
+</header>
+
+<div class="page-body">
+    <p class="lead">@lang('Sorry, you are not authorized to view this page').</p>
+    <p>
+        {!! trans('Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) !!}
+    </p>
+</div>
 
 @endsection

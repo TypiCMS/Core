@@ -6,11 +6,17 @@
 
 @section('content')
 
-    <article class="http-error-message">
-        <h2>@lang('db.Sorry, this page was not found').</h2>
-        <p>
-            {!! trans('db.Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) !!}
-        </p>
-    </article>
+<header class="page-header">
+    <div class="page-header-container">
+        <h1 class="page-title">@lang('Error 404')</h1>
+    </div>
+</header>
+
+<div class="page-body">
+    <p class="lead">@lang('Sorry, this page was not found').</p>
+    <p>
+        {!! trans('Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) !!}
+    </p>
+</div>
 
 @endsection

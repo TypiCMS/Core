@@ -8,11 +8,17 @@
 
 @section('content')
 
-    <article class="http-error-message">
-        <h2>@lang('db.Sorry, a server error occurred').</h2>
-        <p>
-            {!! trans('db.Error :code', ['code' => '500']) !!}.
-        </p>
-    </article>
+<header class="page-header">
+    <div class="page-header-container">
+        <h1 class="page-title">@lang('Server Error')</h1>
+    </div>
+</header>
+
+<div class="page-body">
+    <p class="lead">@lang('Sorry, a server error occurred').</p>
+    <p>
+        {!! trans('Error :code', ['code' => '500']) !!}.
+    </p>
+</div>
 
 @endsection
