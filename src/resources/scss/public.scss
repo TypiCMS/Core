@@ -31,10 +31,6 @@ table {
     @extend .table;
 }
 
-.site-container {
-    @extend .container;
-}
-
 blockquote {
     color: $gray-700;
     border-left: 5px solid $gray-300;
