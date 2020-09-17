@@ -2405,40 +2405,42 @@ fieldset:disabled .item-list-pagination a.page-item,
   box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
 }
 
-.btn-secondary {
+.btn-secondary, .item-list-pagination .page-item.active {
   color: #fff;
   background-color: #6c757d;
   border-color: #6c757d;
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover, .item-list-pagination .page-item.active:hover {
   color: #fff;
   background-color: #5a6268;
   border-color: #545b62;
 }
 
-.btn-secondary:focus, .btn-secondary.focus {
+.btn-secondary:focus, .item-list-pagination .page-item.active:focus, .btn-secondary.focus, .item-list-pagination .focus.page-item.active {
   color: #fff;
   background-color: #5a6268;
   border-color: #545b62;
   box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
 }
 
-.btn-secondary.disabled, .btn-secondary:disabled {
+.btn-secondary.disabled, .item-list-pagination .disabled.page-item.active, .btn-secondary:disabled, .item-list-pagination .page-item.active:disabled {
   color: #fff;
   background-color: #6c757d;
   border-color: #6c757d;
 }
 
-.btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active,
-.show > .btn-secondary.dropdown-toggle {
+.btn-secondary:not(:disabled):not(.disabled):active, .item-list-pagination .page-item.active:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active, .item-list-pagination .page-item:not(:disabled):not(.disabled).active,
+.show > .btn-secondary.dropdown-toggle,
+.item-list-pagination .show > .dropdown-toggle.page-item.active {
   color: #fff;
   background-color: #545b62;
   border-color: #4e555b;
 }
 
-.btn-secondary:not(:disabled):not(.disabled):active:focus, .btn-secondary:not(:disabled):not(.disabled).active:focus,
-.show > .btn-secondary.dropdown-toggle:focus {
+.btn-secondary:not(:disabled):not(.disabled):active:focus, .item-list-pagination .page-item.active:not(:disabled):not(.disabled):active:focus, .btn-secondary:not(:disabled):not(.disabled).active:focus, .item-list-pagination .page-item:not(:disabled):not(.disabled).active:focus,
+.show > .btn-secondary.dropdown-toggle:focus,
+.item-list-pagination .show > .dropdown-toggle.page-item.active:focus {
   box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
 }
 
@@ -14012,7 +14014,7 @@ a.text-dark:hover, a.text-dark:focus {
   transition: opacity 0.3s ease;
   border-radius: 8px;
   font-size: 13px;
-  top: 130px;
+  bottom: 130px;
   left: -10px;
   width: 140px;
   background: #be2626;
@@ -14024,13 +14026,13 @@ a.text-dark:hover, a.text-dark:focus {
 .dropzone .dz-preview .dz-error-message:after {
   content: '';
   position: absolute;
-  top: -6px;
+  bottom: -6px;
   left: 64px;
   width: 0;
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-bottom: 6px solid #be2626;
+  border-top: 6px solid #be2626;
 }
 
 .body-filepicker {
@@ -15203,6 +15205,10 @@ a.text-dark:hover, a.text-dark:focus {
   margin: 0 0.2rem;
   padding-top: 0.1rem;
   padding-bottom: 0.1rem;
+}
+
+.item-list-pagination .page-item.active {
+  cursor: default !important;
 }
 
 .item-list-pagination .pagination-prev-nav,

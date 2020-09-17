@@ -2209,6 +2209,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2397,12 +2398,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         }, 1000);
       }
     },
+    dropzoneError: function dropzoneError(file, message, xhr) {
+      file.previewElement.querySelectorAll('.dz-error-message span')[0].textContent = message.errors.name;
+    },
     dragStart: function dragStart(item, event) {
       event.dataTransfer.setData('text', '');
       this.dragging = true;
 
       if (this.selectedItems.indexOf(item) === -1) {
-        this.selectedItems = [];
+        this.checkNone();
         this.selectedItems.push(item);
       }
     },
@@ -2449,7 +2453,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       })["catch"](function (error) {
         alertify.error('Error ' + error.status + ' ' + error.statusText);
       });
-      this.selectedItems = [];
+      this.checkNone();
     },
     newFolder: function newFolder(folderId) {
       var _this7 = this;
@@ -2481,7 +2485,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var index = this.selectedItems.indexOf(item);
 
       if (!($event.ctrlKey || $event.metaKey || $event.shiftKey)) {
-        this.selectedItems = [];
+        this.checkNone();
       }
 
       if (index !== -1 && ($event.metaKey || $event.ctrlKey)) {
@@ -2546,7 +2550,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
         _this9.data.models.splice(index, 1);
       });
-      this.selectedItems = [];
+      this.checkNone();
       this.startLoading();
       var data = {
         folder_id: this.path[this.path.length - 2].id
@@ -2596,7 +2600,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       });
       this.$root.$emit('filesAdded', this.selectedFiles);
       this.closeModal();
-      this.selectedItems = [];
+      this.checkNone();
     },
     closeModal: function closeModal() {
       $('html, body').removeClass('noscroll');
@@ -2610,7 +2614,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.folder = folder;
       sessionStorage.setItem('folder', JSON.stringify(folder));
       this.fetchData();
-      this.selectedItems = [];
+      this.checkNone();
     },
     onDoubleClick: function onDoubleClick(item) {
       if (item.type === 'f') {
@@ -2643,7 +2647,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
           if (item.children.length > 0) {
             alertify.error(this.$i18n.t('A non-empty folder cannot be deleted.'));
-            return false;
+            var index = this.selectedItems.indexOf(item);
+            this.selectedItems.splice(index, 1);
           }
         }
       } catch (err) {
@@ -2667,23 +2672,25 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
       this.startLoading();
       axios.all(this.selectedItems.map(function (item) {
-        return axios["delete"](_this10.baseUrl + '/' + item.id);
+        return axios["delete"](_this10.baseUrl + '/' + item.id)["catch"](function (error) {
+          return alertify.error(error.response.data.message || _this10.$i18n.t('Sorry, an error occurred.'));
+        });
       })).then(function (responses) {
         var successes = responses.filter(function (response) {
-          return response.data.error === false;
+          return response.statusText === 'OK';
         });
+
+        if (successes.length > 0) {
+          alertify.success(_this10.$i18n.tc('# items deleted', successes.length, {
+            count: successes.length
+          }));
+        }
 
         _this10.stopLoading();
 
-        alertify.success(_this10.$i18n.tc('# items deleted', successes.length, {
-          count: successes.length
-        }));
+        _this10.checkNone();
 
         _this10.fetchData();
-
-        _this10.selectedItems = [];
-      })["catch"](function (error) {
-        alertify.error(error.response.data.message || _this10.$i18n.t('Sorry, an error occurred.'));
       });
     }
   }
@@ -2709,6 +2716,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+//
 //
 //
 //
@@ -3068,12 +3076,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         }, 1000);
       }
     },
+    dropzoneError: function dropzoneError(file, message, xhr) {
+      file.previewElement.querySelectorAll('.dz-error-message span')[0].textContent = message.errors.name;
+    },
     dragStart: function dragStart(item, event) {
       event.dataTransfer.setData('text', '');
       this.dragging = true;
 
       if (this.selectedItems.indexOf(item) === -1) {
-        this.selectedItems = [];
+        this.checkNone();
         this.selectedItems.push(item);
       }
     },
@@ -3120,7 +3131,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       })["catch"](function (error) {
         alertify.error('Error ' + error.status + ' ' + error.statusText);
       });
-      this.selectedItems = [];
+      this.checkNone();
     },
     newFolder: function newFolder(folderId) {
       var _this7 = this;
@@ -3152,7 +3163,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var index = this.selectedItems.indexOf(item);
 
       if (!($event.ctrlKey || $event.metaKey || $event.shiftKey)) {
-        this.selectedItems = [];
+        this.checkNone();
       }
 
       if (index !== -1 && ($event.metaKey || $event.ctrlKey)) {
@@ -3217,7 +3228,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
         _this9.data.models.splice(index, 1);
       });
-      this.selectedItems = [];
+      this.checkNone();
       this.startLoading();
       var data = {
         folder_id: this.path[this.path.length - 2].id
@@ -3270,7 +3281,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       });
       data.files = ids;
       axios.post('/api/' + this.relatedTable + '/' + this.relatedId + '/files', data).then(function (response) {
-        _this10.selectedItems = [];
+        _this10.checkNone();
 
         _this10.$root.$emit('filesAdded', response.data.models);
 
@@ -3298,7 +3309,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.folder = folder;
       sessionStorage.setItem('folder', JSON.stringify(folder));
       this.fetchData();
-      this.selectedItems = [];
+      this.checkNone();
     },
     onDoubleClick: function onDoubleClick(item) {
       if (item.type === 'f') {
@@ -3331,7 +3342,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
           if (item.children.length > 0) {
             alertify.error(this.$i18n.t('A non-empty folder cannot be deleted.'));
-            return false;
+            var index = this.selectedItems.indexOf(item);
+            this.selectedItems.splice(index, 1);
           }
         }
       } catch (err) {
@@ -3355,23 +3367,25 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
       this.startLoading();
       axios.all(this.selectedItems.map(function (item) {
-        return axios["delete"](_this11.baseUrl + '/' + item.id);
+        return axios["delete"](_this11.baseUrl + '/' + item.id)["catch"](function (error) {
+          return alertify.error(error.response.data.message || _this11.$i18n.t('Sorry, an error occurred.'));
+        });
       })).then(function (responses) {
         var successes = responses.filter(function (response) {
-          return response.data.error === false;
+          return response.statusText === 'OK';
         });
+
+        if (successes.length > 0) {
+          alertify.success(_this11.$i18n.tc('# items deleted', successes.length, {
+            count: successes.length
+          }));
+        }
 
         _this11.stopLoading();
 
-        alertify.success(_this11.$i18n.tc('# items deleted', successes.length, {
-          count: successes.length
-        }));
+        _this11.checkNone();
 
         _this11.fetchData();
-
-        _this11.selectedItems = [];
-      })["catch"](function (error) {
-        alertify.error(error.response.data.message || _this11.$i18n.t('Sorry, an error occurred.'));
       });
     }
   }
@@ -4272,18 +4286,22 @@ __webpack_require__.r(__webpack_exports__);
 
       this.startLoading();
       axios.all(this.checkedItems.map(function (model) {
-        return axios["delete"](_this6.urlBase + '/' + model.id);
+        return axios["delete"](_this6.urlBase + '/' + model.id)["catch"](function (error) {
+          return alertify.error(error.response.data.message || _this6.$i18n.t('Sorry, an error occurred.'));
+        });
       })).then(function (responses) {
         var successes = responses.filter(function (response) {
-          return response.data.error === false;
+          return response.statusText === 'OK';
         });
-        alertify.success(_this6.$i18n.tc('# items deleted', successes.length, {
-          count: successes.length
-        }));
-        _this6.checkedItems = [];
-      })["catch"](function (error) {
-        alertify.error(error.response.data.message || _this6.$i18n.t('Sorry, an error occurred.'));
-      }).then(function () {
+
+        if (successes.length > 0) {
+          alertify.success(_this6.$i18n.tc('# items deleted', successes.length, {
+            count: successes.length
+          }));
+        }
+
+        _this6.checkNone();
+
         _this6.stopLoading();
 
         _this6.fetchData();
@@ -4325,13 +4343,19 @@ __webpack_require__.r(__webpack_exports__);
 
       this.startLoading();
       axios.all(this.checkedItems.map(function (model) {
-        return axios.patch(_this7.urlBase + '/' + model.id, data);
+        return axios.patch(_this7.urlBase + '/' + model.id, data)["catch"](function (error) {
+          return alertify.error(error.response.data.message || _this7.$i18n.t('Sorry, an error occurred.'));
+        });
       })).then(function (responses) {
-        _this7.stopLoading();
+        var successes = responses.filter(function (response) {
+          return response.statusText === 'OK';
+        });
 
-        alertify.success(_this7.$i18n.tc('# items ' + label, responses.length, {
-          count: responses.length
-        }));
+        if (successes.length > 0) {
+          alertify.success(_this7.$i18n.tc('# items ' + label, successes.length, {
+            count: successes.length
+          }));
+        }
 
         for (var i = _this7.checkedItems.length - 1; i >= 0; i--) {
           var index = _this7.data.data.indexOf(_this7.checkedItems[i]);
@@ -4339,10 +4363,9 @@ __webpack_require__.r(__webpack_exports__);
           _this7.data.data[index][statusVar] = status;
         }
 
-        _this7.checkedItems = [];
-      })["catch"](function (error) {
-        console.log(error.response);
-        alertify.error(error.response.data.message || _this7.$i18n.t('Sorry, an error occurred.'));
+        _this7.checkNone();
+
+        _this7.stopLoading();
       });
     },
     toggleStatus: function toggleStatus(model) {
@@ -37422,7 +37445,8 @@ var render = function() {
                 on: {
                   "vdropzone-success": _vm.dropzoneSuccess,
                   "vdropzone-sending": _vm.dropzoneSending,
-                  "vdropzone-complete": _vm.dropzoneComplete
+                  "vdropzone-complete": _vm.dropzoneComplete,
+                  "vdropzone-error": _vm.dropzoneError
                 }
               })
             : _vm._e(),
@@ -37838,7 +37862,8 @@ var render = function() {
                 on: {
                   "vdropzone-success": _vm.dropzoneSuccess,
                   "vdropzone-sending": _vm.dropzoneSending,
-                  "vdropzone-complete": _vm.dropzoneComplete
+                  "vdropzone-complete": _vm.dropzoneComplete,
+                  "vdropzone-error": _vm.dropzoneError
                 }
               })
             : _vm._e(),
@@ -38963,8 +38988,7 @@ var render = function() {
               {
                 staticClass: "page-item pagination-page-nav",
                 class: {
-                  "btn-secondary":
-                    page == _vm.data.current_page && page !== "…",
+                  active: page == _vm.data.current_page && page !== "…",
                   "btn-light": page !== _vm.data.current_page && page !== "…"
                 },
                 attrs: { disabled: page === "…" },
