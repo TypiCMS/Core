@@ -37,7 +37,7 @@ class Install extends Command
         $this->info('Publishing vendor packages...');
         $this->call('vendor:publish', ['--all' => true]);
         $this->call('vendor:publish', [
-            '--provider' => 'TypiCMS\Modules\Core\Providers\ModuleProvider',
+            '--provider' => 'TypiCMS\Modules\Core\Providers\ModuleServiceProvider',
             '--tag' => 'views',
             '--force' => true,
         ]);

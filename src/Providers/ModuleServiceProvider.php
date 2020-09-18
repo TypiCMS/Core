@@ -20,7 +20,7 @@ use TypiCMS\Modules\Core\Composers\SidebarViewCreator;
 use TypiCMS\Modules\Core\Services\TypiCMS;
 use TypiCMS\Modules\Pages\Models\Page;
 
-class ModuleProvider extends ServiceProvider
+class ModuleServiceProvider extends ServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
