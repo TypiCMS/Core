@@ -12,6 +12,7 @@ use TypiCMS\Modules\Core\Commands\CreateUser;
 use TypiCMS\Modules\Core\Commands\Database;
 use TypiCMS\Modules\Core\Commands\Install;
 use TypiCMS\Modules\Core\Commands\Publish;
+use TypiCMS\Modules\Core\Commands\PublishTranslations;
 use TypiCMS\Modules\Core\Composers\LocaleComposer;
 use TypiCMS\Modules\Core\Composers\LocalesComposer;
 use TypiCMS\Modules\Core\Composers\MasterViewComposer;
@@ -127,6 +128,7 @@ class ModuleProvider extends ServiceProvider
             Install::class,
             Publish::class,
             CreateUser::class,
+            PublishTranslations::class,
         ]);
 
         /*
