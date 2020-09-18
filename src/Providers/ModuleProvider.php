@@ -8,6 +8,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use TypiCMS\Modules\Core\Commands\Create;
+use TypiCMS\Modules\Core\Commands\CreateUser;
 use TypiCMS\Modules\Core\Commands\Database;
 use TypiCMS\Modules\Core\Commands\Install;
 use TypiCMS\Modules\Core\Commands\Publish;
@@ -125,6 +126,7 @@ class ModuleProvider extends ServiceProvider
             Database::class,
             Install::class,
             Publish::class,
+            CreateUser::class,
         ]);
 
         /*
