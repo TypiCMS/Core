@@ -2,10 +2,10 @@
 
 namespace TypiCMS\Modules\Core\Services;
 
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileUploader
 {
@@ -14,12 +14,16 @@ class FileUploader
      * on failure.
      *
      * @param string $path where to upload file
+     * @param mixed  $disk
      *
      * @return array|bool
      */
-    public function handle(UploadedFile $file, $path = 'files')
+    public function handle(UploadedFile $file, $path = 'files', $disk = null)
     {
-        $filesize = $file->getClientSize();
+        if ($disk === null) {
+            $disk = config('filesystems.default');
+        }
+        $filesize = $file->getSize();
         $mimetype = $file->getClientMimeType();
         $extension = mb_strtolower($file->getClientOriginalExtension());
         $fileName = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
@@ -27,10 +31,10 @@ class FileUploader
         list($width, $height) = getimagesize($file);
 
         $filecounter = 1;
-        while (Storage::has($path.'/'.$filename)) {
+        while (Storage::disk($disk)->has($path.'/'.$filename)) {
             $filename = $fileName.'_'.$filecounter++.'.'.$extension;
         }
-        $path = $file->storeAs($path, $filename);
+        $path = $file->storeAs($path, $filename, $disk);
         $type = Arr::get(config('file.types'), $extension, 'd');
 
         return compact('filesize', 'mimetype', 'extension', 'filename', 'width', 'height', 'path', 'type');
