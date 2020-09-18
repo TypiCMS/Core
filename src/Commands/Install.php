@@ -4,7 +4,6 @@ namespace TypiCMS\Modules\Core\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -25,23 +24,6 @@ class Install extends Command
      * @var string
      */
     protected $description = 'Installation of TypiCMS: Laravel setup, installation of composer and npm packages';
-
-    /**
-     * The filesystem instance.
-     *
-     * @var \Illuminate\Filesystem\Filesystem
-     */
-    protected $files;
-
-    /**
-     * Create a new command.
-     */
-    public function __construct(Filesystem $files)
-    {
-        parent::__construct();
-
-        $this->files = $files;
-    }
 
     /**
      * Execute the console command.
