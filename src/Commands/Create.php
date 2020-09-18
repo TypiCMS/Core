@@ -171,8 +171,8 @@ class Create extends Command
      */
     public function moveMigrationFile()
     {
-        $from = base_path('Modules/'.$this->module.'/database/migrations/2016_01_04_225000_create_objects_table.php');
-        $to = base_path('database/migrations/'.date('Y_m_d_His').'_create_'.mb_strtolower($this->module).'_table.php');
+        $from = base_path('Modules/'.$this->module.'/database/migrations/create_objects_table.php.stub');
+        $to = getMigrationFileName('create_'.mb_strtolower($this->module).'_table');
         $this->files->move($from, $to);
     }
 
