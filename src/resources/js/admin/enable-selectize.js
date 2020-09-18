@@ -1,8 +1,4 @@
 $(function () {
-    $('select#category_id').selectize();
-    $('select#page_id').selectize();
-    $('select#target').selectize();
-
     /**
      * Selectize for tags
      */
