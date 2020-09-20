@@ -2,6 +2,7 @@
     "# blocks": "Aucun bloc de contenu | 1 bloc de contenu | {count} blocs de contenu",
     "# categories": "Aucune catégorie | 1 catégorie | {count} catégories",
     "# contacts": "Aucun contact | 1 contact | {count} contacts",
+    "# discussions": "Aucune discussion | 1 discussion | {count} discussions",
     "# events": "Aucun événement | 1 événement | {count} événements",
     "# files could not be moved.": "Aucun fichier n’a pu être déplacé. | 1 fichier n’a pas pu être déplacé. | {count} fichiers n’ont pas pu être déplacés.",
     "# files moved.": "Aucun fichier déplacé. | 1 fichier déplacé. | {count} fichiers déplacés.",
