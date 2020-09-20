@@ -2,7 +2,7 @@ export default function (sqlDatetime, withSeconds = false) {
     if (!sqlDatetime) {
         return '';
     }
-    let datetime = sqlDatetime.split(' ');
+    let datetime = sqlDatetime.split('T');
     const date = datetime[0].split('-').reverse().join('.');
     const time = datetime[1].split(':');
     if (!withSeconds) {
