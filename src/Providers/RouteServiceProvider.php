@@ -14,13 +14,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        Route::namespace($this->namespace)->group(function (Router $router) {
-            /*
-             * Admin routes
-             */
-            $router->middleware('admin')->prefix('admin')->group(function (Router $router) {
-                $router->get('_locale/{locale}', [LocaleController::class, 'setContentLocale'])->name('admin::change-locale');
-            });
+        /*
+         * Admin routes
+         */
+        Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router) {
+            $router->get('_locale/{locale}', [LocaleController::class, 'setContentLocale'])->name('change-locale');
         });
     }
 }
