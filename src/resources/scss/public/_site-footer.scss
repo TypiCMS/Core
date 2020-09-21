@@ -1,2 +1,8 @@
 .site-footer {
+    background-color: $gray-100;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    &-container {
+        @extend .container;
+    }
 }

@@ -80,15 +80,17 @@
 
         @section('site-footer')
         <footer class="site-footer">
-            <nav class="site-footer-nav">
-                @menu('social')
-            </nav>
-            <nav class="site-footer-nav">
-                @menu('footer')
-            </nav>
-            <nav class="site-footer-nav">
-                @menu('legal')
-            </nav>
+            <div class="site-footer-container">
+                <nav class="site-footer-nav">
+                    @menu('social')
+                </nav>
+                <nav class="site-footer-nav">
+                    @menu('footer')
+                </nav>
+                <nav class="site-footer-nav">
+                    @menu('legal')
+                </nav>
+            </div>
         </footer>
         @show
 
