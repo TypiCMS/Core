@@ -35,7 +35,7 @@
 
 </head>
 
-<body class="body-{{ $lang }} @yield('bodyClass') @if ($navbar)has-navbar @endif">
+<body class="body-{{ $lang }} @yield('bodyClass') @if ($navbar)has-navbar @endif" id="top">
 
     @include('core::public._google_tag_manager_code')
 
@@ -77,6 +77,8 @@
         <main class="main" id="main">
             @yield('content')
         </main>
+
+        <a href="#top" class="smooth-scroll anchor-top disabled" id="anchor-top" aria-label="@lang('Back to top')">⇧</a>
 
         @section('site-footer')
         <footer class="site-footer">
