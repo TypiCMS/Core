@@ -77,7 +77,6 @@ class PublishTranslations extends Command
         ]);
 
         foreach ($manager->listContents('from://', true) as $file) {
-            $path = $file['path'];
             if ($file['type'] === 'file' && (!$manager->has('to://'.$file['path']) || $this->option('force'))) {
                 $manager->put('to://'.$file['path'], $manager->read('from://'.$file['path']));
             }
