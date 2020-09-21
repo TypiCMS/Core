@@ -1,2 +1,105 @@
 .site-header {
+    padding-top: 1.125rem;
+    padding-bottom: 1rem;
+    z-index: 999;
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.43, -0.01, 0.26, 1.04);
+    @include media-breakpoint-up(sm) {
+        padding-top: 1.75rem;
+        padding-bottom: 1.5rem;
+    }
+    @include media-breakpoint-up(lg) {
+        padding-top: 3.25rem;
+        padding-bottom: 2.75rem;
+    }
+    &-container {
+        @extend .container-fluid;
+        max-width: 1194px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+    .site-title {
+        font-size: 32px; // in px to force constant height on all sreen sizes
+        line-height: 1.25;
+        margin-bottom: 0;
+        width: 12rem;
+        @include media-breakpoint-up(sm) {
+            width: 14rem;
+        }
+        @include media-breakpoint-up(md) {
+            width: 16rem;
+        }
+        @include media-breakpoint-up(lg) {
+            width: auto;
+            margin-bottom: 0.75rem;
+        }
+        .logo {
+            @extend .img-fluid;
+        }
+    }
+    &-offcanvas {
+        flex-grow: 1;
+        align-items: flex-end;
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: row;
+        @include media-breakpoint-down(md) {
+            transform-origin: top right;
+            transform: scale(0);
+            background: $white;
+            right: 0;
+            position: absolute;
+            top: 0;
+            transition: transform 0.2s ease-in-out;
+            width: 16rem;
+            z-index: 9999;
+            opacity: 0;
+            padding: 4.5rem 1.25rem 1.25rem;
+            box-shadow: -1px 1px 2px rgba(0, 0, 0, 0.1);
+            flex-direction: column;
+            align-items: flex-start;
+            display: flex;
+        }
+
+        &.active {
+            @include media-breakpoint-down(md) {
+                opacity: 1;
+                transform: scale(1);
+                .menu-main-item,
+                .lang-switcher,
+                .btn-offcanvas-close,
+                .site-header-contact {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        }
+    }
+}
+.btn-offcanvas {
+    @extend .btn;
+    @extend .btn-link;
+    color: $primary;
+    font-size: 24px;
+    margin-top: 8px;
+    margin-right: 12px;
+    right: 0;
+    top: 0;
+    position: absolute;
+    z-index: 1000;
+    padding: 0;
+    line-height: 4.6rem;
+    width: 4.6rem;
+    height: 4.6rem;
+    padding-top: 2px;
+    &-close {
+        transition: all 0.2s cubic-bezier(0.43, -0.01, 0.26, 1.04);
+        opacity: 0;
+        transition-delay: 0.2s;
+    }
+}
+
+.nav-up {
+    transform: translateY(-5rem);
 }

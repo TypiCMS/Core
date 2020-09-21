@@ -35,7 +35,6 @@
 
     @section('skip-links')
     <a href="#main" class="skip-to-content">@lang('Skip to content')</a>
-    <a href="#site-nav" class="d-block d-md-none btn-offcanvas" data-toggle="offcanvas" title="@lang('Open navigation')" aria-label="@lang('Open navigation')" role="button" aria-controls="navigation" aria-expanded="false"><span class="fa fa-bars fa-fw" aria-hidden="true"></span></a>
     @show
 
     @include('core::_navbar')
@@ -43,29 +42,27 @@
     <div class="site-container">
 
         @section('site-header')
-        <header class="site-header">
-            @section('site-title')
-            <div class="site-title">@include('core::public._site-title')</div>
-            @show
-            <p class="site-baseline">{{ TypiCMS::baseline() }}</p>
+        <header class="site-header" id="site-header">
+            <div class="site-header-container">
+                @section('site-title')
+                <div class="site-title">@include('core::public._site-title')</div>
+                @show
+                <div class="site-header-offcanvas" id="navigation">
+                    <button class="d-block d-lg-none btn-offcanvas btn-offcanvas-close" data-toggle="offcanvas" title="@lang('Close navigation')" aria-label="@lang('Close navigation')"><span class="fa fa-close fa-fw" aria-hidden="true"></span></button>
+                    {{-- @include('search::public._form') --}}
+                    @section('site-nav')
+                    <nav class="site-nav" id="site-nav">
+                        @menu('main')
+                    </nav>
+                    @show
+                    @section('lang-switcher')
+                        @include('core::public._lang-switcher')
+                    @show
+                </div>
+                <a href="#site-nav" class="d-block d-lg-none btn-offcanvas" data-toggle="offcanvas" title="@lang('Open navigation')" aria-label="@lang('Open navigation')" role="button" aria-controls="navigation" aria-expanded="false"><span class="fa fa-bars fa-fw" aria-hidden="true"></span></a>
+            </div>
         </header>
         @show
-
-        <div class="sidebar-offcanvas">
-
-            <button class="d-block d-md-none btn-offcanvas btn-offcanvas-close" data-toggle="offcanvas" title="@lang('Close navigation')" aria-label="@lang('Close navigation')"><span class="fa fa-close fa-fw" aria-hidden="true"></span></button>
-
-            @section('lang-switcher')
-                @include('core::public._lang-switcher')
-            @show
-
-            @section('site-nav')
-            <nav class="site-nav" id="site-nav">
-                @menu('main')
-            </nav>
-            @show
-
-        </div>
 
         @if (session('verified'))
             <div class="alert alert-success">@lang('Your email address has been verified.')</div>

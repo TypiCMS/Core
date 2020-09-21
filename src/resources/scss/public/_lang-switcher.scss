@@ -1,0 +1,27 @@
+.lang-switcher {
+    text-transform: uppercase;
+    z-index: 1;
+    @include media-breakpoint-down(lg) {
+        margin-bottom: 1rem;
+        transition: all 0.2s cubic-bezier(0.43, -0.01, 0.26, 1.04);
+        opacity: 0;
+        transform: translateY(5px);
+        transition-delay: 0.6s;
+    }
+    &-btn {
+        @extend .btn;
+        padding: 0.5rem 1rem;
+        line-height: 1.375;
+        border: none;
+        text-transform: uppercase;
+        font-weight: normal;
+        width: 4rem;
+    }
+    &-list {
+        min-width: 0;
+        width: 4rem;
+    }
+    &-item {
+        padding: 0.5rem 1rem;
+    }
+}
