@@ -88,6 +88,9 @@
                         </button>
                     </div>
                 </div>
+                <a :href="this.exportUrl" class="btn btn-sm btn-light ml-2" v-if="exportable">
+                    <span class="fa fa-fw fa-table"></span> Export
+                </a>
             </div>
         </div>
 
@@ -168,6 +171,10 @@ export default {
             type: Boolean,
             default: true,
         },
+        exportable: {
+            type: Boolean,
+            default: false,
+        },
         multilingual: {
             type: Boolean,
             default: true,
@@ -228,6 +235,18 @@ export default {
                 return '';
             }
             return this.searchableArray.map((item) => 'filter[' + item + ']=' + this.searchString).join('&');
+        },
+        exportUrl() {
+            let query = ['sort=' + this.sortArray.join(',')];
+
+            if (this.appends !== '') {
+                query.push('append=' + this.appends);
+            }
+            if (this.searchQuery !== '') {
+                query.push(this.searchQuery);
+            }
+
+            return this.urlBase.replace('api/', 'admin/') + '/export?' + query.join('&');
         },
         url() {
             let query = ['sort=' + this.sortArray.join(','), 'fields[' + this.table + ']=' + this.fields];
