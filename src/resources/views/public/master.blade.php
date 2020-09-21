@@ -55,12 +55,12 @@
                 @show
                 <div class="site-header-offcanvas" id="navigation">
                     <button class="d-block d-lg-none btn-offcanvas btn-offcanvas-close" data-toggle="offcanvas" title="@lang('Close navigation')" aria-label="@lang('Close navigation')"><span class="fa fa-close fa-fw" aria-hidden="true"></span></button>
-                    {{-- @include('search::public._form') --}}
                     @section('site-nav')
                     <nav class="site-nav" id="site-nav">
                         @menu('main')
                     </nav>
                     @show
+                    @include('search::public._form')
                     @section('lang-switcher')
                         @include('core::public._lang-switcher')
                     @show
