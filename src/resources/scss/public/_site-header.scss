@@ -43,7 +43,7 @@
         align-items: flex-end;
         display: flex;
         justify-content: flex-end;
-        flex-direction: row;
+        flex-direction: column;
         @include media-breakpoint-down(md) {
             transform-origin: top right;
             transform: scale(0);
