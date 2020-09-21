@@ -3,6 +3,7 @@
     padding-top: 3rem;
     padding-bottom: 3rem;
     &-container {
-        @extend .container;
+        @extend .container-fluid;
+        max-width: 1200px;
     }
 }
