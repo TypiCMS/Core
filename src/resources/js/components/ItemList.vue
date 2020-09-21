@@ -12,7 +12,7 @@
 
         <div class="btn-toolbar item-list-actions">
             <item-list-selector
-                v-if="selector"
+                v-if="selector && ($can('update ' + table) || $can('delete ' + table))"
                 class="mr-2"
                 :filtered-models="filteredItems"
                 :all-checked="allChecked"
@@ -24,17 +24,18 @@
                 @check-unpublished="checkUnpublished"
             ></item-list-selector>
             <item-list-actions
-                v-if="actions"
+                v-if="actions && ($can('update ' + table) || $can('delete ' + table))"
                 class="mr-2"
                 :number-of-checked-models="numberOfCheckedItems"
                 :loading="loading"
                 :publishable="publishable"
+                :table="table"
                 @destroy="destroy"
                 @publish="publish"
                 @unpublish="unpublish"
             ></item-list-actions>
             <item-list-per-page
-                v-if="pagination && this.data.total > 10"
+                v-if="pagination && this.data.total > 10 && $can('read ' + table)"
                 class="mr-2"
                 :loading="loading"
                 :per-page="parseInt(data.per_page)"
