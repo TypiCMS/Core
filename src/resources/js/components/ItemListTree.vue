@@ -40,11 +40,16 @@
 
         <sl-vue-tree v-model="models" :allowMultiselect="false" ref="slVueTree" @drop="drop" @toggle="toggle">
             <template slot="title" slot-scope="{ node }">
-                <div @click="deleteFromNested(node)" class="btn btn-xs btn-link">
+                <div @click="deleteFromNested(node)" class="btn btn-xs btn-link" v-if="$can('delete ' + table)">
                     <span class="fa fa-remove"></span>
                 </div>
 
-                <a class="btn btn-light btn-xs" :href="table + '/' + node.data.id + '/edit'">{{ $t('Edit') }}</a>
+                <a
+                    class="btn btn-light btn-xs"
+                    :href="table + '/' + node.data.id + '/edit'"
+                    v-if="$can('update ' + table)"
+                    >{{ $t('Edit') }}</a
+                >
 
                 <div class="btn btn-xs btn-link btn-status" @click="toggleStatus(node)">
                     <span
