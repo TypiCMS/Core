@@ -18,8 +18,14 @@
     <meta property="og:url" content="{{ URL::full() }}">
     <meta property="og:image" content="@yield('image')">
 
-    {{-- <meta name="twitter:site" content=""> --}}
+    @if (config('typicms.twitter_site') !== null)
+    <meta name="twitter:site" content="{{ config('typicms.twitter_site') }}">
     <meta name="twitter:card" content="summary_large_image">
+    @endif
+
+    @if (config('typicms.facebook_app_id') !== null)
+    <meta property="fb:app_id" content="{{ config('typicms.facebook_app_id') }}">
+    @endif
 
     <link href="{{ App::environment('production') ? mix('css/public.css') : asset('css/public.css') }}" rel="stylesheet">
 
