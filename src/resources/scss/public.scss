@@ -5,12 +5,14 @@
 @import 'public/pagination';
 @import 'public/site-header';
 @import 'public/site-footer';
+@import 'public/lang-switcher';
 @import 'public/menu-main';
 @import 'public/menu-social';
 @import 'public/menu-footer';
 @import 'public/menu-legal';
 @import 'public/swiper';
 @import 'public/offcanvas';
+@import 'public/anchor-top';
 @import 'public/gmaps';
 @import 'navbar';
 @import 'fancybox';
@@ -29,10 +31,6 @@
 
 table {
     @extend .table;
-}
-
-.site-container {
-    @extend .container;
 }
 
 blockquote {
