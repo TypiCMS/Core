@@ -25,5 +25,18 @@
     "Are you sure you want to delete # items?": "Are you sure you want to delete {count} item?|Are you sure you want to delete {count} items?",
     "Are you sure you want to delete “{title}”?": "Are you sure you want to delete “{title}”?",
     "Are you sure you want to publish # items?": "Are you sure you want to publish 1 item?|Are you sure you want to publish {count} items?",
-    "Are you sure you want to unpublish # items?": "Are you sure you want to unpublish 1 item?|Are you sure you want to unpublish {count} items?"
+    "Are you sure you want to unpublish # items?": "Are you sure you want to unpublish 1 item?|Are you sure you want to unpublish {count} items?",
+    "categories": "category|categories",
+    "contacts": "contact|contacts",
+    "discussions": "discussion|discussions",
+    "events": "event|events",
+    "news": "news|news",
+    "pages": "page|pages",
+    "partners": "partner|partners",
+    "places": "address|addresses",
+    "projects": "project|projects",
+    "roles": "role|roles",
+    "sections": "section|sections",
+    "slides": "slide|slides",
+    "tags": "tag|tags"
 }
