@@ -433,6 +433,11 @@ export default {
                 alt_attribute: {},
             };
 
+            for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
+                data['description'][TypiCMS.locales[i].short] = null;
+                data['alt_attribute'][TypiCMS.locales[i].short] = null;
+            }
+
             axios
                 .post('/api/files', data)
                 .then((response) => {
