@@ -29,7 +29,7 @@
                             </div>
                             <div class="info">
                                 <div class="mt-1 mb-1">{{ auth()->user()->email }}</div>
-                                @can ('update users')
+                                @can('update users')
                                 <div class="mb-3">
                                     <a href="{{ route('admin::edit-user', Auth::id()) }}">{{ __('Profile', [], config('typicms.admin_locale')) }}</a>
                                 </div>
