@@ -22,7 +22,7 @@
 
                 <tbody>
                     <tr v-for="model in filteredItems">
-                        <td>{{ model.created_at | date }}</td>
+                        <td>{{ model.created_at | datetime }}</td>
                         <td>
                             <a v-if="model.href" :href="model.href + '?locale=' + model.locale">{{ model.title }}</a>
                             <span v-if="!model.href">{{ model.title }}</span>
