@@ -122,7 +122,6 @@ import ItemListSelector from './ItemListSelector';
 import ItemListActions from './ItemListActions';
 import ItemListPerPage from './ItemListPerPage';
 import ItemListStatusButton from './ItemListStatusButton';
-import ItemListSearchBar from './ItemListSearchBar';
 import ItemListPagination from './ItemListPagination';
 
 export default {
@@ -131,7 +130,6 @@ export default {
         ItemListActions,
         ItemListPerPage,
         ItemListStatusButton,
-        ItemListSearchBar,
         ItemListPagination,
     },
     props: {
