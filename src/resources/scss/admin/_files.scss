@@ -90,7 +90,6 @@
                 position: absolute;
                 right: 5px;
                 top: 5px;
-                font-size: 12px;
                 border-radius: 12px;
                 background-color: $gray-700;
                 color: #fff;
@@ -100,6 +99,7 @@
                 justify-content: center;
                 border: #fff 2px solid;
                 pointer-events: auto;
+                padding: 0;
 
                 &:hover,
                 &:focus {
