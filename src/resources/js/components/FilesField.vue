@@ -1,110 +1,122 @@
 <template>
     <div class="mb-4">
+        <input type="hidden" name="file_ids" :value="fileIds.join()" />
         <div class="form-group">
-            <label :for="field">
-                <span v-if="label"> {{ label }} </span>
-                <span v-else>
-                    {{ type === 'document' ? $t('Document') : $t('Image') }}
-                </span>
+            <label>
+                <span v-if="label">{{ label }}</span>
+                <span v-else>{{ $t('Files') }}</span>
             </label>
-            <input type="hidden" :name="field" :id="field" :rel="field" v-model="fileId" />
-            <div>
-                <div
-                    v-if="file !== null"
-                    class="filemanager-item filemanager-item-with-name filemanager-item-removable"
-                >
-                    <div class="filemanager-item-wrapper">
-                        <button class="filemanager-item-removable-button" type="button" @click="remove">
-                            <svg
-                                width="12"
-                                height="12"
-                                viewBox="0 0 1792 1792"
-                                fill="currentColor"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"
-                                />
-                            </svg>
-                        </button>
-                        <div class="filemanager-item-icon" v-if="file.type === 'i'">
-                            <div class="filemanager-item-image-wrapper">
-                                <img class="filemanager-item-image" :src="file.thumb_sm" :alt="file.alt" />
-                            </div>
+            <p>
+                <button class="btn btn-sm btn-secondary mr-2" @click="openFilepicker" type="button">
+                    <svg
+                        class="text-white-50"
+                        width="1em"
+                        height="1em"
+                        viewBox="0 0 16 16"
+                        fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
+                        />
+                    </svg>
+                    {{ $t('Add files') }}
+                </button>
+            </p>
+        </div>
+
+        <draggable v-model="files" group="files" @start="drag = true" @end="drag = false">
+            <div
+                class="filemanager-item filemanager-item-with-name filemanager-item-removable"
+                v-for="file in files"
+                :id="'item_' + file.id"
+                :key="file.id"
+            >
+                <div class="filemanager-item-wrapper">
+                    <button class="filemanager-item-removable-button" @click="remove(file)" type="button">
+                        <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 1792 1792"
+                            fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"
+                            />
+                        </svg>
+                    </button>
+                    <div class="filemanager-item-icon" v-if="file.type === 'i'">
+                        <div class="filemanager-item-image-wrapper">
+                            <img
+                                class="filemanager-item-image"
+                                :src="file.thumb_sm"
+                                :alt="file.alt_attribute_translated"
+                            />
                         </div>
-                        <div class="filemanager-item-icon" :class="'filemanager-item-icon-' + file.type" v-else></div>
-                        <div class="filemanager-item-name">{{ file.name }}</div>
                     </div>
+                    <div class="filemanager-item-icon" :class="'filemanager-item-icon-' + file.type" v-else></div>
+                    <div class="filemanager-item-name">{{ file.name }}</div>
                 </div>
             </div>
-            <div>
-                <button v-if="file === null" @click="openFilepicker" class="btn btn-sm btn-secondary" type="button">
-                    <span class="fa fa-plus fa-fw text-white-50"></span> {{ $t('Add') }}
-                </button>
-            </div>
-        </div>
+        </draggable>
     </div>
 </template>
 
 <script>
+import draggable from 'vuedraggable';
+
 export default {
+    components: {
+        draggable,
+    },
     props: {
-        field: {
-            type: String,
-            required: true,
-        },
         label: {
             type: String,
         },
-        type: {
-            type: String,
-            required: true,
-            validator: function (value) {
-                // The value must match one of these strings
-                return ['image', 'document'].indexOf(value) !== -1;
-            },
-        },
-        initFile: {
-            type: Object,
+        initFiles: {
+            type: Array,
             required: true,
         },
     },
     data() {
         return {
-            file: this.initFile,
-            choosingFile: false,
+            files: this.initFiles,
         };
     },
-    computed: {
-        fileId() {
-            if (this.file !== null) {
-                return this.file.id;
-            }
-            return null;
-        },
-    },
     mounted() {
-        this.$root.$on('fileAdded', (file) => {
-            if (this.choosingFile === true) {
-                this.file = file;
+        this.$root.$on('filesAdded', (files) => {
+            for (var i = files.length - 1; i >= 0; i--) {
+                if (this.files.find(({ id }) => id === files[i].id) === undefined) {
+                    this.files.push(files[i]);
+                }
             }
-            this.choosingFile = false;
         });
     },
-    methods: {
-        remove() {
-            this.file = null;
+    computed: {
+        fileIds() {
+            let fileIds = [];
+            for (var i = 0; i < this.files.length; i++) {
+                fileIds.push(this.files[i].id);
+            }
+            return fileIds;
         },
+    },
+    methods: {
         openFilepicker() {
-            this.choosingFile = true;
             let options = {
                 open: true,
-                multiple: false,
+                multiple: true,
                 overlay: true,
-                single: true,
+                single: false,
                 modal: true,
             };
             this.$root.$emit('openFilepicker', options);
+        },
+        remove(file) {
+            let index = this.files.indexOf(file);
+            this.files.splice(index, 1);
         },
     },
 };
