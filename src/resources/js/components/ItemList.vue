@@ -43,7 +43,9 @@
             ></item-list-per-page>
             <slot name="buttons"></slot>
             <div class="d-flex align-items-center ml-2">
-                <span class="fa fa-spinner fa-spin fa-fw" v-if="loading"></span>
+                <div class="spinner-border spinner-border-sm text-secondary" role="status" v-if="loading">
+                    <span class="sr-only">{{ $t('Loading…') }}</span>
+                </div>
             </div>
             <small class="text-muted align-self-center" v-if="!loading">
                 {{ $tc('# ' + title, data.total, { count: data.total }) }}
