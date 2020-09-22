@@ -79,20 +79,19 @@
 }
 .btn-offcanvas {
     @extend .btn;
-    @extend .btn-link;
-    color: $primary;
-    font-size: 24px;
-    margin-top: 8px;
-    margin-right: 12px;
+    color: $secondary;
+    margin-top: 1rem;
+    margin-right: 1rem;
     right: 0;
     top: 0;
     position: absolute;
     z-index: 1000;
     padding: 0;
-    line-height: 4.6rem;
-    width: 4.6rem;
-    height: 4.6rem;
-    padding-top: 2px;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     &-close {
         transition: all 0.2s cubic-bezier(0.43, -0.01, 0.26, 1.04);
         opacity: 0;
