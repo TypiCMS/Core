@@ -2,12 +2,12 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark justify-content-between sticky-top">
         @if (Request::segment(1) === 'admin')
         <button class="navbar-toggler" type="button" data-toggle="offcanvas" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-            <span class="fa fa-bars fa-fw fa-inverse"></span>
+            <span class="navbar-toggler-icon"></span>
         </button>
         @endif
         <a class="navbar-brand" href="{{ route('dashboard') }}">{{ Str::limit(TypiCMS::title(config('typicms.admin_locale')), 50, '…') }}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#userMenu" aria-controls="userMenu" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-            <span class="fa fa-chevron-down fa-fw fa-inverse"></span>
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="userMenu">
             <ul class="navbar-nav ml-auto">
