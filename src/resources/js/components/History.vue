@@ -32,7 +32,7 @@
                             {{ model.historable_type.substring(model.historable_type.lastIndexOf('\\') + 1) }}
                         </td>
                         <td class="action">
-                            <span class="fa fa-fw" :class="model.icon_class"></span>
+                            <span class="icon" :class="'icon-' + model.action"></span>
                             {{ model.action }}
                         </td>
                         <td>
