@@ -7,9 +7,9 @@
                 <span v-else>{{ $t('Files') }}</span>
             </label>
             <p>
-                <button class="btn btn-sm btn-secondary mr-2" @click="openFilepicker" type="button">
+                <button class="filemanager-field-btn-add" @click="openFilepicker" type="button">
                     <svg
-                        class="text-white-50"
+                        class="filemanager-field-btn-add-icon"
                         width="1em"
                         height="1em"
                         viewBox="0 0 16 16"

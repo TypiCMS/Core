@@ -23,6 +23,19 @@
     &-btn-add {
         @extend .typicms-modal-btn-add;
     }
+
+    &-field-btn-add {
+        @extend .btn;
+        @extend .btn-sm;
+        @extend .btn-secondary;
+        display: flex;
+        align-items: center;
+        &-icon {
+            margin-right: 0.25rem;
+            color: rgba($white, 0.5);
+        }
+    }
+
     &-title {
         &-clickable {
             cursor: pointer;

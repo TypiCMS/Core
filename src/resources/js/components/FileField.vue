@@ -10,8 +10,8 @@
             <input type="hidden" :name="field" :id="field" :rel="field" v-model="fileId" />
             <div>
                 <div
-                    v-if="file !== null"
                     class="filemanager-item filemanager-item-with-name filemanager-item-removable"
+                    v-if="file !== null"
                 >
                     <div class="filemanager-item-wrapper">
                         <button class="filemanager-item-removable-button" type="button" @click="remove">
@@ -38,9 +38,9 @@
                 </div>
             </div>
             <div>
-                <button v-if="file === null" @click="openFilepicker" class="btn btn-sm btn-secondary" type="button">
+                <button class="filemanager-field-btn-add" @click="openFilepicker" type="button" v-if="file === null">
                     <svg
-                        class="text-white-50"
+                        class="filemanager-field-btn-add-icon"
                         width="1em"
                         height="1em"
                         viewBox="0 0 16 16"
