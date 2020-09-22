@@ -79,7 +79,19 @@
                         type="button"
                         @click="switchView('grid')"
                     >
-                        <span class="fa fa-fw fa-th"></span> {{ $t('Grid') }}
+                        <svg
+                            width="1em"
+                            height="1em"
+                            viewBox="0 0 16 16"
+                            class="bi bi-grid-3x2-gap-fill"
+                            fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M1 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V4zM1 9a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V9zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V9z"
+                            />
+                        </svg>
+                        {{ $t('Grid') }}
                     </button>
                     <button
                         class="btn btn-light"
@@ -87,7 +99,20 @@
                         type="button"
                         @click="switchView('list')"
                     >
-                        <span class="fa fa-fw fa-bars"></span> {{ $t('List') }}
+                        <svg
+                            width="1em"
+                            height="1em"
+                            viewBox="0 0 16 16"
+                            class="bi bi-list-ul"
+                            fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"
+                            />
+                        </svg>
+                        {{ $t('List') }}
                     </button>
                 </div>
                 <div class="d-flex align-items-center ml-2">
@@ -207,7 +232,8 @@
                         </div>
                         <div class="filemanager-item-name">{{ item.name }}</div>
                         <a class="filemanager-item-editable-button" :href="'/admin/files/' + item.id + '/edit'">
-                            <span class="fa fa-pencil"></span>
+                            <span class="filemanager-item-editable-button-icon"></span>
+                            <span class="sr-only">{{ $t('Edit') }}</span>
                         </a>
                     </div>
                 </div>
