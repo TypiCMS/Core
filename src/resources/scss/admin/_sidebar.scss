@@ -49,7 +49,11 @@ $sidebar-width: 260px;
         display: flex;
         &:hover {
             .append {
+                color: rgba($white, 0.4);
                 display: block;
+                &:hover {
+                    color: $gray-300 !important;
+                }
             }
         }
 
