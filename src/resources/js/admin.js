@@ -83,8 +83,6 @@ import History from './components/History.vue';
 /**
  * Files
  */
-import Filepicker from './components/Filepicker.vue'; // Deprecated, replaced by FileManager.
-import Files from './components/Files.vue'; // Deprecated, replaced by FilesField.
 import FileManager from './components/FileManager.vue';
 import FileField from './components/FileField.vue';
 import FilesField from './components/FilesField.vue';
