@@ -154,27 +154,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-
-            &:before {
-                @extend .fa;
-                font-size: 80px;
-            }
-
-            &-a:before {
-                content: $fa-var-file-audio-o;
-            }
-
-            &-v:before {
-                content: $fa-var-file-video-o;
-            }
-
-            &-d:before {
-                content: $fa-var-file-o;
-            }
-
-            &-f:before {
-                content: $fa-var-folder-o;
-            }
         }
 
         &-dragging-source {
