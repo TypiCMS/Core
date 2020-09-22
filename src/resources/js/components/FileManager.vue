@@ -489,7 +489,9 @@ export default {
             }
         },
         dropzoneError(file, message, xhr) {
-            file.previewElement.querySelectorAll('.dz-error-message span')[0].textContent = message.errors.name;
+            file.previewElement.querySelectorAll('.dz-error-message span')[0].textContent = Object.values(
+                message.errors
+            )[0];
         },
         dragStart(item, event) {
             event.dataTransfer.setData('text', '');
@@ -560,6 +562,10 @@ export default {
                 description: {},
                 alt_attribute: {},
             };
+            for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
+                data['description'][TypiCMS.locales[i].short] = null;
+                data['alt_attribute'][TypiCMS.locales[i].short] = null;
+            }
 
             axios
                 .post('/api/files', data)
