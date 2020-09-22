@@ -1,11 +1,11 @@
 <template>
     <div class="filepicker" :class="classes" id="filepicker" ref="filepicker">
         <div class="wrapper">
-            <div class="filepicker-header header">
-                <h1 class="filepicker-title header-title">
+            <div class="filemanager-header header">
+                <h1 class="filemanager-title header-title">
                     <div v-for="(folder, index) in path">
                         <span
-                            class="filepicker-title-clickable"
+                            class="filemanager-title-clickable"
                             v-if="path.length !== index + 1"
                             @click="openFolder(folder)"
                         >
@@ -20,7 +20,7 @@
                 </button>
             </div>
 
-            <button class="filepicker-btn-close" type="button" v-if="this.modal" @click="closeModal">
+            <button class="filemanager-btn-close" type="button" v-if="this.modal" @click="closeModal">
                 <svg
                     width="20"
                     height="20"
@@ -107,7 +107,7 @@
             >
             </vue-dropzone>
 
-            <div @click="checkNone()" class="filemanager" :class="{ 'filemanager-list': view === 'list' }">
+            <div @click="checkNone()" class="filemanager-list" :class="{ 'filemanager-view-list': view === 'list' }">
                 <div
                     class="filemanager-item filemanager-item-with-name filemanager-item-editable"
                     v-for="item in filteredItems"
@@ -212,7 +212,7 @@
             </div>
 
             <button
-                class="btn btn-success filepicker-btn-add btn-add-multiple"
+                class="btn btn-success filemanager-btn-add btn-add-multiple"
                 type="button"
                 :disabled="selectedFiles.length < 1"
                 @click="addSelectedFiles()"
@@ -223,7 +223,7 @@
             </button>
 
             <button
-                class="btn btn-success filepicker-btn-add btn-add-single"
+                class="btn btn-success filemanager-btn-add btn-add-single"
                 :disabled="selectedFiles.length !== 1"
                 type="button"
                 @click="addSingleFile(selectedFiles[0])"
@@ -350,11 +350,11 @@ export default {
     computed: {
         classes() {
             return {
-                'filepicker-modal': this.options.modal,
-                'filepicker-multiple': this.options.multiple,
-                'filepicker-single': this.options.single,
-                'filepicker-modal-open': this.options.open,
-                'filepicker-modal-no-overlay': !this.options.overlay,
+                'filemanager-modal': this.options.modal,
+                'filemanager-multiple': this.options.multiple,
+                'filemanager-single': this.options.single,
+                'filemanager-modal-open': this.options.open,
+                'filemanager-modal-no-overlay': !this.options.overlay,
             };
         },
         url() {
@@ -495,7 +495,7 @@ export default {
             this.checkNone();
         },
         newFolder(folderId) {
-            let name = window.prompt(this.$i18n.t('What is the name of the new folder?'));
+            let name = window.prompt(this.$i18n.t('Enter a name for the new folder.'));
             if (!name) {
                 return;
             }

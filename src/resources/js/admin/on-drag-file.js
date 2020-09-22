@@ -10,14 +10,14 @@ $(function () {
         return false;
     }
     $('#filepicker').on('dragenter', '.wrapper', function (event) {
-        if ($('.filepicker-modal-open').length > 0) {
+        if ($('.filemanager-modal-open').length > 0) {
             if (containsFiles(event.originalEvent)) {
                 $('#dropzone').addClass('fullscreen');
             }
         }
     });
     $('body').on('dragenter', function (event) {
-        if ($('.filepicker-modal-open').length == 0) {
+        if ($('.filemanager-modal-open').length == 0) {
             if (containsFiles(event.originalEvent)) {
                 $('#dropzone').addClass('fullscreen');
             }
