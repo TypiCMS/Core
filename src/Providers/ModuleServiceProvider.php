@@ -69,21 +69,19 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $app = $this->app;
-
         /*
         |--------------------------------------------------------------------------
         | Register route service provider.
         |--------------------------------------------------------------------------
         */
-        $app->register(RouteServiceProvider::class);
+        $this->app->register(RouteServiceProvider::class);
 
         /*
         |--------------------------------------------------------------------------
         | Collection extensions.
         |--------------------------------------------------------------------------
         */
-        $app->register(CollectionExtensions::class);
+        $this->app->register(CollectionExtensions::class);
 
         /*
         |--------------------------------------------------------------------------
