@@ -365,6 +365,7 @@
     "The user :name can not be deleted because he has a running subscription.": "El usuario :name no puede ser eliminado porque tiene una suscripción en curso.",
     "There are no results that match your query.": "No hay ningún resultado que coincida con su consulta.",
     "This action is unauthorized.": "Esta acción no está permitida.",
+    "This category cannot be deleted as it contains projects.": "Esta categoría no puede ser eliminada ya que contiene proyectos.",
     "This item cannot be deleted because it has children.": "Este elemento no puede ser eliminado porque tiene hijos.",
     "This password reset link will expire in :count minutes.": "Este enlace de restablecimiento de contraseña caducará en :count minutos.",
     "This user is not activated.": "Este usuario no ha sido activado.",

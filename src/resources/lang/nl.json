@@ -365,6 +365,7 @@
     "The user :name can not be deleted because he has a running subscription.": "De :name gebruiker kan niet worden verwijderd omdat hij een lopend abonnement heeft.",
     "There are no results that match your query.": "Er is geen resultaat dat overeenkomt met uw vraag.",
     "This action is unauthorized.": "Deze actie is niet toegestaan.",
+    "This category cannot be deleted as it contains projects.": "Deze categorie kan niet worden geschrapt, omdat ze projecten bevat.",
     "This item cannot be deleted because it has children.": "Dit item kan niet worden verwijderd omdat het nakomelingen heeft.",
     "This password reset link will expire in :count minutes.": "Deze wachtwoord-resetlink vervalt in :tel minuten.",
     "This user is not activated.": "Deze gebruiker is niet geactiveerd.",
