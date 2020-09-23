@@ -6,7 +6,7 @@
                 class="btn-clear-history"
                 id="clear-history"
                 @click="clearHistory"
-                v-if="filteredItems.length && clearButton"
+                v-if="filteredItems.length > 0 && clearButton"
             >
                 {{ $t('Clear') }}
             </button>
@@ -57,7 +57,7 @@
                 }}</span>
             </div>
         </div>
-        <div class="card-footer" v-if="data.total > data.per_page">
+        <div class="card-footer" v-if="filteredItems.length > 0 && data.total > data.per_page">
             <item-list-pagination
                 class="justify-content-center"
                 :data="data"
