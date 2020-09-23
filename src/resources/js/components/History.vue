@@ -22,7 +22,9 @@
 
                 <tbody>
                     <tr v-for="model in filteredItems">
-                        <td>{{ model.created_at | datetime }}</td>
+                        <td>
+                            <small class="text-muted text-nowrap">{{ model.created_at | datetime }}</small>
+                        </td>
                         <td>
                             <a v-if="model.href" :href="model.href + '?locale=' + model.locale">{{ model.title }}</a>
                             <span v-if="!model.href">{{ model.title }}</span>
@@ -32,11 +34,13 @@
                             {{ model.historable_type.substring(model.historable_type.lastIndexOf('\\') + 1) }}
                         </td>
                         <td class="action">
-                            <span class="icon" :class="'icon-' + model.action"></span>
-                            {{ model.action }}
+                            <small class="action-content">
+                                <span class="icon" :class="'icon-' + model.action"></span>
+                                {{ model.action }}
+                            </small>
                         </td>
                         <td>
-                            <div class="user_name">{{ model.user_name }}</div>
+                            <small class="user-name">{{ model.user_name }}</small>
                         </td>
                     </tr>
                 </tbody>

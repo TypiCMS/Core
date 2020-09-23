@@ -1,14 +1,30 @@
 .history-table {
+    .th-sort {
+        white-space: nowrap;
+    }
+    .created_at {
+        width: 11rem;
+    }
     .action {
+        width: 7rem;
+    }
+    .user_name {
+        width: 9rem;
+    }
+    .historable_type {
+        width: 9rem;
+    }
+    .action-content {
         white-space: nowrap;
         display: flex;
         align-items: center;
     }
-    .user_name {
+    .user-name {
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
         max-width: 250px;
+        @extend .text-muted;
     }
     .icon {
         display: block;
