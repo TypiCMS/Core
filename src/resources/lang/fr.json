@@ -359,6 +359,7 @@
     "Thank you for your contact request.": "Merci pour votre demande de contact.",
     "The current logged in user cannot be deleted.": "L’utilisateur actuellement connecté ne peut pas être supprimé.",
     "The form contains errors:": "Le formulaire contient des erreurs :",
+    "The home page cannot be deleted.": "La page d’accueil ne peut être supprimée.",
     "The password is incorrect.": "Le mot de passe est incorrect.",
     "The slug is required if published.": "Le champ slug est requis si c'est publié.",
     "The user :name can not be deleted because he has a running subscription.": "L’utilisateur :name ne peut pas être supprimé car il a un abonnement en cours.",

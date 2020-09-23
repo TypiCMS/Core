@@ -359,6 +359,7 @@
     "Thank you for your contact request.": "Bedankt voor uw contactaanvraag.",
     "The current logged in user cannot be deleted.": "De momenteel ingelogde gebruiker kan niet worden verwijderd.",
     "The form contains errors:": "Het formulier bevat fouten:",
+    "The home page cannot be deleted.": "De homepage kan niet worden verwijderd.",
     "The password is incorrect.": "Het wachtwoord is onjuist.",
     "The slug is required if published.": "De slug is nodig als deze gepubliceerd wordt.",
     "The user :name can not be deleted because he has a running subscription.": "De :name gebruiker kan niet worden verwijderd omdat hij een lopend abonnement heeft.",
