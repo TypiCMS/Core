@@ -95,9 +95,7 @@ class ModuleServiceProvider extends ServiceProvider
         | TypiCMS utilities.
         |--------------------------------------------------------------------------
         */
-        $this->app->singleton('typicms', function () {
-            return new TypiCMS();
-        });
+        $this->app->bind('TypiCMS', TypiCMS::class);
 
         /*
         |--------------------------------------------------------------------------

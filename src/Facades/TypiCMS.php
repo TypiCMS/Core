@@ -13,6 +13,6 @@ class TypiCMS extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'typicms';
+        return 'TypiCMS';
     }
 }
