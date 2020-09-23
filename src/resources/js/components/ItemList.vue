@@ -395,7 +395,10 @@ export default {
                         axios
                             .delete(this.urlBase + '/' + model.id)
                             .catch((error) =>
-                                alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'))
+                                alertify.error(
+                                    this.$i18n.tc(error.response.data.message) ||
+                                        this.$i18n.t('Sorry, an error occurred.')
+                                )
                             )
                     )
                 )
