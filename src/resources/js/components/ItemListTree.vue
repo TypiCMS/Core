@@ -253,10 +253,6 @@ export default {
         deleteFromNested(node) {
             let model = node.data;
             let title = model.title_translated;
-            if (node.children && node.children.length > 0) {
-                alertify.error(this.$i18n.t('This item cannot be deleted because it has children.'));
-                return false;
-            }
             if (!window.confirm(this.$i18n.t('Are you sure you want to delete “{title}”?', { title }))) {
                 return false;
             }
@@ -266,7 +262,9 @@ export default {
                     this.$refs.slVueTree.remove([node.path]);
                 })
                 .catch((error) => {
-                    alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
+                    alertify.error(
+                        this.$i18n.t(error.response.data.message) || this.$i18n.t('Sorry, an error occurred.')
+                    );
                 });
         },
 
