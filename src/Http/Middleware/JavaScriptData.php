@@ -14,19 +14,20 @@ class JavaScriptData
      */
     public function handle(Request $request, Closure $next)
     {
-        $locales = [];
+        $data = [
+            'content_locale' => config('typicms.content_locale'),
+            'locale' => config('app.locale'),
+        ];
         foreach (locales() as $locale) {
-            $locales[] = [
+            $data['locales'][] = [
                 'short' => $locale,
                 'long' => trans('languages.'.$locale),
             ];
         }
-        app('JavaScript')->put([
-            'locales' => $locales,
-            'content_locale' => config('typicms.content_locale'),
-            'locale' => config('app.locale'),
-            'permissions' => $request->user()->allPermissions,
-        ]);
+        if (auth()->check()) {
+            $data['permissions'] = $request->user()->allPermissions;
+        }
+        app('JavaScript')->put($data);
 
         return $next($request);
     }
