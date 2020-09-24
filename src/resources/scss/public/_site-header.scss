@@ -13,8 +13,7 @@
         padding-bottom: 2.75rem;
     }
     &-container {
-        @extend .container-fluid;
-        max-width: 1200px;
+        @extend .container-xl;
         display: flex;
         justify-content: space-between;
         align-items: center;

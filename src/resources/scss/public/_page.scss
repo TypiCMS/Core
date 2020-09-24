@@ -1,0 +1,12 @@
+.page {
+    &-header {
+        &-container {
+            @extend .container-xl;
+        }
+    }
+    &-body {
+        &-container {
+            @extend .container-xl;
+        }
+    }
+}
