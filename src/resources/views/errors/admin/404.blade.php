@@ -1,5 +1,24 @@
-@extends('errors::minimal')
+@extends('core::admin.master')
 
-@section('title', __('Not Found'))
-@section('code', '404')
-@section('message', __('Not Found'))
+@section('title', 'Error 403 – '.$websiteTitle)
+
+@section('bodyClass', 'error-403')
+
+@section('content')
+
+<header class="page-header">
+    <div class="page-header-container">
+        <h1 class="page-title">@lang('Error')</h1>
+    </div>
+</header>
+
+<div class="page-body">
+    <div class="page-body-container">
+        <p class="lead">@lang('Sorry, this page was not found').</p>
+        <p>
+            {!! trans('Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) !!}
+        </p>
+    </div>
+</div>
+
+@endsection

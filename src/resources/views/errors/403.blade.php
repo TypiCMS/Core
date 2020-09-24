@@ -13,10 +13,12 @@
 </header>
 
 <div class="page-body">
-    <p class="lead">@lang('Sorry, you are not authorized to view this page').</p>
-    <p>
-        {!! trans('Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) !!}
-    </p>
+    <div class="page-body-container">
+        <p class="lead">@lang('Sorry, you are not authorized to view this page').</p>
+        <p>
+            {!! trans('Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) !!}
+        </p>
+    </div>
 </div>
 
 @endsection
