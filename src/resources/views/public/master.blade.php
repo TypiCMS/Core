@@ -16,7 +16,7 @@
     <meta property="og:description" content="@yield('description')">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ URL::full() }}">
-    <meta property="og:image" content="@yield('image')">
+    <meta property="og:image" content="@yield('ogImage')">
 
     @if (config('typicms.twitter_site') !== null)
     <meta name="twitter:site" content="{{ config('typicms.twitter_site') }}">
