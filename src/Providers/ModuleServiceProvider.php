@@ -45,6 +45,10 @@ class ModuleServiceProvider extends ServiceProvider
             __DIR__.'/../../public' => public_path(),
         ], 'public');
 
+        $this->publishes([
+            __DIR__.'/../database/seeds/DatabaseSeeder.php' => database_path('seeds/DatabaseSeeder.php'),
+        ], 'seeders');
+
         /*
         |--------------------------------------------------------------------------
         | Sidebar view creator.
