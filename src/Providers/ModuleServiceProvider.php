@@ -46,7 +46,7 @@ class ModuleServiceProvider extends ServiceProvider
         ], 'public');
 
         $this->publishes([
-            __DIR__.'/../database/seeds/DatabaseSeeder.php' => database_path('seeds/DatabaseSeeder.php'),
+            __DIR__.'/../database/seeders/DatabaseSeeder.php' => database_path('seeders/DatabaseSeeder.php'),
         ], 'seeders');
 
         /*
