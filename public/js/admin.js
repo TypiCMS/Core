@@ -1951,6 +1951,101 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     field: {
@@ -1968,24 +2063,24 @@ __webpack_require__.r(__webpack_exports__);
         return ['image', 'document'].indexOf(value) !== -1;
       }
     },
-    data: {
-      type: String,
-      required: true
+    initFile: {
+      type: Object,
+      "default": null
     }
   },
   data: function data() {
     return {
-      loading: false,
-      choosingFile: false,
-      id: null,
-      name: null,
-      src: null,
-      alt: null
+      file: this.initFile,
+      choosingFile: false
     };
   },
-  created: function created() {
-    if (this.data !== '') {
-      this.setData(JSON.parse(this.data));
+  computed: {
+    fileId: function fileId() {
+      if (this.file !== null) {
+        return this.file.id;
+      }
+
+      return null;
     }
   },
   mounted: function mounted() {
@@ -1993,24 +2088,15 @@ __webpack_require__.r(__webpack_exports__);
 
     this.$root.$on('fileAdded', function (file) {
       if (_this.choosingFile === true) {
-        _this.setData(file);
+        _this.file = file;
       }
 
       _this.choosingFile = false;
     });
   },
   methods: {
-    setData: function setData(file) {
-      this.id = file.id;
-      this.name = file.name;
-      this.src = file.thumb_sm;
-      this.alt = file.alt_attribute_translated;
-    },
-    unsetData: function unsetData() {
-      this.id = null;
-      this.name = null;
-      this.src = null;
-      this.alt = null;
+    remove: function remove() {
+      this.file = null;
     },
     openFilepicker: function openFilepicker() {
       this.choosingFile = true;
@@ -2209,6 +2295,135 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2302,11 +2517,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   computed: {
     classes: function classes() {
       return {
-        'filepicker-modal': this.options.modal,
-        'filepicker-multiple': this.options.multiple,
-        'filepicker-single': this.options.single,
-        'filepicker-modal-open': this.options.open,
-        'filepicker-modal-no-overlay': !this.options.overlay
+        'filemanager-modal': this.options.modal,
+        'filemanager-multiple': this.options.multiple,
+        'filemanager-single': this.options.single,
+        'filemanager-modal-open': this.options.open,
+        'filemanager-modal-no-overlay': !this.options.overlay
       };
     },
     url: function url() {
@@ -2397,12 +2612,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         }, 1000);
       }
     },
+    dropzoneError: function dropzoneError(file, message, xhr) {
+      file.previewElement.querySelectorAll('.dz-error-message span')[0].textContent = Object.values(message.errors)[0];
+    },
     dragStart: function dragStart(item, event) {
       event.dataTransfer.setData('text', '');
       this.dragging = true;
 
       if (this.selectedItems.indexOf(item) === -1) {
-        this.selectedItems = [];
+        this.checkNone();
         this.selectedItems.push(item);
       }
     },
@@ -2449,12 +2667,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       })["catch"](function (error) {
         alertify.error('Error ' + error.status + ' ' + error.statusText);
       });
-      this.selectedItems = [];
+      this.checkNone();
     },
     newFolder: function newFolder(folderId) {
       var _this7 = this;
 
-      var name = window.prompt(this.$i18n.t('What is the name of the new folder?'));
+      var name = window.prompt(this.$i18n.t('Enter a name for the new folder.'));
 
       if (!name) {
         return;
@@ -2467,6 +2685,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         description: {},
         alt_attribute: {}
       };
+
+      for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
+        data['description'][TypiCMS.locales[i]["short"]] = null;
+        data['alt_attribute'][TypiCMS.locales[i]["short"]] = null;
+      }
+
       axios.post('/api/files', data).then(function (response) {
         _this7.data.models.push(response.data.model);
       })["catch"](function (error) {
@@ -2481,7 +2705,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var index = this.selectedItems.indexOf(item);
 
       if (!($event.ctrlKey || $event.metaKey || $event.shiftKey)) {
-        this.selectedItems = [];
+        this.checkNone();
       }
 
       if (index !== -1 && ($event.metaKey || $event.ctrlKey)) {
@@ -2546,7 +2770,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
         _this9.data.models.splice(index, 1);
       });
-      this.selectedItems = [];
+      this.checkNone();
       this.startLoading();
       var data = {
         folder_id: this.path[this.path.length - 2].id
@@ -2596,7 +2820,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       });
       this.$root.$emit('filesAdded', this.selectedFiles);
       this.closeModal();
-      this.selectedItems = [];
+      this.checkNone();
     },
     closeModal: function closeModal() {
       $('html, body').removeClass('noscroll');
@@ -2610,7 +2834,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.folder = folder;
       sessionStorage.setItem('folder', JSON.stringify(folder));
       this.fetchData();
-      this.selectedItems = [];
+      this.checkNone();
     },
     onDoubleClick: function onDoubleClick(item) {
       if (item.type === 'f') {
@@ -2633,6 +2857,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var _this10 = this;
 
       var deleteLimit = 100;
+      console.log(this.selectedItems);
 
       var _iterator = _createForOfIteratorHelper(this.selectedItems),
           _step;
@@ -2643,7 +2868,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
           if (item.children.length > 0) {
             alertify.error(this.$i18n.t('A non-empty folder cannot be deleted.'));
-            return false;
+            var index = this.selectedItems.indexOf(item);
+            this.selectedItems.splice(index, 1);
           }
         }
       } catch (err) {
@@ -2667,866 +2893,25 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
       this.startLoading();
       axios.all(this.selectedItems.map(function (item) {
-        return axios["delete"](_this10.baseUrl + '/' + item.id);
+        return axios["delete"](_this10.baseUrl + '/' + item.id)["catch"](function (error) {
+          return alertify.error(error.response.data.message || _this10.$i18n.t('Sorry, an error occurred.'));
+        });
       })).then(function (responses) {
         var successes = responses.filter(function (response) {
-          return response.data.error === false;
+          return response.statusText === 'OK';
         });
+
+        if (successes.length > 0) {
+          alertify.success(_this10.$i18n.tc('# items deleted', successes.length, {
+            count: successes.length
+          }));
+        }
 
         _this10.stopLoading();
 
-        alertify.success(_this10.$i18n.tc('# items deleted', successes.length, {
-          count: successes.length
-        }));
+        _this10.checkNone();
 
         _this10.fetchData();
-
-        _this10.selectedItems = [];
-      })["catch"](function (error) {
-        alertify.error(error.response.data.message || _this10.$i18n.t('Sorry, an error occurred.'));
-      });
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Filepicker.vue?vue&type=script&lang=js&":
-/*!*********************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Filepicker.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ItemListActions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ItemListActions */ "./resources/js/components/ItemListActions.vue");
-/* harmony import */ var vue2_dropzone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue2-dropzone */ "./node_modules/vue2-dropzone/dist/vue2Dropzone.js");
-/* harmony import */ var vue2_dropzone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone__WEBPACK_IMPORTED_MODULE_1__);
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    ItemListActions: _ItemListActions__WEBPACK_IMPORTED_MODULE_0__["default"],
-    vueDropzone: vue2_dropzone__WEBPACK_IMPORTED_MODULE_1___default.a
-  },
-  props: {
-    modal: {
-      type: Boolean,
-      "default": true
-    },
-    dropzone: {
-      type: Boolean,
-      "default": true
-    },
-    multiple: {
-      type: Boolean,
-      "default": false
-    },
-    single: {
-      type: Boolean,
-      "default": false
-    },
-    open: {
-      type: Boolean,
-      "default": false
-    },
-    overlay: {
-      type: Boolean,
-      "default": true
-    },
-    relatedTable: {
-      type: String,
-      "default": ''
-    },
-    relatedId: {
-      type: Number,
-      "default": 0
-    }
-  },
-  data: function data() {
-    return {
-      loadingTimeout: null,
-      dragging: false,
-      loading: false,
-      total: 0,
-      view: 'grid',
-      selectedItems: [],
-      baseUrl: '/api/files',
-      options: {
-        modal: this.modal,
-        dropzone: this.dropzone,
-        multiple: this.multiple,
-        single: this.single,
-        open: this.open,
-        overlay: this.overlay
-      },
-      dropOptions: {
-        clickable: ['#btnAddFiles'],
-        url: '/api/files',
-        dictDefaultMessage: this.$i18n.t('Drop to upload.'),
-        acceptedFiles: ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/vnd.openxmlformats-officedocument.presentationml.slideshow', 'application/vnd.openxmlformats-officedocument.presentationml.slide', 'application/msword', 'application/vnd.ms-powerpoint', 'application/vnd.ms-excel', 'application/pdf', 'application/postscript', 'application/zip', 'text/plain', 'image/svg+xml', 'image/tiff', 'image/jpeg', 'image/gif', 'image/png', 'image/bmp', 'image/gif', 'audio/*', 'video/*'].join(),
-        timeout: null,
-        maxFilesize: 60,
-        paramName: 'name',
-        headers: {
-          Authorization: 'Bearer ' + document.head.querySelector('meta[name="api-token"]').content
-        }
-      },
-      folder: {
-        id: ''
-      },
-      data: {
-        models: [],
-        path: []
-      }
-    };
-  },
-  created: function created() {
-    this.fetchData();
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    if (sessionStorage.getItem('view')) {
-      this.view = JSON.parse(sessionStorage.getItem('view'));
-    }
-
-    window.EventBus.$on('openFilepickerForCKEditor', function (options) {
-      $('html, body').addClass('noscroll');
-      _this.options = options;
-    });
-    this.$root.$on('openFilepicker', function (options) {
-      $('html, body').addClass('noscroll');
-      _this.options = options;
-    });
-  },
-  computed: {
-    classes: function classes() {
-      return {
-        'filepicker-modal': this.options.modal,
-        'filepicker-multiple': this.options.multiple,
-        'filepicker-single': this.options.single,
-        'filepicker-modal-open': this.options.open,
-        'filepicker-modal-no-overlay': !this.options.overlay
-      };
-    },
-    url: function url() {
-      var url = this.baseUrl;
-
-      if (sessionStorage.getItem('folder')) {
-        this.folder = JSON.parse(sessionStorage.getItem('folder'));
-      }
-
-      if (this.folder.id !== '') {
-        url += '?folder_id=' + this.folder.id;
-      }
-
-      return url;
-    },
-    filteredItems: function filteredItems() {
-      return this.data.models;
-    },
-    path: function path() {
-      return this.data.path;
-    },
-    allChecked: function allChecked() {
-      return this.filteredItems.length > 0 && this.filteredItems.length === this.selectedItems.length;
-    },
-    numberOfselectedItems: function numberOfselectedItems() {
-      return this.selectedItems.length;
-    },
-    selectedFiles: function selectedFiles() {
-      return this.selectedItems.filter(function (item) {
-        return item.type !== 'f';
-      });
-    }
-  },
-  methods: {
-    fetchData: function fetchData() {
-      var _this2 = this;
-
-      this.startLoading();
-      axios.get(this.url).then(function (response) {
-        _this2.data = response.data;
-
-        _this2.stopLoading();
-      })["catch"](function (error) {
-        alertify.error(error.response.data.message || _this2.$i18n.t('An error occurred with the data fetch.'));
-      });
-    },
-    startLoading: function startLoading() {
-      var _this3 = this;
-
-      this.loadingTimeout = setTimeout(function () {
-        _this3.loading = true;
-      }, 300);
-    },
-    stopLoading: function stopLoading() {
-      clearTimeout(this.loadingTimeout);
-      this.loading = false;
-    },
-    dropzoneSending: function dropzoneSending(file, xhr, formData) {
-      this.startLoading();
-      formData.append('folder_id', this.folder.id);
-
-      for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
-        formData.append('description[' + TypiCMS.locales[i]["short"] + ']', '');
-        formData.append('alt_attribute[' + TypiCMS.locales[i]["short"] + ']', '');
-      }
-    },
-    dropzoneSuccess: function dropzoneSuccess(file, response) {
-      var _this4 = this;
-
-      window.setTimeout(function () {
-        $(file.previewElement).fadeOut('fast', function () {
-          _this4.$refs.dropzone.removeFile(file);
-
-          _this4.data.models.push(response.model);
-
-          _this4.data.models.sort(function (a, b) {
-            return a.id - b.id;
-          });
-        });
-      }, 1000);
-    },
-    dropzoneComplete: function dropzoneComplete() {
-      var _this5 = this;
-
-      if (this.$refs.dropzone.getUploadingFiles().length === 0 && this.$refs.dropzone.getQueuedFiles().length === 0) {
-        setTimeout(function () {
-          _this5.stopLoading();
-        }, 1000);
-      }
-    },
-    dragStart: function dragStart(item, event) {
-      event.dataTransfer.setData('text', '');
-      this.dragging = true;
-
-      if (this.selectedItems.indexOf(item) === -1) {
-        this.selectedItems = [];
-        this.selectedItems.push(item);
-      }
-    },
-    dragOver: function dragOver(event) {
-      event.preventDefault();
-      event.dataTransfer.dropEffect = 'move';
-    },
-    dragEnd: function dragEnd(event) {
-      this.dragging = false;
-    },
-    dragEnter: function dragEnter(event) {
-      if (event.target.classList.contains('filemanager-item-folder')) {
-        event.target.classList.add('filemanager-item-over');
-      }
-    },
-    dragLeave: function dragLeave(event) {
-      event.target.classList.remove('filemanager-item-over');
-    },
-    drop: function drop(targetItem, event) {
-      var _this6 = this;
-
-      event.target.classList.remove('filemanager-item-over');
-      this.dragging = false;
-      var ids = [];
-      this.selectedItems.forEach(function (item) {
-        ids.push(item.id);
-      });
-
-      if (targetItem.type !== 'f' || ids.indexOf(targetItem.id) !== -1) {
-        return;
-      }
-
-      for (var i = this.selectedItems.length - 1; i >= 0; i--) {
-        var draggedItem = this.selectedItems[i];
-        var index = this.data.models.indexOf(draggedItem);
-        this.data.models.splice(index, 1);
-      }
-
-      var data = {
-        folder_id: targetItem.id
-      };
-      axios.patch('/api/files/' + ids.join(), data).then(function (response) {
-        _this6.fetchData();
-      })["catch"](function (error) {
-        alertify.error('Error ' + error.status + ' ' + error.statusText);
-      });
-      this.selectedItems = [];
-    },
-    newFolder: function newFolder(folderId) {
-      var _this7 = this;
-
-      var name = window.prompt(this.$i18n.t('What is the name of the new folder?'));
-
-      if (!name) {
-        return;
-      }
-
-      var data = {
-        folder_id: folderId,
-        type: 'f',
-        name: name,
-        description: {},
-        alt_attribute: {}
-      };
-      axios.post('/api/files', data).then(function (response) {
-        _this7.data.models.push(response.data.model);
-      })["catch"](function (error) {
-        alertify.error(error.response.data.message || _this7.$i18n.t('An error occurred.'));
-      });
-    },
-    check: function check(item, $event) {
-      var _this8 = this;
-
-      $event.stopPropagation();
-      var indexOfLastCheckedItem = this.data.models.indexOf(this.selectedItems[this.selectedItems.length - 1]);
-      var index = this.selectedItems.indexOf(item);
-
-      if (!($event.ctrlKey || $event.metaKey || $event.shiftKey)) {
-        this.selectedItems = [];
-      }
-
-      if (index !== -1 && ($event.metaKey || $event.ctrlKey)) {
-        this.selectedItems.splice(index, 1);
-      } else if (this.selectedItems.indexOf(item) === -1) {
-        this.selectedItems.push(item);
-      }
-
-      if (index === -1) {
-        if ($event.shiftKey) {
-          var currentItemIndex = this.data.models.indexOf(item);
-          this.data.models.forEach(function (item, index) {
-            if (currentItemIndex > indexOfLastCheckedItem) {
-              if (indexOfLastCheckedItem === -1) {
-                if (index <= currentItemIndex) {
-                  _this8.selectedItems.push(item);
-                }
-              }
-
-              if (indexOfLastCheckedItem !== -1) {
-                if (index > indexOfLastCheckedItem && index < currentItemIndex) {
-                  if (_this8.selectedItems.indexOf(item) === -1) {
-                    _this8.selectedItems.push(item);
-                  }
-                }
-              }
-            }
-
-            if (currentItemIndex < indexOfLastCheckedItem) {
-              if (indexOfLastCheckedItem !== -1) {
-                if (index < indexOfLastCheckedItem && index > currentItemIndex) {
-                  if (_this8.selectedItems.indexOf(item) === -1) {
-                    _this8.selectedItems.push(item);
-                  }
-                }
-              }
-            }
-          });
-        }
-      }
-    },
-    moveToParentFolder: function moveToParentFolder() {
-      var _this9 = this;
-
-      if (!this.folder.id) {
-        return;
-      }
-
-      var ids = [],
-          models = this.selectedItems,
-          number = models.length;
-
-      if (this.selectedItems.length > this.deleteLimit) {
-        alertify.error('Too much elements (max ' + this.deleteLimit + ' items.)');
-        return false;
-      }
-
-      models.forEach(function (item) {
-        ids.push(item.id);
-
-        var index = _this9.data.models.indexOf(item);
-
-        _this9.data.models.splice(index, 1);
-      });
-      this.selectedItems = [];
-      this.startLoading();
-      var data = {
-        folder_id: this.path[this.path.length - 2].id
-      };
-      axios.patch('/api/files/' + ids.join(), data).then(function (response) {
-        _this9.stopLoading();
-
-        if (response.data.number < number) {
-          alertify.error(_this9.$i18n.tc('# files could not be moved.', number - response.data.number, {
-            count: number - response.data.number
-          }));
-        }
-
-        if (response.data.number > 0) {
-          alertify.success(_this9.$i18n.tc('# files moved.', response.data.number, {
-            count: response.data.number
-          }));
-        }
-      })["catch"](function (error) {
-        _this9.stopLoading();
-
-        alertify.error('Error ' + error.status + ' ' + error.statusText);
-      });
-    },
-    addSingleFile: function addSingleFile(item) {
-      this.$root.$emit('fileAdded', item);
-      var CKEditorCleanUpFuncNum = $('#filepicker').data('CKEditorCleanUpFuncNum'),
-          CKEditorFuncNum = $('#filepicker').data('CKEditorFuncNum');
-
-      if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
-        parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, item.url);
-        parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
-      }
-
-      this.closeModal();
-    },
-    addSelectedFiles: function addSelectedFiles() {
-      var _this10 = this;
-
-      var ids = [],
-          data = {};
-
-      if (this.selectedFiles.length === 0) {
-        this.closeModal();
-        return;
-      }
-
-      this.selectedFiles.forEach(function (file) {
-        ids.push(file.id);
-      });
-      data.files = ids;
-      axios.post('/api/' + this.relatedTable + '/' + this.relatedId + '/files', data).then(function (response) {
-        _this10.selectedItems = [];
-
-        _this10.$root.$emit('filesAdded', response.data.models);
-
-        _this10.closeModal();
-
-        if (response.data.number === 0) {
-          alertify.error(response.data.message);
-        } else {
-          alertify.success(response.data.message);
-        }
-      })["catch"](function (error) {
-        console.log(error);
-        alertify.error('Error ' + error.status + ' ' + error.statusText);
-      });
-    },
-    closeModal: function closeModal() {
-      $('html, body').removeClass('noscroll');
-      this.options.open = false;
-    },
-    switchView: function switchView(view) {
-      this.view = view;
-      sessionStorage.setItem('view', JSON.stringify(view));
-    },
-    openFolder: function openFolder(folder) {
-      this.folder = folder;
-      sessionStorage.setItem('folder', JSON.stringify(folder));
-      this.fetchData();
-      this.selectedItems = [];
-    },
-    onDoubleClick: function onDoubleClick(item) {
-      if (item.type === 'f') {
-        this.openFolder(item);
-        return;
-      }
-
-      if (this.modal) {
-        if (this.options.multiple) {
-          this.addSelectedFiles();
-        } else {
-          this.addSingleFile(item);
-        }
-      }
-    },
-    checkNone: function checkNone() {
-      this.selectedItems = [];
-    },
-    deleteSelected: function deleteSelected() {
-      var _this11 = this;
-
-      var deleteLimit = 100;
-
-      var _iterator = _createForOfIteratorHelper(this.selectedItems),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var item = _step.value;
-
-          if (item.children.length > 0) {
-            alertify.error(this.$i18n.t('A non-empty folder cannot be deleted.'));
-            return false;
-          }
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
-
-      if (this.selectedItems.length > deleteLimit) {
-        alertify.error(this.$i18n.t('Impossible to delete more than # items in one go.', {
-          deleteLimit: deleteLimit
-        }));
-        return false;
-      }
-
-      if (!window.confirm(this.$i18n.tc('Are you sure you want to delete # items?', this.selectedItems.length, {
-        count: this.selectedItems.length
-      }))) {
-        return false;
-      }
-
-      this.startLoading();
-      axios.all(this.selectedItems.map(function (item) {
-        return axios["delete"](_this11.baseUrl + '/' + item.id);
-      })).then(function (responses) {
-        var successes = responses.filter(function (response) {
-          return response.data.error === false;
-        });
-
-        _this11.stopLoading();
-
-        alertify.success(_this11.$i18n.tc('# items deleted', successes.length, {
-          count: successes.length
-        }));
-
-        _this11.fetchData();
-
-        _this11.selectedItems = [];
-      })["catch"](function (error) {
-        alertify.error(error.response.data.message || _this11.$i18n.t('Sorry, an error occurred.'));
-      });
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Files.vue?vue&type=script&lang=js&":
-/*!****************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Files.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.common.js");
-/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_0__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_0___default.a
-  },
-  props: {
-    label: {
-      type: String
-    },
-    relatedTable: {
-      type: String,
-      required: true
-    },
-    relatedId: {
-      type: Number,
-      required: true
-    }
-  },
-  data: function data() {
-    return {
-      files: [],
-      loading: false
-    };
-  },
-  created: function created() {
-    if (this.url !== null) {
-      this.fetchData();
-    }
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    this.$root.$on('filesAdded', function (files) {
-      _this.files = files;
-    });
-  },
-  computed: {
-    url: function url() {
-      if (this.relatedId !== 0) {
-        return '/api/' + this.relatedTable + '/' + this.relatedId;
-      }
-
-      return null;
-    }
-  },
-  methods: {
-    fetchData: function fetchData() {
-      var _this2 = this;
-
-      this.loading = true;
-      axios.get(this.url + '/files').then(function (response) {
-        _this2.files = response.data;
-        _this2.loading = false;
-      })["catch"](function (error) {
-        alertify.error(error.response.data.message || _this2.$i18n.t('An error occurred with the data fetch.'));
-      });
-    },
-    openFilepicker: function openFilepicker() {
-      var options = {
-        open: true,
-        multiple: true,
-        overlay: true,
-        single: false,
-        modal: true
-      };
-      this.$root.$emit('openFilepicker', options);
-    },
-    remove: function remove(file) {
-      var _this3 = this;
-
-      var index = this.files.indexOf(file);
-      this.files.splice(index, 1);
-      this.loading = true;
-      axios["delete"](this.url + '/files/' + file.id, {
-        remove: file.id
-      }).then(function (response) {
-        _this3.loading = false;
-      })["catch"](function (error) {
-        _this3.loading = false;
-        alertify.error('Error ' + error.status + ' ' + error.statusText);
-      });
-    },
-    onSort: function onSort() {
-      axios.post('/api/files/sort', this.files).then(function (response) {})["catch"](function (error) {
-        alertify.error('Error ' + error.status + ' ' + error.statusText);
       });
     }
   }
@@ -3588,6 +2973,93 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3604,8 +3076,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      files: this.initFiles,
-      loading: false
+      files: this.initFiles
     };
   },
   mounted: function mounted() {
@@ -3663,6 +3134,10 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ItemListPagination__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ItemListPagination */ "./resources/js/components/ItemListPagination.vue");
+//
+//
+//
+//
 //
 //
 //
@@ -3903,8 +3378,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ItemListActions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ItemListActions */ "./resources/js/components/ItemListActions.vue");
 /* harmony import */ var _ItemListPerPage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ItemListPerPage */ "./resources/js/components/ItemListPerPage.vue");
 /* harmony import */ var _ItemListStatusButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ItemListStatusButton */ "./resources/js/components/ItemListStatusButton.vue");
-/* harmony import */ var _ItemListSearchBar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ItemListSearchBar */ "./resources/js/components/ItemListSearchBar.vue");
-/* harmony import */ var _ItemListPagination__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ItemListPagination */ "./resources/js/components/ItemListPagination.vue");
+/* harmony import */ var _ItemListPagination__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ItemListPagination */ "./resources/js/components/ItemListPagination.vue");
 //
 //
 //
@@ -4020,7 +3494,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4032,8 +3534,7 @@ __webpack_require__.r(__webpack_exports__);
     ItemListActions: _ItemListActions__WEBPACK_IMPORTED_MODULE_1__["default"],
     ItemListPerPage: _ItemListPerPage__WEBPACK_IMPORTED_MODULE_2__["default"],
     ItemListStatusButton: _ItemListStatusButton__WEBPACK_IMPORTED_MODULE_3__["default"],
-    ItemListSearchBar: _ItemListSearchBar__WEBPACK_IMPORTED_MODULE_4__["default"],
-    ItemListPagination: _ItemListPagination__WEBPACK_IMPORTED_MODULE_5__["default"]
+    ItemListPagination: _ItemListPagination__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   props: {
     urlBase: {
@@ -4075,6 +3576,10 @@ __webpack_require__.r(__webpack_exports__);
     publishable: {
       type: Boolean,
       "default": true
+    },
+    exportable: {
+      type: Boolean,
+      "default": false
     },
     multilingual: {
       type: Boolean,
@@ -4141,6 +3646,19 @@ __webpack_require__.r(__webpack_exports__);
       return this.searchableArray.map(function (item) {
         return 'filter[' + item + ']=' + _this.searchString;
       }).join('&');
+    },
+    exportUrl: function exportUrl() {
+      var query = ['sort=' + this.sortArray.join(',')];
+
+      if (this.appends !== '') {
+        query.push('append=' + this.appends);
+      }
+
+      if (this.searchQuery !== '') {
+        query.push(this.searchQuery);
+      }
+
+      return this.urlBase.replace('api/', 'admin/') + '/export?' + query.join('&');
     },
     url: function url() {
       var query = ['sort=' + this.sortArray.join(','), 'fields[' + this.table + ']=' + this.fields];
@@ -4272,18 +3790,22 @@ __webpack_require__.r(__webpack_exports__);
 
       this.startLoading();
       axios.all(this.checkedItems.map(function (model) {
-        return axios["delete"](_this6.urlBase + '/' + model.id);
+        return axios["delete"](_this6.urlBase + '/' + model.id)["catch"](function (error) {
+          return alertify.error(_this6.$i18n.tc(error.response.data.message) || _this6.$i18n.t('Sorry, an error occurred.'));
+        });
       })).then(function (responses) {
         var successes = responses.filter(function (response) {
-          return response.data.error === false;
+          return response.statusText === 'OK';
         });
-        alertify.success(_this6.$i18n.tc('# items deleted', successes.length, {
-          count: successes.length
-        }));
-        _this6.checkedItems = [];
-      })["catch"](function (error) {
-        alertify.error(error.response.data.message || _this6.$i18n.t('Sorry, an error occurred.'));
-      }).then(function () {
+
+        if (successes.length > 0) {
+          alertify.success(_this6.$i18n.tc('# items deleted', successes.length, {
+            count: successes.length
+          }));
+        }
+
+        _this6.checkNone();
+
         _this6.stopLoading();
 
         _this6.fetchData();
@@ -4325,13 +3847,19 @@ __webpack_require__.r(__webpack_exports__);
 
       this.startLoading();
       axios.all(this.checkedItems.map(function (model) {
-        return axios.patch(_this7.urlBase + '/' + model.id, data);
+        return axios.patch(_this7.urlBase + '/' + model.id, data)["catch"](function (error) {
+          return alertify.error(error.response.data.message || _this7.$i18n.t('Sorry, an error occurred.'));
+        });
       })).then(function (responses) {
-        _this7.stopLoading();
+        var successes = responses.filter(function (response) {
+          return response.statusText === 'OK';
+        });
 
-        alertify.success(_this7.$i18n.tc('# items ' + label, responses.length, {
-          count: responses.length
-        }));
+        if (successes.length > 0) {
+          alertify.success(_this7.$i18n.tc('# items ' + label, successes.length, {
+            count: successes.length
+          }));
+        }
 
         for (var i = _this7.checkedItems.length - 1; i >= 0; i--) {
           var index = _this7.data.data.indexOf(_this7.checkedItems[i]);
@@ -4339,10 +3867,9 @@ __webpack_require__.r(__webpack_exports__);
           _this7.data.data[index][statusVar] = status;
         }
 
-        _this7.checkedItems = [];
-      })["catch"](function (error) {
-        console.log(error.response);
-        alertify.error(error.response.data.message || _this7.$i18n.t('Sorry, an error occurred.'));
+        _this7.checkNone();
+
+        _this7.stopLoading();
       });
     },
     toggleStatus: function toggleStatus(model) {
@@ -4786,54 +4313,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ItemListSearchBar.vue?vue&type=script&lang=js&":
-/*!****************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ItemListSearchBar.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      string: ''
-    };
-  },
-  methods: {
-    search: function search() {
-      this.$emit('search', this.string);
-    }
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ItemListSelector.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ItemListSelector.vue?vue&type=script&lang=js& ***!
@@ -5031,6 +4510,77 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5071,8 +4621,7 @@ __webpack_require__.r(__webpack_exports__);
       locales: window.TypiCMS.locales,
       currentLocale: this.locale,
       loading: false,
-      models: [],
-      checkedModels: []
+      models: []
     };
   },
   created: function created() {
@@ -5089,11 +4638,8 @@ __webpack_require__.r(__webpack_exports__);
       query.push('locale=' + this.currentLocale);
       return this.urlBase + '?' + query.join('&');
     },
-    filteredModels: function filteredModels() {
+    filteredItems: function filteredItems() {
       return this.models;
-    },
-    allChecked: function allChecked() {
-      return this.filteredModels.length > 0 && this.filteredModels.length === this.checkedModels.length;
     }
   },
   methods: {
@@ -5137,11 +4683,6 @@ __webpack_require__.r(__webpack_exports__);
       var model = node.data;
       var title = model.title_translated;
 
-      if (node.children && node.children.length > 0) {
-        alertify.error(this.$i18n.t('This item cannot be deleted because it has children.'));
-        return false;
-      }
-
       if (!window.confirm(this.$i18n.t('Are you sure you want to delete “{title}”?', {
         title: title
       }))) {
@@ -5151,7 +4692,7 @@ __webpack_require__.r(__webpack_exports__);
       axios["delete"](this.urlBase + '/' + model.id).then(function (data) {
         _this4.$refs.slVueTree.remove([node.path]);
       })["catch"](function (error) {
-        alertify.error(error.response.data.message || _this4.$i18n.t('Sorry, an error occurred.'));
+        alertify.error(_this4.$i18n.t(error.response.data.message) || _this4.$i18n.t('Sorry, an error occurred.'));
       });
     },
     drop: function drop(draggingNodes, position) {
@@ -5237,9 +4778,9 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
-  * Bootstrap v4.5.0 (https://getbootstrap.com/)
+  * Bootstrap v4.5.2 (https://getbootstrap.com/)
   * Copyright 2011-2020 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
   */
 (function (global, factory) {
    true ? factory(exports, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")) :
@@ -5265,53 +4806,22 @@ __webpack_require__.r(__webpack_exports__);
     return Constructor;
   }
 
-  function _defineProperty(obj, key, value) {
-    if (key in obj) {
-      Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: true,
-        configurable: true,
-        writable: true
-      });
-    } else {
-      obj[key] = value;
-    }
+  function _extends() {
+    _extends = Object.assign || function (target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
 
-    return obj;
-  }
-
-  function ownKeys(object, enumerableOnly) {
-    var keys = Object.keys(object);
-
-    if (Object.getOwnPropertySymbols) {
-      var symbols = Object.getOwnPropertySymbols(object);
-      if (enumerableOnly) symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      });
-      keys.push.apply(keys, symbols);
-    }
-
-    return keys;
-  }
-
-  function _objectSpread2(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i] != null ? arguments[i] : {};
-
-      if (i % 2) {
-        ownKeys(Object(source), true).forEach(function (key) {
-          _defineProperty(target, key, source[key]);
-        });
-      } else if (Object.getOwnPropertyDescriptors) {
-        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-      } else {
-        ownKeys(Object(source)).forEach(function (key) {
-          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-        });
+        for (var key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
+          }
+        }
       }
-    }
 
-    return target;
+      return target;
+    };
+
+    return _extends.apply(this, arguments);
   }
 
   function _inheritsLoose(subClass, superClass) {
@@ -5322,8 +4832,8 @@ __webpack_require__.r(__webpack_exports__);
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v4.5.0): util.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+   * Bootstrap (v4.5.2): util.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
   /**
@@ -5503,7 +5013,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME = 'alert';
-  var VERSION = '4.5.0';
+  var VERSION = '4.5.2';
   var DATA_KEY = 'bs.alert';
   var EVENT_KEY = "." + DATA_KEY;
   var DATA_API_KEY = '.data-api';
@@ -5659,7 +5169,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$1 = 'button';
-  var VERSION$1 = '4.5.0';
+  var VERSION$1 = '4.5.2';
   var DATA_KEY$1 = 'bs.button';
   var EVENT_KEY$1 = "." + DATA_KEY$1;
   var DATA_API_KEY$1 = '.data-api';
@@ -5794,11 +5304,9 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      if (initialButton.tagName === 'LABEL' && inputBtn && inputBtn.type === 'checkbox') {
-        event.preventDefault(); // work around event sent to label and input
+      if (initialButton.tagName !== 'LABEL' || inputBtn && inputBtn.type !== 'checkbox') {
+        Button._jQueryInterface.call($(button), 'toggle');
       }
-
-      Button._jQueryInterface.call($(button), 'toggle');
     }
   }).on(EVENT_FOCUS_BLUR_DATA_API, SELECTOR_DATA_TOGGLE_CARROT, function (event) {
     var button = $(event.target).closest(SELECTOR_BUTTON)[0];
@@ -5854,7 +5362,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$2 = 'carousel';
-  var VERSION$2 = '4.5.0';
+  var VERSION$2 = '4.5.2';
   var DATA_KEY$2 = 'bs.carousel';
   var EVENT_KEY$2 = "." + DATA_KEY$2;
   var DATA_API_KEY$2 = '.data-api';
@@ -6041,7 +5549,7 @@ __webpack_require__.r(__webpack_exports__);
     ;
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread2(_objectSpread2({}, Default), config);
+      config = _extends({}, Default, config);
       Util.typeCheckConfig(NAME$2, config, DefaultType);
       return config;
     };
@@ -6331,10 +5839,10 @@ __webpack_require__.r(__webpack_exports__);
       return this.each(function () {
         var data = $(this).data(DATA_KEY$2);
 
-        var _config = _objectSpread2(_objectSpread2({}, Default), $(this).data());
+        var _config = _extends({}, Default, $(this).data());
 
         if (typeof config === 'object') {
-          _config = _objectSpread2(_objectSpread2({}, _config), config);
+          _config = _extends({}, _config, config);
         }
 
         var action = typeof config === 'string' ? config : _config.slide;
@@ -6372,7 +5880,7 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      var config = _objectSpread2(_objectSpread2({}, $(target).data()), $(this).data());
+      var config = _extends({}, $(target).data(), $(this).data());
 
       var slideIndex = this.getAttribute('data-slide-to');
 
@@ -6441,7 +5949,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$3 = 'collapse';
-  var VERSION$3 = '4.5.0';
+  var VERSION$3 = '4.5.2';
   var DATA_KEY$3 = 'bs.collapse';
   var EVENT_KEY$3 = "." + DATA_KEY$3;
   var DATA_API_KEY$3 = '.data-api';
@@ -6656,7 +6164,7 @@ __webpack_require__.r(__webpack_exports__);
     ;
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread2(_objectSpread2({}, Default$1), config);
+      config = _extends({}, Default$1, config);
       config.toggle = Boolean(config.toggle); // Coerce string values
 
       Util.typeCheckConfig(NAME$3, config, DefaultType$1);
@@ -6710,7 +6218,7 @@ __webpack_require__.r(__webpack_exports__);
         var $this = $(this);
         var data = $this.data(DATA_KEY$3);
 
-        var _config = _objectSpread2(_objectSpread2(_objectSpread2({}, Default$1), $this.data()), typeof config === 'object' && config ? config : {});
+        var _config = _extends({}, Default$1, $this.data(), typeof config === 'object' && config ? config : {});
 
         if (!data && _config.toggle && typeof config === 'string' && /show|hide/.test(config)) {
           _config.toggle = false;
@@ -6790,7 +6298,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$4 = 'dropdown';
-  var VERSION$4 = '4.5.0';
+  var VERSION$4 = '4.5.2';
   var DATA_KEY$4 = 'bs.dropdown';
   var EVENT_KEY$4 = "." + DATA_KEY$4;
   var DATA_API_KEY$4 = '.data-api';
@@ -7017,7 +6525,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread2(_objectSpread2(_objectSpread2({}, this.constructor.Default), $(this._element).data()), config);
+      config = _extends({}, this.constructor.Default, $(this._element).data(), config);
       Util.typeCheckConfig(NAME$4, config, this.constructor.DefaultType);
       return config;
     };
@@ -7062,7 +6570,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (typeof this._config.offset === 'function') {
         offset.fn = function (data) {
-          data.offsets = _objectSpread2(_objectSpread2({}, data.offsets), _this2._config.offset(data.offsets, _this2._element) || {});
+          data.offsets = _extends({}, data.offsets, _this2._config.offset(data.offsets, _this2._element) || {});
           return data;
         };
       } else {
@@ -7092,7 +6600,7 @@ __webpack_require__.r(__webpack_exports__);
         };
       }
 
-      return _objectSpread2(_objectSpread2({}, popperConfig), this._config.popperConfig);
+      return _extends({}, popperConfig, this._config.popperConfig);
     } // Static
     ;
 
@@ -7304,7 +6812,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$5 = 'modal';
-  var VERSION$5 = '4.5.0';
+  var VERSION$5 = '4.5.2';
   var DATA_KEY$5 = 'bs.modal';
   var EVENT_KEY$5 = "." + DATA_KEY$5;
   var DATA_API_KEY$5 = '.data-api';
@@ -7496,7 +7004,7 @@ __webpack_require__.r(__webpack_exports__);
     ;
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread2(_objectSpread2({}, Default$3), config);
+      config = _extends({}, Default$3, config);
       Util.typeCheckConfig(NAME$5, config, DefaultType$3);
       return config;
     };
@@ -7512,11 +7020,24 @@ __webpack_require__.r(__webpack_exports__);
           return;
         }
 
+        var isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
+
+        if (!isModalOverflowing) {
+          this._element.style.overflowY = 'hidden';
+        }
+
         this._element.classList.add(CLASS_NAME_STATIC);
 
-        var modalTransitionDuration = Util.getTransitionDurationFromElement(this._element);
+        var modalTransitionDuration = Util.getTransitionDurationFromElement(this._dialog);
+        $(this._element).off(Util.TRANSITION_END);
         $(this._element).one(Util.TRANSITION_END, function () {
           _this3._element.classList.remove(CLASS_NAME_STATIC);
+
+          if (!isModalOverflowing) {
+            $(_this3._element).one(Util.TRANSITION_END, function () {
+              _this3._element.style.overflowY = '';
+            }).emulateTransitionEnd(_this3._element, modalTransitionDuration);
+          }
         }).emulateTransitionEnd(modalTransitionDuration);
 
         this._element.focus();
@@ -7541,6 +7062,8 @@ __webpack_require__.r(__webpack_exports__);
       this._element.removeAttribute('aria-hidden');
 
       this._element.setAttribute('aria-modal', true);
+
+      this._element.setAttribute('role', 'dialog');
 
       if ($(this._dialog).hasClass(CLASS_NAME_SCROLLABLE) && modalBody) {
         modalBody.scrollTop = 0;
@@ -7628,6 +7151,8 @@ __webpack_require__.r(__webpack_exports__);
       this._element.setAttribute('aria-hidden', true);
 
       this._element.removeAttribute('aria-modal');
+
+      this._element.removeAttribute('role');
 
       this._isTransitioning = false;
 
@@ -7810,7 +7335,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.each(function () {
         var data = $(this).data(DATA_KEY$5);
 
-        var _config = _objectSpread2(_objectSpread2(_objectSpread2({}, Default$3), $(this).data()), typeof config === 'object' && config ? config : {});
+        var _config = _extends({}, Default$3, $(this).data(), typeof config === 'object' && config ? config : {});
 
         if (!data) {
           data = new Modal(this, _config);
@@ -7860,7 +7385,7 @@ __webpack_require__.r(__webpack_exports__);
       target = document.querySelector(selector);
     }
 
-    var config = $(target).data(DATA_KEY$5) ? 'toggle' : _objectSpread2(_objectSpread2({}, $(target).data()), $(this).data());
+    var config = $(target).data(DATA_KEY$5) ? 'toggle' : _extends({}, $(target).data(), $(this).data());
 
     if (this.tagName === 'A' || this.tagName === 'AREA') {
       event.preventDefault();
@@ -7897,8 +7422,8 @@ __webpack_require__.r(__webpack_exports__);
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v4.5.0): tools/sanitizer.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+   * Bootstrap (v4.5.2): tools/sanitizer.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
   var uriAttrs = ['background', 'cite', 'href', 'itemtype', 'longdesc', 'poster', 'src', 'xlink:href'];
@@ -8023,7 +7548,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$6 = 'tooltip';
-  var VERSION$6 = '4.5.0';
+  var VERSION$6 = '4.5.2';
   var DATA_KEY$6 = 'bs.tooltip';
   var EVENT_KEY$6 = "." + DATA_KEY$6;
   var JQUERY_NO_CONFLICT$6 = $.fn[NAME$6];
@@ -8411,7 +7936,7 @@ __webpack_require__.r(__webpack_exports__);
           return _this3._handlePopperPlacementChange(data);
         }
       };
-      return _objectSpread2(_objectSpread2({}, defaultBsConfig), this.config.popperConfig);
+      return _extends({}, defaultBsConfig, this.config.popperConfig);
     };
 
     _proto._getOffset = function _getOffset() {
@@ -8421,7 +7946,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (typeof this.config.offset === 'function') {
         offset.fn = function (data) {
-          data.offsets = _objectSpread2(_objectSpread2({}, data.offsets), _this4.config.offset(data.offsets, _this4.element) || {});
+          data.offsets = _extends({}, data.offsets, _this4.config.offset(data.offsets, _this4.element) || {});
           return data;
         };
       } else {
@@ -8476,7 +8001,7 @@ __webpack_require__.r(__webpack_exports__);
       $(this.element).closest('.modal').on('hide.bs.modal', this._hideModalHandler);
 
       if (this.config.selector) {
-        this.config = _objectSpread2(_objectSpread2({}, this.config), {}, {
+        this.config = _extends({}, this.config, {
           trigger: 'manual',
           selector: ''
         });
@@ -8576,7 +8101,7 @@ __webpack_require__.r(__webpack_exports__);
           delete dataAttributes[dataAttr];
         }
       });
-      config = _objectSpread2(_objectSpread2(_objectSpread2({}, this.constructor.Default), dataAttributes), typeof config === 'object' && config ? config : {});
+      config = _extends({}, this.constructor.Default, dataAttributes, typeof config === 'object' && config ? config : {});
 
       if (typeof config.delay === 'number') {
         config.delay = {
@@ -8735,21 +8260,21 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$7 = 'popover';
-  var VERSION$7 = '4.5.0';
+  var VERSION$7 = '4.5.2';
   var DATA_KEY$7 = 'bs.popover';
   var EVENT_KEY$7 = "." + DATA_KEY$7;
   var JQUERY_NO_CONFLICT$7 = $.fn[NAME$7];
   var CLASS_PREFIX$1 = 'bs-popover';
   var BSCLS_PREFIX_REGEX$1 = new RegExp("(^|\\s)" + CLASS_PREFIX$1 + "\\S+", 'g');
 
-  var Default$5 = _objectSpread2(_objectSpread2({}, Tooltip.Default), {}, {
+  var Default$5 = _extends({}, Tooltip.Default, {
     placement: 'right',
     trigger: 'click',
     content: '',
     template: '<div class="popover" role="tooltip">' + '<div class="arrow"></div>' + '<h3 class="popover-header"></h3>' + '<div class="popover-body"></div></div>'
   });
 
-  var DefaultType$5 = _objectSpread2(_objectSpread2({}, Tooltip.DefaultType), {}, {
+  var DefaultType$5 = _extends({}, Tooltip.DefaultType, {
     content: '(string|element|function)'
   });
 
@@ -8915,7 +8440,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$8 = 'scrollspy';
-  var VERSION$8 = '4.5.0';
+  var VERSION$8 = '4.5.2';
   var DATA_KEY$8 = 'bs.scrollspy';
   var EVENT_KEY$8 = "." + DATA_KEY$8;
   var DATA_API_KEY$6 = '.data-api';
@@ -9029,7 +8554,7 @@ __webpack_require__.r(__webpack_exports__);
     ;
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread2(_objectSpread2({}, Default$6), typeof config === 'object' && config ? config : {});
+      config = _extends({}, Default$6, typeof config === 'object' && config ? config : {});
 
       if (typeof config.target !== 'string' && Util.isElement(config.target)) {
         var id = $(config.target).attr('id');
@@ -9207,7 +8732,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$9 = 'tab';
-  var VERSION$9 = '4.5.0';
+  var VERSION$9 = '4.5.2';
   var DATA_KEY$9 = 'bs.tab';
   var EVENT_KEY$9 = "." + DATA_KEY$9;
   var DATA_API_KEY$7 = '.data-api';
@@ -9433,7 +8958,7 @@ __webpack_require__.r(__webpack_exports__);
    */
 
   var NAME$a = 'toast';
-  var VERSION$a = '4.5.0';
+  var VERSION$a = '4.5.2';
   var DATA_KEY$a = 'bs.toast';
   var EVENT_KEY$a = "." + DATA_KEY$a;
   var JQUERY_NO_CONFLICT$a = $.fn[NAME$a];
@@ -9486,6 +9011,8 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
+      this._clearTimeout();
+
       if (this._config.animation) {
         this._element.classList.add(CLASS_NAME_FADE$5);
       }
@@ -9534,8 +9061,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     _proto.dispose = function dispose() {
-      clearTimeout(this._timeout);
-      this._timeout = null;
+      this._clearTimeout();
 
       if (this._element.classList.contains(CLASS_NAME_SHOW$7)) {
         this._element.classList.remove(CLASS_NAME_SHOW$7);
@@ -9549,7 +9075,7 @@ __webpack_require__.r(__webpack_exports__);
     ;
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread2(_objectSpread2(_objectSpread2({}, Default$7), $(this._element).data()), typeof config === 'object' && config ? config : {});
+      config = _extends({}, Default$7, $(this._element).data(), typeof config === 'object' && config ? config : {});
       Util.typeCheckConfig(NAME$a, config, this.constructor.DefaultType);
       return config;
     };
@@ -9579,6 +9105,11 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         complete();
       }
+    };
+
+    _proto._clearTimeout = function _clearTimeout() {
+      clearTimeout(this._timeout);
+      this._timeout = null;
     } // Static
     ;
 
@@ -9667,13 +9198,13 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
- * Cropper.js v1.5.7
+ * Cropper.js v1.5.9
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2020-05-23T05:23:00.081Z
+ * Date: 2020-09-10T13:16:26.743Z
  */
 
 (function (global, factory) {
@@ -9857,6 +9388,10 @@ __webpack_require__.r(__webpack_exports__);
   var REGEXP_DATA_URL = /^data:/;
   var REGEXP_DATA_URL_JPEG = /^data:image\/jpeg;base64,/;
   var REGEXP_TAG_NAME = /^img|canvas$/i; // Misc
+  // Inspired by the default width and height of a canvas element.
+
+  var MIN_CONTAINER_WIDTH = 200;
+  var MIN_CONTAINER_HEIGHT = 100;
 
   var DEFAULTS = {
     // Define the view mode of the cropper
@@ -9920,8 +9455,8 @@ __webpack_require__.r(__webpack_exports__);
     minCanvasHeight: 0,
     minCropBoxWidth: 0,
     minCropBoxHeight: 0,
-    minContainerWidth: 200,
-    minContainerHeight: 100,
+    minContainerWidth: MIN_CONTAINER_WIDTH,
+    minContainerHeight: MIN_CONTAINER_HEIGHT,
     // Shortcuts of events
     ready: null,
     cropstart: null,
@@ -10469,7 +10004,7 @@ __webpack_require__.r(__webpack_exports__);
   function getMaxZoomRatio(pointers) {
     var pointers2 = _objectSpread2({}, pointers);
 
-    var ratios = [];
+    var maxRatio = 0;
     forEach(pointers, function (pointer, pointerId) {
       delete pointers2[pointerId];
       forEach(pointers2, function (pointer2) {
@@ -10480,13 +10015,13 @@ __webpack_require__.r(__webpack_exports__);
         var z1 = Math.sqrt(x1 * x1 + y1 * y1);
         var z2 = Math.sqrt(x2 * x2 + y2 * y2);
         var ratio = (z2 - z1) / z1;
-        ratios.push(ratio);
+
+        if (Math.abs(ratio) > Math.abs(maxRatio)) {
+          maxRatio = ratio;
+        }
       });
     });
-    ratios.sort(function (a, b) {
-      return Math.abs(a) < Math.abs(b);
-    });
-    return ratios[0];
+    return maxRatio;
   }
   /**
    * Get a pointer from an event object.
@@ -10890,11 +10425,13 @@ __webpack_require__.r(__webpack_exports__);
           options = this.options,
           container = this.container,
           cropper = this.cropper;
+      var minWidth = Number(options.minContainerWidth);
+      var minHeight = Number(options.minContainerHeight);
       addClass(cropper, CLASS_HIDDEN);
       removeClass(element, CLASS_HIDDEN);
       var containerData = {
-        width: Math.max(container.offsetWidth, Number(options.minContainerWidth) || 200),
-        height: Math.max(container.offsetHeight, Number(options.minContainerHeight) || 100)
+        width: Math.max(container.offsetWidth, minWidth >= 0 ? minWidth : MIN_CONTAINER_WIDTH),
+        height: Math.max(container.offsetHeight, minHeight >= 0 ? minHeight : MIN_CONTAINER_HEIGHT)
       };
       this.containerData = containerData;
       setStyle(cropper, {
@@ -10935,14 +10472,15 @@ __webpack_require__.r(__webpack_exports__);
         width: canvasWidth,
         height: canvasHeight
       };
-      canvasData.left = (containerData.width - canvasWidth) / 2;
-      canvasData.top = (containerData.height - canvasHeight) / 2;
-      canvasData.oldLeft = canvasData.left;
-      canvasData.oldTop = canvasData.top;
       this.canvasData = canvasData;
       this.limited = viewMode === 1 || viewMode === 2;
       this.limitCanvas(true, true);
-      this.initialImageData = assign({}, imageData);
+      canvasData.width = Math.min(Math.max(canvasData.width, canvasData.minWidth), canvasData.maxWidth);
+      canvasData.height = Math.min(Math.max(canvasData.height, canvasData.minHeight), canvasData.maxHeight);
+      canvasData.left = (containerData.width - canvasData.width) / 2;
+      canvasData.top = (containerData.height - canvasData.height) / 2;
+      canvasData.oldLeft = canvasData.left;
+      canvasData.oldTop = canvasData.top;
       this.initialCanvasData = assign({}, canvasData);
     },
     limitCanvas: function limitCanvas(sizeLimited, positionLimited) {
@@ -13091,6 +12629,7 @@ __webpack_require__.r(__webpack_exports__);
             naturalHeight: naturalHeight,
             aspectRatio: naturalWidth / naturalHeight
           });
+          _this2.initialImageData = assign({}, _this2.imageData);
           _this2.sizing = false;
           _this2.sized = true;
 
@@ -31122,3717 +30661,18 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 
 /***/ }),
 
-/***/ "./node_modules/sortablejs/modular/sortable.esm.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/sortablejs/modular/sortable.esm.js ***!
-  \*********************************************************/
-/*! exports provided: default, MultiDrag, Sortable, Swap */
+/***/ "./node_modules/sortablejs/modular/sortable.complete.esm.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/sortablejs/modular/sortable.complete.esm.js ***!
+  \******************************************************************/
+/*! exports provided: default, Sortable */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MultiDrag", function() { return MultiDragPlugin; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Sortable", function() { return Sortable; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Swap", function() { return SwapPlugin; });
-/**!
- * Sortable 1.10.2
- * @author	RubaXa   <trash@rubaxa.org>
- * @author	owenm    <owen23355@gmail.com>
- * @license MIT
- */
-function _typeof(obj) {
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function (obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function (obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
-
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-
-function _objectWithoutProperties(source, excluded) {
-  if (source == null) return {};
-
-  var target = _objectWithoutPropertiesLoose(source, excluded);
-
-  var key, i;
-
-  if (Object.getOwnPropertySymbols) {
-    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-
-    for (i = 0; i < sourceSymbolKeys.length; i++) {
-      key = sourceSymbolKeys[i];
-      if (excluded.indexOf(key) >= 0) continue;
-      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-      target[key] = source[key];
-    }
-  }
-
-  return target;
-}
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
-}
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-    return arr2;
-  }
-}
-
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-}
-
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
-}
-
-var version = "1.10.2";
-
-function userAgent(pattern) {
-  if (typeof window !== 'undefined' && window.navigator) {
-    return !!
-    /*@__PURE__*/
-    navigator.userAgent.match(pattern);
-  }
-}
-
-var IE11OrLess = userAgent(/(?:Trident.*rv[ :]?11\.|msie|iemobile|Windows Phone)/i);
-var Edge = userAgent(/Edge/i);
-var FireFox = userAgent(/firefox/i);
-var Safari = userAgent(/safari/i) && !userAgent(/chrome/i) && !userAgent(/android/i);
-var IOS = userAgent(/iP(ad|od|hone)/i);
-var ChromeForAndroid = userAgent(/chrome/i) && userAgent(/android/i);
-
-var captureMode = {
-  capture: false,
-  passive: false
-};
-
-function on(el, event, fn) {
-  el.addEventListener(event, fn, !IE11OrLess && captureMode);
-}
-
-function off(el, event, fn) {
-  el.removeEventListener(event, fn, !IE11OrLess && captureMode);
-}
-
-function matches(
-/**HTMLElement*/
-el,
-/**String*/
-selector) {
-  if (!selector) return;
-  selector[0] === '>' && (selector = selector.substring(1));
-
-  if (el) {
-    try {
-      if (el.matches) {
-        return el.matches(selector);
-      } else if (el.msMatchesSelector) {
-        return el.msMatchesSelector(selector);
-      } else if (el.webkitMatchesSelector) {
-        return el.webkitMatchesSelector(selector);
-      }
-    } catch (_) {
-      return false;
-    }
-  }
-
-  return false;
-}
-
-function getParentOrHost(el) {
-  return el.host && el !== document && el.host.nodeType ? el.host : el.parentNode;
-}
-
-function closest(
-/**HTMLElement*/
-el,
-/**String*/
-selector,
-/**HTMLElement*/
-ctx, includeCTX) {
-  if (el) {
-    ctx = ctx || document;
-
-    do {
-      if (selector != null && (selector[0] === '>' ? el.parentNode === ctx && matches(el, selector) : matches(el, selector)) || includeCTX && el === ctx) {
-        return el;
-      }
-
-      if (el === ctx) break;
-      /* jshint boss:true */
-    } while (el = getParentOrHost(el));
-  }
-
-  return null;
-}
-
-var R_SPACE = /\s+/g;
-
-function toggleClass(el, name, state) {
-  if (el && name) {
-    if (el.classList) {
-      el.classList[state ? 'add' : 'remove'](name);
-    } else {
-      var className = (' ' + el.className + ' ').replace(R_SPACE, ' ').replace(' ' + name + ' ', ' ');
-      el.className = (className + (state ? ' ' + name : '')).replace(R_SPACE, ' ');
-    }
-  }
-}
-
-function css(el, prop, val) {
-  var style = el && el.style;
-
-  if (style) {
-    if (val === void 0) {
-      if (document.defaultView && document.defaultView.getComputedStyle) {
-        val = document.defaultView.getComputedStyle(el, '');
-      } else if (el.currentStyle) {
-        val = el.currentStyle;
-      }
-
-      return prop === void 0 ? val : val[prop];
-    } else {
-      if (!(prop in style) && prop.indexOf('webkit') === -1) {
-        prop = '-webkit-' + prop;
-      }
-
-      style[prop] = val + (typeof val === 'string' ? '' : 'px');
-    }
-  }
-}
-
-function matrix(el, selfOnly) {
-  var appliedTransforms = '';
-
-  if (typeof el === 'string') {
-    appliedTransforms = el;
-  } else {
-    do {
-      var transform = css(el, 'transform');
-
-      if (transform && transform !== 'none') {
-        appliedTransforms = transform + ' ' + appliedTransforms;
-      }
-      /* jshint boss:true */
-
-    } while (!selfOnly && (el = el.parentNode));
-  }
-
-  var matrixFn = window.DOMMatrix || window.WebKitCSSMatrix || window.CSSMatrix || window.MSCSSMatrix;
-  /*jshint -W056 */
-
-  return matrixFn && new matrixFn(appliedTransforms);
-}
-
-function find(ctx, tagName, iterator) {
-  if (ctx) {
-    var list = ctx.getElementsByTagName(tagName),
-        i = 0,
-        n = list.length;
-
-    if (iterator) {
-      for (; i < n; i++) {
-        iterator(list[i], i);
-      }
-    }
-
-    return list;
-  }
-
-  return [];
-}
-
-function getWindowScrollingElement() {
-  var scrollingElement = document.scrollingElement;
-
-  if (scrollingElement) {
-    return scrollingElement;
-  } else {
-    return document.documentElement;
-  }
-}
-/**
- * Returns the "bounding client rect" of given element
- * @param  {HTMLElement} el                       The element whose boundingClientRect is wanted
- * @param  {[Boolean]} relativeToContainingBlock  Whether the rect should be relative to the containing block of (including) the container
- * @param  {[Boolean]} relativeToNonStaticParent  Whether the rect should be relative to the relative parent of (including) the contaienr
- * @param  {[Boolean]} undoScale                  Whether the container's scale() should be undone
- * @param  {[HTMLElement]} container              The parent the element will be placed in
- * @return {Object}                               The boundingClientRect of el, with specified adjustments
- */
-
-
-function getRect(el, relativeToContainingBlock, relativeToNonStaticParent, undoScale, container) {
-  if (!el.getBoundingClientRect && el !== window) return;
-  var elRect, top, left, bottom, right, height, width;
-
-  if (el !== window && el !== getWindowScrollingElement()) {
-    elRect = el.getBoundingClientRect();
-    top = elRect.top;
-    left = elRect.left;
-    bottom = elRect.bottom;
-    right = elRect.right;
-    height = elRect.height;
-    width = elRect.width;
-  } else {
-    top = 0;
-    left = 0;
-    bottom = window.innerHeight;
-    right = window.innerWidth;
-    height = window.innerHeight;
-    width = window.innerWidth;
-  }
-
-  if ((relativeToContainingBlock || relativeToNonStaticParent) && el !== window) {
-    // Adjust for translate()
-    container = container || el.parentNode; // solves #1123 (see: https://stackoverflow.com/a/37953806/6088312)
-    // Not needed on <= IE11
-
-    if (!IE11OrLess) {
-      do {
-        if (container && container.getBoundingClientRect && (css(container, 'transform') !== 'none' || relativeToNonStaticParent && css(container, 'position') !== 'static')) {
-          var containerRect = container.getBoundingClientRect(); // Set relative to edges of padding box of container
-
-          top -= containerRect.top + parseInt(css(container, 'border-top-width'));
-          left -= containerRect.left + parseInt(css(container, 'border-left-width'));
-          bottom = top + elRect.height;
-          right = left + elRect.width;
-          break;
-        }
-        /* jshint boss:true */
-
-      } while (container = container.parentNode);
-    }
-  }
-
-  if (undoScale && el !== window) {
-    // Adjust for scale()
-    var elMatrix = matrix(container || el),
-        scaleX = elMatrix && elMatrix.a,
-        scaleY = elMatrix && elMatrix.d;
-
-    if (elMatrix) {
-      top /= scaleY;
-      left /= scaleX;
-      width /= scaleX;
-      height /= scaleY;
-      bottom = top + height;
-      right = left + width;
-    }
-  }
-
-  return {
-    top: top,
-    left: left,
-    bottom: bottom,
-    right: right,
-    width: width,
-    height: height
-  };
-}
-/**
- * Checks if a side of an element is scrolled past a side of its parents
- * @param  {HTMLElement}  el           The element who's side being scrolled out of view is in question
- * @param  {String}       elSide       Side of the element in question ('top', 'left', 'right', 'bottom')
- * @param  {String}       parentSide   Side of the parent in question ('top', 'left', 'right', 'bottom')
- * @return {HTMLElement}               The parent scroll element that the el's side is scrolled past, or null if there is no such element
- */
-
-
-function isScrolledPast(el, elSide, parentSide) {
-  var parent = getParentAutoScrollElement(el, true),
-      elSideVal = getRect(el)[elSide];
-  /* jshint boss:true */
-
-  while (parent) {
-    var parentSideVal = getRect(parent)[parentSide],
-        visible = void 0;
-
-    if (parentSide === 'top' || parentSide === 'left') {
-      visible = elSideVal >= parentSideVal;
-    } else {
-      visible = elSideVal <= parentSideVal;
-    }
-
-    if (!visible) return parent;
-    if (parent === getWindowScrollingElement()) break;
-    parent = getParentAutoScrollElement(parent, false);
-  }
-
-  return false;
-}
-/**
- * Gets nth child of el, ignoring hidden children, sortable's elements (does not ignore clone if it's visible)
- * and non-draggable elements
- * @param  {HTMLElement} el       The parent element
- * @param  {Number} childNum      The index of the child
- * @param  {Object} options       Parent Sortable's options
- * @return {HTMLElement}          The child at index childNum, or null if not found
- */
-
-
-function getChild(el, childNum, options) {
-  var currentChild = 0,
-      i = 0,
-      children = el.children;
-
-  while (i < children.length) {
-    if (children[i].style.display !== 'none' && children[i] !== Sortable.ghost && children[i] !== Sortable.dragged && closest(children[i], options.draggable, el, false)) {
-      if (currentChild === childNum) {
-        return children[i];
-      }
-
-      currentChild++;
-    }
-
-    i++;
-  }
-
-  return null;
-}
-/**
- * Gets the last child in the el, ignoring ghostEl or invisible elements (clones)
- * @param  {HTMLElement} el       Parent element
- * @param  {selector} selector    Any other elements that should be ignored
- * @return {HTMLElement}          The last child, ignoring ghostEl
- */
-
-
-function lastChild(el, selector) {
-  var last = el.lastElementChild;
-
-  while (last && (last === Sortable.ghost || css(last, 'display') === 'none' || selector && !matches(last, selector))) {
-    last = last.previousElementSibling;
-  }
-
-  return last || null;
-}
-/**
- * Returns the index of an element within its parent for a selected set of
- * elements
- * @param  {HTMLElement} el
- * @param  {selector} selector
- * @return {number}
- */
-
-
-function index(el, selector) {
-  var index = 0;
-
-  if (!el || !el.parentNode) {
-    return -1;
-  }
-  /* jshint boss:true */
-
-
-  while (el = el.previousElementSibling) {
-    if (el.nodeName.toUpperCase() !== 'TEMPLATE' && el !== Sortable.clone && (!selector || matches(el, selector))) {
-      index++;
-    }
-  }
-
-  return index;
-}
-/**
- * Returns the scroll offset of the given element, added with all the scroll offsets of parent elements.
- * The value is returned in real pixels.
- * @param  {HTMLElement} el
- * @return {Array}             Offsets in the format of [left, top]
- */
-
-
-function getRelativeScrollOffset(el) {
-  var offsetLeft = 0,
-      offsetTop = 0,
-      winScroller = getWindowScrollingElement();
-
-  if (el) {
-    do {
-      var elMatrix = matrix(el),
-          scaleX = elMatrix.a,
-          scaleY = elMatrix.d;
-      offsetLeft += el.scrollLeft * scaleX;
-      offsetTop += el.scrollTop * scaleY;
-    } while (el !== winScroller && (el = el.parentNode));
-  }
-
-  return [offsetLeft, offsetTop];
-}
-/**
- * Returns the index of the object within the given array
- * @param  {Array} arr   Array that may or may not hold the object
- * @param  {Object} obj  An object that has a key-value pair unique to and identical to a key-value pair in the object you want to find
- * @return {Number}      The index of the object in the array, or -1
- */
-
-
-function indexOfObject(arr, obj) {
-  for (var i in arr) {
-    if (!arr.hasOwnProperty(i)) continue;
-
-    for (var key in obj) {
-      if (obj.hasOwnProperty(key) && obj[key] === arr[i][key]) return Number(i);
-    }
-  }
-
-  return -1;
-}
-
-function getParentAutoScrollElement(el, includeSelf) {
-  // skip to window
-  if (!el || !el.getBoundingClientRect) return getWindowScrollingElement();
-  var elem = el;
-  var gotSelf = false;
-
-  do {
-    // we don't need to get elem css if it isn't even overflowing in the first place (performance)
-    if (elem.clientWidth < elem.scrollWidth || elem.clientHeight < elem.scrollHeight) {
-      var elemCSS = css(elem);
-
-      if (elem.clientWidth < elem.scrollWidth && (elemCSS.overflowX == 'auto' || elemCSS.overflowX == 'scroll') || elem.clientHeight < elem.scrollHeight && (elemCSS.overflowY == 'auto' || elemCSS.overflowY == 'scroll')) {
-        if (!elem.getBoundingClientRect || elem === document.body) return getWindowScrollingElement();
-        if (gotSelf || includeSelf) return elem;
-        gotSelf = true;
-      }
-    }
-    /* jshint boss:true */
-
-  } while (elem = elem.parentNode);
-
-  return getWindowScrollingElement();
-}
-
-function extend(dst, src) {
-  if (dst && src) {
-    for (var key in src) {
-      if (src.hasOwnProperty(key)) {
-        dst[key] = src[key];
-      }
-    }
-  }
-
-  return dst;
-}
-
-function isRectEqual(rect1, rect2) {
-  return Math.round(rect1.top) === Math.round(rect2.top) && Math.round(rect1.left) === Math.round(rect2.left) && Math.round(rect1.height) === Math.round(rect2.height) && Math.round(rect1.width) === Math.round(rect2.width);
-}
-
-var _throttleTimeout;
-
-function throttle(callback, ms) {
-  return function () {
-    if (!_throttleTimeout) {
-      var args = arguments,
-          _this = this;
-
-      if (args.length === 1) {
-        callback.call(_this, args[0]);
-      } else {
-        callback.apply(_this, args);
-      }
-
-      _throttleTimeout = setTimeout(function () {
-        _throttleTimeout = void 0;
-      }, ms);
-    }
-  };
-}
-
-function cancelThrottle() {
-  clearTimeout(_throttleTimeout);
-  _throttleTimeout = void 0;
-}
-
-function scrollBy(el, x, y) {
-  el.scrollLeft += x;
-  el.scrollTop += y;
-}
-
-function clone(el) {
-  var Polymer = window.Polymer;
-  var $ = window.jQuery || window.Zepto;
-
-  if (Polymer && Polymer.dom) {
-    return Polymer.dom(el).cloneNode(true);
-  } else if ($) {
-    return $(el).clone(true)[0];
-  } else {
-    return el.cloneNode(true);
-  }
-}
-
-function setRect(el, rect) {
-  css(el, 'position', 'absolute');
-  css(el, 'top', rect.top);
-  css(el, 'left', rect.left);
-  css(el, 'width', rect.width);
-  css(el, 'height', rect.height);
-}
-
-function unsetRect(el) {
-  css(el, 'position', '');
-  css(el, 'top', '');
-  css(el, 'left', '');
-  css(el, 'width', '');
-  css(el, 'height', '');
-}
-
-var expando = 'Sortable' + new Date().getTime();
-
-function AnimationStateManager() {
-  var animationStates = [],
-      animationCallbackId;
-  return {
-    captureAnimationState: function captureAnimationState() {
-      animationStates = [];
-      if (!this.options.animation) return;
-      var children = [].slice.call(this.el.children);
-      children.forEach(function (child) {
-        if (css(child, 'display') === 'none' || child === Sortable.ghost) return;
-        animationStates.push({
-          target: child,
-          rect: getRect(child)
-        });
-
-        var fromRect = _objectSpread({}, animationStates[animationStates.length - 1].rect); // If animating: compensate for current animation
-
-
-        if (child.thisAnimationDuration) {
-          var childMatrix = matrix(child, true);
-
-          if (childMatrix) {
-            fromRect.top -= childMatrix.f;
-            fromRect.left -= childMatrix.e;
-          }
-        }
-
-        child.fromRect = fromRect;
-      });
-    },
-    addAnimationState: function addAnimationState(state) {
-      animationStates.push(state);
-    },
-    removeAnimationState: function removeAnimationState(target) {
-      animationStates.splice(indexOfObject(animationStates, {
-        target: target
-      }), 1);
-    },
-    animateAll: function animateAll(callback) {
-      var _this = this;
-
-      if (!this.options.animation) {
-        clearTimeout(animationCallbackId);
-        if (typeof callback === 'function') callback();
-        return;
-      }
-
-      var animating = false,
-          animationTime = 0;
-      animationStates.forEach(function (state) {
-        var time = 0,
-            target = state.target,
-            fromRect = target.fromRect,
-            toRect = getRect(target),
-            prevFromRect = target.prevFromRect,
-            prevToRect = target.prevToRect,
-            animatingRect = state.rect,
-            targetMatrix = matrix(target, true);
-
-        if (targetMatrix) {
-          // Compensate for current animation
-          toRect.top -= targetMatrix.f;
-          toRect.left -= targetMatrix.e;
-        }
-
-        target.toRect = toRect;
-
-        if (target.thisAnimationDuration) {
-          // Could also check if animatingRect is between fromRect and toRect
-          if (isRectEqual(prevFromRect, toRect) && !isRectEqual(fromRect, toRect) && // Make sure animatingRect is on line between toRect & fromRect
-          (animatingRect.top - toRect.top) / (animatingRect.left - toRect.left) === (fromRect.top - toRect.top) / (fromRect.left - toRect.left)) {
-            // If returning to same place as started from animation and on same axis
-            time = calculateRealTime(animatingRect, prevFromRect, prevToRect, _this.options);
-          }
-        } // if fromRect != toRect: animate
-
-
-        if (!isRectEqual(toRect, fromRect)) {
-          target.prevFromRect = fromRect;
-          target.prevToRect = toRect;
-
-          if (!time) {
-            time = _this.options.animation;
-          }
-
-          _this.animate(target, animatingRect, toRect, time);
-        }
-
-        if (time) {
-          animating = true;
-          animationTime = Math.max(animationTime, time);
-          clearTimeout(target.animationResetTimer);
-          target.animationResetTimer = setTimeout(function () {
-            target.animationTime = 0;
-            target.prevFromRect = null;
-            target.fromRect = null;
-            target.prevToRect = null;
-            target.thisAnimationDuration = null;
-          }, time);
-          target.thisAnimationDuration = time;
-        }
-      });
-      clearTimeout(animationCallbackId);
-
-      if (!animating) {
-        if (typeof callback === 'function') callback();
-      } else {
-        animationCallbackId = setTimeout(function () {
-          if (typeof callback === 'function') callback();
-        }, animationTime);
-      }
-
-      animationStates = [];
-    },
-    animate: function animate(target, currentRect, toRect, duration) {
-      if (duration) {
-        css(target, 'transition', '');
-        css(target, 'transform', '');
-        var elMatrix = matrix(this.el),
-            scaleX = elMatrix && elMatrix.a,
-            scaleY = elMatrix && elMatrix.d,
-            translateX = (currentRect.left - toRect.left) / (scaleX || 1),
-            translateY = (currentRect.top - toRect.top) / (scaleY || 1);
-        target.animatingX = !!translateX;
-        target.animatingY = !!translateY;
-        css(target, 'transform', 'translate3d(' + translateX + 'px,' + translateY + 'px,0)');
-        repaint(target); // repaint
-
-        css(target, 'transition', 'transform ' + duration + 'ms' + (this.options.easing ? ' ' + this.options.easing : ''));
-        css(target, 'transform', 'translate3d(0,0,0)');
-        typeof target.animated === 'number' && clearTimeout(target.animated);
-        target.animated = setTimeout(function () {
-          css(target, 'transition', '');
-          css(target, 'transform', '');
-          target.animated = false;
-          target.animatingX = false;
-          target.animatingY = false;
-        }, duration);
-      }
-    }
-  };
-}
-
-function repaint(target) {
-  return target.offsetWidth;
-}
-
-function calculateRealTime(animatingRect, fromRect, toRect, options) {
-  return Math.sqrt(Math.pow(fromRect.top - animatingRect.top, 2) + Math.pow(fromRect.left - animatingRect.left, 2)) / Math.sqrt(Math.pow(fromRect.top - toRect.top, 2) + Math.pow(fromRect.left - toRect.left, 2)) * options.animation;
-}
-
-var plugins = [];
-var defaults = {
-  initializeByDefault: true
-};
-var PluginManager = {
-  mount: function mount(plugin) {
-    // Set default static properties
-    for (var option in defaults) {
-      if (defaults.hasOwnProperty(option) && !(option in plugin)) {
-        plugin[option] = defaults[option];
-      }
-    }
-
-    plugins.push(plugin);
-  },
-  pluginEvent: function pluginEvent(eventName, sortable, evt) {
-    var _this = this;
-
-    this.eventCanceled = false;
-
-    evt.cancel = function () {
-      _this.eventCanceled = true;
-    };
-
-    var eventNameGlobal = eventName + 'Global';
-    plugins.forEach(function (plugin) {
-      if (!sortable[plugin.pluginName]) return; // Fire global events if it exists in this sortable
-
-      if (sortable[plugin.pluginName][eventNameGlobal]) {
-        sortable[plugin.pluginName][eventNameGlobal](_objectSpread({
-          sortable: sortable
-        }, evt));
-      } // Only fire plugin event if plugin is enabled in this sortable,
-      // and plugin has event defined
-
-
-      if (sortable.options[plugin.pluginName] && sortable[plugin.pluginName][eventName]) {
-        sortable[plugin.pluginName][eventName](_objectSpread({
-          sortable: sortable
-        }, evt));
-      }
-    });
-  },
-  initializePlugins: function initializePlugins(sortable, el, defaults, options) {
-    plugins.forEach(function (plugin) {
-      var pluginName = plugin.pluginName;
-      if (!sortable.options[pluginName] && !plugin.initializeByDefault) return;
-      var initialized = new plugin(sortable, el, sortable.options);
-      initialized.sortable = sortable;
-      initialized.options = sortable.options;
-      sortable[pluginName] = initialized; // Add default options from plugin
-
-      _extends(defaults, initialized.defaults);
-    });
-
-    for (var option in sortable.options) {
-      if (!sortable.options.hasOwnProperty(option)) continue;
-      var modified = this.modifyOption(sortable, option, sortable.options[option]);
-
-      if (typeof modified !== 'undefined') {
-        sortable.options[option] = modified;
-      }
-    }
-  },
-  getEventProperties: function getEventProperties(name, sortable) {
-    var eventProperties = {};
-    plugins.forEach(function (plugin) {
-      if (typeof plugin.eventProperties !== 'function') return;
-
-      _extends(eventProperties, plugin.eventProperties.call(sortable[plugin.pluginName], name));
-    });
-    return eventProperties;
-  },
-  modifyOption: function modifyOption(sortable, name, value) {
-    var modifiedValue;
-    plugins.forEach(function (plugin) {
-      // Plugin must exist on the Sortable
-      if (!sortable[plugin.pluginName]) return; // If static option listener exists for this option, call in the context of the Sortable's instance of this plugin
-
-      if (plugin.optionListeners && typeof plugin.optionListeners[name] === 'function') {
-        modifiedValue = plugin.optionListeners[name].call(sortable[plugin.pluginName], value);
-      }
-    });
-    return modifiedValue;
-  }
-};
-
-function dispatchEvent(_ref) {
-  var sortable = _ref.sortable,
-      rootEl = _ref.rootEl,
-      name = _ref.name,
-      targetEl = _ref.targetEl,
-      cloneEl = _ref.cloneEl,
-      toEl = _ref.toEl,
-      fromEl = _ref.fromEl,
-      oldIndex = _ref.oldIndex,
-      newIndex = _ref.newIndex,
-      oldDraggableIndex = _ref.oldDraggableIndex,
-      newDraggableIndex = _ref.newDraggableIndex,
-      originalEvent = _ref.originalEvent,
-      putSortable = _ref.putSortable,
-      extraEventProperties = _ref.extraEventProperties;
-  sortable = sortable || rootEl && rootEl[expando];
-  if (!sortable) return;
-  var evt,
-      options = sortable.options,
-      onName = 'on' + name.charAt(0).toUpperCase() + name.substr(1); // Support for new CustomEvent feature
-
-  if (window.CustomEvent && !IE11OrLess && !Edge) {
-    evt = new CustomEvent(name, {
-      bubbles: true,
-      cancelable: true
-    });
-  } else {
-    evt = document.createEvent('Event');
-    evt.initEvent(name, true, true);
-  }
-
-  evt.to = toEl || rootEl;
-  evt.from = fromEl || rootEl;
-  evt.item = targetEl || rootEl;
-  evt.clone = cloneEl;
-  evt.oldIndex = oldIndex;
-  evt.newIndex = newIndex;
-  evt.oldDraggableIndex = oldDraggableIndex;
-  evt.newDraggableIndex = newDraggableIndex;
-  evt.originalEvent = originalEvent;
-  evt.pullMode = putSortable ? putSortable.lastPutMode : undefined;
-
-  var allEventProperties = _objectSpread({}, extraEventProperties, PluginManager.getEventProperties(name, sortable));
-
-  for (var option in allEventProperties) {
-    evt[option] = allEventProperties[option];
-  }
-
-  if (rootEl) {
-    rootEl.dispatchEvent(evt);
-  }
-
-  if (options[onName]) {
-    options[onName].call(sortable, evt);
-  }
-}
-
-var pluginEvent = function pluginEvent(eventName, sortable) {
-  var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
-      originalEvent = _ref.evt,
-      data = _objectWithoutProperties(_ref, ["evt"]);
-
-  PluginManager.pluginEvent.bind(Sortable)(eventName, sortable, _objectSpread({
-    dragEl: dragEl,
-    parentEl: parentEl,
-    ghostEl: ghostEl,
-    rootEl: rootEl,
-    nextEl: nextEl,
-    lastDownEl: lastDownEl,
-    cloneEl: cloneEl,
-    cloneHidden: cloneHidden,
-    dragStarted: moved,
-    putSortable: putSortable,
-    activeSortable: Sortable.active,
-    originalEvent: originalEvent,
-    oldIndex: oldIndex,
-    oldDraggableIndex: oldDraggableIndex,
-    newIndex: newIndex,
-    newDraggableIndex: newDraggableIndex,
-    hideGhostForTarget: _hideGhostForTarget,
-    unhideGhostForTarget: _unhideGhostForTarget,
-    cloneNowHidden: function cloneNowHidden() {
-      cloneHidden = true;
-    },
-    cloneNowShown: function cloneNowShown() {
-      cloneHidden = false;
-    },
-    dispatchSortableEvent: function dispatchSortableEvent(name) {
-      _dispatchEvent({
-        sortable: sortable,
-        name: name,
-        originalEvent: originalEvent
-      });
-    }
-  }, data));
-};
-
-function _dispatchEvent(info) {
-  dispatchEvent(_objectSpread({
-    putSortable: putSortable,
-    cloneEl: cloneEl,
-    targetEl: dragEl,
-    rootEl: rootEl,
-    oldIndex: oldIndex,
-    oldDraggableIndex: oldDraggableIndex,
-    newIndex: newIndex,
-    newDraggableIndex: newDraggableIndex
-  }, info));
-}
-
-var dragEl,
-    parentEl,
-    ghostEl,
-    rootEl,
-    nextEl,
-    lastDownEl,
-    cloneEl,
-    cloneHidden,
-    oldIndex,
-    newIndex,
-    oldDraggableIndex,
-    newDraggableIndex,
-    activeGroup,
-    putSortable,
-    awaitingDragStarted = false,
-    ignoreNextClick = false,
-    sortables = [],
-    tapEvt,
-    touchEvt,
-    lastDx,
-    lastDy,
-    tapDistanceLeft,
-    tapDistanceTop,
-    moved,
-    lastTarget,
-    lastDirection,
-    pastFirstInvertThresh = false,
-    isCircumstantialInvert = false,
-    targetMoveDistance,
-    // For positioning ghost absolutely
-ghostRelativeParent,
-    ghostRelativeParentInitialScroll = [],
-    // (left, top)
-_silent = false,
-    savedInputChecked = [];
-/** @const */
-
-var documentExists = typeof document !== 'undefined',
-    PositionGhostAbsolutely = IOS,
-    CSSFloatProperty = Edge || IE11OrLess ? 'cssFloat' : 'float',
-    // This will not pass for IE9, because IE9 DnD only works on anchors
-supportDraggable = documentExists && !ChromeForAndroid && !IOS && 'draggable' in document.createElement('div'),
-    supportCssPointerEvents = function () {
-  if (!documentExists) return; // false when <= IE11
-
-  if (IE11OrLess) {
-    return false;
-  }
-
-  var el = document.createElement('x');
-  el.style.cssText = 'pointer-events:auto';
-  return el.style.pointerEvents === 'auto';
-}(),
-    _detectDirection = function _detectDirection(el, options) {
-  var elCSS = css(el),
-      elWidth = parseInt(elCSS.width) - parseInt(elCSS.paddingLeft) - parseInt(elCSS.paddingRight) - parseInt(elCSS.borderLeftWidth) - parseInt(elCSS.borderRightWidth),
-      child1 = getChild(el, 0, options),
-      child2 = getChild(el, 1, options),
-      firstChildCSS = child1 && css(child1),
-      secondChildCSS = child2 && css(child2),
-      firstChildWidth = firstChildCSS && parseInt(firstChildCSS.marginLeft) + parseInt(firstChildCSS.marginRight) + getRect(child1).width,
-      secondChildWidth = secondChildCSS && parseInt(secondChildCSS.marginLeft) + parseInt(secondChildCSS.marginRight) + getRect(child2).width;
-
-  if (elCSS.display === 'flex') {
-    return elCSS.flexDirection === 'column' || elCSS.flexDirection === 'column-reverse' ? 'vertical' : 'horizontal';
-  }
-
-  if (elCSS.display === 'grid') {
-    return elCSS.gridTemplateColumns.split(' ').length <= 1 ? 'vertical' : 'horizontal';
-  }
-
-  if (child1 && firstChildCSS["float"] && firstChildCSS["float"] !== 'none') {
-    var touchingSideChild2 = firstChildCSS["float"] === 'left' ? 'left' : 'right';
-    return child2 && (secondChildCSS.clear === 'both' || secondChildCSS.clear === touchingSideChild2) ? 'vertical' : 'horizontal';
-  }
-
-  return child1 && (firstChildCSS.display === 'block' || firstChildCSS.display === 'flex' || firstChildCSS.display === 'table' || firstChildCSS.display === 'grid' || firstChildWidth >= elWidth && elCSS[CSSFloatProperty] === 'none' || child2 && elCSS[CSSFloatProperty] === 'none' && firstChildWidth + secondChildWidth > elWidth) ? 'vertical' : 'horizontal';
-},
-    _dragElInRowColumn = function _dragElInRowColumn(dragRect, targetRect, vertical) {
-  var dragElS1Opp = vertical ? dragRect.left : dragRect.top,
-      dragElS2Opp = vertical ? dragRect.right : dragRect.bottom,
-      dragElOppLength = vertical ? dragRect.width : dragRect.height,
-      targetS1Opp = vertical ? targetRect.left : targetRect.top,
-      targetS2Opp = vertical ? targetRect.right : targetRect.bottom,
-      targetOppLength = vertical ? targetRect.width : targetRect.height;
-  return dragElS1Opp === targetS1Opp || dragElS2Opp === targetS2Opp || dragElS1Opp + dragElOppLength / 2 === targetS1Opp + targetOppLength / 2;
-},
-
-/**
- * Detects first nearest empty sortable to X and Y position using emptyInsertThreshold.
- * @param  {Number} x      X position
- * @param  {Number} y      Y position
- * @return {HTMLElement}   Element of the first found nearest Sortable
- */
-_detectNearestEmptySortable = function _detectNearestEmptySortable(x, y) {
-  var ret;
-  sortables.some(function (sortable) {
-    if (lastChild(sortable)) return;
-    var rect = getRect(sortable),
-        threshold = sortable[expando].options.emptyInsertThreshold,
-        insideHorizontally = x >= rect.left - threshold && x <= rect.right + threshold,
-        insideVertically = y >= rect.top - threshold && y <= rect.bottom + threshold;
-
-    if (threshold && insideHorizontally && insideVertically) {
-      return ret = sortable;
-    }
-  });
-  return ret;
-},
-    _prepareGroup = function _prepareGroup(options) {
-  function toFn(value, pull) {
-    return function (to, from, dragEl, evt) {
-      var sameGroup = to.options.group.name && from.options.group.name && to.options.group.name === from.options.group.name;
-
-      if (value == null && (pull || sameGroup)) {
-        // Default pull value
-        // Default pull and put value if same group
-        return true;
-      } else if (value == null || value === false) {
-        return false;
-      } else if (pull && value === 'clone') {
-        return value;
-      } else if (typeof value === 'function') {
-        return toFn(value(to, from, dragEl, evt), pull)(to, from, dragEl, evt);
-      } else {
-        var otherGroup = (pull ? to : from).options.group.name;
-        return value === true || typeof value === 'string' && value === otherGroup || value.join && value.indexOf(otherGroup) > -1;
-      }
-    };
-  }
-
-  var group = {};
-  var originalGroup = options.group;
-
-  if (!originalGroup || _typeof(originalGroup) != 'object') {
-    originalGroup = {
-      name: originalGroup
-    };
-  }
-
-  group.name = originalGroup.name;
-  group.checkPull = toFn(originalGroup.pull, true);
-  group.checkPut = toFn(originalGroup.put);
-  group.revertClone = originalGroup.revertClone;
-  options.group = group;
-},
-    _hideGhostForTarget = function _hideGhostForTarget() {
-  if (!supportCssPointerEvents && ghostEl) {
-    css(ghostEl, 'display', 'none');
-  }
-},
-    _unhideGhostForTarget = function _unhideGhostForTarget() {
-  if (!supportCssPointerEvents && ghostEl) {
-    css(ghostEl, 'display', '');
-  }
-}; // #1184 fix - Prevent click event on fallback if dragged but item not changed position
-
-
-if (documentExists) {
-  document.addEventListener('click', function (evt) {
-    if (ignoreNextClick) {
-      evt.preventDefault();
-      evt.stopPropagation && evt.stopPropagation();
-      evt.stopImmediatePropagation && evt.stopImmediatePropagation();
-      ignoreNextClick = false;
-      return false;
-    }
-  }, true);
-}
-
-var nearestEmptyInsertDetectEvent = function nearestEmptyInsertDetectEvent(evt) {
-  if (dragEl) {
-    evt = evt.touches ? evt.touches[0] : evt;
-
-    var nearest = _detectNearestEmptySortable(evt.clientX, evt.clientY);
-
-    if (nearest) {
-      // Create imitation event
-      var event = {};
-
-      for (var i in evt) {
-        if (evt.hasOwnProperty(i)) {
-          event[i] = evt[i];
-        }
-      }
-
-      event.target = event.rootEl = nearest;
-      event.preventDefault = void 0;
-      event.stopPropagation = void 0;
-
-      nearest[expando]._onDragOver(event);
-    }
-  }
-};
-
-var _checkOutsideTargetEl = function _checkOutsideTargetEl(evt) {
-  if (dragEl) {
-    dragEl.parentNode[expando]._isOutsideThisEl(evt.target);
-  }
-};
-/**
- * @class  Sortable
- * @param  {HTMLElement}  el
- * @param  {Object}       [options]
- */
-
-
-function Sortable(el, options) {
-  if (!(el && el.nodeType && el.nodeType === 1)) {
-    throw "Sortable: `el` must be an HTMLElement, not ".concat({}.toString.call(el));
-  }
-
-  this.el = el; // root element
-
-  this.options = options = _extends({}, options); // Export instance
-
-  el[expando] = this;
-  var defaults = {
-    group: null,
-    sort: true,
-    disabled: false,
-    store: null,
-    handle: null,
-    draggable: /^[uo]l$/i.test(el.nodeName) ? '>li' : '>*',
-    swapThreshold: 1,
-    // percentage; 0 <= x <= 1
-    invertSwap: false,
-    // invert always
-    invertedSwapThreshold: null,
-    // will be set to same as swapThreshold if default
-    removeCloneOnHide: true,
-    direction: function direction() {
-      return _detectDirection(el, this.options);
-    },
-    ghostClass: 'sortable-ghost',
-    chosenClass: 'sortable-chosen',
-    dragClass: 'sortable-drag',
-    ignore: 'a, img',
-    filter: null,
-    preventOnFilter: true,
-    animation: 0,
-    easing: null,
-    setData: function setData(dataTransfer, dragEl) {
-      dataTransfer.setData('Text', dragEl.textContent);
-    },
-    dropBubble: false,
-    dragoverBubble: false,
-    dataIdAttr: 'data-id',
-    delay: 0,
-    delayOnTouchOnly: false,
-    touchStartThreshold: (Number.parseInt ? Number : window).parseInt(window.devicePixelRatio, 10) || 1,
-    forceFallback: false,
-    fallbackClass: 'sortable-fallback',
-    fallbackOnBody: false,
-    fallbackTolerance: 0,
-    fallbackOffset: {
-      x: 0,
-      y: 0
-    },
-    supportPointer: Sortable.supportPointer !== false && 'PointerEvent' in window,
-    emptyInsertThreshold: 5
-  };
-  PluginManager.initializePlugins(this, el, defaults); // Set default options
-
-  for (var name in defaults) {
-    !(name in options) && (options[name] = defaults[name]);
-  }
-
-  _prepareGroup(options); // Bind all private methods
-
-
-  for (var fn in this) {
-    if (fn.charAt(0) === '_' && typeof this[fn] === 'function') {
-      this[fn] = this[fn].bind(this);
-    }
-  } // Setup drag mode
-
-
-  this.nativeDraggable = options.forceFallback ? false : supportDraggable;
-
-  if (this.nativeDraggable) {
-    // Touch start threshold cannot be greater than the native dragstart threshold
-    this.options.touchStartThreshold = 1;
-  } // Bind events
-
-
-  if (options.supportPointer) {
-    on(el, 'pointerdown', this._onTapStart);
-  } else {
-    on(el, 'mousedown', this._onTapStart);
-    on(el, 'touchstart', this._onTapStart);
-  }
-
-  if (this.nativeDraggable) {
-    on(el, 'dragover', this);
-    on(el, 'dragenter', this);
-  }
-
-  sortables.push(this.el); // Restore sorting
-
-  options.store && options.store.get && this.sort(options.store.get(this) || []); // Add animation state manager
-
-  _extends(this, AnimationStateManager());
-}
-
-Sortable.prototype =
-/** @lends Sortable.prototype */
-{
-  constructor: Sortable,
-  _isOutsideThisEl: function _isOutsideThisEl(target) {
-    if (!this.el.contains(target) && target !== this.el) {
-      lastTarget = null;
-    }
-  },
-  _getDirection: function _getDirection(evt, target) {
-    return typeof this.options.direction === 'function' ? this.options.direction.call(this, evt, target, dragEl) : this.options.direction;
-  },
-  _onTapStart: function _onTapStart(
-  /** Event|TouchEvent */
-  evt) {
-    if (!evt.cancelable) return;
-
-    var _this = this,
-        el = this.el,
-        options = this.options,
-        preventOnFilter = options.preventOnFilter,
-        type = evt.type,
-        touch = evt.touches && evt.touches[0] || evt.pointerType && evt.pointerType === 'touch' && evt,
-        target = (touch || evt).target,
-        originalTarget = evt.target.shadowRoot && (evt.path && evt.path[0] || evt.composedPath && evt.composedPath()[0]) || target,
-        filter = options.filter;
-
-    _saveInputCheckedState(el); // Don't trigger start event when an element is been dragged, otherwise the evt.oldindex always wrong when set option.group.
-
-
-    if (dragEl) {
-      return;
-    }
-
-    if (/mousedown|pointerdown/.test(type) && evt.button !== 0 || options.disabled) {
-      return; // only left button and enabled
-    } // cancel dnd if original target is content editable
-
-
-    if (originalTarget.isContentEditable) {
-      return;
-    }
-
-    target = closest(target, options.draggable, el, false);
-
-    if (target && target.animated) {
-      return;
-    }
-
-    if (lastDownEl === target) {
-      // Ignoring duplicate `down`
-      return;
-    } // Get the index of the dragged element within its parent
-
-
-    oldIndex = index(target);
-    oldDraggableIndex = index(target, options.draggable); // Check filter
-
-    if (typeof filter === 'function') {
-      if (filter.call(this, evt, target, this)) {
-        _dispatchEvent({
-          sortable: _this,
-          rootEl: originalTarget,
-          name: 'filter',
-          targetEl: target,
-          toEl: el,
-          fromEl: el
-        });
-
-        pluginEvent('filter', _this, {
-          evt: evt
-        });
-        preventOnFilter && evt.cancelable && evt.preventDefault();
-        return; // cancel dnd
-      }
-    } else if (filter) {
-      filter = filter.split(',').some(function (criteria) {
-        criteria = closest(originalTarget, criteria.trim(), el, false);
-
-        if (criteria) {
-          _dispatchEvent({
-            sortable: _this,
-            rootEl: criteria,
-            name: 'filter',
-            targetEl: target,
-            fromEl: el,
-            toEl: el
-          });
-
-          pluginEvent('filter', _this, {
-            evt: evt
-          });
-          return true;
-        }
-      });
-
-      if (filter) {
-        preventOnFilter && evt.cancelable && evt.preventDefault();
-        return; // cancel dnd
-      }
-    }
-
-    if (options.handle && !closest(originalTarget, options.handle, el, false)) {
-      return;
-    } // Prepare `dragstart`
-
-
-    this._prepareDragStart(evt, touch, target);
-  },
-  _prepareDragStart: function _prepareDragStart(
-  /** Event */
-  evt,
-  /** Touch */
-  touch,
-  /** HTMLElement */
-  target) {
-    var _this = this,
-        el = _this.el,
-        options = _this.options,
-        ownerDocument = el.ownerDocument,
-        dragStartFn;
-
-    if (target && !dragEl && target.parentNode === el) {
-      var dragRect = getRect(target);
-      rootEl = el;
-      dragEl = target;
-      parentEl = dragEl.parentNode;
-      nextEl = dragEl.nextSibling;
-      lastDownEl = target;
-      activeGroup = options.group;
-      Sortable.dragged = dragEl;
-      tapEvt = {
-        target: dragEl,
-        clientX: (touch || evt).clientX,
-        clientY: (touch || evt).clientY
-      };
-      tapDistanceLeft = tapEvt.clientX - dragRect.left;
-      tapDistanceTop = tapEvt.clientY - dragRect.top;
-      this._lastX = (touch || evt).clientX;
-      this._lastY = (touch || evt).clientY;
-      dragEl.style['will-change'] = 'all';
-
-      dragStartFn = function dragStartFn() {
-        pluginEvent('delayEnded', _this, {
-          evt: evt
-        });
-
-        if (Sortable.eventCanceled) {
-          _this._onDrop();
-
-          return;
-        } // Delayed drag has been triggered
-        // we can re-enable the events: touchmove/mousemove
-
-
-        _this._disableDelayedDragEvents();
-
-        if (!FireFox && _this.nativeDraggable) {
-          dragEl.draggable = true;
-        } // Bind the events: dragstart/dragend
-
-
-        _this._triggerDragStart(evt, touch); // Drag start event
-
-
-        _dispatchEvent({
-          sortable: _this,
-          name: 'choose',
-          originalEvent: evt
-        }); // Chosen item
-
-
-        toggleClass(dragEl, options.chosenClass, true);
-      }; // Disable "draggable"
-
-
-      options.ignore.split(',').forEach(function (criteria) {
-        find(dragEl, criteria.trim(), _disableDraggable);
-      });
-      on(ownerDocument, 'dragover', nearestEmptyInsertDetectEvent);
-      on(ownerDocument, 'mousemove', nearestEmptyInsertDetectEvent);
-      on(ownerDocument, 'touchmove', nearestEmptyInsertDetectEvent);
-      on(ownerDocument, 'mouseup', _this._onDrop);
-      on(ownerDocument, 'touchend', _this._onDrop);
-      on(ownerDocument, 'touchcancel', _this._onDrop); // Make dragEl draggable (must be before delay for FireFox)
-
-      if (FireFox && this.nativeDraggable) {
-        this.options.touchStartThreshold = 4;
-        dragEl.draggable = true;
-      }
-
-      pluginEvent('delayStart', this, {
-        evt: evt
-      }); // Delay is impossible for native DnD in Edge or IE
-
-      if (options.delay && (!options.delayOnTouchOnly || touch) && (!this.nativeDraggable || !(Edge || IE11OrLess))) {
-        if (Sortable.eventCanceled) {
-          this._onDrop();
-
-          return;
-        } // If the user moves the pointer or let go the click or touch
-        // before the delay has been reached:
-        // disable the delayed drag
-
-
-        on(ownerDocument, 'mouseup', _this._disableDelayedDrag);
-        on(ownerDocument, 'touchend', _this._disableDelayedDrag);
-        on(ownerDocument, 'touchcancel', _this._disableDelayedDrag);
-        on(ownerDocument, 'mousemove', _this._delayedDragTouchMoveHandler);
-        on(ownerDocument, 'touchmove', _this._delayedDragTouchMoveHandler);
-        options.supportPointer && on(ownerDocument, 'pointermove', _this._delayedDragTouchMoveHandler);
-        _this._dragStartTimer = setTimeout(dragStartFn, options.delay);
-      } else {
-        dragStartFn();
-      }
-    }
-  },
-  _delayedDragTouchMoveHandler: function _delayedDragTouchMoveHandler(
-  /** TouchEvent|PointerEvent **/
-  e) {
-    var touch = e.touches ? e.touches[0] : e;
-
-    if (Math.max(Math.abs(touch.clientX - this._lastX), Math.abs(touch.clientY - this._lastY)) >= Math.floor(this.options.touchStartThreshold / (this.nativeDraggable && window.devicePixelRatio || 1))) {
-      this._disableDelayedDrag();
-    }
-  },
-  _disableDelayedDrag: function _disableDelayedDrag() {
-    dragEl && _disableDraggable(dragEl);
-    clearTimeout(this._dragStartTimer);
-
-    this._disableDelayedDragEvents();
-  },
-  _disableDelayedDragEvents: function _disableDelayedDragEvents() {
-    var ownerDocument = this.el.ownerDocument;
-    off(ownerDocument, 'mouseup', this._disableDelayedDrag);
-    off(ownerDocument, 'touchend', this._disableDelayedDrag);
-    off(ownerDocument, 'touchcancel', this._disableDelayedDrag);
-    off(ownerDocument, 'mousemove', this._delayedDragTouchMoveHandler);
-    off(ownerDocument, 'touchmove', this._delayedDragTouchMoveHandler);
-    off(ownerDocument, 'pointermove', this._delayedDragTouchMoveHandler);
-  },
-  _triggerDragStart: function _triggerDragStart(
-  /** Event */
-  evt,
-  /** Touch */
-  touch) {
-    touch = touch || evt.pointerType == 'touch' && evt;
-
-    if (!this.nativeDraggable || touch) {
-      if (this.options.supportPointer) {
-        on(document, 'pointermove', this._onTouchMove);
-      } else if (touch) {
-        on(document, 'touchmove', this._onTouchMove);
-      } else {
-        on(document, 'mousemove', this._onTouchMove);
-      }
-    } else {
-      on(dragEl, 'dragend', this);
-      on(rootEl, 'dragstart', this._onDragStart);
-    }
-
-    try {
-      if (document.selection) {
-        // Timeout neccessary for IE9
-        _nextTick(function () {
-          document.selection.empty();
-        });
-      } else {
-        window.getSelection().removeAllRanges();
-      }
-    } catch (err) {}
-  },
-  _dragStarted: function _dragStarted(fallback, evt) {
-
-    awaitingDragStarted = false;
-
-    if (rootEl && dragEl) {
-      pluginEvent('dragStarted', this, {
-        evt: evt
-      });
-
-      if (this.nativeDraggable) {
-        on(document, 'dragover', _checkOutsideTargetEl);
-      }
-
-      var options = this.options; // Apply effect
-
-      !fallback && toggleClass(dragEl, options.dragClass, false);
-      toggleClass(dragEl, options.ghostClass, true);
-      Sortable.active = this;
-      fallback && this._appendGhost(); // Drag start event
-
-      _dispatchEvent({
-        sortable: this,
-        name: 'start',
-        originalEvent: evt
-      });
-    } else {
-      this._nulling();
-    }
-  },
-  _emulateDragOver: function _emulateDragOver() {
-    if (touchEvt) {
-      this._lastX = touchEvt.clientX;
-      this._lastY = touchEvt.clientY;
-
-      _hideGhostForTarget();
-
-      var target = document.elementFromPoint(touchEvt.clientX, touchEvt.clientY);
-      var parent = target;
-
-      while (target && target.shadowRoot) {
-        target = target.shadowRoot.elementFromPoint(touchEvt.clientX, touchEvt.clientY);
-        if (target === parent) break;
-        parent = target;
-      }
-
-      dragEl.parentNode[expando]._isOutsideThisEl(target);
-
-      if (parent) {
-        do {
-          if (parent[expando]) {
-            var inserted = void 0;
-            inserted = parent[expando]._onDragOver({
-              clientX: touchEvt.clientX,
-              clientY: touchEvt.clientY,
-              target: target,
-              rootEl: parent
-            });
-
-            if (inserted && !this.options.dragoverBubble) {
-              break;
-            }
-          }
-
-          target = parent; // store last element
-        }
-        /* jshint boss:true */
-        while (parent = parent.parentNode);
-      }
-
-      _unhideGhostForTarget();
-    }
-  },
-  _onTouchMove: function _onTouchMove(
-  /**TouchEvent*/
-  evt) {
-    if (tapEvt) {
-      var options = this.options,
-          fallbackTolerance = options.fallbackTolerance,
-          fallbackOffset = options.fallbackOffset,
-          touch = evt.touches ? evt.touches[0] : evt,
-          ghostMatrix = ghostEl && matrix(ghostEl, true),
-          scaleX = ghostEl && ghostMatrix && ghostMatrix.a,
-          scaleY = ghostEl && ghostMatrix && ghostMatrix.d,
-          relativeScrollOffset = PositionGhostAbsolutely && ghostRelativeParent && getRelativeScrollOffset(ghostRelativeParent),
-          dx = (touch.clientX - tapEvt.clientX + fallbackOffset.x) / (scaleX || 1) + (relativeScrollOffset ? relativeScrollOffset[0] - ghostRelativeParentInitialScroll[0] : 0) / (scaleX || 1),
-          dy = (touch.clientY - tapEvt.clientY + fallbackOffset.y) / (scaleY || 1) + (relativeScrollOffset ? relativeScrollOffset[1] - ghostRelativeParentInitialScroll[1] : 0) / (scaleY || 1); // only set the status to dragging, when we are actually dragging
-
-      if (!Sortable.active && !awaitingDragStarted) {
-        if (fallbackTolerance && Math.max(Math.abs(touch.clientX - this._lastX), Math.abs(touch.clientY - this._lastY)) < fallbackTolerance) {
-          return;
-        }
-
-        this._onDragStart(evt, true);
-      }
-
-      if (ghostEl) {
-        if (ghostMatrix) {
-          ghostMatrix.e += dx - (lastDx || 0);
-          ghostMatrix.f += dy - (lastDy || 0);
-        } else {
-          ghostMatrix = {
-            a: 1,
-            b: 0,
-            c: 0,
-            d: 1,
-            e: dx,
-            f: dy
-          };
-        }
-
-        var cssMatrix = "matrix(".concat(ghostMatrix.a, ",").concat(ghostMatrix.b, ",").concat(ghostMatrix.c, ",").concat(ghostMatrix.d, ",").concat(ghostMatrix.e, ",").concat(ghostMatrix.f, ")");
-        css(ghostEl, 'webkitTransform', cssMatrix);
-        css(ghostEl, 'mozTransform', cssMatrix);
-        css(ghostEl, 'msTransform', cssMatrix);
-        css(ghostEl, 'transform', cssMatrix);
-        lastDx = dx;
-        lastDy = dy;
-        touchEvt = touch;
-      }
-
-      evt.cancelable && evt.preventDefault();
-    }
-  },
-  _appendGhost: function _appendGhost() {
-    // Bug if using scale(): https://stackoverflow.com/questions/2637058
-    // Not being adjusted for
-    if (!ghostEl) {
-      var container = this.options.fallbackOnBody ? document.body : rootEl,
-          rect = getRect(dragEl, true, PositionGhostAbsolutely, true, container),
-          options = this.options; // Position absolutely
-
-      if (PositionGhostAbsolutely) {
-        // Get relatively positioned parent
-        ghostRelativeParent = container;
-
-        while (css(ghostRelativeParent, 'position') === 'static' && css(ghostRelativeParent, 'transform') === 'none' && ghostRelativeParent !== document) {
-          ghostRelativeParent = ghostRelativeParent.parentNode;
-        }
-
-        if (ghostRelativeParent !== document.body && ghostRelativeParent !== document.documentElement) {
-          if (ghostRelativeParent === document) ghostRelativeParent = getWindowScrollingElement();
-          rect.top += ghostRelativeParent.scrollTop;
-          rect.left += ghostRelativeParent.scrollLeft;
-        } else {
-          ghostRelativeParent = getWindowScrollingElement();
-        }
-
-        ghostRelativeParentInitialScroll = getRelativeScrollOffset(ghostRelativeParent);
-      }
-
-      ghostEl = dragEl.cloneNode(true);
-      toggleClass(ghostEl, options.ghostClass, false);
-      toggleClass(ghostEl, options.fallbackClass, true);
-      toggleClass(ghostEl, options.dragClass, true);
-      css(ghostEl, 'transition', '');
-      css(ghostEl, 'transform', '');
-      css(ghostEl, 'box-sizing', 'border-box');
-      css(ghostEl, 'margin', 0);
-      css(ghostEl, 'top', rect.top);
-      css(ghostEl, 'left', rect.left);
-      css(ghostEl, 'width', rect.width);
-      css(ghostEl, 'height', rect.height);
-      css(ghostEl, 'opacity', '0.8');
-      css(ghostEl, 'position', PositionGhostAbsolutely ? 'absolute' : 'fixed');
-      css(ghostEl, 'zIndex', '100000');
-      css(ghostEl, 'pointerEvents', 'none');
-      Sortable.ghost = ghostEl;
-      container.appendChild(ghostEl); // Set transform-origin
-
-      css(ghostEl, 'transform-origin', tapDistanceLeft / parseInt(ghostEl.style.width) * 100 + '% ' + tapDistanceTop / parseInt(ghostEl.style.height) * 100 + '%');
-    }
-  },
-  _onDragStart: function _onDragStart(
-  /**Event*/
-  evt,
-  /**boolean*/
-  fallback) {
-    var _this = this;
-
-    var dataTransfer = evt.dataTransfer;
-    var options = _this.options;
-    pluginEvent('dragStart', this, {
-      evt: evt
-    });
-
-    if (Sortable.eventCanceled) {
-      this._onDrop();
-
-      return;
-    }
-
-    pluginEvent('setupClone', this);
-
-    if (!Sortable.eventCanceled) {
-      cloneEl = clone(dragEl);
-      cloneEl.draggable = false;
-      cloneEl.style['will-change'] = '';
-
-      this._hideClone();
-
-      toggleClass(cloneEl, this.options.chosenClass, false);
-      Sortable.clone = cloneEl;
-    } // #1143: IFrame support workaround
-
-
-    _this.cloneId = _nextTick(function () {
-      pluginEvent('clone', _this);
-      if (Sortable.eventCanceled) return;
-
-      if (!_this.options.removeCloneOnHide) {
-        rootEl.insertBefore(cloneEl, dragEl);
-      }
-
-      _this._hideClone();
-
-      _dispatchEvent({
-        sortable: _this,
-        name: 'clone'
-      });
-    });
-    !fallback && toggleClass(dragEl, options.dragClass, true); // Set proper drop events
-
-    if (fallback) {
-      ignoreNextClick = true;
-      _this._loopId = setInterval(_this._emulateDragOver, 50);
-    } else {
-      // Undo what was set in _prepareDragStart before drag started
-      off(document, 'mouseup', _this._onDrop);
-      off(document, 'touchend', _this._onDrop);
-      off(document, 'touchcancel', _this._onDrop);
-
-      if (dataTransfer) {
-        dataTransfer.effectAllowed = 'move';
-        options.setData && options.setData.call(_this, dataTransfer, dragEl);
-      }
-
-      on(document, 'drop', _this); // #1276 fix:
-
-      css(dragEl, 'transform', 'translateZ(0)');
-    }
-
-    awaitingDragStarted = true;
-    _this._dragStartId = _nextTick(_this._dragStarted.bind(_this, fallback, evt));
-    on(document, 'selectstart', _this);
-    moved = true;
-
-    if (Safari) {
-      css(document.body, 'user-select', 'none');
-    }
-  },
-  // Returns true - if no further action is needed (either inserted or another condition)
-  _onDragOver: function _onDragOver(
-  /**Event*/
-  evt) {
-    var el = this.el,
-        target = evt.target,
-        dragRect,
-        targetRect,
-        revert,
-        options = this.options,
-        group = options.group,
-        activeSortable = Sortable.active,
-        isOwner = activeGroup === group,
-        canSort = options.sort,
-        fromSortable = putSortable || activeSortable,
-        vertical,
-        _this = this,
-        completedFired = false;
-
-    if (_silent) return;
-
-    function dragOverEvent(name, extra) {
-      pluginEvent(name, _this, _objectSpread({
-        evt: evt,
-        isOwner: isOwner,
-        axis: vertical ? 'vertical' : 'horizontal',
-        revert: revert,
-        dragRect: dragRect,
-        targetRect: targetRect,
-        canSort: canSort,
-        fromSortable: fromSortable,
-        target: target,
-        completed: completed,
-        onMove: function onMove(target, after) {
-          return _onMove(rootEl, el, dragEl, dragRect, target, getRect(target), evt, after);
-        },
-        changed: changed
-      }, extra));
-    } // Capture animation state
-
-
-    function capture() {
-      dragOverEvent('dragOverAnimationCapture');
-
-      _this.captureAnimationState();
-
-      if (_this !== fromSortable) {
-        fromSortable.captureAnimationState();
-      }
-    } // Return invocation when dragEl is inserted (or completed)
-
-
-    function completed(insertion) {
-      dragOverEvent('dragOverCompleted', {
-        insertion: insertion
-      });
-
-      if (insertion) {
-        // Clones must be hidden before folding animation to capture dragRectAbsolute properly
-        if (isOwner) {
-          activeSortable._hideClone();
-        } else {
-          activeSortable._showClone(_this);
-        }
-
-        if (_this !== fromSortable) {
-          // Set ghost class to new sortable's ghost class
-          toggleClass(dragEl, putSortable ? putSortable.options.ghostClass : activeSortable.options.ghostClass, false);
-          toggleClass(dragEl, options.ghostClass, true);
-        }
-
-        if (putSortable !== _this && _this !== Sortable.active) {
-          putSortable = _this;
-        } else if (_this === Sortable.active && putSortable) {
-          putSortable = null;
-        } // Animation
-
-
-        if (fromSortable === _this) {
-          _this._ignoreWhileAnimating = target;
-        }
-
-        _this.animateAll(function () {
-          dragOverEvent('dragOverAnimationComplete');
-          _this._ignoreWhileAnimating = null;
-        });
-
-        if (_this !== fromSortable) {
-          fromSortable.animateAll();
-          fromSortable._ignoreWhileAnimating = null;
-        }
-      } // Null lastTarget if it is not inside a previously swapped element
-
-
-      if (target === dragEl && !dragEl.animated || target === el && !target.animated) {
-        lastTarget = null;
-      } // no bubbling and not fallback
-
-
-      if (!options.dragoverBubble && !evt.rootEl && target !== document) {
-        dragEl.parentNode[expando]._isOutsideThisEl(evt.target); // Do not detect for empty insert if already inserted
-
-
-        !insertion && nearestEmptyInsertDetectEvent(evt);
-      }
-
-      !options.dragoverBubble && evt.stopPropagation && evt.stopPropagation();
-      return completedFired = true;
-    } // Call when dragEl has been inserted
-
-
-    function changed() {
-      newIndex = index(dragEl);
-      newDraggableIndex = index(dragEl, options.draggable);
-
-      _dispatchEvent({
-        sortable: _this,
-        name: 'change',
-        toEl: el,
-        newIndex: newIndex,
-        newDraggableIndex: newDraggableIndex,
-        originalEvent: evt
-      });
-    }
-
-    if (evt.preventDefault !== void 0) {
-      evt.cancelable && evt.preventDefault();
-    }
-
-    target = closest(target, options.draggable, el, true);
-    dragOverEvent('dragOver');
-    if (Sortable.eventCanceled) return completedFired;
-
-    if (dragEl.contains(evt.target) || target.animated && target.animatingX && target.animatingY || _this._ignoreWhileAnimating === target) {
-      return completed(false);
-    }
-
-    ignoreNextClick = false;
-
-    if (activeSortable && !options.disabled && (isOwner ? canSort || (revert = !rootEl.contains(dragEl)) // Reverting item into the original list
-    : putSortable === this || (this.lastPutMode = activeGroup.checkPull(this, activeSortable, dragEl, evt)) && group.checkPut(this, activeSortable, dragEl, evt))) {
-      vertical = this._getDirection(evt, target) === 'vertical';
-      dragRect = getRect(dragEl);
-      dragOverEvent('dragOverValid');
-      if (Sortable.eventCanceled) return completedFired;
-
-      if (revert) {
-        parentEl = rootEl; // actualization
-
-        capture();
-
-        this._hideClone();
-
-        dragOverEvent('revert');
-
-        if (!Sortable.eventCanceled) {
-          if (nextEl) {
-            rootEl.insertBefore(dragEl, nextEl);
-          } else {
-            rootEl.appendChild(dragEl);
-          }
-        }
-
-        return completed(true);
-      }
-
-      var elLastChild = lastChild(el, options.draggable);
-
-      if (!elLastChild || _ghostIsLast(evt, vertical, this) && !elLastChild.animated) {
-        // If already at end of list: Do not insert
-        if (elLastChild === dragEl) {
-          return completed(false);
-        } // assign target only if condition is true
-
-
-        if (elLastChild && el === evt.target) {
-          target = elLastChild;
-        }
-
-        if (target) {
-          targetRect = getRect(target);
-        }
-
-        if (_onMove(rootEl, el, dragEl, dragRect, target, targetRect, evt, !!target) !== false) {
-          capture();
-          el.appendChild(dragEl);
-          parentEl = el; // actualization
-
-          changed();
-          return completed(true);
-        }
-      } else if (target.parentNode === el) {
-        targetRect = getRect(target);
-        var direction = 0,
-            targetBeforeFirstSwap,
-            differentLevel = dragEl.parentNode !== el,
-            differentRowCol = !_dragElInRowColumn(dragEl.animated && dragEl.toRect || dragRect, target.animated && target.toRect || targetRect, vertical),
-            side1 = vertical ? 'top' : 'left',
-            scrolledPastTop = isScrolledPast(target, 'top', 'top') || isScrolledPast(dragEl, 'top', 'top'),
-            scrollBefore = scrolledPastTop ? scrolledPastTop.scrollTop : void 0;
-
-        if (lastTarget !== target) {
-          targetBeforeFirstSwap = targetRect[side1];
-          pastFirstInvertThresh = false;
-          isCircumstantialInvert = !differentRowCol && options.invertSwap || differentLevel;
-        }
-
-        direction = _getSwapDirection(evt, target, targetRect, vertical, differentRowCol ? 1 : options.swapThreshold, options.invertedSwapThreshold == null ? options.swapThreshold : options.invertedSwapThreshold, isCircumstantialInvert, lastTarget === target);
-        var sibling;
-
-        if (direction !== 0) {
-          // Check if target is beside dragEl in respective direction (ignoring hidden elements)
-          var dragIndex = index(dragEl);
-
-          do {
-            dragIndex -= direction;
-            sibling = parentEl.children[dragIndex];
-          } while (sibling && (css(sibling, 'display') === 'none' || sibling === ghostEl));
-        } // If dragEl is already beside target: Do not insert
-
-
-        if (direction === 0 || sibling === target) {
-          return completed(false);
-        }
-
-        lastTarget = target;
-        lastDirection = direction;
-        var nextSibling = target.nextElementSibling,
-            after = false;
-        after = direction === 1;
-
-        var moveVector = _onMove(rootEl, el, dragEl, dragRect, target, targetRect, evt, after);
-
-        if (moveVector !== false) {
-          if (moveVector === 1 || moveVector === -1) {
-            after = moveVector === 1;
-          }
-
-          _silent = true;
-          setTimeout(_unsilent, 30);
-          capture();
-
-          if (after && !nextSibling) {
-            el.appendChild(dragEl);
-          } else {
-            target.parentNode.insertBefore(dragEl, after ? nextSibling : target);
-          } // Undo chrome's scroll adjustment (has no effect on other browsers)
-
-
-          if (scrolledPastTop) {
-            scrollBy(scrolledPastTop, 0, scrollBefore - scrolledPastTop.scrollTop);
-          }
-
-          parentEl = dragEl.parentNode; // actualization
-          // must be done before animation
-
-          if (targetBeforeFirstSwap !== undefined && !isCircumstantialInvert) {
-            targetMoveDistance = Math.abs(targetBeforeFirstSwap - getRect(target)[side1]);
-          }
-
-          changed();
-          return completed(true);
-        }
-      }
-
-      if (el.contains(dragEl)) {
-        return completed(false);
-      }
-    }
-
-    return false;
-  },
-  _ignoreWhileAnimating: null,
-  _offMoveEvents: function _offMoveEvents() {
-    off(document, 'mousemove', this._onTouchMove);
-    off(document, 'touchmove', this._onTouchMove);
-    off(document, 'pointermove', this._onTouchMove);
-    off(document, 'dragover', nearestEmptyInsertDetectEvent);
-    off(document, 'mousemove', nearestEmptyInsertDetectEvent);
-    off(document, 'touchmove', nearestEmptyInsertDetectEvent);
-  },
-  _offUpEvents: function _offUpEvents() {
-    var ownerDocument = this.el.ownerDocument;
-    off(ownerDocument, 'mouseup', this._onDrop);
-    off(ownerDocument, 'touchend', this._onDrop);
-    off(ownerDocument, 'pointerup', this._onDrop);
-    off(ownerDocument, 'touchcancel', this._onDrop);
-    off(document, 'selectstart', this);
-  },
-  _onDrop: function _onDrop(
-  /**Event*/
-  evt) {
-    var el = this.el,
-        options = this.options; // Get the index of the dragged element within its parent
-
-    newIndex = index(dragEl);
-    newDraggableIndex = index(dragEl, options.draggable);
-    pluginEvent('drop', this, {
-      evt: evt
-    });
-    parentEl = dragEl && dragEl.parentNode; // Get again after plugin event
-
-    newIndex = index(dragEl);
-    newDraggableIndex = index(dragEl, options.draggable);
-
-    if (Sortable.eventCanceled) {
-      this._nulling();
-
-      return;
-    }
-
-    awaitingDragStarted = false;
-    isCircumstantialInvert = false;
-    pastFirstInvertThresh = false;
-    clearInterval(this._loopId);
-    clearTimeout(this._dragStartTimer);
-
-    _cancelNextTick(this.cloneId);
-
-    _cancelNextTick(this._dragStartId); // Unbind events
-
-
-    if (this.nativeDraggable) {
-      off(document, 'drop', this);
-      off(el, 'dragstart', this._onDragStart);
-    }
-
-    this._offMoveEvents();
-
-    this._offUpEvents();
-
-    if (Safari) {
-      css(document.body, 'user-select', '');
-    }
-
-    css(dragEl, 'transform', '');
-
-    if (evt) {
-      if (moved) {
-        evt.cancelable && evt.preventDefault();
-        !options.dropBubble && evt.stopPropagation();
-      }
-
-      ghostEl && ghostEl.parentNode && ghostEl.parentNode.removeChild(ghostEl);
-
-      if (rootEl === parentEl || putSortable && putSortable.lastPutMode !== 'clone') {
-        // Remove clone(s)
-        cloneEl && cloneEl.parentNode && cloneEl.parentNode.removeChild(cloneEl);
-      }
-
-      if (dragEl) {
-        if (this.nativeDraggable) {
-          off(dragEl, 'dragend', this);
-        }
-
-        _disableDraggable(dragEl);
-
-        dragEl.style['will-change'] = ''; // Remove classes
-        // ghostClass is added in dragStarted
-
-        if (moved && !awaitingDragStarted) {
-          toggleClass(dragEl, putSortable ? putSortable.options.ghostClass : this.options.ghostClass, false);
-        }
-
-        toggleClass(dragEl, this.options.chosenClass, false); // Drag stop event
-
-        _dispatchEvent({
-          sortable: this,
-          name: 'unchoose',
-          toEl: parentEl,
-          newIndex: null,
-          newDraggableIndex: null,
-          originalEvent: evt
-        });
-
-        if (rootEl !== parentEl) {
-          if (newIndex >= 0) {
-            // Add event
-            _dispatchEvent({
-              rootEl: parentEl,
-              name: 'add',
-              toEl: parentEl,
-              fromEl: rootEl,
-              originalEvent: evt
-            }); // Remove event
-
-
-            _dispatchEvent({
-              sortable: this,
-              name: 'remove',
-              toEl: parentEl,
-              originalEvent: evt
-            }); // drag from one list and drop into another
-
-
-            _dispatchEvent({
-              rootEl: parentEl,
-              name: 'sort',
-              toEl: parentEl,
-              fromEl: rootEl,
-              originalEvent: evt
-            });
-
-            _dispatchEvent({
-              sortable: this,
-              name: 'sort',
-              toEl: parentEl,
-              originalEvent: evt
-            });
-          }
-
-          putSortable && putSortable.save();
-        } else {
-          if (newIndex !== oldIndex) {
-            if (newIndex >= 0) {
-              // drag & drop within the same list
-              _dispatchEvent({
-                sortable: this,
-                name: 'update',
-                toEl: parentEl,
-                originalEvent: evt
-              });
-
-              _dispatchEvent({
-                sortable: this,
-                name: 'sort',
-                toEl: parentEl,
-                originalEvent: evt
-              });
-            }
-          }
-        }
-
-        if (Sortable.active) {
-          /* jshint eqnull:true */
-          if (newIndex == null || newIndex === -1) {
-            newIndex = oldIndex;
-            newDraggableIndex = oldDraggableIndex;
-          }
-
-          _dispatchEvent({
-            sortable: this,
-            name: 'end',
-            toEl: parentEl,
-            originalEvent: evt
-          }); // Save sorting
-
-
-          this.save();
-        }
-      }
-    }
-
-    this._nulling();
-  },
-  _nulling: function _nulling() {
-    pluginEvent('nulling', this);
-    rootEl = dragEl = parentEl = ghostEl = nextEl = cloneEl = lastDownEl = cloneHidden = tapEvt = touchEvt = moved = newIndex = newDraggableIndex = oldIndex = oldDraggableIndex = lastTarget = lastDirection = putSortable = activeGroup = Sortable.dragged = Sortable.ghost = Sortable.clone = Sortable.active = null;
-    savedInputChecked.forEach(function (el) {
-      el.checked = true;
-    });
-    savedInputChecked.length = lastDx = lastDy = 0;
-  },
-  handleEvent: function handleEvent(
-  /**Event*/
-  evt) {
-    switch (evt.type) {
-      case 'drop':
-      case 'dragend':
-        this._onDrop(evt);
-
-        break;
-
-      case 'dragenter':
-      case 'dragover':
-        if (dragEl) {
-          this._onDragOver(evt);
-
-          _globalDragOver(evt);
-        }
-
-        break;
-
-      case 'selectstart':
-        evt.preventDefault();
-        break;
-    }
-  },
-
-  /**
-   * Serializes the item into an array of string.
-   * @returns {String[]}
-   */
-  toArray: function toArray() {
-    var order = [],
-        el,
-        children = this.el.children,
-        i = 0,
-        n = children.length,
-        options = this.options;
-
-    for (; i < n; i++) {
-      el = children[i];
-
-      if (closest(el, options.draggable, this.el, false)) {
-        order.push(el.getAttribute(options.dataIdAttr) || _generateId(el));
-      }
-    }
-
-    return order;
-  },
-
-  /**
-   * Sorts the elements according to the array.
-   * @param  {String[]}  order  order of the items
-   */
-  sort: function sort(order) {
-    var items = {},
-        rootEl = this.el;
-    this.toArray().forEach(function (id, i) {
-      var el = rootEl.children[i];
-
-      if (closest(el, this.options.draggable, rootEl, false)) {
-        items[id] = el;
-      }
-    }, this);
-    order.forEach(function (id) {
-      if (items[id]) {
-        rootEl.removeChild(items[id]);
-        rootEl.appendChild(items[id]);
-      }
-    });
-  },
-
-  /**
-   * Save the current sorting
-   */
-  save: function save() {
-    var store = this.options.store;
-    store && store.set && store.set(this);
-  },
-
-  /**
-   * For each element in the set, get the first element that matches the selector by testing the element itself and traversing up through its ancestors in the DOM tree.
-   * @param   {HTMLElement}  el
-   * @param   {String}       [selector]  default: `options.draggable`
-   * @returns {HTMLElement|null}
-   */
-  closest: function closest$1(el, selector) {
-    return closest(el, selector || this.options.draggable, this.el, false);
-  },
-
-  /**
-   * Set/get option
-   * @param   {string} name
-   * @param   {*}      [value]
-   * @returns {*}
-   */
-  option: function option(name, value) {
-    var options = this.options;
-
-    if (value === void 0) {
-      return options[name];
-    } else {
-      var modifiedValue = PluginManager.modifyOption(this, name, value);
-
-      if (typeof modifiedValue !== 'undefined') {
-        options[name] = modifiedValue;
-      } else {
-        options[name] = value;
-      }
-
-      if (name === 'group') {
-        _prepareGroup(options);
-      }
-    }
-  },
-
-  /**
-   * Destroy
-   */
-  destroy: function destroy() {
-    pluginEvent('destroy', this);
-    var el = this.el;
-    el[expando] = null;
-    off(el, 'mousedown', this._onTapStart);
-    off(el, 'touchstart', this._onTapStart);
-    off(el, 'pointerdown', this._onTapStart);
-
-    if (this.nativeDraggable) {
-      off(el, 'dragover', this);
-      off(el, 'dragenter', this);
-    } // Remove draggable attributes
-
-
-    Array.prototype.forEach.call(el.querySelectorAll('[draggable]'), function (el) {
-      el.removeAttribute('draggable');
-    });
-
-    this._onDrop();
-
-    this._disableDelayedDragEvents();
-
-    sortables.splice(sortables.indexOf(this.el), 1);
-    this.el = el = null;
-  },
-  _hideClone: function _hideClone() {
-    if (!cloneHidden) {
-      pluginEvent('hideClone', this);
-      if (Sortable.eventCanceled) return;
-      css(cloneEl, 'display', 'none');
-
-      if (this.options.removeCloneOnHide && cloneEl.parentNode) {
-        cloneEl.parentNode.removeChild(cloneEl);
-      }
-
-      cloneHidden = true;
-    }
-  },
-  _showClone: function _showClone(putSortable) {
-    if (putSortable.lastPutMode !== 'clone') {
-      this._hideClone();
-
-      return;
-    }
-
-    if (cloneHidden) {
-      pluginEvent('showClone', this);
-      if (Sortable.eventCanceled) return; // show clone at dragEl or original position
-
-      if (rootEl.contains(dragEl) && !this.options.group.revertClone) {
-        rootEl.insertBefore(cloneEl, dragEl);
-      } else if (nextEl) {
-        rootEl.insertBefore(cloneEl, nextEl);
-      } else {
-        rootEl.appendChild(cloneEl);
-      }
-
-      if (this.options.group.revertClone) {
-        this.animate(dragEl, cloneEl);
-      }
-
-      css(cloneEl, 'display', '');
-      cloneHidden = false;
-    }
-  }
-};
-
-function _globalDragOver(
-/**Event*/
-evt) {
-  if (evt.dataTransfer) {
-    evt.dataTransfer.dropEffect = 'move';
-  }
-
-  evt.cancelable && evt.preventDefault();
-}
-
-function _onMove(fromEl, toEl, dragEl, dragRect, targetEl, targetRect, originalEvent, willInsertAfter) {
-  var evt,
-      sortable = fromEl[expando],
-      onMoveFn = sortable.options.onMove,
-      retVal; // Support for new CustomEvent feature
-
-  if (window.CustomEvent && !IE11OrLess && !Edge) {
-    evt = new CustomEvent('move', {
-      bubbles: true,
-      cancelable: true
-    });
-  } else {
-    evt = document.createEvent('Event');
-    evt.initEvent('move', true, true);
-  }
-
-  evt.to = toEl;
-  evt.from = fromEl;
-  evt.dragged = dragEl;
-  evt.draggedRect = dragRect;
-  evt.related = targetEl || toEl;
-  evt.relatedRect = targetRect || getRect(toEl);
-  evt.willInsertAfter = willInsertAfter;
-  evt.originalEvent = originalEvent;
-  fromEl.dispatchEvent(evt);
-
-  if (onMoveFn) {
-    retVal = onMoveFn.call(sortable, evt, originalEvent);
-  }
-
-  return retVal;
-}
-
-function _disableDraggable(el) {
-  el.draggable = false;
-}
-
-function _unsilent() {
-  _silent = false;
-}
-
-function _ghostIsLast(evt, vertical, sortable) {
-  var rect = getRect(lastChild(sortable.el, sortable.options.draggable));
-  var spacer = 10;
-  return vertical ? evt.clientX > rect.right + spacer || evt.clientX <= rect.right && evt.clientY > rect.bottom && evt.clientX >= rect.left : evt.clientX > rect.right && evt.clientY > rect.top || evt.clientX <= rect.right && evt.clientY > rect.bottom + spacer;
-}
-
-function _getSwapDirection(evt, target, targetRect, vertical, swapThreshold, invertedSwapThreshold, invertSwap, isLastTarget) {
-  var mouseOnAxis = vertical ? evt.clientY : evt.clientX,
-      targetLength = vertical ? targetRect.height : targetRect.width,
-      targetS1 = vertical ? targetRect.top : targetRect.left,
-      targetS2 = vertical ? targetRect.bottom : targetRect.right,
-      invert = false;
-
-  if (!invertSwap) {
-    // Never invert or create dragEl shadow when target movemenet causes mouse to move past the end of regular swapThreshold
-    if (isLastTarget && targetMoveDistance < targetLength * swapThreshold) {
-      // multiplied only by swapThreshold because mouse will already be inside target by (1 - threshold) * targetLength / 2
-      // check if past first invert threshold on side opposite of lastDirection
-      if (!pastFirstInvertThresh && (lastDirection === 1 ? mouseOnAxis > targetS1 + targetLength * invertedSwapThreshold / 2 : mouseOnAxis < targetS2 - targetLength * invertedSwapThreshold / 2)) {
-        // past first invert threshold, do not restrict inverted threshold to dragEl shadow
-        pastFirstInvertThresh = true;
-      }
-
-      if (!pastFirstInvertThresh) {
-        // dragEl shadow (target move distance shadow)
-        if (lastDirection === 1 ? mouseOnAxis < targetS1 + targetMoveDistance // over dragEl shadow
-        : mouseOnAxis > targetS2 - targetMoveDistance) {
-          return -lastDirection;
-        }
-      } else {
-        invert = true;
-      }
-    } else {
-      // Regular
-      if (mouseOnAxis > targetS1 + targetLength * (1 - swapThreshold) / 2 && mouseOnAxis < targetS2 - targetLength * (1 - swapThreshold) / 2) {
-        return _getInsertDirection(target);
-      }
-    }
-  }
-
-  invert = invert || invertSwap;
-
-  if (invert) {
-    // Invert of regular
-    if (mouseOnAxis < targetS1 + targetLength * invertedSwapThreshold / 2 || mouseOnAxis > targetS2 - targetLength * invertedSwapThreshold / 2) {
-      return mouseOnAxis > targetS1 + targetLength / 2 ? 1 : -1;
-    }
-  }
-
-  return 0;
-}
-/**
- * Gets the direction dragEl must be swapped relative to target in order to make it
- * seem that dragEl has been "inserted" into that element's position
- * @param  {HTMLElement} target       The target whose position dragEl is being inserted at
- * @return {Number}                   Direction dragEl must be swapped
- */
-
-
-function _getInsertDirection(target) {
-  if (index(dragEl) < index(target)) {
-    return 1;
-  } else {
-    return -1;
-  }
-}
-/**
- * Generate id
- * @param   {HTMLElement} el
- * @returns {String}
- * @private
- */
-
-
-function _generateId(el) {
-  var str = el.tagName + el.className + el.src + el.href + el.textContent,
-      i = str.length,
-      sum = 0;
-
-  while (i--) {
-    sum += str.charCodeAt(i);
-  }
-
-  return sum.toString(36);
-}
-
-function _saveInputCheckedState(root) {
-  savedInputChecked.length = 0;
-  var inputs = root.getElementsByTagName('input');
-  var idx = inputs.length;
-
-  while (idx--) {
-    var el = inputs[idx];
-    el.checked && savedInputChecked.push(el);
-  }
-}
-
-function _nextTick(fn) {
-  return setTimeout(fn, 0);
-}
-
-function _cancelNextTick(id) {
-  return clearTimeout(id);
-} // Fixed #973:
-
-
-if (documentExists) {
-  on(document, 'touchmove', function (evt) {
-    if ((Sortable.active || awaitingDragStarted) && evt.cancelable) {
-      evt.preventDefault();
-    }
-  });
-} // Export utils
-
-
-Sortable.utils = {
-  on: on,
-  off: off,
-  css: css,
-  find: find,
-  is: function is(el, selector) {
-    return !!closest(el, selector, el, false);
-  },
-  extend: extend,
-  throttle: throttle,
-  closest: closest,
-  toggleClass: toggleClass,
-  clone: clone,
-  index: index,
-  nextTick: _nextTick,
-  cancelNextTick: _cancelNextTick,
-  detectDirection: _detectDirection,
-  getChild: getChild
-};
-/**
- * Get the Sortable instance of an element
- * @param  {HTMLElement} element The element
- * @return {Sortable|undefined}         The instance of Sortable
- */
-
-Sortable.get = function (element) {
-  return element[expando];
-};
-/**
- * Mount a plugin to Sortable
- * @param  {...SortablePlugin|SortablePlugin[]} plugins       Plugins being mounted
- */
-
-
-Sortable.mount = function () {
-  for (var _len = arguments.length, plugins = new Array(_len), _key = 0; _key < _len; _key++) {
-    plugins[_key] = arguments[_key];
-  }
-
-  if (plugins[0].constructor === Array) plugins = plugins[0];
-  plugins.forEach(function (plugin) {
-    if (!plugin.prototype || !plugin.prototype.constructor) {
-      throw "Sortable: Mounted plugin must be a constructor function, not ".concat({}.toString.call(plugin));
-    }
-
-    if (plugin.utils) Sortable.utils = _objectSpread({}, Sortable.utils, plugin.utils);
-    PluginManager.mount(plugin);
-  });
-};
-/**
- * Create sortable instance
- * @param {HTMLElement}  el
- * @param {Object}      [options]
- */
-
-
-Sortable.create = function (el, options) {
-  return new Sortable(el, options);
-}; // Export
-
-
-Sortable.version = version;
-
-var autoScrolls = [],
-    scrollEl,
-    scrollRootEl,
-    scrolling = false,
-    lastAutoScrollX,
-    lastAutoScrollY,
-    touchEvt$1,
-    pointerElemChangedInterval;
-
-function AutoScrollPlugin() {
-  function AutoScroll() {
-    this.defaults = {
-      scroll: true,
-      scrollSensitivity: 30,
-      scrollSpeed: 10,
-      bubbleScroll: true
-    }; // Bind all private methods
-
-    for (var fn in this) {
-      if (fn.charAt(0) === '_' && typeof this[fn] === 'function') {
-        this[fn] = this[fn].bind(this);
-      }
-    }
-  }
-
-  AutoScroll.prototype = {
-    dragStarted: function dragStarted(_ref) {
-      var originalEvent = _ref.originalEvent;
-
-      if (this.sortable.nativeDraggable) {
-        on(document, 'dragover', this._handleAutoScroll);
-      } else {
-        if (this.options.supportPointer) {
-          on(document, 'pointermove', this._handleFallbackAutoScroll);
-        } else if (originalEvent.touches) {
-          on(document, 'touchmove', this._handleFallbackAutoScroll);
-        } else {
-          on(document, 'mousemove', this._handleFallbackAutoScroll);
-        }
-      }
-    },
-    dragOverCompleted: function dragOverCompleted(_ref2) {
-      var originalEvent = _ref2.originalEvent;
-
-      // For when bubbling is canceled and using fallback (fallback 'touchmove' always reached)
-      if (!this.options.dragOverBubble && !originalEvent.rootEl) {
-        this._handleAutoScroll(originalEvent);
-      }
-    },
-    drop: function drop() {
-      if (this.sortable.nativeDraggable) {
-        off(document, 'dragover', this._handleAutoScroll);
-      } else {
-        off(document, 'pointermove', this._handleFallbackAutoScroll);
-        off(document, 'touchmove', this._handleFallbackAutoScroll);
-        off(document, 'mousemove', this._handleFallbackAutoScroll);
-      }
-
-      clearPointerElemChangedInterval();
-      clearAutoScrolls();
-      cancelThrottle();
-    },
-    nulling: function nulling() {
-      touchEvt$1 = scrollRootEl = scrollEl = scrolling = pointerElemChangedInterval = lastAutoScrollX = lastAutoScrollY = null;
-      autoScrolls.length = 0;
-    },
-    _handleFallbackAutoScroll: function _handleFallbackAutoScroll(evt) {
-      this._handleAutoScroll(evt, true);
-    },
-    _handleAutoScroll: function _handleAutoScroll(evt, fallback) {
-      var _this = this;
-
-      var x = (evt.touches ? evt.touches[0] : evt).clientX,
-          y = (evt.touches ? evt.touches[0] : evt).clientY,
-          elem = document.elementFromPoint(x, y);
-      touchEvt$1 = evt; // IE does not seem to have native autoscroll,
-      // Edge's autoscroll seems too conditional,
-      // MACOS Safari does not have autoscroll,
-      // Firefox and Chrome are good
-
-      if (fallback || Edge || IE11OrLess || Safari) {
-        autoScroll(evt, this.options, elem, fallback); // Listener for pointer element change
-
-        var ogElemScroller = getParentAutoScrollElement(elem, true);
-
-        if (scrolling && (!pointerElemChangedInterval || x !== lastAutoScrollX || y !== lastAutoScrollY)) {
-          pointerElemChangedInterval && clearPointerElemChangedInterval(); // Detect for pointer elem change, emulating native DnD behaviour
-
-          pointerElemChangedInterval = setInterval(function () {
-            var newElem = getParentAutoScrollElement(document.elementFromPoint(x, y), true);
-
-            if (newElem !== ogElemScroller) {
-              ogElemScroller = newElem;
-              clearAutoScrolls();
-            }
-
-            autoScroll(evt, _this.options, newElem, fallback);
-          }, 10);
-          lastAutoScrollX = x;
-          lastAutoScrollY = y;
-        }
-      } else {
-        // if DnD is enabled (and browser has good autoscrolling), first autoscroll will already scroll, so get parent autoscroll of first autoscroll
-        if (!this.options.bubbleScroll || getParentAutoScrollElement(elem, true) === getWindowScrollingElement()) {
-          clearAutoScrolls();
-          return;
-        }
-
-        autoScroll(evt, this.options, getParentAutoScrollElement(elem, false), false);
-      }
-    }
-  };
-  return _extends(AutoScroll, {
-    pluginName: 'scroll',
-    initializeByDefault: true
-  });
-}
-
-function clearAutoScrolls() {
-  autoScrolls.forEach(function (autoScroll) {
-    clearInterval(autoScroll.pid);
-  });
-  autoScrolls = [];
-}
-
-function clearPointerElemChangedInterval() {
-  clearInterval(pointerElemChangedInterval);
-}
-
-var autoScroll = throttle(function (evt, options, rootEl, isFallback) {
-  // Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=505521
-  if (!options.scroll) return;
-  var x = (evt.touches ? evt.touches[0] : evt).clientX,
-      y = (evt.touches ? evt.touches[0] : evt).clientY,
-      sens = options.scrollSensitivity,
-      speed = options.scrollSpeed,
-      winScroller = getWindowScrollingElement();
-  var scrollThisInstance = false,
-      scrollCustomFn; // New scroll root, set scrollEl
-
-  if (scrollRootEl !== rootEl) {
-    scrollRootEl = rootEl;
-    clearAutoScrolls();
-    scrollEl = options.scroll;
-    scrollCustomFn = options.scrollFn;
-
-    if (scrollEl === true) {
-      scrollEl = getParentAutoScrollElement(rootEl, true);
-    }
-  }
-
-  var layersOut = 0;
-  var currentParent = scrollEl;
-
-  do {
-    var el = currentParent,
-        rect = getRect(el),
-        top = rect.top,
-        bottom = rect.bottom,
-        left = rect.left,
-        right = rect.right,
-        width = rect.width,
-        height = rect.height,
-        canScrollX = void 0,
-        canScrollY = void 0,
-        scrollWidth = el.scrollWidth,
-        scrollHeight = el.scrollHeight,
-        elCSS = css(el),
-        scrollPosX = el.scrollLeft,
-        scrollPosY = el.scrollTop;
-
-    if (el === winScroller) {
-      canScrollX = width < scrollWidth && (elCSS.overflowX === 'auto' || elCSS.overflowX === 'scroll' || elCSS.overflowX === 'visible');
-      canScrollY = height < scrollHeight && (elCSS.overflowY === 'auto' || elCSS.overflowY === 'scroll' || elCSS.overflowY === 'visible');
-    } else {
-      canScrollX = width < scrollWidth && (elCSS.overflowX === 'auto' || elCSS.overflowX === 'scroll');
-      canScrollY = height < scrollHeight && (elCSS.overflowY === 'auto' || elCSS.overflowY === 'scroll');
-    }
-
-    var vx = canScrollX && (Math.abs(right - x) <= sens && scrollPosX + width < scrollWidth) - (Math.abs(left - x) <= sens && !!scrollPosX);
-    var vy = canScrollY && (Math.abs(bottom - y) <= sens && scrollPosY + height < scrollHeight) - (Math.abs(top - y) <= sens && !!scrollPosY);
-
-    if (!autoScrolls[layersOut]) {
-      for (var i = 0; i <= layersOut; i++) {
-        if (!autoScrolls[i]) {
-          autoScrolls[i] = {};
-        }
-      }
-    }
-
-    if (autoScrolls[layersOut].vx != vx || autoScrolls[layersOut].vy != vy || autoScrolls[layersOut].el !== el) {
-      autoScrolls[layersOut].el = el;
-      autoScrolls[layersOut].vx = vx;
-      autoScrolls[layersOut].vy = vy;
-      clearInterval(autoScrolls[layersOut].pid);
-
-      if (vx != 0 || vy != 0) {
-        scrollThisInstance = true;
-        /* jshint loopfunc:true */
-
-        autoScrolls[layersOut].pid = setInterval(function () {
-          // emulate drag over during autoscroll (fallback), emulating native DnD behaviour
-          if (isFallback && this.layer === 0) {
-            Sortable.active._onTouchMove(touchEvt$1); // To move ghost if it is positioned absolutely
-
-          }
-
-          var scrollOffsetY = autoScrolls[this.layer].vy ? autoScrolls[this.layer].vy * speed : 0;
-          var scrollOffsetX = autoScrolls[this.layer].vx ? autoScrolls[this.layer].vx * speed : 0;
-
-          if (typeof scrollCustomFn === 'function') {
-            if (scrollCustomFn.call(Sortable.dragged.parentNode[expando], scrollOffsetX, scrollOffsetY, evt, touchEvt$1, autoScrolls[this.layer].el) !== 'continue') {
-              return;
-            }
-          }
-
-          scrollBy(autoScrolls[this.layer].el, scrollOffsetX, scrollOffsetY);
-        }.bind({
-          layer: layersOut
-        }), 24);
-      }
-    }
-
-    layersOut++;
-  } while (options.bubbleScroll && currentParent !== winScroller && (currentParent = getParentAutoScrollElement(currentParent, false)));
-
-  scrolling = scrollThisInstance; // in case another function catches scrolling as false in between when it is not
-}, 30);
-
-var drop = function drop(_ref) {
-  var originalEvent = _ref.originalEvent,
-      putSortable = _ref.putSortable,
-      dragEl = _ref.dragEl,
-      activeSortable = _ref.activeSortable,
-      dispatchSortableEvent = _ref.dispatchSortableEvent,
-      hideGhostForTarget = _ref.hideGhostForTarget,
-      unhideGhostForTarget = _ref.unhideGhostForTarget;
-  if (!originalEvent) return;
-  var toSortable = putSortable || activeSortable;
-  hideGhostForTarget();
-  var touch = originalEvent.changedTouches && originalEvent.changedTouches.length ? originalEvent.changedTouches[0] : originalEvent;
-  var target = document.elementFromPoint(touch.clientX, touch.clientY);
-  unhideGhostForTarget();
-
-  if (toSortable && !toSortable.el.contains(target)) {
-    dispatchSortableEvent('spill');
-    this.onSpill({
-      dragEl: dragEl,
-      putSortable: putSortable
-    });
-  }
-};
-
-function Revert() {}
-
-Revert.prototype = {
-  startIndex: null,
-  dragStart: function dragStart(_ref2) {
-    var oldDraggableIndex = _ref2.oldDraggableIndex;
-    this.startIndex = oldDraggableIndex;
-  },
-  onSpill: function onSpill(_ref3) {
-    var dragEl = _ref3.dragEl,
-        putSortable = _ref3.putSortable;
-    this.sortable.captureAnimationState();
-
-    if (putSortable) {
-      putSortable.captureAnimationState();
-    }
-
-    var nextSibling = getChild(this.sortable.el, this.startIndex, this.options);
-
-    if (nextSibling) {
-      this.sortable.el.insertBefore(dragEl, nextSibling);
-    } else {
-      this.sortable.el.appendChild(dragEl);
-    }
-
-    this.sortable.animateAll();
-
-    if (putSortable) {
-      putSortable.animateAll();
-    }
-  },
-  drop: drop
-};
-
-_extends(Revert, {
-  pluginName: 'revertOnSpill'
-});
-
-function Remove() {}
-
-Remove.prototype = {
-  onSpill: function onSpill(_ref4) {
-    var dragEl = _ref4.dragEl,
-        putSortable = _ref4.putSortable;
-    var parentSortable = putSortable || this.sortable;
-    parentSortable.captureAnimationState();
-    dragEl.parentNode && dragEl.parentNode.removeChild(dragEl);
-    parentSortable.animateAll();
-  },
-  drop: drop
-};
-
-_extends(Remove, {
-  pluginName: 'removeOnSpill'
-});
-
-var lastSwapEl;
-
-function SwapPlugin() {
-  function Swap() {
-    this.defaults = {
-      swapClass: 'sortable-swap-highlight'
-    };
-  }
-
-  Swap.prototype = {
-    dragStart: function dragStart(_ref) {
-      var dragEl = _ref.dragEl;
-      lastSwapEl = dragEl;
-    },
-    dragOverValid: function dragOverValid(_ref2) {
-      var completed = _ref2.completed,
-          target = _ref2.target,
-          onMove = _ref2.onMove,
-          activeSortable = _ref2.activeSortable,
-          changed = _ref2.changed,
-          cancel = _ref2.cancel;
-      if (!activeSortable.options.swap) return;
-      var el = this.sortable.el,
-          options = this.options;
-
-      if (target && target !== el) {
-        var prevSwapEl = lastSwapEl;
-
-        if (onMove(target) !== false) {
-          toggleClass(target, options.swapClass, true);
-          lastSwapEl = target;
-        } else {
-          lastSwapEl = null;
-        }
-
-        if (prevSwapEl && prevSwapEl !== lastSwapEl) {
-          toggleClass(prevSwapEl, options.swapClass, false);
-        }
-      }
-
-      changed();
-      completed(true);
-      cancel();
-    },
-    drop: function drop(_ref3) {
-      var activeSortable = _ref3.activeSortable,
-          putSortable = _ref3.putSortable,
-          dragEl = _ref3.dragEl;
-      var toSortable = putSortable || this.sortable;
-      var options = this.options;
-      lastSwapEl && toggleClass(lastSwapEl, options.swapClass, false);
-
-      if (lastSwapEl && (options.swap || putSortable && putSortable.options.swap)) {
-        if (dragEl !== lastSwapEl) {
-          toSortable.captureAnimationState();
-          if (toSortable !== activeSortable) activeSortable.captureAnimationState();
-          swapNodes(dragEl, lastSwapEl);
-          toSortable.animateAll();
-          if (toSortable !== activeSortable) activeSortable.animateAll();
-        }
-      }
-    },
-    nulling: function nulling() {
-      lastSwapEl = null;
-    }
-  };
-  return _extends(Swap, {
-    pluginName: 'swap',
-    eventProperties: function eventProperties() {
-      return {
-        swapItem: lastSwapEl
-      };
-    }
-  });
-}
-
-function swapNodes(n1, n2) {
-  var p1 = n1.parentNode,
-      p2 = n2.parentNode,
-      i1,
-      i2;
-  if (!p1 || !p2 || p1.isEqualNode(n2) || p2.isEqualNode(n1)) return;
-  i1 = index(n1);
-  i2 = index(n2);
-
-  if (p1.isEqualNode(p2) && i1 < i2) {
-    i2++;
-  }
-
-  p1.insertBefore(n2, p1.children[i1]);
-  p2.insertBefore(n1, p2.children[i2]);
-}
-
-var multiDragElements = [],
-    multiDragClones = [],
-    lastMultiDragSelect,
-    // for selection with modifier key down (SHIFT)
-multiDragSortable,
-    initialFolding = false,
-    // Initial multi-drag fold when drag started
-folding = false,
-    // Folding any other time
-dragStarted = false,
-    dragEl$1,
-    clonesFromRect,
-    clonesHidden;
-
-function MultiDragPlugin() {
-  function MultiDrag(sortable) {
-    // Bind all private methods
-    for (var fn in this) {
-      if (fn.charAt(0) === '_' && typeof this[fn] === 'function') {
-        this[fn] = this[fn].bind(this);
-      }
-    }
-
-    if (sortable.options.supportPointer) {
-      on(document, 'pointerup', this._deselectMultiDrag);
-    } else {
-      on(document, 'mouseup', this._deselectMultiDrag);
-      on(document, 'touchend', this._deselectMultiDrag);
-    }
-
-    on(document, 'keydown', this._checkKeyDown);
-    on(document, 'keyup', this._checkKeyUp);
-    this.defaults = {
-      selectedClass: 'sortable-selected',
-      multiDragKey: null,
-      setData: function setData(dataTransfer, dragEl) {
-        var data = '';
-
-        if (multiDragElements.length && multiDragSortable === sortable) {
-          multiDragElements.forEach(function (multiDragElement, i) {
-            data += (!i ? '' : ', ') + multiDragElement.textContent;
-          });
-        } else {
-          data = dragEl.textContent;
-        }
-
-        dataTransfer.setData('Text', data);
-      }
-    };
-  }
-
-  MultiDrag.prototype = {
-    multiDragKeyDown: false,
-    isMultiDrag: false,
-    delayStartGlobal: function delayStartGlobal(_ref) {
-      var dragged = _ref.dragEl;
-      dragEl$1 = dragged;
-    },
-    delayEnded: function delayEnded() {
-      this.isMultiDrag = ~multiDragElements.indexOf(dragEl$1);
-    },
-    setupClone: function setupClone(_ref2) {
-      var sortable = _ref2.sortable,
-          cancel = _ref2.cancel;
-      if (!this.isMultiDrag) return;
-
-      for (var i = 0; i < multiDragElements.length; i++) {
-        multiDragClones.push(clone(multiDragElements[i]));
-        multiDragClones[i].sortableIndex = multiDragElements[i].sortableIndex;
-        multiDragClones[i].draggable = false;
-        multiDragClones[i].style['will-change'] = '';
-        toggleClass(multiDragClones[i], this.options.selectedClass, false);
-        multiDragElements[i] === dragEl$1 && toggleClass(multiDragClones[i], this.options.chosenClass, false);
-      }
-
-      sortable._hideClone();
-
-      cancel();
-    },
-    clone: function clone(_ref3) {
-      var sortable = _ref3.sortable,
-          rootEl = _ref3.rootEl,
-          dispatchSortableEvent = _ref3.dispatchSortableEvent,
-          cancel = _ref3.cancel;
-      if (!this.isMultiDrag) return;
-
-      if (!this.options.removeCloneOnHide) {
-        if (multiDragElements.length && multiDragSortable === sortable) {
-          insertMultiDragClones(true, rootEl);
-          dispatchSortableEvent('clone');
-          cancel();
-        }
-      }
-    },
-    showClone: function showClone(_ref4) {
-      var cloneNowShown = _ref4.cloneNowShown,
-          rootEl = _ref4.rootEl,
-          cancel = _ref4.cancel;
-      if (!this.isMultiDrag) return;
-      insertMultiDragClones(false, rootEl);
-      multiDragClones.forEach(function (clone) {
-        css(clone, 'display', '');
-      });
-      cloneNowShown();
-      clonesHidden = false;
-      cancel();
-    },
-    hideClone: function hideClone(_ref5) {
-      var _this = this;
-
-      var sortable = _ref5.sortable,
-          cloneNowHidden = _ref5.cloneNowHidden,
-          cancel = _ref5.cancel;
-      if (!this.isMultiDrag) return;
-      multiDragClones.forEach(function (clone) {
-        css(clone, 'display', 'none');
-
-        if (_this.options.removeCloneOnHide && clone.parentNode) {
-          clone.parentNode.removeChild(clone);
-        }
-      });
-      cloneNowHidden();
-      clonesHidden = true;
-      cancel();
-    },
-    dragStartGlobal: function dragStartGlobal(_ref6) {
-      var sortable = _ref6.sortable;
-
-      if (!this.isMultiDrag && multiDragSortable) {
-        multiDragSortable.multiDrag._deselectMultiDrag();
-      }
-
-      multiDragElements.forEach(function (multiDragElement) {
-        multiDragElement.sortableIndex = index(multiDragElement);
-      }); // Sort multi-drag elements
-
-      multiDragElements = multiDragElements.sort(function (a, b) {
-        return a.sortableIndex - b.sortableIndex;
-      });
-      dragStarted = true;
-    },
-    dragStarted: function dragStarted(_ref7) {
-      var _this2 = this;
-
-      var sortable = _ref7.sortable;
-      if (!this.isMultiDrag) return;
-
-      if (this.options.sort) {
-        // Capture rects,
-        // hide multi drag elements (by positioning them absolute),
-        // set multi drag elements rects to dragRect,
-        // show multi drag elements,
-        // animate to rects,
-        // unset rects & remove from DOM
-        sortable.captureAnimationState();
-
-        if (this.options.animation) {
-          multiDragElements.forEach(function (multiDragElement) {
-            if (multiDragElement === dragEl$1) return;
-            css(multiDragElement, 'position', 'absolute');
-          });
-          var dragRect = getRect(dragEl$1, false, true, true);
-          multiDragElements.forEach(function (multiDragElement) {
-            if (multiDragElement === dragEl$1) return;
-            setRect(multiDragElement, dragRect);
-          });
-          folding = true;
-          initialFolding = true;
-        }
-      }
-
-      sortable.animateAll(function () {
-        folding = false;
-        initialFolding = false;
-
-        if (_this2.options.animation) {
-          multiDragElements.forEach(function (multiDragElement) {
-            unsetRect(multiDragElement);
-          });
-        } // Remove all auxiliary multidrag items from el, if sorting enabled
-
-
-        if (_this2.options.sort) {
-          removeMultiDragElements();
-        }
-      });
-    },
-    dragOver: function dragOver(_ref8) {
-      var target = _ref8.target,
-          completed = _ref8.completed,
-          cancel = _ref8.cancel;
-
-      if (folding && ~multiDragElements.indexOf(target)) {
-        completed(false);
-        cancel();
-      }
-    },
-    revert: function revert(_ref9) {
-      var fromSortable = _ref9.fromSortable,
-          rootEl = _ref9.rootEl,
-          sortable = _ref9.sortable,
-          dragRect = _ref9.dragRect;
-
-      if (multiDragElements.length > 1) {
-        // Setup unfold animation
-        multiDragElements.forEach(function (multiDragElement) {
-          sortable.addAnimationState({
-            target: multiDragElement,
-            rect: folding ? getRect(multiDragElement) : dragRect
-          });
-          unsetRect(multiDragElement);
-          multiDragElement.fromRect = dragRect;
-          fromSortable.removeAnimationState(multiDragElement);
-        });
-        folding = false;
-        insertMultiDragElements(!this.options.removeCloneOnHide, rootEl);
-      }
-    },
-    dragOverCompleted: function dragOverCompleted(_ref10) {
-      var sortable = _ref10.sortable,
-          isOwner = _ref10.isOwner,
-          insertion = _ref10.insertion,
-          activeSortable = _ref10.activeSortable,
-          parentEl = _ref10.parentEl,
-          putSortable = _ref10.putSortable;
-      var options = this.options;
-
-      if (insertion) {
-        // Clones must be hidden before folding animation to capture dragRectAbsolute properly
-        if (isOwner) {
-          activeSortable._hideClone();
-        }
-
-        initialFolding = false; // If leaving sort:false root, or already folding - Fold to new location
-
-        if (options.animation && multiDragElements.length > 1 && (folding || !isOwner && !activeSortable.options.sort && !putSortable)) {
-          // Fold: Set all multi drag elements's rects to dragEl's rect when multi-drag elements are invisible
-          var dragRectAbsolute = getRect(dragEl$1, false, true, true);
-          multiDragElements.forEach(function (multiDragElement) {
-            if (multiDragElement === dragEl$1) return;
-            setRect(multiDragElement, dragRectAbsolute); // Move element(s) to end of parentEl so that it does not interfere with multi-drag clones insertion if they are inserted
-            // while folding, and so that we can capture them again because old sortable will no longer be fromSortable
-
-            parentEl.appendChild(multiDragElement);
-          });
-          folding = true;
-        } // Clones must be shown (and check to remove multi drags) after folding when interfering multiDragElements are moved out
-
-
-        if (!isOwner) {
-          // Only remove if not folding (folding will remove them anyways)
-          if (!folding) {
-            removeMultiDragElements();
-          }
-
-          if (multiDragElements.length > 1) {
-            var clonesHiddenBefore = clonesHidden;
-
-            activeSortable._showClone(sortable); // Unfold animation for clones if showing from hidden
-
-
-            if (activeSortable.options.animation && !clonesHidden && clonesHiddenBefore) {
-              multiDragClones.forEach(function (clone) {
-                activeSortable.addAnimationState({
-                  target: clone,
-                  rect: clonesFromRect
-                });
-                clone.fromRect = clonesFromRect;
-                clone.thisAnimationDuration = null;
-              });
-            }
-          } else {
-            activeSortable._showClone(sortable);
-          }
-        }
-      }
-    },
-    dragOverAnimationCapture: function dragOverAnimationCapture(_ref11) {
-      var dragRect = _ref11.dragRect,
-          isOwner = _ref11.isOwner,
-          activeSortable = _ref11.activeSortable;
-      multiDragElements.forEach(function (multiDragElement) {
-        multiDragElement.thisAnimationDuration = null;
-      });
-
-      if (activeSortable.options.animation && !isOwner && activeSortable.multiDrag.isMultiDrag) {
-        clonesFromRect = _extends({}, dragRect);
-        var dragMatrix = matrix(dragEl$1, true);
-        clonesFromRect.top -= dragMatrix.f;
-        clonesFromRect.left -= dragMatrix.e;
-      }
-    },
-    dragOverAnimationComplete: function dragOverAnimationComplete() {
-      if (folding) {
-        folding = false;
-        removeMultiDragElements();
-      }
-    },
-    drop: function drop(_ref12) {
-      var evt = _ref12.originalEvent,
-          rootEl = _ref12.rootEl,
-          parentEl = _ref12.parentEl,
-          sortable = _ref12.sortable,
-          dispatchSortableEvent = _ref12.dispatchSortableEvent,
-          oldIndex = _ref12.oldIndex,
-          putSortable = _ref12.putSortable;
-      var toSortable = putSortable || this.sortable;
-      if (!evt) return;
-      var options = this.options,
-          children = parentEl.children; // Multi-drag selection
-
-      if (!dragStarted) {
-        if (options.multiDragKey && !this.multiDragKeyDown) {
-          this._deselectMultiDrag();
-        }
-
-        toggleClass(dragEl$1, options.selectedClass, !~multiDragElements.indexOf(dragEl$1));
-
-        if (!~multiDragElements.indexOf(dragEl$1)) {
-          multiDragElements.push(dragEl$1);
-          dispatchEvent({
-            sortable: sortable,
-            rootEl: rootEl,
-            name: 'select',
-            targetEl: dragEl$1,
-            originalEvt: evt
-          }); // Modifier activated, select from last to dragEl
-
-          if (evt.shiftKey && lastMultiDragSelect && sortable.el.contains(lastMultiDragSelect)) {
-            var lastIndex = index(lastMultiDragSelect),
-                currentIndex = index(dragEl$1);
-
-            if (~lastIndex && ~currentIndex && lastIndex !== currentIndex) {
-              // Must include lastMultiDragSelect (select it), in case modified selection from no selection
-              // (but previous selection existed)
-              var n, i;
-
-              if (currentIndex > lastIndex) {
-                i = lastIndex;
-                n = currentIndex;
-              } else {
-                i = currentIndex;
-                n = lastIndex + 1;
-              }
-
-              for (; i < n; i++) {
-                if (~multiDragElements.indexOf(children[i])) continue;
-                toggleClass(children[i], options.selectedClass, true);
-                multiDragElements.push(children[i]);
-                dispatchEvent({
-                  sortable: sortable,
-                  rootEl: rootEl,
-                  name: 'select',
-                  targetEl: children[i],
-                  originalEvt: evt
-                });
-              }
-            }
-          } else {
-            lastMultiDragSelect = dragEl$1;
-          }
-
-          multiDragSortable = toSortable;
-        } else {
-          multiDragElements.splice(multiDragElements.indexOf(dragEl$1), 1);
-          lastMultiDragSelect = null;
-          dispatchEvent({
-            sortable: sortable,
-            rootEl: rootEl,
-            name: 'deselect',
-            targetEl: dragEl$1,
-            originalEvt: evt
-          });
-        }
-      } // Multi-drag drop
-
-
-      if (dragStarted && this.isMultiDrag) {
-        // Do not "unfold" after around dragEl if reverted
-        if ((parentEl[expando].options.sort || parentEl !== rootEl) && multiDragElements.length > 1) {
-          var dragRect = getRect(dragEl$1),
-              multiDragIndex = index(dragEl$1, ':not(.' + this.options.selectedClass + ')');
-          if (!initialFolding && options.animation) dragEl$1.thisAnimationDuration = null;
-          toSortable.captureAnimationState();
-
-          if (!initialFolding) {
-            if (options.animation) {
-              dragEl$1.fromRect = dragRect;
-              multiDragElements.forEach(function (multiDragElement) {
-                multiDragElement.thisAnimationDuration = null;
-
-                if (multiDragElement !== dragEl$1) {
-                  var rect = folding ? getRect(multiDragElement) : dragRect;
-                  multiDragElement.fromRect = rect; // Prepare unfold animation
-
-                  toSortable.addAnimationState({
-                    target: multiDragElement,
-                    rect: rect
-                  });
-                }
-              });
-            } // Multi drag elements are not necessarily removed from the DOM on drop, so to reinsert
-            // properly they must all be removed
-
-
-            removeMultiDragElements();
-            multiDragElements.forEach(function (multiDragElement) {
-              if (children[multiDragIndex]) {
-                parentEl.insertBefore(multiDragElement, children[multiDragIndex]);
-              } else {
-                parentEl.appendChild(multiDragElement);
-              }
-
-              multiDragIndex++;
-            }); // If initial folding is done, the elements may have changed position because they are now
-            // unfolding around dragEl, even though dragEl may not have his index changed, so update event
-            // must be fired here as Sortable will not.
-
-            if (oldIndex === index(dragEl$1)) {
-              var update = false;
-              multiDragElements.forEach(function (multiDragElement) {
-                if (multiDragElement.sortableIndex !== index(multiDragElement)) {
-                  update = true;
-                  return;
-                }
-              });
-
-              if (update) {
-                dispatchSortableEvent('update');
-              }
-            }
-          } // Must be done after capturing individual rects (scroll bar)
-
-
-          multiDragElements.forEach(function (multiDragElement) {
-            unsetRect(multiDragElement);
-          });
-          toSortable.animateAll();
-        }
-
-        multiDragSortable = toSortable;
-      } // Remove clones if necessary
-
-
-      if (rootEl === parentEl || putSortable && putSortable.lastPutMode !== 'clone') {
-        multiDragClones.forEach(function (clone) {
-          clone.parentNode && clone.parentNode.removeChild(clone);
-        });
-      }
-    },
-    nullingGlobal: function nullingGlobal() {
-      this.isMultiDrag = dragStarted = false;
-      multiDragClones.length = 0;
-    },
-    destroyGlobal: function destroyGlobal() {
-      this._deselectMultiDrag();
-
-      off(document, 'pointerup', this._deselectMultiDrag);
-      off(document, 'mouseup', this._deselectMultiDrag);
-      off(document, 'touchend', this._deselectMultiDrag);
-      off(document, 'keydown', this._checkKeyDown);
-      off(document, 'keyup', this._checkKeyUp);
-    },
-    _deselectMultiDrag: function _deselectMultiDrag(evt) {
-      if (typeof dragStarted !== "undefined" && dragStarted) return; // Only deselect if selection is in this sortable
-
-      if (multiDragSortable !== this.sortable) return; // Only deselect if target is not item in this sortable
-
-      if (evt && closest(evt.target, this.options.draggable, this.sortable.el, false)) return; // Only deselect if left click
-
-      if (evt && evt.button !== 0) return;
-
-      while (multiDragElements.length) {
-        var el = multiDragElements[0];
-        toggleClass(el, this.options.selectedClass, false);
-        multiDragElements.shift();
-        dispatchEvent({
-          sortable: this.sortable,
-          rootEl: this.sortable.el,
-          name: 'deselect',
-          targetEl: el,
-          originalEvt: evt
-        });
-      }
-    },
-    _checkKeyDown: function _checkKeyDown(evt) {
-      if (evt.key === this.options.multiDragKey) {
-        this.multiDragKeyDown = true;
-      }
-    },
-    _checkKeyUp: function _checkKeyUp(evt) {
-      if (evt.key === this.options.multiDragKey) {
-        this.multiDragKeyDown = false;
-      }
-    }
-  };
-  return _extends(MultiDrag, {
-    // Static methods & properties
-    pluginName: 'multiDrag',
-    utils: {
-      /**
-       * Selects the provided multi-drag item
-       * @param  {HTMLElement} el    The element to be selected
-       */
-      select: function select(el) {
-        var sortable = el.parentNode[expando];
-        if (!sortable || !sortable.options.multiDrag || ~multiDragElements.indexOf(el)) return;
-
-        if (multiDragSortable && multiDragSortable !== sortable) {
-          multiDragSortable.multiDrag._deselectMultiDrag();
-
-          multiDragSortable = sortable;
-        }
-
-        toggleClass(el, sortable.options.selectedClass, true);
-        multiDragElements.push(el);
-      },
-
-      /**
-       * Deselects the provided multi-drag item
-       * @param  {HTMLElement} el    The element to be deselected
-       */
-      deselect: function deselect(el) {
-        var sortable = el.parentNode[expando],
-            index = multiDragElements.indexOf(el);
-        if (!sortable || !sortable.options.multiDrag || !~index) return;
-        toggleClass(el, sortable.options.selectedClass, false);
-        multiDragElements.splice(index, 1);
-      }
-    },
-    eventProperties: function eventProperties() {
-      var _this3 = this;
-
-      var oldIndicies = [],
-          newIndicies = [];
-      multiDragElements.forEach(function (multiDragElement) {
-        oldIndicies.push({
-          multiDragElement: multiDragElement,
-          index: multiDragElement.sortableIndex
-        }); // multiDragElements will already be sorted if folding
-
-        var newIndex;
-
-        if (folding && multiDragElement !== dragEl$1) {
-          newIndex = -1;
-        } else if (folding) {
-          newIndex = index(multiDragElement, ':not(.' + _this3.options.selectedClass + ')');
-        } else {
-          newIndex = index(multiDragElement);
-        }
-
-        newIndicies.push({
-          multiDragElement: multiDragElement,
-          index: newIndex
-        });
-      });
-      return {
-        items: _toConsumableArray(multiDragElements),
-        clones: [].concat(multiDragClones),
-        oldIndicies: oldIndicies,
-        newIndicies: newIndicies
-      };
-    },
-    optionListeners: {
-      multiDragKey: function multiDragKey(key) {
-        key = key.toLowerCase();
-
-        if (key === 'ctrl') {
-          key = 'Control';
-        } else if (key.length > 1) {
-          key = key.charAt(0).toUpperCase() + key.substr(1);
-        }
-
-        return key;
-      }
-    }
-  });
-}
-
-function insertMultiDragElements(clonesInserted, rootEl) {
-  multiDragElements.forEach(function (multiDragElement, i) {
-    var target = rootEl.children[multiDragElement.sortableIndex + (clonesInserted ? Number(i) : 0)];
-
-    if (target) {
-      rootEl.insertBefore(multiDragElement, target);
-    } else {
-      rootEl.appendChild(multiDragElement);
-    }
-  });
-}
-/**
- * Insert multi-drag clones
- * @param  {[Boolean]} elementsInserted  Whether the multi-drag elements are inserted
- * @param  {HTMLElement} rootEl
- */
-
-
-function insertMultiDragClones(elementsInserted, rootEl) {
-  multiDragClones.forEach(function (clone, i) {
-    var target = rootEl.children[clone.sortableIndex + (elementsInserted ? Number(i) : 0)];
-
-    if (target) {
-      rootEl.insertBefore(clone, target);
-    } else {
-      rootEl.appendChild(clone);
-    }
-  });
-}
-
-function removeMultiDragElements() {
-  multiDragElements.forEach(function (multiDragElement) {
-    if (multiDragElement === dragEl$1) return;
-    multiDragElement.parentNode && multiDragElement.parentNode.removeChild(multiDragElement);
-  });
-}
-
-Sortable.mount(new AutoScrollPlugin());
-Sortable.mount(Remove, Revert);
-
-/* harmony default export */ __webpack_exports__["default"] = (Sortable);
-
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Sortable", function() { return It; });
+function t(){return(t=Object.assign||function(t){for(var e=1;e<arguments.length;e++){var n=arguments[e];for(var o in n)Object.prototype.hasOwnProperty.call(n,o)&&(t[o]=n[o])}return t}).apply(this,arguments)}function e(t){if("undefined"!=typeof window&&window.navigator)return!!navigator.userAgent.match(t)}var n=e(/(?:Trident.*rv[ :]?11\.|msie|iemobile|Windows Phone)/i),o=e(/Edge/i),i=e(/firefox/i),r=e(/safari/i)&&!e(/chrome/i)&&!e(/android/i),a=e(/iP(ad|od|hone)/i),l=e(/chrome/i)&&e(/android/i),s={capture:!1,passive:!1};function c(t,e,o){t.addEventListener(e,o,!n&&s)}function u(t,e,o){t.removeEventListener(e,o,!n&&s)}function d(t,e){if(e){if(">"===e[0]&&(e=e.substring(1)),t)try{if(t.matches)return t.matches(e);if(t.msMatchesSelector)return t.msMatchesSelector(e);if(t.webkitMatchesSelector)return t.webkitMatchesSelector(e)}catch(t){return!1}return!1}}function h(t){return t.host&&t!==document&&t.host.nodeType?t.host:t.parentNode}function f(t,e,n,o){if(t){n=n||document;do{if(null!=e&&(">"===e[0]?t.parentNode===n&&d(t,e):d(t,e))||o&&t===n)return t;if(t===n)break}while(t=h(t))}return null}var p,g=/\s+/g;function v(t,e,n){if(t&&e)if(t.classList)t.classList[n?"add":"remove"](e);else{var o=(" "+t.className+" ").replace(g," ").replace(" "+e+" "," ");t.className=(o+(n?" "+e:"")).replace(g," ")}}function m(t,e,n){var o=t&&t.style;if(o){if(void 0===n)return document.defaultView&&document.defaultView.getComputedStyle?n=document.defaultView.getComputedStyle(t,""):t.currentStyle&&(n=t.currentStyle),void 0===e?n:n[e];e in o||-1!==e.indexOf("webkit")||(e="-webkit-"+e),o[e]=n+("string"==typeof n?"":"px")}}function b(t,e){var n="";if("string"==typeof t)n=t;else do{var o=m(t,"transform");o&&"none"!==o&&(n=o+" "+n)}while(!e&&(t=t.parentNode));var i=window.DOMMatrix||window.WebKitCSSMatrix||window.CSSMatrix||window.MSCSSMatrix;return i&&new i(n)}function w(t,e,n){if(t){var o=t.getElementsByTagName(e),i=0,r=o.length;if(n)for(;i<r;i++)n(o[i],i);return o}return[]}function E(){return document.scrollingElement||document.documentElement}function y(t,e,o,i,r){if(t.getBoundingClientRect||t===window){var a,l,s,c,u,d,h;if(t!==window&&t!==E()?(l=(a=t.getBoundingClientRect()).top,s=a.left,c=a.bottom,u=a.right,d=a.height,h=a.width):(l=0,s=0,c=window.innerHeight,u=window.innerWidth,d=window.innerHeight,h=window.innerWidth),(e||o)&&t!==window&&(r=r||t.parentNode,!n))do{if(r&&r.getBoundingClientRect&&("none"!==m(r,"transform")||o&&"static"!==m(r,"position"))){var f=r.getBoundingClientRect();l-=f.top+parseInt(m(r,"border-top-width")),s-=f.left+parseInt(m(r,"border-left-width")),c=l+a.height,u=s+a.width;break}}while(r=r.parentNode);if(i&&t!==window){var p=b(r||t),g=p&&p.a,v=p&&p.d;p&&(c=(l/=v)+(d/=v),u=(s/=g)+(h/=g))}return{top:l,left:s,bottom:c,right:u,width:h,height:d}}}function D(t,e,n){for(var o=x(t,!0),i=y(t)[e];o;){var r=y(o)[n];if(!("top"===n||"left"===n?i>=r:i<=r))return o;if(o===E())break;o=x(o,!1)}return!1}function _(t,e,n){for(var o=0,i=0,r=t.children;i<r.length;){if("none"!==r[i].style.display&&r[i]!==It.ghost&&r[i]!==It.dragged&&f(r[i],n.draggable,t,!1)){if(o===e)return r[i];o++}i++}return null}function S(t,e){for(var n=t.lastElementChild;n&&(n===It.ghost||"none"===m(n,"display")||e&&!d(n,e));)n=n.previousElementSibling;return n||null}function C(t,e){var n=0;if(!t||!t.parentNode)return-1;for(;t=t.previousElementSibling;)"TEMPLATE"===t.nodeName.toUpperCase()||t===It.clone||e&&!d(t,e)||n++;return n}function T(t){var e=0,n=0,o=E();if(t)do{var i=b(t);e+=t.scrollLeft*i.a,n+=t.scrollTop*i.d}while(t!==o&&(t=t.parentNode));return[e,n]}function x(t,e){if(!t||!t.getBoundingClientRect)return E();var n=t,o=!1;do{if(n.clientWidth<n.scrollWidth||n.clientHeight<n.scrollHeight){var i=m(n);if(n.clientWidth<n.scrollWidth&&("auto"==i.overflowX||"scroll"==i.overflowX)||n.clientHeight<n.scrollHeight&&("auto"==i.overflowY||"scroll"==i.overflowY)){if(!n.getBoundingClientRect||n===document.body)return E();if(o||e)return n;o=!0}}}while(n=n.parentNode);return E()}function M(t,e){return Math.round(t.top)===Math.round(e.top)&&Math.round(t.left)===Math.round(e.left)&&Math.round(t.height)===Math.round(e.height)&&Math.round(t.width)===Math.round(e.width)}function N(t,e){return function(){if(!p){var n=arguments,o=this;1===n.length?t.call(o,n[0]):t.apply(o,n),p=setTimeout(function(){p=void 0},e)}}}function O(t,e,n){t.scrollLeft+=e,t.scrollTop+=n}function A(t){var e=window.Polymer,n=window.jQuery||window.Zepto;return e&&e.dom?e.dom(t).cloneNode(!0):n?n(t).clone(!0)[0]:t.cloneNode(!0)}function I(t,e){m(t,"position","absolute"),m(t,"top",e.top),m(t,"left",e.left),m(t,"width",e.width),m(t,"height",e.height)}function P(t){m(t,"position",""),m(t,"top",""),m(t,"left",""),m(t,"width",""),m(t,"height","")}var k="Sortable"+(new Date).getTime(),R=[],X={initializeByDefault:!0},Y={mount:function(t){for(var e in X)X.hasOwnProperty(e)&&!(e in t)&&(t[e]=X[e]);R.push(t)},pluginEvent:function(e,n,o){var i=this;this.eventCanceled=!1,o.cancel=function(){i.eventCanceled=!0};var r=e+"Global";R.forEach(function(i){n[i.pluginName]&&(n[i.pluginName][r]&&n[i.pluginName][r](t({sortable:n},o)),n.options[i.pluginName]&&n[i.pluginName][e]&&n[i.pluginName][e](t({sortable:n},o)))})},initializePlugins:function(t,e,n,o){for(var i in R.forEach(function(o){var i=o.pluginName;if(t.options[i]||o.initializeByDefault){var r=new o(t,e,t.options);r.sortable=t,r.options=t.options,t[i]=r,Object.assign(n,r.defaults)}}),t.options)if(t.options.hasOwnProperty(i)){var r=this.modifyOption(t,i,t.options[i]);void 0!==r&&(t.options[i]=r)}},getEventProperties:function(t,e){var n={};return R.forEach(function(o){"function"==typeof o.eventProperties&&Object.assign(n,o.eventProperties.call(e[o.pluginName],t))}),n},modifyOption:function(t,e,n){var o;return R.forEach(function(i){t[i.pluginName]&&i.optionListeners&&"function"==typeof i.optionListeners[e]&&(o=i.optionListeners[e].call(t[i.pluginName],n))}),o}};function B(e){var i=e.sortable,r=e.rootEl,a=e.name,l=e.targetEl,s=e.cloneEl,c=e.toEl,u=e.fromEl,d=e.oldIndex,h=e.newIndex,f=e.oldDraggableIndex,p=e.newDraggableIndex,g=e.originalEvent,v=e.putSortable,m=e.extraEventProperties;if(i=i||r&&r[k]){var b,w=i.options,E="on"+a.charAt(0).toUpperCase()+a.substr(1);!window.CustomEvent||n||o?(b=document.createEvent("Event")).initEvent(a,!0,!0):b=new CustomEvent(a,{bubbles:!0,cancelable:!0}),b.to=c||r,b.from=u||r,b.item=l||r,b.clone=s,b.oldIndex=d,b.newIndex=h,b.oldDraggableIndex=f,b.newDraggableIndex=p,b.originalEvent=g,b.pullMode=v?v.lastPutMode:void 0;var y=t({},m,Y.getEventProperties(a,i));for(var D in y)b[D]=y[D];r&&r.dispatchEvent(b),w[E]&&w[E].call(i,b)}}var H=function(e,n,o){var i=void 0===o?{}:o,r=i.evt,a=function(t,e){if(null==t)return{};var n,o,i={},r=Object.keys(t);for(o=0;o<r.length;o++)e.indexOf(n=r[o])>=0||(i[n]=t[n]);return i}(i,["evt"]);Y.pluginEvent.bind(It)(e,n,t({dragEl:L,parentEl:K,ghostEl:W,rootEl:j,nextEl:z,lastDownEl:G,cloneEl:U,cloneHidden:q,dragStarted:lt,putSortable:tt,activeSortable:It.active,originalEvent:r,oldIndex:V,oldDraggableIndex:Q,newIndex:Z,newDraggableIndex:$,hideGhostForTarget:xt,unhideGhostForTarget:Mt,cloneNowHidden:function(){q=!0},cloneNowShown:function(){q=!1},dispatchSortableEvent:function(t){F({sortable:n,name:t,originalEvent:r})}},a))};function F(e){B(t({putSortable:tt,cloneEl:U,targetEl:L,rootEl:j,oldIndex:V,oldDraggableIndex:Q,newIndex:Z,newDraggableIndex:$},e))}var L,K,W,j,z,G,U,q,V,Z,Q,$,J,tt,et,nt,ot,it,rt,at,lt,st,ct,ut,dt,ht=!1,ft=!1,pt=[],gt=!1,vt=!1,mt=[],bt=!1,wt=[],Et="undefined"!=typeof document,yt=a,Dt=o||n?"cssFloat":"float",_t=Et&&!l&&!a&&"draggable"in document.createElement("div"),St=function(){if(Et){if(n)return!1;var t=document.createElement("x");return t.style.cssText="pointer-events:auto","auto"===t.style.pointerEvents}}(),Ct=function(t,e){var n=m(t),o=parseInt(n.width)-parseInt(n.paddingLeft)-parseInt(n.paddingRight)-parseInt(n.borderLeftWidth)-parseInt(n.borderRightWidth),i=_(t,0,e),r=_(t,1,e),a=i&&m(i),l=r&&m(r),s=a&&parseInt(a.marginLeft)+parseInt(a.marginRight)+y(i).width,c=l&&parseInt(l.marginLeft)+parseInt(l.marginRight)+y(r).width;return"flex"===n.display?"column"===n.flexDirection||"column-reverse"===n.flexDirection?"vertical":"horizontal":"grid"===n.display?n.gridTemplateColumns.split(" ").length<=1?"vertical":"horizontal":i&&a.float&&"none"!==a.float?!r||"both"!==l.clear&&l.clear!==("left"===a.float?"left":"right")?"horizontal":"vertical":i&&("block"===a.display||"flex"===a.display||"table"===a.display||"grid"===a.display||s>=o&&"none"===n[Dt]||r&&"none"===n[Dt]&&s+c>o)?"vertical":"horizontal"},Tt=function(t){function e(t,n){return function(o,i,r,a){if(null==t&&(n||o.options.group.name&&i.options.group.name&&o.options.group.name===i.options.group.name))return!0;if(null==t||!1===t)return!1;if(n&&"clone"===t)return t;if("function"==typeof t)return e(t(o,i,r,a),n)(o,i,r,a);var l=(n?o:i).options.group.name;return!0===t||"string"==typeof t&&t===l||t.join&&t.indexOf(l)>-1}}var n={},o=t.group;o&&"object"==typeof o||(o={name:o}),n.name=o.name,n.checkPull=e(o.pull,!0),n.checkPut=e(o.put),n.revertClone=o.revertClone,t.group=n},xt=function(){!St&&W&&m(W,"display","none")},Mt=function(){!St&&W&&m(W,"display","")};Et&&document.addEventListener("click",function(t){if(ft)return t.preventDefault(),t.stopPropagation&&t.stopPropagation(),t.stopImmediatePropagation&&t.stopImmediatePropagation(),ft=!1,!1},!0);var Nt,Ot=function(t){if(L){var e=(i=(t=t.touches?t.touches[0]:t).clientX,r=t.clientY,pt.some(function(t){if(!S(t)){var e=y(t),n=t[k].options.emptyInsertThreshold;return n&&i>=e.left-n&&i<=e.right+n&&r>=e.top-n&&r<=e.bottom+n?a=t:void 0}}),a);if(e){var n={};for(var o in t)t.hasOwnProperty(o)&&(n[o]=t[o]);n.target=n.rootEl=e,n.preventDefault=void 0,n.stopPropagation=void 0,e[k]._onDragOver(n)}}var i,r,a},At=function(t){L&&L.parentNode[k]._isOutsideThisEl(t.target)};function It(e,n){if(!e||!e.nodeType||1!==e.nodeType)throw"Sortable: `el` must be an HTMLElement, not "+{}.toString.call(e);this.el=e,this.options=n=Object.assign({},n),e[k]=this;var o,i,r={group:null,sort:!0,disabled:!1,store:null,handle:null,draggable:/^[uo]l$/i.test(e.nodeName)?">li":">*",swapThreshold:1,invertSwap:!1,invertedSwapThreshold:null,removeCloneOnHide:!0,direction:function(){return Ct(e,this.options)},ghostClass:"sortable-ghost",chosenClass:"sortable-chosen",dragClass:"sortable-drag",ignore:"a, img",filter:null,preventOnFilter:!0,animation:0,easing:null,setData:function(t,e){t.setData("Text",e.textContent)},dropBubble:!1,dragoverBubble:!1,dataIdAttr:"data-id",delay:0,delayOnTouchOnly:!1,touchStartThreshold:(Number.parseInt?Number:window).parseInt(window.devicePixelRatio,10)||1,forceFallback:!1,fallbackClass:"sortable-fallback",fallbackOnBody:!1,fallbackTolerance:0,fallbackOffset:{x:0,y:0},supportPointer:!1!==It.supportPointer&&"PointerEvent"in window,emptyInsertThreshold:5};for(var a in Y.initializePlugins(this,e,r),r)!(a in n)&&(n[a]=r[a]);for(var l in Tt(n),this)"_"===l.charAt(0)&&"function"==typeof this[l]&&(this[l]=this[l].bind(this));this.nativeDraggable=!n.forceFallback&&_t,this.nativeDraggable&&(this.options.touchStartThreshold=1),n.supportPointer?c(e,"pointerdown",this._onTapStart):(c(e,"mousedown",this._onTapStart),c(e,"touchstart",this._onTapStart)),this.nativeDraggable&&(c(e,"dragover",this),c(e,"dragenter",this)),pt.push(this.el),n.store&&n.store.get&&this.sort(n.store.get(this)||[]),Object.assign(this,(i=[],{captureAnimationState:function(){i=[],this.options.animation&&[].slice.call(this.el.children).forEach(function(e){if("none"!==m(e,"display")&&void 0!==e){i.push({target:e,rect:y(e)});var n=t({},i[i.length-1].rect);if(e.thisAnimationDuration){var o=b(e,!0);o&&(n.top-=o.f,n.left-=o.e)}e.fromRect=n}})},addAnimationState:function(t){i.push(t)},removeAnimationState:function(t){i.splice(function(t,e){for(var n in t)if(t.hasOwnProperty(n))for(var o in e)if(e.hasOwnProperty(o)&&e[o]===t[n][o])return Number(n);return-1}(i,{target:t}),1)},animateAll:function(t){var e=this;if(!this.options.animation)return clearTimeout(o),void("function"==typeof t&&t());var n=!1,r=0;i.forEach(function(t){var o=0,i=t.target,a=i.fromRect,l=y(i),s=i.prevFromRect,c=i.prevToRect,u=t.rect,d=b(i,!0);d&&(l.top-=d.f,l.left-=d.e),i.toRect=l,i.thisAnimationDuration&&M(s,l)&&!M(a,l)&&(u.top-l.top)/(u.left-l.left)==(a.top-l.top)/(a.left-l.left)&&(o=function(t,e,n,o){return Math.sqrt(Math.pow(e.top-t.top,2)+Math.pow(e.left-t.left,2))/Math.sqrt(Math.pow(e.top-n.top,2)+Math.pow(e.left-n.left,2))*o.animation}(u,s,c,e.options)),M(l,a)||(i.prevFromRect=a,i.prevToRect=l,o||(o=e.options.animation),e.animate(i,u,l,o)),o&&(n=!0,r=Math.max(r,o),clearTimeout(i.animationResetTimer),i.animationResetTimer=setTimeout(function(){i.animationTime=0,i.prevFromRect=null,i.fromRect=null,i.prevToRect=null,i.thisAnimationDuration=null},o),i.thisAnimationDuration=o)}),clearTimeout(o),n?o=setTimeout(function(){"function"==typeof t&&t()},r):"function"==typeof t&&t(),i=[]},animate:function(t,e,n,o){if(o){m(t,"transition",""),m(t,"transform","");var i=b(this.el),r=(e.left-n.left)/(i&&i.a||1),a=(e.top-n.top)/(i&&i.d||1);t.animatingX=!!r,t.animatingY=!!a,m(t,"transform","translate3d("+r+"px,"+a+"px,0)"),this.forRepaintDummy=function(t){return t.offsetWidth}(t),m(t,"transition","transform "+o+"ms"+(this.options.easing?" "+this.options.easing:"")),m(t,"transform","translate3d(0,0,0)"),"number"==typeof t.animated&&clearTimeout(t.animated),t.animated=setTimeout(function(){m(t,"transition",""),m(t,"transform",""),t.animated=!1,t.animatingX=!1,t.animatingY=!1},o)}}}))}function Pt(t,e,i,r,a,l,s,c){var u,d,h=t[k],f=h.options.onMove;return!window.CustomEvent||n||o?(u=document.createEvent("Event")).initEvent("move",!0,!0):u=new CustomEvent("move",{bubbles:!0,cancelable:!0}),u.to=e,u.from=t,u.dragged=i,u.draggedRect=r,u.related=a||e,u.relatedRect=l||y(e),u.willInsertAfter=c,u.originalEvent=s,t.dispatchEvent(u),f&&(d=f.call(h,u,s)),d}function kt(t){t.draggable=!1}function Rt(){bt=!1}function Xt(t){for(var e=t.tagName+t.className+t.src+t.href+t.textContent,n=e.length,o=0;n--;)o+=e.charCodeAt(n);return o.toString(36)}function Yt(t){return setTimeout(t,0)}function Bt(t){return clearTimeout(t)}It.prototype={constructor:It,_isOutsideThisEl:function(t){this.el.contains(t)||t===this.el||(st=null)},_getDirection:function(t,e){return"function"==typeof this.options.direction?this.options.direction.call(this,t,e,L):this.options.direction},_onTapStart:function(t){if(t.cancelable){var e=this,n=this.el,o=this.options,i=o.preventOnFilter,a=t.type,l=t.touches&&t.touches[0]||t.pointerType&&"touch"===t.pointerType&&t,s=(l||t).target,c=t.target.shadowRoot&&(t.path&&t.path[0]||t.composedPath&&t.composedPath()[0])||s,u=o.filter;if(function(t){wt.length=0;for(var e=t.getElementsByTagName("input"),n=e.length;n--;){var o=e[n];o.checked&&wt.push(o)}}(n),!L&&!(/mousedown|pointerdown/.test(a)&&0!==t.button||o.disabled)&&!c.isContentEditable&&(this.nativeDraggable||!r||!s||"SELECT"!==s.tagName.toUpperCase())&&!((s=f(s,o.draggable,n,!1))&&s.animated||G===s)){if(V=C(s),Q=C(s,o.draggable),"function"==typeof u){if(u.call(this,t,s,this))return F({sortable:e,rootEl:c,name:"filter",targetEl:s,toEl:n,fromEl:n}),H("filter",e,{evt:t}),void(i&&t.cancelable&&t.preventDefault())}else if(u&&(u=u.split(",").some(function(o){if(o=f(c,o.trim(),n,!1))return F({sortable:e,rootEl:o,name:"filter",targetEl:s,fromEl:n,toEl:n}),H("filter",e,{evt:t}),!0})))return void(i&&t.cancelable&&t.preventDefault());o.handle&&!f(c,o.handle,n,!1)||this._prepareDragStart(t,l,s)}}},_prepareDragStart:function(t,e,r){var a,l=this,s=l.el,u=l.options,d=s.ownerDocument;if(r&&!L&&r.parentNode===s){var h=y(r);if(j=s,K=(L=r).parentNode,z=L.nextSibling,G=r,J=u.group,It.dragged=L,rt=(et={target:L,clientX:(e||t).clientX,clientY:(e||t).clientY}).clientX-h.left,at=et.clientY-h.top,this._lastX=(e||t).clientX,this._lastY=(e||t).clientY,L.style["will-change"]="all",a=function(){H("delayEnded",l,{evt:t}),It.eventCanceled?l._onDrop():(l._disableDelayedDragEvents(),!i&&l.nativeDraggable&&(L.draggable=!0),l._triggerDragStart(t,e),F({sortable:l,name:"choose",originalEvent:t}),v(L,u.chosenClass,!0))},u.ignore.split(",").forEach(function(t){w(L,t.trim(),kt)}),c(d,"dragover",Ot),c(d,"mousemove",Ot),c(d,"touchmove",Ot),c(d,"mouseup",l._onDrop),c(d,"touchend",l._onDrop),c(d,"touchcancel",l._onDrop),i&&this.nativeDraggable&&(this.options.touchStartThreshold=4,L.draggable=!0),H("delayStart",this,{evt:t}),!u.delay||u.delayOnTouchOnly&&!e||this.nativeDraggable&&(o||n))a();else{if(It.eventCanceled)return void this._onDrop();c(d,"mouseup",l._disableDelayedDrag),c(d,"touchend",l._disableDelayedDrag),c(d,"touchcancel",l._disableDelayedDrag),c(d,"mousemove",l._delayedDragTouchMoveHandler),c(d,"touchmove",l._delayedDragTouchMoveHandler),u.supportPointer&&c(d,"pointermove",l._delayedDragTouchMoveHandler),l._dragStartTimer=setTimeout(a,u.delay)}}},_delayedDragTouchMoveHandler:function(t){var e=t.touches?t.touches[0]:t;Math.max(Math.abs(e.clientX-this._lastX),Math.abs(e.clientY-this._lastY))>=Math.floor(this.options.touchStartThreshold/(this.nativeDraggable&&window.devicePixelRatio||1))&&this._disableDelayedDrag()},_disableDelayedDrag:function(){L&&kt(L),clearTimeout(this._dragStartTimer),this._disableDelayedDragEvents()},_disableDelayedDragEvents:function(){var t=this.el.ownerDocument;u(t,"mouseup",this._disableDelayedDrag),u(t,"touchend",this._disableDelayedDrag),u(t,"touchcancel",this._disableDelayedDrag),u(t,"mousemove",this._delayedDragTouchMoveHandler),u(t,"touchmove",this._delayedDragTouchMoveHandler),u(t,"pointermove",this._delayedDragTouchMoveHandler)},_triggerDragStart:function(t,e){e=e||"touch"==t.pointerType&&t,!this.nativeDraggable||e?c(document,this.options.supportPointer?"pointermove":e?"touchmove":"mousemove",this._onTouchMove):(c(L,"dragend",this),c(j,"dragstart",this._onDragStart));try{document.selection?Yt(function(){document.selection.empty()}):window.getSelection().removeAllRanges()}catch(t){}},_dragStarted:function(t,e){if(ht=!1,j&&L){H("dragStarted",this,{evt:e}),this.nativeDraggable&&c(document,"dragover",At);var n=this.options;!t&&v(L,n.dragClass,!1),v(L,n.ghostClass,!0),It.active=this,t&&this._appendGhost(),F({sortable:this,name:"start",originalEvent:e})}else this._nulling()},_emulateDragOver:function(){if(nt){this._lastX=nt.clientX,this._lastY=nt.clientY,xt();for(var t=document.elementFromPoint(nt.clientX,nt.clientY),e=t;t&&t.shadowRoot&&(t=t.shadowRoot.elementFromPoint(nt.clientX,nt.clientY))!==e;)e=t;if(L.parentNode[k]._isOutsideThisEl(t),e)do{if(e[k]&&e[k]._onDragOver({clientX:nt.clientX,clientY:nt.clientY,target:t,rootEl:e})&&!this.options.dragoverBubble)break;t=e}while(e=e.parentNode);Mt()}},_onTouchMove:function(t){if(et){var e=this.options,n=e.fallbackTolerance,o=e.fallbackOffset,i=t.touches?t.touches[0]:t,r=W&&b(W,!0),a=W&&r&&r.a,l=W&&r&&r.d,s=yt&&dt&&T(dt),c=(i.clientX-et.clientX+o.x)/(a||1)+(s?s[0]-mt[0]:0)/(a||1),u=(i.clientY-et.clientY+o.y)/(l||1)+(s?s[1]-mt[1]:0)/(l||1);if(!It.active&&!ht){if(n&&Math.max(Math.abs(i.clientX-this._lastX),Math.abs(i.clientY-this._lastY))<n)return;this._onDragStart(t,!0)}if(W){r?(r.e+=c-(ot||0),r.f+=u-(it||0)):r={a:1,b:0,c:0,d:1,e:c,f:u};var d="matrix("+r.a+","+r.b+","+r.c+","+r.d+","+r.e+","+r.f+")";m(W,"webkitTransform",d),m(W,"mozTransform",d),m(W,"msTransform",d),m(W,"transform",d),ot=c,it=u,nt=i}t.cancelable&&t.preventDefault()}},_appendGhost:function(){if(!W){var t=this.options.fallbackOnBody?document.body:j,e=y(L,!0,yt,!0,t),n=this.options;if(yt){for(dt=t;"static"===m(dt,"position")&&"none"===m(dt,"transform")&&dt!==document;)dt=dt.parentNode;dt!==document.body&&dt!==document.documentElement?(dt===document&&(dt=E()),e.top+=dt.scrollTop,e.left+=dt.scrollLeft):dt=E(),mt=T(dt)}v(W=L.cloneNode(!0),n.ghostClass,!1),v(W,n.fallbackClass,!0),v(W,n.dragClass,!0),m(W,"transition",""),m(W,"transform",""),m(W,"box-sizing","border-box"),m(W,"margin",0),m(W,"top",e.top),m(W,"left",e.left),m(W,"width",e.width),m(W,"height",e.height),m(W,"opacity","0.8"),m(W,"position",yt?"absolute":"fixed"),m(W,"zIndex","100000"),m(W,"pointerEvents","none"),It.ghost=W,t.appendChild(W),m(W,"transform-origin",rt/parseInt(W.style.width)*100+"% "+at/parseInt(W.style.height)*100+"%")}},_onDragStart:function(t,e){var n=this,o=t.dataTransfer,i=n.options;H("dragStart",this,{evt:t}),It.eventCanceled?this._onDrop():(H("setupClone",this),It.eventCanceled||((U=A(L)).draggable=!1,U.style["will-change"]="",this._hideClone(),v(U,this.options.chosenClass,!1),It.clone=U),n.cloneId=Yt(function(){H("clone",n),It.eventCanceled||(n.options.removeCloneOnHide||j.insertBefore(U,L),n._hideClone(),F({sortable:n,name:"clone"}))}),!e&&v(L,i.dragClass,!0),e?(ft=!0,n._loopId=setInterval(n._emulateDragOver,50)):(u(document,"mouseup",n._onDrop),u(document,"touchend",n._onDrop),u(document,"touchcancel",n._onDrop),o&&(o.effectAllowed="move",i.setData&&i.setData.call(n,o,L)),c(document,"drop",n),m(L,"transform","translateZ(0)")),ht=!0,n._dragStartId=Yt(n._dragStarted.bind(n,e,t)),c(document,"selectstart",n),lt=!0,r&&m(document.body,"user-select","none"))},_onDragOver:function(e){var n,o,i,r,a=this.el,l=e.target,s=this.options,c=s.group,u=It.active,d=J===c,h=s.sort,p=tt||u,g=this,b=!1;if(!bt){if(void 0!==e.preventDefault&&e.cancelable&&e.preventDefault(),l=f(l,s.draggable,a,!0),B("dragOver"),It.eventCanceled)return b;if(L.contains(e.target)||l.animated&&l.animatingX&&l.animatingY||g._ignoreWhileAnimating===l)return U(!1);if(ft=!1,u&&!s.disabled&&(d?h||(i=!j.contains(L)):tt===this||(this.lastPutMode=J.checkPull(this,u,L,e))&&c.checkPut(this,u,L,e))){if(r="vertical"===this._getDirection(e,l),n=y(L),B("dragOverValid"),It.eventCanceled)return b;if(i)return K=j,G(),this._hideClone(),B("revert"),It.eventCanceled||(z?j.insertBefore(L,z):j.appendChild(L)),U(!0);var w=S(a,s.draggable);if(!w||function(t,e,n){var o=y(S(n.el,n.options.draggable));return e?t.clientX>o.right+10||t.clientX<=o.right&&t.clientY>o.bottom&&t.clientX>=o.left:t.clientX>o.right&&t.clientY>o.top||t.clientX<=o.right&&t.clientY>o.bottom+10}(e,r,this)&&!w.animated){if(w===L)return U(!1);if(w&&a===e.target&&(l=w),l&&(o=y(l)),!1!==Pt(j,a,L,n,l,o,e,!!l))return G(),a.appendChild(L),K=a,q(),U(!0)}else if(l.parentNode===a){o=y(l);var E,_,T,x=L.parentNode!==a,M=!function(t,e,n){var o=n?t.left:t.top,i=n?e.left:e.top;return o===i||(n?t.right:t.bottom)===(n?e.right:e.bottom)||o+(n?t.width:t.height)/2===i+(n?e.width:e.height)/2}(L.animated&&L.toRect||n,l.animated&&l.toRect||o,r),N=r?"top":"left",A=D(l,"top","top")||D(L,"top","top"),I=A?A.scrollTop:void 0;if(st!==l&&(_=o[N],gt=!1,vt=!M&&s.invertSwap||x),0!==(E=function(t,e,n,o,i,r,a,l){var s=o?t.clientY:t.clientX,c=o?n.height:n.width,u=o?n.top:n.left,d=o?n.bottom:n.right,h=!1;if(!a)if(l&&ut<c*i){if(!gt&&(1===ct?s>u+c*r/2:s<d-c*r/2)&&(gt=!0),gt)h=!0;else if(1===ct?s<u+ut:s>d-ut)return-ct}else if(s>u+c*(1-i)/2&&s<d-c*(1-i)/2)return function(t){return C(L)<C(t)?1:-1}(e);return(h=h||a)&&(s<u+c*r/2||s>d-c*r/2)?s>u+c/2?1:-1:0}(e,l,o,r,M?1:s.swapThreshold,null==s.invertedSwapThreshold?s.swapThreshold:s.invertedSwapThreshold,vt,st===l))){var P=C(L);do{T=K.children[P-=E]}while(T&&("none"===m(T,"display")||T===W))}if(0===E||T===l)return U(!1);st=l,ct=E;var R=l.nextElementSibling,X=!1,Y=Pt(j,a,L,n,l,o,e,X=1===E);if(!1!==Y)return 1!==Y&&-1!==Y||(X=1===Y),bt=!0,setTimeout(Rt,30),G(),X&&!R?a.appendChild(L):l.parentNode.insertBefore(L,X?R:l),A&&O(A,0,I-A.scrollTop),K=L.parentNode,void 0===_||vt||(ut=Math.abs(_-y(l)[N])),q(),U(!0)}if(a.contains(L))return U(!1)}return!1}function B(s,c){H(s,g,t({evt:e,isOwner:d,axis:r?"vertical":"horizontal",revert:i,dragRect:n,targetRect:o,canSort:h,fromSortable:p,target:l,completed:U,onMove:function(t,o){return Pt(j,a,L,n,t,y(t),e,o)},changed:q},c))}function G(){B("dragOverAnimationCapture"),g.captureAnimationState(),g!==p&&p.captureAnimationState()}function U(t){return B("dragOverCompleted",{insertion:t}),t&&(d?u._hideClone():u._showClone(g),g!==p&&(v(L,tt?tt.options.ghostClass:u.options.ghostClass,!1),v(L,s.ghostClass,!0)),tt!==g&&g!==It.active?tt=g:g===It.active&&tt&&(tt=null),p===g&&(g._ignoreWhileAnimating=l),g.animateAll(function(){B("dragOverAnimationComplete"),g._ignoreWhileAnimating=null}),g!==p&&(p.animateAll(),p._ignoreWhileAnimating=null)),(l===L&&!L.animated||l===a&&!l.animated)&&(st=null),s.dragoverBubble||e.rootEl||l===document||(L.parentNode[k]._isOutsideThisEl(e.target),!t&&Ot(e)),!s.dragoverBubble&&e.stopPropagation&&e.stopPropagation(),b=!0}function q(){Z=C(L),$=C(L,s.draggable),F({sortable:g,name:"change",toEl:a,newIndex:Z,newDraggableIndex:$,originalEvent:e})}},_ignoreWhileAnimating:null,_offMoveEvents:function(){u(document,"mousemove",this._onTouchMove),u(document,"touchmove",this._onTouchMove),u(document,"pointermove",this._onTouchMove),u(document,"dragover",Ot),u(document,"mousemove",Ot),u(document,"touchmove",Ot)},_offUpEvents:function(){var t=this.el.ownerDocument;u(t,"mouseup",this._onDrop),u(t,"touchend",this._onDrop),u(t,"pointerup",this._onDrop),u(t,"touchcancel",this._onDrop),u(document,"selectstart",this)},_onDrop:function(t){var e=this.el,n=this.options;Z=C(L),$=C(L,n.draggable),H("drop",this,{evt:t}),K=L&&L.parentNode,Z=C(L),$=C(L,n.draggable),It.eventCanceled||(ht=!1,vt=!1,gt=!1,clearInterval(this._loopId),clearTimeout(this._dragStartTimer),Bt(this.cloneId),Bt(this._dragStartId),this.nativeDraggable&&(u(document,"drop",this),u(e,"dragstart",this._onDragStart)),this._offMoveEvents(),this._offUpEvents(),r&&m(document.body,"user-select",""),m(L,"transform",""),t&&(lt&&(t.cancelable&&t.preventDefault(),!n.dropBubble&&t.stopPropagation()),W&&W.parentNode&&W.parentNode.removeChild(W),(j===K||tt&&"clone"!==tt.lastPutMode)&&U&&U.parentNode&&U.parentNode.removeChild(U),L&&(this.nativeDraggable&&u(L,"dragend",this),kt(L),L.style["will-change"]="",lt&&!ht&&v(L,tt?tt.options.ghostClass:this.options.ghostClass,!1),v(L,this.options.chosenClass,!1),F({sortable:this,name:"unchoose",toEl:K,newIndex:null,newDraggableIndex:null,originalEvent:t}),j!==K?(Z>=0&&(F({rootEl:K,name:"add",toEl:K,fromEl:j,originalEvent:t}),F({sortable:this,name:"remove",toEl:K,originalEvent:t}),F({rootEl:K,name:"sort",toEl:K,fromEl:j,originalEvent:t}),F({sortable:this,name:"sort",toEl:K,originalEvent:t})),tt&&tt.save()):Z!==V&&Z>=0&&(F({sortable:this,name:"update",toEl:K,originalEvent:t}),F({sortable:this,name:"sort",toEl:K,originalEvent:t})),It.active&&(null!=Z&&-1!==Z||(Z=V,$=Q),F({sortable:this,name:"end",toEl:K,originalEvent:t}),this.save())))),this._nulling()},_nulling:function(){H("nulling",this),j=L=K=W=z=U=G=q=et=nt=lt=Z=$=V=Q=st=ct=tt=J=It.dragged=It.ghost=It.clone=It.active=null,wt.forEach(function(t){t.checked=!0}),wt.length=ot=it=0},handleEvent:function(t){switch(t.type){case"drop":case"dragend":this._onDrop(t);break;case"dragenter":case"dragover":L&&(this._onDragOver(t),function(t){t.dataTransfer&&(t.dataTransfer.dropEffect="move"),t.cancelable&&t.preventDefault()}(t));break;case"selectstart":t.preventDefault()}},toArray:function(){for(var t,e=[],n=this.el.children,o=0,i=n.length,r=this.options;o<i;o++)f(t=n[o],r.draggable,this.el,!1)&&e.push(t.getAttribute(r.dataIdAttr)||Xt(t));return e},sort:function(t){var e={},n=this.el;this.toArray().forEach(function(t,o){var i=n.children[o];f(i,this.options.draggable,n,!1)&&(e[t]=i)},this),t.forEach(function(t){e[t]&&(n.removeChild(e[t]),n.appendChild(e[t]))})},save:function(){var t=this.options.store;t&&t.set&&t.set(this)},closest:function(t,e){return f(t,e||this.options.draggable,this.el,!1)},option:function(t,e){var n=this.options;if(void 0===e)return n[t];var o=Y.modifyOption(this,t,e);n[t]=void 0!==o?o:e,"group"===t&&Tt(n)},destroy:function(){H("destroy",this);var t=this.el;t[k]=null,u(t,"mousedown",this._onTapStart),u(t,"touchstart",this._onTapStart),u(t,"pointerdown",this._onTapStart),this.nativeDraggable&&(u(t,"dragover",this),u(t,"dragenter",this)),Array.prototype.forEach.call(t.querySelectorAll("[draggable]"),function(t){t.removeAttribute("draggable")}),this._onDrop(),this._disableDelayedDragEvents(),pt.splice(pt.indexOf(this.el),1),this.el=t=null},_hideClone:function(){if(!q){if(H("hideClone",this),It.eventCanceled)return;m(U,"display","none"),this.options.removeCloneOnHide&&U.parentNode&&U.parentNode.removeChild(U),q=!0}},_showClone:function(t){if("clone"===t.lastPutMode){if(q){if(H("showClone",this),It.eventCanceled)return;L.parentNode!=j||this.options.group.revertClone?z?j.insertBefore(U,z):j.appendChild(U):j.insertBefore(U,L),this.options.group.revertClone&&this.animate(L,U),m(U,"display",""),q=!1}}else this._hideClone()}},Et&&c(document,"touchmove",function(t){(It.active||ht)&&t.cancelable&&t.preventDefault()}),It.utils={on:c,off:u,css:m,find:w,is:function(t,e){return!!f(t,e,t,!1)},extend:function(t,e){if(t&&e)for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n]);return t},throttle:N,closest:f,toggleClass:v,clone:A,index:C,nextTick:Yt,cancelNextTick:Bt,detectDirection:Ct,getChild:_},It.get=function(t){return t[k]},It.mount=function(){var e=[].slice.call(arguments);e[0].constructor===Array&&(e=e[0]),e.forEach(function(e){if(!e.prototype||!e.prototype.constructor)throw"Sortable: Mounted plugin must be a constructor function, not "+{}.toString.call(e);e.utils&&(It.utils=t({},It.utils,e.utils)),Y.mount(e)})},It.create=function(t,e){return new It(t,e)},It.version="1.12.0";var Ht,Ft,Lt,Kt,Wt,jt=[],zt=[],Gt=!1,Ut=!1,qt=!1;function Vt(t,e){zt.forEach(function(n,o){var i=e.children[n.sortableIndex+(t?Number(o):0)];i?e.insertBefore(n,i):e.appendChild(n)})}function Zt(){jt.forEach(function(t){t!==Lt&&t.parentNode&&t.parentNode.removeChild(t)})}var Qt=function(t){var e=t.originalEvent,n=t.putSortable,o=t.dragEl,i=t.dispatchSortableEvent,r=t.unhideGhostForTarget;if(e){var a=n||t.activeSortable;(0,t.hideGhostForTarget)();var l=e.changedTouches&&e.changedTouches.length?e.changedTouches[0]:e,s=document.elementFromPoint(l.clientX,l.clientY);r(),a&&!a.el.contains(s)&&(i("spill"),this.onSpill({dragEl:o,putSortable:n}))}};function $t(){}function Jt(){}$t.prototype={startIndex:null,dragStart:function(t){this.startIndex=t.oldDraggableIndex},onSpill:function(t){var e=t.dragEl,n=t.putSortable;this.sortable.captureAnimationState(),n&&n.captureAnimationState();var o=_(this.sortable.el,this.startIndex,this.options);o?this.sortable.el.insertBefore(e,o):this.sortable.el.appendChild(e),this.sortable.animateAll(),n&&n.animateAll()},drop:Qt},Object.assign($t,{pluginName:"revertOnSpill"}),Jt.prototype={onSpill:function(t){var e=t.dragEl,n=t.putSortable||this.sortable;n.captureAnimationState(),e.parentNode&&e.parentNode.removeChild(e),n.animateAll()},drop:Qt},Object.assign(Jt,{pluginName:"removeOnSpill"});var te,ee,ne,oe,ie,re,ae=[],le=!1;function se(){ae.forEach(function(t){clearInterval(t.pid)}),ae=[]}function ce(){clearInterval(re)}var ue=N(function(t,e,n,o){if(e.scroll){var i,r=(t.touches?t.touches[0]:t).clientX,a=(t.touches?t.touches[0]:t).clientY,l=e.scrollSensitivity,s=e.scrollSpeed,c=E(),u=!1;ee!==n&&(ee=n,se(),i=e.scrollFn,!0===(te=e.scroll)&&(te=x(n,!0)));var d=0,h=te;do{var f=h,p=y(f),g=p.top,v=p.bottom,b=p.left,w=p.right,D=p.width,_=p.height,S=void 0,C=void 0,T=f.scrollWidth,M=f.scrollHeight,N=m(f),A=f.scrollLeft,I=f.scrollTop;f===c?(S=D<T&&("auto"===N.overflowX||"scroll"===N.overflowX||"visible"===N.overflowX),C=_<M&&("auto"===N.overflowY||"scroll"===N.overflowY||"visible"===N.overflowY)):(S=D<T&&("auto"===N.overflowX||"scroll"===N.overflowX),C=_<M&&("auto"===N.overflowY||"scroll"===N.overflowY));var P=S&&(Math.abs(w-r)<=l&&A+D<T)-(Math.abs(b-r)<=l&&!!A),R=C&&(Math.abs(v-a)<=l&&I+_<M)-(Math.abs(g-a)<=l&&!!I);if(!ae[d])for(var X=0;X<=d;X++)ae[X]||(ae[X]={});ae[d].vx==P&&ae[d].vy==R&&ae[d].el===f||(ae[d].el=f,ae[d].vx=P,ae[d].vy=R,clearInterval(ae[d].pid),0==P&&0==R||(u=!0,ae[d].pid=setInterval(function(){o&&0===this.layer&&It.active._onTouchMove(ie);var e=ae[this.layer].vy?ae[this.layer].vy*s:0,n=ae[this.layer].vx?ae[this.layer].vx*s:0;"function"==typeof i&&"continue"!==i.call(It.dragged.parentNode[k],n,e,t,ie,ae[this.layer].el)||O(ae[this.layer].el,n,e)}.bind({layer:d}),24))),d++}while(e.bubbleScroll&&h!==c&&(h=x(h,!1)));le=u}},30);It.mount(new function(){function t(){for(var t in this.defaults={scroll:!0,scrollSensitivity:30,scrollSpeed:10,bubbleScroll:!0},this)"_"===t.charAt(0)&&"function"==typeof this[t]&&(this[t]=this[t].bind(this))}return t.prototype={dragStarted:function(t){var e=t.originalEvent;this.sortable.nativeDraggable?c(document,"dragover",this._handleAutoScroll):c(document,this.options.supportPointer?"pointermove":e.touches?"touchmove":"mousemove",this._handleFallbackAutoScroll)},dragOverCompleted:function(t){var e=t.originalEvent;this.options.dragOverBubble||e.rootEl||this._handleAutoScroll(e)},drop:function(){this.sortable.nativeDraggable?u(document,"dragover",this._handleAutoScroll):(u(document,"pointermove",this._handleFallbackAutoScroll),u(document,"touchmove",this._handleFallbackAutoScroll),u(document,"mousemove",this._handleFallbackAutoScroll)),ce(),se(),clearTimeout(p),p=void 0},nulling:function(){ie=ee=te=le=re=ne=oe=null,ae.length=0},_handleFallbackAutoScroll:function(t){this._handleAutoScroll(t,!0)},_handleAutoScroll:function(t,e){var i=this,a=(t.touches?t.touches[0]:t).clientX,l=(t.touches?t.touches[0]:t).clientY,s=document.elementFromPoint(a,l);if(ie=t,e||o||n||r){ue(t,this.options,s,e);var c=x(s,!0);!le||re&&a===ne&&l===oe||(re&&ce(),re=setInterval(function(){var n=x(document.elementFromPoint(a,l),!0);n!==c&&(c=n,se()),ue(t,i.options,n,e)},10),ne=a,oe=l)}else{if(!this.options.bubbleScroll||x(s,!0)===E())return void se();ue(t,this.options,x(s,!1),!1)}}},Object.assign(t,{pluginName:"scroll",initializeByDefault:!0})}),It.mount(Jt,$t),It.mount(new function(){function t(){this.defaults={swapClass:"sortable-swap-highlight"}}return t.prototype={dragStart:function(t){Nt=t.dragEl},dragOverValid:function(t){var e=t.completed,n=t.target,o=t.changed,i=t.cancel;if(t.activeSortable.options.swap){var r=this.options;if(n&&n!==this.sortable.el){var a=Nt;!1!==(0,t.onMove)(n)?(v(n,r.swapClass,!0),Nt=n):Nt=null,a&&a!==Nt&&v(a,r.swapClass,!1)}o(),e(!0),i()}},drop:function(t){var e,n,o,i,r,a,l=t.activeSortable,s=t.putSortable,c=t.dragEl,u=s||this.sortable,d=this.options;Nt&&v(Nt,d.swapClass,!1),Nt&&(d.swap||s&&s.options.swap)&&c!==Nt&&(u.captureAnimationState(),u!==l&&l.captureAnimationState(),a=(n=Nt).parentNode,(r=(e=c).parentNode)&&a&&!r.isEqualNode(n)&&!a.isEqualNode(e)&&(o=C(e),i=C(n),r.isEqualNode(a)&&o<i&&i++,r.insertBefore(n,r.children[o]),a.insertBefore(e,a.children[i])),u.animateAll(),u!==l&&l.animateAll())},nulling:function(){Nt=null}},Object.assign(t,{pluginName:"swap",eventProperties:function(){return{swapItem:Nt}}})}),It.mount(new function(){function t(t){for(var e in this)"_"===e.charAt(0)&&"function"==typeof this[e]&&(this[e]=this[e].bind(this));t.options.supportPointer?c(document,"pointerup",this._deselectMultiDrag):(c(document,"mouseup",this._deselectMultiDrag),c(document,"touchend",this._deselectMultiDrag)),c(document,"keydown",this._checkKeyDown),c(document,"keyup",this._checkKeyUp),this.defaults={selectedClass:"sortable-selected",multiDragKey:null,setData:function(e,n){var o="";jt.length&&Ft===t?jt.forEach(function(t,e){o+=(e?", ":"")+t.textContent}):o=n.textContent,e.setData("Text",o)}}}return t.prototype={multiDragKeyDown:!1,isMultiDrag:!1,delayStartGlobal:function(t){Lt=t.dragEl},delayEnded:function(){this.isMultiDrag=~jt.indexOf(Lt)},setupClone:function(t){var e=t.sortable,n=t.cancel;if(this.isMultiDrag){for(var o=0;o<jt.length;o++)zt.push(A(jt[o])),zt[o].sortableIndex=jt[o].sortableIndex,zt[o].draggable=!1,zt[o].style["will-change"]="",v(zt[o],this.options.selectedClass,!1),jt[o]===Lt&&v(zt[o],this.options.chosenClass,!1);e._hideClone(),n()}},clone:function(t){var e=t.dispatchSortableEvent,n=t.cancel;this.isMultiDrag&&(this.options.removeCloneOnHide||jt.length&&Ft===t.sortable&&(Vt(!0,t.rootEl),e("clone"),n()))},showClone:function(t){var e=t.cloneNowShown,n=t.cancel;this.isMultiDrag&&(Vt(!1,t.rootEl),zt.forEach(function(t){m(t,"display","")}),e(),Wt=!1,n())},hideClone:function(t){var e=this,n=t.cloneNowHidden,o=t.cancel;this.isMultiDrag&&(zt.forEach(function(t){m(t,"display","none"),e.options.removeCloneOnHide&&t.parentNode&&t.parentNode.removeChild(t)}),n(),Wt=!0,o())},dragStartGlobal:function(t){!this.isMultiDrag&&Ft&&Ft.multiDrag._deselectMultiDrag(),jt.forEach(function(t){t.sortableIndex=C(t)}),jt=jt.sort(function(t,e){return t.sortableIndex-e.sortableIndex}),qt=!0},dragStarted:function(t){var e=this,n=t.sortable;if(this.isMultiDrag){if(this.options.sort&&(n.captureAnimationState(),this.options.animation)){jt.forEach(function(t){t!==Lt&&m(t,"position","absolute")});var o=y(Lt,!1,!0,!0);jt.forEach(function(t){t!==Lt&&I(t,o)}),Ut=!0,Gt=!0}n.animateAll(function(){Ut=!1,Gt=!1,e.options.animation&&jt.forEach(function(t){P(t)}),e.options.sort&&Zt()})}},dragOver:function(t){var e=t.completed,n=t.cancel;Ut&&~jt.indexOf(t.target)&&(e(!1),n())},revert:function(t){var e=t.fromSortable,n=t.rootEl,o=t.sortable,i=t.dragRect;jt.length>1&&(jt.forEach(function(t){o.addAnimationState({target:t,rect:Ut?y(t):i}),P(t),t.fromRect=i,e.removeAnimationState(t)}),Ut=!1,function(t,e){jt.forEach(function(n,o){var i=e.children[n.sortableIndex+(t?Number(o):0)];i?e.insertBefore(n,i):e.appendChild(n)})}(!this.options.removeCloneOnHide,n))},dragOverCompleted:function(t){var e=t.sortable,n=t.isOwner,o=t.activeSortable,i=t.parentEl,r=t.putSortable,a=this.options;if(t.insertion){if(n&&o._hideClone(),Gt=!1,a.animation&&jt.length>1&&(Ut||!n&&!o.options.sort&&!r)){var l=y(Lt,!1,!0,!0);jt.forEach(function(t){t!==Lt&&(I(t,l),i.appendChild(t))}),Ut=!0}if(!n)if(Ut||Zt(),jt.length>1){var s=Wt;o._showClone(e),o.options.animation&&!Wt&&s&&zt.forEach(function(t){o.addAnimationState({target:t,rect:Kt}),t.fromRect=Kt,t.thisAnimationDuration=null})}else o._showClone(e)}},dragOverAnimationCapture:function(t){var e=t.dragRect,n=t.isOwner,o=t.activeSortable;if(jt.forEach(function(t){t.thisAnimationDuration=null}),o.options.animation&&!n&&o.multiDrag.isMultiDrag){Kt=Object.assign({},e);var i=b(Lt,!0);Kt.top-=i.f,Kt.left-=i.e}},dragOverAnimationComplete:function(){Ut&&(Ut=!1,Zt())},drop:function(t){var e=t.originalEvent,n=t.rootEl,o=t.parentEl,i=t.sortable,r=t.dispatchSortableEvent,a=t.oldIndex,l=t.putSortable,s=l||this.sortable;if(e){var c=this.options,u=o.children;if(!qt)if(c.multiDragKey&&!this.multiDragKeyDown&&this._deselectMultiDrag(),v(Lt,c.selectedClass,!~jt.indexOf(Lt)),~jt.indexOf(Lt))jt.splice(jt.indexOf(Lt),1),Ht=null,B({sortable:i,rootEl:n,name:"deselect",targetEl:Lt,originalEvt:e});else{if(jt.push(Lt),B({sortable:i,rootEl:n,name:"select",targetEl:Lt,originalEvt:e}),e.shiftKey&&Ht&&i.el.contains(Ht)){var d,h,f=C(Ht),p=C(Lt);if(~f&&~p&&f!==p)for(p>f?(h=f,d=p):(h=p,d=f+1);h<d;h++)~jt.indexOf(u[h])||(v(u[h],c.selectedClass,!0),jt.push(u[h]),B({sortable:i,rootEl:n,name:"select",targetEl:u[h],originalEvt:e}))}else Ht=Lt;Ft=s}if(qt&&this.isMultiDrag){if((o[k].options.sort||o!==n)&&jt.length>1){var g=y(Lt),m=C(Lt,":not(."+this.options.selectedClass+")");if(!Gt&&c.animation&&(Lt.thisAnimationDuration=null),s.captureAnimationState(),!Gt&&(c.animation&&(Lt.fromRect=g,jt.forEach(function(t){if(t.thisAnimationDuration=null,t!==Lt){var e=Ut?y(t):g;t.fromRect=e,s.addAnimationState({target:t,rect:e})}})),Zt(),jt.forEach(function(t){u[m]?o.insertBefore(t,u[m]):o.appendChild(t),m++}),a===C(Lt))){var b=!1;jt.forEach(function(t){t.sortableIndex===C(t)||(b=!0)}),b&&r("update")}jt.forEach(function(t){P(t)}),s.animateAll()}Ft=s}(n===o||l&&"clone"!==l.lastPutMode)&&zt.forEach(function(t){t.parentNode&&t.parentNode.removeChild(t)})}},nullingGlobal:function(){this.isMultiDrag=qt=!1,zt.length=0},destroyGlobal:function(){this._deselectMultiDrag(),u(document,"pointerup",this._deselectMultiDrag),u(document,"mouseup",this._deselectMultiDrag),u(document,"touchend",this._deselectMultiDrag),u(document,"keydown",this._checkKeyDown),u(document,"keyup",this._checkKeyUp)},_deselectMultiDrag:function(t){if(!(void 0!==qt&&qt||Ft!==this.sortable||t&&f(t.target,this.options.draggable,this.sortable.el,!1)||t&&0!==t.button))for(;jt.length;){var e=jt[0];v(e,this.options.selectedClass,!1),jt.shift(),B({sortable:this.sortable,rootEl:this.sortable.el,name:"deselect",targetEl:e,originalEvt:t})}},_checkKeyDown:function(t){t.key===this.options.multiDragKey&&(this.multiDragKeyDown=!0)},_checkKeyUp:function(t){t.key===this.options.multiDragKey&&(this.multiDragKeyDown=!1)}},Object.assign(t,{pluginName:"multiDrag",utils:{select:function(t){var e=t.parentNode[k];e&&e.options.multiDrag&&!~jt.indexOf(t)&&(Ft&&Ft!==e&&(Ft.multiDrag._deselectMultiDrag(),Ft=e),v(t,e.options.selectedClass,!0),jt.push(t))},deselect:function(t){var e=t.parentNode[k],n=jt.indexOf(t);e&&e.options.multiDrag&&~n&&(v(t,e.options.selectedClass,!1),jt.splice(n,1))}},eventProperties:function(){var t=this,e=[],n=[];return jt.forEach(function(o){var i;e.push({multiDragElement:o,index:o.sortableIndex}),i=Ut&&o!==Lt?-1:Ut?C(o,":not(."+t.options.selectedClass+")"):C(o),n.push({multiDragElement:o,index:i})}),{items:[].concat(jt),clones:[].concat(zt),oldIndicies:e,newIndicies:n}},optionListeners:{multiDragKey:function(t){return"ctrl"===(t=t.toLowerCase())?t="Control":t.length>1&&(t=t.charAt(0).toUpperCase()+t.substr(1)),t}}})});/* harmony default export */ __webpack_exports__["default"] = (It);
+//# sourceMappingURL=sortable.complete.esm.js.map
 
 
 /***/ }),
@@ -34922,7 +30762,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /*!
- * vue-i18n v8.18.2 
+ * vue-i18n v8.21.1 
  * (c) 2020 kazuya kawaguchi
  * Released under the MIT License.
  */
@@ -34995,6 +30835,10 @@ function isNull (val) {
   return val === null || val === undefined
 }
 
+function isFunction (val) {
+  return typeof val === 'function'
+}
+
 function parseArgs () {
   var args = [], len = arguments.length;
   while ( len-- ) args[ len ] = arguments[ len ];
@@ -35002,7 +30846,7 @@ function parseArgs () {
   var locale = null;
   var params = null;
   if (args.length === 1) {
-    if (isObject(args[0]) || Array.isArray(args[0])) {
+    if (isObject(args[0]) || isArray(args[0])) {
       params = args[0];
     } else if (typeof args[0] === 'string') {
       locale = args[0];
@@ -35012,7 +30856,7 @@ function parseArgs () {
       locale = args[0];
     }
     /* istanbul ignore if */
-    if (isObject(args[1]) || Array.isArray(args[1])) {
+    if (isObject(args[1]) || isArray(args[1])) {
       params = args[1];
     }
   }
@@ -35070,8 +30914,8 @@ function looseEqual (a, b) {
   var isObjectB = isObject(b);
   if (isObjectA && isObjectB) {
     try {
-      var isArrayA = Array.isArray(a);
-      var isArrayB = Array.isArray(b);
+      var isArrayA = isArray(a);
+      var isArrayB = isArray(b);
       if (isArrayA && isArrayB) {
         return a.length === b.length && a.every(function (e, i) {
           return looseEqual(e, b[i])
@@ -35157,7 +31001,7 @@ var mixin = {
         // init locale messages via custom blocks
         if (options.__i18n) {
           try {
-            var localeMessages = {};
+            var localeMessages = options.i18n && options.i18n.messages ? options.i18n.messages : {};
             options.__i18n.forEach(function (resource) {
               localeMessages = merge(localeMessages, JSON.parse(resource));
             });
@@ -35191,7 +31035,7 @@ var mixin = {
         // init locale messages via custom blocks
         if (options.__i18n) {
           try {
-            var localeMessages$1 = {};
+            var localeMessages$1 = options.i18n && options.i18n.messages ? options.i18n.messages : {};
             options.__i18n.forEach(function (resource) {
               localeMessages$1 = merge(localeMessages$1, JSON.parse(resource));
             });
@@ -35290,7 +31134,7 @@ var interpolationComponent = {
   functional: true,
   props: {
     tag: {
-      type: [String, Boolean],
+      type: [String, Boolean, Object],
       default: 'span'
     },
     path: {
@@ -35397,7 +31241,7 @@ var numberComponent = {
   functional: true,
   props: {
     tag: {
-      type: [String, Boolean],
+      type: [String, Boolean, Object],
       default: 'span'
     },
     value: {
@@ -36166,7 +32010,7 @@ VueI18n.prototype._checkLocaleMessage = function _checkLocaleMessage (locale, le
           paths.pop();
         }
       });
-    } else if (Array.isArray(message)) {
+    } else if (isArray(message)) {
       message.forEach(function (item, index) {
         if (isPlainObject(item)) {
           paths.push(("[" + index + "]"));
@@ -36356,16 +32200,16 @@ VueI18n.prototype._interpolate = function _interpolate (
   if (!message) { return null }
 
   var pathRet = this._path.getPathValue(message, key);
-  if (Array.isArray(pathRet) || isPlainObject(pathRet)) { return pathRet }
+  if (isArray(pathRet) || isPlainObject(pathRet)) { return pathRet }
 
   var ret;
   if (isNull(pathRet)) {
     /* istanbul ignore else */
     if (isPlainObject(message)) {
       ret = message[key];
-      if (!isString(ret)) {
+      if (!(isString(ret) || isFunction(ret))) {
         if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallback(locale, key)) {
-          warn(("Value of key '" + key + "' is not a string!"));
+          warn(("Value of key '" + key + "' is not a string or function !"));
         }
         return null
       }
@@ -36374,18 +32218,18 @@ VueI18n.prototype._interpolate = function _interpolate (
     }
   } else {
     /* istanbul ignore else */
-    if (isString(pathRet)) {
+    if (isString(pathRet) || isFunction(pathRet)) {
       ret = pathRet;
     } else {
       if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallback(locale, key)) {
-        warn(("Value of key '" + key + "' is not a string!"));
+        warn(("Value of key '" + key + "' is not a string or function!"));
       }
       return null
     }
   }
 
   // Check for the existence of links within the translated string
-  if (ret.indexOf('@:') >= 0 || ret.indexOf('@.') >= 0) {
+  if (isString(ret) && (ret.indexOf('@:') >= 0 || ret.indexOf('@.') >= 0)) {
     ret = this._link(locale, message, ret, host, 'raw', values, visitedLinkStack);
   }
 
@@ -36451,7 +32295,7 @@ VueI18n.prototype._link = function _link (
     }
     translated = this._warnDefault(
       locale, linkPlaceholder, translated, host,
-      Array.isArray(values) ? values : [values],
+      isArray(values) ? values : [values],
       interpolateMode
     );
 
@@ -36470,7 +32314,22 @@ VueI18n.prototype._link = function _link (
   return ret
 };
 
+VueI18n.prototype._createMessageContext = function _createMessageContext (values) {
+  var _list = isArray(values) ? values : [];
+  var _named = isObject(values) ? values : {};
+  var list = function (index) { return _list[index]; };
+  var named = function (key) { return _named[key]; };
+  return {
+    list: list,
+    named: named
+  }
+};
+
 VueI18n.prototype._render = function _render (message, interpolateMode, values, path) {
+  if (isFunction(message)) {
+    return message(this._createMessageContext(values))
+  }
+
   var ret = this._formatter.interpolate(message, values, path);
 
   // If the custom formatter refuses to work - apply the default one
@@ -37048,7 +32907,7 @@ Object.defineProperty(VueI18n, 'availabilities', {
 });
 
 VueI18n.install = install;
-VueI18n.version = '8.18.2';
+VueI18n.version = '8.21.1';
 
 /* harmony default export */ __webpack_exports__["default"] = (VueI18n);
 
@@ -37090,7 +32949,12 @@ var render = function() {
       _vm._v(" "),
       _c("input", {
         directives: [
-          { name: "model", rawName: "v-model", value: _vm.id, expression: "id" }
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.fileId,
+            expression: "fileId"
+          }
         ],
         attrs: {
           type: "hidden",
@@ -37098,61 +32962,256 @@ var render = function() {
           id: _vm.field,
           rel: _vm.field
         },
-        domProps: { value: _vm.id },
+        domProps: { value: _vm.fileId },
         on: {
           input: function($event) {
             if ($event.target.composing) {
               return
             }
-            _vm.id = $event.target.value
+            _vm.fileId = $event.target.value
           }
         }
       }),
       _vm._v(" "),
       _c("div", [
-        _vm.id !== null
-          ? _c("div", { staticClass: "filemanager-item-removable" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "filemanager-item-removable-button",
-                  attrs: { type: "button" },
-                  on: { click: _vm.unsetData }
-                },
-                [_c("span", { staticClass: "fa fa-times" })]
-              ),
-              _vm._v(" "),
-              _vm.type === "document"
-                ? _c("div", [
-                    _c("span", { staticClass: "fa fa-fw fa-2x fa-file-o" }),
-                    _vm._v(" " + _vm._s(_vm.name))
+        _vm.file !== null
+          ? _c(
+              "div",
+              {
+                staticClass:
+                  "filemanager-item filemanager-item-with-name filemanager-item-removable"
+              },
+              [
+                _c("div", { staticClass: "filemanager-item-wrapper" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "filemanager-item-removable-button",
+                      attrs: { type: "button" },
+                      on: { click: _vm.remove }
+                    },
+                    [
+                      _c(
+                        "svg",
+                        {
+                          attrs: {
+                            width: "12",
+                            height: "12",
+                            viewBox: "0 0 1792 1792",
+                            fill: "currentColor",
+                            xmlns: "http://www.w3.org/2000/svg"
+                          }
+                        },
+                        [
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"
+                            }
+                          })
+                        ]
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _vm.file.type === "i"
+                    ? _c("div", { staticClass: "filemanager-item-icon" }, [
+                        _c(
+                          "div",
+                          { staticClass: "filemanager-item-image-wrapper" },
+                          [
+                            _c("img", {
+                              staticClass: "filemanager-item-image",
+                              attrs: {
+                                src: _vm.file.thumb_sm,
+                                alt: _vm.file.alt
+                              }
+                            })
+                          ]
+                        )
+                      ])
+                    : _c(
+                        "div",
+                        {
+                          staticClass: "filemanager-item-icon",
+                          class: "filemanager-item-icon-" + _vm.file.type
+                        },
+                        [
+                          _vm.file.type === "a"
+                            ? _c(
+                                "svg",
+                                {
+                                  staticClass: "bi bi-file-earmark-music",
+                                  attrs: {
+                                    width: "80px",
+                                    height: "80px",
+                                    viewBox: "0 0 16 16",
+                                    fill: "currentColor",
+                                    xmlns: "http://www.w3.org/2000/svg"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      "fill-rule": "evenodd",
+                                      d:
+                                        "M9.757 5.67A1 1 0 0 1 11 6.64v1.75l-2 .5v3.61c0 .495-.301.883-.662 1.123C7.974 13.866 7.499 14 7 14c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 11.134 6.501 11 7 11c.356 0 .7.068 1 .196V6.89a1 1 0 0 1 .757-.97l1-.25z"
+                                    }
+                                  })
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.file.type === "v"
+                            ? _c(
+                                "svg",
+                                {
+                                  staticClass: "bi bi-file-earmark-play-fill",
+                                  attrs: {
+                                    width: "80px",
+                                    height: "80px",
+                                    viewBox: "0 0 16 16",
+                                    fill: "currentColor",
+                                    xmlns: "http://www.w3.org/2000/svg"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      "fill-rule": "evenodd",
+                                      d:
+                                        "M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zM6 6.883v4.234a.5.5 0 0 0 .757.429l3.528-2.117a.5.5 0 0 0 0-.858L6.757 6.454a.5.5 0 0 0-.757.43z"
+                                    }
+                                  })
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.file.type === "d"
+                            ? _c(
+                                "svg",
+                                {
+                                  staticClass: "bi bi-file-earmark",
+                                  attrs: {
+                                    width: "80px",
+                                    height: "80px",
+                                    viewBox: "0 0 16 16",
+                                    fill: "currentColor",
+                                    xmlns: "http://www.w3.org/2000/svg"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"
+                                    }
+                                  })
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.file.type === "f"
+                            ? _c(
+                                "svg",
+                                {
+                                  staticClass: "bi bi-folder",
+                                  attrs: {
+                                    width: "80px",
+                                    height: "80px",
+                                    viewBox: "0 0 16 16",
+                                    fill: "currentColor",
+                                    xmlns: "http://www.w3.org/2000/svg"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M9.828 4a3 3 0 0 1-2.12-.879l-.83-.828A1 1 0 0 0 6.173 2H2.5a1 1 0 0 0-1 .981L1.546 4h-1L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3v1z"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      "fill-rule": "evenodd",
+                                      d:
+                                        "M13.81 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4zM2.19 3A2 2 0 0 0 .198 5.181l.637 7A2 2 0 0 0 2.826 14h10.348a2 2 0 0 0 1.991-1.819l.637-7A2 2 0 0 0 13.81 3H2.19z"
+                                    }
+                                  })
+                                ]
+                              )
+                            : _vm._e()
+                        ]
+                      ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "filemanager-item-name" }, [
+                    _vm._v(_vm._s(_vm.file.name))
                   ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.type === "image"
-                ? _c("div", { staticClass: "filemanager-item-image-wrapper" }, [
-                    _c("img", {
-                      staticClass: "filemanager-item-image",
-                      attrs: { src: _vm.src, alt: _vm.alt }
-                    })
-                  ])
-                : _vm._e()
-            ])
+                ])
+              ]
+            )
           : _vm._e()
       ]),
       _vm._v(" "),
       _c("div", [
-        _vm.id === null
+        _vm.file === null
           ? _c(
               "button",
               {
-                staticClass: "btn btn-sm btn-secondary",
+                staticClass: "filemanager-field-btn-add",
                 attrs: { type: "button" },
                 on: { click: _vm.openFilepicker }
               },
               [
-                _c("span", { staticClass: "fa fa-plus fa-fw text-white-50" }),
-                _vm._v(" " + _vm._s(_vm.$t("Add")) + "\n            ")
+                _c(
+                  "svg",
+                  {
+                    staticClass: "filemanager-field-btn-add-icon",
+                    attrs: {
+                      width: "1em",
+                      height: "1em",
+                      viewBox: "0 0 16 16",
+                      fill: "currentColor",
+                      xmlns: "http://www.w3.org/2000/svg"
+                    }
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        "fill-rule": "evenodd",
+                        d:
+                          "M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.$t("Add")) +
+                    "\n            "
+                )
               ]
             )
           : _vm._e()
@@ -37195,17 +33254,17 @@ var render = function() {
         "div",
         { staticClass: "wrapper" },
         [
-          _c("div", { staticClass: "filepicker-header header" }, [
+          _c("div", { staticClass: "filemanager-header header" }, [
             _c(
               "h1",
-              { staticClass: "filepicker-title header-title" },
+              { staticClass: "filemanager-title header-title" },
               _vm._l(_vm.path, function(folder, index) {
                 return _c("div", [
                   _vm.path.length !== index + 1
                     ? _c(
                         "span",
                         {
-                          staticClass: "filepicker-title-clickable",
+                          staticClass: "filemanager-title-clickable",
                           on: {
                             click: function($event) {
                               return _vm.openFolder(folder)
@@ -37234,9 +33293,30 @@ var render = function() {
                     attrs: { type: "button", id: "btnAddFiles" }
                   },
                   [
-                    _c("span", { staticClass: "fa fa-upload text-white-50" }),
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "mr-1",
+                        attrs: {
+                          width: "1em",
+                          height: "1em",
+                          viewBox: "0 0 16 16",
+                          fill: "currentColor",
+                          xmlns: "http://www.w3.org/2000/svg"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            "fill-rule": "evenodd",
+                            d:
+                              "M8 0a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 4.095 0 5.555 0 7.318 0 9.366 1.708 11 3.781 11H7.5V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11h4.188C14.502 11 16 9.57 16 7.773c0-1.636-1.242-2.969-2.834-3.194C12.923 1.999 10.69 0 8 0zm-.5 14.5V11h1v3.5a.5.5 0 0 1-1 0z"
+                          }
+                        })
+                      ]
+                    ),
                     _vm._v(
-                      "\n                " +
+                      "\n\n                " +
                         _vm._s(_vm.$t("Upload files")) +
                         "\n            "
                     )
@@ -37249,11 +33329,32 @@ var render = function() {
             ? _c(
                 "button",
                 {
-                  staticClass: "filepicker-btn-close",
+                  staticClass: "filemanager-btn-close",
                   attrs: { type: "button" },
                   on: { click: _vm.closeModal }
                 },
-                [_c("span", { staticClass: "fa fa-close" })]
+                [
+                  _c(
+                    "svg",
+                    {
+                      attrs: {
+                        width: "20",
+                        height: "20",
+                        viewBox: "0 0 1792 1792",
+                        fill: "currentColor",
+                        xmlns: "http://www.w3.org/2000/svg"
+                      }
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          d:
+                            "M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"
+                        }
+                      })
+                    ]
+                  )
+                ]
               )
             : _vm._e(),
           _vm._v(" "),
@@ -37270,424 +33371,33 @@ var render = function() {
                 }
               },
               [
-                _c("span", { staticClass: "fa fa-folder-o fa-fw" }),
-                _vm._v(" " + _vm._s(_vm.$t("New folder")) + "\n            ")
-              ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "btn-group btn-group-sm dropdown mr-2" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-light dropdown-toggle",
-                  class: { disabled: !_vm.selectedItems.length },
-                  attrs: {
-                    type: "button",
-                    id: "dropdownMenu1",
-                    "data-toggle": "dropdown",
-                    "aria-haspopup": "true",
-                    "aria-expanded": "true"
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(_vm.$t("Action")) +
-                      "\n                "
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "dropdown-menu",
-                  attrs: { "aria-labelledby": "dropdownMenu1" }
-                },
-                [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "dropdown-item",
-                      attrs: { type: "button" },
-                      on: { click: _vm.deleteSelected }
-                    },
-                    [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(_vm.$t("Delete")) +
-                          "\n                    "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "dropdown-item",
-                      class: { disabled: !_vm.folder.id },
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.moveToParentFolder()
-                        }
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(_vm.$t("Move to parent folder")) +
-                          "\n                    "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "dropdown-divider" }),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "dropdown-item disabled",
-                      attrs: { type: "button" }
-                    },
-                    [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(
-                            _vm.$tc(
-                              "# items selected",
-                              _vm.selectedItems.length,
-                              {
-                                count: _vm.selectedItems.length
-                              }
-                            )
-                          ) +
-                          "\n                    "
-                      )
-                    ]
-                  )
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "btn-group btn-group-sm" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-light",
-                  class: { active: _vm.view === "grid" },
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      return _vm.switchView("grid")
-                    }
-                  }
-                },
-                [
-                  _c("span", { staticClass: "fa fa-fw fa-th" }),
-                  _vm._v(" " + _vm._s(_vm.$t("Grid")) + "\n                ")
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-light",
-                  class: { active: _vm.view === "list" },
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      return _vm.switchView("list")
-                    }
-                  }
-                },
-                [
-                  _c("span", { staticClass: "fa fa-fw fa-bars" }),
-                  _vm._v(" " + _vm._s(_vm.$t("List")) + "\n                ")
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "d-flex align-items-center ml-2" }, [
-              _vm.loading
-                ? _c("span", { staticClass: "fa fa-spinner fa-spin fa-fw" })
-                : _vm._e()
-            ])
-          ]),
-          _vm._v(" "),
-          _vm.dropzone
-            ? _c("vue-dropzone", {
-                ref: "dropzone",
-                attrs: { id: "dropzone", options: _vm.dropOptions },
-                on: {
-                  "vdropzone-success": _vm.dropzoneSuccess,
-                  "vdropzone-sending": _vm.dropzoneSending,
-                  "vdropzone-complete": _vm.dropzoneComplete
-                }
-              })
-            : _vm._e(),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "filemanager",
-              class: { "filemanager-list": _vm.view === "list" },
-              on: {
-                click: function($event) {
-                  return _vm.checkNone()
-                }
-              }
-            },
-            _vm._l(_vm.filteredItems, function(item) {
-              return _c(
-                "div",
-                {
-                  staticClass:
-                    "filemanager-item filemanager-item-with-name filemanager-item-editable",
-                  class: {
-                    "filemanager-item-selected":
-                      _vm.selectedItems.indexOf(item) !== -1,
-                    "filemanager-item-folder": item.type === "f",
-                    "filemanager-item-file": item.type !== "f",
-                    "filemanager-item-dragging-source":
-                      _vm.dragging && _vm.selectedItems.indexOf(item) !== -1
-                  },
-                  attrs: { id: "item_" + item.id, draggable: "true" },
-                  on: {
-                    click: function($event) {
-                      return _vm.check(item, $event)
-                    },
-                    drop: function($event) {
-                      return _vm.drop(item, $event)
-                    },
-                    dragstart: function($event) {
-                      return _vm.dragStart(item, $event)
-                    },
-                    dragover: function($event) {
-                      return _vm.dragOver($event)
-                    },
-                    dragenter: function($event) {
-                      return _vm.dragEnter($event)
-                    },
-                    dragleave: function($event) {
-                      return _vm.dragLeave($event)
-                    },
-                    dragend: function($event) {
-                      return _vm.dragEnd($event)
-                    },
-                    dblclick: function($event) {
-                      return _vm.onDoubleClick(item)
-                    }
-                  }
-                },
-                [
-                  _c("div", { staticClass: "filemanager-item-wrapper" }, [
-                    item.type === "i"
-                      ? _c("div", { staticClass: "filemanager-item-icon" }, [
-                          _c(
-                            "div",
-                            { staticClass: "filemanager-item-image-wrapper" },
-                            [
-                              _c("img", {
-                                staticClass: "filemanager-item-image",
-                                attrs: {
-                                  src: item.thumb_sm,
-                                  alt: item.alt_attribute_translated
-                                }
-                              })
-                            ]
-                          )
-                        ])
-                      : _c("div", {
-                          staticClass: "filemanager-item-icon",
-                          class: "filemanager-item-icon-" + item.type
-                        }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "filemanager-item-name" }, [
-                      _vm._v(_vm._s(item.name))
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticClass: "filemanager-item-editable-button",
-                        attrs: { href: "/admin/files/" + item.id + "/edit" }
-                      },
-                      [_c("span", { staticClass: "fa fa-pencil" })]
-                    )
-                  ])
-                ]
-              )
-            }),
-            0
-          ),
-          _vm._v(" "),
-          _vm.options.multiple
-            ? _c(
-                "button",
-                {
-                  staticClass:
-                    "btn btn-success filepicker-btn-add btn-add-multiple",
-                  attrs: {
-                    type: "button",
-                    disabled: _vm.selectedFiles.length < 1,
-                    id: "btn-add-selected-files"
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.addSelectedFiles()
-                    }
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(_vm.$t("Add selected files")) +
-                      "\n        "
-                  )
-                ]
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.options.single
-            ? _c(
-                "button",
-                {
-                  staticClass:
-                    "btn btn-success filepicker-btn-add btn-add-single",
-                  attrs: {
-                    disabled: _vm.selectedFiles.length !== 1,
-                    type: "button",
-                    id: "btn-add-selected-file"
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.addSingleFile(_vm.selectedFiles[0])
-                    }
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(_vm.$t("Add selected file")) +
-                      "\n        "
-                  )
-                ]
-              )
-            : _vm._e()
-        ],
-        1
-      )
-    ]
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Filepicker.vue?vue&type=template&id=063408b5&":
-/*!*************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Filepicker.vue?vue&type=template&id=063408b5& ***!
-  \*************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      ref: "filepicker",
-      staticClass: "filepicker",
-      class: _vm.classes,
-      attrs: { id: "filepicker" }
-    },
-    [
-      _c(
-        "div",
-        { staticClass: "wrapper" },
-        [
-          _c("div", { staticClass: "filepicker-header header" }, [
-            _c(
-              "h1",
-              { staticClass: "filepicker-title header-title" },
-              _vm._l(_vm.path, function(folder, index) {
-                return _c("div", [
-                  _vm.path.length !== index + 1
-                    ? _c(
-                        "span",
-                        {
-                          staticClass: "filepicker-title-clickable",
-                          attrs: { href: "#" },
-                          on: {
-                            click: function($event) {
-                              return _vm.openFolder(folder)
-                            }
-                          }
-                        },
-                        [_vm._v(_vm._s(folder.name))]
-                      )
-                    : _c("span", [_vm._v(_vm._s(folder.name))])
-                ])
-              }),
-              0
-            ),
-            _vm._v(" "),
-            _vm.dropzone
-              ? _c(
-                  "button",
+                _c(
+                  "svg",
                   {
-                    staticClass: "btn btn-sm btn-primary header-btn-add",
-                    attrs: { type: "button", id: "btnAddFiles" }
+                    staticClass: "mr-1 text-muted",
+                    attrs: {
+                      width: "1em",
+                      height: "1em",
+                      viewBox: "0 0 16 16",
+                      fill: "currentColor",
+                      xmlns: "http://www.w3.org/2000/svg"
+                    }
                   },
                   [
-                    _c("span", { staticClass: "fa fa-upload text-white-50" }),
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(_vm.$t("Upload files")) +
-                        "\n            "
-                    )
+                    _c("path", {
+                      attrs: {
+                        "fill-rule": "evenodd",
+                        d:
+                          "M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"
+                      }
+                    })
                   ]
+                ),
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.$t("New folder")) +
+                    "\n            "
                 )
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          this.modal
-            ? _c(
-                "button",
-                {
-                  staticClass: "filepicker-btn-close",
-                  attrs: { type: "button" },
-                  on: { click: _vm.closeModal }
-                },
-                [_c("span", { staticClass: "fa fa-close" })]
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _c("div", { staticClass: "btn-toolbar mb-4" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-sm btn-light mr-2",
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    return _vm.newFolder(_vm.folder.id)
-                  }
-                }
-              },
-              [
-                _c("span", { staticClass: "fa fa-folder-o fa-fw" }),
-                _vm._v(" " + _vm._s(_vm.$t("New folder")) + "\n            ")
               ]
             ),
             _vm._v(" "),
@@ -37800,8 +33510,32 @@ var render = function() {
                   }
                 },
                 [
-                  _c("span", { staticClass: "fa fa-fw fa-th" }),
-                  _vm._v(" " + _vm._s(_vm.$t("Grid")) + "\n                ")
+                  _c(
+                    "svg",
+                    {
+                      staticClass: "text-muted",
+                      attrs: {
+                        width: "1em",
+                        height: "1em",
+                        viewBox: "0 0 16 16",
+                        fill: "currentColor",
+                        xmlns: "http://www.w3.org/2000/svg"
+                      }
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          d:
+                            "M1 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V4zM1 9a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V9zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V9z"
+                        }
+                      })
+                    ]
+                  ),
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.$t("Grid")) +
+                      "\n                "
+                  )
                 ]
               ),
               _vm._v(" "),
@@ -37818,15 +33552,52 @@ var render = function() {
                   }
                 },
                 [
-                  _c("span", { staticClass: "fa fa-fw fa-bars" }),
-                  _vm._v(" " + _vm._s(_vm.$t("List")) + "\n                ")
+                  _c(
+                    "svg",
+                    {
+                      staticClass: "text-muted",
+                      attrs: {
+                        width: "1em",
+                        height: "1em",
+                        viewBox: "0 0 16 16",
+                        fill: "currentColor",
+                        xmlns: "http://www.w3.org/2000/svg"
+                      }
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          "fill-rule": "evenodd",
+                          d:
+                            "M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"
+                        }
+                      })
+                    ]
+                  ),
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.$t("List")) +
+                      "\n                "
+                  )
                 ]
               )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "d-flex align-items-center ml-2" }, [
               _vm.loading
-                ? _c("span", { staticClass: "fa fa-spinner fa-spin fa-fw" })
+                ? _c(
+                    "div",
+                    {
+                      staticClass:
+                        "spinner-border spinner-border-sm text-secondary",
+                      attrs: { role: "status" }
+                    },
+                    [
+                      _c("span", { staticClass: "sr-only" }, [
+                        _vm._v(_vm._s(_vm.$t("Loading…")))
+                      ])
+                    ]
+                  )
                 : _vm._e()
             ])
           ]),
@@ -37838,7 +33609,8 @@ var render = function() {
                 on: {
                   "vdropzone-success": _vm.dropzoneSuccess,
                   "vdropzone-sending": _vm.dropzoneSending,
-                  "vdropzone-complete": _vm.dropzoneComplete
+                  "vdropzone-complete": _vm.dropzoneComplete,
+                  "vdropzone-error": _vm.dropzoneError
                 }
               })
             : _vm._e(),
@@ -37846,8 +33618,8 @@ var render = function() {
           _c(
             "div",
             {
-              staticClass: "filemanager",
-              class: { "filemanager-list": _vm.view === "list" },
+              staticClass: "filemanager-list",
+              class: { "filemanager-view-list": _vm.view === "list" },
               on: {
                 click: function($event) {
                   return _vm.checkNone()
@@ -37914,10 +33686,141 @@ var render = function() {
                             ]
                           )
                         ])
-                      : _c("div", {
-                          staticClass: "filemanager-item-icon",
-                          class: "filemanager-item-icon-" + item.type
-                        }),
+                      : _c(
+                          "div",
+                          {
+                            staticClass: "filemanager-item-icon",
+                            class: "filemanager-item-icon-" + item.type
+                          },
+                          [
+                            item.type === "a"
+                              ? _c(
+                                  "svg",
+                                  {
+                                    staticClass: "bi bi-file-earmark-music",
+                                    attrs: {
+                                      width: "80px",
+                                      height: "80px",
+                                      viewBox: "0 0 16 16",
+                                      fill: "currentColor",
+                                      xmlns: "http://www.w3.org/2000/svg"
+                                    }
+                                  },
+                                  [
+                                    _c("path", {
+                                      attrs: {
+                                        d:
+                                          "M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("path", {
+                                      attrs: {
+                                        d:
+                                          "M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("path", {
+                                      attrs: {
+                                        "fill-rule": "evenodd",
+                                        d:
+                                          "M9.757 5.67A1 1 0 0 1 11 6.64v1.75l-2 .5v3.61c0 .495-.301.883-.662 1.123C7.974 13.866 7.499 14 7 14c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 11.134 6.501 11 7 11c.356 0 .7.068 1 .196V6.89a1 1 0 0 1 .757-.97l1-.25z"
+                                      }
+                                    })
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            item.type === "v"
+                              ? _c(
+                                  "svg",
+                                  {
+                                    staticClass: "bi bi-file-earmark-play-fill",
+                                    attrs: {
+                                      width: "80px",
+                                      height: "80px",
+                                      viewBox: "0 0 16 16",
+                                      fill: "currentColor",
+                                      xmlns: "http://www.w3.org/2000/svg"
+                                    }
+                                  },
+                                  [
+                                    _c("path", {
+                                      attrs: {
+                                        "fill-rule": "evenodd",
+                                        d:
+                                          "M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zM6 6.883v4.234a.5.5 0 0 0 .757.429l3.528-2.117a.5.5 0 0 0 0-.858L6.757 6.454a.5.5 0 0 0-.757.43z"
+                                      }
+                                    })
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            item.type === "d"
+                              ? _c(
+                                  "svg",
+                                  {
+                                    staticClass: "bi bi-file-earmark",
+                                    attrs: {
+                                      width: "80px",
+                                      height: "80px",
+                                      viewBox: "0 0 16 16",
+                                      fill: "currentColor",
+                                      xmlns: "http://www.w3.org/2000/svg"
+                                    }
+                                  },
+                                  [
+                                    _c("path", {
+                                      attrs: {
+                                        d:
+                                          "M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("path", {
+                                      attrs: {
+                                        d:
+                                          "M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"
+                                      }
+                                    })
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            item.type === "f"
+                              ? _c(
+                                  "svg",
+                                  {
+                                    staticClass: "bi bi-folder",
+                                    attrs: {
+                                      width: "80px",
+                                      height: "80px",
+                                      viewBox: "0 0 16 16",
+                                      fill: "currentColor",
+                                      xmlns: "http://www.w3.org/2000/svg"
+                                    }
+                                  },
+                                  [
+                                    _c("path", {
+                                      attrs: {
+                                        d:
+                                          "M9.828 4a3 3 0 0 1-2.12-.879l-.83-.828A1 1 0 0 0 6.173 2H2.5a1 1 0 0 0-1 .981L1.546 4h-1L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3v1z"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("path", {
+                                      attrs: {
+                                        "fill-rule": "evenodd",
+                                        d:
+                                          "M13.81 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4zM2.19 3A2 2 0 0 0 .198 5.181l.637 7A2 2 0 0 0 2.826 14h10.348a2 2 0 0 0 1.991-1.819l.637-7A2 2 0 0 0 13.81 3H2.19z"
+                                      }
+                                    })
+                                  ]
+                                )
+                              : _vm._e()
+                          ]
+                        ),
                     _vm._v(" "),
                     _c("div", { staticClass: "filemanager-item-name" }, [
                       _vm._v(_vm._s(item.name))
@@ -37929,7 +33832,15 @@ var render = function() {
                         staticClass: "filemanager-item-editable-button",
                         attrs: { href: "/admin/files/" + item.id + "/edit" }
                       },
-                      [_c("span", { staticClass: "fa fa-pencil" })]
+                      [
+                        _c("span", {
+                          staticClass: "filemanager-item-editable-button-icon"
+                        }),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "sr-only" }, [
+                          _vm._v(_vm._s(_vm.$t("Edit")))
+                        ])
+                      ]
                     )
                   ])
                 ]
@@ -37943,7 +33854,7 @@ var render = function() {
                 "button",
                 {
                   staticClass:
-                    "btn btn-success filepicker-btn-add btn-add-multiple",
+                    "btn btn-success filemanager-btn-add btn-add-multiple",
                   attrs: {
                     type: "button",
                     disabled: _vm.selectedFiles.length < 1,
@@ -37970,7 +33881,7 @@ var render = function() {
                 "button",
                 {
                   staticClass:
-                    "btn btn-success filepicker-btn-add btn-add-single",
+                    "btn btn-success filemanager-btn-add btn-add-single",
                   attrs: {
                     disabled: _vm.selectedFiles.length !== 1,
                     type: "button",
@@ -37996,140 +33907,6 @@ var render = function() {
       )
     ]
   )
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Files.vue?vue&type=template&id=f625c0c8&":
-/*!********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Files.vue?vue&type=template&id=f625c0c8& ***!
-  \********************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "mb-4" }, [
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", [
-        _vm.label
-          ? _c("span", [_vm._v(_vm._s(_vm.label))])
-          : _c("span", [_vm._v(_vm._s(_vm.$t("Files")))]),
-        _vm._v(" "),
-        _vm.relatedId === 0
-          ? _c("small", { staticClass: "form-text text-muted" }, [
-              _vm._v(
-                "\n                " +
-                  _vm._s(_vm.$t("Save this item first, then add files.")) +
-                  "\n            "
-              )
-            ])
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("p", [
-        _vm.relatedId !== 0
-          ? _c(
-              "button",
-              {
-                staticClass: "btn btn-sm btn-secondary mr-2",
-                attrs: { type: "button", disabled: _vm.relatedId === 0 },
-                on: { click: _vm.openFilepicker }
-              },
-              [
-                _c("i", { staticClass: "fa fa-plus text-white-50" }),
-                _vm._v(" " + _vm._s(_vm.$t("Add files")) + "\n            ")
-              ]
-            )
-          : _vm._e()
-      ])
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "filemanager" },
-      [
-        _c(
-          "draggable",
-          {
-            on: { end: _vm.onSort },
-            model: {
-              value: _vm.files,
-              callback: function($$v) {
-                _vm.files = $$v
-              },
-              expression: "files"
-            }
-          },
-          _vm._l(_vm.files, function(file) {
-            return _c(
-              "div",
-              {
-                key: file.id,
-                staticClass:
-                  "filemanager-item filemanager-item-with-name filemanager-item-file filemanager-item-removable",
-                attrs: { id: "item_" + file.id }
-              },
-              [
-                _c("div", { staticClass: "filemanager-item-wrapper" }, [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "filemanager-item-removable-button",
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          return _vm.remove(file)
-                        }
-                      }
-                    },
-                    [_c("span", { staticClass: "fa fa-times" })]
-                  ),
-                  _vm._v(" "),
-                  file.type === "i"
-                    ? _c("div", { staticClass: "filemanager-item-icon" }, [
-                        _c(
-                          "div",
-                          { staticClass: "filemanager-item-image-wrapper" },
-                          [
-                            _c("img", {
-                              staticClass: "filemanager-item-image",
-                              attrs: {
-                                src: file.thumb_sm,
-                                alt: file.alt_attribute_translated
-                              }
-                            })
-                          ]
-                        )
-                      ])
-                    : _c("div", {
-                        staticClass: "filemanager-item-icon",
-                        class: "filemanager-item-icon-" + file.type
-                      }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "filemanager-item-name" }, [
-                    _vm._v(_vm._s(file.name))
-                  ])
-                ])
-              ]
-            )
-          }),
-          0
-        )
-      ],
-      1
-    )
-  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38173,13 +33950,38 @@ var render = function() {
           _c(
             "button",
             {
-              staticClass: "btn btn-sm btn-secondary mr-2",
+              staticClass: "filemanager-field-btn-add",
               attrs: { type: "button" },
               on: { click: _vm.openFilepicker }
             },
             [
-              _c("i", { staticClass: "fa fa-plus text-white-50" }),
-              _vm._v(" " + _vm._s(_vm.$t("Add files")) + "\n            ")
+              _c(
+                "svg",
+                {
+                  staticClass: "filemanager-field-btn-add-icon",
+                  attrs: {
+                    width: "1em",
+                    height: "1em",
+                    viewBox: "0 0 16 16",
+                    fill: "currentColor",
+                    xmlns: "http://www.w3.org/2000/svg"
+                  }
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      "fill-rule": "evenodd",
+                      d:
+                        "M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
+                    }
+                  })
+                ]
+              ),
+              _vm._v(
+                "\n                " +
+                  _vm._s(_vm.$t("Add files")) +
+                  "\n            "
+              )
             ]
           )
         ])
@@ -38188,7 +33990,6 @@ var render = function() {
       _c(
         "draggable",
         {
-          staticClass: "filemanager",
           attrs: { group: "files" },
           on: {
             start: function($event) {
@@ -38212,7 +34013,7 @@ var render = function() {
             {
               key: file.id,
               staticClass:
-                "filemanager-item filemanager-item-with-name filemanager-item-file filemanager-item-removable",
+                "filemanager-item filemanager-item-with-name filemanager-item-removable",
               attrs: { id: "item_" + file.id }
             },
             [
@@ -38228,7 +34029,28 @@ var render = function() {
                       }
                     }
                   },
-                  [_c("span", { staticClass: "fa fa-times" })]
+                  [
+                    _c(
+                      "svg",
+                      {
+                        attrs: {
+                          width: "12",
+                          height: "12",
+                          viewBox: "0 0 1792 1792",
+                          fill: "currentColor",
+                          xmlns: "http://www.w3.org/2000/svg"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"
+                          }
+                        })
+                      ]
+                    )
+                  ]
                 ),
                 _vm._v(" "),
                 file.type === "i"
@@ -38247,10 +34069,139 @@ var render = function() {
                         ]
                       )
                     ])
-                  : _c("div", {
-                      staticClass: "filemanager-item-icon",
-                      class: "filemanager-item-icon-" + file.type
-                    }),
+                  : _c(
+                      "div",
+                      {
+                        staticClass: "filemanager-item-icon",
+                        class: "filemanager-item-icon-" + file.type
+                      },
+                      [
+                        file.type === "a"
+                          ? _c(
+                              "svg",
+                              {
+                                staticClass: "bi bi-file-earmark-music",
+                                attrs: {
+                                  width: "80px",
+                                  height: "80px",
+                                  viewBox: "0 0 16 16",
+                                  fill: "currentColor",
+                                  xmlns: "http://www.w3.org/2000/svg"
+                                }
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    d:
+                                      "M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("path", {
+                                  attrs: {
+                                    d: "M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("path", {
+                                  attrs: {
+                                    "fill-rule": "evenodd",
+                                    d:
+                                      "M9.757 5.67A1 1 0 0 1 11 6.64v1.75l-2 .5v3.61c0 .495-.301.883-.662 1.123C7.974 13.866 7.499 14 7 14c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 11.134 6.501 11 7 11c.356 0 .7.068 1 .196V6.89a1 1 0 0 1 .757-.97l1-.25z"
+                                  }
+                                })
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        file.type === "v"
+                          ? _c(
+                              "svg",
+                              {
+                                staticClass: "bi bi-file-earmark-play-fill",
+                                attrs: {
+                                  width: "80px",
+                                  height: "80px",
+                                  viewBox: "0 0 16 16",
+                                  fill: "currentColor",
+                                  xmlns: "http://www.w3.org/2000/svg"
+                                }
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    "fill-rule": "evenodd",
+                                    d:
+                                      "M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zM6 6.883v4.234a.5.5 0 0 0 .757.429l3.528-2.117a.5.5 0 0 0 0-.858L6.757 6.454a.5.5 0 0 0-.757.43z"
+                                  }
+                                })
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        file.type === "d"
+                          ? _c(
+                              "svg",
+                              {
+                                staticClass: "bi bi-file-earmark",
+                                attrs: {
+                                  width: "80px",
+                                  height: "80px",
+                                  viewBox: "0 0 16 16",
+                                  fill: "currentColor",
+                                  xmlns: "http://www.w3.org/2000/svg"
+                                }
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    d:
+                                      "M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("path", {
+                                  attrs: {
+                                    d: "M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"
+                                  }
+                                })
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        file.type === "f"
+                          ? _c(
+                              "svg",
+                              {
+                                staticClass: "bi bi-folder",
+                                attrs: {
+                                  width: "80px",
+                                  height: "80px",
+                                  viewBox: "0 0 16 16",
+                                  fill: "currentColor",
+                                  xmlns: "http://www.w3.org/2000/svg"
+                                }
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    d:
+                                      "M9.828 4a3 3 0 0 1-2.12-.879l-.83-.828A1 1 0 0 0 6.173 2H2.5a1 1 0 0 0-1 .981L1.546 4h-1L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3v1z"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("path", {
+                                  attrs: {
+                                    "fill-rule": "evenodd",
+                                    d:
+                                      "M13.81 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4zM2.19 3A2 2 0 0 0 .198 5.181l.637 7A2 2 0 0 0 2.826 14h10.348a2 2 0 0 0 1.991-1.819l.637-7A2 2 0 0 0 13.81 3H2.19z"
+                                  }
+                                })
+                              ]
+                            )
+                          : _vm._e()
+                      ]
+                    ),
                 _vm._v(" "),
                 _c("div", { staticClass: "filemanager-item-name" }, [
                   _vm._v(_vm._s(file.name))
@@ -38290,7 +34241,7 @@ var render = function() {
   return _c("div", { staticClass: "card" }, [
     _c("div", { staticClass: "card-header d-flex justify-content-between" }, [
       _vm._v("\n        " + _vm._s(_vm.$t("Latest changes")) + "\n        "),
-      _vm.filteredItems.length && _vm.clearButton
+      _vm.filteredItems.length > 0 && _vm.clearButton
         ? _c(
             "button",
             {
@@ -38318,7 +34269,11 @@ var render = function() {
               "tbody",
               _vm._l(_vm.filteredItems, function(model) {
                 return _c("tr", [
-                  _c("td", [_vm._v(_vm._s(_vm._f("date")(model.created_at)))]),
+                  _c("td", [
+                    _c("small", { staticClass: "text-muted text-nowrap" }, [
+                      _vm._v(_vm._s(_vm._f("datetime")(model.created_at)))
+                    ])
+                  ]),
                   _vm._v(" "),
                   _c("td", [
                     model.href
@@ -38355,19 +34310,21 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("td", { staticClass: "action" }, [
-                    _c("span", {
-                      staticClass: "fa fa-fw",
-                      class: model.icon_class
-                    }),
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(model.action) +
-                        "\n                    "
-                    )
+                    _c("small", { staticClass: "action-content" }, [
+                      _c("span", {
+                        staticClass: "icon",
+                        class: "icon-" + model.action
+                      }),
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(model.action) +
+                          "\n                        "
+                      )
+                    ])
                   ]),
                   _vm._v(" "),
                   _c("td", [
-                    _c("div", { staticClass: "user_name" }, [
+                    _c("small", { staticClass: "user-name" }, [
                       _vm._v(_vm._s(model.user_name))
                     ])
                   ])
@@ -38397,7 +34354,7 @@ var render = function() {
               ])
         ]),
     _vm._v(" "),
-    _vm.data.total > _vm.data.per_page
+    _vm.filteredItems.length > 0 && _vm.data.total > _vm.data.per_page
       ? _c(
           "div",
           { staticClass: "card-footer" },
@@ -38471,7 +34428,8 @@ var render = function() {
         "div",
         { staticClass: "btn-toolbar item-list-actions" },
         [
-          _vm.selector
+          _vm.selector &&
+          (_vm.$can("update " + _vm.table) || _vm.$can("delete " + _vm.table))
             ? _c("item-list-selector", {
                 staticClass: "mr-2",
                 attrs: {
@@ -38489,13 +34447,15 @@ var render = function() {
               })
             : _vm._e(),
           _vm._v(" "),
-          _vm.actions
+          _vm.actions &&
+          (_vm.$can("update " + _vm.table) || _vm.$can("delete " + _vm.table))
             ? _c("item-list-actions", {
                 staticClass: "mr-2",
                 attrs: {
                   "number-of-checked-models": _vm.numberOfCheckedItems,
                   loading: _vm.loading,
-                  publishable: _vm.publishable
+                  publishable: _vm.publishable,
+                  table: _vm.table
                 },
                 on: {
                   destroy: _vm.destroy,
@@ -38505,7 +34465,9 @@ var render = function() {
               })
             : _vm._e(),
           _vm._v(" "),
-          _vm.pagination && this.data.total > 10
+          _vm.pagination &&
+          this.data.total > 10 &&
+          _vm.$can("read " + _vm.table)
             ? _c("item-list-per-page", {
                 staticClass: "mr-2",
                 attrs: {
@@ -38520,7 +34482,19 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "d-flex align-items-center ml-2" }, [
             _vm.loading
-              ? _c("span", { staticClass: "fa fa-spinner fa-spin fa-fw" })
+              ? _c(
+                  "div",
+                  {
+                    staticClass:
+                      "spinner-border spinner-border-sm text-secondary",
+                    attrs: { role: "status" }
+                  },
+                  [
+                    _c("span", { staticClass: "sr-only" }, [
+                      _vm._v(_vm._s(_vm.$t("Loading…")))
+                    ])
+                  ]
+                )
               : _vm._e()
           ]),
           _vm._v(" "),
@@ -38545,7 +34519,30 @@ var render = function() {
                     "div",
                     { staticClass: "input-group input-group-sm mb-0" },
                     [
-                      _vm._m(0),
+                      _c("div", { staticClass: "input-group-prepend" }, [
+                        _c("div", { staticClass: "input-group-text" }, [
+                          _c(
+                            "svg",
+                            {
+                              attrs: {
+                                width: "14",
+                                height: "14",
+                                viewBox: "0 0 1792 1792",
+                                fill: "currentColor",
+                                xmlns: "http://www.w3.org/2000/svg"
+                              }
+                            },
+                            [
+                              _c("path", {
+                                attrs: {
+                                  d:
+                                    "M1216 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z"
+                                }
+                              })
+                            ]
+                          )
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -38634,6 +34631,41 @@ var render = function() {
                     0
                   )
                 ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.exportable
+              ? _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-sm btn-light ml-2",
+                    attrs: { href: this.exportUrl }
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "bi bi-table",
+                        attrs: {
+                          width: "1em",
+                          height: "1em",
+                          viewBox: "0 0 16 16",
+                          fill: "currentColor",
+                          xmlns: "http://www.w3.org/2000/svg"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            "fill-rule": "evenodd",
+                            d:
+                              "M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v("\n                Export\n            ")
+                  ]
+                )
               : _vm._e()
           ])
         ],
@@ -38682,18 +34714,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-prepend" }, [
-      _c("div", { staticClass: "input-group-text" }, [
-        _c("span", { staticClass: "fa fa-search" })
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -38963,8 +34984,7 @@ var render = function() {
               {
                 staticClass: "page-item pagination-page-nav",
                 class: {
-                  "btn-secondary":
-                    page == _vm.data.current_page && page !== "…",
+                  active: page == _vm.data.current_page && page !== "…",
                   "btn-light": page !== _vm.data.current_page && page !== "…"
                 },
                 attrs: { disabled: page === "…" },
@@ -39127,100 +35147,6 @@ var render = function() {
   })
 }
 var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ItemListSearchBar.vue?vue&type=template&id=716cea1f&":
-/*!********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ItemListSearchBar.vue?vue&type=template&id=716cea1f& ***!
-  \********************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "form",
-    {
-      staticClass: "item-list-search-bar",
-      on: {
-        submit: function($event) {
-          $event.preventDefault()
-          return _vm.search($event)
-        }
-      }
-    },
-    [
-      _c("div", { staticClass: "input-group input-group-sm" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.string,
-              expression: "string"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: {
-            type: "text",
-            placeholder: _vm.$t("Search"),
-            "aria-label": _vm.$t("Search")
-          },
-          domProps: { value: _vm.string },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.string = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "input-group-append" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-outline-primary",
-              attrs: { type: "submit" }
-            },
-            [
-              _vm._v(
-                "\n                " +
-                  _vm._s(_vm.$t("Search")) +
-                  "\n            "
-              )
-            ]
-          )
-        ])
-      ])
-    ]
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-prepend" }, [
-      _c("span", { staticClass: "input-group-text" }, [
-        _c("span", { staticClass: "fa fa-search fa-fw" })
-      ])
-    ])
-  }
-]
 render._withStripped = true
 
 
@@ -39392,25 +35318,17 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "button",
-    {
-      staticClass: "btn btn-xs btn-link btn-status",
-      attrs: { type: "button" },
-      on: {
-        click: function($event) {
-          return _vm.$parent.$emit("toggle-status", _vm.model)
-        }
+  return _c("button", {
+    staticClass: "btn-status",
+    class:
+      _vm.model.status_translated === 1 ? "btn-status-on" : "btn-status-off",
+    attrs: { type: "button" },
+    on: {
+      click: function($event) {
+        return _vm.$parent.$emit("toggle-status", _vm.model)
       }
-    },
-    [
-      _c("span", {
-        staticClass: "fa btn-status-switch",
-        class:
-          _vm.model.status_translated === 1 ? "fa-toggle-on" : "fa-toggle-off"
-      })
-    ]
-  )
+    }
+  })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -39459,7 +35377,19 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "d-flex align-items-center ml-2" }, [
             _vm.loading
-              ? _c("span", { staticClass: "fa fa-spinner fa-spin fa-fw" })
+              ? _c(
+                  "div",
+                  {
+                    staticClass:
+                      "spinner-border spinner-border-sm text-secondary",
+                    attrs: { role: "status" }
+                  },
+                  [
+                    _c("span", { staticClass: "sr-only" }, [
+                      _vm._v(_vm._s(_vm.$t("Loading…")))
+                    ])
+                  ]
+                )
               : _vm._e()
           ]),
           _vm._v(" "),
@@ -39537,55 +35467,137 @@ var render = function() {
             fn: function(ref) {
               var node = ref.node
               return [
-                _c(
-                  "div",
-                  {
-                    staticClass: "btn btn-xs btn-link",
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteFromNested(node)
-                      }
-                    }
-                  },
-                  [_c("span", { staticClass: "fa fa-remove" })]
-                ),
+                _vm.$can("delete " + _vm.table)
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-xs btn-link",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteFromNested(node)
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "svg",
+                          {
+                            attrs: {
+                              width: "12",
+                              height: "12",
+                              viewBox: "0 0 1792 1792",
+                              fill: "currentColor",
+                              xmlns: "http://www.w3.org/2000/svg"
+                            }
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                d:
+                                  "M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"
+                              }
+                            })
+                          ]
+                        )
+                      ]
+                    )
+                  : _vm._e(),
                 _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-light btn-xs",
-                    attrs: { href: _vm.table + "/" + node.data.id + "/edit" }
-                  },
-                  [_vm._v(_vm._s(_vm.$t("Edit")))]
-                ),
+                _vm.$can("update " + _vm.table)
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-light btn-xs ml-1 mr-2",
+                        attrs: {
+                          href: _vm.table + "/" + node.data.id + "/edit"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(_vm.$t("Edit")) +
+                            "\n            "
+                        )
+                      ]
+                    )
+                  : _vm._e(),
                 _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "btn btn-xs btn-link btn-status",
-                    on: {
-                      click: function($event) {
-                        return _vm.toggleStatus(node)
-                      }
+                _c("div", {
+                  staticClass: "btn btn-xs btn-link btn-status mr-1",
+                  class:
+                    node.data.status_translated === 1
+                      ? "btn-status-on"
+                      : "btn-status-off",
+                  on: {
+                    click: function($event) {
+                      return _vm.toggleStatus(node)
                     }
-                  },
-                  [
-                    _c("span", {
-                      staticClass: "fa btn-status-switch",
-                      class:
-                        node.data.status_translated === 1
-                          ? "fa-toggle-on"
-                          : "fa-toggle-off"
-                    })
-                  ]
-                ),
+                  }
+                }),
                 _vm._v(" "),
                 node.data.is_home === 1
-                  ? _c("span", { staticClass: "fa fa-fw fa-home text-muted" })
+                  ? _c(
+                      "svg",
+                      {
+                        staticClass: "text-muted",
+                        attrs: {
+                          width: "1rem",
+                          height: "1rem",
+                          viewBox: "0 0 16 16",
+                          fill: "currentColor",
+                          xmlns: "http://www.w3.org/2000/svg"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M6.5 10.995V14.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5V11c0-.25-.25-.5-.5-.5H7c-.25 0-.5.25-.5.495z"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("path", {
+                          attrs: {
+                            "fill-rule": "evenodd",
+                            d:
+                              "M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
+                          }
+                        })
+                      ]
+                    )
                   : _vm._e(),
                 _vm._v(" "),
                 node.data.private === 1
-                  ? _c("span", { staticClass: "fa fa-fw fa-lock text-muted" })
+                  ? _c(
+                      "svg",
+                      {
+                        staticClass: "text-muted",
+                        attrs: {
+                          width: "1rem",
+                          height: "1rem",
+                          viewBox: "0 0 16 16",
+                          fill: "currentColor",
+                          xmlns: "http://www.w3.org/2000/svg"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M2.5 9a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V9z"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("path", {
+                          attrs: {
+                            "fill-rule": "evenodd",
+                            d:
+                              "M4.5 4a3.5 3.5 0 1 1 7 0v3h-1V4a2.5 2.5 0 0 0-5 0v3h-1V4z"
+                          }
+                        })
+                      ]
+                    )
                   : _vm._e(),
                 _vm._v(" "),
                 _c("div", { staticClass: "title" }, [
@@ -39593,10 +35605,28 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 node.data.redirect === 1
-                  ? _c("div", {
-                      staticClass: "fa fa-level-down text-muted",
-                      attrs: { title: _vm.$t("Redirect to first child") }
-                    })
+                  ? _c(
+                      "svg",
+                      {
+                        staticClass: "text-muted",
+                        attrs: {
+                          title: _vm.$t("Redirect to first child"),
+                          width: "1rem",
+                          height: "1rem",
+                          fill: "currentColor",
+                          viewBox: "0 0 1792 1792",
+                          xmlns: "http://www.w3.org/2000/svg"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M416 256h704q13 0 22.5 9.5t9.5 23.5v863h192q40 0 58 37t-9 69l-320 384q-18 22-49 22t-49-22l-320-384q-26-31-9-69 18-37 58-37h192v-640h-320q-14 0-25-11l-160-192q-13-14-4-34 9-19 29-19z"
+                          }
+                        })
+                      ]
+                    )
                   : _vm._e(),
                 _vm._v(" "),
                 node.data.module
@@ -39628,14 +35658,51 @@ var render = function() {
             fn: function(ref) {
               var node = ref.node
               return [
-                _c("div", {
-                  staticClass: "disclose fa fa-fw",
-                  class: {
-                    "fa-caret-right": !node.isExpanded,
-                    "fa-caret-down": node.isExpanded,
-                    "d-none": !node.children.length
-                  }
-                })
+                node.children.length > 0 && node.isExpanded
+                  ? _c(
+                      "svg",
+                      {
+                        attrs: {
+                          width: "0.8rem",
+                          height: "0.8rem",
+                          viewBox: "0 0 16 16",
+                          fill: "currentColor",
+                          xmlns: "http://www.w3.org/2000/svg"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+                          }
+                        })
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                node.children.length > 0 && !node.isExpanded
+                  ? _c(
+                      "svg",
+                      {
+                        attrs: {
+                          width: "0.8rem",
+                          height: "0.8rem",
+                          viewBox: "0 0 16 16",
+                          fill: "currentColor",
+                          xmlns: "http://www.w3.org/2000/svg"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"
+                          }
+                        })
+                      ]
+                    )
+                  : _vm._e()
               ]
             }
           }
@@ -39780,8 +35847,8 @@ function normalizeComponent (
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.6.11
- * (c) 2014-2019 Evan You
+ * Vue.js v2.6.12
+ * (c) 2014-2020 Evan You
  * Released under the MIT License.
  */
 
@@ -45220,7 +41287,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.6.11';
+Vue.version = '2.6.12';
 
 /*  */
 
@@ -47426,7 +43493,7 @@ function updateDOMProps (oldVnode, vnode) {
       // skip the update if old and new VDOM state is the same.
       // `value` is handled separately because the DOM value may be temporarily
       // out of sync with VDOM state due to focus, composition and modifiers.
-      // This  #4521 by skipping the unnecesarry `checked` update.
+      // This  #4521 by skipping the unnecessary `checked` update.
       cur !== oldProps[key]
     ) {
       // some property updates can throw
@@ -49671,7 +45738,7 @@ function parse (
       }
     },
     comment: function comment (text, start, end) {
-      // adding anyting as a sibling to the root node is forbidden
+      // adding anything as a sibling to the root node is forbidden
       // comments should still be allowed, but ignored
       if (currentParent) {
         var child = {
@@ -52955,7 +49022,7 @@ module.exports = !__webpack_require__("79e5")(function () {
 /***/ "a352":
 /***/ (function(module, exports) {
 
-module.exports = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
+module.exports = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.complete.esm.js");
 
 /***/ }),
 
@@ -54361,20 +50428,19 @@ var _lang_fr_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpac
 var _lang_en_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../lang/en.json */ "./resources/lang/en.json", 1);
 /* harmony import */ var _lang_es_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lang/es.json */ "./resources/lang/es.json");
 var _lang_es_json__WEBPACK_IMPORTED_MODULE_5___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../lang/es.json */ "./resources/lang/es.json", 1);
-/* harmony import */ var _filters_Date_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./filters/Date.js */ "./resources/js/filters/Date.js");
-/* harmony import */ var _filters_Datetime_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./filters/Datetime.js */ "./resources/js/filters/Datetime.js");
-/* harmony import */ var _components_ItemListColumnHeader_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/ItemListColumnHeader.vue */ "./resources/js/components/ItemListColumnHeader.vue");
-/* harmony import */ var _components_ItemList_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/ItemList.vue */ "./resources/js/components/ItemList.vue");
-/* harmony import */ var _components_ItemListTree_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/ItemListTree.vue */ "./resources/js/components/ItemListTree.vue");
-/* harmony import */ var _components_ItemListStatusButton_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/ItemListStatusButton.vue */ "./resources/js/components/ItemListStatusButton.vue");
-/* harmony import */ var _components_ItemListCheckbox_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/ItemListCheckbox.vue */ "./resources/js/components/ItemListCheckbox.vue");
-/* harmony import */ var _components_ItemListPositionInput_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/ItemListPositionInput.vue */ "./resources/js/components/ItemListPositionInput.vue");
-/* harmony import */ var _components_History_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/History.vue */ "./resources/js/components/History.vue");
-/* harmony import */ var _components_Filepicker_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/Filepicker.vue */ "./resources/js/components/Filepicker.vue");
-/* harmony import */ var _components_Files_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/Files.vue */ "./resources/js/components/Files.vue");
-/* harmony import */ var _components_FileManager_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/FileManager.vue */ "./resources/js/components/FileManager.vue");
-/* harmony import */ var _components_FileField_vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/FileField.vue */ "./resources/js/components/FileField.vue");
-/* harmony import */ var _components_FilesField_vue__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/FilesField.vue */ "./resources/js/components/FilesField.vue");
+/* harmony import */ var _mixins_Permissions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./mixins/Permissions */ "./resources/js/mixins/Permissions.js");
+/* harmony import */ var _filters_Date_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./filters/Date.js */ "./resources/js/filters/Date.js");
+/* harmony import */ var _filters_Datetime_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./filters/Datetime.js */ "./resources/js/filters/Datetime.js");
+/* harmony import */ var _components_ItemListColumnHeader_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/ItemListColumnHeader.vue */ "./resources/js/components/ItemListColumnHeader.vue");
+/* harmony import */ var _components_ItemList_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/ItemList.vue */ "./resources/js/components/ItemList.vue");
+/* harmony import */ var _components_ItemListTree_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/ItemListTree.vue */ "./resources/js/components/ItemListTree.vue");
+/* harmony import */ var _components_ItemListStatusButton_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/ItemListStatusButton.vue */ "./resources/js/components/ItemListStatusButton.vue");
+/* harmony import */ var _components_ItemListCheckbox_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/ItemListCheckbox.vue */ "./resources/js/components/ItemListCheckbox.vue");
+/* harmony import */ var _components_ItemListPositionInput_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/ItemListPositionInput.vue */ "./resources/js/components/ItemListPositionInput.vue");
+/* harmony import */ var _components_History_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/History.vue */ "./resources/js/components/History.vue");
+/* harmony import */ var _components_FileManager_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/FileManager.vue */ "./resources/js/components/FileManager.vue");
+/* harmony import */ var _components_FileField_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/FileField.vue */ "./resources/js/components/FileField.vue");
+/* harmony import */ var _components_FilesField_vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/FilesField.vue */ "./resources/js/components/FilesField.vue");
 /**
  * jQuery and the Bootstrap jQuery plugin
  */
@@ -54433,17 +50499,23 @@ var i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_2__["default"]({
   messages: messages
 });
 /**
+ * Permissions mixin
+ */
+
+
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.mixin(_mixins_Permissions__WEBPACK_IMPORTED_MODULE_6__["default"]);
+/**
  * Date Filter
  */
 
 
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.filter('date', _filters_Date_js__WEBPACK_IMPORTED_MODULE_6__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.filter('date', _filters_Date_js__WEBPACK_IMPORTED_MODULE_7__["default"]);
 /**
  * Datetime Filter
  */
 
 
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.filter('datetime', _filters_Datetime_js__WEBPACK_IMPORTED_MODULE_7__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.filter('datetime', _filters_Datetime_js__WEBPACK_IMPORTED_MODULE_8__["default"]);
 /**
  * Lists
  */
@@ -54463,10 +50535,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.filter('datetime', _filters_Datetime_
  * Files
  */
 
- // Deprecated, replaced by FileManager.
-
- // Deprecated, replaced by FilesField.
-
 
 
 
@@ -54474,18 +50542,16 @@ window.EventBus = new vue__WEBPACK_IMPORTED_MODULE_1___default.a({});
 new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
   i18n: i18n,
   components: {
-    ItemListColumnHeader: _components_ItemListColumnHeader_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
-    ItemList: _components_ItemList_vue__WEBPACK_IMPORTED_MODULE_9__["default"],
-    ItemListTree: _components_ItemListTree_vue__WEBPACK_IMPORTED_MODULE_10__["default"],
-    ItemListStatusButton: _components_ItemListStatusButton_vue__WEBPACK_IMPORTED_MODULE_11__["default"],
-    ItemListCheckbox: _components_ItemListCheckbox_vue__WEBPACK_IMPORTED_MODULE_12__["default"],
-    ItemListPositionInput: _components_ItemListPositionInput_vue__WEBPACK_IMPORTED_MODULE_13__["default"],
-    Filepicker: _components_Filepicker_vue__WEBPACK_IMPORTED_MODULE_15__["default"],
-    FileManager: _components_FileManager_vue__WEBPACK_IMPORTED_MODULE_17__["default"],
-    Files: _components_Files_vue__WEBPACK_IMPORTED_MODULE_16__["default"],
-    FilesField: _components_FilesField_vue__WEBPACK_IMPORTED_MODULE_19__["default"],
-    FileField: _components_FileField_vue__WEBPACK_IMPORTED_MODULE_18__["default"],
-    History: _components_History_vue__WEBPACK_IMPORTED_MODULE_14__["default"]
+    ItemListColumnHeader: _components_ItemListColumnHeader_vue__WEBPACK_IMPORTED_MODULE_9__["default"],
+    ItemList: _components_ItemList_vue__WEBPACK_IMPORTED_MODULE_10__["default"],
+    ItemListTree: _components_ItemListTree_vue__WEBPACK_IMPORTED_MODULE_11__["default"],
+    ItemListStatusButton: _components_ItemListStatusButton_vue__WEBPACK_IMPORTED_MODULE_12__["default"],
+    ItemListCheckbox: _components_ItemListCheckbox_vue__WEBPACK_IMPORTED_MODULE_13__["default"],
+    ItemListPositionInput: _components_ItemListPositionInput_vue__WEBPACK_IMPORTED_MODULE_14__["default"],
+    FileManager: _components_FileManager_vue__WEBPACK_IMPORTED_MODULE_16__["default"],
+    FilesField: _components_FilesField_vue__WEBPACK_IMPORTED_MODULE_18__["default"],
+    FileField: _components_FileField_vue__WEBPACK_IMPORTED_MODULE_17__["default"],
+    History: _components_History_vue__WEBPACK_IMPORTED_MODULE_15__["default"]
   }
 }).$mount('#app');
 /**
@@ -54644,13 +50710,9 @@ $(function () {
 /***/ (function(module, exports) {
 
 $(function () {
-  $('select#category_id').selectize();
-  $('select#page_id').selectize();
-  $('select#target').selectize();
   /**
    * Selectize for tags
    */
-
   if ($('#tags').length) {
     axios.get('/api/tags-list').then(function (response) {
       var tags = response.data.map(function (x) {
@@ -55222,14 +51284,14 @@ $(function () {
   }
 
   $('#filepicker').on('dragenter', '.wrapper', function (event) {
-    if ($('.filepicker-modal-open').length > 0) {
+    if ($('.filemanager-modal-open').length > 0) {
       if (containsFiles(event.originalEvent)) {
         $('#dropzone').addClass('fullscreen');
       }
     }
   });
   $('body').on('dragenter', function (event) {
-    if ($('.filepicker-modal-open').length == 0) {
+    if ($('.filemanager-modal-open').length == 0) {
       if (containsFiles(event.originalEvent)) {
         $('#dropzone').addClass('fullscreen');
       }
@@ -55271,9 +51333,7 @@ $(function () {
     id: 'close-preview',
     "class": 'typicms-modal-btn-close'
   }).appendTo('#preview-window');
-  $('<span>', {
-    "class": 'fa fa-close'
-  }).appendTo('#close-preview');
+  $('<svg width="20" height="20" viewBox="0 0 1792 1792" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"/></svg>').appendTo('#close-preview');
   /**
    * Open preview window
    */
@@ -55501,144 +51561,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FileManager_vue_vue_type_template_id_6a1d18f6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FileManager_vue_vue_type_template_id_6a1d18f6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/Filepicker.vue":
-/*!************************************************!*\
-  !*** ./resources/js/components/Filepicker.vue ***!
-  \************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Filepicker_vue_vue_type_template_id_063408b5___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Filepicker.vue?vue&type=template&id=063408b5& */ "./resources/js/components/Filepicker.vue?vue&type=template&id=063408b5&");
-/* harmony import */ var _Filepicker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Filepicker.vue?vue&type=script&lang=js& */ "./resources/js/components/Filepicker.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Filepicker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Filepicker_vue_vue_type_template_id_063408b5___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Filepicker_vue_vue_type_template_id_063408b5___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/Filepicker.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/Filepicker.vue?vue&type=script&lang=js&":
-/*!*************************************************************************!*\
-  !*** ./resources/js/components/Filepicker.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Filepicker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Filepicker.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Filepicker.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Filepicker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/Filepicker.vue?vue&type=template&id=063408b5&":
-/*!*******************************************************************************!*\
-  !*** ./resources/js/components/Filepicker.vue?vue&type=template&id=063408b5& ***!
-  \*******************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Filepicker_vue_vue_type_template_id_063408b5___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Filepicker.vue?vue&type=template&id=063408b5& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Filepicker.vue?vue&type=template&id=063408b5&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Filepicker_vue_vue_type_template_id_063408b5___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Filepicker_vue_vue_type_template_id_063408b5___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/Files.vue":
-/*!*******************************************!*\
-  !*** ./resources/js/components/Files.vue ***!
-  \*******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Files_vue_vue_type_template_id_f625c0c8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Files.vue?vue&type=template&id=f625c0c8& */ "./resources/js/components/Files.vue?vue&type=template&id=f625c0c8&");
-/* harmony import */ var _Files_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Files.vue?vue&type=script&lang=js& */ "./resources/js/components/Files.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Files_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Files_vue_vue_type_template_id_f625c0c8___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Files_vue_vue_type_template_id_f625c0c8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/Files.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/Files.vue?vue&type=script&lang=js&":
-/*!********************************************************************!*\
-  !*** ./resources/js/components/Files.vue?vue&type=script&lang=js& ***!
-  \********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Files_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Files.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Files.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Files_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/Files.vue?vue&type=template&id=f625c0c8&":
-/*!**************************************************************************!*\
-  !*** ./resources/js/components/Files.vue?vue&type=template&id=f625c0c8& ***!
-  \**************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Files_vue_vue_type_template_id_f625c0c8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Files.vue?vue&type=template&id=f625c0c8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Files.vue?vue&type=template&id=f625c0c8&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Files_vue_vue_type_template_id_f625c0c8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Files_vue_vue_type_template_id_f625c0c8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -56265,75 +52187,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/ItemListSearchBar.vue":
-/*!*******************************************************!*\
-  !*** ./resources/js/components/ItemListSearchBar.vue ***!
-  \*******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ItemListSearchBar_vue_vue_type_template_id_716cea1f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ItemListSearchBar.vue?vue&type=template&id=716cea1f& */ "./resources/js/components/ItemListSearchBar.vue?vue&type=template&id=716cea1f&");
-/* harmony import */ var _ItemListSearchBar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ItemListSearchBar.vue?vue&type=script&lang=js& */ "./resources/js/components/ItemListSearchBar.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ItemListSearchBar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ItemListSearchBar_vue_vue_type_template_id_716cea1f___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ItemListSearchBar_vue_vue_type_template_id_716cea1f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/ItemListSearchBar.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/ItemListSearchBar.vue?vue&type=script&lang=js&":
-/*!********************************************************************************!*\
-  !*** ./resources/js/components/ItemListSearchBar.vue?vue&type=script&lang=js& ***!
-  \********************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ItemListSearchBar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ItemListSearchBar.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ItemListSearchBar.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ItemListSearchBar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/ItemListSearchBar.vue?vue&type=template&id=716cea1f&":
-/*!**************************************************************************************!*\
-  !*** ./resources/js/components/ItemListSearchBar.vue?vue&type=template&id=716cea1f& ***!
-  \**************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ItemListSearchBar_vue_vue_type_template_id_716cea1f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ItemListSearchBar.vue?vue&type=template&id=716cea1f& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ItemListSearchBar.vue?vue&type=template&id=716cea1f&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ItemListSearchBar_vue_vue_type_template_id_716cea1f___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ItemListSearchBar_vue_vue_type_template_id_716cea1f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
 /***/ "./resources/js/components/ItemListSelector.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/ItemListSelector.vue ***!
@@ -56550,13 +52403,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (function (sqlDate) {
-  if (!sqlDate) {
-    return '';
-  }
-
-  var datetime = sqlDate.split(' ');
-  return datetime[0].split('-').reverse().join('.');
+/* harmony default export */ __webpack_exports__["default"] = (function (date) {
+  return new Date(date).toLocaleDateString(window.TypiCMS.locale);
 });
 
 /***/ }),
@@ -56570,22 +52418,31 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (function (sqlDatetime) {
-  var withSeconds = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+/* harmony default export */ __webpack_exports__["default"] = (function (datetime) {
+  return new Date(datetime).toLocaleString(window.TypiCMS.locale);
+});
 
-  if (!sqlDatetime) {
-    return '';
+/***/ }),
+
+/***/ "./resources/js/mixins/Permissions.js":
+/*!********************************************!*\
+  !*** ./resources/js/mixins/Permissions.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    $can: function $can(permissionName) {
+      if (TypiCMS.permissions.indexOf('all') !== -1) {
+        return true;
+      }
+
+      return TypiCMS.permissions.indexOf(permissionName) !== -1;
+    }
   }
-
-  var datetime = sqlDatetime.split(' ');
-  var date = datetime[0].split('-').reverse().join('.');
-  var time = datetime[1].split(':');
-
-  if (!withSeconds) {
-    time.pop();
-  }
-
-  return date + ' ' + time.join(':');
 });
 
 /***/ }),
@@ -56594,10 +52451,10 @@ __webpack_require__.r(__webpack_exports__);
 /*!********************************!*\
   !*** ./resources/lang/en.json ***!
   \********************************/
-/*! exports provided: # blocks, # categories, # contacts, # events, # files could not be moved., # files moved., # items deleted, # items published, # items selected, # items unpublished, # menus, # news, # pages, # partners, # places, # projects, # roles, # sections, # slides, # tags, # translations, # users, Are you sure you want to delete # items?, Are you sure you want to delete “{title}”?, Are you sure you want to publish # items?, Are you sure you want to unpublish # items?, default */
+/*! exports provided: # blocks, # categories, # contacts, # discussions, # events, # files could not be moved., # files moved., # items deleted, # items published, # items selected, # items unpublished, # menus, # news, # pages, # partners, # places, # projects, # roles, # sections, # slides, # tags, # translations, # users, / 1 month, / 1 year, 1 minute| :count minutes, All discussions, Are you sure you want to delete # items?, Are you sure you want to delete this <strong>discussion</strong>?, Are you sure you want to delete this response?, Are you sure you want to delete “{title}”?, Are you sure you want to publish # items?, Are you sure you want to unpublish # items?, Cancel, categories, contacts, Could not delete the response., Could not update your response., Create discussion, Delete, discussions, Don’t like these emails?, Edit, events, Have a great day!, Heads Up!, Hi there,, If you no longer wish to be notified when someone responds to this form post be sure to uncheck the notification setting at the bottom of the discussion page., In order to prevent spam, please allow at least :minutes in between submitting content., Just wanted to let you know that someone has responded to a forum post at, Just wanted to let you know that someone has responded to a forum post., New discussion, news, No thanks, Notify me when someone replies., Oh Snap!, pages, partners, places, Please choose a category., Please fix the following errors:, Please write a title., Please write some content., Posted by, Posted in category, projects, Response successfully submitted to discussion., roles, sections, Select a Category, Select a color for this discussion (optional), slides, Sorry, there seems to have been a problem submitting your response., Submit response, Successfully created a new discussion., Successfully deleted the response and discussion., Successfully deleted the response from the discussion., Successfully updated the discussion., tags, The content has to have at least :min characters., The title has to have at least :min characters., The title has to have no more than :max characters., There are currently no discussions in this category., Title of discussion, Type your discussion here…, Type your response here…, Unsubscribe to this discussion., Update response, View the discussion., Well done!, Whoops! There seems to be a problem creating your discussion., Wuh Oh!, Yes delete it, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"# blocks\":\"no blocks | 1 block | {count} blocks\",\"# categories\":\"No categories | 1 category | {count} categories\",\"# contacts\":\"no contacts | 1 contact | {count} contacts\",\"# events\":\"no events | 1 event | {count} events\",\"# files could not be moved.\":\"No files could be moved. | 1 file could not be moved. | {count} files could not be moved.\",\"# files moved.\":\"No files moved. | 1 file moved. | {count} files moved.\",\"# items deleted\":\"1 item deleted | {count} items deleted\",\"# items published\":\"1 item published | {count} items published\",\"# items selected\":\"no items selected | 1 item selected | {count} items selected\",\"# items unpublished\":\"1 item unpublished | {count} items unpublished\",\"# menus\":\"no menus | 1 menu | {count} menus\",\"# news\":\"No news | 1 news | {count} news\",\"# pages\":\"No pages | 1 page | {count} pages\",\"# partners\":\"no partners | 1 partner | {count} partners\",\"# places\":\"No addresses | 1 address | {count} addresses\",\"# projects\":\"no projects | 1 project | {count} projects\",\"# roles\":\"no roles | 1 role | {count} roles\",\"# sections\":\"No sections | 1 section | {count} sections\",\"# slides\":\"no slides | 1 slide | {count} slides\",\"# tags\":\"no tags | 1 tag | {count} tags\",\"# translations\":\"No translations | 1 translation | {count} translations\",\"# users\":\"no users | 1 user | {count} users\",\"Are you sure you want to delete # items?\":\"Are you sure you want to delete {count} item? | Are you sure you want to delete {count} items?\",\"Are you sure you want to delete “{title}”?\":\"Are you sure you want to delete “{title}”?\",\"Are you sure you want to publish # items?\":\"Are you sure you want to publish 1 item? | Are you sure you want to publish {count} items?\",\"Are you sure you want to unpublish # items?\":\"Are you sure you want to unpublish 1 item? | Are you sure you want to unpublish {count} items?\"}");
+module.exports = JSON.parse("{\"# blocks\":\"no blocks|1 block|{count} blocks\",\"# categories\":\"No categories|1 category|{count} categories\",\"# contacts\":\"no contacts|1 contact|{count} contacts\",\"# discussions\":\"No discussion|1 discussion|{count} discussions\",\"# events\":\"no events|1 event|{count} events\",\"# files could not be moved.\":\"No files could be moved.|1 file could not be moved.|{count} files could not be moved.\",\"# files moved.\":\"No files moved.|1 file moved.|{count} files moved.\",\"# items deleted\":\"1 item deleted|{count} items deleted\",\"# items published\":\"1 item published|{count} items published\",\"# items selected\":\"no items selected|1 item selected|{count} items selected\",\"# items unpublished\":\"1 item unpublished|{count} items unpublished\",\"# menus\":\"no menus|1 menu|{count} menus\",\"# news\":\"No news|1 news|{count} news\",\"# pages\":\"No pages|1 page|{count} pages\",\"# partners\":\"no partners|1 partner|{count} partners\",\"# places\":\"No addresses|1 address|{count} addresses\",\"# projects\":\"no projects|1 project|{count} projects\",\"# roles\":\"no roles|1 role|{count} roles\",\"# sections\":\"No sections|1 section|{count} sections\",\"# slides\":\"no slides|1 slide|{count} slides\",\"# tags\":\"no tags|1 tag|{count} tags\",\"# translations\":\"No translations|1 translation|{count} translations\",\"# users\":\"no users|1 user|{count} users\",\"/ 1 month\":\"/ month\",\"/ 1 year\":\"/ year\",\"1 minute| :count minutes\":\"1 minute| :count minutes\",\"All discussions\":\"All discussions\",\"Are you sure you want to delete # items?\":\"Are you sure you want to delete {count} item? | Are you sure you want to delete {count} items?\",\"Are you sure you want to delete this <strong>discussion</strong>?\":\"Are you sure you want to delete this <strong>discussion</strong>?\",\"Are you sure you want to delete this response?\":\"Are you sure you want to delete this response?\",\"Are you sure you want to delete “{title}”?\":\"Are you sure you want to delete “{title}”?\",\"Are you sure you want to publish # items?\":\"Are you sure you want to publish 1 item? | Are you sure you want to publish {count} items?\",\"Are you sure you want to unpublish # items?\":\"Are you sure you want to unpublish 1 item? | Are you sure you want to unpublish {count} items?\",\"Cancel\":\"Cancel\",\"categories\":\"category|categories\",\"contacts\":\"contact|contacts\",\"Could not delete the response.\":\"Could not delete the response.\",\"Could not update your response.\":\"Could not update your response.\",\"Create discussion\":\"Create discussion\",\"Delete\":\"Delete\",\"discussions\":\"discussion|discussions\",\"Don’t like these emails?\":\"Don’t like these emails?\",\"Edit\":\"Edit\",\"events\":\"event|events\",\"Have a great day!\":\"Have a great day!\",\"Heads Up!\":\"Heads Up!\",\"Hi there,\":\"Hi there,\",\"If you no longer wish to be notified when someone responds to this form post be sure to uncheck the notification setting at the bottom of the discussion page.\":\"If you no longer wish to be notified when someone responds to this form post be sure to uncheck the notification setting at the bottom of the discussion page.\",\"In order to prevent spam, please allow at least :minutes in between submitting content.\":\"In order to prevent spam, please allow at least :minutes in between submitting content.\",\"Just wanted to let you know that someone has responded to a forum post at\":\"Just wanted to let you know that someone has responded to a forum post at\",\"Just wanted to let you know that someone has responded to a forum post.\":\"Just wanted to let you know that someone has responded to a forum post.\",\"New discussion\":\"New discussion\",\"news\":\"news|news\",\"No thanks\":\"No thanks\",\"Notify me when someone replies.\":\"Notify me when someone replies.\",\"Oh Snap!\":\"Oh Snap!\",\"pages\":\"page|pages\",\"partners\":\"partner|partners\",\"places\":\"address|addresses\",\"Please choose a category.\":\"Please choose a category.\",\"Please fix the following errors:\":\"Please fix the following errors:\",\"Please write a title.\":\"Please write a title.\",\"Please write some content.\":\"Please write some content.\",\"Posted by\":\"Posted by\",\"Posted in category\":\"Posted in category\",\"projects\":\"project|projects\",\"Response successfully submitted to discussion.\":\"Response successfully submitted to discussion.\",\"roles\":\"role|roles\",\"sections\":\"section|sections\",\"Select a Category\":\"Select a Category\",\"Select a color for this discussion (optional)\":\"Select a color for this discussion (optional)\",\"slides\":\"slide|slides\",\"Sorry, there seems to have been a problem submitting your response.\":\"Sorry, there seems to have been a problem submitting your response.\",\"Submit response\":\"Submit response\",\"Successfully created a new discussion.\":\"Successfully created a new discussion.\",\"Successfully deleted the response and discussion.\":\"Successfully deleted the response and discussion.\",\"Successfully deleted the response from the discussion.\":\"Successfully deleted the response from the discussion.\",\"Successfully updated the discussion.\":\"Successfully updated the discussion.\",\"tags\":\"tag|tags\",\"The content has to have at least :min characters.\":\"The content has to have at least :min characters.\",\"The title has to have at least :min characters.\":\"The title has to have at least :min characters.\",\"The title has to have no more than :max characters.\":\"The title has to have no more than :max characters.\",\"There are currently no discussions in this category.\":\"There are currently no discussions in this category.\",\"Title of discussion\":\"Title of discussion\",\"Type your discussion here…\":\"Type your discussion here…\",\"Type your response here…\":\"Type your response here…\",\"Unsubscribe to this discussion.\":\"Unsubscribe to this discussion.\",\"Update response\":\"Update response\",\"View the discussion.\":\"View the discussion.\",\"Well done!\":\"Well done!\",\"Whoops! There seems to be a problem creating your discussion.\":\"Whoops :( There seems to be a problem creating your discussion.\",\"Wuh Oh!\":\"Wuh Oh!\",\"Yes delete it\":\"Yes delete it\"}");
 
 /***/ }),
 
@@ -56605,11 +52462,11 @@ module.exports = JSON.parse("{\"# blocks\":\"no blocks | 1 block | {count} block
 /*!********************************!*\
   !*** ./resources/lang/es.json ***!
   \********************************/
-/*! exports provided: # blocks, # categories, # contacts, # events, # files could not be moved., # files moved., # items deleted, # items published, # items selected, # items unpublished, # menus, # news, # pages, # partners, # places, # projects, # roles, # sections, # slides, # tags, # translations, # users, A fresh verification link has been sent to your email address., A non-empty folder cannot be deleted., A page containing subpages cannot be linked to a module, Access dashboard, Action, Activate my account, Activated, Active locale, Active tab, Add files, Add selected file, Add selected files, Add to menu, Add, address, Address, Administration Language, Administration Welcome Message, Age, All languages, All rights reserved., All, Alt attribute, An error occurred with the data fetch., and get access to all the content of our website., Are you sure you want to delete # items?, Are you sure you want to delete “{title}”?, Are you sure you want to publish # items?, Are you sure you want to unpublish # items?, Authenticate to view website, Available, Back to the website, Back, Back-office, Become a member, Before proceeding, please check your email for a verification link., Blocks, Body, Cache cleared, Cache, Cancel, Categories, Category, Change Password, Change settings, City, Class, Clear cache, Clear, click here to request another, Comments enabled, Company, Confirm Password, Contact information, Contacts, Content blocks, Content, Copied to the clipboard, Copy, Country, Create, Created at, Css, Currency, Dashboard, Date, Day, DDMMYYYY HHMM, DDMMYYYY, Delete, Description, Deselect all, Destroy, Disabled, Do you want to clear history?, Document, Download count, Drop files to upload, Drop to upload., E-Mail Address, Edit block, Edit event, Edit file, Edit menu, Edit menulink, Edit news, Edit object, Edit page, Edit partner, Edit place, Edit project, Edit role, Edit slide, Edit tag, Edit translation, Edit, Email, Empty history, Enabled, End date, End time, Enter a name for the new folder., Environment, Error, Events, Excerpt, Exit, Extension, Fax, File information, File, Filename, Files, Filter, Find nearest, First name, Forbidden, Forgot Your Password?, from, Front office, Gender, Generate, Go Home, Google Analytics Tracking Id, Grid, Groups, Height, Hello!, HH:MM, hi, History is empty., Home, Homepage, Hour, Icon class, If you did not create an account, no further action is required., If you did not receive the email, If you did not request a password reset, no further action is required., If you’re having trouble clicking the ":actionText" button, copy and paste the URL below
-into your web browser: [:actionURL](:actionURL), Image, Images, Impossible to delete more than # items in one go., Index, Info, Insert, Is home, Item is published., Item is unpublished., Js, KB, Key, Keywords, Lang Chooser, Language, Last name, Latest changes, Latitude, Legend, List, Loading…, Locales, Location, Login, Logo, Logout, Longitude, Mandatory fields, Max :size MB, Max, MB, Media, Menu, Menulink, Menulinks, Menus, Message, Meta description, Meta keywords, Meta title, Meta, Mimetype, Minute, Mobile, Modify, Module name, Module, Month, Move to parent folder, Mr, Mrs, Name, New block, New contact request from, New contact request, New contact, New event, New file, New folder, New menu, New menulink, New news, New object, New page section, New page, New partner, New password, New place, New project category, New project, New role, New slide, New tab, New tag, New translation, New user, News feed, News, Next, No default page found, No file, No menu found with name “:name”, No, None, Not a member?, Not found, Nothing found., Objects, Offline, Oh no, on, Online, Options, Page Expired, Page Not Found, Page sections, Page, Pages, Partners, Password confirmation, Password, Past events, Path, per page, Permissions, Phone, Places, Please click the button below to verify your email address., Position, Postcode, Preview, Previous, Price, Private, Profile, Project categories, Projects, Publish website, Publish, Published items, Published on, Published, Read more, Redirect to first child, Regards, Register, Registration allowed, Remember Me, Replace file, Replace image, Replace, Reset Password Notification, Reset Password, Reset, Restricted to, Role permissions, Roles, Save and exit, Save this item first, then add files., Save this page first, then add sections., Save, Search, Second, Sections, See history, See navbar, See settings, Select all, Send password reset link, Send Password Reset Link, Send, Service Unavailable, Settings, Show categories, Show on map, Side, Size (px), Size, Slides, Slug, Sorry, an error occurred., Sorry, the page you are looking for could not be found., Sorry, we are doing some maintenance. Please check back soon., Sorry, you are forbidden from accessing this page., Sorry, you are making too many requests to our servers., Sorry, you are not authorized to access this page., Sorry, your session has expired. Please refresh and try again., Sort, Start date, Start time, Status, Store, Submit, Summary, Superuser, System info, System locales, Tag, Tags, Target, Template, Thank you for your contact request., The current logged in user cannot be deleted., The form contains errors:, The password is incorrect., The slug is required if published., The user :name can not be deleted because he has a running subscription., This action is unauthorized., This item cannot be deleted because it has children., This password reset link will expire in :count minutes., This user is not activated., This user was not found., Time, Title, to, Toggle navigation, Too Many Requests, Translation, Translations, Type, Unauthorized, Unpublish, Unpublished items, Unpublished, Upcoming events, Update, Upload files, Uri, Url, User permissions, User, Username, Users and roles, Users, Uses, Venue, Verify Email Address, Verify Your Email Address, View list, View online, View website, View, Webmaster Email, Website baseline, Website title, Website, Welcome, :name!, Whoops!, Whoops, something went wrong on our servers., Width, Year, Yes, You are receiving this email because we received a password reset request for your account., Your account has been activated, you can now log in, Your account has been created, check your email for the verification link., Your account has been created, now you need to verify it., Your email address has been verified., default */
+/*! exports provided: # blocks, # categories, # contacts, # discussions, # events, # files could not be moved., # files moved., # items deleted, # items published, # items selected, # items unpublished, # menus, # news, # pages, # partners, # places, # projects, # roles, # sections, # slides, # tags, # translations, # users, / 1 month, / 1 year, 1 minute| :count minutes, A fresh verification link has been sent to your email address., A non-empty folder cannot be deleted., A page containing subpages cannot be linked to a module, A subscription renewal has failed., A subscription was renewed automatically., Access dashboard, Action, Activate my account, Activated, Active locale, Active tab, Add, Add files, Add selected file, Add selected files, Add to menu, address, Address, Administration Language, Administration Welcome Message, Age, All, All discussions, All languages, All rights reserved., Alt attribute, Amount, An error occurred with the data fetch., and get access to all the content of our website., Are you sure you want to cancel your subscription to :name?, Are you sure you want to delete # items?, Are you sure you want to delete this <strong>discussion</strong>?, Are you sure you want to delete this response?, Are you sure you want to delete “{title}”?, Are you sure you want to publish # items?, Are you sure you want to unpublish # items?, Authenticate to view website, Available, Available plans, Back, Back to icons list, Back to the website, Back-office, Balance after, Balance applied, Balance before, Become a member, Before proceeding, please check your email for a verification link., Blocks, Body, Box, Cache, Cache cleared, Cancel, Cancel my subscription., Cancel the subscription, categories, Categories, Category, Change Password, Change settings, City, Class, Clear, Clear cache, click here to request another, Comments enabled, Company, Confirm Password, Contact information, contacts, Contacts, Content, Content blocks, Copied to the clipboard, Copy, Could not delete the response., Could not update your response., Country, Create, Create discussion, Created at, Css, Currency, Current subscription, Dashboard, Date, Day, DDMMYYYY, DDMMYYYY HHMM, Delete, Description, Deselect all, Destroy, Disabled, discussions, Do you want to clear history?, Document, Don’t like these emails?, Download count, Drop files to upload, Drop to upload., E-Mail Address, Edit, Edit block, Edit event, Edit file, Edit icon, Edit menu, Edit menulink, Edit news, Edit object, Edit page, Edit partner, Edit place, Edit project, Edit role, Edit slide, Edit tag, Edit translation, Edit your profile, Email, Empty history, Enabled, End date, End time, Enter a name for the new folder., Environment, Error, Events, events, Excerpt, Exit, Extension, Fax, File, File information, Filename, Files, Filter, Find nearest, First name, Forbidden, Forgot Your Password?, from, Front office, Gender, Generate, Go Home, Go to our homepage, Goodbye, Google Analytics Tracking Id, Grid, Groups, Have a great day!, Heads Up!, Height, Hello!, HH:MM, hi, Hi there,, History is empty., Home, Homepage, Hour, I subscribe, I will subscribe later, Icon class, Icons, If you did not create an account, no further action is required., If you did not receive the email, If you did not request a password reset, no further action is required., If you no longer wish to be notified when someone responds to this form post be sure to uncheck the notification setting at the bottom of the discussion page., If you’re having trouble clicking the ":actionText" button, copy and paste the URL below
+into your web browser: [:actionURL](:actionURL), Image, Images, Impossible to delete more than # items in one go., In order to prevent spam, please allow at least :minutes in between submitting content., Index, Info, Insert, Is home, Item is published., Item is unpublished., Js, Just wanted to let you know that someone has responded to a forum post at, Just wanted to let you know that someone has responded to a forum post., KB, Key, Keywords, Lang Chooser, Language, Last name, Latest changes, Latitude, Legend, List, Loading…, Locales, Location, Login, Logo, Logout, Longitude, Mandatory fields, Max, Max :size MB, MB, Media, Menu, Menulink, Menulinks, Menus, Message, Meta, Meta description, Meta keywords, Meta title, Mimetype, Minute, Mobile, Modify, Module, Module name, Month, Move to parent folder, Mr, Mrs, Name, New block, New contact, New contact request, New contact request from, New discussion, New event, New file, New folder, New icon, New menu, New menulink, New news, New object, New page, New page section, New partner, New password, New place, New project, New project category, New role, New slide, New tab, New tag, New translation, New user, news, News, News feed, Next, No, No default page found, No file, No menu found with name “:name”, No thanks, None, Not a member?, Not found, Nothing found., Notify me when someone replies., Number, Objects, Offline, Oh no, Oh Snap!, on, Online, Options, Page, Page Expired, Page Not Found, Page sections, pages, Pages, partners, Partners, Password, Password confirmation, Past events, Path, per page, Permissions, Phone, Places, places, Plans, Please choose a category., Please choose the affiliation that best suits you., Please choose the plan you want to switch to., Please click the button below to verify your email address., Please fix the following errors:, Please write a title., Please write some content., Position, Postal code, Postcode, Posted by, Posted in category, Preview, Previous, Price, Private, Profile, Project categories, Projects, projects, Publish, Publish website, Published, Published items, Published on, Read, Read more, Redirect to first child, Regards, Register, Registration allowed, Remember Me, Remove, Renewal date, Replace, Replace file, Replace image, Reset, Reset Password, Reset Password Notification, Response successfully submitted to discussion., Restricted to, Resume the subscription, Resume your subscription to the :name plan., Role permissions, roles, Roles, Save, Save and exit, Save this item first, then add files., Save this page first, then add sections., Search, Search results for “:search”, Second, sections, Sections, See history, See navbar, See settings, Select a Category, Select a color for this discussion (optional), Select all, Send, Send password reset link, Send Password Reset Link, Service Unavailable, Settings, Show on map, Side, Size, Size (px), slides, Slides, Slug, Sorry, an error occurred., Sorry, the page you are looking for could not be found., Sorry, there seems to have been a problem submitting your response., Sorry, we are doing some maintenance. Please check back soon., Sorry, you are forbidden from accessing this page., Sorry, you are making too many requests to our servers., Sorry, you are not authorized to access this page., Sorry, your session has expired. Please refresh and try again., Sort, Start date, Start time, Status, Store, Street, Submit, Submit response, Subscribe, Subscriptions, Subtotal, Successfully created a new discussion., Successfully deleted the response and discussion., Successfully deleted the response from the discussion., Successfully updated the discussion., Summary, Superuser, Switch to this plan, Switch your subscription to another plan., System info, System locales, Tag, Tags, tags, Target, Template, Thank you, Thank you for supporting us, you now have access to all our resources., Thank you for supporting us, your subscription has been successfully renewed., Thank you for your contact request., The content has to have at least :min characters., The current logged in user cannot be deleted., The form contains errors:, The home page cannot be deleted., The password is incorrect., The slug is required if published., The subscription of :name was renewed automatically., The subscription renewal of :name has failed., The subscription was sucessfully cancelled., The subscription was sucessfully resumed., The title has to have at least :min characters., The title has to have no more than :max characters., The user :name can not be deleted because he has a running subscription., There are currently no discussions in this category., There are no results that match your query., There is no payment method available., There was an error with your payment., This action is unauthorized., This category cannot be deleted as it contains projects., This item cannot be deleted because it has children., This password reset link will expire in :count minutes., This user is not activated., This user was not found., Time, Title, Title of discussion, to, Toggle navigation, Too Many Requests, Total due, Translation, Translations, Type, Type your discussion here…, Type your response here…, Unauthorized, Unpublish, Unpublished, Unpublished items, Unsubscribe to this discussion., Upcoming events, Update, Update response, Upload files, Uri, Url, User, User permissions, Username, Users, Users and roles, Uses, VAT, Venue, Verify Email Address, Verify Your Email Address, View, View list, View online, View the discussion., View website, Visit our website, We inform you that your membership as a :plan will be renewed automatically as of :date., Webmaster Email, Website, Website baseline, Website title, Welcome, Welcome, :name!, Well done!, We’re sorry to see you go., Whoops!, Whoops! There seems to be a problem creating your discussion., Whoops, something went wrong on our servers., Width, Wuh Oh!, Year, Yes, Yes delete it, You are already on the :plan plan, You are not currently subscribed to any plan., You are now successfully subscribed., You are receiving this email because we received a password reset request for your account., You are subscribed to the :name plan., You don’t have any invoices., You have a new paid member (:name)., You have a new paid member., Your account, Your account has been activated, you can now log in, Your account has been created, check your email for the verification link., Your account has been created, now you need to verify it., Your contact details, Your details, Your email address has been verified., Your invoices, Your payment method, Your payment method could not be revoked., Your payment method was sucesfully revoked., Your profile, Your profile has been successfully updated., Your receipt, Your subscription, Your subscription could not be cancelled., Your subscription could not be perfomed. Please retry., Your subscription could not be resumed., Your subscription could not be upgraded., Your subscription to the :name plan was cancelled., Your subscription to the :name plan was cancelled. You still have access to it until :ends_at., Your subscription was sucessfully cancelled., Your subscription was sucessfully resumed., Your subscription was sucessfully upgraded., Zip, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"# blocks\":\"Ningún bloque | 1 bloque | {count} bloques\",\"# categories\":\"Ningún categoría | 1 categoría | {count} categorías\",\"# contacts\":\"Ningún contacto | 1 contacto | {count} contactos\",\"# events\":\"Ningún evento | 1 evento | {count} eventos\",\"# files could not be moved.\":\"No se han podido mover archivos. | 1 archivo no se ha podido mover. | {count} archivos no se han podido mover.\",\"# files moved.\":\"No se han movido archivos. | 1 archivo movido. | {count} archivos movidos.\",\"# items deleted\":\"1 elemento eliminado | {count} elementos eliminados\",\"# items published\":\"1 elemento publicado | {count} elementos publicados\",\"# items selected\":\"Ningún elemento seleccionado | 1 elemento seleccionado | {count} elementos seleccionados\",\"# items unpublished\":\"1 elemento no publicado | {count} elementos no publicados\",\"# menus\":\"Ningún menú | 1 menú | {count} menús\",\"# news\":\"Ningún noticia | 1 noticia | {count} noticias\",\"# pages\":\"Ningún página | 1 página | {count} páginas\",\"# partners\":\"Ningún socio | 1 socio | {count} socios\",\"# places\":\"Ningún lugar | 1 lugar | {count} lugares\",\"# projects\":\"Ningún proyecto | 1 proyecto | {count} proyectos\",\"# roles\":\"Ningún rol | 1 rol | {count} roles\",\"# sections\":\"Ningún sección | 1 sección | {count} secciónes\",\"# slides\":\"Ningún slide | 1 slide | {count} slides\",\"# tags\":\"Ningún tag | 1 tag | {count} tags\",\"# translations\":\"Ningún traducción | 1 traducción | {count} traducciónes\",\"# users\":\"Ningún usuario | 1 usuario | {count} usuarios\",\"A fresh verification link has been sent to your email address.\":\"Se ha enviado un nuevo enlace de verificación a su correo electrónico.\",\"A non-empty folder cannot be deleted.\":\"Una carpeta no vacía no puede ser eliminada.\",\"A page containing subpages cannot be linked to a module\":\"Una página con subpáginas no puede estar relacionada con un módulo.\",\"Access dashboard\":\"Tablero de control\",\"Action\":\"Acción\",\"Activate my account\":\"Activar mi cuenta\",\"Activated\":\"Activado\",\"Active locale\":\"Idioma activo\",\"Active tab\":\"Pestaña activa\",\"Add files\":\"Añadir archivos\",\"Add selected file\":\"Añadir el archivo seleccionado\",\"Add selected files\":\"Añadir archivos seleccionados\",\"Add to menu\":\"Añadir al menú\",\"Add\":\"Añadir\",\"address\":\"direccion\",\"Address\":\"Dirección\",\"Administration Language\":\"Idioma de la administración\",\"Administration Welcome Message\":\"Administration welcome message\",\"Age\":\"Edad\",\"All languages\":\"Todos los idiomas\",\"All rights reserved.\":\"Todos los derechos reservados.\",\"All\":\"Todos\",\"Alt attribute\":\"Alt attribute\",\"An error occurred with the data fetch.\":\"Se produjo un error durante la carga de datos.\",\"and get access to all the content of our website.\":\"y acceder a todo el contenido de nuestro sitio web.\",\"Are you sure you want to delete # items?\":\"¿Seguro que quieres eliminar {count} elemento? | ¿Seguro que quieres eliminar {count} elementos?\",\"Are you sure you want to delete “{title}”?\":\"¿Estás seguro de que quieres eliminar «{title}»?\",\"Are you sure you want to publish # items?\":\"¿Seguro que quieres publicar 1 elemento? | ¿Seguro que quieres publicar {count} elementos?\",\"Are you sure you want to unpublish # items?\":\"¿Seguro que quieres anular la publicación de 1 elemento? | ¿Seguro que quieres anular la publicación de {count} elementos?\",\"Authenticate to view website\":\"Autenticarse para ver la web\",\"Available\":\"Disponible\",\"Back to the website\":\"Volver a la página web\",\"Back\":\"Volver\",\"Back-office\":\"Administración\",\"Become a member\":\"Hágase miembro\",\"Before proceeding, please check your email for a verification link.\":\"Antes de continuar, por favor, confirme su correo electrónico con el enlace de verificación que le fue enviado.\",\"Blocks\":\"Bloques\",\"Body\":\"Contenido principal\",\"Cache cleared\":\"Cache vaciada\",\"Cache\":\"Cache\",\"Cancel\":\"Cancelar\",\"Categories\":\"Categorías\",\"Category\":\"Categoría\",\"Change Password\":\"Cambiar contraseña\",\"Change settings\":\"Configuración\",\"City\":\"Ciudad\",\"Class\":\"Clase\",\"Clear cache\":\"Vaciar cache\",\"Clear\":\"Limpiar historial\",\"click here to request another\":\"haga clic aquí para solicitar otro\",\"Comments enabled\":\"Comentarios habilitados\",\"Company\":\"Empresa\",\"Confirm Password\":\"Confirmar contraseña\",\"Contact information\":\"Contacto\",\"Contacts\":\"Contactos\",\"Content blocks\":\"Bloques\",\"Content\":\"Contenido\",\"Copied to the clipboard\":\"Copiado al portapapeles\",\"Copy\":\"Copiar\",\"Country\":\"País\",\"Create\":\"Crear\",\"Created at\":\"Creado el\",\"Css\":\"CSS\",\"Currency\":\"Moneda\",\"Dashboard\":\"Tablero de control\",\"Date\":\"Fecha\",\"Day\":\"Día\",\"DDMMYYYY HHMM\":\"DD.MM.YYYY HH:MM\",\"DDMMYYYY\":\"DD.MM.YYYY\",\"Delete\":\"Borrar\",\"Description\":\"Descripción\",\"Deselect all\":\"Deseleccionar todo\",\"Destroy\":\"Borrar\",\"Disabled\":\"Discapacitado\",\"Do you want to clear history?\":\"¿Quieres borrar la historia?\",\"Document\":\"Documento\",\"Download count\":\"Número de descargas\",\"Drop files to upload\":\"Soltar archivos para subir\",\"Drop to upload.\":\"Soltar para subir.\",\"E-Mail Address\":\"Correo electrónico\",\"Edit block\":\"Editar el bloque\",\"Edit event\":\"Editar evento\",\"Edit file\":\"Editar archivo\",\"Edit menu\":\"Editar menú\",\"Edit menulink\":\"Editar enlace del menú\",\"Edit news\":\"Editar noticia\",\"Edit object\":\"Editar objeto\",\"Edit page\":\"Editar página\",\"Edit partner\":\"Editar socio\",\"Edit place\":\"Editar lugar\",\"Edit project\":\"Editar proyecto\",\"Edit role\":\"Editar rol\",\"Edit slide\":\"Editar slide\",\"Edit tag\":\"Editar tag\",\"Edit translation\":\"Editar traducción\",\"Edit\":\"Editar\",\"Email\":\"Email\",\"Empty history\":\"Limpiar historial\",\"Enabled\":\"Activado\",\"End date\":\"Fecha de finalización\",\"End time\":\"Hora de finalización\",\"Enter a name for the new folder.\":\"Ingrese un nombre para la nueva carpeta.\",\"Environment\":\"Entorno\",\"Error\":\"Error \",\"Events\":\"Eventos\",\"Excerpt\":\"Extracto\",\"Exit\":\"Salir\",\"Extension\":\"Extensión\",\"Fax\":\"Fax\",\"File information\":\"Información del archivo\",\"File\":\"Archivo\",\"Filename\":\"Nombre de archivo\",\"Files\":\"Archivos\",\"Filter\":\"Filtrar\",\"Find nearest\":\"Encontrar dirección más cercana\",\"First name\":\"Nombre\",\"Forbidden\":\"Prohibido\",\"Forgot Your Password?\":\"¿Olvidó su contraseña?\",\"from\":\"desde\",\"Front office\":\"Front office\",\"Gender\":\"Género\",\"Generate\":\"Generar\",\"Go Home\":\"Ir a inicio\",\"Google Analytics Tracking Id\":\"Google Analytics Tracking Id\",\"Grid\":\"Grillo\",\"Groups\":\"Grupos\",\"Height\":\"Altura\",\"Hello!\":\"¡Hola!\",\"HH:MM\":\"HH:MM\",\"hi\":\"hola\",\"History is empty.\":\"La historia está vacía.\",\"Home\":\"Inicio\",\"Homepage\":\"En página de inicio\",\"Hour\":\"Hora\",\"Icon class\":\"Clase de icono\",\"If you did not create an account, no further action is required.\":\"Si no ha creado una cuenta, no se requiere ninguna acción adicional.\",\"If you did not receive the email\":\"Si no ha recibido el correo electrónico\",\"If you did not request a password reset, no further action is required.\":\"Si no solicitó un restablecimiento de contraseña, no se requieren más acciones.\",\"If you’re having trouble clicking the \\\":actionText\\\" button, copy and paste the URL below\\ninto your web browser: [:actionURL](:actionURL)\":\"Si tiene problemas para hacer clic en el botón \\\":actionText\\\", copie y pegue la siguiente URL \\nen su navegador web: [:actionURL](:actionURL)\",\"Image\":\"Imagen\",\"Images\":\"Imágenes\",\"Impossible to delete more than # items in one go.\":\"No se pueden eliminar más de {deleteLimit} elementos de una vez.\",\"Index\":\"Listar\",\"Info\":\"Información\",\"Insert\":\"Insertar\",\"Is home\":\"Es inicio\",\"Item is published.\":\"El elemento está publicado.\",\"Item is unpublished.\":\"El elemento no está publicado.\",\"Js\":\"JavaScript\",\"KB\":\"KB\",\"Key\":\"Clave\",\"Keywords\":\"Palabras clave\",\"Lang Chooser\":\"Selector de idioma\",\"Language\":\"Idioma\",\"Last name\":\"Apellidos\",\"Latest changes\":\"Últimos cambios\",\"Latitude\":\"Latitud\",\"Legend\":\"Leyenda\",\"List\":\"Listado\",\"Loading…\":\"Cargando…\",\"Locales\":\"Idiomas\",\"Location\":\"Ubicación\",\"Login\":\"Entrar\",\"Logo\":\"Logo\",\"Logout\":\"Salir\",\"Longitude\":\"Longitud\",\"Mandatory fields\":\"Campos obligatorios\",\"Max :size MB\":\"Máximo :size MB\",\"Max\":\"Máximo\",\"MB\":\"MB\",\"Media\":\"Media\",\"Menu\":\"Menú\",\"Menulink\":\"Enlace de menú\",\"Menulinks\":\"Enlaces de menú\",\"Menus\":\"Menús\",\"Message\":\"Mensaje\",\"Meta description\":\"Meta description\",\"Meta keywords\":\"Meta keywords\",\"Meta title\":\"Meta title\",\"Meta\":\"Meta\",\"Mimetype\":\"Tipo Mime\",\"Minute\":\"Minuto\",\"Mobile\":\"Móvil\",\"Modify\":\"Modicar\",\"Module name\":\"Nombre del módulo\",\"Module\":\"Módulo\",\"Month\":\"Mes\",\"Move to parent folder\":\"Mover a la carpeta principal\",\"Mr\":\"Sr\",\"Mrs\":\"Sra\",\"Name\":\"Nombre\",\"New block\":\"Nuevo bloque\",\"New contact request from\":\"Nueva petición de contacto de\",\"New contact request\":\"Nueva petición de contacto\",\"New contact\":\"Nuevo contacto\",\"New event\":\"Nuevo evento\",\"New file\":\"Nuevo archivo\",\"New folder\":\"Nouveau dossier\",\"New menu\":\"Nuevo menú\",\"New menulink\":\"Nuevo enlace de menú\",\"New news\":\"Nueva noticia\",\"New object\":\"Nuevo objeto\",\"New page section\":\"Nueva sección de página\",\"New page\":\"Nueva página\",\"New partner\":\"Nuevo socio\",\"New password\":\"Nueva contraseña\",\"New place\":\"Nuevo lugar\",\"New project category\":\"Nuevo categoría de proyectos\",\"New project\":\"Nuevo proyecto\",\"New role\":\"Nuevo rol\",\"New slide\":\"Nuevo slide\",\"New tab\":\"Nueva pestaña\",\"New tag\":\"Nueva tag\",\"New translation\":\"Nueva traducción\",\"New user\":\"Nuevo usuario\",\"News feed\":\"Feed de noticias\",\"News\":\"Noticias\",\"Next\":\"Suivant\",\"No default page found\":\"No se ha encontrado página por defecto\",\"No file\":\"Sin archivo\",\"No menu found with name “:name”\":\"No se ha encontrado un menú con el nombre “:name”.\",\"No\":\"No\",\"None\":\"No\",\"Not a member?\":\"¿No es miembro?\",\"Not found\":\"No encontrado\",\"Nothing found.\":\"No se encontró nada.\",\"Objects\":\"Objetos\",\"Offline\":\"Fuera de línea\",\"Oh no\":\"Oh no \",\"on\":\"la\",\"Online\":\"En línea\",\"Options\":\"Opciones\",\"Page Expired\":\"Página Expirada\",\"Page Not Found\":\"Página no encontrada\",\"Page sections\":\"Secciones de página\",\"Page\":\"Página\",\"Pages\":\"Páginas\",\"Partners\":\"Socios\",\"Password confirmation\":\"Confirmación de contraseña\",\"Password\":\"Contraseña\",\"Past events\":\"Eventos pasados\",\"Path\":\"Ruta\",\"per page\":\"por página\",\"Permissions\":\"Permisos\",\"Phone\":\"Teléfono\",\"Places\":\"Lugares\",\"Please click the button below to verify your email address.\":\"Por favor, haga clic en el botón de abajo para verificar su dirección de correo electrónico.\",\"Position\":\"Posición\",\"Postcode\":\"Código Postal\",\"Preview\":\"Previsualizar\",\"Previous\":\"Précédent\",\"Price\":\"Precio\",\"Private\":\"Privado\",\"Profile\":\"Perfil\",\"Project categories\":\"Categorías de proyectos\",\"Projects\":\"Proyectos\",\"Publish website\":\"Publicar sitio web\",\"Publish\":\"Publicar\",\"Published items\":\"Publicados\",\"Published on\":\"Publicada en\",\"Published\":\"Publicado\",\"Read more\":\"Leer más\",\"Redirect to first child\":\"Redireccionar al primer hijo\",\"Regards\":\"Saludos\",\"Register\":\"Registrar\",\"Registration allowed\":\"Registro permitido\",\"Remember Me\":\"Recuérdame\",\"Replace file\":\"Reemplazar archivo\",\"Replace image\":\"Reemplazar imagen\",\"Replace\":\"Reemplazar\",\"Reset Password Notification\":\"Notificación de restablecimiento de contraseña\",\"Reset Password\":\"Restablecer contraseña\",\"Reset\":\"Resetear\",\"Restricted to\":\"Restringido a\",\"Role permissions\":\"Permisos de rol\",\"Roles\":\"Roles\",\"Save and exit\":\"Guardar y salir\",\"Save this item first, then add files.\":\"Guarda este artículo primero, luego agrega archivos.\",\"Save this page first, then add sections.\":\"Guarda esta página primero, luego agrega secciones.\",\"Save\":\"Guardar\",\"Search\":\"Buscar\",\"Second\":\"Segundo\",\"Sections\":\"Secciones\",\"See history\":\"Historial\",\"See navbar\":\"Mostrar la barra de navegación\",\"See settings\":\"Mostrar la configuración\",\"Select all\":\"Seleccionar todo\",\"Send password reset link\":\"Enviar enlace de restablecimiento de contraseña\",\"Send Password Reset Link\":\"Enviar enlace para restablecer la contraseña\",\"Send\":\"Enviar\",\"Service Unavailable\":\"Servicio no disponible\",\"Settings\":\"Configuración\",\"Show categories\":\"Mostrar categorías\",\"Show on map\":\"Mostrar en el mapa\",\"Side\":\"Lado\",\"Size (px)\":\"Tamaño (px)\",\"Size\":\"Tamañao\",\"Slides\":\"Slides\",\"Slug\":\"Slug\",\"Sorry, an error occurred.\":\"Disculpe, ocurrió un error.\",\"Sorry, the page you are looking for could not be found.\":\"Lo sentimos, la página que está buscando no se pudo encontrar.\",\"Sorry, we are doing some maintenance. Please check back soon.\":\"Lo sentimos, estamos haciendo un poco de mantenimiento. Por favor, vuelva pronto.\",\"Sorry, you are forbidden from accessing this page.\":\"Lo sentimos, se le prohíbe el acceso a esta página.\",\"Sorry, you are making too many requests to our servers.\":\"Lo sentimos, estás haciendo demasiadas peticiones a nuestros servidores.\",\"Sorry, you are not authorized to access this page.\":\"Lo sentimos, no estás autorizado para acceder a esta página.\",\"Sorry, your session has expired. Please refresh and try again.\":\"Lo sentimos, tu sesión ha expirado. Por favor, actualice y vuelva a intentarlo.\",\"Sort\":\"Ordenar\",\"Start date\":\"Fecha de inicio\",\"Start time\":\"Hora de inicio\",\"Status\":\"Estado\",\"Store\":\"Guardar\",\"Submit\":\"Enviar\",\"Summary\":\"Resumen\",\"Superuser\":\"Superusuario\",\"System info\":\"Información del sistema\",\"System locales\":\"Idiomas del sistema\",\"Tag\":\"Etiqueta\",\"Tags\":\"Etiquetas\",\"Target\":\"Objetivo\",\"Template\":\"Plantilla\",\"Thank you for your contact request.\":\"Gracias por la petición de contacto.\",\"The current logged in user cannot be deleted.\":\"El usuario actualmente conectado no puede ser eliminado.\",\"The form contains errors:\":\"El formulario contiene errores:\",\"The password is incorrect.\":\"El lema de paso es incorrecto.\",\"The slug is required if published.\":\"El slug es obligatorio si se publica.\",\"The user :name can not be deleted because he has a running subscription.\":\"El usuario :name no puede ser eliminado porque tiene una suscripción en curso.\",\"This action is unauthorized.\":\"Esta acción no está permitida.\",\"This item cannot be deleted because it has children.\":\"Este elemento no puede ser eliminado porque tiene hijos.\",\"This password reset link will expire in :count minutes.\":\"Este enlace de restablecimiento de contraseña caducará en :count minutos.\",\"This user is not activated.\":\"Este usuario no ha sido activado.\",\"This user was not found.\":\"Este usuario no ha sido encontrado.\",\"Time\":\"Hora\",\"Title\":\"Título\",\"to\":\"a\",\"Toggle navigation\":\"Conmutar navegación\",\"Too Many Requests\":\"Demasiadas peticiones\",\"Translation\":\"Traducción\",\"Translations\":\"Traducciones\",\"Type\":\"Tipo\",\"Unauthorized\":\"No autorizado\",\"Unpublish\":\"Despublicación\",\"Unpublished items\":\"No publicados\",\"Unpublished\":\"Inédito\",\"Upcoming events\":\"Próximos eventos\",\"Update\":\"Actualizar\",\"Upload files\":\"Enviar archivos\",\"Uri\":\"Uri\",\"Url\":\"URL\",\"User permissions\":\"Permisos de usuario\",\"User\":\"Usuario\",\"Username\":\"Nombre de usuario\",\"Users and roles\":\"Usuarios y roles\",\"Users\":\"Usuarios\",\"Uses\":\"Usos\",\"Venue\":\"Llegada\",\"Verify Email Address\":\"Confirma tu correo electrónico\",\"Verify Your Email Address\":\"Verifica tu correo electrónico\",\"View list\":\"Mostrar lista\",\"View online\":\"Ver en línea\",\"View website\":\"Ver web\",\"View\":\"Vista\",\"Webmaster Email\":\"Email del Maestro de la Web\",\"Website baseline\":\"Baseline de la web\",\"Website title\":\"Título de la web\",\"Website\":\"Sitio Web\",\"Welcome, :name!\":\"Bienvenid@ :name !\",\"Whoops!\":\"¡Vaya!\",\"Whoops, something went wrong on our servers.\":\"Vaya, algo salió mal en nuestros servidores.\",\"Width\":\"Anchura\",\"Year\":\"Año\",\"Yes\":\"Sí\",\"You are receiving this email because we received a password reset request for your account.\":\"Ha recibido este mensaje porque se solicitó un restablecimiento de contraseña para su cuenta.\",\"Your account has been activated, you can now log in\":\"Su cuenta ha sido activada, ahora puede iniciar sesión.\",\"Your account has been created, check your email for the verification link.\":\"Su cuenta ha sido creada, revise su correo electrónico para el enlace de verificación.\",\"Your account has been created, now you need to verify it.\":\"Tu cuenta ha sido creada, ahora necesita verificarla.\",\"Your email address has been verified.\":\"Su dirección de correo electrónico ha sido verificada.\"}");
+module.exports = JSON.parse("{\"# blocks\":\"Ningún bloque|1 bloque|{count} bloques\",\"# categories\":\"Ningún categoría|1 categoría|{count} categorías\",\"# contacts\":\"Ningún contacto|1 contacto|{count} contactos\",\"# discussions\":\"Ningún conversación|1 conversación|{count} conversaciones\",\"# events\":\"Ningún evento|1 evento|{count} eventos\",\"# files could not be moved.\":\"No se han podido mover archivos.|1 archivo no se ha podido mover.|{count} archivos no se han podido mover.\",\"# files moved.\":\"No se han movido archivos.|1 archivo movido.|{count} archivos movidos.\",\"# items deleted\":\"1 elemento eliminado|{count} elementos eliminados\",\"# items published\":\"1 elemento publicado|{count} elementos publicados\",\"# items selected\":\"Ningún elemento seleccionado|1 elemento seleccionado|{count} elementos seleccionados\",\"# items unpublished\":\"1 elemento no publicado|{count} elementos no publicados\",\"# menus\":\"Ningún menú|1 menú|{count} menús\",\"# news\":\"Ningún noticia|1 noticia|{count} noticias\",\"# pages\":\"Ningún página|1 página|{count} páginas\",\"# partners\":\"Ningún socio|1 socio|{count} socios\",\"# places\":\"Ningún lugar|1 lugar|{count} lugares\",\"# projects\":\"Ningún proyecto|1 proyecto|{count} proyectos\",\"# roles\":\"Ningún rol|1 rol|{count} roles\",\"# sections\":\"Ningún sección|1 sección|{count} secciónes\",\"# slides\":\"Ningún slide|1 slide|{count} slides\",\"# tags\":\"Ningún tag|1 tag|{count} tags\",\"# translations\":\"Ningún traducción|1 traducción|{count} traducciónes\",\"# users\":\"Ningún usuario|1 usuario|{count} usuarios\",\"/ 1 month\":\"/ mes\",\"/ 1 year\":\"/ año\",\"1 minute| :count minutes\":\"1 minuto| :count minutos\",\"A fresh verification link has been sent to your email address.\":\"Se ha enviado un nuevo enlace de verificación a su correo electrónico.\",\"A non-empty folder cannot be deleted.\":\"Una carpeta no vacía no puede ser eliminada.\",\"A page containing subpages cannot be linked to a module\":\"Una página con subpáginas no puede estar relacionada con un módulo.\",\"A subscription renewal has failed.\":\"La renovación de la suscripción falló.\",\"A subscription was renewed automatically.\":\"Una suscripción se ha renovado automáticamente.\",\"Access dashboard\":\"Tablero de control\",\"Action\":\"Acción\",\"Activate my account\":\"Activar mi cuenta\",\"Activated\":\"Activado\",\"Active locale\":\"Idioma activo\",\"Active tab\":\"Pestaña activa\",\"Add\":\"Añadir\",\"Add files\":\"Añadir archivos\",\"Add selected file\":\"Añadir el archivo seleccionado\",\"Add selected files\":\"Añadir archivos seleccionados\",\"Add to menu\":\"Añadir al menú\",\"address\":\"direccion\",\"Address\":\"Dirección\",\"Administration Language\":\"Idioma de la administración\",\"Administration Welcome Message\":\"Administration welcome message\",\"Age\":\"Edad\",\"All\":\"Todos\",\"All discussions\":\"Todas las discusiones\",\"All languages\":\"Todos los idiomas\",\"All rights reserved.\":\"Todos los derechos reservados.\",\"Alt attribute\":\"Alt attribute\",\"Amount\":\"Cantidad\",\"An error occurred with the data fetch.\":\"Se produjo un error durante la carga de datos.\",\"and get access to all the content of our website.\":\"y acceder a todo el contenido de nuestro sitio web.\",\"Are you sure you want to cancel your subscription to :name?\":\"¿Estás seguro de que quieres cancelar tu suscripción a :name?\",\"Are you sure you want to delete # items?\":\"¿Seguro que quieres eliminar {count} elemento? | ¿Seguro que quieres eliminar {count} elementos?\",\"Are you sure you want to delete this <strong>discussion</strong>?\":\"¿Estás seguro de que quieres borrar la <strong>discusión</strong>?\",\"Are you sure you want to delete this response?\":\"¿Estás seguro de que quieres borrar la respuesta?\",\"Are you sure you want to delete “{title}”?\":\"¿Estás seguro de que quieres eliminar «{title}»?\",\"Are you sure you want to publish # items?\":\"¿Seguro que quieres publicar 1 elemento? | ¿Seguro que quieres publicar {count} elementos?\",\"Are you sure you want to unpublish # items?\":\"¿Seguro que quieres anular la publicación de 1 elemento? | ¿Seguro que quieres anular la publicación de {count} elementos?\",\"Authenticate to view website\":\"Autenticarse para ver la web\",\"Available\":\"Disponible\",\"Available plans\":\"Planes disponibles\",\"Back\":\"Volver\",\"Back to icons list\":\"Volver a los objetos\",\"Back to the website\":\"Volver a la página web\",\"Back-office\":\"Administración\",\"Balance after\":\"Equilibrio después\",\"Balance applied\":\"Equilibrio aplicado\",\"Balance before\":\"Equilibrio antes de\",\"Become a member\":\"Hágase miembro\",\"Before proceeding, please check your email for a verification link.\":\"Antes de continuar, por favor, confirme su correo electrónico con el enlace de verificación que le fue enviado.\",\"Blocks\":\"Bloques\",\"Body\":\"Contenido principal\",\"Box\":\"Box\",\"Cache\":\"Cache\",\"Cache cleared\":\"Cache vaciada\",\"Cancel\":\"Cancelar\",\"Cancel my subscription.\":\"Cancelar mi suscripción.\",\"Cancel the subscription\":\"Cancele la suscripción\",\"categories\":\"categoría|categorías\",\"Categories\":\"Categorías\",\"Category\":\"Categoría\",\"Change Password\":\"Cambiar contraseña\",\"Change settings\":\"Configuración\",\"City\":\"Ciudad\",\"Class\":\"Clase\",\"Clear\":\"Limpiar historial\",\"Clear cache\":\"Vaciar cache\",\"click here to request another\":\"haga clic aquí para solicitar otro\",\"Comments enabled\":\"Comentarios habilitados\",\"Company\":\"Empresa\",\"Confirm Password\":\"Confirmar contraseña\",\"Contact information\":\"Contacto\",\"contacts\":\"contacto|contactos\",\"Contacts\":\"Contactos\",\"Content\":\"Contenido\",\"Content blocks\":\"Bloques\",\"Copied to the clipboard\":\"Copiado al portapapeles\",\"Copy\":\"Copiar\",\"Could not delete the response.\":\"¡Oh! No se ha podido borrar la respuesta.\",\"Could not update your response.\":\"¡Oh! No se ha podido actualizar la respuesta.\",\"Country\":\"País\",\"Create\":\"Crear\",\"Create discussion\":\"Crear una discusión\",\"Created at\":\"Creado el\",\"Css\":\"CSS\",\"Currency\":\"Moneda\",\"Current subscription\":\"Suscripción actual\",\"Dashboard\":\"Tablero de control\",\"Date\":\"Fecha\",\"Day\":\"Día\",\"DDMMYYYY\":\"DD.MM.YYYY\",\"DDMMYYYY HHMM\":\"DD.MM.YYYY HH:MM\",\"Delete\":\"Borrar\",\"Description\":\"Descripción\",\"Deselect all\":\"Deseleccionar todo\",\"Destroy\":\"Borrar\",\"Disabled\":\"Discapacitado\",\"discussions\":\"conversación|conversaciones\",\"Do you want to clear history?\":\"¿Quieres borrar la historia?\",\"Document\":\"Documento\",\"Don’t like these emails?\":\"¿No le gustan estos correos electrónicos?\",\"Download count\":\"Número de descargas\",\"Drop files to upload\":\"Soltar archivos para subir\",\"Drop to upload.\":\"Soltar para subir.\",\"E-Mail Address\":\"Correo electrónico\",\"Edit\":\"Editar\",\"Edit block\":\"Editar el bloque\",\"Edit event\":\"Editar evento\",\"Edit file\":\"Editar archivo\",\"Edit icon\":\"Editar objeto\",\"Edit menu\":\"Editar menú\",\"Edit menulink\":\"Editar enlace del menú\",\"Edit news\":\"Editar noticia\",\"Edit object\":\"Editar objeto\",\"Edit page\":\"Editar página\",\"Edit partner\":\"Editar socio\",\"Edit place\":\"Editar lugar\",\"Edit project\":\"Editar proyecto\",\"Edit role\":\"Editar rol\",\"Edit slide\":\"Editar slide\",\"Edit tag\":\"Editar tag\",\"Edit translation\":\"Editar traducción\",\"Edit your profile\":\"Edita tu perfil\",\"Email\":\"Email\",\"Empty history\":\"Limpiar historial\",\"Enabled\":\"Activado\",\"End date\":\"Fecha de finalización\",\"End time\":\"Hora de finalización\",\"Enter a name for the new folder.\":\"Ingrese un nombre para la nueva carpeta.\",\"Environment\":\"Entorno\",\"Error\":\"Error \",\"Events\":\"Eventos\",\"events\":\"evento|eventos\",\"Excerpt\":\"Extracto\",\"Exit\":\"Salir\",\"Extension\":\"Extensión\",\"Fax\":\"Fax\",\"File\":\"Archivo\",\"File information\":\"Información del archivo\",\"Filename\":\"Nombre de archivo\",\"Files\":\"Archivos\",\"Filter\":\"Filtrar\",\"Find nearest\":\"Encontrar dirección más cercana\",\"First name\":\"Nombre\",\"Forbidden\":\"Prohibido\",\"Forgot Your Password?\":\"¿Olvidó su contraseña?\",\"from\":\"desde\",\"Front office\":\"Front office\",\"Gender\":\"Género\",\"Generate\":\"Generar\",\"Go Home\":\"Ir a inicio\",\"Go to our homepage\":\"Ir a nuestra página web\",\"Goodbye\":\"Adiós\",\"Google Analytics Tracking Id\":\"Google Analytics Tracking Id\",\"Grid\":\"Grillo\",\"Groups\":\"Grupos\",\"Have a great day!\":\"Que tengas un buen día.\",\"Heads Up!\":\"¡Aviso!\",\"Height\":\"Altura\",\"Hello!\":\"¡Hola!\",\"HH:MM\":\"HH:MM\",\"hi\":\"hola\",\"Hi there,\":\"Hola,\",\"History is empty.\":\"La historia está vacía.\",\"Home\":\"Inicio\",\"Homepage\":\"En página de inicio\",\"Hour\":\"Hora\",\"I subscribe\":\"Me suscribo\",\"I will subscribe later\":\"Me suscribiré más tarde\",\"Icon class\":\"Clase de icono\",\"Icons\":\"Objetos\",\"If you did not create an account, no further action is required.\":\"Si no ha creado una cuenta, no se requiere ninguna acción adicional.\",\"If you did not receive the email\":\"Si no ha recibido el correo electrónico\",\"If you did not request a password reset, no further action is required.\":\"Si no solicitó un restablecimiento de contraseña, no se requieren más acciones.\",\"If you no longer wish to be notified when someone responds to this form post be sure to uncheck the notification setting at the bottom of the discussion page.\":\"Si ya no deseas ser notificado cuando alguien más responda, asegurate de desmarcar la configuración de notificación al final de la página de discusión.\",\"If you’re having trouble clicking the \\\":actionText\\\" button, copy and paste the URL below\\ninto your web browser: [:actionURL](:actionURL)\":\"Si tiene problemas para hacer clic en el botón \\\":actionText\\\", copie y pegue la siguiente URL \\nen su navegador web: [:actionURL](:actionURL)\",\"Image\":\"Imagen\",\"Images\":\"Imágenes\",\"Impossible to delete more than # items in one go.\":\"No se pueden eliminar más de {deleteLimit} elementos de una vez.\",\"In order to prevent spam, please allow at least :minutes in between submitting content.\":\"Con el fin de prevenir el SPAM, podrás volver a enviar el contenido nuevamente en :minutes minutes.\",\"Index\":\"Listar\",\"Info\":\"Información\",\"Insert\":\"Insertar\",\"Is home\":\"Es inicio\",\"Item is published.\":\"El elemento está publicado.\",\"Item is unpublished.\":\"El elemento no está publicado.\",\"Js\":\"JavaScript\",\"Just wanted to let you know that someone has responded to a forum post at\":\"Te informamos que alguien ha respondido a una discusión publicada en\",\"Just wanted to let you know that someone has responded to a forum post.\":\"Este texto es como un encabezado. Algunos clientes muestran este texto como una vista previa.\",\"KB\":\"KB\",\"Key\":\"Clave\",\"Keywords\":\"Palabras clave\",\"Lang Chooser\":\"Selector de idioma\",\"Language\":\"Idioma\",\"Last name\":\"Apellidos\",\"Latest changes\":\"Últimos cambios\",\"Latitude\":\"Latitud\",\"Legend\":\"Leyenda\",\"List\":\"Listado\",\"Loading…\":\"Cargando…\",\"Locales\":\"Idiomas\",\"Location\":\"Ubicación\",\"Login\":\"Entrar\",\"Logo\":\"Logo\",\"Logout\":\"Salir\",\"Longitude\":\"Longitud\",\"Mandatory fields\":\"Campos obligatorios\",\"Max\":\"Máximo\",\"Max :size MB\":\"Máximo :size MB\",\"MB\":\"MB\",\"Media\":\"Media\",\"Menu\":\"Menú\",\"Menulink\":\"Enlace de menú\",\"Menulinks\":\"Enlaces de menú\",\"Menus\":\"Menús\",\"Message\":\"Mensaje\",\"Meta\":\"Meta\",\"Meta description\":\"Meta description\",\"Meta keywords\":\"Meta keywords\",\"Meta title\":\"Meta title\",\"Mimetype\":\"Tipo Mime\",\"Minute\":\"Minuto\",\"Mobile\":\"Móvil\",\"Modify\":\"Modicar\",\"Module\":\"Módulo\",\"Module name\":\"Nombre del módulo\",\"Month\":\"Mes\",\"Move to parent folder\":\"Mover a la carpeta principal\",\"Mr\":\"Sr\",\"Mrs\":\"Sra\",\"Name\":\"Nombre\",\"New block\":\"Nuevo bloque\",\"New contact\":\"Nuevo contacto\",\"New contact request\":\"Nueva petición de contacto\",\"New contact request from\":\"Nueva petición de contacto de\",\"New discussion\":\"Nueva discusión\",\"New event\":\"Nuevo evento\",\"New file\":\"Nuevo archivo\",\"New folder\":\"Nouveau dossier\",\"New icon\":\"Nuevo objeto\",\"New menu\":\"Nuevo menú\",\"New menulink\":\"Nuevo enlace de menú\",\"New news\":\"Nueva noticia\",\"New object\":\"Nuevo objeto\",\"New page\":\"Nueva página\",\"New page section\":\"Nueva sección de página\",\"New partner\":\"Nuevo socio\",\"New password\":\"Nueva contraseña\",\"New place\":\"Nuevo lugar\",\"New project\":\"Nuevo proyecto\",\"New project category\":\"Nuevo categoría de proyectos\",\"New role\":\"Nuevo rol\",\"New slide\":\"Nuevo slide\",\"New tab\":\"Nueva pestaña\",\"New tag\":\"Nueva tag\",\"New translation\":\"Nueva traducción\",\"New user\":\"Nuevo usuario\",\"news\":\"noticia|noticias\",\"News\":\"Noticias\",\"News feed\":\"Feed de noticias\",\"Next\":\"Suivant\",\"No\":\"No\",\"No default page found\":\"No se ha encontrado página por defecto\",\"No file\":\"Sin archivo\",\"No menu found with name “:name”\":\"No se ha encontrado un menú con el nombre “:name”.\",\"No thanks\":\"No gracias\",\"None\":\"No\",\"Not a member?\":\"¿No es miembro?\",\"Not found\":\"No encontrado\",\"Nothing found.\":\"No se encontró nada.\",\"Notify me when someone replies.\":\"Notificarme cuando alguien conteste en la discusión.\",\"Number\":\"Número\",\"Objects\":\"Objetos\",\"Offline\":\"Fuera de línea\",\"Oh no\":\"Oh no \",\"Oh Snap!\":\"¡Ha ocurrido un error!\",\"on\":\"la\",\"Online\":\"En línea\",\"Options\":\"Opciones\",\"Page\":\"Página\",\"Page Expired\":\"Página Expirada\",\"Page Not Found\":\"Página no encontrada\",\"Page sections\":\"Secciones de página\",\"pages\":\"página|páginas\",\"Pages\":\"Páginas\",\"partners\":\"socio|socios\",\"Partners\":\"Socios\",\"Password\":\"Contraseña\",\"Password confirmation\":\"Confirmación de contraseña\",\"Past events\":\"Eventos pasados\",\"Path\":\"Ruta\",\"per page\":\"por página\",\"Permissions\":\"Permisos\",\"Phone\":\"Teléfono\",\"Places\":\"Lugares\",\"places\":\"lugar|lugares\",\"Plans\":\"Planes\",\"Please choose a category.\":\"Por favor selecciona una categoría.\",\"Please choose the affiliation that best suits you.\":\"Por favor, elija la membresía que más le convenga.\",\"Please choose the plan you want to switch to.\":\"Por favor, elija el plan al que quiere ascender.\",\"Please click the button below to verify your email address.\":\"Por favor, haga clic en el botón de abajo para verificar su dirección de correo electrónico.\",\"Please fix the following errors:\":\"Por favor corrige los siguientes errores:\",\"Please write a title.\":\"Por favor escribe un título.\",\"Please write some content.\":\"Es necesario escribir algo en el contenido.\",\"Position\":\"Posición\",\"Postal code\":\"Código Postal\",\"Postcode\":\"Código Postal\",\"Posted by\":\"Publicado por\",\"Posted in category\":\"Publicado en categoria\",\"Preview\":\"Previsualizar\",\"Previous\":\"Précédent\",\"Price\":\"Precio\",\"Private\":\"Privado\",\"Profile\":\"Perfil\",\"Project categories\":\"Categorías de proyectos\",\"Projects\":\"Proyectos\",\"projects\":\"proyecto|proyectos\",\"Publish\":\"Publicar\",\"Publish website\":\"Publicar sitio web\",\"Published\":\"Publicado\",\"Published items\":\"Publicados\",\"Published on\":\"Publicada en\",\"Read\":\"Vista\",\"Read more\":\"Leer más\",\"Redirect to first child\":\"Redireccionar al primer hijo\",\"Regards\":\"Saludos\",\"Register\":\"Registrar\",\"Registration allowed\":\"Registro permitido\",\"Remember Me\":\"Recuérdame\",\"Remove\":\"Eliminar\",\"Renewal date\":\"Fecha de renovación\",\"Replace\":\"Reemplazar\",\"Replace file\":\"Reemplazar archivo\",\"Replace image\":\"Reemplazar imagen\",\"Reset\":\"Resetear\",\"Reset Password\":\"Restablecer contraseña\",\"Reset Password Notification\":\"Notificación de restablecimiento de contraseña\",\"Response successfully submitted to discussion.\":\"Respuesta enviada correctamente a la discusión.\",\"Restricted to\":\"Restringido a\",\"Resume the subscription\":\"Reanudar la suscripción\",\"Resume your subscription to the :name plan.\":\"Reanude su suscripción al plan :name.\",\"Role permissions\":\"Permisos de rol\",\"roles\":\"rol|roles\",\"Roles\":\"Roles\",\"Save\":\"Guardar\",\"Save and exit\":\"Guardar y salir\",\"Save this item first, then add files.\":\"Guarda este artículo primero, luego agrega archivos.\",\"Save this page first, then add sections.\":\"Guarda esta página primero, luego agrega secciones.\",\"Search\":\"Buscar\",\"Search results for “:search”\":\"Resultado de la búsqueda de “:search”.\",\"Second\":\"Segundo\",\"sections\":\"sección|secciónes\",\"Sections\":\"Secciones\",\"See history\":\"Historial\",\"See navbar\":\"Mostrar la barra de navegación\",\"See settings\":\"Mostrar la configuración\",\"Select a Category\":\"Selecciona una categoria\",\"Select a color for this discussion (optional)\":\"Selecciona un color para la discussion (opcional)\",\"Select all\":\"Seleccionar todo\",\"Send\":\"Enviar\",\"Send password reset link\":\"Enviar enlace de restablecimiento de contraseña\",\"Send Password Reset Link\":\"Enviar enlace para restablecer la contraseña\",\"Service Unavailable\":\"Servicio no disponible\",\"Settings\":\"Configuración\",\"Show on map\":\"Mostrar en el mapa\",\"Side\":\"Lado\",\"Size\":\"Tamañao\",\"Size (px)\":\"Tamaño (px)\",\"slides\":\"slide|slides\",\"Slides\":\"Slides\",\"Slug\":\"Slug\",\"Sorry, an error occurred.\":\"Disculpe, ocurrió un error.\",\"Sorry, the page you are looking for could not be found.\":\"Lo sentimos, la página que está buscando no se pudo encontrar.\",\"Sorry, there seems to have been a problem submitting your response.\":\"Parece que ha ocurrido un problema al intentar enviar la respuesta, vuelve a intentarlo más tarde.\",\"Sorry, we are doing some maintenance. Please check back soon.\":\"Lo sentimos, estamos haciendo un poco de mantenimiento. Por favor, vuelva pronto.\",\"Sorry, you are forbidden from accessing this page.\":\"Lo sentimos, se le prohíbe el acceso a esta página.\",\"Sorry, you are making too many requests to our servers.\":\"Lo sentimos, estás haciendo demasiadas peticiones a nuestros servidores.\",\"Sorry, you are not authorized to access this page.\":\"Lo sentimos, no estás autorizado para acceder a esta página.\",\"Sorry, your session has expired. Please refresh and try again.\":\"Lo sentimos, tu sesión ha expirado. Por favor, actualice y vuelva a intentarlo.\",\"Sort\":\"Ordenar\",\"Start date\":\"Fecha de inicio\",\"Start time\":\"Hora de inicio\",\"Status\":\"Estado\",\"Store\":\"Guardar\",\"Street\":\"Calle\",\"Submit\":\"Enviar\",\"Submit response\":\"Enviar respuesta\",\"Subscribe\":\"Suscríbase a\",\"Subscriptions\":\"Suscripciones\",\"Subtotal\":\"Subtotal\",\"Successfully created a new discussion.\":\"Se ha creado correctamente una nueva discusión.\",\"Successfully deleted the response and discussion.\":\"Se ha borrado correctamente la respuesta y la discusión.\",\"Successfully deleted the response from the discussion.\":\"Se ha borrado correctamente la respuesta de la discusión.\",\"Successfully updated the discussion.\":\"Discusión actualizada correctamente.\",\"Summary\":\"Resumen\",\"Superuser\":\"Superusuario\",\"Switch to this plan\":\"Actualizar a este plan\",\"Switch your subscription to another plan.\":\"Actualice su suscripción a otro plan.\",\"System info\":\"Información del sistema\",\"System locales\":\"Idiomas del sistema\",\"Tag\":\"Etiqueta\",\"Tags\":\"Etiquetas\",\"tags\":\"tag|tags\",\"Target\":\"Objetivo\",\"Template\":\"Plantilla\",\"Thank you\":\"Les agradecemos su apoyo.\",\"Thank you for supporting us, you now have access to all our resources.\":\"Gracias por apoyarnos, ahora tienen acceso a todos nuestros recursos.\",\"Thank you for supporting us, your subscription has been successfully renewed.\":\"Gracias por apoyarnos, su suscripción ha sido renovada con éxito.\",\"Thank you for your contact request.\":\"Gracias por la petición de contacto.\",\"The content has to have at least :min characters.\":\"El contenido debe tener al menos :min caracteres.\",\"The current logged in user cannot be deleted.\":\"El usuario actualmente conectado no puede ser eliminado.\",\"The form contains errors:\":\"El formulario contiene errores:\",\"The home page cannot be deleted.\":\"La página de inicio no puede ser eliminada.\",\"The password is incorrect.\":\"El lema de paso es incorrecto.\",\"The slug is required if published.\":\"El slug es obligatorio si se publica.\",\"The subscription of :name was renewed automatically.\":\"La suscripción de :name se ha renovado automáticamente.\",\"The subscription renewal of :name has failed.\":\"La renovación de la suscripción :nombre falló.\",\"The subscription was sucessfully cancelled.\":\"La suscripción ha sido debidamente cancelada.\",\"The subscription was sucessfully resumed.\":\"La suscripción se ha ampliado con éxito.\",\"The title has to have at least :min characters.\":\"El título debe tener al menos :min caracteres.\",\"The title has to have no more than :max characters.\":\"El título no debe superar los :max caracteres.\",\"The user :name can not be deleted because he has a running subscription.\":\"El usuario :name no puede ser eliminado porque tiene una suscripción en curso.\",\"There are currently no discussions in this category.\":\"Actualmente no hay discusiones en esta categoría.\",\"There are no results that match your query.\":\"No hay ningún resultado que coincida con su consulta.\",\"There is no payment method available.\":\"No hay ningún método de pago disponible.\",\"There was an error with your payment.\":\"Se ha producido un error durante el pago.\",\"This action is unauthorized.\":\"Esta acción no está permitida.\",\"This category cannot be deleted as it contains projects.\":\"Esta categoría no puede ser eliminada ya que contiene proyectos.\",\"This item cannot be deleted because it has children.\":\"Este elemento no puede ser eliminado porque tiene hijos.\",\"This password reset link will expire in :count minutes.\":\"Este enlace de restablecimiento de contraseña caducará en :count minutos.\",\"This user is not activated.\":\"Este usuario no ha sido activado.\",\"This user was not found.\":\"Este usuario no ha sido encontrado.\",\"Time\":\"Hora\",\"Title\":\"Título\",\"Title of discussion\":\"Titulo de la discusión\",\"to\":\"a\",\"Toggle navigation\":\"Conmutar navegación\",\"Too Many Requests\":\"Demasiadas peticiones\",\"Total due\":\"Total a pagar\",\"Translation\":\"Traducción\",\"Translations\":\"Traducciones\",\"Type\":\"Tipo\",\"Type your discussion here…\":\"Agrega el contenido para la discussion aquí…\",\"Type your response here…\":\"Escriba su respuesta aquí…\",\"Unauthorized\":\"No autorizado\",\"Unpublish\":\"Despublicación\",\"Unpublished\":\"Inédito\",\"Unpublished items\":\"No publicados\",\"Unsubscribe to this discussion.\":\"Anular la suscripción a la discusión\",\"Upcoming events\":\"Próximos eventos\",\"Update\":\"Actualizar\",\"Update response\":\"Actualizar respuesta\",\"Upload files\":\"Enviar archivos\",\"Uri\":\"Uri\",\"Url\":\"URL\",\"User\":\"Usuario\",\"User permissions\":\"Permisos de usuario\",\"Username\":\"Nombre de usuario\",\"Users\":\"Usuarios\",\"Users and roles\":\"Usuarios y roles\",\"Uses\":\"Usos\",\"VAT\":\"IVA\",\"Venue\":\"Llegada\",\"Verify Email Address\":\"Confirma tu correo electrónico\",\"Verify Your Email Address\":\"Verifica tu correo electrónico\",\"View\":\"Vista\",\"View list\":\"Mostrar lista\",\"View online\":\"Ver en línea\",\"View the discussion.\":\"Ver la discusión\",\"View website\":\"Ver web\",\"Visit our website\":\"Visite nuestra página web\",\"We inform you that your membership as a :plan will be renewed automatically as of :date.\":\"Le informamos que su membresía como :plan se renovará automáticamente a partir de :date.\",\"Webmaster Email\":\"Email del Maestro de la Web\",\"Website\":\"Sitio Web\",\"Website baseline\":\"Baseline de la web\",\"Website title\":\"Título de la web\",\"Welcome\":\"Bienvenido\",\"Welcome, :name!\":\"Bienvenid@ :name !\",\"Well done!\":\"¡Bien hecho!\",\"We’re sorry to see you go.\":\"Lamentamos que te vayas.\",\"Whoops!\":\"¡Vaya!\",\"Whoops! There seems to be a problem creating your discussion.\":\"¡Ups! Parece que hay un problema al crear la discussion.\",\"Whoops, something went wrong on our servers.\":\"Vaya, algo salió mal en nuestros servidores.\",\"Width\":\"Anchura\",\"Wuh Oh!\":\"¡Precaución!\",\"Year\":\"Año\",\"Yes\":\"Sí\",\"Yes delete it\":\"Si, borrar\",\"You are already on the :plan plan\":\"Ya estás en el :plan\",\"You are not currently subscribed to any plan.\":\"Actualmente no está suscrito a ningún plan.\",\"You are now successfully subscribed.\":\"Ya está suscrito con éxito.\",\"You are receiving this email because we received a password reset request for your account.\":\"Ha recibido este mensaje porque se solicitó un restablecimiento de contraseña para su cuenta.\",\"You are subscribed to the :name plan.\":\"Está suscrito al plan :name.\",\"You don’t have any invoices.\":\"No tienes ninguna factura.\",\"You have a new paid member (:name).\":\"Tienes un nuevo miembro de pago (:nombre).\",\"You have a new paid member.\":\"Tienes un nuevo miembro de pago.\",\"Your account\":\"Su cuenta\",\"Your account has been activated, you can now log in\":\"Su cuenta ha sido activada, ahora puede iniciar sesión.\",\"Your account has been created, check your email for the verification link.\":\"Su cuenta ha sido creada, revise su correo electrónico para el enlace de verificación.\",\"Your account has been created, now you need to verify it.\":\"Tu cuenta ha sido creada, ahora necesita verificarla.\",\"Your contact details\":\"Sus datos\",\"Your details\":\"Sus datos\",\"Your email address has been verified.\":\"Su dirección de correo electrónico ha sido verificada.\",\"Your invoices\":\"Su facturas\",\"Your payment method\":\"Su método de pago\",\"Your payment method could not be revoked.\":\"Su método de pago no puede ser revocado.\",\"Your payment method was sucesfully revoked.\":\"Su método de pago fue revocado con éxito.\",\"Your profile\":\"Su perfil\",\"Your profile has been successfully updated.\":\"Su perfil ha sido actualizado con éxito.\",\"Your receipt\":\"Su recibo\",\"Your subscription\":\"Su suscripción\",\"Your subscription could not be cancelled.\":\"Su suscripción no ha podido ser cancelada.\",\"Your subscription could not be perfomed. Please retry.\":\"Su suscripción no se ha podido realizar. Por favor, vuelva a intentarlo.\",\"Your subscription could not be resumed.\":\"Su suscripción no pudo ser reanudada.\",\"Your subscription could not be upgraded.\":\"No se ha podido actualizar tu suscripción.\",\"Your subscription to the :name plan was cancelled.\":\"Se ha cancelado su suscripción al plan :name.\",\"Your subscription to the :name plan was cancelled. You still have access to it until :ends_at.\":\"Su suscripción al plan :name fue cancelada. Aún tienes acceso a él hasta :ends_at.\",\"Your subscription was sucessfully cancelled.\":\"Su suscripción fue cancelada con éxito.\",\"Your subscription was sucessfully resumed.\":\"Su suscripción se reanudó con éxito.\",\"Your subscription was sucessfully upgraded.\":\"Su suscripción fue actualizada con éxito.\",\"Zip\":\"Código postal\"}");
 
 /***/ }),
 
@@ -56617,11 +52474,11 @@ module.exports = JSON.parse("{\"# blocks\":\"Ningún bloque | 1 bloque | {count}
 /*!********************************!*\
   !*** ./resources/lang/fr.json ***!
   \********************************/
-/*! exports provided: # blocks, # categories, # contacts, # events, # files could not be moved., # files moved., # items deleted, # items published, # items selected, # items unpublished, # menus, # news, # pages, # partners, # places, # projects, # roles, # sections, # slides, # tags, # translations, # users, A fresh verification link has been sent to your email address., A non-empty folder cannot be deleted., A page containing subpages cannot be linked to a module, Access dashboard, Action, Activate my account, Activated, Active locale, Active tab, Add files, Add selected file, Add selected files, Add to menu, Add, address, Address, Administration Language, Administration Welcome Message, Age, All languages, All rights reserved., All, Alt attribute, An error occurred with the data fetch., and get access to all the content of our website., Are you sure you want to delete # items?, Are you sure you want to delete “{title}”?, Are you sure you want to publish # items?, Are you sure you want to unpublish # items?, Authenticate to view website, Available, Back to the website, Back, Back-office, Become a member, Before proceeding, please check your email for a verification link., Blocks, Body, Cache cleared, Cache, Cancel, Categories, Category, Change Password, Change settings, City, Class, Clear cache, Clear, click here to request another, Comments enabled, Company, Confirm Password, Contact information, Contacts, Content blocks, Content, Copied to the clipboard, Copy, Country, Create, Created at, Css, Currency, Dashboard, Date, Day, DDMMYYYY HHMM, DDMMYYYY, Delete, Description, Deselect all, Destroy, Disabled, Do you want to clear history?, Document, Download count, Drop files to upload, Drop to upload., E-Mail Address, Edit block, Edit event, Edit file, Edit menu, Edit menulink, Edit news, Edit object, Edit page, Edit partner, Edit place, Edit project, Edit role, Edit slide, Edit tag, Edit translation, Edit, Email, Empty history, Enabled, End date, End time, Enter a name for the new folder., Environment, Error, Events, Excerpt, Exit, Extension, Fax, File information, File, Filename, Files, Filter, Find nearest, First name, Forbidden, Forgot Your Password?, from, Front office, Gender, Generate, Go Home, Google Analytics Tracking Id, Grid, Groups, Height, Hello!, HH:MM, hi, History is empty., Home, Homepage, Hour, Icon class, If you did not create an account, no further action is required., If you did not receive the email, If you did not request a password reset, no further action is required., If you’re having trouble clicking the ":actionText" button, copy and paste the URL below
-into your web browser: [:actionURL](:actionURL), Image, Images, Impossible to delete more than # items in one go., Index, Info, Insert, Is home, Item is published., Item is unpublished., Js, KB, Key, Keywords, Lang Chooser, Language, Last name, Latest changes, Latitude, Legend, List, Loading…, Locales, Location, Login, Logo, Logout, Longitude, Mandatory fields, Max :size MB, Max, MB, Media, Menu, Menulink, Menulinks, Menus, Message, Meta description, Meta keywords, Meta title, Meta, Mimetype, Minute, Mobile, Modify, Module name, Module, Month, Move to parent folder, Mr, Mrs, Name, New block, New contact request from, New contact request, New contact, New event, New file, New folder, New menu, New menulink, New news, New object, New page section, New page, New partner, New password, New place, New project category, New project, New role, New slide, New tab, New tag, New translation, New user, News feed, News, Next, No default page found, No file, No menu found with name “:name”, No, None, Not a member?, Not found, Nothing found., Objects, Offline, Oh no, on, Online, Options, Page Expired, Page Not Found, Page sections, Page, Pages, Partners, Password confirmation, Password, Past events, Path, per page, Permissions, Phone, Places, Please click the button below to verify your email address., Position, Postcode, Preview, Previous, Price, Private, Profile, Project categories, Projects, Publish website, Publish, Published items, Published on, Published, Read more, Redirect to first child, Regards, Register, Registration allowed, Remember Me, Replace file, Replace image, Replace, Reset Password Notification, Reset Password, Reset, Restricted to, Role permissions, Roles, Save and exit, Save this item first, then add files., Save this page first, then add sections., Save, Search, Second, Sections, See history, See navbar, See online, See settings, Select all, Send Password Reset Link, Send, Service Unavailable, Settings, Show categories, Show on map, Side, Size (px), Size, Slides, Slug, Sorry, an error occurred., Sorry, the page you are looking for could not be found., Sorry, we are doing some maintenance. Please check back soon., Sorry, you are forbidden from accessing this page., Sorry, you are making too many requests to our servers., Sorry, you are not authorized to access this page., Sorry, your session has expired. Please refresh and try again., Sort, Start date, Start time, Status, Store, Submit, Summary, Superuser, System info, System locales, Tag, Tags, Target, Template, Thank you for your contact request., The current logged in user cannot be deleted., The form contains errors:, The password is incorrect., The slug is required if published., The user :name can not be deleted because he has a running subscription., This action is unauthorized., This item cannot be deleted because it has children., This password reset link will expire in :count minutes., This user is not activated., This user was not found., Time, Title, to, Toggle navigation, Too Many Requests, Translation, Translations, Type, Unauthorized, Unpublish, Unpublished items, Unpublished, Upcoming events, Update, Upload files, Uri, Url, User permissions, User, Username, Users and roles, Users, Uses, Venue, Verify Email Address, Verify Your Email Address, View list, View online, View website, View, Webmaster Email, Website baseline, Website title, Website, Welcome, :name!, Whoops!, Whoops, something went wrong on our servers., Width, Year, Yes, You are receiving this email because we received a password reset request for your account., Your account has been activated, you can now log in, Your account has been created, check your email for the verification link., Your account has been created, now you need to verify it., Your email address has been verified., default */
+/*! exports provided: # blocks, # categories, # contacts, # discussions, # events, # files could not be moved., # files moved., # items deleted, # items published, # items selected, # items unpublished, # menus, # news, # pages, # partners, # places, # projects, # roles, # sections, # slides, # tags, # translations, # users, / 1 month, / 1 year, 1 minute| :count minutes, A fresh verification link has been sent to your email address., A non-empty folder cannot be deleted., A page containing subpages cannot be linked to a module, A subscription renewal has failed., A subscription was renewed automatically., Access dashboard, Action, Activate my account, Activated, Active locale, Active tab, Add, Add files, Add selected file, Add selected files, Add to menu, address, Address, Administration Language, Administration Welcome Message, Age, All, All discussions, All languages, All rights reserved., Alt attribute, Amount, An error occurred with the data fetch., and get access to all the content of our website., Are you sure you want to cancel your subscription to :name?, Are you sure you want to delete # items?, Are you sure you want to delete this <strong>discussion</strong>?, Are you sure you want to delete this response?, Are you sure you want to delete “{title}”?, Are you sure you want to publish # items?, Are you sure you want to unpublish # items?, Authenticate to view website, Available, Available plans, Back, Back to icons list, Back to the website, Back-office, Balance after, Balance applied, Balance before, Become a member, Before proceeding, please check your email for a verification link., Blocks, Body, Box, Cache, Cache cleared, Cancel, Cancel my subscription., Cancel the subscription, categories, Categories, Category, Change Password, Change settings, City, Class, Clear, Clear cache, click here to request another, Comments enabled, Company, Confirm Password, Contact information, contacts, Contacts, Content, Content blocks, Copied to the clipboard, Copy, Could not delete the response., Could not update your response., Country, Create, Create discussion, Created at, Css, Currency, Current subscription, Dashboard, Date, Day, DDMMYYYY, DDMMYYYY HHMM, Delete, Description, Deselect all, Destroy, Disabled, discussions, Do you want to clear history?, Document, Don’t like these emails?, Download count, Drop files to upload, Drop to upload., E-Mail Address, Edit, Edit block, Edit event, Edit file, Edit icon, Edit menu, Edit menulink, Edit news, Edit object, Edit page, Edit partner, Edit place, Edit project, Edit role, Edit slide, Edit tag, Edit translation, Edit your profile, Email, Empty history, Enabled, End date, End time, Enter a name for the new folder., Environment, Error, Events, events, Excerpt, Exit, Extension, Fax, File, File information, Filename, Files, Filter, Find nearest, First name, Forbidden, Forgot Your Password?, from, Front office, Gender, Generate, Go Home, Go to our homepage, Goodbye, Google Analytics Tracking Id, Grid, Groups, Have a great day!, Heads Up!, Height, Hello!, HH:MM, hi, Hi there,, History is empty., Home, Homepage, Hour, I subscribe, I will subscribe later, Icon class, Icons, If you did not create an account, no further action is required., If you did not receive the email, If you did not request a password reset, no further action is required., If you no longer wish to be notified when someone responds to this form post be sure to uncheck the notification setting at the bottom of the discussion page., If you’re having trouble clicking the ":actionText" button, copy and paste the URL below
+into your web browser: [:actionURL](:actionURL), Image, Images, Impossible to delete more than # items in one go., In order to prevent spam, please allow at least :minutes in between submitting content., Index, Info, Insert, Is home, Item is published., Item is unpublished., Js, Just wanted to let you know that someone has responded to a forum post at, Just wanted to let you know that someone has responded to a forum post., KB, Key, Keywords, Lang Chooser, Language, Last name, Latest changes, Latitude, Legend, List, Loading…, Locales, Location, Login, Logo, Logout, Longitude, Mandatory fields, Max, Max :size MB, MB, Media, Menu, Menulink, Menulinks, Menus, Message, Meta, Meta description, Meta keywords, Meta title, Mimetype, Minute, Mobile, Modify, Module, Module name, Month, Move to parent folder, Mr, Mrs, Name, New block, New contact, New contact request, New contact request from, New discussion, New event, New file, New folder, New icon, New menu, New menulink, New news, New object, New page, New page section, New partner, New password, New place, New project, New project category, New role, New slide, New tab, New tag, New translation, New user, News, news, News feed, Next, No, No default page found, No file, No menu found with name “:name”, No thanks, None, Not a member?, Not found, Nothing found., Notify me when someone replies., Number, Objects, Offline, Oh no, Oh Snap!, on, Online, Options, Page, Page Expired, Page Not Found, Page sections, pages, Pages, partners, Partners, Password, Password confirmation, Past events, Path, per page, Permissions, Phone, Places, places, Plans, Please choose a category., Please choose the affiliation that best suits you., Please choose the plan you want to switch to., Please click the button below to verify your email address., Please fix the following errors:, Please write a title., Please write some content., Position, Postal code, Postcode, Posted by, Posted in category, Preview, Previous, Price, Private, Profile, Project categories, projects, Projects, Publish, Publish website, Published, Published items, Published on, Read, Read more, Redirect to first child, Regards, Register, Registration allowed, Remember Me, Remove, Renewal date, Replace, Replace file, Replace image, Reset, Reset Password, Reset Password Notification, Response successfully submitted to discussion., Restricted to, Resume the subscription, Resume your subscription to the :name plan., Role permissions, roles, Roles, Save, Save and exit, Save this item first, then add files., Save this page first, then add sections., Search, Search results for “:search”, Second, sections, Sections, See history, See navbar, See online, See settings, Select a Category, Select a color for this discussion (optional), Select all, Send, Send Password Reset Link, Service Unavailable, Settings, Show on map, Side, Size, Size (px), slides, Slides, Slug, Sorry, an error occurred., Sorry, the page you are looking for could not be found., Sorry, there seems to have been a problem submitting your response., Sorry, we are doing some maintenance. Please check back soon., Sorry, you are forbidden from accessing this page., Sorry, you are making too many requests to our servers., Sorry, you are not authorized to access this page., Sorry, your session has expired. Please refresh and try again., Sort, Start date, Start time, Status, Store, Street, Submit, Submit response, Subscribe, Subscriptions, Subtotal, Successfully created a new discussion., Successfully deleted the response and discussion., Successfully deleted the response from the discussion., Successfully updated the discussion., Summary, Superuser, Switch to this plan, Switch your subscription to another plan., System info, System locales, Tag, Tags, tags, Target, Template, Thank you, Thank you for supporting us, you now have access to all our resources., Thank you for supporting us, your subscription has been successfully renewed., Thank you for your contact request., The content has to have at least :min characters., The current logged in user cannot be deleted., The form contains errors:, The home page cannot be deleted., The password is incorrect., The slug is required if published., The subscription of :name was renewed automatically., The subscription renewal of :name has failed., The subscription was sucessfully cancelled., The subscription was sucessfully resumed., The title has to have at least :min characters., The title has to have no more than :max characters., The user :name can not be deleted because he has a running subscription., There are currently no discussions in this category., There are no results that match your query., There is no payment method available., There was an error with your payment., This action is unauthorized., This category cannot be deleted as it contains projects., This item cannot be deleted because it has children., This password reset link will expire in :count minutes., This user is not activated., This user was not found., Time, Title, Title of discussion, to, Toggle navigation, Too Many Requests, Total due, Translation, Translations, translations, Type, Type your discussion here…, Type your response here…, Unauthorized, Unpublish, Unpublished, Unpublished items, Unsubscribe to this discussion., Upcoming events, Update, Update response, Upload files, Uri, Url, User, User permissions, Username, users, Users, Users and roles, Uses, VAT, Venue, Verify Email Address, Verify Your Email Address, View, View list, View online, View the discussion., View website, Visit our website, We inform you that your membership as a :plan will be renewed automatically as of :date., Webmaster Email, Website, Website baseline, Website title, Welcome, Welcome, :name!, Well done!, We’re sorry to see you go., Whoops!, Whoops! There seems to be a problem creating your discussion., Whoops, something went wrong on our servers., Width, Wuh Oh!, Year, Yes, Yes delete it, You are already on the :plan plan, You are not currently subscribed to any plan., You are now successfully subscribed., You are receiving this email because we received a password reset request for your account., You are subscribed to the :name plan., You don’t have any invoices., You have a new paid member (:name)., You have a new paid member., Your account, Your account has been activated, you can now log in, Your account has been created, check your email for the verification link., Your account has been created, now you need to verify it., Your contact details, Your details, Your email address has been verified., Your invoices, Your payment method, Your payment method could not be revoked., Your payment method was sucesfully revoked., Your profile, Your profile has been successfully updated., Your receipt, Your subscription, Your subscription could not be cancelled., Your subscription could not be perfomed. Please retry., Your subscription could not be resumed., Your subscription could not be upgraded., Your subscription to the :name plan was cancelled., Your subscription to the :name plan was cancelled. You still have access to it until :ends_at., Your subscription was sucessfully cancelled., Your subscription was sucessfully resumed., Your subscription was sucessfully upgraded., Zip, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"# blocks\":\"Aucun bloc de contenu | 1 bloc de contenu | {count} blocs de contenu\",\"# categories\":\"Aucune catégorie | 1 catégorie | {count} catégories\",\"# contacts\":\"Aucun contact | 1 contact | {count} contacts\",\"# events\":\"Aucun événement | 1 événement | {count} événements\",\"# files could not be moved.\":\"Aucun fichier n’a pu être déplacé. | 1 fichier n’a pas pu être déplacé. | {count} fichiers n’ont pas pu être déplacés.\",\"# files moved.\":\"Aucun fichier déplacé. | 1 fichier déplacé. | {count} fichiers déplacés.\",\"# items deleted\":\"1 élément supprimé | {count} éléments supprimés\",\"# items published\":\"1 élément publié | {count} éléments publiés\",\"# items selected\":\"Aucun élément sélectionné | 1 élément sélectionné | {count} éléments sélectionnés\",\"# items unpublished\":\"1 élément dépublié | {count} éléments dépubliés\",\"# menus\":\"Aucun menu | 1 menu | {count} menus\",\"# news\":\"Aucune actualité | 1 actualité | {count} actualités\",\"# pages\":\"Aucune page | 1 page | {count} pages\",\"# partners\":\"Aucun partenaire | 1 partenaire | {count} partenaires\",\"# places\":\"Aucune adresse | 1 adresse | {count} adresses\",\"# projects\":\"Aucun projet | 1 projet | {count} projets\",\"# roles\":\"Aucun rôle | 1 rôle | {count} rôles\",\"# sections\":\"Aucune section | 1 section | {count} sections\",\"# slides\":\"Aucun slide | 1 slide | {count} slides\",\"# tags\":\"Aucun tag | 1 tag | {count} tags\",\"# translations\":\"Aucune traduction | 1 traduction | {count} traductions\",\"# users\":\"Aucun utilisateur | 1 utilisateur | {count} utilisateurs\",\"A fresh verification link has been sent to your email address.\":\"Un nouveau lien de vérification a été envoyé à votre adresse email.\",\"A non-empty folder cannot be deleted.\":\"Un dossier non-vide ne peut pas être supprimé.\",\"A page containing subpages cannot be linked to a module\":\"Une page ayant des sous-pages ne peut pas être liée à un module.\",\"Access dashboard\":\"Accéder au tableau de bord\",\"Action\":\"Action\",\"Activate my account\":\"Activer mon compte\",\"Activated\":\"Activé\",\"Active locale\":\"Langue active\",\"Active tab\":\"Onglet actif\",\"Add files\":\"Ajouter des fichiers\",\"Add selected file\":\"Ajouter le fichier sélectionné\",\"Add selected files\":\"Ajouter les fichiers sélectionnés\",\"Add to menu\":\"Ajouter au menu\",\"Add\":\"Ajouter\",\"address\":\"adresse\",\"Address\":\"Adresse\",\"Administration Language\":\"Langue de l’interface d’administration\",\"Administration Welcome Message\":\"Message d’accueil de l’interface d’administration\",\"Age\":\"Âge\",\"All languages\":\"Toutes les langues\",\"All rights reserved.\":\"Tous droits réservés.\",\"All\":\"Tous\",\"Alt attribute\":\"Texte alternatif\",\"An error occurred with the data fetch.\":\"Une erreur s’est produite lors du chargement des données.\",\"and get access to all the content of our website.\":\"et accédez à tout le contenu de notre site.\",\"Are you sure you want to delete # items?\":\"Voulez-vous supprimer {count} élément ? | Voulez-vous supprimer {count} éléments ?\",\"Are you sure you want to delete “{title}”?\":\"Êtes-vous certain de vouloir supprimer « {title} » ?\",\"Are you sure you want to publish # items?\":\"Voulez-vous publier 1 élément ? | Voulez-vous publier {count} éléments ?\",\"Are you sure you want to unpublish # items?\":\"Voulez-vous dépublier 1 élément ? | Voulez-vous dépublier {count} éléments ?\",\"Authenticate to view website\":\"Se connecter pour voir le site\",\"Available\":\"Disponible\",\"Back to the website\":\"Retour au site web\",\"Back\":\"Retour\",\"Back-office\":\"Administration\",\"Become a member\":\"Devenez membre\",\"Before proceeding, please check your email for a verification link.\":\"Avant de continuer, veuillez vérifier votre courrier électronique pour un lien de vérification.\",\"Blocks\":\"Blocs de contenu\",\"Body\":\"Corps\",\"Cache cleared\":\"Le cache a été vidé\",\"Cache\":\"Cache\",\"Cancel\":\"Annuler\",\"Categories\":\"Catégories\",\"Category\":\"Catégorie\",\"Change Password\":\"Modifier le mot de passe\",\"Change settings\":\"Changer la configuration\",\"City\":\"Ville\",\"Class\":\"Class\",\"Clear cache\":\"Vider le cache\",\"Clear\":\"Vider l’historique\",\"click here to request another\":\"cliquer ici pour faire une autre demande\",\"Comments enabled\":\"Activer les commentaires\",\"Company\":\"Société\",\"Confirm Password\":\"Confirmez le mot de passe\",\"Contact information\":\"Coordonnées\",\"Contacts\":\"Contacts\",\"Content blocks\":\"Blocs de contenu\",\"Content\":\"Contenu\",\"Copied to the clipboard\":\"Copié dans le presse-papier\",\"Copy\":\"Copier\",\"Country\":\"Pays\",\"Create\":\"Créer\",\"Created at\":\"Créé le\",\"Css\":\"Code CSS\",\"Currency\":\"Moneda\",\"Dashboard\":\"Tableau de bord\",\"Date\":\"Date\",\"Day\":\"Jour\",\"DDMMYYYY HHMM\":\"JJ.MM.AAAA HH:MM\",\"DDMMYYYY\":\"JJ.MM.AAAA\",\"Delete\":\"Supprimer\",\"Description\":\"Description\",\"Deselect all\":\"Tout désélectionner\",\"Destroy\":\"Supprimer\",\"Disabled\":\"Désactivé\",\"Do you want to clear history?\":\"Voulez-vous vider l’historique ?\",\"Document\":\"Document\",\"Download count\":\"Nombre de téléchargements\",\"Drop files to upload\":\"Glisser des fichiers pour les envoyer.\",\"Drop to upload.\":\"Déposer pour envoyer.\",\"E-Mail Address\":\"Adresse email\",\"Edit block\":\"Modifier le bloc de contenu\",\"Edit event\":\"Modifier l’événement\",\"Edit file\":\"Modifier le fichier\",\"Edit menu\":\"Modifier le menu\",\"Edit menulink\":\"Modifier le lien de menu\",\"Edit news\":\"Modifier l’actualité\",\"Edit object\":\"Modifier object\",\"Edit page\":\"Modifier la page\",\"Edit partner\":\"Modifier le partenaire\",\"Edit place\":\"Modifier l’adresse\",\"Edit project\":\"Modifier le projet\",\"Edit role\":\"Modifier le rôle\",\"Edit slide\":\"Modifier le slide\",\"Edit tag\":\"Modifier le tag\",\"Edit translation\":\"Modifier la traduction\",\"Edit\":\"Modifier\",\"Email\":\"E-mail\",\"Empty history\":\"Vider l’historique\",\"Enabled\":\"Activé\",\"End date\":\"Date de fin\",\"End time\":\"Heure de fin\",\"Enter a name for the new folder.\":\"Entrez le nom du nouveau dossier.\",\"Environment\":\"Environnement\",\"Error\":\"Erreur\",\"Events\":\"Événements\",\"Excerpt\":\"Extrait\",\"Exit\":\"Sortir\",\"Extension\":\"Extension\",\"Fax\":\"Fax\",\"File information\":\"Informations sur le fichier\",\"File\":\"Fichier\",\"Filename\":\"Nom du fichier\",\"Files\":\"Fichiers\",\"Filter\":\"Filtrer\",\"Find nearest\":\"Trouver l’adresse la plus proche\",\"First name\":\"Prénom\",\"Forbidden\":\"Interdit\",\"Forgot Your Password?\":\"Vous avez oublié votre mot de passe ?\",\"from\":\"du\",\"Front office\":\"Public\",\"Gender\":\"Genre\",\"Generate\":\"Générer\",\"Go Home\":\"Aller à l’accueil\",\"Google Analytics Tracking Id\":\"Google Analytics Tracking Id\",\"Grid\":\"Grille\",\"Groups\":\"Groupes\",\"Height\":\"Hauteur\",\"Hello!\":\"Bonjour !\",\"HH:MM\":\"HH:MM\",\"hi\":\"salut\",\"History is empty.\":\"L’historique est vide.\",\"Home\":\"Accueil\",\"Homepage\":\"Sur la page d’accueil\",\"Hour\":\"Heure\",\"Icon class\":\"Class d’icône\",\"If you did not create an account, no further action is required.\":\"Si vous n’avez pas créé de compte, aucune action supplémentaire n’est requise.\",\"If you did not receive the email\":\"Si vous n’avez pas reçu l’email\",\"If you did not request a password reset, no further action is required.\":\"Si vous n’avez pas demandé de réinitialisation de mot de passe, aucune autre action n’est requise.\",\"If you’re having trouble clicking the \\\":actionText\\\" button, copy and paste the URL below\\ninto your web browser: [:actionURL](:actionURL)\":\"Si vous avez des problèmes en cliquant sur le bouton “:actionText”, faites un copié/collé de l’url ci-dessous dans votre navigateur : [:actionURL](:actionURL)\",\"Image\":\"Image\",\"Images\":\"Images\",\"Impossible to delete more than # items in one go.\":\"Impossible de supprimer plus de {deleteLimit} éléments en une fois.\",\"Index\":\"Voir liste\",\"Info\":\"Info\",\"Insert\":\"Insérer\",\"Is home\":\"Définir en tant que page d’accueil\",\"Item is published.\":\"L’élément a été publié.\",\"Item is unpublished.\":\"L’élément a été dépublié.\",\"Js\":\"Code JavaScript\",\"KB\":\"Ko\",\"Key\":\"Clé\",\"Keywords\":\"Mots-clés\",\"Lang Chooser\":\"Page de choix de langue\",\"Language\":\"Langue\",\"Last name\":\"Nom\",\"Latest changes\":\"Activité récente\",\"Latitude\":\"Latitude\",\"Legend\":\"Légende\",\"List\":\"Liste\",\"Loading…\":\"Chargement…\",\"Locales\":\"Langues\",\"Location\":\"Lieu\",\"Login\":\"Connexion\",\"Logo\":\"Logo\",\"Logout\":\"Déconnexion\",\"Longitude\":\"Longitude\",\"Mandatory fields\":\"Champs obligatoires\",\"Max :size MB\":\"Maximum :size Mo\",\"Max\":\"Maximum\",\"MB\":\"Mo\",\"Media\":\"Médias\",\"Menu\":\"Menu\",\"Menulink\":\"Lien de menu\",\"Menulinks\":\"Liens de menu\",\"Menus\":\"Menus\",\"Message\":\"Message\",\"Meta description\":\"Meta description\",\"Meta keywords\":\"Meta mots clés\",\"Meta title\":\"Meta titre\",\"Meta\":\"Meta\",\"Mimetype\":\"Type Mime\",\"Minute\":\"Minute\",\"Mobile\":\"Portable\",\"Modify\":\"Modifier\",\"Module name\":\"Nom du module\",\"Module\":\"Module\",\"Month\":\"Mois\",\"Move to parent folder\":\"Placer dans le dossier parent\",\"Mr\":\"M.\",\"Mrs\":\"Mme\",\"Name\":\"Nom\",\"New block\":\"Nouveau bloc de contenu\",\"New contact request from\":\"Nouvelle demande de contact de\",\"New contact request\":\"Nouvelle demande de contact\",\"New contact\":\"Nouveau contact\",\"New event\":\"Nouvel événement\",\"New file\":\"Nouveau fichier\",\"New folder\":\"Nouveau dossier\",\"New menu\":\"Nouveau menu\",\"New menulink\":\"Nouveau lien de menu\",\"New news\":\"Nouvelle actualité\",\"New object\":\"Nouveau object\",\"New page section\":\"Nouvelle section de page\",\"New page\":\"Nouvelle page\",\"New partner\":\"Nouveau partenaire\",\"New password\":\"Nouveau mot de passe\",\"New place\":\"Nouvelle adresse\",\"New project category\":\"Nouvelle catégorie de Projets\",\"New project\":\"Nouveau projet\",\"New role\":\"Nouveau rôle\",\"New slide\":\"Nouveau slide\",\"New tab\":\"Nouvel onglet\",\"New tag\":\"Nouveau tag\",\"New translation\":\"Nouvelle traduction\",\"New user\":\"Nouvel utilisateur\",\"News feed\":\"Flux d’actualités\",\"News\":\"Actualités\",\"Next\":\"Suivant\",\"No default page found\":\"Aucune page d’accueil trouvée\",\"No file\":\"Aucun fichier\",\"No menu found with name “:name”\":\"Le menu « :name » n’a pas été trouvé.\",\"No\":\"Non\",\"None\":\"Aucun\",\"Not a member?\":\"Vous n'êtes pas membre ?\",\"Not found\":\"Introuvable\",\"Nothing found.\":\"Rien n’a été trouvé.\",\"Objects\":\"Objects\",\"Offline\":\"Hors ligne\",\"Oh no\":\"Oh non\",\"on\":\"le\",\"Online\":\"En ligne\",\"Options\":\"Options\",\"Page Expired\":\"Page expirée\",\"Page Not Found\":\"Page non trouvée\",\"Page sections\":\"Sections de page\",\"Page\":\"Page\",\"Pages\":\"Pages\",\"Partners\":\"Partenaires\",\"Password confirmation\":\"Confirmer le mot de passe\",\"Password\":\"Mot de passe\",\"Past events\":\"Événements passés\",\"Path\":\"Chemin\",\"per page\":\"par page\",\"Permissions\":\"Permissions\",\"Phone\":\"Téléphone\",\"Places\":\"Adresses\",\"Please click the button below to verify your email address.\":\"Veuillez cliquer sur le bouton ci-dessous pour vérifier votre adresse email.\",\"Position\":\"Position\",\"Postcode\":\"Code postal\",\"Preview\":\"Prévisualisation\",\"Previous\":\"Précédent\",\"Price\":\"Prix\",\"Private\":\"Privée\",\"Profile\":\"Profil\",\"Project categories\":\"Catégories de projets\",\"Projects\":\"Projets\",\"Publish website\":\"Publier le site web\",\"Publish\":\"Publier\",\"Published items\":\"Publiés\",\"Published on\":\"Publié le\",\"Published\":\"Publié\",\"Read more\":\"En savoir plus\",\"Redirect to first child\":\"Rediriger vers le premier enfant\",\"Regards\":\"Cordialement\",\"Register\":\"S’inscrire\",\"Registration allowed\":\"Permettre la création de comptes utilisateurs\",\"Remember Me\":\"Se souvenir de moi\",\"Replace file\":\"Remplacer le fichier\",\"Replace image\":\"Remplacer l’image\",\"Replace\":\"Remplacer\",\"Reset Password Notification\":\"Notification de réinitialisation du mot de passe\",\"Reset Password\":\"Réinitialiser le mot de passe\",\"Reset\":\"Réinitialiser\",\"Restricted to\":\"Restreint à\",\"Role permissions\":\"Permissions du rôle\",\"Roles\":\"Rôles\",\"Save and exit\":\"Enregistrer et sortir\",\"Save this item first, then add files.\":\"Enregistrez d’abord cet élément, puis ajoutez des fichiers.\",\"Save this page first, then add sections.\":\"Enregistrez d’abord cette page, puis ajoutez des sections.\",\"Save\":\"Enregistrer\",\"Search\":\"Chercher\",\"Second\":\"Seconde\",\"Sections\":\"Sections\",\"See history\":\"Voir l’historique\",\"See navbar\":\"Voir la barre de navigation\",\"See online\":\"Voir en ligne\",\"See settings\":\"Voir la configuration\",\"Select all\":\"Tout sélectionner\",\"Send Password Reset Link\":\"Envoyer le lien de réinitialisation\",\"Send\":\"Envoyer\",\"Service Unavailable\":\"Service indisponible\",\"Settings\":\"Configuration\",\"Show categories\":\"Afficher les catégories\",\"Show on map\":\"afficher sur la carte\",\"Side\":\"Côté\",\"Size (px)\":\"Taille (px)\",\"Size\":\"Taille\",\"Slides\":\"Slides\",\"Slug\":\"Slug\",\"Sorry, an error occurred.\":\"Désolé, une erreur est survenue.\",\"Sorry, the page you are looking for could not be found.\":\"Désolé, la page que vous recherchez est introuvable.\",\"Sorry, we are doing some maintenance. Please check back soon.\":\"Désolé, nous sommes en maintenance. Veuillez revenir plus tard.\",\"Sorry, you are forbidden from accessing this page.\":\"Désolé, vous ne pouvez accéder à cette page.\",\"Sorry, you are making too many requests to our servers.\":\"Désolé, vous faites trop de requêtes vers nos serveurs.\",\"Sorry, you are not authorized to access this page.\":\"Désolé, vous n’êtes pas autorisé à accéder à cette page.\",\"Sorry, your session has expired. Please refresh and try again.\":\"Désolé, votre session a expiré. Veuillez actualiser la page et réessayer.\",\"Sort\":\"Ordonner\",\"Start date\":\"Date de début\",\"Start time\":\"Heure de début\",\"Status\":\"Statut\",\"Store\":\"Créer\",\"Submit\":\"Envoyer\",\"Summary\":\"Résumé\",\"Superuser\":\"Super utilisateur\",\"System info\":\"Informations système\",\"System locales\":\"Locales du système\",\"Tag\":\"Tag\",\"Tags\":\"Tags\",\"Target\":\"Cible\",\"Template\":\"Template\",\"Thank you for your contact request.\":\"Merci pour votre demande de contact.\",\"The current logged in user cannot be deleted.\":\"L’utilisateur actuellement connecté ne peut pas être supprimé.\",\"The form contains errors:\":\"Le formulaire contient des erreurs :\",\"The password is incorrect.\":\"Le mot de passe est incorrect.\",\"The slug is required if published.\":\"Le champ slug est requis si c'est publié.\",\"The user :name can not be deleted because he has a running subscription.\":\"L’utilisateur :name ne peut pas être supprimé car il a un abonnement en cours.\",\"This action is unauthorized.\":\"Cette action n’est pas autorisée.\",\"This item cannot be deleted because it has children.\":\"Cet élément ne peut pas être supprimé car il a des descendants.\",\"This password reset link will expire in :count minutes.\":\"Ce lien de réinitialisation du mot de passe expirera dans :count minutes.\",\"This user is not activated.\":\"Cet utilisateur n’a pas été activé.\",\"This user was not found.\":\"Cet utilisateur n’a pas été trouvé.\",\"Time\":\"Heure\",\"Title\":\"Titre\",\"to\":\"au\",\"Toggle navigation\":\"Menu\",\"Too Many Requests\":\"Trop de requêtes\",\"Translation\":\"Traduction\",\"Translations\":\"Traductions\",\"Type\":\"Type\",\"Unauthorized\":\"Non autorisé\",\"Unpublish\":\"Dépublier\",\"Unpublished items\":\"Dépubliés\",\"Unpublished\":\"Dépublié\",\"Upcoming events\":\"Événements à venir\",\"Update\":\"Mettre à jour\",\"Upload files\":\"Envoyer des fichiers\",\"Uri\":\"URI\",\"Url\":\"URL\",\"User permissions\":\"Permissions de l’utilisateur\",\"User\":\"Utilisateur\",\"Username\":\"Pseudo\",\"Users and roles\":\"Utilisateurs et rôles\",\"Users\":\"Utilisateurs\",\"Uses\":\"Utilisations\",\"Venue\":\"Lieu\",\"Verify Email Address\":\"Vérification de l’adresse email\",\"Verify Your Email Address\":\"Vérifiez votre adresse email\",\"View list\":\"Voir la liste\",\"View online\":\"Voir en ligne\",\"View website\":\"Voir le site\",\"View\":\"Voir\",\"Webmaster Email\":\"Email du webmaster\",\"Website baseline\":\"Baseline du site\",\"Website title\":\"Titre du site\",\"Website\":\"Site web\",\"Welcome, :name!\":\"Bienvenue :name !\",\"Whoops!\":\"Oups !\",\"Whoops, something went wrong on our servers.\":\"Oups, quelque chose s’est mal passé sur nos serveurs.\",\"Width\":\"Largeur\",\"Year\":\"Année\",\"Yes\":\"Oui\",\"You are receiving this email because we received a password reset request for your account.\":\"Vous recevez cet email car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte.\",\"Your account has been activated, you can now log in\":\"Votre compte a été activé, vous pouvez vous connecter.\",\"Your account has been created, check your email for the verification link.\":\"Votre compte a été créé, un lien de vérification vous a été envoyé.\",\"Your account has been created, now you need to verify it.\":\"Votre compte a été créé, vous devez maintenant le vérifier.\",\"Your email address has been verified.\":\"Votre adresse email a bien été vérifiée.\"}");
+module.exports = JSON.parse("{\"# blocks\":\"Aucun bloc de contenu|1 bloc de contenu|{count} blocs de contenu\",\"# categories\":\"Aucune catégorie|1 catégorie|{count} catégories\",\"# contacts\":\"Aucun contact|1 contact|{count} contacts\",\"# discussions\":\"Aucune discussion|1 discussion|{count} discussions\",\"# events\":\"Aucun événement|1 événement|{count} événements\",\"# files could not be moved.\":\"Aucun fichier n’a pu être déplacé.|1 fichier n’a pas pu être déplacé.|{count} fichiers n’ont pas pu être déplacés.\",\"# files moved.\":\"Aucun fichier déplacé.|1 fichier déplacé.|{count} fichiers déplacés.\",\"# items deleted\":\"1 élément supprimé|{count} éléments supprimés\",\"# items published\":\"1 élément publié|{count} éléments publiés\",\"# items selected\":\"Aucun élément sélectionné|1 élément sélectionné|{count} éléments sélectionnés\",\"# items unpublished\":\"1 élément dépublié|{count} éléments dépubliés\",\"# menus\":\"Aucun menu|1 menu|{count} menus\",\"# news\":\"Aucune actualité|1 actualité|{count} actualités\",\"# pages\":\"Aucune page|1 page|{count} pages\",\"# partners\":\"Aucun partenaire|1 partenaire|{count} partenaires\",\"# places\":\"Aucune adresse|1 adresse|{count} adresses\",\"# projects\":\"Aucun projet|1 projet|{count} projets\",\"# roles\":\"Aucun rôle|1 rôle|{count} rôles\",\"# sections\":\"Aucune section|1 section|{count} sections\",\"# slides\":\"Aucun slide|1 slide|{count} slides\",\"# tags\":\"Aucun tag|1 tag|{count} tags\",\"# translations\":\"Aucune traduction|1 traduction|{count} traductions\",\"# users\":\"Aucun utilisateur|1 utilisateur|{count} utilisateurs\",\"/ 1 month\":\"/ mois\",\"/ 1 year\":\"/ an\",\"1 minute| :count minutes\":\"1 minute| :count minutes\",\"A fresh verification link has been sent to your email address.\":\"Un nouveau lien de vérification a été envoyé à votre adresse email.\",\"A non-empty folder cannot be deleted.\":\"Un dossier non-vide ne peut pas être supprimé.\",\"A page containing subpages cannot be linked to a module\":\"Une page ayant des sous-pages ne peut pas être liée à un module.\",\"A subscription renewal has failed.\":\"Le renouvellement d’un abonnement a échoué.\",\"A subscription was renewed automatically.\":\"Un abonnement a été renouvelé automatiquement.\",\"Access dashboard\":\"Accéder au tableau de bord\",\"Action\":\"Action\",\"Activate my account\":\"Activer mon compte\",\"Activated\":\"Activé\",\"Active locale\":\"Langue active\",\"Active tab\":\"Onglet actif\",\"Add\":\"Ajouter\",\"Add files\":\"Ajouter des fichiers\",\"Add selected file\":\"Ajouter le fichier sélectionné\",\"Add selected files\":\"Ajouter les fichiers sélectionnés\",\"Add to menu\":\"Ajouter au menu\",\"address\":\"adresse\",\"Address\":\"Adresse\",\"Administration Language\":\"Langue de l’interface d’administration\",\"Administration Welcome Message\":\"Message d’accueil de l’interface d’administration\",\"Age\":\"Âge\",\"All\":\"Tous\",\"All discussions\":\"Toutes les discussions\",\"All languages\":\"Toutes les langues\",\"All rights reserved.\":\"Tous droits réservés.\",\"Alt attribute\":\"Texte alternatif\",\"Amount\":\"Montant\",\"An error occurred with the data fetch.\":\"Une erreur s’est produite lors du chargement des données.\",\"and get access to all the content of our website.\":\"et accédez à tout le contenu de notre site.\",\"Are you sure you want to cancel your subscription to :name?\":\"Êtes-vous sûr de vouloir annuler votre abonnement à :name ?\",\"Are you sure you want to delete # items?\":\"Voulez-vous supprimer {count} élément ? | Voulez-vous supprimer {count} éléments ?\",\"Are you sure you want to delete this <strong>discussion</strong>?\":\"Êtes-vous certain de vouloir supprimer cette <strong>discussion</strong>?\",\"Are you sure you want to delete this response?\":\"Êtes-vous certain de vouloir supprimer cette réponse ?\",\"Are you sure you want to delete “{title}”?\":\"Êtes-vous certain de vouloir supprimer « {title} » ?\",\"Are you sure you want to publish # items?\":\"Voulez-vous publier 1 élément ? | Voulez-vous publier {count} éléments ?\",\"Are you sure you want to unpublish # items?\":\"Voulez-vous dépublier 1 élément ? | Voulez-vous dépublier {count} éléments ?\",\"Authenticate to view website\":\"Se connecter pour voir le site\",\"Available\":\"Disponible\",\"Available plans\":\"Plans disponibles\",\"Back\":\"Retour\",\"Back to icons list\":\"Retour à la liste des icons\",\"Back to the website\":\"Retour au site web\",\"Back-office\":\"Administration\",\"Balance after\":\"Solde après\",\"Balance applied\":\"Solde appliqué\",\"Balance before\":\"Solde avant\",\"Become a member\":\"Devenez membre\",\"Before proceeding, please check your email for a verification link.\":\"Avant de continuer, veuillez vérifier votre courrier électronique pour un lien de vérification.\",\"Blocks\":\"Blocs de contenu\",\"Body\":\"Corps\",\"Box\":\"Boite\",\"Cache\":\"Cache\",\"Cache cleared\":\"Le cache a été vidé\",\"Cancel\":\"Annuler\",\"Cancel my subscription.\":\"Annuler mon abonnement.\",\"Cancel the subscription\":\"Annuler l’abonnement\",\"categories\":\"catégorie|catégories\",\"Categories\":\"Catégories\",\"Category\":\"Catégorie\",\"Change Password\":\"Modifier le mot de passe\",\"Change settings\":\"Changer la configuration\",\"City\":\"Ville\",\"Class\":\"Class\",\"Clear\":\"Vider l’historique\",\"Clear cache\":\"Vider le cache\",\"click here to request another\":\"cliquer ici pour faire une autre demande\",\"Comments enabled\":\"Activer les commentaires\",\"Company\":\"Société\",\"Confirm Password\":\"Confirmez le mot de passe\",\"Contact information\":\"Coordonnées\",\"contacts\":\"contact|contacts\",\"Contacts\":\"Contacts\",\"Content\":\"Contenu\",\"Content blocks\":\"Blocs de contenu\",\"Copied to the clipboard\":\"Copié dans le presse-papier\",\"Copy\":\"Copier\",\"Could not delete the response.\":\"Impossible de supprimer la réponse.\",\"Could not update your response.\":\"Impossible de mettre à jour votre réponse.\",\"Country\":\"Pays\",\"Create\":\"Créer\",\"Create discussion\":\"Créer une discussion\",\"Created at\":\"Créé le\",\"Css\":\"Code CSS\",\"Currency\":\"Moneda\",\"Current subscription\":\"Abonnement actuel\",\"Dashboard\":\"Tableau de bord\",\"Date\":\"Date\",\"Day\":\"Jour\",\"DDMMYYYY\":\"JJ.MM.AAAA\",\"DDMMYYYY HHMM\":\"JJ.MM.AAAA HH:MM\",\"Delete\":\"Supprimer\",\"Description\":\"Description\",\"Deselect all\":\"Tout désélectionner\",\"Destroy\":\"Supprimer\",\"Disabled\":\"Désactivé\",\"discussions\":\"discussion|discussions\",\"Do you want to clear history?\":\"Voulez-vous vider l’historique ?\",\"Document\":\"Document\",\"Don’t like these emails?\":\"Vous n’aimez pas ces courriels ?\",\"Download count\":\"Nombre de téléchargements\",\"Drop files to upload\":\"Glisser des fichiers pour les envoyer.\",\"Drop to upload.\":\"Déposer pour envoyer.\",\"E-Mail Address\":\"Adresse email\",\"Edit\":\"Modifier\",\"Edit block\":\"Modifier le bloc de contenu\",\"Edit event\":\"Modifier l’événement\",\"Edit file\":\"Modifier le fichier\",\"Edit icon\":\"Modifier icon\",\"Edit menu\":\"Modifier le menu\",\"Edit menulink\":\"Modifier le lien de menu\",\"Edit news\":\"Modifier l’actualité\",\"Edit object\":\"Modifier object\",\"Edit page\":\"Modifier la page\",\"Edit partner\":\"Modifier le partenaire\",\"Edit place\":\"Modifier l’adresse\",\"Edit project\":\"Modifier le projet\",\"Edit role\":\"Modifier le rôle\",\"Edit slide\":\"Modifier le slide\",\"Edit tag\":\"Modifier le tag\",\"Edit translation\":\"Modifier la traduction\",\"Edit your profile\":\"Modifiez votre profil\",\"Email\":\"E-mail\",\"Empty history\":\"Vider l’historique\",\"Enabled\":\"Activé\",\"End date\":\"Date de fin\",\"End time\":\"Heure de fin\",\"Enter a name for the new folder.\":\"Entrez le nom du nouveau dossier.\",\"Environment\":\"Environnement\",\"Error\":\"Erreur\",\"Events\":\"Événements\",\"events\":\"événement|événements\",\"Excerpt\":\"Extrait\",\"Exit\":\"Sortir\",\"Extension\":\"Extension\",\"Fax\":\"Fax\",\"File\":\"Fichier\",\"File information\":\"Informations sur le fichier\",\"Filename\":\"Nom du fichier\",\"Files\":\"Fichiers\",\"Filter\":\"Filtrer\",\"Find nearest\":\"Trouver l’adresse la plus proche\",\"First name\":\"Prénom\",\"Forbidden\":\"Interdit\",\"Forgot Your Password?\":\"Vous avez oublié votre mot de passe ?\",\"from\":\"du\",\"Front office\":\"Public\",\"Gender\":\"Genre\",\"Generate\":\"Générer\",\"Go Home\":\"Aller à l’accueil\",\"Go to our homepage\":\"Aller à notre page d'accueil\",\"Goodbye\":\"Au revoir\",\"Google Analytics Tracking Id\":\"Google Analytics Tracking Id\",\"Grid\":\"Grille\",\"Groups\":\"Groupes\",\"Have a great day!\":\"Passez une bonne journée !\",\"Heads Up!\":\"Attention !\",\"Height\":\"Hauteur\",\"Hello!\":\"Bonjour !\",\"HH:MM\":\"HH:MM\",\"hi\":\"salut\",\"Hi there,\":\"Salut,\",\"History is empty.\":\"L’historique est vide.\",\"Home\":\"Accueil\",\"Homepage\":\"Sur la page d’accueil\",\"Hour\":\"Heure\",\"I subscribe\":\"Je m’abonne\",\"I will subscribe later\":\"Je m’abonnerai plus tard\",\"Icon class\":\"Class d’icône\",\"Icons\":\"Icons\",\"If you did not create an account, no further action is required.\":\"Si vous n’avez pas créé de compte, aucune action supplémentaire n’est requise.\",\"If you did not receive the email\":\"Si vous n’avez pas reçu l’email\",\"If you did not request a password reset, no further action is required.\":\"Si vous n’avez pas demandé de réinitialisation de mot de passe, aucune autre action n’est requise.\",\"If you no longer wish to be notified when someone responds to this form post be sure to uncheck the notification setting at the bottom of the discussion page.\":\"Si vous ne souhaitez plus être notifié lorsque quelqu’un répond à ce formulaire, assurez-vous de décocher le paramètre de notification en bas de la page de discussion.\",\"If you’re having trouble clicking the \\\":actionText\\\" button, copy and paste the URL below\\ninto your web browser: [:actionURL](:actionURL)\":\"Si vous avez des problèmes en cliquant sur le bouton “:actionText”, faites un copié/collé de l’url ci-dessous dans votre navigateur : [:actionURL](:actionURL)\",\"Image\":\"Image\",\"Images\":\"Images\",\"Impossible to delete more than # items in one go.\":\"Impossible de supprimer plus de {deleteLimit} éléments en une fois.\",\"In order to prevent spam, please allow at least :minutes in between submitting content.\":\"Afin d’éviter le spam, veuillez prévoir au moins :minutes minute(s) avant de soumettre à nouveau du contenu.\",\"Index\":\"Voir liste\",\"Info\":\"Info\",\"Insert\":\"Insérer\",\"Is home\":\"Définir en tant que page d’accueil\",\"Item is published.\":\"L’élément a été publié.\",\"Item is unpublished.\":\"L’élément a été dépublié.\",\"Js\":\"Code JavaScript\",\"Just wanted to let you know that someone has responded to a forum post at\":\"Je voulais juste vous faire savoir que quelqu’un a répondu à un message du forum à\",\"Just wanted to let you know that someone has responded to a forum post.\":\"Je voulais juste vous faire savoir que quelqu’un a répondu à un message du forum.\",\"KB\":\"Ko\",\"Key\":\"Clé\",\"Keywords\":\"Mots-clés\",\"Lang Chooser\":\"Page de choix de langue\",\"Language\":\"Langue\",\"Last name\":\"Nom\",\"Latest changes\":\"Activité récente\",\"Latitude\":\"Latitude\",\"Legend\":\"Légende\",\"List\":\"Liste\",\"Loading…\":\"Chargement…\",\"Locales\":\"Langues\",\"Location\":\"Lieu\",\"Login\":\"Connexion\",\"Logo\":\"Logo\",\"Logout\":\"Déconnexion\",\"Longitude\":\"Longitude\",\"Mandatory fields\":\"Champs obligatoires\",\"Max\":\"Maximum\",\"Max :size MB\":\"Maximum :size Mo\",\"MB\":\"Mo\",\"Media\":\"Médias\",\"Menu\":\"Menu\",\"Menulink\":\"Lien de menu\",\"Menulinks\":\"Liens de menu\",\"Menus\":\"Menus\",\"Message\":\"Message\",\"Meta\":\"Meta\",\"Meta description\":\"Meta description\",\"Meta keywords\":\"Meta mots clés\",\"Meta title\":\"Meta titre\",\"Mimetype\":\"Type Mime\",\"Minute\":\"Minute\",\"Mobile\":\"Portable\",\"Modify\":\"Modifier\",\"Module\":\"Module\",\"Module name\":\"Nom du module\",\"Month\":\"Mois\",\"Move to parent folder\":\"Placer dans le dossier parent\",\"Mr\":\"M.\",\"Mrs\":\"Mme\",\"Name\":\"Nom\",\"New block\":\"Nouveau bloc de contenu\",\"New contact\":\"Nouveau contact\",\"New contact request\":\"Nouvelle demande de contact\",\"New contact request from\":\"Nouvelle demande de contact de\",\"New discussion\":\"Nouvelle discussion\",\"New event\":\"Nouvel événement\",\"New file\":\"Nouveau fichier\",\"New folder\":\"Nouveau dossier\",\"New icon\":\"Nouveau icon\",\"New menu\":\"Nouveau menu\",\"New menulink\":\"Nouveau lien de menu\",\"New news\":\"Nouvelle actualité\",\"New object\":\"Nouveau object\",\"New page\":\"Nouvelle page\",\"New page section\":\"Nouvelle section de page\",\"New partner\":\"Nouveau partenaire\",\"New password\":\"Nouveau mot de passe\",\"New place\":\"Nouvelle adresse\",\"New project\":\"Nouveau projet\",\"New project category\":\"Nouvelle catégorie de Projets\",\"New role\":\"Nouveau rôle\",\"New slide\":\"Nouveau slide\",\"New tab\":\"Nouvel onglet\",\"New tag\":\"Nouveau tag\",\"New translation\":\"Nouvelle traduction\",\"New user\":\"Nouvel utilisateur\",\"News\":\"Actualités\",\"news\":\"actualité|actualités\",\"News feed\":\"Flux d’actualités\",\"Next\":\"Suivant\",\"No\":\"Non\",\"No default page found\":\"Aucune page d’accueil trouvée\",\"No file\":\"Aucun fichier\",\"No menu found with name “:name”\":\"Le menu « :name » n’a pas été trouvé.\",\"No thanks\":\"Non merci.\",\"None\":\"Aucun\",\"Not a member?\":\"Vous n'êtes pas membre ?\",\"Not found\":\"Introuvable\",\"Nothing found.\":\"Rien n’a été trouvé.\",\"Notify me when someone replies.\":\"Avertissez-moi lorsque quelqu’un vous répond.\",\"Number\":\"Numéro\",\"Objects\":\"Objects\",\"Offline\":\"Hors ligne\",\"Oh no\":\"Oh non\",\"Oh Snap!\":\"Oh Snap !\",\"on\":\"le\",\"Online\":\"En ligne\",\"Options\":\"Options\",\"Page\":\"Page\",\"Page Expired\":\"Page expirée\",\"Page Not Found\":\"Page non trouvée\",\"Page sections\":\"Sections de page\",\"pages\":\"page|pages\",\"Pages\":\"Pages\",\"partners\":\"partenaire|partenaires\",\"Partners\":\"Partenaires\",\"Password\":\"Mot de passe\",\"Password confirmation\":\"Confirmer le mot de passe\",\"Past events\":\"Événements passés\",\"Path\":\"Chemin\",\"per page\":\"par page\",\"Permissions\":\"Permissions\",\"Phone\":\"Téléphone\",\"Places\":\"Adresses\",\"places\":\"adresse|adresses\",\"Plans\":\"Plans\",\"Please choose a category.\":\"Veuillez choisir une catégorie.\",\"Please choose the affiliation that best suits you.\":\"Veuillez choisir l’affiliation qui vous convient le mieux.\",\"Please choose the plan you want to switch to.\":\"Veuillez choisir le plan auquel vous souhaitez vous abonner.\",\"Please click the button below to verify your email address.\":\"Veuillez cliquer sur le bouton ci-dessous pour vérifier votre adresse email.\",\"Please fix the following errors:\":\"Veuillez corriger les erreurs suivantes :\",\"Please write a title.\":\"Veuillez écrire un titre.\",\"Please write some content.\":\"Veuillez écrire un contenu.\",\"Position\":\"Position\",\"Postal code\":\"Code postal\",\"Postcode\":\"Code postal\",\"Posted by\":\"Publié par\",\"Posted in category\":\"Publié dans la catégorie\",\"Preview\":\"Prévisualisation\",\"Previous\":\"Précédent\",\"Price\":\"Prix\",\"Private\":\"Privée\",\"Profile\":\"Profil\",\"Project categories\":\"Catégories de projets\",\"projects\":\"projet|projets\",\"Projects\":\"Projets\",\"Publish\":\"Publier\",\"Publish website\":\"Publier le site web\",\"Published\":\"Publié\",\"Published items\":\"Publiés\",\"Published on\":\"Publié le\",\"Read\":\"Voir\",\"Read more\":\"En savoir plus\",\"Redirect to first child\":\"Rediriger vers le premier enfant\",\"Regards\":\"Cordialement\",\"Register\":\"S’inscrire\",\"Registration allowed\":\"Permettre la création de comptes utilisateurs\",\"Remember Me\":\"Se souvenir de moi\",\"Remove\":\"Supprimer\",\"Renewal date\":\"Date de renouvellement\",\"Replace\":\"Remplacer\",\"Replace file\":\"Remplacer le fichier\",\"Replace image\":\"Remplacer l’image\",\"Reset\":\"Réinitialiser\",\"Reset Password\":\"Réinitialiser le mot de passe\",\"Reset Password Notification\":\"Notification de réinitialisation du mot de passe\",\"Response successfully submitted to discussion.\":\"La réponse a été soumise avec succès à la discussion.\",\"Restricted to\":\"Restreint à\",\"Resume the subscription\":\"Prolonger l’abonnement\",\"Resume your subscription to the :name plan.\":\"Reprendre votre abonnement au plan « :name ».\",\"Role permissions\":\"Permissions du rôle\",\"roles\":\"rôle|rôles\",\"Roles\":\"Rôles\",\"Save\":\"Enregistrer\",\"Save and exit\":\"Enregistrer et sortir\",\"Save this item first, then add files.\":\"Enregistrez d’abord cet élément, puis ajoutez des fichiers.\",\"Save this page first, then add sections.\":\"Enregistrez d’abord cette page, puis ajoutez des sections.\",\"Search\":\"Chercher\",\"Search results for “:search”\":\"Résultat de la recherche pour « :search »\",\"Second\":\"Seconde\",\"sections\":\"section|sections\",\"Sections\":\"Sections\",\"See history\":\"Voir l’historique\",\"See navbar\":\"Voir la barre de navigation\",\"See online\":\"Voir en ligne\",\"See settings\":\"Voir la configuration\",\"Select a Category\":\"Sélectionnez une catégorie\",\"Select a color for this discussion (optional)\":\"Choisissez une couleur pour cette discussion (facultatif)\",\"Select all\":\"Tout sélectionner\",\"Send\":\"Envoyer\",\"Send Password Reset Link\":\"Envoyer le lien de réinitialisation\",\"Service Unavailable\":\"Service indisponible\",\"Settings\":\"Configuration\",\"Show on map\":\"afficher sur la carte\",\"Side\":\"Côté\",\"Size\":\"Taille\",\"Size (px)\":\"Taille (px)\",\"slides\":\"slide|slides\",\"Slides\":\"Slides\",\"Slug\":\"Slug\",\"Sorry, an error occurred.\":\"Désolé, une erreur est survenue.\",\"Sorry, the page you are looking for could not be found.\":\"Désolé, la page que vous recherchez est introuvable.\",\"Sorry, there seems to have been a problem submitting your response.\":\"Désolé, il semble qu’il y ait eu un problème pour soumettre votre réponse.\",\"Sorry, we are doing some maintenance. Please check back soon.\":\"Désolé, nous sommes en maintenance. Veuillez revenir plus tard.\",\"Sorry, you are forbidden from accessing this page.\":\"Désolé, vous ne pouvez accéder à cette page.\",\"Sorry, you are making too many requests to our servers.\":\"Désolé, vous faites trop de requêtes vers nos serveurs.\",\"Sorry, you are not authorized to access this page.\":\"Désolé, vous n’êtes pas autorisé à accéder à cette page.\",\"Sorry, your session has expired. Please refresh and try again.\":\"Désolé, votre session a expiré. Veuillez actualiser la page et réessayer.\",\"Sort\":\"Ordonner\",\"Start date\":\"Date de début\",\"Start time\":\"Heure de début\",\"Status\":\"Statut\",\"Store\":\"Créer\",\"Street\":\"Rue\",\"Submit\":\"Envoyer\",\"Submit response\":\"Soumettre la réponse\",\"Subscribe\":\"S’abonner\",\"Subscriptions\":\"Abonnements\",\"Subtotal\":\"Sous-total\",\"Successfully created a new discussion.\":\"A réussi à créer une nouvelle discussion.\",\"Successfully deleted the response and discussion.\":\"Suppression réussie de la réponse et de la discussion.\",\"Successfully deleted the response from the discussion.\":\"La réponse a été supprimée avec succès de la discussion.\",\"Successfully updated the discussion.\":\"La discussion a été mise à jour avec succès.\",\"Summary\":\"Résumé\",\"Superuser\":\"Super utilisateur\",\"Switch to this plan\":\"Passer à ce plan\",\"Switch your subscription to another plan.\":\"Passer à un autre plan.\",\"System info\":\"Informations système\",\"System locales\":\"Locales du système\",\"Tag\":\"Tag\",\"Tags\":\"Tags\",\"tags\":\"tag|tags\",\"Target\":\"Cible\",\"Template\":\"Template\",\"Thank you\":\"Nous vous remercions.\",\"Thank you for supporting us, you now have access to all our resources.\":\"Merci de nous soutenir, vous avez maintenant accès à toutes nos ressources.\",\"Thank you for supporting us, your subscription has been successfully renewed.\":\"Merci de nous soutenir, votre abonnement a été renouvelé avec succès.\",\"Thank you for your contact request.\":\"Merci pour votre demande de contact.\",\"The content has to have at least :min characters.\":\"Le contenu doit comporter au moins les caractères :min.\",\"The current logged in user cannot be deleted.\":\"L’utilisateur actuellement connecté ne peut pas être supprimé.\",\"The form contains errors:\":\"Le formulaire contient des erreurs :\",\"The home page cannot be deleted.\":\"La page d’accueil ne peut être supprimée.\",\"The password is incorrect.\":\"Le mot de passe est incorrect.\",\"The slug is required if published.\":\"Le champ slug est requis si c'est publié.\",\"The subscription of :name was renewed automatically.\":\"L’abonnement de :name a été renouvelé automatiquement.\",\"The subscription renewal of :name has failed.\":\"Le renouvellement de l’abonnement de :name a échoué.\",\"The subscription was sucessfully cancelled.\":\"L’abonnement a été correctement annulé.\",\"The subscription was sucessfully resumed.\":\"L’abonnement a été prolongé avec succès.\",\"The title has to have at least :min characters.\":\"Le titre doit comporter au moins :min caractères.\",\"The title has to have no more than :max characters.\":\"Le titre ne doit pas comporter plus de :max caractères.\",\"The user :name can not be deleted because he has a running subscription.\":\"L’utilisateur :name ne peut pas être supprimé car il a un abonnement en cours.\",\"There are currently no discussions in this category.\":\"Il n’y a actuellement aucune discussion dans cette catégorie.\",\"There are no results that match your query.\":\"Il n’y a pas de résultat qui correspond à votre requête.\",\"There is no payment method available.\":\"Aucun mode de paiement n’est disponible.\",\"There was an error with your payment.\":\"Une erreur s’est produite lors de votre paiement.\",\"This action is unauthorized.\":\"Cette action n’est pas autorisée.\",\"This category cannot be deleted as it contains projects.\":\"Cette catégorie ne peut pas être supprimée car elle contient des projets.\",\"This item cannot be deleted because it has children.\":\"Cet élément ne peut pas être supprimé car il a des descendants.\",\"This password reset link will expire in :count minutes.\":\"Ce lien de réinitialisation du mot de passe expirera dans :count minutes.\",\"This user is not activated.\":\"Cet utilisateur n’a pas été activé.\",\"This user was not found.\":\"Cet utilisateur n’a pas été trouvé.\",\"Time\":\"Heure\",\"Title\":\"Titre\",\"Title of discussion\":\"Titre de la discussion\",\"to\":\"au\",\"Toggle navigation\":\"Menu\",\"Too Many Requests\":\"Trop de requêtes\",\"Total due\":\"Total dû\",\"Translation\":\"Traduction\",\"Translations\":\"Traductions\",\"translations\":\"traduction|traductions\",\"Type\":\"Type\",\"Type your discussion here…\":\"Tapez votre discussion ici…\",\"Type your response here…\":\"Tapez votre réponse ici…\",\"Unauthorized\":\"Non autorisé\",\"Unpublish\":\"Dépublier\",\"Unpublished\":\"Dépublié\",\"Unpublished items\":\"Dépubliés\",\"Unsubscribe to this discussion.\":\"Désinscrivez-vous de cette discussion.\",\"Upcoming events\":\"Événements à venir\",\"Update\":\"Modifier\",\"Update response\":\"Mise à jour de la réponse\",\"Upload files\":\"Envoyer des fichiers\",\"Uri\":\"URI\",\"Url\":\"URL\",\"User\":\"Utilisateur\",\"User permissions\":\"Permissions de l’utilisateur\",\"Username\":\"Pseudo\",\"users\":\"utilisateur|utilisateurs\",\"Users\":\"Utilisateurs\",\"Users and roles\":\"Utilisateurs et rôles\",\"Uses\":\"Utilisations\",\"VAT\":\"TVA\",\"Venue\":\"Lieu\",\"Verify Email Address\":\"Vérification de l’adresse email\",\"Verify Your Email Address\":\"Vérifiez votre adresse email\",\"View\":\"Voir\",\"View list\":\"Voir la liste\",\"View online\":\"Voir en ligne\",\"View the discussion.\":\"Voir la discussion.\",\"View website\":\"Voir le site\",\"Visit our website\":\"Visitez notre site web\",\"We inform you that your membership as a :plan will be renewed automatically as of :date.\":\"Nous vous informons que votre affiliation en tant que :plan sera renouvellée automatiquement en date du :date.\",\"Webmaster Email\":\"Email du webmaster\",\"Website\":\"Site web\",\"Website baseline\":\"Baseline du site\",\"Website title\":\"Titre du site\",\"Welcome\":\"Bienvenue\",\"Welcome, :name!\":\"Bienvenue :name !\",\"Well done!\":\"Bravo !\",\"We’re sorry to see you go.\":\"Nous sommes désolés de vous voir partir.\",\"Whoops!\":\"Oups !\",\"Whoops! There seems to be a problem creating your discussion.\":\"Il semble y avoir un problème pour créer votre discussion.\",\"Whoops, something went wrong on our servers.\":\"Oups, quelque chose s’est mal passé sur nos serveurs.\",\"Width\":\"Largeur\",\"Wuh Oh!\":\"Wuh Oh !\",\"Year\":\"Année\",\"Yes\":\"Oui\",\"Yes delete it\":\"Oui, effacez-la.\",\"You are already on the :plan plan\":\"Vous êtes déjà sur le plan :plan\",\"You are not currently subscribed to any plan.\":\"Vous n’êtes actuellement affilié à aucun plan.\",\"You are now successfully subscribed.\":\"Vous êtes maintenant abonné avec succès.\",\"You are receiving this email because we received a password reset request for your account.\":\"Vous recevez cet email car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte.\",\"You are subscribed to the :name plan.\":\"Vous êtes abonné au plan « :name ».\",\"You don’t have any invoices.\":\"Vous n’avez pas de reçu.\",\"You have a new paid member (:name).\":\"Vous avez un nouveau membre payant (:name).\",\"You have a new paid member.\":\"Vous avez un nouveau membre payant.\",\"Your account\":\"Votre compte\",\"Your account has been activated, you can now log in\":\"Votre compte a été activé, vous pouvez vous connecter.\",\"Your account has been created, check your email for the verification link.\":\"Votre compte a été créé, un lien de vérification vous a été envoyé.\",\"Your account has been created, now you need to verify it.\":\"Votre compte a été créé, vous devez maintenant le vérifier.\",\"Your contact details\":\"Vos coordonnées\",\"Your details\":\"Vos coordonnées\",\"Your email address has been verified.\":\"Votre adresse email a bien été vérifiée.\",\"Your invoices\":\"Vos reçus\",\"Your payment method\":\"Votre mode de paiement\",\"Your payment method could not be revoked.\":\"Votre mode de paiement n’a pas pu être révoqué.\",\"Your payment method was sucesfully revoked.\":\"Votre mode de paiement a été révoqué avec succès.\",\"Your profile\":\"Votre profil\",\"Your profile has been successfully updated.\":\"Votre profil a été mis à jour avec succès.\",\"Your receipt\":\"Votre reçu\",\"Your subscription\":\"Votre abonnement\",\"Your subscription could not be cancelled.\":\"Votre abonnement n’a pas pu être annulé.\",\"Your subscription could not be perfomed. Please retry.\":\"Votre abonnement n’a pas pu être effectué. Veuillez réessayer.\",\"Your subscription could not be resumed.\":\"Votre abonnement n’a pas pu être repris.\",\"Your subscription could not be upgraded.\":\"Votre abonnement n’a pas pu être mis à jour.\",\"Your subscription to the :name plan was cancelled.\":\"Votre abonnement au plan « :name » a été annulé.\",\"Your subscription to the :name plan was cancelled. You still have access to it until :ends_at.\":\"Votre abonnement au plan « :name » a été annulé. Vous en bénéficiez jusqu’au :ends_at.\",\"Your subscription was sucessfully cancelled.\":\"Votre abonnement a été résilié avec succès.\",\"Your subscription was sucessfully resumed.\":\"Votre abonnement a été repris avec succès.\",\"Your subscription was sucessfully upgraded.\":\"Votre abonnement a été mis à niveau avec succès.\",\"Zip\":\"Code Postal\"}");
 
 /***/ }),
 

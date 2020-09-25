@@ -4,6 +4,7 @@
     z-index: 999;
     position: relative;
     transition: transform 0.3s cubic-bezier(0.43, -0.01, 0.26, 1.04);
+    background-color: $light;
     @include media-breakpoint-up(sm) {
         padding-top: 1.75rem;
         padding-bottom: 1.5rem;
