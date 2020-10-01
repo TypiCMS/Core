@@ -2857,7 +2857,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var _this10 = this;
 
       var deleteLimit = 100;
-      console.log(this.selectedItems);
 
       var _iterator = _createForOfIteratorHelper(this.selectedItems),
           _step;
