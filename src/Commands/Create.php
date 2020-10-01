@@ -26,6 +26,25 @@ class Create extends Command
     protected $module;
 
     /**
+     * The search array.
+     *
+     * @var array
+     */
+    protected $search = [
+        'objects',
+        'object',
+        'Objects',
+        'Object',
+    ];
+
+    /**
+     * The replace array.
+     *
+     * @var array
+     */
+    protected $replace;
+
+    /**
      * The console command signature.
      *
      * @var string
@@ -59,7 +78,14 @@ class Create extends Command
             return $this->error('Only alphabetic characters are allowed.');
         }
 
-        $this->module = Str::plural(ucfirst(mb_strtolower($this->argument('module'))));
+        $this->module = Str::plural(mb_ucfirst(mb_strtolower($this->argument('module'))));
+
+        $this->replace = [
+            mb_strtolower($this->module),
+            mb_strtolower(Str::singular($this->module)),
+            $this->module,
+            Str::singular($this->module),
+        ];
 
         if ($this->moduleExists()) {
             return $this->error('A module named ['.$this->module.'] already exists.');
@@ -108,22 +134,9 @@ class Create extends Command
             'directory' => new Flysystem(new LocalAdapter($directory)),
         ]);
 
-        $search = [
-            'objects',
-            'object',
-            'Objects',
-            'Object',
-        ];
-        $replace = [
-            mb_strtolower($this->module),
-            mb_strtolower(Str::singular($this->module)),
-            $this->module,
-            Str::singular($this->module),
-        ];
-
         foreach ($manager->listContents('directory://', true) as $file) {
             if ($file['type'] === 'file') {
-                $content = str_replace($search, $replace, $manager->read('directory://'.$file['path']));
+                $content = str_replace($this->search, $this->replace, $manager->read('directory://'.$file['path']));
                 $manager->put('directory://'.$file['path'], $content);
             }
         }
@@ -142,7 +155,7 @@ class Create extends Command
             $moduleDir.'/resources/scss/public/_object-list.scss',
         ];
         foreach ($paths as $path) {
-            $this->files->move($path, $this->transformFilename($path));
+            $this->files->move($path, str_replace($this->search, $this->replace, $path));
         }
     }
 
@@ -190,21 +203,6 @@ class Create extends Command
     public function deleteResourcesDirectory()
     {
         $this->files->deleteDirectory(base_path('Modules/'.$this->module.'/resources'));
-    }
-
-    /**
-     * Rename file in path.
-     *
-     * @param string $path
-     *
-     * @return string
-     */
-    public function transformFilename($path)
-    {
-        $pathTransformed = str_replace('object', mb_strtolower(Str::singular($this->module)), $path);
-        $pathTransformed = str_replace('Object', Str::singular($this->module), $pathTransformed);
-
-        return $pathTransformed;
     }
 
     /**
