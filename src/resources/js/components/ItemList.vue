@@ -272,7 +272,25 @@ export default {
             return this.urlBase.replace('api/', 'admin/') + '/export?' + query.join('&');
         },
         url() {
-            let query = ['sort=' + this.sortArray.join(','), 'fields[' + this.table + ']=' + this.fields];
+            let query = ['sort=' + this.sortArray.join(',')];
+
+            let fields = {};
+            let fieldsArray = this.fields.split(',');
+            fieldsArray.forEach((element) => {
+                let key = this.table;
+                let value = element;
+                if (element.indexOf('.') !== -1) {
+                    [key, value] = element.split('.');
+                }
+                if (!Array.isArray(fields[key])) {
+                    fields[key] = [];
+                }
+                fields[key].push(value);
+            });
+
+            for (const table in fields) {
+                query.push('fields[' + table + ']=' + fields[table].join(','));
+            }
 
             if (this.include !== '') {
                 query.push('include=' + this.include);
