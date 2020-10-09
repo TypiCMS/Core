@@ -360,10 +360,18 @@ export default {
             this.checkedItems = [];
         },
         checkPublished() {
-            this.checkedItems = this.filteredItems.filter((model) => model.status_translated === 1);
+            let statusVar = 'status';
+            if (this.multilingual) {
+                statusVar = 'status_translated';
+            }
+            this.checkedItems = this.filteredItems.filter((model) => model[statusVar] === 1);
         },
         checkUnpublished() {
-            this.checkedItems = this.filteredItems.filter((model) => model.status_translated === 0);
+            let statusVar = 'status';
+            if (this.multilingual) {
+                statusVar = 'status_translated';
+            }
+            this.checkedItems = this.filteredItems.filter((model) => model[statusVar] === 0);
         },
         destroy() {
             this.data.current_page = 1;
