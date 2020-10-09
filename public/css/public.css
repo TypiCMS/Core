@@ -433,7 +433,7 @@ mark,
   background-color: #fcf8e3;
 }
 
-.list-unstyled, .forum-discussion-list, .forum-post-list, .forum-post-content-files-list, .forum-sidebar-category-list, .social-links-list, .news-list-list {
+.list-unstyled, .forum-discussion-list, .forum-post-list, .forum-post-content-files-list, .forum-sidebar-category-list, .social-links-list {
   padding-left: 0;
   list-style: none;
 }
@@ -549,8 +549,7 @@ pre code {
 .page-header-container,
 .page-body-container,
 .site-header-container,
-.site-footer-container,
-.news-list-container {
+.site-footer-container {
   width: 100%;
   padding-right: 15px;
   padding-left: 15px;
@@ -577,7 +576,7 @@ pre code {
 }
 
 @media (min-width: 1200px) {
-  .container, .forum-header-container, .forum-container, .container-sm, .container-md, .container-lg, .container-xl, .page-header-container, .page-body-container, .site-header-container, .site-footer-container, .news-list-container {
+  .container, .forum-header-container, .forum-container, .container-sm, .container-md, .container-lg, .container-xl, .page-header-container, .page-body-container, .site-header-container, .site-footer-container {
     max-width: 1140px;
   }
 }
@@ -4820,7 +4819,7 @@ input.document-list-item-link[type="button"] {
 }
 
 .navbar .container, .navbar .forum-header-container, .navbar .forum-container,
-.navbar .container-fluid, .navbar .container-sm, .navbar .container-md, .navbar .container-lg, .navbar .container-xl, .navbar .page-header-container, .navbar .page-body-container, .navbar .site-header-container, .navbar .site-footer-container, .navbar .news-list-container {
+.navbar .container-fluid, .navbar .container-sm, .navbar .container-md, .navbar .container-lg, .navbar .container-xl, .navbar .page-header-container, .navbar .page-body-container, .navbar .site-header-container, .navbar .site-footer-container {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -4896,7 +4895,7 @@ input.document-list-item-link[type="button"] {
 
 @media (max-width: 575.98px) {
   .navbar-expand-sm > .container, .navbar-expand-sm > .forum-header-container, .navbar-expand-sm > .forum-container,
-  .navbar-expand-sm > .container-fluid, .navbar-expand-sm > .container-sm, .navbar-expand-sm > .container-md, .navbar-expand-sm > .container-lg, .navbar-expand-sm > .container-xl, .navbar-expand-sm > .page-header-container, .navbar-expand-sm > .page-body-container, .navbar-expand-sm > .site-header-container, .navbar-expand-sm > .site-footer-container, .navbar-expand-sm > .news-list-container {
+  .navbar-expand-sm > .container-fluid, .navbar-expand-sm > .container-sm, .navbar-expand-sm > .container-md, .navbar-expand-sm > .container-lg, .navbar-expand-sm > .container-xl, .navbar-expand-sm > .page-header-container, .navbar-expand-sm > .page-body-container, .navbar-expand-sm > .site-header-container, .navbar-expand-sm > .site-footer-container {
     padding-right: 0;
     padding-left: 0;
   }
@@ -4918,7 +4917,7 @@ input.document-list-item-link[type="button"] {
     padding-left: 0.5rem;
   }
   .navbar-expand-sm > .container, .navbar-expand-sm > .forum-header-container, .navbar-expand-sm > .forum-container,
-  .navbar-expand-sm > .container-fluid, .navbar-expand-sm > .container-sm, .navbar-expand-sm > .container-md, .navbar-expand-sm > .container-lg, .navbar-expand-sm > .container-xl, .navbar-expand-sm > .page-header-container, .navbar-expand-sm > .page-body-container, .navbar-expand-sm > .site-header-container, .navbar-expand-sm > .site-footer-container, .navbar-expand-sm > .news-list-container {
+  .navbar-expand-sm > .container-fluid, .navbar-expand-sm > .container-sm, .navbar-expand-sm > .container-md, .navbar-expand-sm > .container-lg, .navbar-expand-sm > .container-xl, .navbar-expand-sm > .page-header-container, .navbar-expand-sm > .page-body-container, .navbar-expand-sm > .site-header-container, .navbar-expand-sm > .site-footer-container {
     flex-wrap: nowrap;
   }
   .navbar-expand-sm .navbar-collapse {
@@ -4932,7 +4931,7 @@ input.document-list-item-link[type="button"] {
 
 @media (max-width: 767.98px) {
   .navbar-expand-md > .container, .navbar-expand-md > .forum-header-container, .navbar-expand-md > .forum-container,
-  .navbar-expand-md > .container-fluid, .navbar-expand-md > .container-sm, .navbar-expand-md > .container-md, .navbar-expand-md > .container-lg, .navbar-expand-md > .container-xl, .navbar-expand-md > .page-header-container, .navbar-expand-md > .page-body-container, .navbar-expand-md > .site-header-container, .navbar-expand-md > .site-footer-container, .navbar-expand-md > .news-list-container {
+  .navbar-expand-md > .container-fluid, .navbar-expand-md > .container-sm, .navbar-expand-md > .container-md, .navbar-expand-md > .container-lg, .navbar-expand-md > .container-xl, .navbar-expand-md > .page-header-container, .navbar-expand-md > .page-body-container, .navbar-expand-md > .site-header-container, .navbar-expand-md > .site-footer-container {
     padding-right: 0;
     padding-left: 0;
   }
@@ -4954,7 +4953,7 @@ input.document-list-item-link[type="button"] {
     padding-left: 0.5rem;
   }
   .navbar-expand-md > .container, .navbar-expand-md > .forum-header-container, .navbar-expand-md > .forum-container,
-  .navbar-expand-md > .container-fluid, .navbar-expand-md > .container-sm, .navbar-expand-md > .container-md, .navbar-expand-md > .container-lg, .navbar-expand-md > .container-xl, .navbar-expand-md > .page-header-container, .navbar-expand-md > .page-body-container, .navbar-expand-md > .site-header-container, .navbar-expand-md > .site-footer-container, .navbar-expand-md > .news-list-container {
+  .navbar-expand-md > .container-fluid, .navbar-expand-md > .container-sm, .navbar-expand-md > .container-md, .navbar-expand-md > .container-lg, .navbar-expand-md > .container-xl, .navbar-expand-md > .page-header-container, .navbar-expand-md > .page-body-container, .navbar-expand-md > .site-header-container, .navbar-expand-md > .site-footer-container {
     flex-wrap: nowrap;
   }
   .navbar-expand-md .navbar-collapse {
@@ -4968,7 +4967,7 @@ input.document-list-item-link[type="button"] {
 
 @media (max-width: 991.98px) {
   .navbar-expand-lg > .container, .navbar-expand-lg > .forum-header-container, .navbar-expand-lg > .forum-container,
-  .navbar-expand-lg > .container-fluid, .navbar-expand-lg > .container-sm, .navbar-expand-lg > .container-md, .navbar-expand-lg > .container-lg, .navbar-expand-lg > .container-xl, .navbar-expand-lg > .page-header-container, .navbar-expand-lg > .page-body-container, .navbar-expand-lg > .site-header-container, .navbar-expand-lg > .site-footer-container, .navbar-expand-lg > .news-list-container {
+  .navbar-expand-lg > .container-fluid, .navbar-expand-lg > .container-sm, .navbar-expand-lg > .container-md, .navbar-expand-lg > .container-lg, .navbar-expand-lg > .container-xl, .navbar-expand-lg > .page-header-container, .navbar-expand-lg > .page-body-container, .navbar-expand-lg > .site-header-container, .navbar-expand-lg > .site-footer-container {
     padding-right: 0;
     padding-left: 0;
   }
@@ -4990,7 +4989,7 @@ input.document-list-item-link[type="button"] {
     padding-left: 0.5rem;
   }
   .navbar-expand-lg > .container, .navbar-expand-lg > .forum-header-container, .navbar-expand-lg > .forum-container,
-  .navbar-expand-lg > .container-fluid, .navbar-expand-lg > .container-sm, .navbar-expand-lg > .container-md, .navbar-expand-lg > .container-lg, .navbar-expand-lg > .container-xl, .navbar-expand-lg > .page-header-container, .navbar-expand-lg > .page-body-container, .navbar-expand-lg > .site-header-container, .navbar-expand-lg > .site-footer-container, .navbar-expand-lg > .news-list-container {
+  .navbar-expand-lg > .container-fluid, .navbar-expand-lg > .container-sm, .navbar-expand-lg > .container-md, .navbar-expand-lg > .container-lg, .navbar-expand-lg > .container-xl, .navbar-expand-lg > .page-header-container, .navbar-expand-lg > .page-body-container, .navbar-expand-lg > .site-header-container, .navbar-expand-lg > .site-footer-container {
     flex-wrap: nowrap;
   }
   .navbar-expand-lg .navbar-collapse {
@@ -5004,7 +5003,7 @@ input.document-list-item-link[type="button"] {
 
 @media (max-width: 1199.98px) {
   .navbar-expand-xl > .container, .navbar-expand-xl > .forum-header-container, .navbar-expand-xl > .forum-container,
-  .navbar-expand-xl > .container-fluid, .navbar-expand-xl > .container-sm, .navbar-expand-xl > .container-md, .navbar-expand-xl > .container-lg, .navbar-expand-xl > .container-xl, .navbar-expand-xl > .page-header-container, .navbar-expand-xl > .page-body-container, .navbar-expand-xl > .site-header-container, .navbar-expand-xl > .site-footer-container, .navbar-expand-xl > .news-list-container {
+  .navbar-expand-xl > .container-fluid, .navbar-expand-xl > .container-sm, .navbar-expand-xl > .container-md, .navbar-expand-xl > .container-lg, .navbar-expand-xl > .container-xl, .navbar-expand-xl > .page-header-container, .navbar-expand-xl > .page-body-container, .navbar-expand-xl > .site-header-container, .navbar-expand-xl > .site-footer-container {
     padding-right: 0;
     padding-left: 0;
   }
@@ -5026,7 +5025,7 @@ input.document-list-item-link[type="button"] {
     padding-left: 0.5rem;
   }
   .navbar-expand-xl > .container, .navbar-expand-xl > .forum-header-container, .navbar-expand-xl > .forum-container,
-  .navbar-expand-xl > .container-fluid, .navbar-expand-xl > .container-sm, .navbar-expand-xl > .container-md, .navbar-expand-xl > .container-lg, .navbar-expand-xl > .container-xl, .navbar-expand-xl > .page-header-container, .navbar-expand-xl > .page-body-container, .navbar-expand-xl > .site-header-container, .navbar-expand-xl > .site-footer-container, .navbar-expand-xl > .news-list-container {
+  .navbar-expand-xl > .container-fluid, .navbar-expand-xl > .container-sm, .navbar-expand-xl > .container-md, .navbar-expand-xl > .container-lg, .navbar-expand-xl > .container-xl, .navbar-expand-xl > .page-header-container, .navbar-expand-xl > .page-body-container, .navbar-expand-xl > .site-header-container, .navbar-expand-xl > .site-footer-container {
     flex-wrap: nowrap;
   }
   .navbar-expand-xl .navbar-collapse {
@@ -5044,7 +5043,7 @@ input.document-list-item-link[type="button"] {
 }
 
 .navbar-expand > .container, .navbar-expand > .forum-header-container, .navbar-expand > .forum-container,
-.navbar-expand > .container-fluid, .navbar-expand > .container-sm, .navbar-expand > .container-md, .navbar-expand > .container-lg, .navbar-expand > .container-xl, .navbar-expand > .page-header-container, .navbar-expand > .page-body-container, .navbar-expand > .site-header-container, .navbar-expand > .site-footer-container, .navbar-expand > .news-list-container {
+.navbar-expand > .container-fluid, .navbar-expand > .container-sm, .navbar-expand > .container-md, .navbar-expand > .container-lg, .navbar-expand > .container-xl, .navbar-expand > .page-header-container, .navbar-expand > .page-body-container, .navbar-expand > .site-header-container, .navbar-expand > .site-footer-container {
   padding-right: 0;
   padding-left: 0;
 }
@@ -5063,7 +5062,7 @@ input.document-list-item-link[type="button"] {
 }
 
 .navbar-expand > .container, .navbar-expand > .forum-header-container, .navbar-expand > .forum-container,
-.navbar-expand > .container-fluid, .navbar-expand > .container-sm, .navbar-expand > .container-md, .navbar-expand > .container-lg, .navbar-expand > .container-xl, .navbar-expand > .page-header-container, .navbar-expand > .page-body-container, .navbar-expand > .site-header-container, .navbar-expand > .site-footer-container, .navbar-expand > .news-list-container {
+.navbar-expand > .container-fluid, .navbar-expand > .container-sm, .navbar-expand > .container-md, .navbar-expand > .container-lg, .navbar-expand > .container-xl, .navbar-expand > .page-header-container, .navbar-expand > .page-body-container, .navbar-expand > .site-header-container, .navbar-expand > .site-footer-container {
   flex-wrap: nowrap;
 }
 
@@ -12969,10 +12968,6 @@ button.swiper-pagination-bullet {
 .social-links-mail-icon {
   -webkit-mask-image: url("/img/envelope.svg");
           mask-image: url("/img/envelope.svg");
-}
-
-.news-list-list {
-  margin-bottom: 0;
 }
 
 .skip-to-content {

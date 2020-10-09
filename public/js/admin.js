@@ -3378,6 +3378,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ItemListPerPage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ItemListPerPage */ "./resources/js/components/ItemListPerPage.vue");
 /* harmony import */ var _ItemListStatusButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ItemListStatusButton */ "./resources/js/components/ItemListStatusButton.vue");
 /* harmony import */ var _ItemListPagination__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ItemListPagination */ "./resources/js/components/ItemListPagination.vue");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 //
 //
 //
@@ -3660,7 +3672,34 @@ __webpack_require__.r(__webpack_exports__);
       return this.urlBase.replace('api/', 'admin/') + '/export?' + query.join('&');
     },
     url: function url() {
-      var query = ['sort=' + this.sortArray.join(','), 'fields[' + this.table + ']=' + this.fields];
+      var _this2 = this;
+
+      var query = ['sort=' + this.sortArray.join(',')];
+      var fields = {};
+      var fieldsArray = this.fields.split(',');
+      fieldsArray.forEach(function (element) {
+        var key = _this2.table;
+        var value = element;
+
+        if (element.indexOf('.') !== -1) {
+          var _element$split = element.split('.');
+
+          var _element$split2 = _slicedToArray(_element$split, 2);
+
+          key = _element$split2[0];
+          value = _element$split2[1];
+        }
+
+        if (!Array.isArray(fields[key])) {
+          fields[key] = [];
+        }
+
+        fields[key].push(value);
+      });
+
+      for (var table in fields) {
+        query.push('fields[' + table + ']=' + fields[table].join(','));
+      }
 
       if (this.include !== '') {
         query.push('include=' + this.include);
@@ -3694,30 +3733,30 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     fetchData: function fetchData() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.startLoading();
       axios.get(this.url).then(function (response) {
-        _this2.data = response.data;
+        _this3.data = response.data;
 
-        _this2.stopLoading();
+        _this3.stopLoading();
       })["catch"](function (error) {
-        alertify.error(error.response.data.message || _this2.$i18n.t('An error occurred with the data fetch.'));
+        alertify.error(error.response.data.message || _this3.$i18n.t('An error occurred with the data fetch.'));
       });
     },
     onSearchStringChanged: function onSearchStringChanged() {
-      var _this3 = this;
+      var _this4 = this;
 
       clearTimeout(this.fetchTimeout);
       this.fetchTimeout = setTimeout(function () {
-        _this3.fetchData();
+        _this4.fetchData();
       }, 200);
     },
     startLoading: function startLoading() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.loadingTimeout = setTimeout(function () {
-        _this4.loading = true;
+        _this5.loading = true;
       }, 300);
     },
     stopLoading: function stopLoading() {
@@ -3725,14 +3764,14 @@ __webpack_require__.r(__webpack_exports__);
       this.loading = false;
     },
     switchLocale: function switchLocale(locale) {
-      var _this5 = this;
+      var _this6 = this;
 
       this.startLoading();
       this.currentLocale = locale;
       axios.get('/admin/_locale/' + locale).then(function (response) {
-        _this5.stopLoading();
+        _this6.stopLoading();
 
-        _this5.fetchData();
+        _this6.fetchData();
       });
     },
     search: function search(string) {
@@ -3759,17 +3798,29 @@ __webpack_require__.r(__webpack_exports__);
       this.checkedItems = [];
     },
     checkPublished: function checkPublished() {
+      var statusVar = 'status';
+
+      if (this.multilingual) {
+        statusVar = 'status_translated';
+      }
+
       this.checkedItems = this.filteredItems.filter(function (model) {
-        return model.status_translated === 1;
+        return model[statusVar] === 1;
       });
     },
     checkUnpublished: function checkUnpublished() {
+      var statusVar = 'status';
+
+      if (this.multilingual) {
+        statusVar = 'status_translated';
+      }
+
       this.checkedItems = this.filteredItems.filter(function (model) {
-        return model.status_translated === 0;
+        return model[statusVar] === 0;
       });
     },
     destroy: function destroy() {
-      var _this6 = this;
+      var _this7 = this;
 
       this.data.current_page = 1;
       var deleteLimit = 100;
@@ -3789,8 +3840,8 @@ __webpack_require__.r(__webpack_exports__);
 
       this.startLoading();
       axios.all(this.checkedItems.map(function (model) {
-        return axios["delete"](_this6.urlBase + '/' + model.id)["catch"](function (error) {
-          return alertify.error(_this6.$i18n.tc(error.response.data.message) || _this6.$i18n.t('Sorry, an error occurred.'));
+        return axios["delete"](_this7.urlBase + '/' + model.id)["catch"](function (error) {
+          return alertify.error(_this7.$i18n.tc(error.response.data.message) || _this7.$i18n.t('Sorry, an error occurred.'));
         });
       })).then(function (responses) {
         var successes = responses.filter(function (response) {
@@ -3798,16 +3849,16 @@ __webpack_require__.r(__webpack_exports__);
         });
 
         if (successes.length > 0) {
-          alertify.success(_this6.$i18n.tc('# items deleted', successes.length, {
+          alertify.success(_this7.$i18n.tc('# items deleted', successes.length, {
             count: successes.length
           }));
         }
 
-        _this6.checkNone();
+        _this7.checkNone();
 
-        _this6.stopLoading();
+        _this7.stopLoading();
 
-        _this6.fetchData();
+        _this7.fetchData();
       });
     },
     publish: function publish() {
@@ -3829,7 +3880,7 @@ __webpack_require__.r(__webpack_exports__);
       this.setStatus(0);
     },
     setStatus: function setStatus(status) {
-      var _this7 = this;
+      var _this8 = this;
 
       var data = {
         status: {}
@@ -3846,8 +3897,8 @@ __webpack_require__.r(__webpack_exports__);
 
       this.startLoading();
       axios.all(this.checkedItems.map(function (model) {
-        return axios.patch(_this7.urlBase + '/' + model.id, data)["catch"](function (error) {
-          return alertify.error(error.response.data.message || _this7.$i18n.t('Sorry, an error occurred.'));
+        return axios.patch(_this8.urlBase + '/' + model.id, data)["catch"](function (error) {
+          return alertify.error(error.response.data.message || _this8.$i18n.t('Sorry, an error occurred.'));
         });
       })).then(function (responses) {
         var successes = responses.filter(function (response) {
@@ -3855,24 +3906,24 @@ __webpack_require__.r(__webpack_exports__);
         });
 
         if (successes.length > 0) {
-          alertify.success(_this7.$i18n.tc('# items ' + label, successes.length, {
+          alertify.success(_this8.$i18n.tc('# items ' + label, successes.length, {
             count: successes.length
           }));
         }
 
-        for (var i = _this7.checkedItems.length - 1; i >= 0; i--) {
-          var index = _this7.data.data.indexOf(_this7.checkedItems[i]);
+        for (var i = _this8.checkedItems.length - 1; i >= 0; i--) {
+          var index = _this8.data.data.indexOf(_this8.checkedItems[i]);
 
-          _this7.data.data[index][statusVar] = status;
+          _this8.data.data[index][statusVar] = status;
         }
 
-        _this7.checkNone();
+        _this8.checkNone();
 
-        _this7.stopLoading();
+        _this8.stopLoading();
       });
     },
     toggleStatus: function toggleStatus(model) {
-      var _this8 = this;
+      var _this9 = this;
 
       var status = this.multilingual ? model.status_translated : model.status,
           newStatus = Math.abs(status - 1),
@@ -3890,19 +3941,19 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       axios.patch(this.urlBase + '/' + model.id, data).then(function (response) {
-        alertify.success(_this8.$i18n.t('Item is ' + label + '.'));
+        alertify.success(_this9.$i18n.t('Item is ' + label + '.'));
       })["catch"](function (error) {
-        alertify.error(error.response.data.message || _this8.$i18n.t('Sorry, an error occurred.'));
+        alertify.error(error.response.data.message || _this9.$i18n.t('Sorry, an error occurred.'));
       });
     },
     updatePosition: function updatePosition(model) {
-      var _this9 = this;
+      var _this10 = this;
 
       var data = {
         position: model.position
       };
       axios.patch(this.urlBase + '/' + model.id, data)["catch"](function (error) {
-        alertify.error(error.response.data.message || _this9.$i18n.t('Sorry, an error occurred.'));
+        alertify.error(error.response.data.message || _this10.$i18n.t('Sorry, an error occurred.'));
       });
     },
     sort: function sort(object) {
