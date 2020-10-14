@@ -3,8 +3,6 @@
 
 <head>
 
-    @include('core::public._google_analytics_code')
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title')</title>
@@ -36,8 +34,6 @@
 </head>
 
 <body class="body-{{ $lang }} @yield('bodyClass') @if ($navbar)has-navbar @endif" id="top">
-
-    @include('core::public._google_tag_manager_code')
 
     @section('skip-links')
     <a href="#main" class="skip-to-content">@lang('Skip to content')</a>
