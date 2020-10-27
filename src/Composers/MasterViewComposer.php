@@ -11,15 +11,8 @@ class MasterViewComposer
     {
         $view->with('websiteTitle', TypiCMS::title());
         $navbar = false;
-        $user = auth()->user();
-        if (
-            $user &&
-            (
-                $user->can('see navbar') ||
-                $user->isSuperUser()
-            ) &&
-            !request('preview')
-        ) {
+        $user = auth('web')->user();
+        if ($user && $user->can('see navbar') && !request('preview')) {
             $navbar = true;
         }
         $view->with('navbar', $navbar);
