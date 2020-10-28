@@ -3,7 +3,7 @@
 @section('title', 'Error 500 – '.$websiteTitle)
 
 @section('bodyClass', 'error-500')
-@section('langSwitcher') @endsection
+@section('lang-switcher') @endsection
 @section('content')
 
 <header class="page-header">
