@@ -262,6 +262,20 @@ export default {
         exportUrl() {
             let query = ['sort=' + this.sortArray.join(',')];
 
+            let fields = {};
+            let fieldsArray = this.fields.split(',');
+            fieldsArray.forEach((element) => {
+                let key = this.table;
+                let value = element;
+                if (element.indexOf('.') !== -1) {
+                    [key, value] = element.split('.');
+                }
+                if (!Array.isArray(fields[key])) {
+                    fields[key] = [];
+                }
+                fields[key].push(value);
+            });
+
             if (this.appends !== '') {
                 query.push('append=' + this.appends);
             }
