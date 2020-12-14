@@ -37,11 +37,11 @@
         <div id="app" class="@section('mainClass')main @show">
 
             @section('errors')
-                @if (!$errors->isEmpty())
                     <div class="alert alert-danger alert-dismissable" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
+                @if ($errors->any())
                         {{ __('The form contains errors:') }}
                         <ul class="mb-0">
                             @foreach ($errors->all() as $message)
