@@ -45,6 +45,7 @@
         justify-content: flex-end;
         flex-direction: column;
         @include media-breakpoint-down(md) {
+            visibility: hidden;
             transform-origin: top right;
             transform: scale(0);
             background: $white;
@@ -64,6 +65,7 @@
 
         &.active {
             @include media-breakpoint-down(md) {
+                visibility: visible;
                 opacity: 1;
                 transform: scale(1);
                 .menu-main-item,
