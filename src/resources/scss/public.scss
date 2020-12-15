@@ -22,11 +22,22 @@
 @import 'public/social-links';
 
 .skip-to-content {
-    @include sr-only;
-    @include sr-only-focusable;
-    &:active,
-    &:focus {
-        position: absolute;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 100vw;
+    top: 0;
+    z-index: 1000;
+    &-link {
+        @include sr-only;
+        @include sr-only-focusable;
+        &:active,
+        &:focus {
+            background-color: $black;
+            color: $white;
+            padding: 0.25rem 1rem;
+            text-decoration: none;
+        }
     }
 }
 

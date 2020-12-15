@@ -36,7 +36,9 @@
 <body class="body-{{ $lang }} @yield('bodyClass') @if ($navbar)has-navbar @endif" id="top">
 
     @section('skip-links')
-    <a href="#main" class="skip-to-content">@lang('Skip to content')</a>
+    <div class="skip-to-content">
+        <a href="#main" class="skip-to-content-link">@lang('Skip to content')</a>
+    </div>
     @show
 
     @include('core::_navbar')
