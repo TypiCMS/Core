@@ -66,7 +66,7 @@ $success: $green;
 $info: $cyan;
 $warning: $yellow;
 $danger: $red;
-$light: $gray-100;
+$light: $gray-200;
 $dark: $gray-900;
 
 // scss-docs-start theme-colors-map
@@ -516,7 +516,7 @@ $table-border-color: $border-color;
 
 $table-striped-order: odd;
 
-$table-group-separator-color: currentColor;
+$table-group-separator-color: $gray-300;
 
 $table-caption-color: $text-muted;
 
