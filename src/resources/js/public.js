@@ -1,12 +1,13 @@
 /**
- * jQuery and the Bootstrap jQuery plugin
+ * jQuery
  */
-try {
-    window.Popper = require('popper.js').default;
-    window.$ = window.jQuery = require('jquery');
+window.$ = window.jQuery = require('jquery');
 
-    require('bootstrap');
-} catch (e) {}
+/**
+ * Bootstrap
+ */
+import 'bootstrap/js/dist/dropdown';
+import 'bootstrap/js/dist/collapse';
 
 /**
  * Fancybox

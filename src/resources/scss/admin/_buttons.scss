@@ -1,5 +1,5 @@
 .btn-xs {
-    @include button-size($btn-padding-y-sm/4, $btn-padding-x-sm/1.2, 0.75rem, $btn-line-height-sm, $btn-border-radius-sm);
+    @include button-size($btn-padding-y-sm/4, $btn-padding-x-sm/1.2, 0.75rem, $btn-border-radius-sm);
 }
 
 .btn-clear-history {

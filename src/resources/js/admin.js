@@ -1,12 +1,14 @@
 /**
- * jQuery and the Bootstrap jQuery plugin
+ * jQuery
  */
-try {
-    window.Popper = require('popper.js').default;
-    window.$ = window.jQuery = require('jquery');
+window.$ = window.jQuery = require('jquery');
 
-    require('bootstrap');
-} catch (e) {}
+/**
+ * Bootstrap
+ */
+import 'bootstrap/js/dist/dropdown';
+import 'bootstrap/js/dist/tab';
+import 'bootstrap/js/dist/collapse';
 
 /**
  * Axios HTTP library
@@ -24,12 +26,6 @@ if (apiToken) {
 } else {
     console.error('API token not found.');
 }
-
-/**
- * Cropper.js
- */
-import Cropper from 'cropperjs';
-window.Cropper = Cropper;
 
 /**
  * Vue
