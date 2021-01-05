@@ -2,7 +2,7 @@
     <div class="mb-4">
         <input type="hidden" name="file_ids" :value="fileIds.join()" />
         <div class="mb-3">
-            <label>
+            <label class="form-label">
                 <span v-if="label">{{ label }}</span>
                 <span v-else>{{ $t('Files') }}</span>
             </label>
