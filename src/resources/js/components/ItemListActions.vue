@@ -4,7 +4,7 @@
             class="btn btn-light dropdown-toggle"
             :disabled="numberOfCheckedModels === 0 || loading"
             type="button"
-            data-toggle="dropdown"
+            data-bs-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="true"
             id="dropdownActions"

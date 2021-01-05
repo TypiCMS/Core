@@ -9,17 +9,17 @@
 
         <div class="btn-toolbar item-list-actions">
             <slot name="buttons"></slot>
-            <div class="d-flex align-items-center ml-2">
+            <div class="d-flex align-items-center ms-2">
                 <div class="spinner-border spinner-border-sm text-secondary" role="status" v-if="loading">
-                    <span class="sr-only">{{ $t('Loading…') }}</span>
+                    <span class="visually-hidden">{{ $t('Loading…') }}</span>
                 </div>
             </div>
-            <div class="btn-group btn-group-sm ml-auto" v-if="locales.length > 1">
+            <div class="btn-group btn-group-sm ms-auto" v-if="locales.length > 1">
                 <button
                     class="btn btn-light dropdown-toggle"
                     type="button"
                     id="dropdownLangSwitcher"
-                    data-toggle="dropdown"
+                    data-bs-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
                 >
@@ -62,7 +62,7 @@
                 </button>
 
                 <a
-                    class="btn btn-light btn-xs ml-1 mr-2"
+                    class="btn btn-light btn-xs ms-1 me-2"
                     :href="table + '/' + node.data.id + '/edit'"
                     v-if="$can('update ' + table)"
                 >
@@ -70,7 +70,7 @@
                 </a>
 
                 <div
-                    class="btn btn-xs btn-link btn-status mr-1"
+                    class="btn btn-xs btn-link btn-status me-1"
                     :class="node.data.status_translated === 1 ? 'btn-status-on' : 'btn-status-off'"
                     @click="toggleStatus(node)"
                 ></div>
@@ -120,7 +120,11 @@
                     />
                 </svg>
 
-                <a class="badge badge-info" :href="'/admin/' + node.data.module" v-if="node.data.module">
+                <a
+                    class="btn btn-xs btn-info py-0 px-1 fw-bold"
+                    :href="'/admin/' + node.data.module"
+                    v-if="node.data.module"
+                >
                     {{ $t(node.data.module.charAt(0).toUpperCase() + node.data.module.slice(1)) }}
                 </a>
             </template>

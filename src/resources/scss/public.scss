@@ -29,8 +29,7 @@
     top: 0;
     z-index: 1000;
     &-link {
-        @include sr-only;
-        @include sr-only-focusable;
+        @include visually-hidden-focusable;
         &:active,
         &:focus {
             background-color: $black;

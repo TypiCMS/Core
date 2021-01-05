@@ -4,7 +4,7 @@
             class="btn btn-light dropdown-toggle"
             :disabled="loading"
             type="button"
-            data-toggle="dropdown"
+            data-bs-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="true"
             id="dropdownActions"

@@ -2,7 +2,7 @@
 <input type="hidden" name="permissions[]" value="update preferences">
 <input type="hidden" name="permissions[]" value="clear cache">
 
-<div class="form-group">
+<div class="mb-3">
     <div class="form-check">
         {!! Form::checkbox('permissions[]', 'see navbar')->id('permission-see-navbar')->addClass('form-check-input') !!}
         <label class="form-check-label" for="permission-see-navbar">@lang('See navbar')</label>

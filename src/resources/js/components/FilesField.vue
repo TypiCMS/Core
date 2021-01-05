@@ -1,7 +1,7 @@
 <template>
     <div class="mb-4">
         <input type="hidden" name="file_ids" :value="fileIds.join()" />
-        <div class="form-group">
+        <div class="mb-3">
             <label>
                 <span v-if="label">{{ label }}</span>
                 <span v-else>{{ $t('Files') }}</span>

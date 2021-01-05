@@ -1,4 +1,4 @@
-<div class="form-row">
+<div class="row gx-3">
     <div class="col-md-6">
         {!! TranslatableBootForm::text(__('Title'), 'title') !!}
     </div>

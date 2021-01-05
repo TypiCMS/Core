@@ -1,16 +1,16 @@
 @if ($navbar)
     <nav class="navbar navbar-expand-md navbar-dark bg-dark justify-content-between sticky-top">
         @if (Request::segment(1) === 'admin')
-        <button class="navbar-toggler" type="button" data-toggle="offcanvas" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+        <button class="navbar-toggler" type="button" data-toggle="offcanvas" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>
         @endif
         <a class="navbar-brand" href="{{ route('dashboard') }}">{{ Str::limit(TypiCMS::title(config('typicms.admin_locale')), 50, '…') }}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#userMenu" aria-controls="userMenu" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#userMenu" aria-controls="userMenu" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="userMenu">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     @section('otherSideLink')
                         @if (Request::segment(1) === 'admin')
@@ -21,7 +21,7 @@
                     @show
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ auth()->user()->first_name.' '.auth()->user()->last_name }}</a>
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ auth()->user()->first_name.' '.auth()->user()->last_name }}</a>
                     <div class="dropdown-menu dropdown-user">
                         <div class="dropdown-user-wrapper">
                             <div class="img">

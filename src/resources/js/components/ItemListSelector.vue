@@ -13,7 +13,7 @@
             type="button"
             class="btn btn-light dropdown-toggle dropdown-toggle-split"
             :disabled="!filteredModels.length || loading"
-            data-toggle="dropdown"
+            data-bs-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
             id="dropdownSelect"

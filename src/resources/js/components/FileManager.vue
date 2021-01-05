@@ -48,7 +48,7 @@
             </button>
 
             <div class="btn-toolbar mb-4">
-                <button class="btn btn-sm btn-light mr-2" @click="newFolder(folder.id)" type="button">
+                <button class="btn btn-sm btn-light me-2" @click="newFolder(folder.id)" type="button">
                     <svg
                         class="mr-1 text-muted"
                         width="1em"
@@ -64,13 +64,13 @@
                     </svg>
                     {{ $t('New folder') }}
                 </button>
-                <div class="btn-group btn-group-sm dropdown mr-2">
+                <div class="btn-group btn-group-sm dropdown me-2">
                     <button
                         class="btn btn-light dropdown-toggle"
                         :class="{ disabled: !selectedItems.length }"
                         type="button"
                         id="dropdownMenu1"
-                        data-toggle="dropdown"
+                        data-bs-toggle="dropdown"
                         aria-haspopup="true"
                         aria-expanded="true"
                     >
@@ -141,9 +141,9 @@
                         {{ $t('List') }}
                     </button>
                 </div>
-                <div class="d-flex align-items-center ml-2">
+                <div class="d-flex align-items-center ms-2">
                     <div class="spinner-border spinner-border-sm text-secondary" role="status" v-if="loading">
-                        <span class="sr-only">{{ $t('Loading…') }}</span>
+                        <span class="visually-hidden">{{ $t('Loading…') }}</span>
                     </div>
                 </div>
             </div>
@@ -259,7 +259,7 @@
                         <div class="filemanager-item-name">{{ item.name }}</div>
                         <a class="filemanager-item-editable-button" :href="'/admin/files/' + item.id + '/edit'">
                             <span class="filemanager-item-editable-button-icon"></span>
-                            <span class="sr-only">{{ $t('Edit') }}</span>
+                            <span class="visually-hidden">{{ $t('Edit') }}</span>
                         </a>
                     </div>
                 </div>

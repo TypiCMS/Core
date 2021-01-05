@@ -1,6 +1,6 @@
 <template>
     <div class="mb-4">
-        <div class="form-group">
+        <div class="mb-3">
             <label :for="field">
                 <span v-if="label"> {{ label }} </span>
                 <span v-else>

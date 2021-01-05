@@ -42,15 +42,15 @@
                 @change-per-page="changeNumberOfItemsPerPage"
             ></item-list-per-page>
             <slot name="buttons"></slot>
-            <div class="d-flex align-items-center ml-2">
+            <div class="d-flex align-items-center ms-2">
                 <div class="spinner-border spinner-border-sm text-secondary" role="status" v-if="loading">
-                    <span class="sr-only">{{ $t('Loading…') }}</span>
+                    <span class="visually-hidden">{{ $t('Loading…') }}</span>
                 </div>
             </div>
             <small class="text-muted align-self-center" v-if="!loading">
                 {{ $tc('# ' + title, data.total, { count: data.total }) }}
             </small>
-            <div class="d-flex ml-auto">
+            <div class="d-flex ms-auto">
                 <div class="filters form-inline" v-if="searchable.length > 0">
                     <div class="input-group input-group-sm mb-0">
                         <div class="input-group-prepend">
@@ -77,12 +77,12 @@
                         />
                     </div>
                 </div>
-                <div class="btn-group btn-group-sm ml-2" v-if="multilingual && locales.length > 1">
+                <div class="btn-group btn-group-sm ms-2" v-if="multilingual && locales.length > 1">
                     <button
                         class="btn btn-light dropdown-toggle"
                         type="button"
                         id="dropdownLangSwitcher"
-                        data-toggle="dropdown"
+                        data-bs-toggle="dropdown"
                         aria-haspopup="true"
                         aria-expanded="false"
                     >
@@ -100,7 +100,7 @@
                         </button>
                     </div>
                 </div>
-                <a :href="this.exportUrl" class="btn btn-sm btn-light ml-2" v-if="exportable">
+                <a :href="this.exportUrl" class="btn btn-sm btn-light ms-2" v-if="exportable">
                     <svg
                         width="1em"
                         height="1em"
