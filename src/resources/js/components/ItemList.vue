@@ -274,8 +274,15 @@ export default {
                 fields[key].push(value);
             });
 
+            for (const table in fields) {
+                query.push('fields[' + table + ']=' + fields[table].join(','));
+            }
+
             if (this.appends !== '') {
                 query.push('append=' + this.appends);
+            }
+            if (this.multilingual) {
+                query.push('locale=' + this.currentLocale);
             }
             if (this.searchQuery !== '') {
                 query.push(this.searchQuery);
