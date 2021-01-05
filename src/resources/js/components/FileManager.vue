@@ -16,7 +16,7 @@
                 </h1>
                 <button type="button" class="btn btn-sm btn-primary header-btn-add" id="btnAddFiles" v-if="dropzone">
                     <svg
-                        class="mr-1"
+                        class="me-1"
                         width="1em"
                         height="1em"
                         viewBox="0 0 16 16"
@@ -50,7 +50,7 @@
             <div class="btn-toolbar mb-4">
                 <button class="btn btn-sm btn-light me-2" @click="newFolder(folder.id)" type="button">
                     <svg
-                        class="mr-1 text-muted"
+                        class="me-1 text-muted"
                         width="1em"
                         height="1em"
                         viewBox="0 0 16 16"

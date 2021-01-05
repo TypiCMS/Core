@@ -13,7 +13,7 @@
         <div class="btn-toolbar item-list-actions">
             <item-list-selector
                 v-if="selector && ($can('update ' + table) || $can('delete ' + table))"
-                class="mr-2"
+                class="me-2"
                 :filtered-models="filteredItems"
                 :all-checked="allChecked"
                 :loading="loading"
@@ -25,7 +25,7 @@
             ></item-list-selector>
             <item-list-actions
                 v-if="actions && ($can('update ' + table) || $can('delete ' + table))"
-                class="mr-2"
+                class="me-2"
                 :number-of-checked-models="numberOfCheckedItems"
                 :loading="loading"
                 :publishable="publishable"
@@ -36,7 +36,7 @@
             ></item-list-actions>
             <item-list-per-page
                 v-if="pagination && this.data.total > 10 && $can('read ' + table)"
-                class="mr-2"
+                class="me-2"
                 :loading="loading"
                 :per-page="parseInt(data.per_page)"
                 @change-per-page="changeNumberOfItemsPerPage"
@@ -53,20 +53,18 @@
             <div class="d-flex ms-auto">
                 <div class="filters form-inline" v-if="searchable.length > 0">
                     <div class="input-group input-group-sm mb-0">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <svg
-                                    width="14"
-                                    height="14"
-                                    viewBox="0 0 1792 1792"
-                                    fill="currentColor"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M1216 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z"
-                                    />
-                                </svg>
-                            </div>
+                        <div class="input-group-text">
+                            <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 1792 1792"
+                                fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M1216 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z"
+                                />
+                            </svg>
                         </div>
                         <input
                             class="form-control"
