@@ -2,7 +2,7 @@
     &-list {
         @extend .nav;
         flex-wrap: nowrap;
-        @include media-breakpoint-down(md) {
+        @include media-breakpoint-down(lg) {
             flex-direction: column;
             margin-bottom: 0.5rem;
             margin-left: 1rem;
@@ -58,7 +58,7 @@
     &-item {
         @extend .nav-item;
         position: relative;
-        @include media-breakpoint-down(md) {
+        @include media-breakpoint-down(lg) {
             margin: 0;
             transition: all 0.2s cubic-bezier(0.43, -0.01, 0.26, 1.04);
             opacity: 0;
@@ -100,7 +100,7 @@
         color: $body-color;
         padding-top: 0.65rem;
         padding-bottom: 0.5rem;
-        @include media-breakpoint-down(md) {
+        @include media-breakpoint-down(lg) {
             padding-left: 0;
             padding-right: 0;
         }

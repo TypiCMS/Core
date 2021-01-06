@@ -9,4 +9,7 @@
             @extend .container-xl;
         }
     }
+    &-image {
+        @extend .img-fluid;
+    }
 }

@@ -23,17 +23,6 @@
         font-size: 32px; // in px to force constant height on all sreen sizes
         line-height: 1.25;
         margin-bottom: 0;
-        width: 12rem;
-        @include media-breakpoint-up(sm) {
-            width: 14rem;
-        }
-        @include media-breakpoint-up(md) {
-            width: 16rem;
-        }
-        @include media-breakpoint-up(lg) {
-            width: auto;
-            margin-bottom: 0.75rem;
-        }
         .logo {
             @extend .img-fluid;
         }
@@ -44,7 +33,7 @@
         display: flex;
         justify-content: flex-end;
         flex-direction: column;
-        @include media-breakpoint-down(md) {
+        @include media-breakpoint-down(lg) {
             visibility: hidden;
             transform-origin: top right;
             transform: scale(0);
@@ -64,7 +53,7 @@
         }
 
         &.active {
-            @include media-breakpoint-down(md) {
+            @include media-breakpoint-down(lg) {
                 visibility: visible;
                 opacity: 1;
                 transform: scale(1);
