@@ -9,6 +9,7 @@ window.$ = window.jQuery = require('jquery');
 import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/tab';
 import 'bootstrap/js/dist/collapse';
+import 'bootstrap/js/dist/alert';
 
 /**
  * Axios HTTP library
