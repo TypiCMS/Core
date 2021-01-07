@@ -121,7 +121,7 @@
                 </svg>
 
                 <a
-                    class="btn btn-xs btn-info py-0 px-1 fw-bold"
+                    class="btn btn-xs btn-secondary py-0 px-1 fw-bold"
                     :href="'/admin/' + node.data.module"
                     v-if="node.data.module"
                 >
