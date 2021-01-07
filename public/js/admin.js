@@ -35977,8 +35977,8 @@ var render = function() {
                       {
                         staticClass: "text-muted",
                         attrs: {
-                          width: "1rem",
-                          height: "1rem",
+                          width: "1em",
+                          height: "1em",
                           viewBox: "0 0 16 16",
                           fill: "currentColor",
                           xmlns: "http://www.w3.org/2000/svg"
@@ -36009,8 +36009,8 @@ var render = function() {
                       {
                         staticClass: "text-muted",
                         attrs: {
-                          width: "1rem",
-                          height: "1rem",
+                          width: "1em",
+                          height: "1em",
                           viewBox: "0 0 16 16",
                           fill: "currentColor",
                           xmlns: "http://www.w3.org/2000/svg"
@@ -36046,8 +36046,8 @@ var render = function() {
                         staticClass: "text-muted",
                         attrs: {
                           title: _vm.$t("Redirect to first child"),
-                          width: "1rem",
-                          height: "1rem",
+                          width: "1em",
+                          height: "1em",
                           fill: "currentColor",
                           viewBox: "0 0 1792 1792",
                           xmlns: "http://www.w3.org/2000/svg"
@@ -36099,8 +36099,8 @@ var render = function() {
                       "svg",
                       {
                         attrs: {
-                          width: "0.8rem",
-                          height: "0.8rem",
+                          width: "0.8em",
+                          height: "0.8em",
                           viewBox: "0 0 16 16",
                           fill: "currentColor",
                           xmlns: "http://www.w3.org/2000/svg"
@@ -36122,8 +36122,8 @@ var render = function() {
                       "svg",
                       {
                         attrs: {
-                          width: "0.8rem",
-                          height: "0.8rem",
+                          width: "0.8em",
+                          height: "0.8em",
                           viewBox: "0 0 16 16",
                           fill: "currentColor",
                           xmlns: "http://www.w3.org/2000/svg"

@@ -78,8 +78,8 @@
                 <svg
                     class="text-muted"
                     v-if="node.data.is_home === 1"
-                    width="1rem"
-                    height="1rem"
+                    width="1em"
+                    height="1em"
                     viewBox="0 0 16 16"
                     fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg"
@@ -93,8 +93,8 @@
                 <svg
                     class="text-muted"
                     v-if="node.data.private === 1"
-                    width="1rem"
-                    height="1rem"
+                    width="1em"
+                    height="1em"
                     viewBox="0 0 16 16"
                     fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg"
@@ -109,8 +109,8 @@
                     class="text-muted"
                     v-if="node.data.redirect === 1"
                     :title="$t('Redirect to first child')"
-                    width="1rem"
-                    height="1rem"
+                    width="1em"
+                    height="1em"
                     fill="currentColor"
                     viewBox="0 0 1792 1792"
                     xmlns="http://www.w3.org/2000/svg"
@@ -132,8 +132,8 @@
             <template slot="toggle" slot-scope="{ node }">
                 <svg
                     v-if="node.children.length > 0 && node.isExpanded"
-                    width="0.8rem"
-                    height="0.8rem"
+                    width="0.8em"
+                    height="0.8em"
                     viewBox="0 0 16 16"
                     fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg"
@@ -144,8 +144,8 @@
                 </svg>
                 <svg
                     v-if="node.children.length > 0 && !node.isExpanded"
-                    width="0.8rem"
-                    height="0.8rem"
+                    width="0.8em"
+                    height="0.8em"
                     viewBox="0 0 16 16"
                     fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg"
