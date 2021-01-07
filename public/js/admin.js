@@ -6484,8 +6484,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
-//
-//
 
 
 
@@ -6636,8 +6634,16 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         fields[key].push(value);
       });
 
+      for (var table in fields) {
+        query.push('fields[' + table + ']=' + fields[table].join(','));
+      }
+
       if (this.appends !== '') {
         query.push('append=' + this.appends);
+      }
+
+      if (this.multilingual) {
+        query.push('locale=' + this.currentLocale);
       }
 
       if (this.searchQuery !== '') {
@@ -7804,24 +7810,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var bootstrap_js_dist_collapse__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap/js/dist/collapse */ "./node_modules/bootstrap/js/dist/collapse.js");
 /* harmony import */ var bootstrap_js_dist_collapse__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_collapse__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vue_i18n__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-i18n */ "./node_modules/vue-i18n/dist/vue-i18n.esm.js");
-/* harmony import */ var _lang_fr_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lang/fr.json */ "./resources/lang/fr.json");
-/* harmony import */ var _lang_en_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lang/en.json */ "./resources/lang/en.json");
-/* harmony import */ var _lang_es_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../lang/es.json */ "./resources/lang/es.json");
-/* harmony import */ var _mixins_Permissions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./mixins/Permissions */ "./resources/js/mixins/Permissions.js");
-/* harmony import */ var _filters_Date_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./filters/Date.js */ "./resources/js/filters/Date.js");
-/* harmony import */ var _filters_Datetime_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./filters/Datetime.js */ "./resources/js/filters/Datetime.js");
-/* harmony import */ var _components_ItemListColumnHeader_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/ItemListColumnHeader.vue */ "./resources/js/components/ItemListColumnHeader.vue");
-/* harmony import */ var _components_ItemList_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/ItemList.vue */ "./resources/js/components/ItemList.vue");
-/* harmony import */ var _components_ItemListTree_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/ItemListTree.vue */ "./resources/js/components/ItemListTree.vue");
-/* harmony import */ var _components_ItemListStatusButton_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/ItemListStatusButton.vue */ "./resources/js/components/ItemListStatusButton.vue");
-/* harmony import */ var _components_ItemListCheckbox_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/ItemListCheckbox.vue */ "./resources/js/components/ItemListCheckbox.vue");
-/* harmony import */ var _components_ItemListPositionInput_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/ItemListPositionInput.vue */ "./resources/js/components/ItemListPositionInput.vue");
-/* harmony import */ var _components_History_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/History.vue */ "./resources/js/components/History.vue");
-/* harmony import */ var _components_FileManager_vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/FileManager.vue */ "./resources/js/components/FileManager.vue");
-/* harmony import */ var _components_FileField_vue__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/FileField.vue */ "./resources/js/components/FileField.vue");
-/* harmony import */ var _components_FilesField_vue__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/FilesField.vue */ "./resources/js/components/FilesField.vue");
+/* harmony import */ var bootstrap_js_dist_alert__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! bootstrap/js/dist/alert */ "./node_modules/bootstrap/js/dist/alert.js");
+/* harmony import */ var bootstrap_js_dist_alert__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_alert__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue_i18n__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-i18n */ "./node_modules/vue-i18n/dist/vue-i18n.esm.js");
+/* harmony import */ var _lang_fr_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lang/fr.json */ "./resources/lang/fr.json");
+/* harmony import */ var _lang_en_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../lang/en.json */ "./resources/lang/en.json");
+/* harmony import */ var _lang_es_json__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../lang/es.json */ "./resources/lang/es.json");
+/* harmony import */ var _mixins_Permissions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./mixins/Permissions */ "./resources/js/mixins/Permissions.js");
+/* harmony import */ var _filters_Date_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./filters/Date.js */ "./resources/js/filters/Date.js");
+/* harmony import */ var _filters_Datetime_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./filters/Datetime.js */ "./resources/js/filters/Datetime.js");
+/* harmony import */ var _components_ItemListColumnHeader_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/ItemListColumnHeader.vue */ "./resources/js/components/ItemListColumnHeader.vue");
+/* harmony import */ var _components_ItemList_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/ItemList.vue */ "./resources/js/components/ItemList.vue");
+/* harmony import */ var _components_ItemListTree_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/ItemListTree.vue */ "./resources/js/components/ItemListTree.vue");
+/* harmony import */ var _components_ItemListStatusButton_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/ItemListStatusButton.vue */ "./resources/js/components/ItemListStatusButton.vue");
+/* harmony import */ var _components_ItemListCheckbox_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/ItemListCheckbox.vue */ "./resources/js/components/ItemListCheckbox.vue");
+/* harmony import */ var _components_ItemListPositionInput_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/ItemListPositionInput.vue */ "./resources/js/components/ItemListPositionInput.vue");
+/* harmony import */ var _components_History_vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/History.vue */ "./resources/js/components/History.vue");
+/* harmony import */ var _components_FileManager_vue__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/FileManager.vue */ "./resources/js/components/FileManager.vue");
+/* harmony import */ var _components_FileField_vue__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/FileField.vue */ "./resources/js/components/FileField.vue");
+/* harmony import */ var _components_FilesField_vue__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/FilesField.vue */ "./resources/js/components/FilesField.vue");
 /**
  * jQuery
  */
@@ -7829,6 +7837,7 @@ window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jqu
 /**
  * Bootstrap
  */
+
 
 
 
@@ -7856,7 +7865,7 @@ if (apiToken) {
 
 
 
-window.Vue = vue__WEBPACK_IMPORTED_MODULE_3__.default;
+window.Vue = vue__WEBPACK_IMPORTED_MODULE_4__.default;
 /**
  * i18n
  */
@@ -7866,11 +7875,11 @@ window.Vue = vue__WEBPACK_IMPORTED_MODULE_3__.default;
 
 
 var messages = {
-  fr: _lang_fr_json__WEBPACK_IMPORTED_MODULE_4__,
-  en: _lang_en_json__WEBPACK_IMPORTED_MODULE_5__,
-  es: _lang_es_json__WEBPACK_IMPORTED_MODULE_6__
+  fr: _lang_fr_json__WEBPACK_IMPORTED_MODULE_5__,
+  en: _lang_en_json__WEBPACK_IMPORTED_MODULE_6__,
+  es: _lang_es_json__WEBPACK_IMPORTED_MODULE_7__
 };
-var i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_7__.default({
+var i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_8__.default({
   locale: window.TypiCMS.locale,
   messages: messages
 });
@@ -7879,19 +7888,19 @@ var i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_7__.default({
  */
 
 
-vue__WEBPACK_IMPORTED_MODULE_3__.default.mixin(_mixins_Permissions__WEBPACK_IMPORTED_MODULE_8__.default);
+vue__WEBPACK_IMPORTED_MODULE_4__.default.mixin(_mixins_Permissions__WEBPACK_IMPORTED_MODULE_9__.default);
 /**
  * Date Filter
  */
 
 
-vue__WEBPACK_IMPORTED_MODULE_3__.default.filter('date', _filters_Date_js__WEBPACK_IMPORTED_MODULE_9__.default);
+vue__WEBPACK_IMPORTED_MODULE_4__.default.filter('date', _filters_Date_js__WEBPACK_IMPORTED_MODULE_10__.default);
 /**
  * Datetime Filter
  */
 
 
-vue__WEBPACK_IMPORTED_MODULE_3__.default.filter('datetime', _filters_Datetime_js__WEBPACK_IMPORTED_MODULE_10__.default);
+vue__WEBPACK_IMPORTED_MODULE_4__.default.filter('datetime', _filters_Datetime_js__WEBPACK_IMPORTED_MODULE_11__.default);
 /**
  * Lists
  */
@@ -7914,20 +7923,20 @@ vue__WEBPACK_IMPORTED_MODULE_3__.default.filter('datetime', _filters_Datetime_js
 
 
 
-window.EventBus = new vue__WEBPACK_IMPORTED_MODULE_3__.default({});
-new vue__WEBPACK_IMPORTED_MODULE_3__.default({
+window.EventBus = new vue__WEBPACK_IMPORTED_MODULE_4__.default({});
+new vue__WEBPACK_IMPORTED_MODULE_4__.default({
   i18n: i18n,
   components: {
-    ItemListColumnHeader: _components_ItemListColumnHeader_vue__WEBPACK_IMPORTED_MODULE_11__.default,
-    ItemList: _components_ItemList_vue__WEBPACK_IMPORTED_MODULE_12__.default,
-    ItemListTree: _components_ItemListTree_vue__WEBPACK_IMPORTED_MODULE_13__.default,
-    ItemListStatusButton: _components_ItemListStatusButton_vue__WEBPACK_IMPORTED_MODULE_14__.default,
-    ItemListCheckbox: _components_ItemListCheckbox_vue__WEBPACK_IMPORTED_MODULE_15__.default,
-    ItemListPositionInput: _components_ItemListPositionInput_vue__WEBPACK_IMPORTED_MODULE_16__.default,
-    FileManager: _components_FileManager_vue__WEBPACK_IMPORTED_MODULE_18__.default,
-    FilesField: _components_FilesField_vue__WEBPACK_IMPORTED_MODULE_20__.default,
-    FileField: _components_FileField_vue__WEBPACK_IMPORTED_MODULE_19__.default,
-    History: _components_History_vue__WEBPACK_IMPORTED_MODULE_17__.default
+    ItemListColumnHeader: _components_ItemListColumnHeader_vue__WEBPACK_IMPORTED_MODULE_12__.default,
+    ItemList: _components_ItemList_vue__WEBPACK_IMPORTED_MODULE_13__.default,
+    ItemListTree: _components_ItemListTree_vue__WEBPACK_IMPORTED_MODULE_14__.default,
+    ItemListStatusButton: _components_ItemListStatusButton_vue__WEBPACK_IMPORTED_MODULE_15__.default,
+    ItemListCheckbox: _components_ItemListCheckbox_vue__WEBPACK_IMPORTED_MODULE_16__.default,
+    ItemListPositionInput: _components_ItemListPositionInput_vue__WEBPACK_IMPORTED_MODULE_17__.default,
+    FileManager: _components_FileManager_vue__WEBPACK_IMPORTED_MODULE_19__.default,
+    FilesField: _components_FilesField_vue__WEBPACK_IMPORTED_MODULE_21__.default,
+    FileField: _components_FileField_vue__WEBPACK_IMPORTED_MODULE_20__.default,
+    History: _components_History_vue__WEBPACK_IMPORTED_MODULE_18__.default
   }
 }).$mount('#app');
 /**
@@ -8846,6 +8855,321 @@ __webpack_require__.r(__webpack_exports__);
     }
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/bootstrap/js/dist/alert.js":
+/*!*************************************************!*\
+  !*** ./node_modules/bootstrap/js/dist/alert.js ***!
+  \*************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+/*!
+  * Bootstrap alert.js v5.0.0-beta1 (https://getbootstrap.com/)
+  * Copyright 2011-2020 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  */
+(function (global, factory) {
+   true ? module.exports = factory(__webpack_require__(/*! ./dom/data.js */ "./node_modules/bootstrap/js/dist/dom/data.js"), __webpack_require__(/*! ./dom/event-handler.js */ "./node_modules/bootstrap/js/dist/dom/event-handler.js")) :
+  0;
+}(this, (function (Data, EventHandler) { 'use strict';
+
+  function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+  var Data__default = /*#__PURE__*/_interopDefaultLegacy(Data);
+  var EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v5.0.0-beta1): util/index.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+  var MILLISECONDS_MULTIPLIER = 1000;
+  var TRANSITION_END = 'transitionend'; // Shoutout AngusCroll (https://goo.gl/pxwQGp)
+
+  var getSelector = function getSelector(element) {
+    var selector = element.getAttribute('data-bs-target');
+
+    if (!selector || selector === '#') {
+      var hrefAttr = element.getAttribute('href');
+      selector = hrefAttr && hrefAttr !== '#' ? hrefAttr.trim() : null;
+    }
+
+    return selector;
+  };
+
+  var getElementFromSelector = function getElementFromSelector(element) {
+    var selector = getSelector(element);
+    return selector ? document.querySelector(selector) : null;
+  };
+
+  var getTransitionDurationFromElement = function getTransitionDurationFromElement(element) {
+    if (!element) {
+      return 0;
+    } // Get transition-duration of the element
+
+
+    var _window$getComputedSt = window.getComputedStyle(element),
+        transitionDuration = _window$getComputedSt.transitionDuration,
+        transitionDelay = _window$getComputedSt.transitionDelay;
+
+    var floatTransitionDuration = Number.parseFloat(transitionDuration);
+    var floatTransitionDelay = Number.parseFloat(transitionDelay); // Return 0 if element or transition duration is not found
+
+    if (!floatTransitionDuration && !floatTransitionDelay) {
+      return 0;
+    } // If multiple durations are defined, take the first
+
+
+    transitionDuration = transitionDuration.split(',')[0];
+    transitionDelay = transitionDelay.split(',')[0];
+    return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
+  };
+
+  var triggerTransitionEnd = function triggerTransitionEnd(element) {
+    element.dispatchEvent(new Event(TRANSITION_END));
+  };
+
+  var emulateTransitionEnd = function emulateTransitionEnd(element, duration) {
+    var called = false;
+    var durationPadding = 5;
+    var emulatedDuration = duration + durationPadding;
+
+    function listener() {
+      called = true;
+      element.removeEventListener(TRANSITION_END, listener);
+    }
+
+    element.addEventListener(TRANSITION_END, listener);
+    setTimeout(function () {
+      if (!called) {
+        triggerTransitionEnd(element);
+      }
+    }, emulatedDuration);
+  };
+
+  var getjQuery = function getjQuery() {
+    var _window = window,
+        jQuery = _window.jQuery;
+
+    if (jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
+      return jQuery;
+    }
+
+    return null;
+  };
+
+  var onDOMContentLoaded = function onDOMContentLoaded(callback) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', callback);
+    } else {
+      callback();
+    }
+  };
+
+  var isRTL = document.documentElement.dir === 'rtl';
+
+  function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+  function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+
+  var VERSION = '5.0.0-beta1';
+
+  var BaseComponent = /*#__PURE__*/function () {
+    function BaseComponent(element) {
+      if (!element) {
+        return;
+      }
+
+      this._element = element;
+      Data__default['default'].setData(element, this.constructor.DATA_KEY, this);
+    }
+
+    var _proto = BaseComponent.prototype;
+
+    _proto.dispose = function dispose() {
+      Data__default['default'].removeData(this._element, this.constructor.DATA_KEY);
+      this._element = null;
+    }
+    /** Static */
+    ;
+
+    BaseComponent.getInstance = function getInstance(element) {
+      return Data__default['default'].getData(element, this.DATA_KEY);
+    };
+
+    _createClass(BaseComponent, null, [{
+      key: "VERSION",
+      get: function get() {
+        return VERSION;
+      }
+    }]);
+
+    return BaseComponent;
+  }();
+
+  function _defineProperties$1(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+  function _createClass$1(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$1(Constructor.prototype, protoProps); if (staticProps) _defineProperties$1(Constructor, staticProps); return Constructor; }
+
+  function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+
+  var NAME = 'alert';
+  var DATA_KEY = 'bs.alert';
+  var EVENT_KEY = "." + DATA_KEY;
+  var DATA_API_KEY = '.data-api';
+  var SELECTOR_DISMISS = '[data-bs-dismiss="alert"]';
+  var EVENT_CLOSE = "close" + EVENT_KEY;
+  var EVENT_CLOSED = "closed" + EVENT_KEY;
+  var EVENT_CLICK_DATA_API = "click" + EVENT_KEY + DATA_API_KEY;
+  var CLASSNAME_ALERT = 'alert';
+  var CLASSNAME_FADE = 'fade';
+  var CLASSNAME_SHOW = 'show';
+  /**
+   * ------------------------------------------------------------------------
+   * Class Definition
+   * ------------------------------------------------------------------------
+   */
+
+  var Alert = /*#__PURE__*/function (_BaseComponent) {
+    _inheritsLoose(Alert, _BaseComponent);
+
+    function Alert() {
+      return _BaseComponent.apply(this, arguments) || this;
+    }
+
+    var _proto = Alert.prototype;
+
+    // Public
+    _proto.close = function close(element) {
+      var rootElement = element ? this._getRootElement(element) : this._element;
+
+      var customEvent = this._triggerCloseEvent(rootElement);
+
+      if (customEvent === null || customEvent.defaultPrevented) {
+        return;
+      }
+
+      this._removeElement(rootElement);
+    } // Private
+    ;
+
+    _proto._getRootElement = function _getRootElement(element) {
+      return getElementFromSelector(element) || element.closest("." + CLASSNAME_ALERT);
+    };
+
+    _proto._triggerCloseEvent = function _triggerCloseEvent(element) {
+      return EventHandler__default['default'].trigger(element, EVENT_CLOSE);
+    };
+
+    _proto._removeElement = function _removeElement(element) {
+      var _this = this;
+
+      element.classList.remove(CLASSNAME_SHOW);
+
+      if (!element.classList.contains(CLASSNAME_FADE)) {
+        this._destroyElement(element);
+
+        return;
+      }
+
+      var transitionDuration = getTransitionDurationFromElement(element);
+      EventHandler__default['default'].one(element, TRANSITION_END, function () {
+        return _this._destroyElement(element);
+      });
+      emulateTransitionEnd(element, transitionDuration);
+    };
+
+    _proto._destroyElement = function _destroyElement(element) {
+      if (element.parentNode) {
+        element.parentNode.removeChild(element);
+      }
+
+      EventHandler__default['default'].trigger(element, EVENT_CLOSED);
+    } // Static
+    ;
+
+    Alert.jQueryInterface = function jQueryInterface(config) {
+      return this.each(function () {
+        var data = Data__default['default'].getData(this, DATA_KEY);
+
+        if (!data) {
+          data = new Alert(this);
+        }
+
+        if (config === 'close') {
+          data[config](this);
+        }
+      });
+    };
+
+    Alert.handleDismiss = function handleDismiss(alertInstance) {
+      return function (event) {
+        if (event) {
+          event.preventDefault();
+        }
+
+        alertInstance.close(this);
+      };
+    };
+
+    _createClass$1(Alert, null, [{
+      key: "DATA_KEY",
+      // Getters
+      get: function get() {
+        return DATA_KEY;
+      }
+    }]);
+
+    return Alert;
+  }(BaseComponent);
+  /**
+   * ------------------------------------------------------------------------
+   * Data Api implementation
+   * ------------------------------------------------------------------------
+   */
+
+
+  EventHandler__default['default'].on(document, EVENT_CLICK_DATA_API, SELECTOR_DISMISS, Alert.handleDismiss(new Alert()));
+  /**
+   * ------------------------------------------------------------------------
+   * jQuery
+   * ------------------------------------------------------------------------
+   * add .Alert to jQuery only if jQuery is present
+   */
+
+  onDOMContentLoaded(function () {
+    var $ = getjQuery();
+    /* istanbul ignore if */
+
+    if ($) {
+      var JQUERY_NO_CONFLICT = $.fn[NAME];
+      $.fn[NAME] = Alert.jQueryInterface;
+      $.fn[NAME].Constructor = Alert;
+
+      $.fn[NAME].noConflict = function () {
+        $.fn[NAME] = JQUERY_NO_CONFLICT;
+        return Alert.jQueryInterface;
+      };
+    }
+  });
+
+  return Alert;
+
+})));
+//# sourceMappingURL=alert.js.map
+
 
 /***/ }),
 
@@ -33031,7 +33355,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "mb-4" }, [
     _c("div", { staticClass: "mb-3" }, [
-      _c("label", { attrs: { for: _vm.field } }, [
+      _c("label", { staticClass: "form-label", attrs: { for: _vm.field } }, [
         _vm.label
           ? _c("span", [_vm._v(" " + _vm._s(_vm.label) + " ")])
           : _c("span", [
@@ -33397,7 +33721,7 @@ var render = function() {
                     _c(
                       "svg",
                       {
-                        staticClass: "mr-1",
+                        staticClass: "me-1",
                         attrs: {
                           width: "1em",
                           height: "1em",
@@ -33475,7 +33799,7 @@ var render = function() {
                 _c(
                   "svg",
                   {
-                    staticClass: "mr-1 text-muted",
+                    staticClass: "me-1 text-muted",
                     attrs: {
                       width: "1em",
                       height: "1em",
@@ -34042,7 +34366,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("div", { staticClass: "mb-3" }, [
-        _c("label", [
+        _c("label", { staticClass: "form-label" }, [
           _vm.label
             ? _c("span", [_vm._v(_vm._s(_vm.label))])
             : _c("span", [_vm._v(_vm._s(_vm.$t("Files")))])
@@ -34535,7 +34859,7 @@ var render = function() {
           _vm.selector &&
           (_vm.$can("update " + _vm.table) || _vm.$can("delete " + _vm.table))
             ? _c("item-list-selector", {
-                staticClass: "mr-2",
+                staticClass: "me-2",
                 attrs: {
                   "filtered-models": _vm.filteredItems,
                   "all-checked": _vm.allChecked,
@@ -34554,7 +34878,7 @@ var render = function() {
           _vm.actions &&
           (_vm.$can("update " + _vm.table) || _vm.$can("delete " + _vm.table))
             ? _c("item-list-actions", {
-                staticClass: "mr-2",
+                staticClass: "me-2",
                 attrs: {
                   "number-of-checked-models": _vm.numberOfCheckedItems,
                   loading: _vm.loading,
@@ -34573,7 +34897,7 @@ var render = function() {
           this.data.total > 10 &&
           _vm.$can("read " + _vm.table)
             ? _c("item-list-per-page", {
-                staticClass: "mr-2",
+                staticClass: "me-2",
                 attrs: {
                   loading: _vm.loading,
                   "per-page": parseInt(_vm.data.per_page)
@@ -34623,29 +34947,27 @@ var render = function() {
                     "div",
                     { staticClass: "input-group input-group-sm mb-0" },
                     [
-                      _c("div", { staticClass: "input-group-prepend" }, [
-                        _c("div", { staticClass: "input-group-text" }, [
-                          _c(
-                            "svg",
-                            {
+                      _c("div", { staticClass: "input-group-text" }, [
+                        _c(
+                          "svg",
+                          {
+                            attrs: {
+                              width: "14",
+                              height: "14",
+                              viewBox: "0 0 1792 1792",
+                              fill: "currentColor",
+                              xmlns: "http://www.w3.org/2000/svg"
+                            }
+                          },
+                          [
+                            _c("path", {
                               attrs: {
-                                width: "14",
-                                height: "14",
-                                viewBox: "0 0 1792 1792",
-                                fill: "currentColor",
-                                xmlns: "http://www.w3.org/2000/svg"
+                                d:
+                                  "M1216 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z"
                               }
-                            },
-                            [
-                              _c("path", {
-                                attrs: {
-                                  d:
-                                    "M1216 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z"
-                                }
-                              })
-                            ]
-                          )
-                        ])
+                            })
+                          ]
+                        )
                       ]),
                       _vm._v(" "),
                       _c("input", {
@@ -50491,7 +50813,7 @@ module.exports = JSON.parse("{\"# blocks\":\"Ningún bloque|1 bloque|{count} blo
 /***/ (function(module) {
 
 "use strict";
-module.exports = JSON.parse("{\"# blocks\":\"Aucun bloc de contenu|1 bloc de contenu|{count} blocs de contenu\",\"# categories\":\"Aucune catégorie|1 catégorie|{count} catégories\",\"# contacts\":\"Aucun contact|1 contact|{count} contacts\",\"# discussions\":\"Aucune discussion|1 discussion|{count} discussions\",\"# events\":\"Aucun événement|1 événement|{count} événements\",\"# files could not be moved.\":\"Aucun fichier n’a pu être déplacé.|1 fichier n’a pas pu être déplacé.|{count} fichiers n’ont pas pu être déplacés.\",\"# files moved.\":\"Aucun fichier déplacé.|1 fichier déplacé.|{count} fichiers déplacés.\",\"# items deleted\":\"1 élément supprimé|{count} éléments supprimés\",\"# items published\":\"1 élément publié|{count} éléments publiés\",\"# items selected\":\"Aucun élément sélectionné|1 élément sélectionné|{count} éléments sélectionnés\",\"# items unpublished\":\"1 élément dépublié|{count} éléments dépubliés\",\"# menus\":\"Aucun menu|1 menu|{count} menus\",\"# news\":\"Aucune actualité|1 actualité|{count} actualités\",\"# pages\":\"Aucune page|1 page|{count} pages\",\"# partners\":\"Aucun partenaire|1 partenaire|{count} partenaires\",\"# places\":\"Aucune adresse|1 adresse|{count} adresses\",\"# projects\":\"Aucun projet|1 projet|{count} projets\",\"# roles\":\"Aucun rôle|1 rôle|{count} rôles\",\"# sections\":\"Aucune section|1 section|{count} sections\",\"# slides\":\"Aucun slide|1 slide|{count} slides\",\"# tags\":\"Aucun tag|1 tag|{count} tags\",\"# translations\":\"Aucune traduction|1 traduction|{count} traductions\",\"# users\":\"Aucun utilisateur|1 utilisateur|{count} utilisateurs\",\"/ 1 month\":\"/ mois\",\"/ 1 year\":\"/ an\",\"1 minute| :count minutes\":\"1 minute| :count minutes\",\"A fresh verification link has been sent to your email address.\":\"Un nouveau lien de vérification a été envoyé à votre adresse email.\",\"A non-empty folder cannot be deleted.\":\"Un dossier non-vide ne peut pas être supprimé.\",\"A page containing subpages cannot be linked to a module\":\"Une page ayant des sous-pages ne peut pas être liée à un module.\",\"A subscription renewal has failed.\":\"Le renouvellement d’un abonnement a échoué.\",\"A subscription was renewed automatically.\":\"Un abonnement a été renouvelé automatiquement.\",\"Access dashboard\":\"Accéder au tableau de bord\",\"Action\":\"Action\",\"Activate my account\":\"Activer mon compte\",\"Activated\":\"Activé\",\"Active locale\":\"Langue active\",\"Active tab\":\"Onglet actif\",\"Add\":\"Ajouter\",\"Add files\":\"Ajouter des fichiers\",\"Add selected file\":\"Ajouter le fichier sélectionné\",\"Add selected files\":\"Ajouter les fichiers sélectionnés\",\"Add to menu\":\"Ajouter au menu\",\"address\":\"adresse\",\"Address\":\"Adresse\",\"Administration Language\":\"Langue de l’interface d’administration\",\"Administration Welcome Message\":\"Message d’accueil de l’interface d’administration\",\"Age\":\"Âge\",\"All\":\"Tous\",\"All discussions\":\"Toutes les discussions\",\"All languages\":\"Toutes les langues\",\"All rights reserved.\":\"Tous droits réservés.\",\"Alt attribute\":\"Texte alternatif\",\"Amount\":\"Montant\",\"An error occurred with the data fetch.\":\"Une erreur s’est produite lors du chargement des données.\",\"and get access to all the content of our website.\":\"et accédez à tout le contenu de notre site.\",\"Are you sure you want to cancel your subscription to :name?\":\"Êtes-vous sûr de vouloir annuler votre abonnement à :name ?\",\"Are you sure you want to delete # items?\":\"Voulez-vous supprimer {count} élément ? | Voulez-vous supprimer {count} éléments ?\",\"Are you sure you want to delete this <strong>discussion</strong>?\":\"Êtes-vous certain de vouloir supprimer cette <strong>discussion</strong>?\",\"Are you sure you want to delete this response?\":\"Êtes-vous certain de vouloir supprimer cette réponse ?\",\"Are you sure you want to delete “{title}”?\":\"Êtes-vous certain de vouloir supprimer « {title} » ?\",\"Are you sure you want to publish # items?\":\"Voulez-vous publier 1 élément ? | Voulez-vous publier {count} éléments ?\",\"Are you sure you want to unpublish # items?\":\"Voulez-vous dépublier 1 élément ? | Voulez-vous dépublier {count} éléments ?\",\"Authenticate to view website\":\"Se connecter pour voir le site\",\"Available\":\"Disponible\",\"Available plans\":\"Plans disponibles\",\"Back\":\"Retour\",\"Back to icons list\":\"Retour à la liste des icons\",\"Back to the website\":\"Retour au site web\",\"Back-office\":\"Administration\",\"Balance after\":\"Solde après\",\"Balance applied\":\"Solde appliqué\",\"Balance before\":\"Solde avant\",\"Become a member\":\"Devenez membre\",\"Before proceeding, please check your email for a verification link.\":\"Avant de continuer, veuillez vérifier votre courrier électronique pour un lien de vérification.\",\"Blocks\":\"Blocs de contenu\",\"Body\":\"Corps\",\"Box\":\"Boite\",\"Cache\":\"Cache\",\"Cache cleared\":\"Le cache a été vidé\",\"Cancel\":\"Annuler\",\"Cancel my subscription.\":\"Annuler mon abonnement.\",\"Cancel the subscription\":\"Annuler l’abonnement\",\"categories\":\"catégorie|catégories\",\"Categories\":\"Catégories\",\"Category\":\"Catégorie\",\"Change Password\":\"Modifier le mot de passe\",\"Change settings\":\"Changer la configuration\",\"City\":\"Ville\",\"Class\":\"Class\",\"Clear\":\"Vider l’historique\",\"Clear cache\":\"Vider le cache\",\"click here to request another\":\"cliquer ici pour faire une autre demande\",\"Comments enabled\":\"Activer les commentaires\",\"Company\":\"Société\",\"Confirm Password\":\"Confirmez le mot de passe\",\"Contact information\":\"Coordonnées\",\"contacts\":\"contact|contacts\",\"Contacts\":\"Contacts\",\"Content\":\"Contenu\",\"Content blocks\":\"Blocs de contenu\",\"Copied to the clipboard\":\"Copié dans le presse-papier\",\"Copy\":\"Copier\",\"Could not delete the response.\":\"Impossible de supprimer la réponse.\",\"Could not update your response.\":\"Impossible de mettre à jour votre réponse.\",\"Country\":\"Pays\",\"Create\":\"Créer\",\"Create discussion\":\"Créer une discussion\",\"Created at\":\"Créé le\",\"Css\":\"Code CSS\",\"Currency\":\"Moneda\",\"Current subscription\":\"Abonnement actuel\",\"Dashboard\":\"Tableau de bord\",\"Date\":\"Date\",\"Day\":\"Jour\",\"DDMMYYYY\":\"JJ.MM.AAAA\",\"DDMMYYYY HHMM\":\"JJ.MM.AAAA HH:MM\",\"Delete\":\"Supprimer\",\"Description\":\"Description\",\"Deselect all\":\"Tout désélectionner\",\"Destroy\":\"Supprimer\",\"Disabled\":\"Désactivé\",\"discussions\":\"discussion|discussions\",\"Do you want to clear history?\":\"Voulez-vous vider l’historique ?\",\"Document\":\"Document\",\"Don’t like these emails?\":\"Vous n’aimez pas ces courriels ?\",\"Download count\":\"Nombre de téléchargements\",\"Drop files to upload\":\"Glisser des fichiers pour les envoyer.\",\"Drop to upload.\":\"Déposer pour envoyer.\",\"E-Mail Address\":\"Adresse email\",\"Edit\":\"Modifier\",\"Edit block\":\"Modifier le bloc de contenu\",\"Edit event\":\"Modifier l’événement\",\"Edit file\":\"Modifier le fichier\",\"Edit icon\":\"Modifier icon\",\"Edit menu\":\"Modifier le menu\",\"Edit menulink\":\"Modifier le lien de menu\",\"Edit news\":\"Modifier l’actualité\",\"Edit object\":\"Modifier object\",\"Edit page\":\"Modifier la page\",\"Edit partner\":\"Modifier le partenaire\",\"Edit place\":\"Modifier l’adresse\",\"Edit project\":\"Modifier le projet\",\"Edit role\":\"Modifier le rôle\",\"Edit slide\":\"Modifier le slide\",\"Edit tag\":\"Modifier le tag\",\"Edit translation\":\"Modifier la traduction\",\"Edit your profile\":\"Modifiez votre profil\",\"Email\":\"E-mail\",\"Empty history\":\"Vider l’historique\",\"Enabled\":\"Activé\",\"End date\":\"Date de fin\",\"End time\":\"Heure de fin\",\"Enter a name for the new folder.\":\"Entrez le nom du nouveau dossier.\",\"Environment\":\"Environnement\",\"Error\":\"Erreur\",\"Events\":\"Événements\",\"events\":\"événement|événements\",\"Excerpt\":\"Extrait\",\"Exit\":\"Sortir\",\"Extension\":\"Extension\",\"Fax\":\"Fax\",\"File\":\"Fichier\",\"File information\":\"Informations sur le fichier\",\"Filename\":\"Nom du fichier\",\"Files\":\"Fichiers\",\"Filter\":\"Filtrer\",\"Find nearest\":\"Trouver l’adresse la plus proche\",\"First name\":\"Prénom\",\"Forbidden\":\"Interdit\",\"Forgot Your Password?\":\"Vous avez oublié votre mot de passe ?\",\"from\":\"du\",\"Front office\":\"Public\",\"Gender\":\"Genre\",\"Generate\":\"Générer\",\"Go Home\":\"Aller à l’accueil\",\"Go to our homepage\":\"Aller à notre page d'accueil\",\"Goodbye\":\"Au revoir\",\"Google Analytics Tracking Id\":\"Google Analytics Tracking Id\",\"Grid\":\"Grille\",\"Groups\":\"Groupes\",\"Have a great day!\":\"Passez une bonne journée !\",\"Heads Up!\":\"Attention !\",\"Height\":\"Hauteur\",\"Hello!\":\"Bonjour !\",\"HH:MM\":\"HH:MM\",\"hi\":\"salut\",\"Hi there,\":\"Salut,\",\"History is empty.\":\"L’historique est vide.\",\"Home\":\"Accueil\",\"Homepage\":\"Sur la page d’accueil\",\"Hour\":\"Heure\",\"I subscribe\":\"Je m’abonne\",\"I will subscribe later\":\"Je m’abonnerai plus tard\",\"Icon class\":\"Class d’icône\",\"Icons\":\"Icons\",\"If you did not create an account, no further action is required.\":\"Si vous n’avez pas créé de compte, aucune action supplémentaire n’est requise.\",\"If you did not receive the email\":\"Si vous n’avez pas reçu l’email\",\"If you did not request a password reset, no further action is required.\":\"Si vous n’avez pas demandé de réinitialisation de mot de passe, aucune autre action n’est requise.\",\"If you no longer wish to be notified when someone responds to this form post be sure to uncheck the notification setting at the bottom of the discussion page.\":\"Si vous ne souhaitez plus être notifié lorsque quelqu’un répond à ce formulaire, assurez-vous de décocher le paramètre de notification en bas de la page de discussion.\",\"If you’re having trouble clicking the \\\":actionText\\\" button, copy and paste the URL below\\ninto your web browser: [:actionURL](:actionURL)\":\"Si vous avez des problèmes en cliquant sur le bouton “:actionText”, faites un copié/collé de l’url ci-dessous dans votre navigateur : [:actionURL](:actionURL)\",\"Image\":\"Image\",\"Images\":\"Images\",\"Impossible to delete more than # items in one go.\":\"Impossible de supprimer plus de {deleteLimit} éléments en une fois.\",\"In order to prevent spam, please allow at least :minutes in between submitting content.\":\"Afin d’éviter le spam, veuillez prévoir au moins :minutes minute(s) avant de soumettre à nouveau du contenu.\",\"Index\":\"Voir liste\",\"Info\":\"Info\",\"Insert\":\"Insérer\",\"Is home\":\"Définir en tant que page d’accueil\",\"Item is published.\":\"L’élément a été publié.\",\"Item is unpublished.\":\"L’élément a été dépublié.\",\"Js\":\"Code JavaScript\",\"Just wanted to let you know that someone has responded to a forum post at\":\"Je voulais juste vous faire savoir que quelqu’un a répondu à un message du forum à\",\"Just wanted to let you know that someone has responded to a forum post.\":\"Je voulais juste vous faire savoir que quelqu’un a répondu à un message du forum.\",\"KB\":\"Ko\",\"Key\":\"Clé\",\"Keywords\":\"Mots-clés\",\"Lang Chooser\":\"Page de choix de langue\",\"Language\":\"Langue\",\"Last name\":\"Nom\",\"Latest changes\":\"Activité récente\",\"Latitude\":\"Latitude\",\"Legend\":\"Légende\",\"List\":\"Liste\",\"Loading…\":\"Chargement…\",\"Locales\":\"Langues\",\"Location\":\"Lieu\",\"Login\":\"Connexion\",\"Logo\":\"Logo\",\"Logout\":\"Déconnexion\",\"Longitude\":\"Longitude\",\"Mandatory fields\":\"Champs obligatoires\",\"Max\":\"Maximum\",\"Max :size MB\":\"Maximum :size Mo\",\"MB\":\"Mo\",\"Media\":\"Médias\",\"Menu\":\"Menu\",\"Menulink\":\"Lien de menu\",\"Menulinks\":\"Liens de menu\",\"Menus\":\"Menus\",\"Message\":\"Message\",\"Meta\":\"Meta\",\"Meta description\":\"Meta description\",\"Meta keywords\":\"Meta mots clés\",\"Meta title\":\"Meta titre\",\"Mimetype\":\"Type Mime\",\"Minute\":\"Minute\",\"Mobile\":\"Portable\",\"Modify\":\"Modifier\",\"Module\":\"Module\",\"Module name\":\"Nom du module\",\"Month\":\"Mois\",\"Move to parent folder\":\"Placer dans le dossier parent\",\"Mr\":\"M.\",\"Mrs\":\"Mme\",\"Name\":\"Nom\",\"New block\":\"Nouveau bloc de contenu\",\"New contact\":\"Nouveau contact\",\"New contact request\":\"Nouvelle demande de contact\",\"New contact request from\":\"Nouvelle demande de contact de\",\"New discussion\":\"Nouvelle discussion\",\"New event\":\"Nouvel événement\",\"New file\":\"Nouveau fichier\",\"New folder\":\"Nouveau dossier\",\"New icon\":\"Nouveau icon\",\"New menu\":\"Nouveau menu\",\"New menulink\":\"Nouveau lien de menu\",\"New news\":\"Nouvelle actualité\",\"New object\":\"Nouveau object\",\"New page\":\"Nouvelle page\",\"New page section\":\"Nouvelle section de page\",\"New partner\":\"Nouveau partenaire\",\"New password\":\"Nouveau mot de passe\",\"New place\":\"Nouvelle adresse\",\"New project\":\"Nouveau projet\",\"New project category\":\"Nouvelle catégorie de Projets\",\"New role\":\"Nouveau rôle\",\"New slide\":\"Nouveau slide\",\"New tab\":\"Nouvel onglet\",\"New tag\":\"Nouveau tag\",\"New translation\":\"Nouvelle traduction\",\"New user\":\"Nouvel utilisateur\",\"News\":\"Actualités\",\"news\":\"actualité|actualités\",\"News feed\":\"Flux d’actualités\",\"Next\":\"Suivant\",\"No\":\"Non\",\"No default page found\":\"Aucune page d’accueil trouvée\",\"No file\":\"Aucun fichier\",\"No menu found with name “:name”\":\"Le menu « :name » n’a pas été trouvé.\",\"No thanks\":\"Non merci.\",\"None\":\"Aucun\",\"Not a member?\":\"Vous n'êtes pas membre ?\",\"Not found\":\"Introuvable\",\"Nothing found.\":\"Rien n’a été trouvé.\",\"Notify me when someone replies.\":\"Avertissez-moi lorsque quelqu’un vous répond.\",\"Number\":\"Numéro\",\"Objects\":\"Objects\",\"Offline\":\"Hors ligne\",\"Oh no\":\"Oh non\",\"Oh Snap!\":\"Oh Snap !\",\"on\":\"le\",\"Online\":\"En ligne\",\"Options\":\"Options\",\"Page\":\"Page\",\"Page Expired\":\"Page expirée\",\"Page Not Found\":\"Page non trouvée\",\"Page sections\":\"Sections de page\",\"pages\":\"page|pages\",\"Pages\":\"Pages\",\"partners\":\"partenaire|partenaires\",\"Partners\":\"Partenaires\",\"Password\":\"Mot de passe\",\"Password confirmation\":\"Confirmer le mot de passe\",\"Past events\":\"Événements passés\",\"Path\":\"Chemin\",\"per page\":\"par page\",\"Permissions\":\"Permissions\",\"Phone\":\"Téléphone\",\"Places\":\"Adresses\",\"places\":\"adresse|adresses\",\"Plans\":\"Plans\",\"Please choose a category.\":\"Veuillez choisir une catégorie.\",\"Please choose the affiliation that best suits you.\":\"Veuillez choisir l’affiliation qui vous convient le mieux.\",\"Please choose the plan you want to switch to.\":\"Veuillez choisir le plan auquel vous souhaitez vous abonner.\",\"Please click the button below to verify your email address.\":\"Veuillez cliquer sur le bouton ci-dessous pour vérifier votre adresse email.\",\"Please fix the following errors:\":\"Veuillez corriger les erreurs suivantes :\",\"Please write a title.\":\"Veuillez écrire un titre.\",\"Please write some content.\":\"Veuillez écrire un contenu.\",\"Position\":\"Position\",\"Postal code\":\"Code postal\",\"Postcode\":\"Code postal\",\"Posted by\":\"Publié par\",\"Posted in category\":\"Publié dans la catégorie\",\"Preview\":\"Prévisualisation\",\"Previous\":\"Précédent\",\"Price\":\"Prix\",\"Private\":\"Privée\",\"Profile\":\"Profil\",\"Project categories\":\"Catégories de projets\",\"projects\":\"projet|projets\",\"Projects\":\"Projets\",\"Publish\":\"Publier\",\"Publish website\":\"Publier le site web\",\"Published\":\"Publié\",\"Published items\":\"Publiés\",\"Published on\":\"Publié le\",\"Read\":\"Voir\",\"Read more\":\"En savoir plus\",\"Redirect to first child\":\"Rediriger vers le premier enfant\",\"Regards\":\"Cordialement\",\"Register\":\"S’inscrire\",\"Registration allowed\":\"Permettre la création de comptes utilisateurs\",\"Remember Me\":\"Se souvenir de moi\",\"Remove\":\"Supprimer\",\"Renewal date\":\"Date de renouvellement\",\"Replace\":\"Remplacer\",\"Replace file\":\"Remplacer le fichier\",\"Replace image\":\"Remplacer l’image\",\"Reset\":\"Réinitialiser\",\"Reset Password\":\"Réinitialiser le mot de passe\",\"Reset Password Notification\":\"Notification de réinitialisation du mot de passe\",\"Response successfully submitted to discussion.\":\"La réponse a été soumise avec succès à la discussion.\",\"Restricted to\":\"Restreint à\",\"Resume the subscription\":\"Prolonger l’abonnement\",\"Resume your subscription to the :name plan.\":\"Reprendre votre abonnement au plan « :name ».\",\"Role permissions\":\"Permissions du rôle\",\"roles\":\"rôle|rôles\",\"Roles\":\"Rôles\",\"Save\":\"Enregistrer\",\"Save and exit\":\"Enregistrer et sortir\",\"Save this item first, then add files.\":\"Enregistrez d’abord cet élément, puis ajoutez des fichiers.\",\"Save this page first, then add sections.\":\"Enregistrez d’abord cette page, puis ajoutez des sections.\",\"Search\":\"Chercher\",\"Search results for “:search”\":\"Résultat de la recherche pour « :search »\",\"Second\":\"Seconde\",\"sections\":\"section|sections\",\"Sections\":\"Sections\",\"See history\":\"Voir l’historique\",\"See navbar\":\"Voir la barre de navigation\",\"See online\":\"Voir en ligne\",\"See settings\":\"Voir la configuration\",\"Select a Category\":\"Sélectionnez une catégorie\",\"Select a color for this discussion (optional)\":\"Choisissez une couleur pour cette discussion (facultatif)\",\"Select all\":\"Tout sélectionner\",\"Send\":\"Envoyer\",\"Send Password Reset Link\":\"Envoyer le lien de réinitialisation\",\"Service Unavailable\":\"Service indisponible\",\"Settings\":\"Configuration\",\"Show on map\":\"afficher sur la carte\",\"Side\":\"Côté\",\"Size\":\"Taille\",\"Size (px)\":\"Taille (px)\",\"slides\":\"slide|slides\",\"Slides\":\"Slides\",\"Slug\":\"Slug\",\"Sorry, an error occurred.\":\"Désolé, une erreur est survenue.\",\"Sorry, the page you are looking for could not be found.\":\"Désolé, la page que vous recherchez est introuvable.\",\"Sorry, there seems to have been a problem submitting your response.\":\"Désolé, il semble qu’il y ait eu un problème pour soumettre votre réponse.\",\"Sorry, we are doing some maintenance. Please check back soon.\":\"Désolé, nous sommes en maintenance. Veuillez revenir plus tard.\",\"Sorry, you are forbidden from accessing this page.\":\"Désolé, vous ne pouvez accéder à cette page.\",\"Sorry, you are making too many requests to our servers.\":\"Désolé, vous faites trop de requêtes vers nos serveurs.\",\"Sorry, you are not authorized to access this page.\":\"Désolé, vous n’êtes pas autorisé à accéder à cette page.\",\"Sorry, your session has expired. Please refresh and try again.\":\"Désolé, votre session a expiré. Veuillez actualiser la page et réessayer.\",\"Sort\":\"Ordonner\",\"Start date\":\"Date de début\",\"Start time\":\"Heure de début\",\"Status\":\"Statut\",\"Store\":\"Créer\",\"Street\":\"Rue\",\"Submit\":\"Envoyer\",\"Submit response\":\"Soumettre la réponse\",\"Subscribe\":\"S’abonner\",\"Subscriptions\":\"Abonnements\",\"Subtotal\":\"Sous-total\",\"Successfully created a new discussion.\":\"A réussi à créer une nouvelle discussion.\",\"Successfully deleted the response and discussion.\":\"Suppression réussie de la réponse et de la discussion.\",\"Successfully deleted the response from the discussion.\":\"La réponse a été supprimée avec succès de la discussion.\",\"Successfully updated the discussion.\":\"La discussion a été mise à jour avec succès.\",\"Summary\":\"Résumé\",\"Superuser\":\"Super utilisateur\",\"Switch to this plan\":\"Passer à ce plan\",\"Switch your subscription to another plan.\":\"Passer à un autre plan.\",\"System info\":\"Informations système\",\"System locales\":\"Locales du système\",\"Tag\":\"Tag\",\"Tags\":\"Tags\",\"tags\":\"tag|tags\",\"Target\":\"Cible\",\"Template\":\"Template\",\"Thank you\":\"Nous vous remercions.\",\"Thank you for supporting us, you now have access to all our resources.\":\"Merci de nous soutenir, vous avez maintenant accès à toutes nos ressources.\",\"Thank you for supporting us, your subscription has been successfully renewed.\":\"Merci de nous soutenir, votre abonnement a été renouvelé avec succès.\",\"Thank you for your contact request.\":\"Merci pour votre demande de contact.\",\"The content has to have at least :min characters.\":\"Le contenu doit comporter au moins les caractères :min.\",\"The current logged in user cannot be deleted.\":\"L’utilisateur actuellement connecté ne peut pas être supprimé.\",\"The form contains errors:\":\"Le formulaire contient des erreurs :\",\"The home page cannot be deleted.\":\"La page d’accueil ne peut être supprimée.\",\"The password is incorrect.\":\"Le mot de passe est incorrect.\",\"The slug is required if published.\":\"Le champ slug est requis si c'est publié.\",\"The subscription of :name was renewed automatically.\":\"L’abonnement de :name a été renouvelé automatiquement.\",\"The subscription renewal of :name has failed.\":\"Le renouvellement de l’abonnement de :name a échoué.\",\"The subscription was sucessfully cancelled.\":\"L’abonnement a été correctement annulé.\",\"The subscription was sucessfully resumed.\":\"L’abonnement a été prolongé avec succès.\",\"The title has to have at least :min characters.\":\"Le titre doit comporter au moins :min caractères.\",\"The title has to have no more than :max characters.\":\"Le titre ne doit pas comporter plus de :max caractères.\",\"The user :name can not be deleted because he has a running subscription.\":\"L’utilisateur :name ne peut pas être supprimé car il a un abonnement en cours.\",\"There are currently no discussions in this category.\":\"Il n’y a actuellement aucune discussion dans cette catégorie.\",\"There are no results that match your query.\":\"Il n’y a pas de résultat qui correspond à votre requête.\",\"There is no payment method available.\":\"Aucun mode de paiement n’est disponible.\",\"There was an error with your payment.\":\"Une erreur s’est produite lors de votre paiement.\",\"This action is unauthorized.\":\"Cette action n’est pas autorisée.\",\"This category cannot be deleted as it contains projects.\":\"Cette catégorie ne peut pas être supprimée car elle contient des projets.\",\"This item cannot be deleted because it has children.\":\"Cet élément ne peut pas être supprimé car il a des descendants.\",\"This password reset link will expire in :count minutes.\":\"Ce lien de réinitialisation du mot de passe expirera dans :count minutes.\",\"This user is not activated.\":\"Cet utilisateur n’a pas été activé.\",\"This user was not found.\":\"Cet utilisateur n’a pas été trouvé.\",\"Time\":\"Heure\",\"Title\":\"Titre\",\"Title of discussion\":\"Titre de la discussion\",\"to\":\"au\",\"Toggle navigation\":\"Menu\",\"Too Many Requests\":\"Trop de requêtes\",\"Total due\":\"Total dû\",\"Translation\":\"Traduction\",\"Translations\":\"Traductions\",\"translations\":\"traduction|traductions\",\"Type\":\"Type\",\"Type your discussion here…\":\"Tapez votre discussion ici…\",\"Type your response here…\":\"Tapez votre réponse ici…\",\"Unauthorized\":\"Non autorisé\",\"Unpublish\":\"Dépublier\",\"Unpublished\":\"Dépublié\",\"Unpublished items\":\"Dépubliés\",\"Unsubscribe to this discussion.\":\"Désinscrivez-vous de cette discussion.\",\"Upcoming events\":\"Événements à venir\",\"Update\":\"Modifier\",\"Update response\":\"Mise à jour de la réponse\",\"Upload files\":\"Envoyer des fichiers\",\"Uri\":\"URI\",\"Url\":\"URL\",\"User\":\"Utilisateur\",\"User permissions\":\"Permissions de l’utilisateur\",\"Username\":\"Pseudo\",\"users\":\"utilisateur|utilisateurs\",\"Users\":\"Utilisateurs\",\"Users and roles\":\"Utilisateurs et rôles\",\"Uses\":\"Utilisations\",\"VAT\":\"TVA\",\"Venue\":\"Lieu\",\"Verify Email Address\":\"Vérification de l’adresse email\",\"Verify Your Email Address\":\"Vérifiez votre adresse email\",\"View\":\"Voir\",\"View list\":\"Voir la liste\",\"View online\":\"Voir en ligne\",\"View the discussion.\":\"Voir la discussion.\",\"View website\":\"Voir le site\",\"Visit our website\":\"Visitez notre site web\",\"We inform you that your membership as a :plan will be renewed automatically as of :date.\":\"Nous vous informons que votre affiliation en tant que :plan sera renouvellée automatiquement en date du :date.\",\"Webmaster Email\":\"Email du webmaster\",\"Website\":\"Site web\",\"Website baseline\":\"Baseline du site\",\"Website title\":\"Titre du site\",\"Welcome\":\"Bienvenue\",\"Welcome, :name!\":\"Bienvenue :name !\",\"Well done!\":\"Bravo !\",\"We’re sorry to see you go.\":\"Nous sommes désolés de vous voir partir.\",\"Whoops!\":\"Oups !\",\"Whoops! There seems to be a problem creating your discussion.\":\"Il semble y avoir un problème pour créer votre discussion.\",\"Whoops, something went wrong on our servers.\":\"Oups, quelque chose s’est mal passé sur nos serveurs.\",\"Width\":\"Largeur\",\"Wuh Oh!\":\"Wuh Oh !\",\"Year\":\"Année\",\"Yes\":\"Oui\",\"Yes delete it\":\"Oui, effacez-la.\",\"You are already on the :plan plan\":\"Vous êtes déjà sur le plan :plan\",\"You are not currently subscribed to any plan.\":\"Vous n’êtes actuellement affilié à aucun plan.\",\"You are now successfully subscribed.\":\"Vous êtes maintenant abonné avec succès.\",\"You are receiving this email because we received a password reset request for your account.\":\"Vous recevez cet email car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte.\",\"You are subscribed to the :name plan.\":\"Vous êtes abonné au plan « :name ».\",\"You don’t have any invoices.\":\"Vous n’avez pas de reçu.\",\"You have a new paid member (:name).\":\"Vous avez un nouveau membre payant (:name).\",\"You have a new paid member.\":\"Vous avez un nouveau membre payant.\",\"Your account\":\"Votre compte\",\"Your account has been activated, you can now log in\":\"Votre compte a été activé, vous pouvez vous connecter.\",\"Your account has been created, check your email for the verification link.\":\"Votre compte a été créé, un lien de vérification vous a été envoyé.\",\"Your account has been created, now you need to verify it.\":\"Votre compte a été créé, vous devez maintenant le vérifier.\",\"Your contact details\":\"Vos coordonnées\",\"Your details\":\"Vos coordonnées\",\"Your email address has been verified.\":\"Votre adresse email a bien été vérifiée.\",\"Your invoices\":\"Vos reçus\",\"Your payment method\":\"Votre mode de paiement\",\"Your payment method could not be revoked.\":\"Votre mode de paiement n’a pas pu être révoqué.\",\"Your payment method was sucesfully revoked.\":\"Votre mode de paiement a été révoqué avec succès.\",\"Your profile\":\"Votre profil\",\"Your profile has been successfully updated.\":\"Votre profil a été mis à jour avec succès.\",\"Your receipt\":\"Votre reçu\",\"Your subscription\":\"Votre abonnement\",\"Your subscription could not be cancelled.\":\"Votre abonnement n’a pas pu être annulé.\",\"Your subscription could not be perfomed. Please retry.\":\"Votre abonnement n’a pas pu être effectué. Veuillez réessayer.\",\"Your subscription could not be resumed.\":\"Votre abonnement n’a pas pu être repris.\",\"Your subscription could not be upgraded.\":\"Votre abonnement n’a pas pu être mis à jour.\",\"Your subscription to the :name plan was cancelled.\":\"Votre abonnement au plan « :name » a été annulé.\",\"Your subscription to the :name plan was cancelled. You still have access to it until :ends_at.\":\"Votre abonnement au plan « :name » a été annulé. Vous en bénéficiez jusqu’au :ends_at.\",\"Your subscription was sucessfully cancelled.\":\"Votre abonnement a été résilié avec succès.\",\"Your subscription was sucessfully resumed.\":\"Votre abonnement a été repris avec succès.\",\"Your subscription was sucessfully upgraded.\":\"Votre abonnement a été mis à niveau avec succès.\",\"Zip\":\"Code Postal\"}");
+module.exports = JSON.parse("{\"# blocks\":\"Aucun bloc de contenu|1 bloc de contenu|{count} blocs de contenu\",\"# categories\":\"Aucune catégorie|1 catégorie|{count} catégories\",\"# contacts\":\"Aucun contact|1 contact|{count} contacts\",\"# discussions\":\"Aucune discussion|1 discussion|{count} discussions\",\"# events\":\"Aucun événement|1 événement|{count} événements\",\"# files could not be moved.\":\"Aucun fichier n’a pu être déplacé.|1 fichier n’a pas pu être déplacé.|{count} fichiers n’ont pas pu être déplacés.\",\"# files moved.\":\"Aucun fichier déplacé.|1 fichier déplacé.|{count} fichiers déplacés.\",\"# items deleted\":\"1 élément supprimé|{count} éléments supprimés\",\"# items published\":\"1 élément publié|{count} éléments publiés\",\"# items selected\":\"Aucun élément sélectionné|1 élément sélectionné|{count} éléments sélectionnés\",\"# items unpublished\":\"1 élément dépublié|{count} éléments dépubliés\",\"# menus\":\"Aucun menu|1 menu|{count} menus\",\"# news\":\"Aucune actualité|1 actualité|{count} actualités\",\"# pages\":\"Aucune page|1 page|{count} pages\",\"# partners\":\"Aucun partenaire|1 partenaire|{count} partenaires\",\"# places\":\"Aucune adresse|1 adresse|{count} adresses\",\"# projects\":\"Aucun projet|1 projet|{count} projets\",\"# roles\":\"Aucun rôle|1 rôle|{count} rôles\",\"# sections\":\"Aucune section|1 section|{count} sections\",\"# slides\":\"Aucun slide|1 slide|{count} slides\",\"# tags\":\"Aucun tag|1 tag|{count} tags\",\"# translations\":\"Aucune traduction|1 traduction|{count} traductions\",\"# users\":\"Aucun utilisateur|1 utilisateur|{count} utilisateurs\",\"/ 1 month\":\"/ mois\",\"/ 1 year\":\"/ an\",\"1 minute| :count minutes\":\"1 minute| :count minutes\",\"A fresh verification link has been sent to your email address.\":\"Un nouveau lien de vérification a été envoyé à votre adresse email.\",\"A non-empty folder cannot be deleted.\":\"Un dossier non-vide ne peut pas être supprimé.\",\"A page containing subpages cannot be linked to a module\":\"Une page ayant des sous-pages ne peut pas être liée à un module.\",\"A subscription renewal has failed.\":\"Le renouvellement d’un abonnement a échoué.\",\"A subscription was renewed automatically.\":\"Un abonnement a été renouvelé automatiquement.\",\"Access dashboard\":\"Accéder au tableau de bord\",\"Action\":\"Action\",\"Activate my account\":\"Activer mon compte\",\"Activated\":\"Activé\",\"Active locale\":\"Langue active\",\"Active tab\":\"Onglet actif\",\"Add\":\"Ajouter\",\"Add files\":\"Ajouter des fichiers\",\"Add selected file\":\"Ajouter le fichier sélectionné\",\"Add selected files\":\"Ajouter les fichiers sélectionnés\",\"Add to menu\":\"Ajouter au menu\",\"address\":\"adresse\",\"Address\":\"Adresse\",\"Administration Language\":\"Langue de l’interface d’administration\",\"Administration Welcome Message\":\"Message d’accueil de l’interface d’administration\",\"Age\":\"Âge\",\"All\":\"Tous\",\"All discussions\":\"Toutes les discussions\",\"All languages\":\"Toutes les langues\",\"All rights reserved.\":\"Tous droits réservés.\",\"Alt attribute\":\"Texte alternatif\",\"Amount\":\"Montant\",\"An error occurred with the data fetch.\":\"Une erreur s’est produite lors du chargement des données.\",\"and get access to all the content of our website.\":\"et accédez à tout le contenu de notre site.\",\"Are you sure you want to cancel your subscription to :name?\":\"Êtes-vous sûr de vouloir annuler votre abonnement à :name ?\",\"Are you sure you want to delete # items?\":\"Voulez-vous supprimer {count} élément ? | Voulez-vous supprimer {count} éléments ?\",\"Are you sure you want to delete this <strong>discussion</strong>?\":\"Êtes-vous certain de vouloir supprimer cette <strong>discussion</strong>?\",\"Are you sure you want to delete this response?\":\"Êtes-vous certain de vouloir supprimer cette réponse ?\",\"Are you sure you want to delete “{title}”?\":\"Êtes-vous certain de vouloir supprimer « {title} » ?\",\"Are you sure you want to publish # items?\":\"Voulez-vous publier 1 élément ? | Voulez-vous publier {count} éléments ?\",\"Are you sure you want to unpublish # items?\":\"Voulez-vous dépublier 1 élément ? | Voulez-vous dépublier {count} éléments ?\",\"Authenticate to view website\":\"Se connecter pour voir le site\",\"Available\":\"Disponible\",\"Available plans\":\"Plans disponibles\",\"Back\":\"Retour\",\"Back to icons list\":\"Retour à la liste des icons\",\"Back to the website\":\"Retour au site web\",\"Back-office\":\"Administration\",\"Balance after\":\"Solde après\",\"Balance applied\":\"Solde appliqué\",\"Balance before\":\"Solde avant\",\"Become a member\":\"Devenez membre\",\"Before proceeding, please check your email for a verification link.\":\"Avant de continuer, veuillez vérifier votre courrier électronique pour un lien de vérification.\",\"Blocks\":\"Blocs de contenu\",\"Body\":\"Corps\",\"Box\":\"Boite\",\"Cache\":\"Cache\",\"Cache cleared\":\"Le cache a été vidé\",\"Cancel\":\"Annuler\",\"Cancel my subscription.\":\"Annuler mon abonnement.\",\"Cancel the subscription\":\"Annuler l’abonnement\",\"categories\":\"catégorie|catégories\",\"Categories\":\"Catégories\",\"Category\":\"Catégorie\",\"Change Password\":\"Modifier le mot de passe\",\"Change settings\":\"Changer la configuration\",\"City\":\"Ville\",\"Class\":\"Class\",\"Clear\":\"Vider l’historique\",\"Clear cache\":\"Vider le cache\",\"click here to request another\":\"cliquer ici pour faire une autre demande\",\"Comments enabled\":\"Activer les commentaires\",\"Company\":\"Société\",\"Confirm Password\":\"Confirmez le mot de passe\",\"Contact information\":\"Coordonnées\",\"contacts\":\"contact|contacts\",\"Contacts\":\"Contacts\",\"Content\":\"Contenu\",\"Content blocks\":\"Blocs de contenu\",\"Copied to the clipboard\":\"Copié dans le presse-papier\",\"Copy\":\"Copier\",\"Could not delete the response.\":\"Impossible de supprimer la réponse.\",\"Could not update your response.\":\"Impossible de mettre à jour votre réponse.\",\"Country\":\"Pays\",\"Create\":\"Créer\",\"Create discussion\":\"Créer une discussion\",\"Created at\":\"Créé le\",\"Css\":\"Code CSS\",\"Currency\":\"Moneda\",\"Current subscription\":\"Abonnement actuel\",\"Dashboard\":\"Tableau de bord\",\"Date\":\"Date\",\"Day\":\"Jour\",\"DDMMYYYY\":\"JJ.MM.AAAA\",\"DDMMYYYY HHMM\":\"JJ.MM.AAAA HH:MM\",\"Delete\":\"Supprimer\",\"Description\":\"Description\",\"Deselect all\":\"Tout désélectionner\",\"Destroy\":\"Supprimer\",\"Disabled\":\"Désactivé\",\"discussions\":\"discussion|discussions\",\"Do you want to clear history?\":\"Voulez-vous vider l’historique ?\",\"Document\":\"Document\",\"Don’t like these emails?\":\"Vous n’aimez pas ces courriels ?\",\"Download count\":\"Nombre de téléchargements\",\"Drop files to upload\":\"Glisser des fichiers pour les envoyer.\",\"Drop to upload.\":\"Déposer pour envoyer.\",\"E-Mail Address\":\"Adresse email\",\"Edit\":\"Modifier\",\"Edit block\":\"Modifier le bloc de contenu\",\"Edit event\":\"Modifier l’événement\",\"Edit file\":\"Modifier le fichier\",\"Edit icon\":\"Modifier icon\",\"Edit menu\":\"Modifier le menu\",\"Edit menulink\":\"Modifier le lien de menu\",\"Edit news\":\"Modifier l’actualité\",\"Edit object\":\"Modifier object\",\"Edit page\":\"Modifier la page\",\"Edit partner\":\"Modifier le partenaire\",\"Edit place\":\"Modifier l’adresse\",\"Edit project\":\"Modifier le projet\",\"Edit role\":\"Modifier le rôle\",\"Edit slide\":\"Modifier le slide\",\"Edit tag\":\"Modifier le tag\",\"Edit translation\":\"Modifier la traduction\",\"Edit your profile\":\"Modifiez votre profil\",\"Email\":\"E-mail\",\"Empty history\":\"Vider l’historique\",\"Enabled\":\"Activé\",\"End date\":\"Date de fin\",\"End time\":\"Heure de fin\",\"Enter a name for the new folder.\":\"Entrez le nom du nouveau dossier.\",\"Environment\":\"Environnement\",\"Error\":\"Erreur\",\"Events\":\"Événements\",\"events\":\"événement|événements\",\"Excerpt\":\"Extrait\",\"Exit\":\"Sortir\",\"Extension\":\"Extension\",\"Fax\":\"Fax\",\"File\":\"Fichier\",\"File information\":\"Informations sur le fichier\",\"Filename\":\"Nom du fichier\",\"Files\":\"Fichiers\",\"Filter\":\"Filtrer\",\"Find nearest\":\"Trouver l’adresse la plus proche\",\"First name\":\"Prénom\",\"Forbidden\":\"Interdit\",\"Forgot Your Password?\":\"Vous avez oublié votre mot de passe ?\",\"from\":\"du\",\"Front office\":\"Public\",\"Gender\":\"Genre\",\"Generate\":\"Générer\",\"Go Home\":\"Aller à l’accueil\",\"Go to our homepage\":\"Aller à notre page d'accueil\",\"Goodbye\":\"Au revoir\",\"Google Analytics Tracking Id\":\"Google Analytics Tracking Id\",\"Grid\":\"Grille\",\"Groups\":\"Groupes\",\"Have a great day!\":\"Passez une bonne journée !\",\"Heads Up!\":\"Attention !\",\"Height\":\"Hauteur\",\"Hello!\":\"Bonjour !\",\"HH:MM\":\"HH:MM\",\"hi\":\"salut\",\"Hi there,\":\"Salut,\",\"History is empty.\":\"L’historique est vide.\",\"Home\":\"Accueil\",\"Homepage\":\"Sur la page d’accueil\",\"Hour\":\"Heure\",\"I subscribe\":\"Je m’abonne\",\"I will subscribe later\":\"Je m’abonnerai plus tard\",\"Icon class\":\"Class d’icône\",\"Icons\":\"Icons\",\"If you did not create an account, no further action is required.\":\"Si vous n’avez pas créé de compte, aucune action supplémentaire n’est requise.\",\"If you did not receive the email\":\"Si vous n’avez pas reçu l’email\",\"If you did not request a password reset, no further action is required.\":\"Si vous n’avez pas demandé de réinitialisation de mot de passe, aucune autre action n’est requise.\",\"If you no longer wish to be notified when someone responds to this form post be sure to uncheck the notification setting at the bottom of the discussion page.\":\"Si vous ne souhaitez plus être notifié lorsque quelqu’un répond à ce formulaire, assurez-vous de décocher le paramètre de notification en bas de la page de discussion.\",\"If you’re having trouble clicking the \\\":actionText\\\" button, copy and paste the URL below\\ninto your web browser: [:actionURL](:actionURL)\":\"Si vous avez des problèmes en cliquant sur le bouton “:actionText”, faites un copié/collé de l’url ci-dessous dans votre navigateur : [:actionURL](:actionURL)\",\"Image\":\"Image\",\"Images\":\"Images\",\"Impossible to delete more than # items in one go.\":\"Impossible de supprimer plus de {deleteLimit} éléments en une fois.\",\"In order to prevent spam, please allow at least :minutes in between submitting content.\":\"Afin d’éviter le spam, veuillez prévoir au moins :minutes minute(s) avant de soumettre à nouveau du contenu.\",\"Index\":\"Voir liste\",\"Info\":\"Info\",\"Insert\":\"Insérer\",\"Is home\":\"Définir en tant que page d’accueil\",\"Item is published.\":\"L’élément a été publié.\",\"Item is unpublished.\":\"L’élément a été dépublié.\",\"Js\":\"Code JavaScript\",\"Just wanted to let you know that someone has responded to a forum post at\":\"Je voulais juste vous faire savoir que quelqu’un a répondu à un message du forum à\",\"Just wanted to let you know that someone has responded to a forum post.\":\"Je voulais juste vous faire savoir que quelqu’un a répondu à un message du forum.\",\"KB\":\"Ko\",\"Key\":\"Clé\",\"Keywords\":\"Mots-clés\",\"Lang Chooser\":\"Page de choix de langue\",\"Language\":\"Langue\",\"Last name\":\"Nom\",\"Latest changes\":\"Activité récente\",\"Latitude\":\"Latitude\",\"Legend\":\"Légende\",\"List\":\"Liste\",\"Loading…\":\"Chargement…\",\"Locales\":\"Langues\",\"Location\":\"Lieu\",\"Login\":\"Connexion\",\"Logo\":\"Logo\",\"Logout\":\"Déconnexion\",\"Longitude\":\"Longitude\",\"Mandatory fields\":\"Champs obligatoires\",\"Max\":\"Maximum\",\"Max :size MB\":\"Maximum :size Mo\",\"MB\":\"Mo\",\"Media\":\"Médias\",\"Menu\":\"Menu\",\"Menulink\":\"Lien de menu\",\"Menulinks\":\"Liens de menu\",\"Menus\":\"Menus\",\"Message\":\"Message\",\"Meta\":\"Meta\",\"Meta description\":\"Meta description\",\"Meta keywords\":\"Meta mots clés\",\"Meta title\":\"Meta titre\",\"Mimetype\":\"Type Mime\",\"Minute\":\"Minute\",\"Mobile\":\"Portable\",\"Modify\":\"Modifier\",\"Module\":\"Module\",\"Module name\":\"Nom du module\",\"Month\":\"Mois\",\"Move to parent folder\":\"Placer dans le dossier parent\",\"Mr\":\"M.\",\"Mrs\":\"Mme\",\"Name\":\"Nom\",\"New block\":\"Nouveau bloc de contenu\",\"New contact\":\"Nouveau contact\",\"New contact request\":\"Nouvelle demande de contact\",\"New contact request from\":\"Nouvelle demande de contact de\",\"New discussion\":\"Nouvelle discussion\",\"New event\":\"Nouvel événement\",\"New file\":\"Nouveau fichier\",\"New folder\":\"Nouveau dossier\",\"New icon\":\"Nouveau icon\",\"New menu\":\"Nouveau menu\",\"New menulink\":\"Nouveau lien de menu\",\"New news\":\"Nouvelle actualité\",\"New object\":\"Nouveau object\",\"New page\":\"Nouvelle page\",\"New page section\":\"Nouvelle section de page\",\"New partner\":\"Nouveau partenaire\",\"New password\":\"Nouveau mot de passe\",\"New place\":\"Nouvelle adresse\",\"New project\":\"Nouveau projet\",\"New project category\":\"Nouvelle catégorie de Projets\",\"New role\":\"Nouveau rôle\",\"New slide\":\"Nouveau slide\",\"New tab\":\"Nouvel onglet\",\"New tag\":\"Nouveau tag\",\"New translation\":\"Nouvelle traduction\",\"New user\":\"Nouvel utilisateur\",\"News\":\"Actualités\",\"news\":\"actualité|actualités\",\"News feed\":\"Flux d’actualités\",\"Next\":\"Suivant\",\"No\":\"Non\",\"No default page found\":\"Aucune page d’accueil trouvée\",\"No file\":\"Aucun fichier\",\"No menu found with name “:name”\":\"Le menu « :name » n’a pas été trouvé.\",\"No thanks\":\"Non merci.\",\"None\":\"Aucun\",\"Not a member?\":\"Vous n'êtes pas membre ?\",\"Not found\":\"Introuvable\",\"Nothing found.\":\"Rien n’a été trouvé.\",\"Notify me when someone replies.\":\"Avertissez-moi lorsque quelqu’un vous répond.\",\"Number\":\"Numéro\",\"Objects\":\"Objects\",\"Offline\":\"Hors ligne\",\"Oh no\":\"Oh non\",\"Oh Snap!\":\"Oh Snap !\",\"on\":\"le\",\"Online\":\"En ligne\",\"Options\":\"Options\",\"Page\":\"Page\",\"Page Expired\":\"Page expirée\",\"Page Not Found\":\"Page non trouvée\",\"Page sections\":\"Sections de page\",\"pages\":\"page|pages\",\"Pages\":\"Pages\",\"partners\":\"partenaire|partenaires\",\"Partners\":\"Partenaires\",\"Password\":\"Mot de passe\",\"Password confirmation\":\"Confirmer le mot de passe\",\"Past events\":\"Événements passés\",\"Path\":\"Chemin\",\"per page\":\"par page\",\"Permissions\":\"Permissions\",\"Phone\":\"Téléphone\",\"Places\":\"Adresses\",\"places\":\"adresse|adresses\",\"Plans\":\"Plans\",\"Please choose a category.\":\"Veuillez choisir une catégorie.\",\"Please choose the affiliation that best suits you.\":\"Veuillez choisir l’affiliation qui vous convient le mieux.\",\"Please choose the plan you want to switch to.\":\"Veuillez choisir le plan auquel vous souhaitez vous abonner.\",\"Please click the button below to verify your email address.\":\"Veuillez cliquer sur le bouton ci-dessous pour vérifier votre adresse email.\",\"Please fix the following errors:\":\"Veuillez corriger les erreurs suivantes :\",\"Please write a title.\":\"Veuillez écrire un titre.\",\"Please write some content.\":\"Veuillez écrire un contenu.\",\"Position\":\"Position\",\"Postal code\":\"Code postal\",\"Postcode\":\"Code postal\",\"Posted by\":\"Publié par\",\"Posted in category\":\"Publié dans la catégorie\",\"Preview\":\"Prévisualisation\",\"Previous\":\"Précédent\",\"Price\":\"Prix\",\"Private\":\"Privée\",\"Profile\":\"Profil\",\"Project categories\":\"Catégories de projets\",\"projects\":\"projet|projets\",\"Projects\":\"Projets\",\"Publish\":\"Publier\",\"Publish website\":\"Publier le site web\",\"Published\":\"Publié\",\"Published items\":\"Publiés\",\"Published on\":\"Publié le\",\"Read\":\"Voir\",\"Read more\":\"En savoir plus\",\"Redirect to first child\":\"Rediriger vers le premier enfant\",\"Regards\":\"Cordialement\",\"Register\":\"S’inscrire\",\"Registration allowed\":\"Permettre la création de comptes utilisateurs\",\"Remember Me\":\"Se souvenir de moi\",\"Remove\":\"Supprimer\",\"Renewal date\":\"Date de renouvellement\",\"Replace\":\"Remplacer\",\"Replace file\":\"Remplacer le fichier\",\"Replace image\":\"Remplacer l’image\",\"Reset\":\"Réinitialiser\",\"Reset Password\":\"Réinitialiser le mot de passe\",\"Reset Password Notification\":\"Notification de réinitialisation du mot de passe\",\"Response successfully submitted to discussion.\":\"La réponse a été soumise avec succès à la discussion.\",\"Restricted to\":\"Restreint à\",\"Resume the subscription\":\"Prolonger l’abonnement\",\"Resume your subscription to the :name plan.\":\"Reprendre votre abonnement au plan « :name ».\",\"Role permissions\":\"Permissions du rôle\",\"roles\":\"rôle|rôles\",\"Roles\":\"Rôles\",\"Save\":\"Enregistrer\",\"Save and exit\":\"Enregistrer et sortir\",\"Save this item first, then add files.\":\"Enregistrez d’abord cet élément, puis ajoutez des fichiers.\",\"Save this page first, then add sections.\":\"Enregistrez d’abord cette page, puis ajoutez des sections.\",\"Search\":\"Chercher\",\"Search results for “:search”\":\"Résultat de la recherche pour « :search »\",\"Second\":\"Seconde\",\"sections\":\"section|sections\",\"Sections\":\"Sections\",\"See history\":\"Voir l’historique\",\"See navbar\":\"Voir la barre de navigation\",\"See online\":\"Voir en ligne\",\"See settings\":\"Voir la configuration\",\"Select a Category\":\"Sélectionnez une catégorie\",\"Select a color for this discussion (optional)\":\"Choisissez une couleur pour cette discussion (facultatif)\",\"Select all\":\"Tout sélectionner\",\"Send\":\"Envoyer\",\"Send Password Reset Link\":\"Envoyer le lien de réinitialisation\",\"Service Unavailable\":\"Service indisponible\",\"Settings\":\"Configuration\",\"Show on map\":\"afficher sur la carte\",\"Side\":\"Côté\",\"Size\":\"Taille\",\"Size (px)\":\"Taille (px)\",\"slides\":\"slide|slides\",\"Slides\":\"Slides\",\"Slug\":\"Slug\",\"Sorry, an error occurred.\":\"Désolé, une erreur est survenue.\",\"Sorry, the page you are looking for could not be found.\":\"Désolé, la page que vous recherchez est introuvable.\",\"Sorry, there seems to have been a problem submitting your response.\":\"Désolé, il semble qu’il y ait eu un problème pour soumettre votre réponse.\",\"Sorry, we are doing some maintenance. Please check back soon.\":\"Désolé, nous sommes en maintenance. Veuillez revenir plus tard.\",\"Sorry, you are forbidden from accessing this page.\":\"Désolé, vous ne pouvez accéder à cette page.\",\"Sorry, you are making too many requests to our servers.\":\"Désolé, vous faites trop de requêtes vers nos serveurs.\",\"Sorry, you are not authorized to access this page.\":\"Désolé, vous n’êtes pas autorisé à accéder à cette page.\",\"Sorry, your session has expired. Please refresh and try again.\":\"Désolé, votre session a expiré. Veuillez actualiser la page et réessayer.\",\"Sort\":\"Ordonner\",\"Start date\":\"Date de début\",\"Start time\":\"Heure de début\",\"Status\":\"Statut\",\"Store\":\"Créer\",\"Street\":\"Rue\",\"Submit\":\"Envoyer\",\"Submit response\":\"Soumettre la réponse\",\"Subscribe\":\"S’abonner\",\"Subscriptions\":\"Abonnements\",\"Subtotal\":\"Sous-total\",\"Successfully created a new discussion.\":\"A réussi à créer une nouvelle discussion.\",\"Successfully deleted the response and discussion.\":\"Suppression réussie de la réponse et de la discussion.\",\"Successfully deleted the response from the discussion.\":\"La réponse a été supprimée avec succès de la discussion.\",\"Successfully updated the discussion.\":\"La discussion a été mise à jour avec succès.\",\"Summary\":\"Résumé\",\"Superuser\":\"Super utilisateur\",\"Switch to this plan\":\"Passer à ce plan\",\"Switch your subscription to another plan.\":\"Passer à un autre plan.\",\"System info\":\"Informations système\",\"System locales\":\"Locales du système\",\"Tag\":\"Tag\",\"Tags\":\"Tags\",\"tags\":\"tag|tags\",\"Target\":\"Cible\",\"Template\":\"Template\",\"Thank you\":\"Nous vous remercions.\",\"Thank you for supporting us, you now have access to all our resources.\":\"Merci de nous soutenir, vous avez maintenant accès à toutes nos ressources.\",\"Thank you for supporting us, your subscription has been successfully renewed.\":\"Merci de nous soutenir, votre abonnement a été renouvelé avec succès.\",\"Thank you for your contact request.\":\"Merci pour votre demande de contact.\",\"The content has to have at least :min characters.\":\"Le contenu doit comporter au moins les caractères :min.\",\"The current logged in user cannot be deleted.\":\"L’utilisateur actuellement connecté ne peut pas être supprimé.\",\"The form contains errors:\":\"Le formulaire contient des erreurs :\",\"The home page cannot be deleted.\":\"La page d’accueil ne peut être supprimée.\",\"The password is incorrect.\":\"Le mot de passe est incorrect.\",\"The slug is required if published.\":\"Le champ slug est requis si c'est publié.\",\"The subscription of :name was renewed automatically.\":\"L’abonnement de :name a été renouvelé automatiquement.\",\"The subscription renewal of :name has failed.\":\"Le renouvellement de l’abonnement de :name a échoué.\",\"The subscription was sucessfully cancelled.\":\"L’abonnement a été correctement annulé.\",\"The subscription was sucessfully resumed.\":\"L’abonnement a été prolongé avec succès.\",\"The title has to have at least :min characters.\":\"Le titre doit comporter au moins :min caractères.\",\"The title has to have no more than :max characters.\":\"Le titre ne doit pas comporter plus de :max caractères.\",\"The user :name can not be deleted because he has a running subscription.\":\"L’utilisateur :name ne peut pas être supprimé car il a un abonnement en cours.\",\"There are currently no discussions in this category.\":\"Il n’y a actuellement aucune discussion dans cette catégorie.\",\"There are no results that match your query.\":\"Il n’y a pas de résultat qui correspond à votre requête.\",\"There is no payment method available.\":\"Aucun mode de paiement n’est disponible.\",\"There was an error with your payment.\":\"Une erreur s’est produite lors de votre paiement.\",\"This action is unauthorized.\":\"Cette action n’est pas autorisée.\",\"This category cannot be deleted as it contains projects.\":\"Cette catégorie ne peut pas être supprimée car elle contient des projets.\",\"This item cannot be deleted because it has children.\":\"Cet élément ne peut pas être supprimé car il a des descendants.\",\"This password reset link will expire in :count minutes.\":\"Ce lien de réinitialisation du mot de passe expirera dans :count minutes.\",\"This user is not activated.\":\"Cet utilisateur n’a pas été activé.\",\"This user was not found.\":\"Cet utilisateur n’a pas été trouvé.\",\"Time\":\"Heure\",\"Title\":\"Titre\",\"Title of discussion\":\"Titre de la discussion\",\"to\":\"au\",\"Toggle navigation\":\"Menu\",\"Too Many Requests\":\"Trop de requêtes\",\"Total due\":\"Total dû\",\"Translation\":\"Traduction\",\"Translations\":\"Traductions\",\"translations\":\"traduction|traductions\",\"Type\":\"Type\",\"Type your discussion here…\":\"Tapez votre discussion ici…\",\"Type your response here…\":\"Tapez votre réponse ici…\",\"Unauthorized\":\"Non autorisé\",\"Unpublish\":\"Dépublier\",\"Unpublished\":\"Dépublié\",\"Unpublished items\":\"Dépubliés\",\"Unsubscribe to this discussion.\":\"Désinscrivez-vous de cette discussion.\",\"Upcoming events\":\"Événements à venir\",\"Update\":\"Modifier\",\"Update response\":\"Mise à jour de la réponse\",\"Upload files\":\"Importer des fichiers\",\"Uri\":\"URI\",\"Url\":\"URL\",\"User\":\"Utilisateur\",\"User permissions\":\"Permissions de l’utilisateur\",\"Username\":\"Pseudo\",\"users\":\"utilisateur|utilisateurs\",\"Users\":\"Utilisateurs\",\"Users and roles\":\"Utilisateurs et rôles\",\"Uses\":\"Utilisations\",\"VAT\":\"TVA\",\"Venue\":\"Lieu\",\"Verify Email Address\":\"Vérification de l’adresse email\",\"Verify Your Email Address\":\"Vérifiez votre adresse email\",\"View\":\"Voir\",\"View list\":\"Voir la liste\",\"View online\":\"Voir en ligne\",\"View the discussion.\":\"Voir la discussion.\",\"View website\":\"Voir le site\",\"Visit our website\":\"Visitez notre site web\",\"We inform you that your membership as a :plan will be renewed automatically as of :date.\":\"Nous vous informons que votre affiliation en tant que :plan sera renouvellée automatiquement en date du :date.\",\"Webmaster Email\":\"Email du webmaster\",\"Website\":\"Site web\",\"Website baseline\":\"Baseline du site\",\"Website title\":\"Titre du site\",\"Welcome\":\"Bienvenue\",\"Welcome, :name!\":\"Bienvenue :name !\",\"Well done!\":\"Bravo !\",\"We’re sorry to see you go.\":\"Nous sommes désolés de vous voir partir.\",\"Whoops!\":\"Oups !\",\"Whoops! There seems to be a problem creating your discussion.\":\"Il semble y avoir un problème pour créer votre discussion.\",\"Whoops, something went wrong on our servers.\":\"Oups, quelque chose s’est mal passé sur nos serveurs.\",\"Width\":\"Largeur\",\"Wuh Oh!\":\"Wuh Oh !\",\"Year\":\"Année\",\"Yes\":\"Oui\",\"Yes delete it\":\"Oui, effacez-la.\",\"You are already on the :plan plan\":\"Vous êtes déjà sur le plan :plan\",\"You are not currently subscribed to any plan.\":\"Vous n’êtes actuellement affilié à aucun plan.\",\"You are now successfully subscribed.\":\"Vous êtes maintenant abonné avec succès.\",\"You are receiving this email because we received a password reset request for your account.\":\"Vous recevez cet email car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte.\",\"You are subscribed to the :name plan.\":\"Vous êtes abonné au plan « :name ».\",\"You don’t have any invoices.\":\"Vous n’avez pas de reçu.\",\"You have a new paid member (:name).\":\"Vous avez un nouveau membre payant (:name).\",\"You have a new paid member.\":\"Vous avez un nouveau membre payant.\",\"Your account\":\"Votre compte\",\"Your account has been activated, you can now log in\":\"Votre compte a été activé, vous pouvez vous connecter.\",\"Your account has been created, check your email for the verification link.\":\"Votre compte a été créé, un lien de vérification vous a été envoyé.\",\"Your account has been created, now you need to verify it.\":\"Votre compte a été créé, vous devez maintenant le vérifier.\",\"Your contact details\":\"Vos coordonnées\",\"Your details\":\"Vos coordonnées\",\"Your email address has been verified.\":\"Votre adresse email a bien été vérifiée.\",\"Your invoices\":\"Vos reçus\",\"Your payment method\":\"Votre mode de paiement\",\"Your payment method could not be revoked.\":\"Votre mode de paiement n’a pas pu être révoqué.\",\"Your payment method was sucesfully revoked.\":\"Votre mode de paiement a été révoqué avec succès.\",\"Your profile\":\"Votre profil\",\"Your profile has been successfully updated.\":\"Votre profil a été mis à jour avec succès.\",\"Your receipt\":\"Votre reçu\",\"Your subscription\":\"Votre abonnement\",\"Your subscription could not be cancelled.\":\"Votre abonnement n’a pas pu être annulé.\",\"Your subscription could not be perfomed. Please retry.\":\"Votre abonnement n’a pas pu être effectué. Veuillez réessayer.\",\"Your subscription could not be resumed.\":\"Votre abonnement n’a pas pu être repris.\",\"Your subscription could not be upgraded.\":\"Votre abonnement n’a pas pu être mis à jour.\",\"Your subscription to the :name plan was cancelled.\":\"Votre abonnement au plan « :name » a été annulé.\",\"Your subscription to the :name plan was cancelled. You still have access to it until :ends_at.\":\"Votre abonnement au plan « :name » a été annulé. Vous en bénéficiez jusqu’au :ends_at.\",\"Your subscription was sucessfully cancelled.\":\"Votre abonnement a été résilié avec succès.\",\"Your subscription was sucessfully resumed.\":\"Votre abonnement a été repris avec succès.\",\"Your subscription was sucessfully upgraded.\":\"Votre abonnement a été mis à niveau avec succès.\",\"Zip\":\"Code Postal\"}");
 
 /***/ })
 
