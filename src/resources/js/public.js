@@ -6,9 +6,9 @@ window.$ = window.jQuery = require('jquery');
 /**
  * Bootstrap
  */
-import 'bootstrap/js/dist/dropdown';
-import 'bootstrap/js/dist/collapse';
-import 'bootstrap/js/dist/alert';
+import Dropdown from 'bootstrap/js/dist/dropdown';
+import Collapse from 'bootstrap/js/dist/collapse';
+import Alert from 'bootstrap/js/dist/alert';
 
 /**
  * Fancybox
