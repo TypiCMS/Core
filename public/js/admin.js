@@ -36068,7 +36068,8 @@ var render = function() {
                   ? _c(
                       "a",
                       {
-                        staticClass: "btn btn-xs btn-info py-0 px-1 fw-bold",
+                        staticClass:
+                          "btn btn-xs btn-secondary py-0 px-1 fw-bold",
                         attrs: { href: "/admin/" + node.data.module }
                       },
                       [
