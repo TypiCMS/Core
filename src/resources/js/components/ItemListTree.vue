@@ -14,7 +14,7 @@
                     <span class="visually-hidden">{{ $t('Loading…') }}</span>
                 </div>
             </div>
-            <div class="btn-group btn-group-sm ms-auto" v-if="locales.length > 1">
+            <div class="btn-group btn-group-sm ms-auto" v-if="multilingual && locales.length > 1">
                 <button
                     class="btn btn-light dropdown-toggle"
                     type="button"
@@ -73,6 +73,13 @@
                     class="btn btn-xs btn-link btn-status me-1"
                     :class="node.data.status_translated === 1 ? 'btn-status-on' : 'btn-status-off'"
                     @click="toggleStatus(node)"
+                    v-if="multilingual"
+                ></div>
+                <div
+                    class="btn btn-xs btn-link btn-status me-1"
+                    :class="node.data.status === 1 ? 'btn-status-on' : 'btn-status-off'"
+                    @click="toggleStatus(node)"
+                    v-else
                 ></div>
 
                 <svg
@@ -103,7 +110,7 @@
                     <path fill-rule="evenodd" d="M4.5 4a3.5 3.5 0 1 1 7 0v3h-1V4a2.5 2.5 0 0 0-5 0v3h-1V4z" />
                 </svg>
 
-                <div class="title">{{ node.data.title_translated }}</div>
+                <div class="title">{{ multilingual ? node.data.title_translated : node.data.title }}</div>
 
                 <svg
                     class="text-muted"
@@ -194,6 +201,10 @@ export default {
             type: String,
             default: '',
         },
+        multilingual: {
+            type: Boolean,
+            default: true,
+        },
     },
     data() {
         return {
@@ -214,7 +225,9 @@ export default {
             if (this.appends !== '') {
                 query.push('append=' + this.appends);
             }
-            query.push('locale=' + this.currentLocale);
+            if (this.multilingual) {
+                query.push('locale=' + this.currentLocale);
+            }
 
             return this.urlBase + '?' + query.join('&');
         },
@@ -319,14 +332,21 @@ export default {
         },
         toggleStatus(node) {
             let originalNode = JSON.parse(JSON.stringify(node)),
-                status = parseInt(node.data.status_translated) || 0,
+                status = this.multilingual ? parseInt(node.data.status_translated) : parseInt(node.data.status) || 0,
                 newStatus = Math.abs(status - 1),
                 data = {
                     status: {},
                 },
                 label = newStatus === 1 ? 'published' : 'unpublished';
-            data.status[this.currentLocale] = newStatus;
-            node.data.status_translated = newStatus;
+
+            if (this.multilingual) {
+                data.status[this.currentLocale] = newStatus;
+                node.data.status_translated = newStatus;
+            } else {
+                data.status = newStatus;
+                node.data.status = newStatus;
+            }
+
             this.$refs.slVueTree.updateNode(node.path, node);
             axios
                 .patch(this.urlBase + '/' + node.data.id, data)
