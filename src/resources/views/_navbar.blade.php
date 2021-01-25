@@ -5,7 +5,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         @endif
-        <a class="typicms-navbar-brand navbar-brand" href="{{ route('dashboard') }}">{{ Str::limit(TypiCMS::title(config('typicms.admin_locale')), 50, '…') }}</a>
+        <a class="typicms-navbar-brand navbar-brand" href="{{ route('admin::dashboard') }}">{{ Str::limit(TypiCMS::title(config('typicms.admin_locale')), 50, '…') }}</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#userMenu" aria-controls="userMenu" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>

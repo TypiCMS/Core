@@ -140,7 +140,7 @@ abstract class Base extends Model
             return route($route, $this->id);
         }
 
-        return route('dashboard');
+        return route('admin::dashboard');
     }
 
     public function indexUrl(): string
@@ -150,7 +150,7 @@ abstract class Base extends Model
             return route($route);
         }
 
-        return route('dashboard');
+        return route('admin::dashboard');
     }
 
     public function next(Model $model, int $category_id = null): ?Model

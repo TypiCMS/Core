@@ -5,7 +5,7 @@
 @elseif (isset($page))
 <a class="nav-link" href="{{ $page->editUrl() }}?locale={{ config('app.locale') }}">
 @else
-<a class="nav-link" href="{{ route('dashboard') }}">
+<a class="nav-link" href="{{ route('admin::dashboard') }}">
 @endif
 {{ __('Back-office', [], config('typicms.admin_locale')) }}
 </a>
