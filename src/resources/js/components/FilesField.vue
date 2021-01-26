@@ -2,10 +2,7 @@
     <div class="mb-4">
         <input type="hidden" name="file_ids" :value="fileIds.join()" />
         <div class="mb-3">
-            <label class="form-label">
-                <span v-if="label">{{ label }}</span>
-                <span v-else>{{ $t('Files') }}</span>
-            </label>
+            <label class="form-label">{{ $t(label) }}</label>
             <p>
                 <button class="filemanager-field-btn-add" @click="openFilepicker" type="button">
                     <svg
@@ -138,6 +135,7 @@ export default {
     props: {
         label: {
             type: String,
+            default: 'Files',
         },
         initFiles: {
             type: Array,
