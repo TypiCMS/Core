@@ -97,8 +97,8 @@
                 </div>
             </div>
         </div>
-        <div>
-            <button class="filemanager-field-btn-add" @click="openFilepicker" type="button" v-if="file === null">
+        <div class="mb-3" v-if="file === null">
+            <button class="filemanager-field-btn-add" @click="openFilepicker" type="button">
                 <svg
                     class="filemanager-field-btn-add-icon"
                     width="1em"
