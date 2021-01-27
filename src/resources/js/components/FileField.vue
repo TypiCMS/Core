@@ -2,7 +2,7 @@
     <div class="mb-4">
         <div class="mb-3">
             <label class="form-label" :for="field">
-                <span v-if="label"> {{ label }} </span>
+                <span v-if="label">{{ $t(label) }}</span>
                 <span v-else>
                     {{ type === 'document' ? $t('Document') : $t('Image') }}
                 </span>
