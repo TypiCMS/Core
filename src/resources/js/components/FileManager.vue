@@ -434,7 +434,7 @@ export default {
             return this.selectedItems.length;
         },
         selectedFiles() {
-            return this.selectedItems.filter((item) => item.type !== 'f');
+            return this.selectedItems.filter((item) => item.type !== 'f').sort((a, b) => b.name.localeCompare(a.name));
         },
     },
     methods: {
