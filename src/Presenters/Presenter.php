@@ -150,6 +150,11 @@ abstract class Presenter extends BasePresenter
         return $file;
     }
 
+    public function title(): string
+    {
+        return strip_tags($this->entity->title);
+    }
+
     /**
      * Return body content with dynamic links.
      */
