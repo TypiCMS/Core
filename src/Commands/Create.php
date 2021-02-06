@@ -88,7 +88,7 @@ class Create extends Command
         ];
 
         if ($this->moduleExists()) {
-            return $this->error('A module named ['.$this->module.'] already exists.');
+            return $this->error('A module named [' . $this->module . '] already exists.');
         }
         $this->publishModule();
         $this->renameModelsAndRepositories();
@@ -99,8 +99,8 @@ class Create extends Command
         $this->addTranslations();
         $this->deleteResourcesDirectory();
         $this->line('------------------');
-        $this->line('<info>The module</info> <comment>'.$this->module.'</comment> <info>was created in</info> <comment>/Modules</comment><info>, customize it!</info>');
-        $this->line('<info>Add</info> <comment>TypiCMS\Modules\\'.$this->module.'\Providers\ModuleServiceProvider::class,</comment>');
+        $this->line('<info>The module</info> <comment>' . $this->module . '</comment> <info>was created in</info> <comment>/Modules</comment><info>, customize it!</info>');
+        $this->line('<info>Add</info> <comment>TypiCMS\Modules\\' . $this->module . '\Providers\ModuleServiceProvider::class,</comment>');
         $this->line('<info>to the providers array in</info> <comment>config/app.php</comment><info>.</info>');
         $this->line('<info>Run the database migration with the command</info> <comment>php artisan migrate</comment><info>.</info>');
         $this->line('<info>Run</info> <comment>npm run dev</comment> <info>to finish.</info>');
@@ -113,7 +113,7 @@ class Create extends Command
     private function publishModule()
     {
         $from = base_path('vendor/typicms/objects/src');
-        $to = base_path('Modules/'.$this->module);
+        $to = base_path('Modules/' . $this->module);
 
         if ($this->files->isDirectory($from)) {
             $this->publishDirectory($from, $to);
@@ -128,7 +128,7 @@ class Create extends Command
      */
     public function searchAndReplaceInFiles()
     {
-        $directory = base_path('Modules/'.$this->module);
+        $directory = base_path('Modules/' . $this->module);
 
         $manager = new MountManager([
             'directory' => new Flysystem(new LocalAdapter($directory)),
@@ -136,8 +136,8 @@ class Create extends Command
 
         foreach ($manager->listContents('directory://', true) as $file) {
             if ($file['type'] === 'file') {
-                $content = str_replace($this->search, $this->replace, $manager->read('directory://'.$file['path']));
-                $manager->put('directory://'.$file['path'], $content);
+                $content = str_replace($this->search, $this->replace, $manager->read('directory://' . $file['path']));
+                $manager->put('directory://' . $file['path'], $content);
             }
         }
     }
@@ -147,12 +147,12 @@ class Create extends Command
      */
     public function renameModelsAndRepositories()
     {
-        $moduleDir = base_path('Modules/'.$this->module);
+        $moduleDir = base_path('Modules/' . $this->module);
         $paths = [
-            $moduleDir.'/Models/Object.php',
-            $moduleDir.'/Facades/Objects.php',
-            $moduleDir.'/resources/scss/public/_object.scss',
-            $moduleDir.'/resources/scss/public/_object-list.scss',
+            $moduleDir . '/Models/Object.php',
+            $moduleDir . '/Facades/Objects.php',
+            $moduleDir . '/resources/scss/public/_object.scss',
+            $moduleDir . '/resources/scss/public/_object-list.scss',
         ];
         foreach ($paths as $path) {
             $this->files->move($path, str_replace($this->search, $this->replace, $path));
@@ -164,8 +164,8 @@ class Create extends Command
      */
     public function publishViews()
     {
-        $from = base_path('Modules/'.$this->module.'/resources/views');
-        $to = resource_path('views/vendor/'.mb_strtolower($this->module));
+        $from = base_path('Modules/' . $this->module . '/resources/views');
+        $to = resource_path('views/vendor/' . mb_strtolower($this->module));
         $this->publishDirectory($from, $to);
     }
 
@@ -174,7 +174,7 @@ class Create extends Command
      */
     public function publishScssFiles()
     {
-        $from = base_path('Modules/'.$this->module.'/resources/scss/public');
+        $from = base_path('Modules/' . $this->module . '/resources/scss/public');
         $to = resource_path('scss/public');
         $this->publishDirectory($from, $to);
     }
@@ -184,8 +184,8 @@ class Create extends Command
      */
     public function moveMigrationFile()
     {
-        $from = base_path('Modules/'.$this->module.'/database/migrations/create_objects_table.php.stub');
-        $to = getMigrationFileName('create_'.mb_strtolower($this->module).'_table');
+        $from = base_path('Modules/' . $this->module . '/database/migrations/create_objects_table.php.stub');
+        $to = getMigrationFileName('create_' . mb_strtolower($this->module) . '_table');
         $this->files->move($from, $to);
     }
 
@@ -194,9 +194,8 @@ class Create extends Command
      */
     public function addTranslations()
     {
-        $this->call('translations:add', ['path' => 'Modules/'.$this->module.'/resources/lang']);
-        if(config('typicms.translations.objects.path'))
-        {
+        $this->call('translations:add', ['path' => 'Modules/' . $this->module . '/resources/lang']);
+        if (config('typicms.translations.objects.path')) {
             $this->call('translations:add', ['path' => config('typicms.translations.details.path')]);
         }
     }
@@ -206,7 +205,7 @@ class Create extends Command
      */
     public function deleteResourcesDirectory()
     {
-        $this->files->deleteDirectory(base_path('Modules/'.$this->module.'/resources'));
+        $this->files->deleteDirectory(base_path('Modules/' . $this->module . '/resources'));
     }
 
     /**
@@ -240,8 +239,8 @@ class Create extends Command
         ]);
 
         foreach ($manager->listContents('from://', true) as $file) {
-            if ($file['type'] === 'file' && (!$manager->has('to://'.$file['path']) || $this->option('force'))) {
-                $manager->put('to://'.$file['path'], $manager->read('from://'.$file['path']));
+            if ($file['type'] === 'file' && (!$manager->has('to://' . $file['path']) || $this->option('force'))) {
+                $manager->put('to://' . $file['path'], $manager->read('from://' . $file['path']));
             }
         }
     }
@@ -265,8 +264,8 @@ class Create extends Command
      */
     public function moduleExists()
     {
-        $location1 = $this->files->isDirectory(base_path('Modules/'.$this->module));
-        $location2 = $this->files->isDirectory(base_path('vendor/typicms/'.mb_strtolower($this->module)));
+        $location1 = $this->files->isDirectory(base_path('Modules/' . $this->module));
+        $location2 = $this->files->isDirectory(base_path('vendor/typicms/' . mb_strtolower($this->module)));
 
         return $location1 || $location2;
     }
