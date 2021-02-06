@@ -5,12 +5,10 @@ namespace TypiCMS\Modules\Core\Models;
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
-use TypiCMS\Modules\Tags\Models\Tag;
 
 abstract class Base extends Model
 {
@@ -124,13 +122,6 @@ abstract class Base extends Model
         } else {
             $this->attributes['status'] = $status;
         }
-    }
-
-    public function tags(): MorphToMany
-    {
-        return $this->morphToMany(Tag::class, 'taggable')
-            ->orderBy('tag')
-            ->withTimestamps();
     }
 
     public function editUrl(): string
