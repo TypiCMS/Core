@@ -195,6 +195,9 @@ class Create extends Command
     public function addTranslations()
     {
         $this->call('translations:add', ['path' => 'Modules/'.$this->module.'/resources/lang']);
+        if (config('typicms.translations.details.path')) {
+            $this->call('translations:add', ['path' => config('typicms.translations.details.path')]);
+        }
     }
 
     /**
