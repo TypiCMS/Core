@@ -44,36 +44,24 @@ abstract class Presenter extends BasePresenter
 
     /**
      * Return a localized date.
-     *
-     * @param string $column
-     *
-     * @return Carbon
      */
-    public function dateLocalized($column = 'date')
+    public function dateLocalized(string $column = 'date'): string
     {
         return $this->entity->{$column}->formatLocalized('%e %B %Y');
     }
 
     /**
      * Return a localized date and time.
-     *
-     * @param string $column
-     *
-     * @return Carbon
      */
-    public function dateTimeLocalized($column = 'datetime')
+    public function dateTimeLocalized(string $column = 'datetime'): string
     {
         return $this->entity->{$column}->formatLocalized('%e %B %Y %H:%M');
     }
 
     /**
      * Return resource's datetime or curent date and time if empty.
-     *
-     * @param string $column
-     *
-     * @return Carbon
      */
-    public function datetimeOrNow($column = 'date')
+    public function datetimeOrNow(string $column = 'date'): string
     {
         $date = $this->entity->{$column} ?: Carbon::now();
 
@@ -82,12 +70,8 @@ abstract class Presenter extends BasePresenter
 
     /**
      * Return resource's date or curent date if empty.
-     *
-     * @param string $column
-     *
-     * @return Carbon
      */
-    public function dateOrNow($column = 'date')
+    public function dateOrNow(string $column = 'date'): string
     {
         $date = $this->entity->{$column} ?: Carbon::now();
 
@@ -96,12 +80,8 @@ abstract class Presenter extends BasePresenter
 
     /**
      * Return resource's time or curent time if empty.
-     *
-     * @param string $column
-     *
-     * @return Carbon
      */
-    public function timeOrNow($column = 'date')
+    public function timeOrNow(string $column = 'date'): string
     {
         $date = $this->entity->{$column} ?: Carbon::now();
 
@@ -110,24 +90,16 @@ abstract class Presenter extends BasePresenter
 
     /**
      * Get url without http(s)://.
-     *
-     * @param string $column
-     *
-     * @return string
      */
-    public function urlWithoutScheme($column = 'website')
+    public function urlWithoutScheme(string $column = 'website'): string
     {
         return str_replace(['http://', 'https://'], '', $this->entity->{$column});
     }
 
     /**
      * Generate an external link.
-     *
-     * @param string $column
-     *
-     * @return string
      */
-    public function link($column = 'website')
+    public function link(string $column = 'website'): string
     {
         return '<a href="'.$this->entity->{$column}.'" target="_blank" rel="noopener noreferrer">'.$this->urlWithoutScheme($column).'</a>';
     }
@@ -135,10 +107,8 @@ abstract class Presenter extends BasePresenter
     /**
      * Get the path of the first image linked to this model
      * or the path to the default image.
-     *
-     * @return string path
      */
-    protected function getImagePathOrDefault()
+    protected function getImagePathOrDefault(): string
     {
         $path = '';
 
@@ -155,14 +125,8 @@ abstract class Presenter extends BasePresenter
 
     /**
      * Return src string of a resized or cropped image.
-     *
-     * @param int   $width   width of image, null for auto
-     * @param int   $height  height of image, null for auto
-     * @param array $options see Croppa doc for options (https://github.com/BKWLD/croppa)
-     *
-     * @return string
      */
-    public function image($width = null, $height = null, array $options = [])
+    public function image(int $width = null, int $height = null, array $options = []): string
     {
         $path = $this->getImagePathOrDefault();
 
@@ -175,10 +139,8 @@ abstract class Presenter extends BasePresenter
 
     /**
      * Get default image when not found.
-     *
-     * @return string
      */
-    public function imgNotFound()
+    public function imgNotFound(): string
     {
         $file = 'img-not-found.png';
         if (!Storage::exists($file)) {
@@ -190,10 +152,8 @@ abstract class Presenter extends BasePresenter
 
     /**
      * Return body content with dynamic links.
-     *
-     * @return string
      */
-    public function body()
+    public function body(): string
     {
         $text = $this->entity->body;
         preg_match_all('/{!! ([a-z]+):([0-9]+) !!}/', $text, $matches, PREG_SET_ORDER);

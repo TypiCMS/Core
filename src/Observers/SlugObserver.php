@@ -32,13 +32,8 @@ class SlugObserver
 
     /**
      * Search for item with same slug.
-     *
-     * @param mixed $model
-     * @param mixed $locale
-     *
-     * @return bool
      */
-    private function slugExists(Model $model, $locale)
+    private function slugExists(Model $model, string $locale): bool
     {
         $query = $model::where('slug->'.$locale, $model->getTranslation('slug', $locale));
         if ($model->id) {

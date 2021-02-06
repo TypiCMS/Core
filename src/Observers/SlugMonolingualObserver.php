@@ -23,7 +23,7 @@ class SlugMonolingualObserver
         }
     }
 
-    private function slugExists(Model $model)
+    private function slugExists(Model $model): bool
     {
         $query = $model::where('slug', $model->slug);
         if ($model->id) {
