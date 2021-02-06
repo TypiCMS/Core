@@ -110,7 +110,13 @@
                     <path fill-rule="evenodd" d="M4.5 4a3.5 3.5 0 1 1 7 0v3h-1V4a2.5 2.5 0 0 0-5 0v3h-1V4z" />
                 </svg>
 
-                <div class="title">{{ multilingual ? node.data.title_translated : node.data.title }}</div>
+                <div class="title">
+                    {{
+                        multilingual
+                            ? node.data.title_translated.replace(/(<([^>]+)>)/gi, '')
+                            : node.data.title.replace(/(<([^>]+)>)/gi, '')
+                    }}
+                </div>
 
                 <svg
                     class="text-muted"
