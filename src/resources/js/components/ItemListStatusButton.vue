@@ -17,10 +17,10 @@ export default {
   },
   computed: {
     statusOn() {
-      if (typeof (this.model.status_translated) !== 'undefined') {
-        return this.model.status_translated === 1;
+      if(typeof(this.model.status_translated) === 'undefined'){
+        return parseInt(this.model.status) === 1;
       } else {
-        return this.model.status === 1;
+        return this.model.status_translated === 1;
       }
     },
   },
