@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-4">
+    <div>
         <input type="hidden" name="file_ids" :value="fileIds.join()" />
         <div class="mb-3">
             <label class="form-label">{{ $t(label) }}</label>
