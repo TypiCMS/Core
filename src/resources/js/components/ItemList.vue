@@ -529,13 +529,15 @@ export default {
                 });
         },
         toggleStatus(model) {
-            let status = this.multilingual ? model.status_translated : model.status,
+            let multilingual = typeof (model.status_translated) !== 'undefined' ? this.multilingual : false,
+                status = multilingual ? model.status_translated : model.status,
                 newStatus = Math.abs(status - 1),
                 data = {
                     status: {},
                 },
                 label = newStatus === 1 ? 'published' : 'unpublished';
-            if (this.multilingual) {
+
+            if (multilingual) {
                 model.status_translated = newStatus;
                 data.status[this.currentLocale] = newStatus;
             } else {
