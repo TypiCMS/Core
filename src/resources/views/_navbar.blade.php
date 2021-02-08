@@ -1,7 +1,7 @@
 @if ($navbar)
     <nav class="typicms-navbar navbar navbar-expand-md navbar-dark bg-dark justify-content-between sticky-top">
         @if (Request::segment(1) === 'admin')
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+        <button class="navbar-toggler" type="button" data-toggle="offcanvas" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>
         @endif
