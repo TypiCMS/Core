@@ -525,7 +525,7 @@ progress {
   }
 }
 
-.list-unstyled, .social-links-list, .forum-sidebar-category-list, .forum-post-content-files-list, .forum-post-list, .forum-discussion-list {
+.list-unstyled, .social-links-list {
   padding-left: 0;
   list-style: none;
 }
@@ -593,7 +593,7 @@ progress {
   color: #6c757d;
 }
 
-.container, .forum-container, .forum-header-container,
+.container,
 .container-fluid,
 .container-xxl,
 .container-xl,
@@ -612,27 +612,27 @@ progress {
 }
 
 @media (min-width: 576px) {
-  .container-sm, .container, .forum-container, .forum-header-container {
+  .container-sm, .container {
     max-width: 540px;
   }
 }
 @media (min-width: 768px) {
-  .container-md, .container-sm, .container, .forum-container, .forum-header-container {
+  .container-md, .container-sm, .container {
     max-width: 720px;
   }
 }
 @media (min-width: 992px) {
-  .container-lg, .container-md, .container-sm, .container, .forum-container, .forum-header-container {
+  .container-lg, .container-md, .container-sm, .container {
     max-width: 960px;
   }
 }
 @media (min-width: 1200px) {
-  .container-xl, .site-footer-container, .site-header-container, .page-body-container, .page-header-container, .container-lg, .container-md, .container-sm, .container, .forum-container, .forum-header-container {
+  .container-xl, .site-footer-container, .site-header-container, .page-body-container, .page-header-container, .container-lg, .container-md, .container-sm, .container {
     max-width: 1140px;
   }
 }
 @media (min-width: 1400px) {
-  .container-xxl, .container-xl, .site-footer-container, .site-header-container, .page-body-container, .page-header-container, .container-lg, .container-md, .container-sm, .container, .forum-container, .forum-header-container {
+  .container-xxl, .container-xl, .site-footer-container, .site-header-container, .page-body-container, .page-header-container, .container-lg, .container-md, .container-sm, .container {
     max-width: 1320px;
   }
 }
@@ -2778,7 +2778,7 @@ textarea.form-control-lg {
   clip: rect(0, 0, 0, 0);
   pointer-events: none;
 }
-.btn-check[disabled] + .btn, .btn-check[disabled] + .document-list-item-link, .btn-check[disabled] + .forum-sidebar-create-button, .btn-check[disabled] + .forum-actions-button-submit, .btn-check[disabled] + .forum-post-actions-button, .btn-check[disabled] + .forum-post-content-form-submit, .btn-check[disabled] + .forum-post-content-form-cancel, .btn-check[disabled] + .forum-post-delete-alert-confirm, .btn-check[disabled] + .forum-post-delete-alert-cancel, .btn-check[disabled] + .forum-header-back-button, .btn-check[disabled] + .anchor-top, .btn-check[disabled] + .lang-switcher-btn, .btn-check[disabled] + .btn-offcanvas, .pagination .btn-check[disabled] + .page-link, .btn-check:disabled + .btn, .btn-check:disabled + .document-list-item-link, .btn-check:disabled + .forum-sidebar-create-button, .btn-check:disabled + .forum-actions-button-submit, .btn-check:disabled + .forum-post-actions-button, .btn-check:disabled + .forum-post-content-form-submit, .btn-check:disabled + .forum-post-content-form-cancel, .btn-check:disabled + .forum-post-delete-alert-confirm, .btn-check:disabled + .forum-post-delete-alert-cancel, .btn-check:disabled + .forum-header-back-button, .btn-check:disabled + .anchor-top, .btn-check:disabled + .lang-switcher-btn, .btn-check:disabled + .btn-offcanvas, .pagination .btn-check:disabled + .page-link {
+.btn-check[disabled] + .btn, .btn-check[disabled] + .document-list-item-link, .btn-check[disabled] + .anchor-top, .btn-check[disabled] + .lang-switcher-btn, .btn-check[disabled] + .btn-offcanvas, .pagination .btn-check[disabled] + .page-link, .btn-check:disabled + .btn, .btn-check:disabled + .document-list-item-link, .btn-check:disabled + .anchor-top, .btn-check:disabled + .lang-switcher-btn, .btn-check:disabled + .btn-offcanvas, .pagination .btn-check:disabled + .page-link {
   pointer-events: none;
   -webkit-filter: none;
           filter: none;
@@ -2993,11 +2993,11 @@ textarea.form-control-lg {
 .input-group > .form-select:focus {
   z-index: 3;
 }
-.input-group .btn, .input-group .document-list-item-link, .input-group .forum-sidebar-create-button, .input-group .forum-actions-button-submit, .input-group .forum-post-actions-button, .input-group .forum-post-content-form-submit, .input-group .forum-post-content-form-cancel, .input-group .forum-post-delete-alert-confirm, .input-group .forum-post-delete-alert-cancel, .input-group .forum-header-back-button, .input-group .anchor-top, .input-group .lang-switcher-btn, .input-group .btn-offcanvas, .input-group .pagination .page-link, .pagination .input-group .page-link {
+.input-group .btn, .input-group .document-list-item-link, .input-group .anchor-top, .input-group .lang-switcher-btn, .input-group .btn-offcanvas, .input-group .pagination .page-link, .pagination .input-group .page-link {
   position: relative;
   z-index: 2;
 }
-.input-group .btn:focus, .input-group .document-list-item-link:focus, .input-group .forum-sidebar-create-button:focus, .input-group .forum-actions-button-submit:focus, .input-group .forum-post-actions-button:focus, .input-group .forum-post-content-form-submit:focus, .input-group .forum-post-content-form-cancel:focus, .input-group .forum-post-delete-alert-confirm:focus, .input-group .forum-post-delete-alert-cancel:focus, .input-group .forum-header-back-button:focus, .input-group .anchor-top:focus, .input-group .lang-switcher-btn:focus, .input-group .btn-offcanvas:focus, .input-group .pagination .page-link:focus, .pagination .input-group .page-link:focus {
+.input-group .btn:focus, .input-group .document-list-item-link:focus, .input-group .anchor-top:focus, .input-group .lang-switcher-btn:focus, .input-group .btn-offcanvas:focus, .input-group .pagination .page-link:focus, .pagination .input-group .page-link:focus {
   z-index: 3;
 }
 
@@ -3025,14 +3025,6 @@ textarea.form-control-lg {
 .input-group-lg > .input-group-text,
 .input-group-lg > .btn,
 .input-group-lg > .document-list-item-link,
-.input-group-lg > .forum-sidebar-create-button,
-.input-group-lg > .forum-actions-button-submit,
-.input-group-lg > .forum-post-actions-button,
-.input-group-lg > .forum-post-content-form-submit,
-.input-group-lg > .forum-post-content-form-cancel,
-.input-group-lg > .forum-post-delete-alert-confirm,
-.input-group-lg > .forum-post-delete-alert-cancel,
-.input-group-lg > .forum-header-back-button,
 .input-group-lg > .anchor-top,
 .input-group-lg > .lang-switcher-btn,
 .input-group-lg > .btn-offcanvas,
@@ -3047,14 +3039,6 @@ textarea.form-control-lg {
 .input-group-sm > .input-group-text,
 .input-group-sm > .btn,
 .input-group-sm > .document-list-item-link,
-.input-group-sm > .forum-sidebar-create-button,
-.input-group-sm > .forum-actions-button-submit,
-.input-group-sm > .forum-post-actions-button,
-.input-group-sm > .forum-post-content-form-submit,
-.input-group-sm > .forum-post-content-form-cancel,
-.input-group-sm > .forum-post-delete-alert-confirm,
-.input-group-sm > .forum-post-delete-alert-cancel,
-.input-group-sm > .forum-header-back-button,
 .input-group-sm > .anchor-top,
 .input-group-sm > .lang-switcher-btn,
 .input-group-sm > .btn-offcanvas,
@@ -3243,7 +3227,7 @@ textarea.form-control-lg {
   margin-left: 0.5em;
 }
 
-.btn, .document-list-item-link, .forum-sidebar-create-button, .forum-actions-button-submit, .forum-post-actions-button, .forum-post-content-form-submit, .forum-post-content-form-cancel, .forum-post-delete-alert-confirm, .forum-post-delete-alert-cancel, .forum-header-back-button, .anchor-top, .lang-switcher-btn, .btn-offcanvas, .pagination .page-link {
+.btn, .document-list-item-link, .anchor-top, .lang-switcher-btn, .btn-offcanvas, .pagination .page-link {
   display: inline-block;
   font-weight: 400;
   line-height: 1.5;
@@ -3268,52 +3252,52 @@ textarea.form-control-lg {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
 }
 @media (prefers-reduced-motion: reduce) {
-  .btn, .document-list-item-link, .forum-sidebar-create-button, .forum-actions-button-submit, .forum-post-actions-button, .forum-post-content-form-submit, .forum-post-content-form-cancel, .forum-post-delete-alert-confirm, .forum-post-delete-alert-cancel, .forum-header-back-button, .anchor-top, .lang-switcher-btn, .btn-offcanvas, .pagination .page-link {
+  .btn, .document-list-item-link, .anchor-top, .lang-switcher-btn, .btn-offcanvas, .pagination .page-link {
     -webkit-transition: none;
     -o-transition: none;
     transition: none;
   }
 }
-.btn:hover, .document-list-item-link:hover, .forum-sidebar-create-button:hover, .forum-actions-button-submit:hover, .forum-post-actions-button:hover, .forum-post-content-form-submit:hover, .forum-post-content-form-cancel:hover, .forum-post-delete-alert-confirm:hover, .forum-post-delete-alert-cancel:hover, .forum-header-back-button:hover, .anchor-top:hover, .lang-switcher-btn:hover, .btn-offcanvas:hover, .pagination .page-link:hover {
+.btn:hover, .document-list-item-link:hover, .anchor-top:hover, .lang-switcher-btn:hover, .btn-offcanvas:hover, .pagination .page-link:hover {
   color: #212529;
 }
-.btn-check:focus + .btn, .btn-check:focus + .document-list-item-link, .btn-check:focus + .forum-sidebar-create-button, .btn-check:focus + .forum-actions-button-submit, .btn-check:focus + .forum-post-actions-button, .btn-check:focus + .forum-post-content-form-submit, .btn-check:focus + .forum-post-content-form-cancel, .btn-check:focus + .forum-post-delete-alert-confirm, .btn-check:focus + .forum-post-delete-alert-cancel, .btn-check:focus + .forum-header-back-button, .btn-check:focus + .anchor-top, .btn-check:focus + .lang-switcher-btn, .btn-check:focus + .btn-offcanvas, .pagination .btn-check:focus + .page-link, .btn:focus, .document-list-item-link:focus, .forum-sidebar-create-button:focus, .forum-actions-button-submit:focus, .forum-post-actions-button:focus, .forum-post-content-form-submit:focus, .forum-post-content-form-cancel:focus, .forum-post-delete-alert-confirm:focus, .forum-post-delete-alert-cancel:focus, .forum-header-back-button:focus, .anchor-top:focus, .lang-switcher-btn:focus, .btn-offcanvas:focus, .pagination .page-link:focus {
+.btn-check:focus + .btn, .btn-check:focus + .document-list-item-link, .btn-check:focus + .anchor-top, .btn-check:focus + .lang-switcher-btn, .btn-check:focus + .btn-offcanvas, .pagination .btn-check:focus + .page-link, .btn:focus, .document-list-item-link:focus, .anchor-top:focus, .lang-switcher-btn:focus, .btn-offcanvas:focus, .pagination .page-link:focus {
   outline: 0;
   -webkit-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
           box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
-.btn:disabled, .document-list-item-link:disabled, .forum-sidebar-create-button:disabled, .forum-actions-button-submit:disabled, .forum-post-actions-button:disabled, .forum-post-content-form-submit:disabled, .forum-post-content-form-cancel:disabled, .forum-post-delete-alert-confirm:disabled, .forum-post-delete-alert-cancel:disabled, .forum-header-back-button:disabled, .anchor-top:disabled, .lang-switcher-btn:disabled, .btn-offcanvas:disabled, .pagination .page-link:disabled, .btn.disabled, .disabled.document-list-item-link, .disabled.forum-sidebar-create-button, .disabled.forum-actions-button-submit, .disabled.forum-post-actions-button, .disabled.forum-post-content-form-submit, .disabled.forum-post-content-form-cancel, .disabled.forum-post-delete-alert-confirm, .disabled.forum-post-delete-alert-cancel, .disabled.forum-header-back-button, .disabled.anchor-top, .disabled.lang-switcher-btn, .disabled.btn-offcanvas, .pagination .disabled.page-link, fieldset:disabled .btn, fieldset:disabled .document-list-item-link, fieldset:disabled .forum-sidebar-create-button, fieldset:disabled .forum-actions-button-submit, fieldset:disabled .forum-post-actions-button, fieldset:disabled .forum-post-content-form-submit, fieldset:disabled .forum-post-content-form-cancel, fieldset:disabled .forum-post-delete-alert-confirm, fieldset:disabled .forum-post-delete-alert-cancel, fieldset:disabled .forum-header-back-button, fieldset:disabled .anchor-top, fieldset:disabled .lang-switcher-btn, fieldset:disabled .btn-offcanvas, fieldset:disabled .pagination .page-link, .pagination fieldset:disabled .page-link {
+.btn:disabled, .document-list-item-link:disabled, .anchor-top:disabled, .lang-switcher-btn:disabled, .btn-offcanvas:disabled, .pagination .page-link:disabled, .btn.disabled, .disabled.document-list-item-link, .disabled.anchor-top, .disabled.lang-switcher-btn, .disabled.btn-offcanvas, .pagination .disabled.page-link, fieldset:disabled .btn, fieldset:disabled .document-list-item-link, fieldset:disabled .anchor-top, fieldset:disabled .lang-switcher-btn, fieldset:disabled .btn-offcanvas, fieldset:disabled .pagination .page-link, .pagination fieldset:disabled .page-link {
   pointer-events: none;
   opacity: 0.65;
 }
 
-.btn-primary, .forum-sidebar-create-button {
+.btn-primary {
   color: #fff;
   background-color: #0d6efd;
   border-color: #0d6efd;
 }
-.btn-primary:hover, .forum-sidebar-create-button:hover {
+.btn-primary:hover {
   color: #fff;
   background-color: #0b5ed7;
   border-color: #0a58ca;
 }
-.btn-check:focus + .btn-primary, .btn-check:focus + .forum-sidebar-create-button, .btn-primary:focus, .forum-sidebar-create-button:focus {
+.btn-check:focus + .btn-primary, .btn-primary:focus {
   color: #fff;
   background-color: #0b5ed7;
   border-color: #0a58ca;
   -webkit-box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
           box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
 }
-.btn-check:checked + .btn-primary, .btn-check:checked + .forum-sidebar-create-button, .btn-check:active + .btn-primary, .btn-check:active + .forum-sidebar-create-button, .btn-primary:active, .forum-sidebar-create-button:active, .btn-primary.active, .active.forum-sidebar-create-button, .menu-main-item.active > .btn-primary.menu-main-link, .menu-main-item.active > .menu-main-link.forum-sidebar-create-button, .menu-main-item.active > .menu-main-item.menu-main-link > .btn-primary.menu-main-link, .menu-main-item.active > .menu-main-item.menu-main-link > .menu-main-link.forum-sidebar-create-button, .show > .btn-primary.dropdown-toggle, .show > .dropdown-toggle.forum-sidebar-create-button {
+.btn-check:checked + .btn-primary, .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active, .menu-main-item.active > .btn-primary.menu-main-link, .menu-main-item.active > .menu-main-item.menu-main-link > .btn-primary.menu-main-link, .show > .btn-primary.dropdown-toggle {
   color: #fff;
   background-color: #0a58ca;
   border-color: #0a53be;
 }
-.btn-check:checked + .btn-primary:focus, .btn-check:checked + .forum-sidebar-create-button:focus, .btn-check:active + .btn-primary:focus, .btn-check:active + .forum-sidebar-create-button:focus, .btn-primary:active:focus, .forum-sidebar-create-button:active:focus, .btn-primary.active:focus, .active.forum-sidebar-create-button:focus, .menu-main-item.active > .btn-primary.menu-main-link:focus, .menu-main-item.active > .menu-main-link.forum-sidebar-create-button:focus, .menu-main-item.active > .menu-main-item.menu-main-link > .btn-primary.menu-main-link:focus, .menu-main-item.active > .menu-main-item.menu-main-link > .menu-main-link.forum-sidebar-create-button:focus, .show > .btn-primary.dropdown-toggle:focus, .show > .dropdown-toggle.forum-sidebar-create-button:focus {
+.btn-check:checked + .btn-primary:focus, .btn-check:active + .btn-primary:focus, .btn-primary:active:focus, .btn-primary.active:focus, .menu-main-item.active > .btn-primary.menu-main-link:focus, .menu-main-item.active > .menu-main-item.menu-main-link > .btn-primary.menu-main-link:focus, .show > .btn-primary.dropdown-toggle:focus {
   -webkit-box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
           box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
 }
-.btn-primary:disabled, .forum-sidebar-create-button:disabled, .btn-primary.disabled, .disabled.forum-sidebar-create-button {
+.btn-primary:disabled, .btn-primary.disabled {
   color: #fff;
   background-color: #0d6efd;
   border-color: #0d6efd;
@@ -3351,33 +3335,33 @@ textarea.form-control-lg {
   border-color: #6c757d;
 }
 
-.btn-success, .forum-actions-button-submit, .forum-post-content-form-submit {
+.btn-success {
   color: #fff;
   background-color: #198754;
   border-color: #198754;
 }
-.btn-success:hover, .forum-actions-button-submit:hover, .forum-post-content-form-submit:hover {
+.btn-success:hover {
   color: #fff;
   background-color: #157347;
   border-color: #146c43;
 }
-.btn-check:focus + .btn-success, .btn-check:focus + .forum-actions-button-submit, .btn-check:focus + .forum-post-content-form-submit, .btn-success:focus, .forum-actions-button-submit:focus, .forum-post-content-form-submit:focus {
+.btn-check:focus + .btn-success, .btn-success:focus {
   color: #fff;
   background-color: #157347;
   border-color: #146c43;
   -webkit-box-shadow: 0 0 0 0.25rem rgba(60, 153, 110, 0.5);
           box-shadow: 0 0 0 0.25rem rgba(60, 153, 110, 0.5);
 }
-.btn-check:checked + .btn-success, .btn-check:checked + .forum-actions-button-submit, .btn-check:checked + .forum-post-content-form-submit, .btn-check:active + .btn-success, .btn-check:active + .forum-actions-button-submit, .btn-check:active + .forum-post-content-form-submit, .btn-success:active, .forum-actions-button-submit:active, .forum-post-content-form-submit:active, .btn-success.active, .active.forum-actions-button-submit, .active.forum-post-content-form-submit, .menu-main-item.active > .btn-success.menu-main-link, .menu-main-item.active > .menu-main-link.forum-actions-button-submit, .menu-main-item.active > .menu-main-link.forum-post-content-form-submit, .menu-main-item.active > .menu-main-item.menu-main-link > .btn-success.menu-main-link, .menu-main-item.active > .menu-main-item.menu-main-link > .menu-main-link.forum-actions-button-submit, .menu-main-item.active > .menu-main-item.menu-main-link > .menu-main-link.forum-post-content-form-submit, .show > .btn-success.dropdown-toggle, .show > .dropdown-toggle.forum-actions-button-submit, .show > .dropdown-toggle.forum-post-content-form-submit {
+.btn-check:checked + .btn-success, .btn-check:active + .btn-success, .btn-success:active, .btn-success.active, .menu-main-item.active > .btn-success.menu-main-link, .menu-main-item.active > .menu-main-item.menu-main-link > .btn-success.menu-main-link, .show > .btn-success.dropdown-toggle {
   color: #fff;
   background-color: #146c43;
   border-color: #13653f;
 }
-.btn-check:checked + .btn-success:focus, .btn-check:checked + .forum-actions-button-submit:focus, .btn-check:checked + .forum-post-content-form-submit:focus, .btn-check:active + .btn-success:focus, .btn-check:active + .forum-actions-button-submit:focus, .btn-check:active + .forum-post-content-form-submit:focus, .btn-success:active:focus, .forum-actions-button-submit:active:focus, .forum-post-content-form-submit:active:focus, .btn-success.active:focus, .active.forum-actions-button-submit:focus, .active.forum-post-content-form-submit:focus, .menu-main-item.active > .btn-success.menu-main-link:focus, .menu-main-item.active > .menu-main-link.forum-actions-button-submit:focus, .menu-main-item.active > .menu-main-link.forum-post-content-form-submit:focus, .menu-main-item.active > .menu-main-item.menu-main-link > .btn-success.menu-main-link:focus, .menu-main-item.active > .menu-main-item.menu-main-link > .menu-main-link.forum-actions-button-submit:focus, .menu-main-item.active > .menu-main-item.menu-main-link > .menu-main-link.forum-post-content-form-submit:focus, .show > .btn-success.dropdown-toggle:focus, .show > .dropdown-toggle.forum-actions-button-submit:focus, .show > .dropdown-toggle.forum-post-content-form-submit:focus {
+.btn-check:checked + .btn-success:focus, .btn-check:active + .btn-success:focus, .btn-success:active:focus, .btn-success.active:focus, .menu-main-item.active > .btn-success.menu-main-link:focus, .menu-main-item.active > .menu-main-item.menu-main-link > .btn-success.menu-main-link:focus, .show > .btn-success.dropdown-toggle:focus {
   -webkit-box-shadow: 0 0 0 0.25rem rgba(60, 153, 110, 0.5);
           box-shadow: 0 0 0 0.25rem rgba(60, 153, 110, 0.5);
 }
-.btn-success:disabled, .forum-actions-button-submit:disabled, .forum-post-content-form-submit:disabled, .btn-success.disabled, .disabled.forum-actions-button-submit, .disabled.forum-post-content-form-submit {
+.btn-success:disabled, .btn-success.disabled {
   color: #fff;
   background-color: #198754;
   border-color: #198754;
@@ -3447,65 +3431,65 @@ textarea.form-control-lg {
   border-color: #ffc107;
 }
 
-.btn-danger, .forum-post-delete-alert-confirm {
+.btn-danger {
   color: #fff;
   background-color: #dc3545;
   border-color: #dc3545;
 }
-.btn-danger:hover, .forum-post-delete-alert-confirm:hover {
+.btn-danger:hover {
   color: #fff;
   background-color: #bb2d3b;
   border-color: #b02a37;
 }
-.btn-check:focus + .btn-danger, .btn-check:focus + .forum-post-delete-alert-confirm, .btn-danger:focus, .forum-post-delete-alert-confirm:focus {
+.btn-check:focus + .btn-danger, .btn-danger:focus {
   color: #fff;
   background-color: #bb2d3b;
   border-color: #b02a37;
   -webkit-box-shadow: 0 0 0 0.25rem rgba(225, 83, 97, 0.5);
           box-shadow: 0 0 0 0.25rem rgba(225, 83, 97, 0.5);
 }
-.btn-check:checked + .btn-danger, .btn-check:checked + .forum-post-delete-alert-confirm, .btn-check:active + .btn-danger, .btn-check:active + .forum-post-delete-alert-confirm, .btn-danger:active, .forum-post-delete-alert-confirm:active, .btn-danger.active, .active.forum-post-delete-alert-confirm, .menu-main-item.active > .btn-danger.menu-main-link, .menu-main-item.active > .menu-main-link.forum-post-delete-alert-confirm, .menu-main-item.active > .menu-main-item.menu-main-link > .btn-danger.menu-main-link, .menu-main-item.active > .menu-main-item.menu-main-link > .menu-main-link.forum-post-delete-alert-confirm, .show > .btn-danger.dropdown-toggle, .show > .dropdown-toggle.forum-post-delete-alert-confirm {
+.btn-check:checked + .btn-danger, .btn-check:active + .btn-danger, .btn-danger:active, .btn-danger.active, .menu-main-item.active > .btn-danger.menu-main-link, .menu-main-item.active > .menu-main-item.menu-main-link > .btn-danger.menu-main-link, .show > .btn-danger.dropdown-toggle {
   color: #fff;
   background-color: #b02a37;
   border-color: #a52834;
 }
-.btn-check:checked + .btn-danger:focus, .btn-check:checked + .forum-post-delete-alert-confirm:focus, .btn-check:active + .btn-danger:focus, .btn-check:active + .forum-post-delete-alert-confirm:focus, .btn-danger:active:focus, .forum-post-delete-alert-confirm:active:focus, .btn-danger.active:focus, .active.forum-post-delete-alert-confirm:focus, .menu-main-item.active > .btn-danger.menu-main-link:focus, .menu-main-item.active > .menu-main-link.forum-post-delete-alert-confirm:focus, .menu-main-item.active > .menu-main-item.menu-main-link > .btn-danger.menu-main-link:focus, .menu-main-item.active > .menu-main-item.menu-main-link > .menu-main-link.forum-post-delete-alert-confirm:focus, .show > .btn-danger.dropdown-toggle:focus, .show > .dropdown-toggle.forum-post-delete-alert-confirm:focus {
+.btn-check:checked + .btn-danger:focus, .btn-check:active + .btn-danger:focus, .btn-danger:active:focus, .btn-danger.active:focus, .menu-main-item.active > .btn-danger.menu-main-link:focus, .menu-main-item.active > .menu-main-item.menu-main-link > .btn-danger.menu-main-link:focus, .show > .btn-danger.dropdown-toggle:focus {
   -webkit-box-shadow: 0 0 0 0.25rem rgba(225, 83, 97, 0.5);
           box-shadow: 0 0 0 0.25rem rgba(225, 83, 97, 0.5);
 }
-.btn-danger:disabled, .forum-post-delete-alert-confirm:disabled, .btn-danger.disabled, .disabled.forum-post-delete-alert-confirm {
+.btn-danger:disabled, .btn-danger.disabled {
   color: #fff;
   background-color: #dc3545;
   border-color: #dc3545;
 }
 
-.btn-light, .document-list-item-link, .forum-post-actions-button, .forum-post-content-form-cancel {
+.btn-light, .document-list-item-link {
   color: #000;
   background-color: #e9ecef;
   border-color: #e9ecef;
 }
-.btn-light:hover, .document-list-item-link:hover, .forum-post-actions-button:hover, .forum-post-content-form-cancel:hover {
+.btn-light:hover, .document-list-item-link:hover {
   color: #000;
   background-color: #eceff1;
   border-color: #ebeef1;
 }
-.btn-check:focus + .btn-light, .btn-check:focus + .document-list-item-link, .btn-check:focus + .forum-post-actions-button, .btn-check:focus + .forum-post-content-form-cancel, .btn-light:focus, .document-list-item-link:focus, .forum-post-actions-button:focus, .forum-post-content-form-cancel:focus {
+.btn-check:focus + .btn-light, .btn-check:focus + .document-list-item-link, .btn-light:focus, .document-list-item-link:focus {
   color: #000;
   background-color: #eceff1;
   border-color: #ebeef1;
   -webkit-box-shadow: 0 0 0 0.25rem rgba(198, 201, 203, 0.5);
           box-shadow: 0 0 0 0.25rem rgba(198, 201, 203, 0.5);
 }
-.btn-check:checked + .btn-light, .btn-check:checked + .document-list-item-link, .btn-check:checked + .forum-post-actions-button, .btn-check:checked + .forum-post-content-form-cancel, .btn-check:active + .btn-light, .btn-check:active + .document-list-item-link, .btn-check:active + .forum-post-actions-button, .btn-check:active + .forum-post-content-form-cancel, .btn-light:active, .document-list-item-link:active, .forum-post-actions-button:active, .forum-post-content-form-cancel:active, .btn-light.active, .active.document-list-item-link, .active.forum-post-actions-button, .active.forum-post-content-form-cancel, .menu-main-item.active > .btn-light.menu-main-link, .menu-main-item.active > .menu-main-link.document-list-item-link, .menu-main-item.active > .menu-main-link.forum-post-actions-button, .menu-main-item.active > .menu-main-link.forum-post-content-form-cancel, .menu-main-item.active > .menu-main-item.menu-main-link > .btn-light.menu-main-link, .menu-main-item.active > .menu-main-item.menu-main-link > .menu-main-link.document-list-item-link, .menu-main-item.active > .menu-main-item.menu-main-link > .menu-main-link.forum-post-actions-button, .menu-main-item.active > .menu-main-item.menu-main-link > .menu-main-link.forum-post-content-form-cancel, .show > .btn-light.dropdown-toggle, .show > .dropdown-toggle.document-list-item-link, .show > .dropdown-toggle.forum-post-actions-button, .show > .dropdown-toggle.forum-post-content-form-cancel {
+.btn-check:checked + .btn-light, .btn-check:checked + .document-list-item-link, .btn-check:active + .btn-light, .btn-check:active + .document-list-item-link, .btn-light:active, .document-list-item-link:active, .btn-light.active, .active.document-list-item-link, .menu-main-item.active > .btn-light.menu-main-link, .menu-main-item.active > .menu-main-link.document-list-item-link, .menu-main-item.active > .menu-main-item.menu-main-link > .btn-light.menu-main-link, .menu-main-item.active > .menu-main-item.menu-main-link > .menu-main-link.document-list-item-link, .show > .btn-light.dropdown-toggle, .show > .dropdown-toggle.document-list-item-link {
   color: #000;
   background-color: #edf0f2;
   border-color: #ebeef1;
 }
-.btn-check:checked + .btn-light:focus, .btn-check:checked + .document-list-item-link:focus, .btn-check:checked + .forum-post-actions-button:focus, .btn-check:checked + .forum-post-content-form-cancel:focus, .btn-check:active + .btn-light:focus, .btn-check:active + .document-list-item-link:focus, .btn-check:active + .forum-post-actions-button:focus, .btn-check:active + .forum-post-content-form-cancel:focus, .btn-light:active:focus, .document-list-item-link:active:focus, .forum-post-actions-button:active:focus, .forum-post-content-form-cancel:active:focus, .btn-light.active:focus, .active.document-list-item-link:focus, .active.forum-post-actions-button:focus, .active.forum-post-content-form-cancel:focus, .menu-main-item.active > .btn-light.menu-main-link:focus, .menu-main-item.active > .menu-main-link.document-list-item-link:focus, .menu-main-item.active > .menu-main-link.forum-post-actions-button:focus, .menu-main-item.active > .menu-main-link.forum-post-content-form-cancel:focus, .menu-main-item.active > .menu-main-item.menu-main-link > .btn-light.menu-main-link:focus, .menu-main-item.active > .menu-main-item.menu-main-link > .menu-main-link.document-list-item-link:focus, .menu-main-item.active > .menu-main-item.menu-main-link > .menu-main-link.forum-post-actions-button:focus, .menu-main-item.active > .menu-main-item.menu-main-link > .menu-main-link.forum-post-content-form-cancel:focus, .show > .btn-light.dropdown-toggle:focus, .show > .dropdown-toggle.document-list-item-link:focus, .show > .dropdown-toggle.forum-post-actions-button:focus, .show > .dropdown-toggle.forum-post-content-form-cancel:focus {
+.btn-check:checked + .btn-light:focus, .btn-check:checked + .document-list-item-link:focus, .btn-check:active + .btn-light:focus, .btn-check:active + .document-list-item-link:focus, .btn-light:active:focus, .document-list-item-link:active:focus, .btn-light.active:focus, .active.document-list-item-link:focus, .menu-main-item.active > .btn-light.menu-main-link:focus, .menu-main-item.active > .menu-main-link.document-list-item-link:focus, .menu-main-item.active > .menu-main-item.menu-main-link > .btn-light.menu-main-link:focus, .menu-main-item.active > .menu-main-item.menu-main-link > .menu-main-link.document-list-item-link:focus, .show > .btn-light.dropdown-toggle:focus, .show > .dropdown-toggle.document-list-item-link:focus {
   -webkit-box-shadow: 0 0 0 0.25rem rgba(198, 201, 203, 0.5);
           box-shadow: 0 0 0 0.25rem rgba(198, 201, 203, 0.5);
 }
-.btn-light:disabled, .document-list-item-link:disabled, .forum-post-actions-button:disabled, .forum-post-content-form-cancel:disabled, .btn-light.disabled, .disabled.document-list-item-link, .disabled.forum-post-actions-button, .disabled.forum-post-content-form-cancel {
+.btn-light:disabled, .document-list-item-link:disabled, .btn-light.disabled, .disabled.document-list-item-link {
   color: #000;
   background-color: #e9ecef;
   border-color: #e9ecef;
@@ -3771,13 +3755,13 @@ textarea.form-control-lg {
   color: #6c757d;
 }
 
-.btn-lg, .btn-group-lg > .btn, .btn-group-lg > .document-list-item-link, .btn-group-lg > .forum-sidebar-create-button, .btn-group-lg > .forum-actions-button-submit, .btn-group-lg > .forum-post-actions-button, .btn-group-lg > .forum-post-content-form-submit, .btn-group-lg > .forum-post-content-form-cancel, .btn-group-lg > .forum-post-delete-alert-confirm, .btn-group-lg > .forum-post-delete-alert-cancel, .btn-group-lg > .forum-header-back-button, .btn-group-lg > .anchor-top, .btn-group-lg > .lang-switcher-btn, .btn-group-lg > .btn-offcanvas, .pagination .btn-group-lg > .page-link {
+.btn-lg, .btn-group-lg > .btn, .btn-group-lg > .document-list-item-link, .btn-group-lg > .anchor-top, .btn-group-lg > .lang-switcher-btn, .btn-group-lg > .btn-offcanvas, .pagination .btn-group-lg > .page-link {
   padding: 0.5rem 1rem;
   font-size: 1.25rem;
   border-radius: 0.3rem;
 }
 
-.btn-sm, .forum-post-delete-alert-confirm, .forum-post-delete-alert-cancel, .pagination .page-link, .btn-group-sm > .btn, .btn-group-sm > .document-list-item-link, .btn-group-sm > .forum-sidebar-create-button, .btn-group-sm > .forum-actions-button-submit, .btn-group-sm > .forum-post-actions-button, .btn-group-sm > .forum-post-content-form-submit, .btn-group-sm > .forum-post-content-form-cancel, .btn-group-sm > .forum-post-delete-alert-confirm, .btn-group-sm > .forum-post-delete-alert-cancel, .btn-group-sm > .forum-header-back-button, .btn-group-sm > .anchor-top, .btn-group-sm > .lang-switcher-btn, .btn-group-sm > .btn-offcanvas, .pagination .btn-group-sm > .page-link {
+.btn-sm, .pagination .page-link, .btn-group-sm > .btn, .btn-group-sm > .document-list-item-link, .btn-group-sm > .anchor-top, .btn-group-sm > .lang-switcher-btn, .btn-group-sm > .btn-offcanvas, .pagination .btn-group-sm > .page-link {
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
   border-radius: 0.2rem;
@@ -4108,17 +4092,9 @@ textarea.form-control-lg {
   display: inline-flex;
   vertical-align: middle;
 }
-.btn-group > .btn, .btn-group > .document-list-item-link, .btn-group > .forum-sidebar-create-button, .btn-group > .forum-actions-button-submit, .btn-group > .forum-post-actions-button, .btn-group > .forum-post-content-form-submit, .btn-group > .forum-post-content-form-cancel, .btn-group > .forum-post-delete-alert-confirm, .btn-group > .forum-post-delete-alert-cancel, .btn-group > .forum-header-back-button, .btn-group > .anchor-top, .btn-group > .lang-switcher-btn, .btn-group > .btn-offcanvas, .pagination .btn-group > .page-link,
+.btn-group > .btn, .btn-group > .document-list-item-link, .btn-group > .anchor-top, .btn-group > .lang-switcher-btn, .btn-group > .btn-offcanvas, .pagination .btn-group > .page-link,
 .btn-group-vertical > .btn,
 .btn-group-vertical > .document-list-item-link,
-.btn-group-vertical > .forum-sidebar-create-button,
-.btn-group-vertical > .forum-actions-button-submit,
-.btn-group-vertical > .forum-post-actions-button,
-.btn-group-vertical > .forum-post-content-form-submit,
-.btn-group-vertical > .forum-post-content-form-cancel,
-.btn-group-vertical > .forum-post-delete-alert-confirm,
-.btn-group-vertical > .forum-post-delete-alert-cancel,
-.btn-group-vertical > .forum-header-back-button,
 .btn-group-vertical > .anchor-top,
 .btn-group-vertical > .lang-switcher-btn,
 .btn-group-vertical > .btn-offcanvas,
@@ -4128,95 +4104,39 @@ textarea.form-control-lg {
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
 }
-.btn-group > .btn-check:checked + .btn, .btn-group > .btn-check:checked + .document-list-item-link, .btn-group > .btn-check:checked + .forum-sidebar-create-button, .btn-group > .btn-check:checked + .forum-actions-button-submit, .btn-group > .btn-check:checked + .forum-post-actions-button, .btn-group > .btn-check:checked + .forum-post-content-form-submit, .btn-group > .btn-check:checked + .forum-post-content-form-cancel, .btn-group > .btn-check:checked + .forum-post-delete-alert-confirm, .btn-group > .btn-check:checked + .forum-post-delete-alert-cancel, .btn-group > .btn-check:checked + .forum-header-back-button, .btn-group > .btn-check:checked + .anchor-top, .btn-group > .btn-check:checked + .lang-switcher-btn, .btn-group > .btn-check:checked + .btn-offcanvas, .pagination .btn-group > .btn-check:checked + .page-link,
+.btn-group > .btn-check:checked + .btn, .btn-group > .btn-check:checked + .document-list-item-link, .btn-group > .btn-check:checked + .anchor-top, .btn-group > .btn-check:checked + .lang-switcher-btn, .btn-group > .btn-check:checked + .btn-offcanvas, .pagination .btn-group > .btn-check:checked + .page-link,
 .btn-group > .btn-check:focus + .btn,
 .btn-group > .btn-check:focus + .document-list-item-link,
-.btn-group > .btn-check:focus + .forum-sidebar-create-button,
-.btn-group > .btn-check:focus + .forum-actions-button-submit,
-.btn-group > .btn-check:focus + .forum-post-actions-button,
-.btn-group > .btn-check:focus + .forum-post-content-form-submit,
-.btn-group > .btn-check:focus + .forum-post-content-form-cancel,
-.btn-group > .btn-check:focus + .forum-post-delete-alert-confirm,
-.btn-group > .btn-check:focus + .forum-post-delete-alert-cancel,
-.btn-group > .btn-check:focus + .forum-header-back-button,
 .btn-group > .btn-check:focus + .anchor-top,
 .btn-group > .btn-check:focus + .lang-switcher-btn,
 .btn-group > .btn-check:focus + .btn-offcanvas,
 .pagination .btn-group > .btn-check:focus + .page-link,
 .btn-group > .btn:hover,
 .btn-group > .document-list-item-link:hover,
-.btn-group > .forum-sidebar-create-button:hover,
-.btn-group > .forum-actions-button-submit:hover,
-.btn-group > .forum-post-actions-button:hover,
-.btn-group > .forum-post-content-form-submit:hover,
-.btn-group > .forum-post-content-form-cancel:hover,
-.btn-group > .forum-post-delete-alert-confirm:hover,
-.btn-group > .forum-post-delete-alert-cancel:hover,
-.btn-group > .forum-header-back-button:hover,
 .btn-group > .anchor-top:hover,
 .btn-group > .lang-switcher-btn:hover,
 .btn-group > .btn-offcanvas:hover,
 .pagination .btn-group > .page-link:hover,
 .btn-group > .btn:focus,
 .btn-group > .document-list-item-link:focus,
-.btn-group > .forum-sidebar-create-button:focus,
-.btn-group > .forum-actions-button-submit:focus,
-.btn-group > .forum-post-actions-button:focus,
-.btn-group > .forum-post-content-form-submit:focus,
-.btn-group > .forum-post-content-form-cancel:focus,
-.btn-group > .forum-post-delete-alert-confirm:focus,
-.btn-group > .forum-post-delete-alert-cancel:focus,
-.btn-group > .forum-header-back-button:focus,
 .btn-group > .anchor-top:focus,
 .btn-group > .lang-switcher-btn:focus,
 .btn-group > .btn-offcanvas:focus,
 .pagination .btn-group > .page-link:focus,
 .btn-group > .btn:active,
 .btn-group > .document-list-item-link:active,
-.btn-group > .forum-sidebar-create-button:active,
-.btn-group > .forum-actions-button-submit:active,
-.btn-group > .forum-post-actions-button:active,
-.btn-group > .forum-post-content-form-submit:active,
-.btn-group > .forum-post-content-form-cancel:active,
-.btn-group > .forum-post-delete-alert-confirm:active,
-.btn-group > .forum-post-delete-alert-cancel:active,
-.btn-group > .forum-header-back-button:active,
 .btn-group > .anchor-top:active,
 .btn-group > .lang-switcher-btn:active,
 .btn-group > .btn-offcanvas:active,
 .pagination .btn-group > .page-link:active,
 .btn-group > .btn.active,
 .btn-group > .active.document-list-item-link,
-.btn-group > .active.forum-sidebar-create-button,
-.btn-group > .active.forum-actions-button-submit,
-.btn-group > .active.forum-post-actions-button,
-.btn-group > .active.forum-post-content-form-submit,
-.btn-group > .active.forum-post-content-form-cancel,
-.btn-group > .active.forum-post-delete-alert-confirm,
-.btn-group > .active.forum-post-delete-alert-cancel,
-.btn-group > .active.forum-header-back-button,
 .btn-group > .active.anchor-top,
 .menu-main-item.active.btn-group > .btn.menu-main-link,
 .menu-main-item.active.btn-group > .menu-main-link.document-list-item-link,
-.menu-main-item.active.btn-group > .menu-main-link.forum-sidebar-create-button,
-.menu-main-item.active.btn-group > .menu-main-link.forum-actions-button-submit,
-.menu-main-item.active.btn-group > .menu-main-link.forum-post-actions-button,
-.menu-main-item.active.btn-group > .menu-main-link.forum-post-content-form-submit,
-.menu-main-item.active.btn-group > .menu-main-link.forum-post-content-form-cancel,
-.menu-main-item.active.btn-group > .menu-main-link.forum-post-delete-alert-confirm,
-.menu-main-item.active.btn-group > .menu-main-link.forum-post-delete-alert-cancel,
-.menu-main-item.active.btn-group > .menu-main-link.forum-header-back-button,
 .menu-main-item.active.btn-group > .menu-main-link.anchor-top,
 .menu-main-item.active > .menu-main-item.menu-main-link.btn-group > .btn.menu-main-link,
 .menu-main-item.active > .menu-main-item.menu-main-link.btn-group > .menu-main-link.document-list-item-link,
-.menu-main-item.active > .menu-main-item.menu-main-link.btn-group > .menu-main-link.forum-sidebar-create-button,
-.menu-main-item.active > .menu-main-item.menu-main-link.btn-group > .menu-main-link.forum-actions-button-submit,
-.menu-main-item.active > .menu-main-item.menu-main-link.btn-group > .menu-main-link.forum-post-actions-button,
-.menu-main-item.active > .menu-main-item.menu-main-link.btn-group > .menu-main-link.forum-post-content-form-submit,
-.menu-main-item.active > .menu-main-item.menu-main-link.btn-group > .menu-main-link.forum-post-content-form-cancel,
-.menu-main-item.active > .menu-main-item.menu-main-link.btn-group > .menu-main-link.forum-post-delete-alert-confirm,
-.menu-main-item.active > .menu-main-item.menu-main-link.btn-group > .menu-main-link.forum-post-delete-alert-cancel,
-.menu-main-item.active > .menu-main-item.menu-main-link.btn-group > .menu-main-link.forum-header-back-button,
 .menu-main-item.active > .menu-main-item.menu-main-link.btn-group > .menu-main-link.anchor-top,
 .btn-group > .active.lang-switcher-btn,
 .menu-main-item.active.btn-group > .lang-switcher-btn.menu-main-link,
@@ -4229,106 +4149,42 @@ textarea.form-control-lg {
 .pagination .menu-main-item.active > .menu-main-item.menu-main-link.btn-group > .page-link.menu-main-link,
 .btn-group-vertical > .btn-check:checked + .btn,
 .btn-group-vertical > .btn-check:checked + .document-list-item-link,
-.btn-group-vertical > .btn-check:checked + .forum-sidebar-create-button,
-.btn-group-vertical > .btn-check:checked + .forum-actions-button-submit,
-.btn-group-vertical > .btn-check:checked + .forum-post-actions-button,
-.btn-group-vertical > .btn-check:checked + .forum-post-content-form-submit,
-.btn-group-vertical > .btn-check:checked + .forum-post-content-form-cancel,
-.btn-group-vertical > .btn-check:checked + .forum-post-delete-alert-confirm,
-.btn-group-vertical > .btn-check:checked + .forum-post-delete-alert-cancel,
-.btn-group-vertical > .btn-check:checked + .forum-header-back-button,
 .btn-group-vertical > .btn-check:checked + .anchor-top,
 .btn-group-vertical > .btn-check:checked + .lang-switcher-btn,
 .btn-group-vertical > .btn-check:checked + .btn-offcanvas,
 .pagination .btn-group-vertical > .btn-check:checked + .page-link,
 .btn-group-vertical > .btn-check:focus + .btn,
 .btn-group-vertical > .btn-check:focus + .document-list-item-link,
-.btn-group-vertical > .btn-check:focus + .forum-sidebar-create-button,
-.btn-group-vertical > .btn-check:focus + .forum-actions-button-submit,
-.btn-group-vertical > .btn-check:focus + .forum-post-actions-button,
-.btn-group-vertical > .btn-check:focus + .forum-post-content-form-submit,
-.btn-group-vertical > .btn-check:focus + .forum-post-content-form-cancel,
-.btn-group-vertical > .btn-check:focus + .forum-post-delete-alert-confirm,
-.btn-group-vertical > .btn-check:focus + .forum-post-delete-alert-cancel,
-.btn-group-vertical > .btn-check:focus + .forum-header-back-button,
 .btn-group-vertical > .btn-check:focus + .anchor-top,
 .btn-group-vertical > .btn-check:focus + .lang-switcher-btn,
 .btn-group-vertical > .btn-check:focus + .btn-offcanvas,
 .pagination .btn-group-vertical > .btn-check:focus + .page-link,
 .btn-group-vertical > .btn:hover,
 .btn-group-vertical > .document-list-item-link:hover,
-.btn-group-vertical > .forum-sidebar-create-button:hover,
-.btn-group-vertical > .forum-actions-button-submit:hover,
-.btn-group-vertical > .forum-post-actions-button:hover,
-.btn-group-vertical > .forum-post-content-form-submit:hover,
-.btn-group-vertical > .forum-post-content-form-cancel:hover,
-.btn-group-vertical > .forum-post-delete-alert-confirm:hover,
-.btn-group-vertical > .forum-post-delete-alert-cancel:hover,
-.btn-group-vertical > .forum-header-back-button:hover,
 .btn-group-vertical > .anchor-top:hover,
 .btn-group-vertical > .lang-switcher-btn:hover,
 .btn-group-vertical > .btn-offcanvas:hover,
 .pagination .btn-group-vertical > .page-link:hover,
 .btn-group-vertical > .btn:focus,
 .btn-group-vertical > .document-list-item-link:focus,
-.btn-group-vertical > .forum-sidebar-create-button:focus,
-.btn-group-vertical > .forum-actions-button-submit:focus,
-.btn-group-vertical > .forum-post-actions-button:focus,
-.btn-group-vertical > .forum-post-content-form-submit:focus,
-.btn-group-vertical > .forum-post-content-form-cancel:focus,
-.btn-group-vertical > .forum-post-delete-alert-confirm:focus,
-.btn-group-vertical > .forum-post-delete-alert-cancel:focus,
-.btn-group-vertical > .forum-header-back-button:focus,
 .btn-group-vertical > .anchor-top:focus,
 .btn-group-vertical > .lang-switcher-btn:focus,
 .btn-group-vertical > .btn-offcanvas:focus,
 .pagination .btn-group-vertical > .page-link:focus,
 .btn-group-vertical > .btn:active,
 .btn-group-vertical > .document-list-item-link:active,
-.btn-group-vertical > .forum-sidebar-create-button:active,
-.btn-group-vertical > .forum-actions-button-submit:active,
-.btn-group-vertical > .forum-post-actions-button:active,
-.btn-group-vertical > .forum-post-content-form-submit:active,
-.btn-group-vertical > .forum-post-content-form-cancel:active,
-.btn-group-vertical > .forum-post-delete-alert-confirm:active,
-.btn-group-vertical > .forum-post-delete-alert-cancel:active,
-.btn-group-vertical > .forum-header-back-button:active,
 .btn-group-vertical > .anchor-top:active,
 .btn-group-vertical > .lang-switcher-btn:active,
 .btn-group-vertical > .btn-offcanvas:active,
 .pagination .btn-group-vertical > .page-link:active,
 .btn-group-vertical > .btn.active,
 .btn-group-vertical > .active.document-list-item-link,
-.btn-group-vertical > .active.forum-sidebar-create-button,
-.btn-group-vertical > .active.forum-actions-button-submit,
-.btn-group-vertical > .active.forum-post-actions-button,
-.btn-group-vertical > .active.forum-post-content-form-submit,
-.btn-group-vertical > .active.forum-post-content-form-cancel,
-.btn-group-vertical > .active.forum-post-delete-alert-confirm,
-.btn-group-vertical > .active.forum-post-delete-alert-cancel,
-.btn-group-vertical > .active.forum-header-back-button,
 .btn-group-vertical > .active.anchor-top,
 .menu-main-item.active.btn-group-vertical > .btn.menu-main-link,
 .menu-main-item.active.btn-group-vertical > .menu-main-link.document-list-item-link,
-.menu-main-item.active.btn-group-vertical > .menu-main-link.forum-sidebar-create-button,
-.menu-main-item.active.btn-group-vertical > .menu-main-link.forum-actions-button-submit,
-.menu-main-item.active.btn-group-vertical > .menu-main-link.forum-post-actions-button,
-.menu-main-item.active.btn-group-vertical > .menu-main-link.forum-post-content-form-submit,
-.menu-main-item.active.btn-group-vertical > .menu-main-link.forum-post-content-form-cancel,
-.menu-main-item.active.btn-group-vertical > .menu-main-link.forum-post-delete-alert-confirm,
-.menu-main-item.active.btn-group-vertical > .menu-main-link.forum-post-delete-alert-cancel,
-.menu-main-item.active.btn-group-vertical > .menu-main-link.forum-header-back-button,
 .menu-main-item.active.btn-group-vertical > .menu-main-link.anchor-top,
 .menu-main-item.active > .menu-main-item.menu-main-link.btn-group-vertical > .btn.menu-main-link,
 .menu-main-item.active > .menu-main-item.menu-main-link.btn-group-vertical > .menu-main-link.document-list-item-link,
-.menu-main-item.active > .menu-main-item.menu-main-link.btn-group-vertical > .menu-main-link.forum-sidebar-create-button,
-.menu-main-item.active > .menu-main-item.menu-main-link.btn-group-vertical > .menu-main-link.forum-actions-button-submit,
-.menu-main-item.active > .menu-main-item.menu-main-link.btn-group-vertical > .menu-main-link.forum-post-actions-button,
-.menu-main-item.active > .menu-main-item.menu-main-link.btn-group-vertical > .menu-main-link.forum-post-content-form-submit,
-.menu-main-item.active > .menu-main-item.menu-main-link.btn-group-vertical > .menu-main-link.forum-post-content-form-cancel,
-.menu-main-item.active > .menu-main-item.menu-main-link.btn-group-vertical > .menu-main-link.forum-post-delete-alert-confirm,
-.menu-main-item.active > .menu-main-item.menu-main-link.btn-group-vertical > .menu-main-link.forum-post-delete-alert-cancel,
-.menu-main-item.active > .menu-main-item.menu-main-link.btn-group-vertical > .menu-main-link.forum-header-back-button,
 .menu-main-item.active > .menu-main-item.menu-main-link.btn-group-vertical > .menu-main-link.anchor-top,
 .btn-group-vertical > .active.lang-switcher-btn,
 .menu-main-item.active.btn-group-vertical > .lang-switcher-btn.menu-main-link,
@@ -4356,21 +4212,13 @@ textarea.form-control-lg {
   width: auto;
 }
 
-.btn-group > .btn:not(:first-child), .btn-group > .document-list-item-link:not(:first-child), .btn-group > .forum-sidebar-create-button:not(:first-child), .btn-group > .forum-actions-button-submit:not(:first-child), .btn-group > .forum-post-actions-button:not(:first-child), .btn-group > .forum-post-content-form-submit:not(:first-child), .btn-group > .forum-post-content-form-cancel:not(:first-child), .btn-group > .forum-post-delete-alert-confirm:not(:first-child), .btn-group > .forum-post-delete-alert-cancel:not(:first-child), .btn-group > .forum-header-back-button:not(:first-child), .btn-group > .anchor-top:not(:first-child), .btn-group > .lang-switcher-btn:not(:first-child), .btn-group > .btn-offcanvas:not(:first-child), .pagination .btn-group > .page-link:not(:first-child),
+.btn-group > .btn:not(:first-child), .btn-group > .document-list-item-link:not(:first-child), .btn-group > .anchor-top:not(:first-child), .btn-group > .lang-switcher-btn:not(:first-child), .btn-group > .btn-offcanvas:not(:first-child), .pagination .btn-group > .page-link:not(:first-child),
 .btn-group > .btn-group:not(:first-child) {
   margin-left: -1px;
 }
-.btn-group > .btn:not(:last-child):not(.dropdown-toggle), .btn-group > .document-list-item-link:not(:last-child):not(.dropdown-toggle), .btn-group > .forum-sidebar-create-button:not(:last-child):not(.dropdown-toggle), .btn-group > .forum-actions-button-submit:not(:last-child):not(.dropdown-toggle), .btn-group > .forum-post-actions-button:not(:last-child):not(.dropdown-toggle), .btn-group > .forum-post-content-form-submit:not(:last-child):not(.dropdown-toggle), .btn-group > .forum-post-content-form-cancel:not(:last-child):not(.dropdown-toggle), .btn-group > .forum-post-delete-alert-confirm:not(:last-child):not(.dropdown-toggle), .btn-group > .forum-post-delete-alert-cancel:not(:last-child):not(.dropdown-toggle), .btn-group > .forum-header-back-button:not(:last-child):not(.dropdown-toggle), .btn-group > .anchor-top:not(:last-child):not(.dropdown-toggle), .btn-group > .lang-switcher-btn:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-offcanvas:not(:last-child):not(.dropdown-toggle), .pagination .btn-group > .page-link:not(:last-child):not(.dropdown-toggle),
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle), .btn-group > .document-list-item-link:not(:last-child):not(.dropdown-toggle), .btn-group > .anchor-top:not(:last-child):not(.dropdown-toggle), .btn-group > .lang-switcher-btn:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-offcanvas:not(:last-child):not(.dropdown-toggle), .pagination .btn-group > .page-link:not(:last-child):not(.dropdown-toggle),
 .btn-group > .btn-group:not(:last-child) > .btn,
 .btn-group > .btn-group:not(:last-child) > .document-list-item-link,
-.btn-group > .btn-group:not(:last-child) > .forum-sidebar-create-button,
-.btn-group > .btn-group:not(:last-child) > .forum-actions-button-submit,
-.btn-group > .btn-group:not(:last-child) > .forum-post-actions-button,
-.btn-group > .btn-group:not(:last-child) > .forum-post-content-form-submit,
-.btn-group > .btn-group:not(:last-child) > .forum-post-content-form-cancel,
-.btn-group > .btn-group:not(:last-child) > .forum-post-delete-alert-confirm,
-.btn-group > .btn-group:not(:last-child) > .forum-post-delete-alert-cancel,
-.btn-group > .btn-group:not(:last-child) > .forum-header-back-button,
 .btn-group > .btn-group:not(:last-child) > .anchor-top,
 .btn-group > .btn-group:not(:last-child) > .lang-switcher-btn,
 .btn-group > .btn-group:not(:last-child) > .btn-offcanvas,
@@ -4378,31 +4226,15 @@ textarea.form-control-lg {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.btn-group > .btn:nth-child(n+3), .btn-group > .document-list-item-link:nth-child(n+3), .btn-group > .forum-sidebar-create-button:nth-child(n+3), .btn-group > .forum-actions-button-submit:nth-child(n+3), .btn-group > .forum-post-actions-button:nth-child(n+3), .btn-group > .forum-post-content-form-submit:nth-child(n+3), .btn-group > .forum-post-content-form-cancel:nth-child(n+3), .btn-group > .forum-post-delete-alert-confirm:nth-child(n+3), .btn-group > .forum-post-delete-alert-cancel:nth-child(n+3), .btn-group > .forum-header-back-button:nth-child(n+3), .btn-group > .anchor-top:nth-child(n+3), .btn-group > .lang-switcher-btn:nth-child(n+3), .btn-group > .btn-offcanvas:nth-child(n+3), .pagination .btn-group > .page-link:nth-child(n+3),
+.btn-group > .btn:nth-child(n+3), .btn-group > .document-list-item-link:nth-child(n+3), .btn-group > .anchor-top:nth-child(n+3), .btn-group > .lang-switcher-btn:nth-child(n+3), .btn-group > .btn-offcanvas:nth-child(n+3), .pagination .btn-group > .page-link:nth-child(n+3),
 .btn-group > :not(.btn-check) + .btn,
 .btn-group > :not(.btn-check) + .document-list-item-link,
-.btn-group > :not(.btn-check) + .forum-sidebar-create-button,
-.btn-group > :not(.btn-check) + .forum-actions-button-submit,
-.btn-group > :not(.btn-check) + .forum-post-actions-button,
-.btn-group > :not(.btn-check) + .forum-post-content-form-submit,
-.btn-group > :not(.btn-check) + .forum-post-content-form-cancel,
-.btn-group > :not(.btn-check) + .forum-post-delete-alert-confirm,
-.btn-group > :not(.btn-check) + .forum-post-delete-alert-cancel,
-.btn-group > :not(.btn-check) + .forum-header-back-button,
 .btn-group > :not(.btn-check) + .anchor-top,
 .btn-group > :not(.btn-check) + .lang-switcher-btn,
 .btn-group > :not(.btn-check) + .btn-offcanvas,
 .pagination .btn-group > :not(.btn-check) + .page-link,
 .btn-group > .btn-group:not(:first-child) > .btn,
 .btn-group > .btn-group:not(:first-child) > .document-list-item-link,
-.btn-group > .btn-group:not(:first-child) > .forum-sidebar-create-button,
-.btn-group > .btn-group:not(:first-child) > .forum-actions-button-submit,
-.btn-group > .btn-group:not(:first-child) > .forum-post-actions-button,
-.btn-group > .btn-group:not(:first-child) > .forum-post-content-form-submit,
-.btn-group > .btn-group:not(:first-child) > .forum-post-content-form-cancel,
-.btn-group > .btn-group:not(:first-child) > .forum-post-delete-alert-confirm,
-.btn-group > .btn-group:not(:first-child) > .forum-post-delete-alert-cancel,
-.btn-group > .btn-group:not(:first-child) > .forum-header-back-button,
 .btn-group > .btn-group:not(:first-child) > .anchor-top,
 .btn-group > .btn-group:not(:first-child) > .lang-switcher-btn,
 .btn-group > .btn-group:not(:first-child) > .btn-offcanvas,
@@ -4422,12 +4254,12 @@ textarea.form-control-lg {
   margin-right: 0;
 }
 
-.btn-sm + .dropdown-toggle-split, .forum-post-delete-alert-confirm + .dropdown-toggle-split, .forum-post-delete-alert-cancel + .dropdown-toggle-split, .pagination .page-link + .dropdown-toggle-split, .btn-group-sm > .btn + .dropdown-toggle-split, .btn-group-sm > .document-list-item-link + .dropdown-toggle-split, .btn-group-sm > .forum-sidebar-create-button + .dropdown-toggle-split, .btn-group-sm > .forum-actions-button-submit + .dropdown-toggle-split, .btn-group-sm > .forum-post-actions-button + .dropdown-toggle-split, .btn-group-sm > .forum-post-content-form-submit + .dropdown-toggle-split, .btn-group-sm > .forum-post-content-form-cancel + .dropdown-toggle-split, .btn-group-sm > .forum-post-delete-alert-confirm + .dropdown-toggle-split, .btn-group-sm > .forum-post-delete-alert-cancel + .dropdown-toggle-split, .btn-group-sm > .forum-header-back-button + .dropdown-toggle-split, .btn-group-sm > .anchor-top + .dropdown-toggle-split, .btn-group-sm > .lang-switcher-btn + .dropdown-toggle-split, .btn-group-sm > .btn-offcanvas + .dropdown-toggle-split, .pagination .btn-group-sm > .page-link + .dropdown-toggle-split {
+.btn-sm + .dropdown-toggle-split, .pagination .page-link + .dropdown-toggle-split, .btn-group-sm > .btn + .dropdown-toggle-split, .btn-group-sm > .document-list-item-link + .dropdown-toggle-split, .btn-group-sm > .anchor-top + .dropdown-toggle-split, .btn-group-sm > .lang-switcher-btn + .dropdown-toggle-split, .btn-group-sm > .btn-offcanvas + .dropdown-toggle-split, .pagination .btn-group-sm > .page-link + .dropdown-toggle-split {
   padding-right: 0.375rem;
   padding-left: 0.375rem;
 }
 
-.btn-lg + .dropdown-toggle-split, .btn-group-lg > .btn + .dropdown-toggle-split, .btn-group-lg > .document-list-item-link + .dropdown-toggle-split, .btn-group-lg > .forum-sidebar-create-button + .dropdown-toggle-split, .btn-group-lg > .forum-actions-button-submit + .dropdown-toggle-split, .btn-group-lg > .forum-post-actions-button + .dropdown-toggle-split, .btn-group-lg > .forum-post-content-form-submit + .dropdown-toggle-split, .btn-group-lg > .forum-post-content-form-cancel + .dropdown-toggle-split, .btn-group-lg > .forum-post-delete-alert-confirm + .dropdown-toggle-split, .btn-group-lg > .forum-post-delete-alert-cancel + .dropdown-toggle-split, .btn-group-lg > .forum-header-back-button + .dropdown-toggle-split, .btn-group-lg > .anchor-top + .dropdown-toggle-split, .btn-group-lg > .lang-switcher-btn + .dropdown-toggle-split, .btn-group-lg > .btn-offcanvas + .dropdown-toggle-split, .pagination .btn-group-lg > .page-link + .dropdown-toggle-split {
+.btn-lg + .dropdown-toggle-split, .btn-group-lg > .btn + .dropdown-toggle-split, .btn-group-lg > .document-list-item-link + .dropdown-toggle-split, .btn-group-lg > .anchor-top + .dropdown-toggle-split, .btn-group-lg > .lang-switcher-btn + .dropdown-toggle-split, .btn-group-lg > .btn-offcanvas + .dropdown-toggle-split, .pagination .btn-group-lg > .page-link + .dropdown-toggle-split {
   padding-right: 0.75rem;
   padding-left: 0.75rem;
 }
@@ -4444,25 +4276,17 @@ textarea.form-control-lg {
       -ms-flex-pack: center;
           justify-content: center;
 }
-.btn-group-vertical > .btn, .btn-group-vertical > .document-list-item-link, .btn-group-vertical > .forum-sidebar-create-button, .btn-group-vertical > .forum-actions-button-submit, .btn-group-vertical > .forum-post-actions-button, .btn-group-vertical > .forum-post-content-form-submit, .btn-group-vertical > .forum-post-content-form-cancel, .btn-group-vertical > .forum-post-delete-alert-confirm, .btn-group-vertical > .forum-post-delete-alert-cancel, .btn-group-vertical > .forum-header-back-button, .btn-group-vertical > .anchor-top, .btn-group-vertical > .lang-switcher-btn, .btn-group-vertical > .btn-offcanvas, .pagination .btn-group-vertical > .page-link,
+.btn-group-vertical > .btn, .btn-group-vertical > .document-list-item-link, .btn-group-vertical > .anchor-top, .btn-group-vertical > .lang-switcher-btn, .btn-group-vertical > .btn-offcanvas, .pagination .btn-group-vertical > .page-link,
 .btn-group-vertical > .btn-group {
   width: 100%;
 }
-.btn-group-vertical > .btn:not(:first-child), .btn-group-vertical > .document-list-item-link:not(:first-child), .btn-group-vertical > .forum-sidebar-create-button:not(:first-child), .btn-group-vertical > .forum-actions-button-submit:not(:first-child), .btn-group-vertical > .forum-post-actions-button:not(:first-child), .btn-group-vertical > .forum-post-content-form-submit:not(:first-child), .btn-group-vertical > .forum-post-content-form-cancel:not(:first-child), .btn-group-vertical > .forum-post-delete-alert-confirm:not(:first-child), .btn-group-vertical > .forum-post-delete-alert-cancel:not(:first-child), .btn-group-vertical > .forum-header-back-button:not(:first-child), .btn-group-vertical > .anchor-top:not(:first-child), .btn-group-vertical > .lang-switcher-btn:not(:first-child), .btn-group-vertical > .btn-offcanvas:not(:first-child), .pagination .btn-group-vertical > .page-link:not(:first-child),
+.btn-group-vertical > .btn:not(:first-child), .btn-group-vertical > .document-list-item-link:not(:first-child), .btn-group-vertical > .anchor-top:not(:first-child), .btn-group-vertical > .lang-switcher-btn:not(:first-child), .btn-group-vertical > .btn-offcanvas:not(:first-child), .pagination .btn-group-vertical > .page-link:not(:first-child),
 .btn-group-vertical > .btn-group:not(:first-child) {
   margin-top: -1px;
 }
-.btn-group-vertical > .btn:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .document-list-item-link:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .forum-sidebar-create-button:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .forum-actions-button-submit:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .forum-post-actions-button:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .forum-post-content-form-submit:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .forum-post-content-form-cancel:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .forum-post-delete-alert-confirm:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .forum-post-delete-alert-cancel:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .forum-header-back-button:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .anchor-top:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .lang-switcher-btn:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .btn-offcanvas:not(:last-child):not(.dropdown-toggle), .pagination .btn-group-vertical > .page-link:not(:last-child):not(.dropdown-toggle),
+.btn-group-vertical > .btn:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .document-list-item-link:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .anchor-top:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .lang-switcher-btn:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .btn-offcanvas:not(:last-child):not(.dropdown-toggle), .pagination .btn-group-vertical > .page-link:not(:last-child):not(.dropdown-toggle),
 .btn-group-vertical > .btn-group:not(:last-child) > .btn,
 .btn-group-vertical > .btn-group:not(:last-child) > .document-list-item-link,
-.btn-group-vertical > .btn-group:not(:last-child) > .forum-sidebar-create-button,
-.btn-group-vertical > .btn-group:not(:last-child) > .forum-actions-button-submit,
-.btn-group-vertical > .btn-group:not(:last-child) > .forum-post-actions-button,
-.btn-group-vertical > .btn-group:not(:last-child) > .forum-post-content-form-submit,
-.btn-group-vertical > .btn-group:not(:last-child) > .forum-post-content-form-cancel,
-.btn-group-vertical > .btn-group:not(:last-child) > .forum-post-delete-alert-confirm,
-.btn-group-vertical > .btn-group:not(:last-child) > .forum-post-delete-alert-cancel,
-.btn-group-vertical > .btn-group:not(:last-child) > .forum-header-back-button,
 .btn-group-vertical > .btn-group:not(:last-child) > .anchor-top,
 .btn-group-vertical > .btn-group:not(:last-child) > .lang-switcher-btn,
 .btn-group-vertical > .btn-group:not(:last-child) > .btn-offcanvas,
@@ -4470,17 +4294,9 @@ textarea.form-control-lg {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-.btn-group-vertical > .btn ~ .btn, .btn-group-vertical > .document-list-item-link ~ .btn, .btn-group-vertical > .btn ~ .document-list-item-link, .btn-group-vertical > .document-list-item-link ~ .document-list-item-link, .btn-group-vertical > .forum-sidebar-create-button ~ .btn, .btn-group-vertical > .forum-sidebar-create-button ~ .document-list-item-link, .btn-group-vertical > .btn ~ .forum-sidebar-create-button, .btn-group-vertical > .document-list-item-link ~ .forum-sidebar-create-button, .btn-group-vertical > .forum-sidebar-create-button ~ .forum-sidebar-create-button, .btn-group-vertical > .forum-actions-button-submit ~ .btn, .btn-group-vertical > .forum-actions-button-submit ~ .document-list-item-link, .btn-group-vertical > .forum-actions-button-submit ~ .forum-sidebar-create-button, .btn-group-vertical > .btn ~ .forum-actions-button-submit, .btn-group-vertical > .document-list-item-link ~ .forum-actions-button-submit, .btn-group-vertical > .forum-sidebar-create-button ~ .forum-actions-button-submit, .btn-group-vertical > .forum-actions-button-submit ~ .forum-actions-button-submit, .btn-group-vertical > .forum-post-actions-button ~ .btn, .btn-group-vertical > .forum-post-actions-button ~ .document-list-item-link, .btn-group-vertical > .forum-post-actions-button ~ .forum-sidebar-create-button, .btn-group-vertical > .forum-post-actions-button ~ .forum-actions-button-submit, .btn-group-vertical > .btn ~ .forum-post-actions-button, .btn-group-vertical > .document-list-item-link ~ .forum-post-actions-button, .btn-group-vertical > .forum-sidebar-create-button ~ .forum-post-actions-button, .btn-group-vertical > .forum-actions-button-submit ~ .forum-post-actions-button, .btn-group-vertical > .forum-post-actions-button ~ .forum-post-actions-button, .btn-group-vertical > .forum-post-content-form-submit ~ .btn, .btn-group-vertical > .forum-post-content-form-submit ~ .document-list-item-link, .btn-group-vertical > .forum-post-content-form-submit ~ .forum-sidebar-create-button, .btn-group-vertical > .forum-post-content-form-submit ~ .forum-actions-button-submit, .btn-group-vertical > .forum-post-content-form-submit ~ .forum-post-actions-button, .btn-group-vertical > .btn ~ .forum-post-content-form-submit, .btn-group-vertical > .document-list-item-link ~ .forum-post-content-form-submit, .btn-group-vertical > .forum-sidebar-create-button ~ .forum-post-content-form-submit, .btn-group-vertical > .forum-actions-button-submit ~ .forum-post-content-form-submit, .btn-group-vertical > .forum-post-actions-button ~ .forum-post-content-form-submit, .btn-group-vertical > .forum-post-content-form-submit ~ .forum-post-content-form-submit, .btn-group-vertical > .forum-post-content-form-cancel ~ .btn, .btn-group-vertical > .forum-post-content-form-cancel ~ .document-list-item-link, .btn-group-vertical > .forum-post-content-form-cancel ~ .forum-sidebar-create-button, .btn-group-vertical > .forum-post-content-form-cancel ~ .forum-actions-button-submit, .btn-group-vertical > .forum-post-content-form-cancel ~ .forum-post-actions-button, .btn-group-vertical > .forum-post-content-form-cancel ~ .forum-post-content-form-submit, .btn-group-vertical > .btn ~ .forum-post-content-form-cancel, .btn-group-vertical > .document-list-item-link ~ .forum-post-content-form-cancel, .btn-group-vertical > .forum-sidebar-create-button ~ .forum-post-content-form-cancel, .btn-group-vertical > .forum-actions-button-submit ~ .forum-post-content-form-cancel, .btn-group-vertical > .forum-post-actions-button ~ .forum-post-content-form-cancel, .btn-group-vertical > .forum-post-content-form-submit ~ .forum-post-content-form-cancel, .btn-group-vertical > .forum-post-content-form-cancel ~ .forum-post-content-form-cancel, .btn-group-vertical > .forum-post-delete-alert-confirm ~ .btn, .btn-group-vertical > .forum-post-delete-alert-confirm ~ .document-list-item-link, .btn-group-vertical > .forum-post-delete-alert-confirm ~ .forum-sidebar-create-button, .btn-group-vertical > .forum-post-delete-alert-confirm ~ .forum-actions-button-submit, .btn-group-vertical > .forum-post-delete-alert-confirm ~ .forum-post-actions-button, .btn-group-vertical > .forum-post-delete-alert-confirm ~ .forum-post-content-form-submit, .btn-group-vertical > .forum-post-delete-alert-confirm ~ .forum-post-content-form-cancel, .btn-group-vertical > .btn ~ .forum-post-delete-alert-confirm, .btn-group-vertical > .document-list-item-link ~ .forum-post-delete-alert-confirm, .btn-group-vertical > .forum-sidebar-create-button ~ .forum-post-delete-alert-confirm, .btn-group-vertical > .forum-actions-button-submit ~ .forum-post-delete-alert-confirm, .btn-group-vertical > .forum-post-actions-button ~ .forum-post-delete-alert-confirm, .btn-group-vertical > .forum-post-content-form-submit ~ .forum-post-delete-alert-confirm, .btn-group-vertical > .forum-post-content-form-cancel ~ .forum-post-delete-alert-confirm, .btn-group-vertical > .forum-post-delete-alert-confirm ~ .forum-post-delete-alert-confirm, .btn-group-vertical > .forum-post-delete-alert-cancel ~ .btn, .btn-group-vertical > .forum-post-delete-alert-cancel ~ .document-list-item-link, .btn-group-vertical > .forum-post-delete-alert-cancel ~ .forum-sidebar-create-button, .btn-group-vertical > .forum-post-delete-alert-cancel ~ .forum-actions-button-submit, .btn-group-vertical > .forum-post-delete-alert-cancel ~ .forum-post-actions-button, .btn-group-vertical > .forum-post-delete-alert-cancel ~ .forum-post-content-form-submit, .btn-group-vertical > .forum-post-delete-alert-cancel ~ .forum-post-content-form-cancel, .btn-group-vertical > .forum-post-delete-alert-cancel ~ .forum-post-delete-alert-confirm, .btn-group-vertical > .btn ~ .forum-post-delete-alert-cancel, .btn-group-vertical > .document-list-item-link ~ .forum-post-delete-alert-cancel, .btn-group-vertical > .forum-sidebar-create-button ~ .forum-post-delete-alert-cancel, .btn-group-vertical > .forum-actions-button-submit ~ .forum-post-delete-alert-cancel, .btn-group-vertical > .forum-post-actions-button ~ .forum-post-delete-alert-cancel, .btn-group-vertical > .forum-post-content-form-submit ~ .forum-post-delete-alert-cancel, .btn-group-vertical > .forum-post-content-form-cancel ~ .forum-post-delete-alert-cancel, .btn-group-vertical > .forum-post-delete-alert-confirm ~ .forum-post-delete-alert-cancel, .btn-group-vertical > .forum-post-delete-alert-cancel ~ .forum-post-delete-alert-cancel, .btn-group-vertical > .forum-header-back-button ~ .btn, .btn-group-vertical > .forum-header-back-button ~ .document-list-item-link, .btn-group-vertical > .forum-header-back-button ~ .forum-sidebar-create-button, .btn-group-vertical > .forum-header-back-button ~ .forum-actions-button-submit, .btn-group-vertical > .forum-header-back-button ~ .forum-post-actions-button, .btn-group-vertical > .forum-header-back-button ~ .forum-post-content-form-submit, .btn-group-vertical > .forum-header-back-button ~ .forum-post-content-form-cancel, .btn-group-vertical > .forum-header-back-button ~ .forum-post-delete-alert-confirm, .btn-group-vertical > .forum-header-back-button ~ .forum-post-delete-alert-cancel, .btn-group-vertical > .btn ~ .forum-header-back-button, .btn-group-vertical > .document-list-item-link ~ .forum-header-back-button, .btn-group-vertical > .forum-sidebar-create-button ~ .forum-header-back-button, .btn-group-vertical > .forum-actions-button-submit ~ .forum-header-back-button, .btn-group-vertical > .forum-post-actions-button ~ .forum-header-back-button, .btn-group-vertical > .forum-post-content-form-submit ~ .forum-header-back-button, .btn-group-vertical > .forum-post-content-form-cancel ~ .forum-header-back-button, .btn-group-vertical > .forum-post-delete-alert-confirm ~ .forum-header-back-button, .btn-group-vertical > .forum-post-delete-alert-cancel ~ .forum-header-back-button, .btn-group-vertical > .forum-header-back-button ~ .forum-header-back-button, .btn-group-vertical > .anchor-top ~ .btn, .btn-group-vertical > .anchor-top ~ .document-list-item-link, .btn-group-vertical > .anchor-top ~ .forum-sidebar-create-button, .btn-group-vertical > .anchor-top ~ .forum-actions-button-submit, .btn-group-vertical > .anchor-top ~ .forum-post-actions-button, .btn-group-vertical > .anchor-top ~ .forum-post-content-form-submit, .btn-group-vertical > .anchor-top ~ .forum-post-content-form-cancel, .btn-group-vertical > .anchor-top ~ .forum-post-delete-alert-confirm, .btn-group-vertical > .anchor-top ~ .forum-post-delete-alert-cancel, .btn-group-vertical > .anchor-top ~ .forum-header-back-button, .btn-group-vertical > .btn ~ .anchor-top, .btn-group-vertical > .document-list-item-link ~ .anchor-top, .btn-group-vertical > .forum-sidebar-create-button ~ .anchor-top, .btn-group-vertical > .forum-actions-button-submit ~ .anchor-top, .btn-group-vertical > .forum-post-actions-button ~ .anchor-top, .btn-group-vertical > .forum-post-content-form-submit ~ .anchor-top, .btn-group-vertical > .forum-post-content-form-cancel ~ .anchor-top, .btn-group-vertical > .forum-post-delete-alert-confirm ~ .anchor-top, .btn-group-vertical > .forum-post-delete-alert-cancel ~ .anchor-top, .btn-group-vertical > .forum-header-back-button ~ .anchor-top, .btn-group-vertical > .anchor-top ~ .anchor-top, .btn-group-vertical > .lang-switcher-btn ~ .btn, .btn-group-vertical > .lang-switcher-btn ~ .document-list-item-link, .btn-group-vertical > .lang-switcher-btn ~ .forum-sidebar-create-button, .btn-group-vertical > .lang-switcher-btn ~ .forum-actions-button-submit, .btn-group-vertical > .lang-switcher-btn ~ .forum-post-actions-button, .btn-group-vertical > .lang-switcher-btn ~ .forum-post-content-form-submit, .btn-group-vertical > .lang-switcher-btn ~ .forum-post-content-form-cancel, .btn-group-vertical > .lang-switcher-btn ~ .forum-post-delete-alert-confirm, .btn-group-vertical > .lang-switcher-btn ~ .forum-post-delete-alert-cancel, .btn-group-vertical > .lang-switcher-btn ~ .forum-header-back-button, .btn-group-vertical > .lang-switcher-btn ~ .anchor-top, .btn-group-vertical > .btn ~ .lang-switcher-btn, .btn-group-vertical > .document-list-item-link ~ .lang-switcher-btn, .btn-group-vertical > .forum-sidebar-create-button ~ .lang-switcher-btn, .btn-group-vertical > .forum-actions-button-submit ~ .lang-switcher-btn, .btn-group-vertical > .forum-post-actions-button ~ .lang-switcher-btn, .btn-group-vertical > .forum-post-content-form-submit ~ .lang-switcher-btn, .btn-group-vertical > .forum-post-content-form-cancel ~ .lang-switcher-btn, .btn-group-vertical > .forum-post-delete-alert-confirm ~ .lang-switcher-btn, .btn-group-vertical > .forum-post-delete-alert-cancel ~ .lang-switcher-btn, .btn-group-vertical > .forum-header-back-button ~ .lang-switcher-btn, .btn-group-vertical > .anchor-top ~ .lang-switcher-btn, .btn-group-vertical > .lang-switcher-btn ~ .lang-switcher-btn, .btn-group-vertical > .btn-offcanvas ~ .btn, .btn-group-vertical > .btn-offcanvas ~ .document-list-item-link, .btn-group-vertical > .btn-offcanvas ~ .forum-sidebar-create-button, .btn-group-vertical > .btn-offcanvas ~ .forum-actions-button-submit, .btn-group-vertical > .btn-offcanvas ~ .forum-post-actions-button, .btn-group-vertical > .btn-offcanvas ~ .forum-post-content-form-submit, .btn-group-vertical > .btn-offcanvas ~ .forum-post-content-form-cancel, .btn-group-vertical > .btn-offcanvas ~ .forum-post-delete-alert-confirm, .btn-group-vertical > .btn-offcanvas ~ .forum-post-delete-alert-cancel, .btn-group-vertical > .btn-offcanvas ~ .forum-header-back-button, .btn-group-vertical > .btn-offcanvas ~ .anchor-top, .btn-group-vertical > .btn-offcanvas ~ .lang-switcher-btn, .btn-group-vertical > .btn ~ .btn-offcanvas, .btn-group-vertical > .document-list-item-link ~ .btn-offcanvas, .btn-group-vertical > .forum-sidebar-create-button ~ .btn-offcanvas, .btn-group-vertical > .forum-actions-button-submit ~ .btn-offcanvas, .btn-group-vertical > .forum-post-actions-button ~ .btn-offcanvas, .btn-group-vertical > .forum-post-content-form-submit ~ .btn-offcanvas, .btn-group-vertical > .forum-post-content-form-cancel ~ .btn-offcanvas, .btn-group-vertical > .forum-post-delete-alert-confirm ~ .btn-offcanvas, .btn-group-vertical > .forum-post-delete-alert-cancel ~ .btn-offcanvas, .btn-group-vertical > .forum-header-back-button ~ .btn-offcanvas, .btn-group-vertical > .anchor-top ~ .btn-offcanvas, .btn-group-vertical > .lang-switcher-btn ~ .btn-offcanvas, .btn-group-vertical > .btn-offcanvas ~ .btn-offcanvas, .pagination .btn-group-vertical > .page-link ~ .btn, .pagination .btn-group-vertical > .page-link ~ .document-list-item-link, .pagination .btn-group-vertical > .page-link ~ .forum-sidebar-create-button, .pagination .btn-group-vertical > .page-link ~ .forum-actions-button-submit, .pagination .btn-group-vertical > .page-link ~ .forum-post-actions-button, .pagination .btn-group-vertical > .page-link ~ .forum-post-content-form-submit, .pagination .btn-group-vertical > .page-link ~ .forum-post-content-form-cancel, .pagination .btn-group-vertical > .page-link ~ .forum-post-delete-alert-confirm, .pagination .btn-group-vertical > .page-link ~ .forum-post-delete-alert-cancel, .pagination .btn-group-vertical > .page-link ~ .forum-header-back-button, .pagination .btn-group-vertical > .page-link ~ .anchor-top, .pagination .btn-group-vertical > .page-link ~ .lang-switcher-btn, .pagination .btn-group-vertical > .page-link ~ .btn-offcanvas, .pagination .btn-group-vertical > .btn ~ .page-link, .pagination .btn-group-vertical > .document-list-item-link ~ .page-link, .pagination .btn-group-vertical > .forum-sidebar-create-button ~ .page-link, .pagination .btn-group-vertical > .forum-actions-button-submit ~ .page-link, .pagination .btn-group-vertical > .forum-post-actions-button ~ .page-link, .pagination .btn-group-vertical > .forum-post-content-form-submit ~ .page-link, .pagination .btn-group-vertical > .forum-post-content-form-cancel ~ .page-link, .pagination .btn-group-vertical > .forum-post-delete-alert-confirm ~ .page-link, .pagination .btn-group-vertical > .forum-post-delete-alert-cancel ~ .page-link, .pagination .btn-group-vertical > .forum-header-back-button ~ .page-link, .pagination .btn-group-vertical > .anchor-top ~ .page-link, .pagination .btn-group-vertical > .lang-switcher-btn ~ .page-link, .pagination .btn-group-vertical > .btn-offcanvas ~ .page-link, .pagination .btn-group-vertical > .page-link ~ .page-link,
+.btn-group-vertical > .btn ~ .btn, .btn-group-vertical > .document-list-item-link ~ .btn, .btn-group-vertical > .btn ~ .document-list-item-link, .btn-group-vertical > .document-list-item-link ~ .document-list-item-link, .btn-group-vertical > .anchor-top ~ .btn, .btn-group-vertical > .anchor-top ~ .document-list-item-link, .btn-group-vertical > .btn ~ .anchor-top, .btn-group-vertical > .document-list-item-link ~ .anchor-top, .btn-group-vertical > .anchor-top ~ .anchor-top, .btn-group-vertical > .lang-switcher-btn ~ .btn, .btn-group-vertical > .lang-switcher-btn ~ .document-list-item-link, .btn-group-vertical > .lang-switcher-btn ~ .anchor-top, .btn-group-vertical > .btn ~ .lang-switcher-btn, .btn-group-vertical > .document-list-item-link ~ .lang-switcher-btn, .btn-group-vertical > .anchor-top ~ .lang-switcher-btn, .btn-group-vertical > .lang-switcher-btn ~ .lang-switcher-btn, .btn-group-vertical > .btn-offcanvas ~ .btn, .btn-group-vertical > .btn-offcanvas ~ .document-list-item-link, .btn-group-vertical > .btn-offcanvas ~ .anchor-top, .btn-group-vertical > .btn-offcanvas ~ .lang-switcher-btn, .btn-group-vertical > .btn ~ .btn-offcanvas, .btn-group-vertical > .document-list-item-link ~ .btn-offcanvas, .btn-group-vertical > .anchor-top ~ .btn-offcanvas, .btn-group-vertical > .lang-switcher-btn ~ .btn-offcanvas, .btn-group-vertical > .btn-offcanvas ~ .btn-offcanvas, .pagination .btn-group-vertical > .page-link ~ .btn, .pagination .btn-group-vertical > .page-link ~ .document-list-item-link, .pagination .btn-group-vertical > .page-link ~ .anchor-top, .pagination .btn-group-vertical > .page-link ~ .lang-switcher-btn, .pagination .btn-group-vertical > .page-link ~ .btn-offcanvas, .pagination .btn-group-vertical > .btn ~ .page-link, .pagination .btn-group-vertical > .document-list-item-link ~ .page-link, .pagination .btn-group-vertical > .anchor-top ~ .page-link, .pagination .btn-group-vertical > .lang-switcher-btn ~ .page-link, .pagination .btn-group-vertical > .btn-offcanvas ~ .page-link, .pagination .btn-group-vertical > .page-link ~ .page-link,
 .btn-group-vertical > .btn-group:not(:first-child) > .btn,
 .btn-group-vertical > .btn-group:not(:first-child) > .document-list-item-link,
-.btn-group-vertical > .btn-group:not(:first-child) > .forum-sidebar-create-button,
-.btn-group-vertical > .btn-group:not(:first-child) > .forum-actions-button-submit,
-.btn-group-vertical > .btn-group:not(:first-child) > .forum-post-actions-button,
-.btn-group-vertical > .btn-group:not(:first-child) > .forum-post-content-form-submit,
-.btn-group-vertical > .btn-group:not(:first-child) > .forum-post-content-form-cancel,
-.btn-group-vertical > .btn-group:not(:first-child) > .forum-post-delete-alert-confirm,
-.btn-group-vertical > .btn-group:not(:first-child) > .forum-post-delete-alert-cancel,
-.btn-group-vertical > .btn-group:not(:first-child) > .forum-header-back-button,
 .btn-group-vertical > .btn-group:not(:first-child) > .anchor-top,
 .btn-group-vertical > .btn-group:not(:first-child) > .lang-switcher-btn,
 .btn-group-vertical > .btn-group:not(:first-child) > .btn-offcanvas,
@@ -4651,7 +4467,7 @@ textarea.form-control-lg {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
-.navbar > .container, .navbar > .forum-container, .navbar > .forum-header-container,
+.navbar > .container,
 .navbar > .container-fluid,
 .navbar > .container-sm,
 .navbar > .container-md,
@@ -5434,7 +5250,7 @@ textarea.form-control-lg {
   border-bottom-right-radius: 0.2rem;
 }
 
-.badge, .forum-discussion-content-category {
+.badge {
   display: inline-block;
   padding: 0.35em 0.65em;
   font-size: 0.75em;
@@ -5446,16 +5262,16 @@ textarea.form-control-lg {
   vertical-align: baseline;
   border-radius: 0.25rem;
 }
-.badge:empty, .forum-discussion-content-category:empty {
+.badge:empty {
   display: none;
 }
 
-.btn .badge, .document-list-item-link .badge, .forum-sidebar-create-button .badge, .forum-actions-button-submit .badge, .forum-post-actions-button .badge, .forum-post-content-form-submit .badge, .forum-post-content-form-cancel .badge, .btn .forum-discussion-content-category, .document-list-item-link .forum-discussion-content-category, .forum-sidebar-create-button .forum-discussion-content-category, .forum-actions-button-submit .forum-discussion-content-category, .forum-post-actions-button .forum-discussion-content-category, .forum-post-content-form-submit .forum-discussion-content-category, .forum-post-content-form-cancel .forum-discussion-content-category, .forum-post-delete-alert-confirm .badge, .forum-post-delete-alert-confirm .forum-discussion-content-category, .forum-post-delete-alert-cancel .badge, .forum-post-delete-alert-cancel .forum-discussion-content-category, .forum-header-back-button .badge, .forum-header-back-button .forum-discussion-content-category, .anchor-top .badge, .anchor-top .forum-discussion-content-category, .lang-switcher-btn .badge, .lang-switcher-btn .forum-discussion-content-category, .btn-offcanvas .badge, .btn-offcanvas .forum-discussion-content-category, .pagination .page-link .badge, .pagination .page-link .forum-discussion-content-category {
+.btn .badge, .document-list-item-link .badge, .anchor-top .badge, .lang-switcher-btn .badge, .btn-offcanvas .badge, .pagination .page-link .badge {
   position: relative;
   top: -1px;
 }
 
-.alert, .forum-post-delete-alert {
+.alert {
   position: relative;
   padding: 1rem 1rem;
   margin-bottom: 1rem;
@@ -5527,12 +5343,12 @@ textarea.form-control-lg {
   color: #523e02;
 }
 
-.alert-danger, .forum-post-delete-alert {
+.alert-danger {
   color: #842029;
   background-color: #f8d7da;
   border-color: #f5c2c7;
 }
-.alert-danger .alert-link, .forum-post-delete-alert .alert-link {
+.alert-danger .alert-link {
   color: #6a1a21;
 }
 
@@ -8340,7 +8156,7 @@ textarea.form-control-lg {
   background-color: #198754 !important;
 }
 
-.bg-info, .forum-discussion-content-category {
+.bg-info {
   background-color: #0dcaf0 !important;
 }
 
@@ -14129,491 +13945,6 @@ button.swiper-pagination-bullet {
 
 .addresses li.active, .addresses .menu-main-item.active > li.menu-main-link, .addresses .menu-main-item.active > .menu-main-item.menu-main-link > li.menu-main-link {
   background-color: #eee;
-}
-
-.forum-hero {
-  width: 100%;
-  min-height: 180px;
-  position: relative;
-  text-align: center;
-  background-color: #212529;
-  padding: 2rem 0;
-}
-.forum-hero h1, .forum-hero .h1 {
-  text-align: center;
-  position: relative;
-  color: #fff;
-  margin-top: 0px;
-  margin-bottom: 0;
-}
-.forum-hero p {
-  text-align: center;
-  color: #ced4da;
-  position: relative;
-  z-index: 2;
-  margin-bottom: 0px;
-}
-.forum-header {
-  background: #212529;
-  width: 100%;
-  min-height: 120px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
-}
-.forum-header-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-}
-.forum-header-title {
-  margin: 1rem 0;
-  font-size: 1.5rem;
-  color: #f8f9fa;
-  font-weight: 400;
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-  line-height: 1.45;
-}
-.forum-header-details {
-  color: #ced4da;
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 0.85rem;
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
-  margin: 1rem 0 1rem 10px;
-}
-.forum-header-category {
-  border-radius: 15px;
-  color: #fff;
-  padding: 5px 10px;
-  margin-left: 10px;
-  text-decoration: none;
-}
-.forum-header-category:hover, .forum-header-category:focus {
-  color: #fff;
-}
-.forum-header-back-button {
-  line-height: 36px;
-  font-size: 15px;
-  margin-right: 10px;
-  border-radius: 50%;
-  padding: 0px;
-  background: rgba(255, 255, 255, 0.4);
-  width: 2rem;
-  height: 2rem;
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
-  margin-right: 0.5rem;
-  -webkit-mask-repeat: no-repeat;
-          mask-repeat: no-repeat;
-  -webkit-mask-image: url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5.5a.5.5 0 0 0 0-1H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5z"/></svg>');
-          mask-image: url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5.5a.5.5 0 0 0 0-1H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5z"/></svg>');
-}
-.forum-header-back-button:hover, .forum-header-back-button:focus {
-  background: rgba(255, 255, 255, 0.7);
-}
-.forum-container {
-  margin-top: 4rem;
-  padding-bottom: 4rem;
-}
-
-.forum-post-delete-alert {
-  display: none;
-}
-.forum-post-delete-alert-icon {
-  margin-right: 10px;
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
-  width: 1.125rem;
-  height: 1.125rem;
-  background-color: #dc3545;
-  -webkit-mask-repeat: no-repeat;
-          mask-repeat: no-repeat;
-  -webkit-mask-image: url('data:image/svg+xml,<svg viewBox="0 0 16 16" class="bi bi-exclamation-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>');
-          mask-image: url('data:image/svg+xml,<svg viewBox="0 0 16 16" class="bi bi-exclamation-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>');
-}
-.forum-post-delete-alert-message {
-  margin-right: 10px;
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-.forum-post-delete-alert-cancel {
-  margin-left: 5px;
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
-}
-.forum-post-delete-alert-confirm {
-  margin-left: 5px;
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
-}
-
-.forum-discussion-list {
-  border-bottom: 1px solid #e9ecef;
-  margin-bottom: 1.5rem;
-}
-
-.forum-discussion-link {
-  text-decoration: none;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  padding: 1rem 1rem 0.5rem;
-  -webkit-transition: background 0.3s ease;
-  -o-transition: background 0.3s ease;
-  transition: background 0.3s ease;
-  border-top: 1px solid #e9ecef;
-}
-.forum-discussion-link:hover, .forum-discussion-link:focus {
-  background-color: #f8f9fa;
-}
-.forum-discussion-content {
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-}
-.forum-discussion-content-title {
-  margin: 0.25rem 0 0.15rem;
-  color: #212529;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-.forum-discussion-content-category {
-  border-radius: 0.25rem;
-  font-size: 0.85rem;
-  font-weight: bold;
-  padding: 3px 7px;
-  position: relative;
-  top: -3px;
-}
-.forum-discussion-content-info {
-  font-size: 1rem;
-  color: #495057;
-  margin-bottom: 0.75rem;
-}
-.forum-discussion-content-text {
-  font-size: 1.25rem;
-  color: #adb5bd;
-}
-.forum-discussion-count {
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
-  color: #adb5bd;
-  -ms-flex-item-align: start;
-      align-self: flex-start;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-.forum-discussion-count-icon {
-  margin-right: 0.5rem;
-}
-
-.forum-post-list {
-  border-bottom: 1px solid #e9ecef;
-  margin-bottom: 1.5rem;
-}
-
-.forum-post {
-  border-top: 1px solid #e9ecef;
-  padding: 1rem 1rem 0.5rem;
-}
-.forum-post-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-.forum-post-content {
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-}
-.forum-post-content-form {
-  display: none;
-}
-.forum-post-content-form-cancel {
-  margin-right: 0.5rem;
-}
-.forum-post-content-form-submit {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-.forum-post-content-form-submit-icon {
-  display: inline-block;
-  width: 1.125rem;
-  height: 1.125rem;
-  margin-right: 0.5rem;
-  background-color: #fff;
-  -webkit-mask-repeat: no-repeat;
-          mask-repeat: no-repeat;
-  -webkit-mask-image: url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg>');
-          mask-image: url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg>');
-}
-.forum-post-content-info {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  margin-bottom: 0.75rem;
-  line-height: 1;
-}
-.forum-post-content-info-container {
-  margin-top: 0.25rem;
-}
-.forum-post-content-info-name {
-  font-weight: bold;
-  color: #212529;
-  font-size: 1.25rem;
-  margin-right: 0.5rem;
-}
-.forum-post-content-info-date {
-  font-size: 1rem;
-  color: #adb5bd;
-}
-.forum-post-content-files {
-  border-radius: 5px;
-}
-.forum-post-content-files-list {
-  margin-bottom: 1rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-}
-.forum-post-content-files-item {
-  margin-bottom: 0;
-  padding: 0;
-  margin: 3px;
-  font-size: 0.85rem;
-  display: inline-block;
-}
-.forum-post-content-files-item-link {
-  text-decoration: none;
-  background-color: #f8f9fa;
-  color: #212529;
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  padding: 0.2rem;
-}
-.forum-post-content-files-item-link:hover, .forum-post-content-files-item-link:focus {
-  background-color: #e9ecef;
-  color: #212529;
-}
-.forum-post-content-files-item-icon {
-  margin-right: 0.25rem;
-  width: 0.85rem;
-  height: 0.85rem;
-  background-color: #198754;
-  -webkit-mask-repeat: no-repeat;
-          mask-repeat: no-repeat;
-  -webkit-mask-image: url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0H4zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"/></svg>');
-          mask-image: url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0H4zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"/></svg>');
-}
-.forum-post-content-files-item-name {
-  line-height: 1;
-}
-.forum-post-content-text {
-  font-size: 1.25rem;
-}
-.forum-post-actions-button {
-  border-radius: 1rem;
-  font-size: 0.85rem;
-  padding: 0 0.5rem;
-  margin-left: 0.3rem;
-  text-transform: none;
-  font-weight: normal;
-  white-space: nowrap;
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-.forum-post-actions-button-icon {
-  margin-right: 0.25rem;
-  display: inline-block;
-  width: 0.75rem;
-  height: 0.75rem;
-  background-color: #adb5bd;
-  -webkit-mask-repeat: no-repeat;
-          mask-repeat: no-repeat;
-}
-.forum-post-actions-button-pencil {
-  -webkit-mask-image: url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/></svg>');
-          mask-image: url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/></svg>');
-}
-.forum-post-actions-button-trash {
-  -webkit-mask-image: url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/></svg>');
-          mask-image: url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/></svg>');
-}
-.forum-post.editing .forum-post-content-wrapper {
-  display: none;
-}
-.forum-post.editing .forum-post-content-form {
-  display: block;
-}
-.forum-post.deleting .forum-post-actions {
-  display: none;
-}
-.forum-post.deleting .forum-post-delete-alert {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.forum-actions {
-  padding-top: 1rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-}
-.forum-actions-button-submit {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-.forum-actions-button-submit-icon {
-  display: inline-block;
-  width: 1.125rem;
-  height: 1.125rem;
-  margin-right: 0.5rem;
-  background-color: #fff;
-  -webkit-mask-repeat: no-repeat;
-          mask-repeat: no-repeat;
-  -webkit-mask-image: url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/></svg>');
-          mask-image: url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/></svg>');
-}
-.forum-actions-notification {
-  position: relative;
-  border-radius: 30px;
-  width: auto;
-  padding: 0.25rem 2rem;
-  background: #f8f9fa;
-  margin: 0 10px 0 0;
-}
-.forum-actions-notification-loader {
-  display: none;
-  position: absolute;
-  top: 9px;
-  left: 9px;
-}
-.forum-actions-notification-loader.loading {
-  display: block;
-}
-
-.forum-avatar, .forum-new-post-avatar, .forum-discussion-avatar, .forum-post-avatar {
-  border-radius: 50%;
-  color: white;
-  display: inline-block;
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
-  font-size: 1.5rem;
-  height: 60px;
-  line-height: 62px;
-  margin-right: 1rem;
-  text-align: center;
-  width: 60px;
-}
-
-.forum-new-post {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  padding: 1rem;
-}
-.forum-new-post-editor {
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-  margin-top: 0.5rem;
-}
-
-.forum-sidebar-create-button {
-  margin-bottom: 2rem;
-}
-.forum-sidebar-category-item {
-  display: block;
-  margin-bottom: 2px;
-}
-.forum-sidebar-category-item-all {
-  margin-bottom: 1rem;
-}
-.forum-sidebar-category-item-link {
-  text-decoration: none;
-  color: #adb5bd;
-  padding: 10px 0 10px 15px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  font-size: 1.25rem;
-}
-.forum-sidebar-category-item-link.active, .menu-main-item.active > .forum-sidebar-category-item-link.menu-main-link, .menu-main-item.active > .menu-main-item.menu-main-link > .forum-sidebar-category-item-link.menu-main-link, .forum-sidebar-category-item-link:hover, .forum-sidebar-category-item-link:focus {
-  background-color: #f8f9fa;
-  color: #212529;
-}
-.forum-sidebar-category-item-icon {
-  width: 40px;
-  text-align: center;
-}
-.forum-sidebar-category-item-box {
-  display: block;
-  width: 14px;
-  height: 14px;
-  border-radius: 2px;
-  margin-right: 10px;
-  margin: 0 auto;
 }
 
 .typicms-navbar {

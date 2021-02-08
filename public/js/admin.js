@@ -4997,11 +4997,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     field: {
@@ -5507,6 +5502,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     selectedFiles: function selectedFiles() {
       return this.selectedItems.filter(function (item) {
         return item.type !== 'f';
+      }).sort(function (a, b) {
+        return b.name.localeCompare(a.name);
       });
     }
   },
@@ -6010,9 +6007,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -6020,7 +6014,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: {
     label: {
-      type: String
+      type: String,
+      "default": 'Files'
     },
     initFiles: {
       type: Array,
@@ -7607,6 +7602,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7639,6 +7641,10 @@ __webpack_require__.r(__webpack_exports__);
     appends: {
       type: String,
       "default": ''
+    },
+    multilingual: {
+      type: Boolean,
+      "default": true
     }
   },
   data: function data() {
@@ -7661,7 +7667,10 @@ __webpack_require__.r(__webpack_exports__);
         query.push('append=' + this.appends);
       }
 
-      query.push('locale=' + this.currentLocale);
+      if (this.multilingual) {
+        query.push('locale=' + this.currentLocale);
+      }
+
       return this.urlBase + '?' + query.join('&');
     },
     filteredItems: function filteredItems() {
@@ -7774,14 +7783,21 @@ __webpack_require__.r(__webpack_exports__);
       var _this6 = this;
 
       var originalNode = JSON.parse(JSON.stringify(node)),
-          status = parseInt(node.data.status_translated) || 0,
+          status = this.multilingual ? parseInt(node.data.status_translated) : parseInt(node.data.status) || 0,
           newStatus = Math.abs(status - 1),
           data = {
         status: {}
       },
           label = newStatus === 1 ? 'published' : 'unpublished';
-      data.status[this.currentLocale] = newStatus;
-      node.data.status_translated = newStatus;
+
+      if (this.multilingual) {
+        data.status[this.currentLocale] = newStatus;
+        node.data.status_translated = newStatus;
+      } else {
+        data.status = newStatus;
+        node.data.status = newStatus;
+      }
+
       this.$refs.slVueTree.updateNode(node.path, node);
       axios.patch(this.urlBase + '/' + node.data.id, data).then(function (response) {
         alertify.success(_this6.$i18n.t('Item is ' + label + '.'));
@@ -33353,294 +33369,276 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "mb-4" }, [
-    _c("div", { staticClass: "mb-3" }, [
-      _c("label", { staticClass: "form-label", attrs: { for: _vm.field } }, [
-        _vm.label
-          ? _c("span", [_vm._v(" " + _vm._s(_vm.label) + " ")])
-          : _c("span", [
-              _vm._v(
-                "\n                " +
-                  _vm._s(
-                    _vm.type === "document"
-                      ? _vm.$t("Document")
-                      : _vm.$t("Image")
-                  ) +
-                  "\n            "
-              )
-            ])
-      ]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.fileId,
-            expression: "fileId"
-          }
-        ],
-        attrs: {
-          type: "hidden",
-          name: _vm.field,
-          id: _vm.field,
-          rel: _vm.field
-        },
-        domProps: { value: _vm.fileId },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.fileId = $event.target.value
-          }
+  return _c("div", [
+    _c("label", { staticClass: "form-label", attrs: { for: _vm.field } }, [
+      _vm.label
+        ? _c("span", [_vm._v(_vm._s(_vm.$t(_vm.label)))])
+        : _c("span", [
+            _vm._v(
+              "\n            " +
+                _vm._s(
+                  _vm.type === "document" ? _vm.$t("Document") : _vm.$t("Image")
+                ) +
+                "\n        "
+            )
+          ])
+    ]),
+    _vm._v(" "),
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.fileId,
+          expression: "fileId"
         }
-      }),
-      _vm._v(" "),
-      _c("div", [
-        _vm.file !== null
-          ? _c(
-              "div",
-              {
-                staticClass:
-                  "filemanager-item filemanager-item-with-name filemanager-item-removable"
-              },
-              [
-                _c("div", { staticClass: "filemanager-item-wrapper" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "filemanager-item-removable-button",
-                      attrs: { type: "button" },
-                      on: { click: _vm.remove }
-                    },
-                    [
-                      _c(
-                        "svg",
-                        {
+      ],
+      attrs: { type: "hidden", name: _vm.field, id: _vm.field, rel: _vm.field },
+      domProps: { value: _vm.fileId },
+      on: {
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.fileId = $event.target.value
+        }
+      }
+    }),
+    _vm._v(" "),
+    _c("div", [
+      _vm.file !== null
+        ? _c(
+            "div",
+            {
+              staticClass:
+                "filemanager-item filemanager-item-with-name filemanager-item-removable"
+            },
+            [
+              _c("div", { staticClass: "filemanager-item-wrapper" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "filemanager-item-removable-button",
+                    attrs: { type: "button" },
+                    on: { click: _vm.remove }
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        attrs: {
+                          width: "12",
+                          height: "12",
+                          viewBox: "0 0 1792 1792",
+                          fill: "currentColor",
+                          xmlns: "http://www.w3.org/2000/svg"
+                        }
+                      },
+                      [
+                        _c("path", {
                           attrs: {
-                            width: "12",
-                            height: "12",
-                            viewBox: "0 0 1792 1792",
-                            fill: "currentColor",
-                            xmlns: "http://www.w3.org/2000/svg"
+                            d:
+                              "M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"
                           }
-                        },
+                        })
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _vm.file.type === "i"
+                  ? _c("div", { staticClass: "filemanager-item-icon" }, [
+                      _c(
+                        "div",
+                        { staticClass: "filemanager-item-image-wrapper" },
                         [
-                          _c("path", {
-                            attrs: {
-                              d:
-                                "M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"
-                            }
+                          _c("img", {
+                            staticClass: "filemanager-item-image",
+                            attrs: { src: _vm.file.thumb_sm, alt: _vm.file.alt }
                           })
                         ]
                       )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _vm.file.type === "i"
-                    ? _c("div", { staticClass: "filemanager-item-icon" }, [
-                        _c(
-                          "div",
-                          { staticClass: "filemanager-item-image-wrapper" },
-                          [
-                            _c("img", {
-                              staticClass: "filemanager-item-image",
-                              attrs: {
-                                src: _vm.file.thumb_sm,
-                                alt: _vm.file.alt
-                              }
-                            })
-                          ]
-                        )
-                      ])
-                    : _c(
-                        "div",
-                        {
-                          staticClass: "filemanager-item-icon",
-                          class: "filemanager-item-icon-" + _vm.file.type
-                        },
-                        [
-                          _vm.file.type === "a"
-                            ? _c(
-                                "svg",
-                                {
-                                  staticClass: "bi bi-file-earmark-music",
+                    ])
+                  : _c(
+                      "div",
+                      {
+                        staticClass: "filemanager-item-icon",
+                        class: "filemanager-item-icon-" + _vm.file.type
+                      },
+                      [
+                        _vm.file.type === "a"
+                          ? _c(
+                              "svg",
+                              {
+                                staticClass: "bi bi-file-earmark-music",
+                                attrs: {
+                                  width: "80px",
+                                  height: "80px",
+                                  viewBox: "0 0 16 16",
+                                  fill: "currentColor",
+                                  xmlns: "http://www.w3.org/2000/svg"
+                                }
+                              },
+                              [
+                                _c("path", {
                                   attrs: {
-                                    width: "80px",
-                                    height: "80px",
-                                    viewBox: "0 0 16 16",
-                                    fill: "currentColor",
-                                    xmlns: "http://www.w3.org/2000/svg"
+                                    d:
+                                      "M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"
                                   }
-                                },
-                                [
-                                  _c("path", {
-                                    attrs: {
-                                      d:
-                                        "M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("path", {
-                                    attrs: {
-                                      d:
-                                        "M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("path", {
-                                    attrs: {
-                                      "fill-rule": "evenodd",
-                                      d:
-                                        "M9.757 5.67A1 1 0 0 1 11 6.64v1.75l-2 .5v3.61c0 .495-.301.883-.662 1.123C7.974 13.866 7.499 14 7 14c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 11.134 6.501 11 7 11c.356 0 .7.068 1 .196V6.89a1 1 0 0 1 .757-.97l1-.25z"
-                                    }
-                                  })
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.file.type === "v"
-                            ? _c(
-                                "svg",
-                                {
-                                  staticClass: "bi bi-file-earmark-play-fill",
+                                }),
+                                _vm._v(" "),
+                                _c("path", {
                                   attrs: {
-                                    width: "80px",
-                                    height: "80px",
-                                    viewBox: "0 0 16 16",
-                                    fill: "currentColor",
-                                    xmlns: "http://www.w3.org/2000/svg"
+                                    d: "M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"
                                   }
-                                },
-                                [
-                                  _c("path", {
-                                    attrs: {
-                                      "fill-rule": "evenodd",
-                                      d:
-                                        "M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zM6 6.883v4.234a.5.5 0 0 0 .757.429l3.528-2.117a.5.5 0 0 0 0-.858L6.757 6.454a.5.5 0 0 0-.757.43z"
-                                    }
-                                  })
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.file.type === "d"
-                            ? _c(
-                                "svg",
-                                {
-                                  staticClass: "bi bi-file-earmark",
+                                }),
+                                _vm._v(" "),
+                                _c("path", {
                                   attrs: {
-                                    width: "80px",
-                                    height: "80px",
-                                    viewBox: "0 0 16 16",
-                                    fill: "currentColor",
-                                    xmlns: "http://www.w3.org/2000/svg"
+                                    "fill-rule": "evenodd",
+                                    d:
+                                      "M9.757 5.67A1 1 0 0 1 11 6.64v1.75l-2 .5v3.61c0 .495-.301.883-.662 1.123C7.974 13.866 7.499 14 7 14c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 11.134 6.501 11 7 11c.356 0 .7.068 1 .196V6.89a1 1 0 0 1 .757-.97l1-.25z"
                                   }
-                                },
-                                [
-                                  _c("path", {
-                                    attrs: {
-                                      d:
-                                        "M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("path", {
-                                    attrs: {
-                                      d:
-                                        "M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"
-                                    }
-                                  })
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.file.type === "f"
-                            ? _c(
-                                "svg",
-                                {
-                                  staticClass: "bi bi-folder",
+                                })
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.file.type === "v"
+                          ? _c(
+                              "svg",
+                              {
+                                staticClass: "bi bi-file-earmark-play-fill",
+                                attrs: {
+                                  width: "80px",
+                                  height: "80px",
+                                  viewBox: "0 0 16 16",
+                                  fill: "currentColor",
+                                  xmlns: "http://www.w3.org/2000/svg"
+                                }
+                              },
+                              [
+                                _c("path", {
                                   attrs: {
-                                    width: "80px",
-                                    height: "80px",
-                                    viewBox: "0 0 16 16",
-                                    fill: "currentColor",
-                                    xmlns: "http://www.w3.org/2000/svg"
+                                    "fill-rule": "evenodd",
+                                    d:
+                                      "M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zM6 6.883v4.234a.5.5 0 0 0 .757.429l3.528-2.117a.5.5 0 0 0 0-.858L6.757 6.454a.5.5 0 0 0-.757.43z"
                                   }
-                                },
-                                [
-                                  _c("path", {
-                                    attrs: {
-                                      d:
-                                        "M9.828 4a3 3 0 0 1-2.12-.879l-.83-.828A1 1 0 0 0 6.173 2H2.5a1 1 0 0 0-1 .981L1.546 4h-1L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3v1z"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("path", {
-                                    attrs: {
-                                      "fill-rule": "evenodd",
-                                      d:
-                                        "M13.81 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4zM2.19 3A2 2 0 0 0 .198 5.181l.637 7A2 2 0 0 0 2.826 14h10.348a2 2 0 0 0 1.991-1.819l.637-7A2 2 0 0 0 13.81 3H2.19z"
-                                    }
-                                  })
-                                ]
-                              )
-                            : _vm._e()
-                        ]
-                      ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "filemanager-item-name" }, [
-                    _vm._v(_vm._s(_vm.file.name))
-                  ])
+                                })
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.file.type === "d"
+                          ? _c(
+                              "svg",
+                              {
+                                staticClass: "bi bi-file-earmark",
+                                attrs: {
+                                  width: "80px",
+                                  height: "80px",
+                                  viewBox: "0 0 16 16",
+                                  fill: "currentColor",
+                                  xmlns: "http://www.w3.org/2000/svg"
+                                }
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    d:
+                                      "M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("path", {
+                                  attrs: {
+                                    d: "M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"
+                                  }
+                                })
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.file.type === "f"
+                          ? _c(
+                              "svg",
+                              {
+                                staticClass: "bi bi-folder",
+                                attrs: {
+                                  width: "80px",
+                                  height: "80px",
+                                  viewBox: "0 0 16 16",
+                                  fill: "currentColor",
+                                  xmlns: "http://www.w3.org/2000/svg"
+                                }
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    d:
+                                      "M9.828 4a3 3 0 0 1-2.12-.879l-.83-.828A1 1 0 0 0 6.173 2H2.5a1 1 0 0 0-1 .981L1.546 4h-1L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3v1z"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("path", {
+                                  attrs: {
+                                    "fill-rule": "evenodd",
+                                    d:
+                                      "M13.81 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4zM2.19 3A2 2 0 0 0 .198 5.181l.637 7A2 2 0 0 0 2.826 14h10.348a2 2 0 0 0 1.991-1.819l.637-7A2 2 0 0 0 13.81 3H2.19z"
+                                  }
+                                })
+                              ]
+                            )
+                          : _vm._e()
+                      ]
+                    ),
+                _vm._v(" "),
+                _c("div", { staticClass: "filemanager-item-name" }, [
+                  _vm._v(_vm._s(_vm.file.name))
                 ])
-              ]
-            )
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("div", [
-        _vm.file === null
-          ? _c(
-              "button",
-              {
-                staticClass: "filemanager-field-btn-add",
-                attrs: { type: "button" },
-                on: { click: _vm.openFilepicker }
-              },
-              [
-                _c(
-                  "svg",
-                  {
-                    staticClass: "filemanager-field-btn-add-icon",
+              ])
+            ]
+          )
+        : _vm._e()
+    ]),
+    _vm._v(" "),
+    _vm.file === null
+      ? _c("div", { staticClass: "mb-3" }, [
+          _c(
+            "button",
+            {
+              staticClass: "filemanager-field-btn-add",
+              attrs: { type: "button" },
+              on: { click: _vm.openFilepicker }
+            },
+            [
+              _c(
+                "svg",
+                {
+                  staticClass: "filemanager-field-btn-add-icon",
+                  attrs: {
+                    width: "1em",
+                    height: "1em",
+                    viewBox: "0 0 16 16",
+                    fill: "currentColor",
+                    xmlns: "http://www.w3.org/2000/svg"
+                  }
+                },
+                [
+                  _c("path", {
                     attrs: {
-                      width: "1em",
-                      height: "1em",
-                      viewBox: "0 0 16 16",
-                      fill: "currentColor",
-                      xmlns: "http://www.w3.org/2000/svg"
+                      "fill-rule": "evenodd",
+                      d:
+                        "M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
                     }
-                  },
-                  [
-                    _c("path", {
-                      attrs: {
-                        "fill-rule": "evenodd",
-                        d:
-                          "M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
-                      }
-                    })
-                  ]
-                ),
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.$t("Add")) +
-                    "\n            "
-                )
-              ]
-            )
-          : _vm._e()
-      ])
-    ])
+                  })
+                ]
+              ),
+              _vm._v("\n            " + _vm._s(_vm.$t("Add")) + "\n        ")
+            ]
+          )
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -34358,7 +34356,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "mb-4" },
     [
       _c("input", {
         attrs: { type: "hidden", name: "file_ids" },
@@ -34367,9 +34364,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "mb-3" }, [
         _c("label", { staticClass: "form-label" }, [
-          _vm.label
-            ? _c("span", [_vm._v(_vm._s(_vm.label))])
-            : _c("span", [_vm._v(_vm._s(_vm.$t("Files")))])
+          _vm._v(_vm._s(_vm.$t(_vm.label)))
         ]),
         _vm._v(" "),
         _c("p", [
@@ -35828,7 +35823,7 @@ var render = function() {
               : _vm._e()
           ]),
           _vm._v(" "),
-          _vm.locales.length > 1
+          _vm.multilingual && _vm.locales.length > 1
             ? _c("div", { staticClass: "btn-group btn-group-sm ms-auto" }, [
                 _c(
                   "button",
@@ -35958,18 +35953,31 @@ var render = function() {
                     )
                   : _vm._e(),
                 _vm._v(" "),
-                _c("div", {
-                  staticClass: "btn btn-xs btn-link btn-status me-1",
-                  class:
-                    node.data.status_translated === 1
-                      ? "btn-status-on"
-                      : "btn-status-off",
-                  on: {
-                    click: function($event) {
-                      return _vm.toggleStatus(node)
-                    }
-                  }
-                }),
+                _vm.multilingual
+                  ? _c("div", {
+                      staticClass: "btn btn-xs btn-link btn-status me-1",
+                      class:
+                        node.data.status_translated === 1
+                          ? "btn-status-on"
+                          : "btn-status-off",
+                      on: {
+                        click: function($event) {
+                          return _vm.toggleStatus(node)
+                        }
+                      }
+                    })
+                  : _c("div", {
+                      staticClass: "btn btn-xs btn-link btn-status me-1",
+                      class:
+                        node.data.status === 1
+                          ? "btn-status-on"
+                          : "btn-status-off",
+                      on: {
+                        click: function($event) {
+                          return _vm.toggleStatus(node)
+                        }
+                      }
+                    }),
                 _vm._v(" "),
                 node.data.is_home === 1
                   ? _c(
@@ -36035,9 +36043,16 @@ var render = function() {
                     )
                   : _vm._e(),
                 _vm._v(" "),
-                _c("div", { staticClass: "title" }, [
-                  _vm._v(_vm._s(node.data.title_translated))
-                ]),
+                _c("div", {
+                  staticClass: "title",
+                  domProps: {
+                    innerHTML: _vm._s(
+                      _vm.multilingual
+                        ? node.data.title_translated
+                        : node.data.title
+                    )
+                  }
+                }),
                 _vm._v(" "),
                 node.data.redirect === 1
                   ? _c(
