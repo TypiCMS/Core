@@ -529,7 +529,7 @@ export default {
                 });
         },
         toggleStatus(model) {
-            let multilingual = typeof (model.status_translated) !== 'undefined' ? this.multilingual : false,
+            let multilingual = typeof model.status_translated !== 'undefined' ? this.multilingual : false,
                 status = multilingual ? model.status_translated : model.status,
                 newStatus = Math.abs(status - 1),
                 data = {
