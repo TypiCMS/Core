@@ -529,29 +529,29 @@ export default {
                 });
         },
         toggleStatus(model) {
-          let multilingual = typeof(model.status_translated) !== 'undefined' ? this.multilingual : false,
-              status = multilingual ? model.status_translated : model.status,
-              newStatus = Math.abs(status - 1),
-              data = {
-                status: {},
-              },
-              label = newStatus === 1 ? 'published' : 'unpublished';
+            let multilingual = typeof (model.status_translated) !== 'undefined' ? this.multilingual : false,
+                status = multilingual ? model.status_translated : model.status,
+                newStatus = Math.abs(status - 1),
+                data = {
+                    status: {},
+                },
+                label = newStatus === 1 ? 'published' : 'unpublished';
 
-          if (multilingual) {
-            model.status_translated = newStatus;
-            data.status[this.currentLocale] = newStatus;
-          } else {
-            model.status = newStatus;
-            data.status = newStatus;
-          }
-          axios
-              .patch(this.urlBase + '/' + model.id, data)
-              .then((response) => {
-                alertify.success(this.$i18n.t('Item is ' + label + '.'));
-              })
-              .catch((error) => {
-                alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
-              });
+            if (multilingual) {
+                model.status_translated = newStatus;
+                data.status[this.currentLocale] = newStatus;
+            } else {
+                model.status = newStatus;
+                data.status = newStatus;
+            }
+            axios
+                .patch(this.urlBase + '/' + model.id, data)
+                .then((response) => {
+                    alertify.success(this.$i18n.t('Item is ' + label + '.'));
+                })
+                .catch((error) => {
+                    alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
+                });
         },
         updatePosition(model) {
             let data = {
