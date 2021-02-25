@@ -44,7 +44,7 @@ abstract class Base extends Model
 
     public function scopePublished(Builder $query): Builder
     {
-        if (request('preview')) {
+        if (auth()->check() && auth()->user()->can('see unpublished items') && request('preview')) {
             return $query;
         }
         $field = 'status';

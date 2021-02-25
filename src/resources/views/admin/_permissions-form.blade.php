@@ -27,6 +27,10 @@
         {!! Form::checkbox('permissions[]', 'clear history')->id('permission-clear-history')->addClass('form-check-input') !!}
         <label class="form-check-label" for="permission-clear-history">@lang('Empty history')</label>
     </div>
+    <div class="form-check">
+        {!! Form::checkbox('permissions[]', 'see unpublished items')->id('permission-see-unpublished-items')->addClass('form-check-input') !!}
+        <label class="form-check-label" for="permission-see-unpublished-items">@lang('Preview unpublished items')</label>
+    </div>
 </div>
 
 <div class="permissions-modules">
