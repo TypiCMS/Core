@@ -14,7 +14,12 @@
                         <span v-else>{{ folder.name }}</span>
                     </div>
                 </h1>
-                <button type="button" class="btn btn-sm btn-primary header-btn-add" id="btnAddFiles" v-if="dropzone">
+                <button
+                    type="button"
+                    class="btn btn-sm btn-primary header-btn-add"
+                    id="upload-files-button"
+                    v-if="dropzone"
+                >
                     <svg
                         class="me-1"
                         width="1em"
@@ -64,32 +69,38 @@
                     </svg>
                     {{ $t('New folder') }}
                 </button>
-                <div class="btn-group btn-group-sm dropdown me-2">
+                <div class="btn-group btn-group-sm me-2">
                     <button
                         class="btn btn-light dropdown-toggle"
-                        :class="{ disabled: !selectedItems.length }"
+                        :class=""
                         type="button"
-                        id="dropdownMenu1"
+                        id="dropdown-action-button"
                         data-bs-toggle="dropdown"
                         aria-haspopup="true"
                         aria-expanded="true"
                     >
                         {{ $t('Action') }}
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <button class="dropdown-item" type="button" @click="deleteSelected">
+
+                    <div class="dropdown-menu" aria-labelledby="dropdown-action-button">
+                        <button
+                            class="dropdown-item"
+                            type="button"
+                            @click="deleteSelected"
+                            :disabled="selectedFiles.length === 0"
+                        >
                             {{ $t('Delete') }}
                         </button>
                         <button
                             class="dropdown-item"
-                            :class="{ disabled: !folder.id }"
                             type="button"
                             @click="moveToParentFolder()"
+                            :disabled="!folder.id || selectedFiles.length === 0"
                         >
                             {{ $t('Move to parent folder') }}
                         </button>
                         <div class="dropdown-divider"></div>
-                        <button class="dropdown-item disabled" type="button">
+                        <button class="dropdown-item" type="button" disabled="disabled">
                             {{
                                 $tc('# items selected', selectedItems.length, {
                                     count: selectedItems.length,
@@ -268,21 +279,21 @@
             <button
                 class="btn btn-success filemanager-btn-add btn-add-multiple"
                 type="button"
-                :disabled="selectedFiles.length < 1"
                 @click="addSelectedFiles()"
-                id="btn-add-selected-files"
+                id="add-selected-files-button"
                 v-if="options.multiple"
+                :disabled="selectedFiles.length < 1"
             >
                 {{ $t('Add selected files') }}
             </button>
 
             <button
                 class="btn btn-success filemanager-btn-add btn-add-single"
-                :disabled="selectedFiles.length !== 1"
                 type="button"
                 @click="addSingleFile(selectedFiles[0])"
-                id="btn-add-selected-file"
+                id="add-selected-file-button"
                 v-if="options.single"
+                :disabled="selectedFiles.length !== 1"
             >
                 {{ $t('Add selected file') }}
             </button>
@@ -343,7 +354,7 @@ export default {
                 overlay: this.overlay,
             },
             dropOptions: {
-                clickable: ['#btnAddFiles'],
+                clickable: ['#upload-files-button'],
                 url: '/api/files',
                 dictDefaultMessage: this.$i18n.t('Drop to upload.'),
                 acceptedFiles: [
