@@ -10,10 +10,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
 
+/**
+ * @deprecated
+ */
 class SetLocale
 {
     /**
      * Handle an incoming request.
+     *
+     * @deprecated
      *
      * @return mixed
      */
@@ -56,6 +61,9 @@ class SetLocale
         return $next($request);
     }
 
+    /**
+     * @deprecated
+     */
     private function getBrowserLanguageOrDefault()
     {
         if ($browserLanguage = getenv('HTTP_ACCEPT_LANGUAGE')) {

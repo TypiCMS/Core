@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 
 class AdminLocale
@@ -24,7 +25,7 @@ class AdminLocale
 
         // Set app.locale to user locale or value in config
         $adminLocale = auth()->user()->locale ?? config('typicms.admin_locale');
-        app()->setLocale($adminLocale);
+        App::setLocale($adminLocale);
         config(['typicms.admin_locale' => $adminLocale]);
 
         // Set translatable locale to locale
