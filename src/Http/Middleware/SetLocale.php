@@ -19,9 +19,9 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next)
     {
-        $locale = config('app.locale');
+        $locale = App::getLocale();
         $firstSegment = $request->segment(1);
-        if (in_array($firstSegment, locales())) {
+        if (in_array($firstSegment, TypiCMS::enabledLocales())) {
             $locale = $firstSegment;
             App::setLocale($locale);
         }
@@ -29,7 +29,7 @@ class SetLocale
         // Add locale prefix to URL if required.
         if (
             $firstSegment !== 'admin' &&
-            !in_array($firstSegment, locales()) &&
+            !in_array($firstSegment, TypiCMS::enabledLocales()) &&
             config('typicms.main_locale_in_url')
         ) {
             $segments = $request->segments();
