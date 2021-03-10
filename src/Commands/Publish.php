@@ -63,7 +63,6 @@ class Publish extends Command
         if (class_exists($provider)) {
             $this->call('vendor:publish', ['--provider' => $provider]);
             $this->publishModule();
-            $this->moveMigrationFiles();
             $this->uninstallFromComposer();
         } else {
             throw new Exception($provider.' not found, did you add it to config/app.php?');
@@ -129,24 +128,6 @@ class Publish extends Command
         $to = str_replace(base_path(), '', realpath($to));
 
         $this->line('<info>Copied '.$type.'</info> <comment>['.$from.']</comment> <info>To</info> <comment>['.$to.']</comment>');
-    }
-
-    /**
-     * Move migration files.
-     */
-    public function moveMigrationFiles()
-    {
-        $databaseDirectory = base_path('Modules/'.$this->module.'/database');
-        if (!$this->files->exists($databaseDirectory.'/migrations')) {
-            return;
-        }
-        $files = $this->files->files($databaseDirectory.'/migrations');
-        foreach ($files as $from) {
-            $file = basename($from);
-            $to = base_path('database/migrations/'.$file);
-            $this->files->move($from, $to);
-        }
-        $this->files->deleteDirectory($databaseDirectory);
     }
 
     /**
