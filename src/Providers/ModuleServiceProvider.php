@@ -29,16 +29,16 @@ class ModuleServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
 
-        $this->loadViewsFrom(__DIR__.'/../resources/views/', 'core');
+        $this->loadViewsFrom(__DIR__.'/../../resources/views/', 'core');
 
         $this->publishes([
-            __DIR__.'/../resources/views' => resource_path('views/vendor/core'),
-            __DIR__.'/../resources/views/errors' => resource_path('views/errors'),
+            __DIR__.'/../../resources/views' => resource_path('views/vendor/core'),
+            __DIR__.'/../../resources/views/errors' => resource_path('views/errors'),
         ], 'views');
 
         $this->publishes([
-            __DIR__.'/../resources/js' => resource_path('js'),
-            __DIR__.'/../resources/scss' => resource_path('scss'),
+            __DIR__.'/../../resources/js' => resource_path('js'),
+            __DIR__.'/../../resources/scss' => resource_path('scss'),
         ], 'resources');
 
         $this->publishes([
@@ -46,7 +46,7 @@ class ModuleServiceProvider extends ServiceProvider
         ], 'public');
 
         $this->publishes([
-            __DIR__.'/../database/seeders/DatabaseSeeder.php' => database_path('seeders/DatabaseSeeder.php'),
+            __DIR__.'/../../database/seeders/DatabaseSeeder.php' => database_path('seeders/DatabaseSeeder.php'),
         ], 'seeders');
 
         /*
