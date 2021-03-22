@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import ItemListPagination from './ItemListPagination';
+import ItemListPagination from './ItemListPagination.vue';
 
 export default {
     components: {

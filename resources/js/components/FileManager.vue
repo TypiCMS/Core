@@ -302,7 +302,7 @@
 </template>
 
 <script>
-import ItemListActions from './ItemListActions';
+import ItemListActions from './ItemListActions.vue';
 import vueDropzone from 'vue2-dropzone';
 
 export default {

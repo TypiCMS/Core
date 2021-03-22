@@ -168,8 +168,8 @@
 
 <script>
 import SlVueTree from 'sl-vue-tree';
-import ItemListSelector from './ItemListSelector';
-import ItemListActions from './ItemListActions';
+import ItemListSelector from './ItemListSelector.vue';
+import ItemListActions from './ItemListActions.vue';
 
 export default {
     components: {

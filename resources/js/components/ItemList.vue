@@ -141,11 +141,11 @@
 </template>
 
 <script>
-import ItemListSelector from './ItemListSelector';
-import ItemListActions from './ItemListActions';
-import ItemListPerPage from './ItemListPerPage';
-import ItemListStatusButton from './ItemListStatusButton';
-import ItemListPagination from './ItemListPagination';
+import ItemListSelector from './ItemListSelector.vue';
+import ItemListActions from './ItemListActions.vue';
+import ItemListPerPage from './ItemListPerPage.vue';
+import ItemListStatusButton from './ItemListStatusButton.vue';
+import ItemListPagination from './ItemListPagination.vue';
 
 export default {
     components: {
