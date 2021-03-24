@@ -70,9 +70,11 @@ class Install extends Command
             $this->info('Running yarn...');
             system('yarn');
             $this->info('npm packages installed.');
+            system('npm run dev');
+            $this->info('Assets compiled.');
         } else {
-            $this->line('You can now make /storage, /bootstrap/cache directories writable.');
-            $this->line('and run composer install and npm install.');
+            $this->line('You can now make /storage, /bootstrap/cache directories writable,');
+            $this->line('run "composer install", "npm install", and finally "npm run dev".');
         }
 
         // Done
