@@ -1,25 +1,18 @@
-$box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
-$padding-base: 12px;
-$success-color: rgba(76, 175, 80, 0.9);
-$danger-color: rgba(244, 67, 54, 0.8);
-$text-color: rgba(0, 0, 0, 0.8);
-$border-radius: 1px;
-
 .alertify-logs {
     > * {
-        padding: $padding-base $padding-base * 2;
+        padding: $spacer $spacer * 2;
         color: #fff;
-        box-shadow: $box-shadow;
-        border-radius: $border-radius;
+        box-shadow: $box-shadow-sm;
+        border-radius: $border-radius-sm;
         &,
         &.default {
             background: rgba(0, 0, 0, 0.8);
         }
         &.error {
-            background: $danger-color;
+            background: $danger;
         }
         &.success {
-            background: $success-color;
+            background: $success;
         }
     }
 }
@@ -68,15 +61,15 @@ $border-radius: 1px;
             max-width: 95%;
             margin: 0 auto;
             text-align: center;
-            padding: $padding-base;
+            padding: $spacer;
             background: #fff;
             box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.14), 0 4px 5px 0 rgba(0, 0, 0, 0.098),
                 0 1px 10px 0 rgba(0, 0, 0, 0.084);
         }
 
         .msg {
-            padding: $padding-base;
-            margin-bottom: $padding-base;
+            padding: $spacer;
+            margin-bottom: $spacer;
             margin: 0;
             text-align: left;
         }
@@ -85,12 +78,12 @@ $border-radius: 1px;
             margin-bottom: 15px;
             width: 100%;
             font-size: 100%;
-            padding: $padding-base;
+            padding: $spacer;
             &:focus {
                 outline-offset: -2px;
             }
             &.invalid {
-                border-left: 2px solid $danger-color;
+                border-left: 2px solid $danger;
             }
         }
         nav {
@@ -225,10 +218,10 @@ $border-radius: 1px;
         }
 
         &.show {
-            margin-top: $padding-base;
+            margin-top: $spacer;
             opacity: 1;
             max-height: 1000px;
-            padding: $padding-base;
+            padding: $spacer;
             pointer-events: auto;
         }
     }
