@@ -13,15 +13,23 @@ axios
     });
 
 // dialogDefinition
-CKEDITOR.on('dialogDefinition', function(event) {
+CKEDITOR.on('dialogDefinition', function (event) {
     var editor = event.editor;
     var dialogDefinition = event.data.definition;
     var dialogName = event.data.name;
 
-    var cleanUpFuncRef = CKEDITOR.tools.addFunction(function() {
-        $('#filepicker')
-            .data('CKEditorCleanUpFuncNum', 0)
-            .data('CKEditorFuncNum', 0);
+    // table config
+    if (dialogName === 'table') {
+        var info = dialogDefinition.getContents('info');
+        info.get('txtWidth')['default'] = '100%';
+        info.get('txtBorder')['default'] = '0';
+        info.get('txtCellPad')['default'] = '0';
+        info.get('txtCellSpace')['default'] = '0';
+    }
+
+    // filepicker
+    var cleanUpFuncRef = CKEDITOR.tools.addFunction(function () {
+        $('#filepicker').data('CKEditorCleanUpFuncNum', 0).data('CKEditorFuncNum', 0);
         $('html, body').removeClass('noscroll');
     });
 
@@ -31,7 +39,7 @@ CKEDITOR.on('dialogDefinition', function(event) {
 
         if (browseButton !== null) {
             browseButton.hidden = false;
-            browseButton.onClick = function(dialog, i) {
+            browseButton.onClick = function (dialog, i) {
                 editor._.filebrowserSe = this;
 
                 new Vue({
