@@ -18,9 +18,10 @@ class PublicAccess
     public function handle(Request $request, Closure $next)
     {
         if (
-            !in_array($request->ip(), config('typicms.authorized_ips', [])) &&
-            config('typicms.auth_public') &&
-            !Auth::check()
+            !in_array($request->ip(), config('typicms.authorized_ips', []))
+            && config('typicms.auth_public')
+            && !Auth::check()
+            && !Route::is('*::login*')
         ) {
             if ($request->ajax()) {
                 return Response::make('Unauthorized', 401);
