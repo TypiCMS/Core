@@ -21,14 +21,13 @@ class FilterOr implements Filter
                 if (in_array($column, (array) $query->getModel()->translatable)) {
                     if (config('typicms.postgresql') === true) {
                         $query->orWhereRaw(
-                            '(' .$column.'::json->>\''.request('locale'). '\' ) ~*  \''.$value.'\''
+                            '('.$column.'::json->>\''.request('locale').'\' ) ~*  \''.$value.'\''
                         );
                     } else {
                         $query->orWhereRaw(
                             'JSON_UNQUOTE(JSON_EXTRACT(`'.$column.'`, \'$.'.request('locale').'\')) LIKE \'%'.$value.'%\' COLLATE '.(DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci')
                         );
                     }
-
                 } else {
                     if (config('typicms.postgresql') === true) {
                         $query->orWhereRaw($column.' ~* \''.$value.'\' ');

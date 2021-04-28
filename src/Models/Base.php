@@ -85,7 +85,7 @@ abstract class Base extends Model
                 if ($field === 'status') {
                     if (config('typicms.postgresql') === true) {
                         $query->selectRaw('
-                            (' .$field.'::json->>\''.$locale . '\' )::int AS '.$field.'_translated
+                            ('.$field.'::json->>\''.$locale.'\' )::int AS '.$field.'_translated
                         ');
                     } else {
                         $query
@@ -100,11 +100,11 @@ abstract class Base extends Model
                         $query
                             ->selectRaw('
                                 CASE WHEN
-                                    '. $field.'::json->>\''.$locale . '\'  = null
+                                    '.$field.'::json->>\''.$locale.'\'  = null
                                 THEN
                                     NULL
                                 ELSE
-                                    '. $field.'::json->>\''.$locale . '\'
+                                    '.$field.'::json->>\''.$locale.'\'
                                 END
                                 AS  '.$field.'_translated
                             ');
