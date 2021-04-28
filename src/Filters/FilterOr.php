@@ -29,11 +29,7 @@ class FilterOr implements Filter
                         );
                     }
                 } else {
-                    if (config('typicms.postgresql') === true) {
-                        $query->orWhereRaw($column.' ~* \''.$value.'\' ');
-                    } else {
-                        $query->orWhere($column, 'like', '%'.$value.'%');
-                    }
+                    $query->orWhere($column, 'like', '%'.$value.'%');
                 }
             }
         });
