@@ -16,7 +16,8 @@ class JavaScriptData
     {
         $data = [
             'content_locale' => config('typicms.content_locale'),
-            'locale' => config('app.locale'),
+            'locale' => app()->getLocale(),
+            'locale_country' => config('typicms.locales')[app()->getLocale()] ?? '',
         ];
         foreach (locales() as $locale) {
             $data['locales'][] = [
