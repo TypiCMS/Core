@@ -1,0 +1,4 @@
+.ckeditor-html5-video[data-responsive='true'] {
+    @extend .ratio;
+    @extend .ratio-16x9;
+}
