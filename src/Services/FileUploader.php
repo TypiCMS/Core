@@ -5,7 +5,6 @@ namespace TypiCMS\Modules\Core\Services;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class FileUploader
 {
@@ -26,7 +25,7 @@ class FileUploader
         $filesize = $file->getSize();
         $mimetype = $file->getClientMimeType();
         $extension = mb_strtolower($file->getClientOriginalExtension());
-        $fileName = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
+        $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $filename = $fileName.'.'.$extension;
         list($width, $height) = getimagesize($file);
 
