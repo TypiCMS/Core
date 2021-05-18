@@ -4,6 +4,7 @@
 @import 'node_modules/@fancyapps/fancybox/dist/jquery.fancybox';
 @import 'public/page';
 @import 'public/errors';
+@import 'public/skip-to-content';
 @import 'public/pagination';
 @import 'public/site-header';
 @import 'public/site-footer';
@@ -21,25 +22,6 @@
 @import 'public/document-list';
 @import 'public/image-list';
 @import 'public/social-links';
-
-.skip-to-content {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    width: 100vw;
-    top: 0;
-    z-index: 1000;
-    &-link {
-        @include visually-hidden-focusable;
-        &:active,
-        &:focus {
-            background-color: $black;
-            color: $white;
-            padding: 0.25rem 1rem;
-            text-decoration: none;
-        }
-    }
-}
 
 table {
     @extend .table;

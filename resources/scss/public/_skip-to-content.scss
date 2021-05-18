@@ -1,0 +1,18 @@
+.skip-to-content {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    &-link {
+        @include visually-hidden-focusable;
+        &:active,
+        &:focus {
+            background-color: $black;
+            color: $white;
+            padding: 0.25rem 1rem;
+            text-decoration: none;
+        }
+    }
+}
