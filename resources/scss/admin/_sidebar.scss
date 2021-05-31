@@ -46,14 +46,12 @@ $sidebar-width: 260px;
 .nav-sidebar {
     padding: 0;
     > li {
+        height: 44px;
         display: flex;
+        position: relative;
         &:hover {
             .append {
-                color: rgba($white, 0.4);
-                display: block;
-                &:hover {
-                    color: $gray-300 !important;
-                }
+                display: flex;
             }
         }
 
@@ -64,19 +62,28 @@ $sidebar-width: 260px;
             align-items: center;
             text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.5);
             color: $gray-200;
-            padding: 10px 20px;
+            padding: 0 20px;
 
             &.append {
                 flex-grow: 0;
                 display: none;
+                height: 44px;
+                position: absolute;
+                right: 0;
+                color: rgba($white, 0.4) !important;
+                &:hover {
+                    color: $gray-300 !important;
+                }
             }
 
             .icon {
                 color: $gray-500;
                 margin-right: 10px;
+                display: flex;
             }
 
             div {
+                white-space: nowrap;
             }
 
             &:hover,
