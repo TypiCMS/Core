@@ -358,8 +358,8 @@
             display: block;
             top: 50%;
             left: 50%;
-            margin-left: -($image-width / 2);
-            margin-top: -($image-height / 2);
+            margin-left: -divide($image-width, 2);
+            margin-top: -divide($image-height, 2);
 
             svg {
                 display: block;
@@ -478,7 +478,7 @@
                 content: '';
                 position: absolute;
                 bottom: -6px;
-                left: $width / 2 - 6px;
+                left: divide($width, 2) - 6px;
                 width: 0;
                 height: 0;
                 border-left: 6px solid transparent;

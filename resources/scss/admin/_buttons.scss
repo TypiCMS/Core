@@ -3,8 +3,7 @@
         divide($btn-padding-y-sm, 4),
         divide($btn-padding-x-sm, 1.2),
         0.75rem,
-        $btn-line-height-sm,
-        $btn-border-radius-sm
+        divide($btn-border-radius-sm, 1.5)
     );
 }
 
