@@ -5,8 +5,8 @@ $height: 75vh;
     display: none;
     z-index: 10050;
     position: fixed;
-    top: divide(100 - $height, 2) - 3;
-    left: divide(100 - $width, 2);
+    top: divide(100 - $height, 2) - 3vh;
+    left: divide(100 - $width, 2) + 0vw;
 
     &-open {
         display: block;
@@ -16,7 +16,7 @@ $height: 75vh;
         height: $height;
         width: $width;
         background-color: #fff;
-        overflow: scroll;
+        overflow: auto;
     }
 
     &:after {
@@ -61,7 +61,7 @@ $height: 75vh;
         position: fixed;
         height: 50px;
         top: divide(100 - $height, 2) - 3 + $height;
-        left: divide(100 - $width, 2);
+        left: divide(100 - $width, 2) + 0vw;
         width: $width;
     }
 }
