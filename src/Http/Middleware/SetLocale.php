@@ -33,9 +33,9 @@ class SetLocale
 
         // Add locale prefix to URL if required.
         if (
-            $firstSegment !== 'admin' &&
-            !in_array($firstSegment, TypiCMS::enabledLocales()) &&
-            config('typicms.main_locale_in_url')
+            $firstSegment !== 'admin'
+            && !in_array($firstSegment, TypiCMS::enabledLocales())
+            && config('typicms.main_locale_in_url')
         ) {
             $segments = $request->segments();
             $segments = Arr::prepend($segments, $this->getBrowserLanguageOrDefault());
