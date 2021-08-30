@@ -25,7 +25,7 @@ class TypiCMS
     {
         $locales = [];
         foreach (locales() as $locale) {
-            if (config('typicms.'.$locale.'.status')) {
+            if (config('typicms.'.$locale.'.status') || request('preview')) {
                 $locales[] = $locale;
             }
         }

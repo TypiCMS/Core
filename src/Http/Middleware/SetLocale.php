@@ -48,8 +48,8 @@ class SetLocale
 
         setlocale(LC_ALL, $localeAndCountry.'.utf8', $localeAndCountry.'.utf-8', $localeAndCountry.'.UTF-8', $localeAndCountry);
 
-        // Throw a 404 if website in this language is offline
-        if ($firstSegment !== 'admin' && !config('typicms.'.$locale.'.status')) {
+        // Throw a 404 if the website in this language is offline and we are not in preview mode.
+        if ($firstSegment !== 'admin' && !config('typicms.'.$locale.'.status') && !$request->input('preview')) {
             abort(404);
         }
 
