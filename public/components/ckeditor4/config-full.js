@@ -13,6 +13,7 @@ for (var i = 0; i < editors.length; ++i) {
             { items: ['Maximize', 'ShowBlocks', 'Source'] },
         ],
         entities: false,
+        emailProtection: 'encode',
         format_tags: 'p;h1;h2;h3;h4;h5;h6;pre;address;div',
         stylesSet: [
             { name: 'Button 1', element: 'a', attributes: { class: 'btn btn-primary' } },
