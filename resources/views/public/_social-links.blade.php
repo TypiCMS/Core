@@ -7,7 +7,7 @@
             </a>
         </li>
         <li class="social-links-item">
-            <a class="social-links-link social-links-twitter" href="https://twitter.com/intent/tweet?text={{ urlencode($model->title) }}&url={{ url()->current() }}" target="_blank" rel="noopener noreferrer">
+            <a class="social-links-link social-links-twitter" href="https://twitter.com/intent/tweet?text={{ rawurlencode($model->title) }}&url={{ url()->current() }}" target="_blank" rel="noopener noreferrer">
                 <span class="social-links-icon social-links-twitter-icon"></span>
                 <span class="visually-hidden">@lang('Share on Twitter')</span>
             </a>
@@ -25,7 +25,7 @@
             </a>
         </li>
         <li class="social-links-item">
-            <a class="social-links-link social-links-mail" href="mailto:?subject={{ urlencode($model->title) }}&body={{ url()->current() }}" target="_blank" rel="noopener noreferrer">
+            <a class="social-links-link social-links-mail" href="mailto:?subject={{ rawurlencode($model->title) }}&body={{ url()->current() }}" target="_blank" rel="noopener noreferrer">
                 <span class="social-links-icon social-links-mail-icon"></span>
                 <span class="visually-hidden">@lang('Share via mail')</span>
             </a>
