@@ -87,7 +87,7 @@
                             class="dropdown-item"
                             type="button"
                             @click="deleteSelected"
-                            :disabled="selectedFiles.length === 0"
+                            :disabled="selectedItems.length === 0"
                         >
                             {{ $t('Delete') }}
                         </button>
@@ -742,14 +742,6 @@ export default {
         },
         deleteSelected() {
             const deleteLimit = 100;
-
-            for (let item of this.selectedItems) {
-                if (item.children.length > 0) {
-                    alertify.error(this.$i18n.t('A non-empty folder cannot be deleted.'));
-                    let index = this.selectedItems.indexOf(item);
-                    this.selectedItems.splice(index, 1);
-                }
-            }
 
             if (this.selectedItems.length > deleteLimit) {
                 alertify.error(
