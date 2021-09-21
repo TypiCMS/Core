@@ -500,9 +500,13 @@ export default {
             }
         },
         dropzoneError(file, message, xhr) {
-            file.previewElement.querySelectorAll('.dz-error-message span')[0].textContent = Object.values(
-                message.errors
-            )[0];
+            let errorMessage = '';
+            if (typeof message.message !== 'undefined') {
+                errorMessage = message.message;
+            } else {
+                errorMessage = Object.values(message.errors)[0];
+            }
+            file.previewElement.querySelectorAll('.dz-error-message span')[0].textContent = errorMessage;
         },
         dragStart(item, event) {
             event.dataTransfer.setData('text', '');
