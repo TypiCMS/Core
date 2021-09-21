@@ -302,12 +302,10 @@
 </template>
 
 <script>
-import ItemListActions from './ItemListActions.vue';
 import vueDropzone from 'vue2-dropzone';
 
 export default {
     components: {
-        ItemListActions,
         vueDropzone,
     },
     props: {
@@ -501,10 +499,10 @@ export default {
         },
         dropzoneError(file, message, xhr) {
             let errorMessage = '';
-            if (typeof message.message !== 'undefined') {
-                errorMessage = message.message;
-            } else {
+            if (typeof message.errors !== 'undefined') {
                 errorMessage = Object.values(message.errors)[0];
+            } else {
+                errorMessage = message.message;
             }
             file.previewElement.querySelectorAll('.dz-error-message span')[0].textContent = errorMessage;
         },
