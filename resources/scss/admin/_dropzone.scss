@@ -149,7 +149,7 @@
         padding: 12px;
         background-color: #fff;
         display: block;
-        position: absolute;
+        position: fixed;
         bottom: 0;
         height: auto;
         left: 0;
@@ -358,8 +358,8 @@
             display: block;
             top: 50%;
             left: 50%;
-            margin-left: -divide($image-width, 2);
-            margin-top: -divide($image-height, 2);
+            margin-left: divide($image-width, -2);
+            margin-top: divide($image-height, -2);
 
             svg {
                 display: block;
