@@ -9,24 +9,17 @@ use Illuminate\Support\Str;
 
 class FileUploader
 {
-    /**
-     * Handle the file upload. Returns the array on success, or false
-     * on failure.
-     *
-     * @param string $path where to upload file
-     * @param mixed  $disk
-     *
-     * @return array|bool
-     */
-    public function handle(UploadedFile $file, $path = 'files', $disk = null)
+    public function handle(UploadedFile $file, string $path = 'files', ?string $disk = null): array
     {
         if ($disk === null) {
             $disk = config('filesystems.default');
         }
-        $this->correctImageOrientation($file);
+        $extension = mb_strtolower($file->getClientOriginalExtension());
+        if (in_array($extension, ['jpg', 'jpeg'])) {
+            $this->correctImageOrientation($file);
+        }
         $filesize = $file->getSize();
         $mimetype = $file->getClientMimeType();
-        $extension = mb_strtolower($file->getClientOriginalExtension());
         $fileName = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
         $filename = $fileName.'.'.$extension;
         list($width, $height) = getimagesize($file);
@@ -47,7 +40,7 @@ class FileUploader
             return;
         }
         $exif = exif_read_data($file);
-        if (!$exif || !isset($exif['Orientation'])) {
+        if (empty($exif) || !isset($exif['Orientation'])) {
             return;
         }
         $orientation = $exif['Orientation'];
