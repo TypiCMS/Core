@@ -23,6 +23,7 @@ class FileUploader
         if ($disk === null) {
             $disk = config('filesystems.default');
         }
+        $this->correctImageOrientation($file);
         $filesize = $file->getSize();
         $mimetype = $file->getClientMimeType();
         $extension = mb_strtolower($file->getClientOriginalExtension());
@@ -38,5 +39,43 @@ class FileUploader
         $type = Arr::get(config('file.types'), $extension, 'd');
 
         return compact('filesize', 'mimetype', 'extension', 'filename', 'width', 'height', 'path', 'type');
+    }
+
+    private function correctImageOrientation(UploadedFile $file): void
+    {
+        if (!function_exists('exif_read_data')) {
+            return;
+        }
+        $exif = exif_read_data($file);
+        if (!$exif || !isset($exif['Orientation'])) {
+            return;
+        }
+        $orientation = $exif['Orientation'];
+        if ($orientation !== 1) {
+            $img = imagecreatefromjpeg($file);
+            $deg = 0;
+
+            switch ($orientation) {
+                    case 3:
+                        $deg = 180;
+
+                        break;
+
+                    case 6:
+                        $deg = 270;
+
+                        break;
+
+                    case 8:
+                        $deg = 90;
+
+                        break;
+                }
+            if ($deg) {
+                $img = imagerotate($img, $deg, 0);
+            }
+            // then rewrite the rotated image back to the disk as $file
+            imagejpeg($img, $file->getPath().DIRECTORY_SEPARATOR.$file->getFilename(), 100);
+        }
     }
 }
