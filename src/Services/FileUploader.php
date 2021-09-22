@@ -15,7 +15,8 @@ class FileUploader
             $disk = config('filesystems.default');
         }
         $extension = mb_strtolower($file->getClientOriginalExtension());
-        if (in_array($extension, ['jpg', 'jpeg'])) {
+        if (in_array($extension, ['jpg', 'jpeg', 'jpe'])) {
+            $extension = 'jpg';
             $this->correctImageOrientation($file);
         }
         $filesize = $file->getSize();
