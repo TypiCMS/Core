@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class FileUploader
 {
-    public function handle(UploadedFile $file, string $path = 'files', ?string $disk = null): array
+    public function handle(UploadedFile $file, string $path = 'files', ?string $disk = null, ?string $filenameWithoutExtension = null): array
     {
         if ($disk === null) {
             $disk = config('filesystems.default');
@@ -20,13 +20,17 @@ class FileUploader
         }
         $filesize = $file->getSize();
         $mimetype = $file->getClientMimeType();
-        $fileName = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
-        $filename = $fileName.'.'.$extension;
+        if ($filenameWithoutExtension === null) {
+            $filenameWithoutExtension = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
+        } else {
+            $filenameWithoutExtension = Str::slug($filenameWithoutExtension);
+        }
+        $filename = "{$filenameWithoutExtension}.{$extension}";
         list($width, $height) = getimagesize($file);
 
         $filecounter = 1;
-        while (Storage::disk($disk)->has($path.'/'.$filename)) {
-            $filename = $fileName.'_'.$filecounter++.'.'.$extension;
+        while (Storage::disk($disk)->exists($path.'/'.$filename)) {
+            $filename = $filenameWithoutExtension.'_'.$filecounter++.'.'.$extension;
         }
         $path = $file->storeAs($path, $filename, $disk);
         $type = Arr::get(config('file.types'), $extension, 'd');
@@ -67,7 +71,6 @@ class FileUploader
             if ($deg) {
                 $img = imagerotate($img, $deg, 0);
             }
-            // then rewrite the rotated image back to the disk as $file
             imagejpeg($img, $file->getPath().DIRECTORY_SEPARATOR.$file->getFilename(), 100);
         }
     }
