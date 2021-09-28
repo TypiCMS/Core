@@ -1,7 +1,7 @@
 @import 'public/variables';
 @import 'public/bootstrap';
 @import 'public/html5video';
-@import 'node_modules/@fancyapps/fancybox/dist/jquery.fancybox';
+@import '@fancyapps/fancybox/dist/jquery.fancybox';
 @import 'public/page';
 @import 'public/errors';
 @import 'public/skip-to-content';
@@ -17,7 +17,6 @@
 @import 'public/anchor-top';
 @import 'public/gmaps';
 @import 'navbar';
-@import 'fancybox';
 @import 'public/navbar-hide-left-button';
 @import 'public/document-list';
 @import 'public/image-list';
