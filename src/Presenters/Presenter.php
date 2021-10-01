@@ -2,8 +2,8 @@
 
 namespace TypiCMS\Modules\Core\Presenters;
 
+use Bkwld\Croppa\Facade as Croppa;
 use Carbon\Carbon;
-use Croppa;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
