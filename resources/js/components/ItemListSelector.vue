@@ -2,6 +2,7 @@
     <div class="btn-group btn-group-sm item-list-selector">
         <label class="btn btn-light mb-0" :class="{ disabled: !filteredModels.length || loading }">
             <input
+                class="form-check-input"
                 type="checkbox"
                 :disabled="!filteredModels.length || loading"
                 :checked="allChecked"
