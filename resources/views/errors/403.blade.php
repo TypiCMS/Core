@@ -8,7 +8,7 @@
 
 <header class="page-header">
     <div class="page-header-container">
-        <h1 class="page-title">@lang('Error')</h1>
+        <h1 class="page-title">@lang('Error') 403</h1>
     </div>
 </header>
 

@@ -1,14 +1,15 @@
 @extends('core::admin.master')
 
-@section('title', 'Error 403 – '.$websiteTitle)
+@section('title', 'Error 404 – '.$websiteTitle)
 
-@section('bodyClass', 'error-403')
+@section('bodyClass', 'error-404')
+@section('sidebar')@endsection
 
 @section('content')
 
 <header class="page-header">
     <div class="page-header-container">
-        <h1 class="page-title">@lang('Error')</h1>
+        <h1 class="page-title">@lang('Error') 404</h1>
     </div>
 </header>
 
