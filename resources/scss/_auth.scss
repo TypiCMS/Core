@@ -16,11 +16,12 @@
 .auth-container {
     background-color: #fff;
     margin: 5vh auto 0;
-    padding-top: 25px;
+    padding-top: 35px;
     max-width: 580px;
     @include media-breakpoint-up(sm) {
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        margin-top: 10vh;
+        box-shadow: $box-shadow;
+        margin-top: 14vh;
+        border-radius: 20px;
     }
     &-sm {
         max-width: 380px;
@@ -34,7 +35,7 @@
     }
 
     &-form {
-        padding: 25px;
+        padding: 35px;
     }
 
     &-back-to-website {
@@ -43,7 +44,7 @@
         &-link {
             font-size: 12px;
             position: absolute;
-            margin-top: 10px;
+            margin-top: 20px;
             color: darken($gray-200, 30%);
         }
     }
@@ -73,9 +74,8 @@
 
     &-logo {
         text-align: center;
-
         .logo {
-            height: 70px;
+            height: 40px;
             display: block;
             margin: 0 auto;
         }
