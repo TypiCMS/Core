@@ -75,7 +75,8 @@ class Create extends Command
     public function handle()
     {
         if (!preg_match('/^[a-z]+$/i', $this->argument('module'))) {
-            return $this->error('Only alphabetic characters are allowed.');
+            $this->error('Only alphabetic characters are allowed.');
+            return;
         }
 
         $this->module = Str::plural(mb_ucfirst(mb_strtolower($this->argument('module'))));
@@ -88,7 +89,8 @@ class Create extends Command
         ];
 
         if ($this->moduleExists()) {
-            return $this->error('A module named ['.$this->module.'] already exists.');
+            $this->error('A module named ['.$this->module.'] already exists.');
+            return;
         }
         $this->publishModule();
         $this->renameModelsAndRepositories();

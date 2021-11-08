@@ -13,14 +13,8 @@ use Laracasts\Presenter\Presenter as BasePresenter;
 
 abstract class Presenter extends BasePresenter
 {
-    /**
-     * @var mixed
-     */
     protected $entity;
 
-    /**
-     * @param $entity
-     */
     public function __construct($entity)
     {
         $this->entity = $entity;
@@ -28,8 +22,6 @@ abstract class Presenter extends BasePresenter
 
     /**
      * Allow for property-style retrieval.
-     *
-     * @param $property
      *
      * @return mixed
      */

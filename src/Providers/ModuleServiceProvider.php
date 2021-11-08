@@ -2,7 +2,6 @@
 
 namespace TypiCMS\Modules\Core\Providers;
 
-use Exception;
 use Illuminate\Foundation\Application;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Config;
@@ -129,25 +128,10 @@ class ModuleServiceProvider extends ServiceProvider
         | Register TypiCMS routes.
         |--------------------------------------------------------------------------
         */
-        $this->registerModuleRoutes();
-    }
-
-    /**
-     * Get routes from pages.
-     *
-     * @return array
-     */
-    private function registerModuleRoutes()
-    {
-        $this->app->singleton('typicms.routes', function (Application $app) {
-            try {
-                return Page::with('images', 'documents')
-                    ->where('module', '!=', null)
-                    ->with('files')
-                    ->get();
-            } catch (Exception $e) {
-                return [];
-            }
+        $this->app->singleton('typicms.routes', function () {
+            return Page::with('images', 'documents')
+                ->where('module', '!=', null)
+                ->get();
         });
     }
 }
