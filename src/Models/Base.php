@@ -172,5 +172,6 @@ abstract class Base extends Model
                 return isset($models[$adjacentKey]) ? $models[$adjacentKey] : null;
             }
         }
+        return null;
     }
 }
