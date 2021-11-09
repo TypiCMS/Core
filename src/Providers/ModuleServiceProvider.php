@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Core\Providers;
 use Illuminate\Foundation\Application;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use TypiCMS\Modules\Core\Commands\Create;
 use TypiCMS\Modules\Core\Commands\CreateUser;
@@ -24,7 +25,7 @@ class ModuleServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application events.
      */
-    public function boot()
+    public function boot(): void
     {
         Paginator::useBootstrap();
 
@@ -70,7 +71,7 @@ class ModuleServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
-    public function register()
+    public function register(): void
     {
         /*
         |--------------------------------------------------------------------------

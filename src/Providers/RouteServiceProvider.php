@@ -9,7 +9,7 @@ use TypiCMS\Modules\Core\Http\Controllers\LocaleController;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    public function map()
+    public function map(): void
     {
         /*
          * Admin routes

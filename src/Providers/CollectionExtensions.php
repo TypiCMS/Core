@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 
 class CollectionExtensions extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         Collection::macro('translate', function ($locale = null) {
             $locale = $locale ?: app()->getLocale();
@@ -24,7 +24,7 @@ class CollectionExtensions extends ServiceProvider
         });
     }
 
-    public function register()
+    public function register(): void
     {
     }
 }
