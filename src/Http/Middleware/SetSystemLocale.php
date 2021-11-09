@@ -4,7 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
+use TypiCMS\Modules\Core\Facades\TypiCMS;
 
 class SetSystemLocale
 {
@@ -15,7 +15,7 @@ class SetSystemLocale
      */
     public function handle(Request $request, Closure $next)
     {
-        $locale = config('typicms.locales')[app()->getLocale()] ?? null;
+        $locale = TypiCMS::localeAndCountry();
         if ($locale === null) {
             // For backward compatibility.
             $locale = app()->getLocale().'_'.mb_strtoupper(app()->getLocale());

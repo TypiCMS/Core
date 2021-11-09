@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use TypiCMS\Modules\Core\Facades\TypiCMS;
 
 class JavaScriptData
 {
@@ -17,7 +18,7 @@ class JavaScriptData
         $data = [
             'content_locale' => config('typicms.content_locale'),
             'locale' => app()->getLocale(),
-            'locale_country' => str_replace('_', '-', config('typicms.locales')[app()->getLocale()]) ?? '',
+            'locale_country' => TypiCMS::localeAndCountry('-'),
         ];
         foreach (locales() as $locale) {
             $data['locales'][] = [
