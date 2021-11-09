@@ -3,7 +3,7 @@
         @include list-unstyled();
     }
     &-item {
-        margin-bottom: $grid-gutter-width / 0.5;
+        margin-bottom: $grid-gutter-width * 0.5;
         &-link {
             @extend .btn;
             @extend .btn-light;
