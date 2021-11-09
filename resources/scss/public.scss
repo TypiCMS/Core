@@ -9,10 +9,10 @@
 @import 'public/site-header';
 @import 'public/site-footer';
 @import 'public/lang-switcher';
-@import 'public/menu-main';
-@import 'public/menu-social';
-@import 'public/menu-footer';
-@import 'public/menu-legal';
+@import 'public/primary-nav';
+@import 'public/social-nav';
+@import 'public/footer-nav';
+@import 'public/legal-nav';
 @import 'public/swiper';
 @import 'public/anchor-top';
 @import 'public/gmaps';
@@ -20,7 +20,7 @@
 @import 'public/navbar-hide-left-button';
 @import 'public/document-list';
 @import 'public/image-list';
-@import 'public/social-links';
+@import 'public/share-links';
 
 table {
     @extend .table;

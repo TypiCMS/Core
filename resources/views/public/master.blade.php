@@ -62,9 +62,9 @@
                             <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                         </svg>
                     </button>
-                    @section('site-nav')
-                    <nav class="site-nav" id="site-nav">
-                        @menu('main')
+                    @section('primary-nav')
+                    <nav class="primary-nav" id="primary-nav">
+                        @menu('primary')
                     </nav>
                     @show
                     @include('search::public._form')
@@ -87,13 +87,13 @@
         @section('site-footer')
         <footer class="site-footer">
             <div class="site-footer-container">
-                <nav class="site-footer-nav">
+                <nav class="social-nav">
                     @menu('social')
                 </nav>
-                <nav class="site-footer-nav">
+                <nav class="footer-nav">
                     @menu('footer')
                 </nav>
-                <nav class="site-footer-nav">
+                <nav class="legal-nav">
                     @menu('legal')
                 </nav>
             </div>

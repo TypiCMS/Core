@@ -2,7 +2,7 @@
 
 @section('lang-switcher') @endsection
 @section('site-header') @endsection
-@section('site-nav') @endsection
+@section('primary-nav') @endsection
 @section('site-footer') @endsection
 @section('bodyClass') lang-chooser @endsection
 @section('skip-links') @endsection
