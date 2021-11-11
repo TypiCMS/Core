@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Providers;
 
+use Exception;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\View;
@@ -129,9 +130,13 @@ class ModuleServiceProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
         $this->app->singleton('typicms.routes', function () {
-            return Page::with('images', 'documents')
-                ->where('module', '!=', null)
-                ->get();
+            try {
+                return Page::with('images', 'documents')
+                    ->where('module', '!=', null)
+                    ->get();
+            } catch (Exception $e) {
+                return [];
+            }
         });
     }
 }
