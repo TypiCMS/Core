@@ -2,7 +2,6 @@
 
 namespace TypiCMS\Modules\Core\Providers;
 
-use Illuminate\Foundation\Application;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\View;
