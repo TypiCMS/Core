@@ -54,14 +54,14 @@ class ModuleServiceProvider extends ServiceProvider
         | Sidebar view creator.
         |--------------------------------------------------------------------------
         */
-        $this->app->view->creator('core::admin._sidebar', SidebarViewCreator::class);
+        View::creator('core::admin._sidebar', SidebarViewCreator::class);
 
         /*
         |--------------------------------------------------------------------------
         | View composers.
         |--------------------------------------------------------------------------
         */
-        $this->app->view->composers([
+        View::composers([
             MasterViewComposer::class => '*',
             LocaleComposer::class => '*::public.*',
             LocalesComposer::class => '*::admin.*',
