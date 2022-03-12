@@ -83,9 +83,7 @@ abstract class Base extends Model
             if (isset($this->translatable) && $this->isTranslatableAttribute($field)) {
                 if ($field === 'status') {
                     if (config('typicms.postgresql') === true) {
-                        $query->selectRaw('
-                            ('.$field.'::json->>\''.$locale.'\' )::int AS '.$field.'_translated
-                        ');
+                        $query->selectRaw('('.$field.'::json->>\''.$locale.'\' )::int AS '.$field.'_translated');
                     } else {
                         $query
                             ->selectRaw('
@@ -99,7 +97,7 @@ abstract class Base extends Model
                         $query
                             ->selectRaw('
                                 CASE WHEN
-                                    '.$field.'::json->>\''.$locale.'\'  = null
+                                    '.$field.'::json->>\''.$locale.'\' = null
                                 THEN
                                     NULL
                                 ELSE
@@ -192,6 +190,7 @@ abstract class Base extends Model
                 return isset($models[$adjacentKey]) ? $models[$adjacentKey] : null;
             }
         }
+
         return null;
     }
 }
