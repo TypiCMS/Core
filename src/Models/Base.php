@@ -82,27 +82,47 @@ abstract class Base extends Model
         foreach ($fields as $field) {
             if (isset($this->translatable) && $this->isTranslatableAttribute($field)) {
                 if ($field === 'status') {
-                    $query
-                        ->selectRaw('
-                            CAST(JSON_UNQUOTE(
-                                JSON_EXTRACT(`'.$field.'`, \'$.'.$locale.'\')
-                            ) AS UNSIGNED) AS `'.$field.'_translated`
+                    if (config('typicms.postgresql') === true) {
+                        $query->selectRaw('
+                            ('.$field.'::json->>\''.$locale.'\' )::int AS '.$field.'_translated
                         ');
+                    } else {
+                        $query
+                            ->selectRaw('
+                                CAST(JSON_UNQUOTE(
+                                    JSON_EXTRACT(`'.$field.'`, \'$.'.$locale.'\')
+                                ) AS UNSIGNED) AS `'.$field.'_translated`
+                            ');
+                    }
                 } else {
-                    $query
-                        ->selectRaw('
-                            CASE WHEN
-                            JSON_UNQUOTE(
-                                JSON_EXTRACT(`'.$field.'`, \'$.'.$locale.'\')
-                            ) = \'null\' THEN NULL
-                            ELSE
-                            JSON_UNQUOTE(
-                                JSON_EXTRACT(`'.$field.'`, \'$.'.$locale.'\')
-                            )
-                            END '.
-                            (config('typicms.mariadb') === false ? 'COLLATE '.(DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci') : '').'
-                            AS `'.$field.'_translated`
-                        ');
+                    if (config('typicms.postgresql') === true) {
+                        $query
+                            ->selectRaw('
+                                CASE WHEN
+                                    '.$field.'::json->>\''.$locale.'\'  = null
+                                THEN
+                                    NULL
+                                ELSE
+                                    '.$field.'::json->>\''.$locale.'\'
+                                END
+                                AS  '.$field.'_translated
+                            ');
+                    } else {
+                        $query
+                            ->selectRaw('
+                                CASE WHEN
+                                JSON_UNQUOTE(
+                                    JSON_EXTRACT(`'.$field.'`, \'$.'.$locale.'\')
+                                ) = \'null\' THEN NULL
+                                ELSE
+                                JSON_UNQUOTE(
+                                    JSON_EXTRACT(`'.$field.'`, \'$.'.$locale.'\')
+                                )
+                                END '.
+                                (config('typicms.mariadb') === false ? 'COLLATE '.(DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci') : '').'
+                                AS `'.$field.'_translated`
+                            ');
+                    }
                 }
             } else {
                 $query->addSelect($field);
