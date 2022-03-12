@@ -21,11 +21,9 @@ class FileUploader
         }
         $filesize = $file->getSize();
         $mimetype = $file->getClientMimeType();
-        if ($filenameWithoutExtension === null) {
-            $filenameWithoutExtension = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
-        } else {
-            $filenameWithoutExtension = Str::slug($filenameWithoutExtension);
-        }
+
+        $filenameWithoutExtension = Str::slug(json_encode($filenameWithoutExtension ?: pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)));
+
         $filename = "{$filenameWithoutExtension}.{$extension}";
         list($width, $height) = getimagesize($file);
 
