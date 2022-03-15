@@ -9,7 +9,6 @@ class LocalesComposer
     /*
      * For back end forms
      */
-
     public function compose(View $view)
     {
         $view->with('locales', locales());

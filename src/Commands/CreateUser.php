@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
-use TypiCMS\Modules\Users\Models\User;
+use TypiCMS\Modules\Core\Models\User;
 
 class CreateUser extends Command
 {

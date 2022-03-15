@@ -19,15 +19,9 @@ class FilterOr implements Filter
         return $query->where(function (Builder $query) use ($columns, $value) {
             foreach ($columns as $column) {
                 if (in_array($column, (array) $query->getModel()->translatable)) {
-                    if (config('typicms.postgresql') === true) {
-                        $query->orWhereRaw(
-                            '('.$column.'::json->>\''.request('locale').'\' ) ~*  \''.$value.'\''
-                        );
-                    } else {
-                        $query->orWhereRaw(
-                            'JSON_UNQUOTE(JSON_EXTRACT(`'.$column.'`, \'$.'.request('locale').'\')) LIKE \'%'.$value.'%\' COLLATE '.(DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci')
-                        );
-                    }
+                    $query->orWhereRaw(
+                        'JSON_UNQUOTE(JSON_EXTRACT(`'.$column.'`, \'$.'.request('locale').'\')) LIKE \'%'.$value.'%\' COLLATE '.(DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci')
+                    );
                 } else {
                     $query->orWhere($column, 'like', '%'.$value.'%');
                 }

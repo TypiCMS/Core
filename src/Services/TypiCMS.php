@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
-use TypiCMS\Modules\Pages\Models\Page;
+use TypiCMS\Modules\Core\Models\Page;
 
 class TypiCMS
 {
@@ -71,7 +71,7 @@ class TypiCMS
         $modules = config('typicms.modules');
         $options = ['' => ''];
         foreach ($modules as $module => $properties) {
-            if (in_array('linkable_to_page', $properties)) {
+            if (isset($properties['linkable_to_page']) && $properties['linkable_to_page'] === true) {
                 $options[$module] = __(ucfirst($module));
             }
         }
@@ -83,9 +83,11 @@ class TypiCMS
     public function permissions(): array
     {
         $permissions = [];
-        foreach (config('typicms.permissions') as $module => $perms) {
-            $key = __(ucfirst($module));
-            $permissions[$key] = $perms;
+        foreach (config('typicms.modules') as $module => $data) {
+            if (isset($data['permissions']) && is_array($data['permissions'])) {
+                $key = __(ucfirst($module));
+                $permissions[$key] = $data['permissions'];
+            }
         }
         ksort($permissions, SORT_LOCALE_STRING);
 
@@ -166,7 +168,7 @@ class TypiCMS
         $feeds = collect(config('typicms.modules'))
             ->transform(function ($properties, $module) use ($locale) {
                 $routeName = $locale.'::'.$module.'-feed';
-                if (in_array('has_feed', $properties) && Route::has($routeName)) {
+                if (isset($properties['has_feed']) && $properties['has_feed'] === true && Route::has($routeName)) {
                     return ['url' => route($routeName), 'title' => __(ucfirst($module).' feed').' – '.$this->title()];
                 }
             })->reject(function ($value) {
