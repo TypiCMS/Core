@@ -45,69 +45,72 @@ $sidebar-width: 260px;
 
 .nav-sidebar {
     padding: 0;
-    > li {
-        height: 44px;
+    &-item {
         display: flex;
-        position: relative;
-        &:hover {
-            .append {
-                display: flex;
-            }
-        }
 
-        > a {
-            display: block;
-            flex-grow: 1;
+        &-link {
             display: flex;
+            width: 100%;
             align-items: center;
             text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.5);
             color: $gray-200;
-            padding: 0 20px;
-
-            &.append {
-                flex-grow: 0;
-                display: none;
-                height: 44px;
-                position: absolute;
-                right: 0;
-                color: rgba($white, 0.4) !important;
-                &:hover {
-                    color: $gray-300 !important;
-                }
-            }
-
-            .icon {
-                color: $gray-500;
-                margin-right: 10px;
-                display: flex;
-            }
-
-            div {
-                white-space: nowrap;
-            }
-
+            padding: 10px 10px 10px 20px;
             &:hover,
             &:focus {
                 color: $white;
-                transition: all 0.2s;
+                transition: color 0.2s;
                 text-decoration: none;
-
-                .icon {
-                    color: $white;
-                    transition: all 0.2s;
-                }
             }
-
+            &-icon {
+                color: $gray-500;
+                margin-right: 10px;
+                flex-shrink: 0;
+            }
+            &:hover &-icon,
+            &:focus &-icon {
+                color: $white;
+                transition: color 0.2s;
+            }
+            &-label {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
             &:active {
                 transition: all 0s;
                 text-shadow: none;
                 color: $gray-500;
-
-                .icon {
-                    color: $gray-500;
-                    transition: all 0s;
-                }
             }
+            &:active &-icon {
+                color: $gray-500;
+                transition: all 0s;
+            }
+        }
+        &-append {
+            color: $gray-200;
+            flex-shrink: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 0;
+            width: 2.5rem;
+            &:hover,
+            &:focus {
+                color: $white;
+                transition: color 0.2s;
+                text-decoration: none;
+            }
+            &:active {
+                transition: all 0s;
+                text-shadow: none;
+                color: $gray-500;
+            }
+        }
+        &:hover &-link {
+            width: calc(100% - 2.5rem);
+        }
+        &:hover &-append {
+            display: flex;
         }
     }
 
@@ -124,7 +127,7 @@ $sidebar-width: 260px;
     }
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(sm) {
     .sidebar,
     .main {
         transition: all 0.25s ease-out;
