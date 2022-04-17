@@ -176,7 +176,7 @@ class CoreServiceProvider extends ServiceProvider
             __DIR__.'/../../database/migrations/create_password_resets_table.php.stub' => getMigrationFileName('create_password_resets_table'),
             __DIR__.'/../../database/migrations/create_files_table.php.stub' => getMigrationFileName('create_files_table'),
             __DIR__.'/../../database/migrations/create_model_has_files_table.php.stub' => getMigrationFileName('create_model_has_files_table'),
-            __DIR__.'/../../database/migrations/create_menus_tables.php.stub' => getMigrationFileName('create_menus_table'),
+            __DIR__.'/../../database/migrations/create_menus_tables.php.stub' => getMigrationFileName('create_menus_tables'),
             __DIR__.'/../../database/migrations/create_tags_table.php.stub' => getMigrationFileName('create_tags_table'),
             __DIR__.'/../../database/migrations/create_taxonomies_tables.php.stub' => getMigrationFileName('create_taxonomies_tables'),
             __DIR__.'/../../database/migrations/create_translations_table.php.stub' => getMigrationFileName('create_translations_table'),
