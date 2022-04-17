@@ -4,9 +4,12 @@ namespace TypiCMS\Modules\Core\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use League\Flysystem\Adapter\Local as LocalAdapter;
+use Illuminate\Support\Str;
 use League\Flysystem\Filesystem as Flysystem;
+use League\Flysystem\Local\LocalFilesystemAdapter as LocalAdapter;
 use League\Flysystem\MountManager;
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
+use League\Flysystem\Visibility;
 
 class PublishTranslations extends Command
 {
@@ -71,18 +74,30 @@ class PublishTranslations extends Command
      */
     protected function publishDirectory($from, $to)
     {
-        $manager = new MountManager([
-            'from' => new Flysystem(new LocalAdapter($from)),
-            'to' => new Flysystem(new LocalAdapter($to)),
-        ]);
+        $visibility = PortableVisibilityConverter::fromArray([], Visibility::PUBLIC);
 
-        foreach ($manager->listContents('from://', true) as $file) {
-            if ($file['type'] === 'file' && (!$manager->has('to://'.$file['path']) || $this->option('force'))) {
-                $manager->put('to://'.$file['path'], $manager->read('from://'.$file['path']));
-            }
-        }
+        $this->moveManagedFiles(new MountManager([
+            'from' => new Flysystem(new LocalAdapter($from)),
+            'to' => new Flysystem(new LocalAdapter($to, $visibility)),
+        ]));
 
         $this->status($from, $to, 'Directory');
+    }
+
+    /**
+     * Move all the files in the given MountManager.
+     *
+     * @param \League\Flysystem\MountManager $manager
+     */
+    protected function moveManagedFiles($manager)
+    {
+        foreach ($manager->listContents('from://', true) as $file) {
+            $path = Str::after($file['path'], 'from://');
+
+            if ($file['type'] === 'file' && (!$manager->fileExists('to://'.$path) || $this->option('force'))) {
+                $manager->write('to://'.$path, $manager->read($file['path']));
+            }
+        }
     }
 
     /**
