@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MenulinkSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(PermissionSeeder::class);
-        $this->call(PermissionRoleSeeder::class);
+        $this->call(RoleHasPermissionsSeeder::class);
         Model::reguard();
     }
 }

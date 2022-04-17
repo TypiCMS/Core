@@ -10,7 +10,7 @@ class PageSeeder extends Seeder
 {
     public function run()
     {
-        $typi_pages = [
+        $pages = [
             [
                 'id' => 1,
                 'image_id' => null,
@@ -145,6 +145,6 @@ class PageSeeder extends Seeder
             ],
         ];
 
-        DB::table('pages')->insert($typi_pages);
+        DB::table('pages')->insert($pages);
     }
 }

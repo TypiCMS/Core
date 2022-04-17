@@ -12,7 +12,7 @@ class SettingsSeeder extends Seeder
     {
         DB::table('settings')->truncate();
 
-        $typi_settings = [
+        $settings = [
             ['id' => 1, 'group_name' => 'config', 'key_name' => 'webmaster_email', 'value' => 'info@example.com', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 2, 'group_name' => 'config', 'key_name' => 'lang_chooser', 'value' => '0', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 3, 'group_name' => 'fr', 'key_name' => 'website_title', 'value' => 'Site web sans titre', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
@@ -27,6 +27,6 @@ class SettingsSeeder extends Seeder
             ['id' => 12, 'group_name' => 'config', 'key_name' => 'admin_locale', 'value' => 'en', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ];
 
-        DB::table('settings')->insert($typi_settings);
+        DB::table('settings')->insert($settings);
     }
 }

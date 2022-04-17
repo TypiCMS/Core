@@ -9,7 +9,7 @@ class PermissionSeeder extends Seeder
 {
     public function run()
     {
-        $typi_permissions = [
+        $permissions = [
             ['id' => 1, 'name' => 'change locale', 'guard_name' => 'web'],
             ['id' => 2, 'name' => 'update preferences', 'guard_name' => 'web'],
             ['id' => 3, 'name' => 'clear cache', 'guard_name' => 'web'],
@@ -101,6 +101,6 @@ class PermissionSeeder extends Seeder
             ['id' => 89, 'name' => 'delete users', 'guard_name' => 'web'],
         ];
 
-        DB::table('permissions')->insert($typi_permissions);
+        DB::table('permissions')->insert($permissions);
     }
 }

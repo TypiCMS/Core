@@ -10,7 +10,7 @@ class TranslationSeeder extends Seeder
 {
     public function run()
     {
-        $typi_translations = [
+        $translations = [
             ['id' => 1, 'translation' => '{"fr":"En savoir plus","en":"More","nl":"Meer"}', 'key' => 'More', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 2, 'translation' => '{"fr":"Aller au contenu","en":"Skip to content","nl":"Naar inhoud"}', 'key' => 'Skip to content', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 3, 'translation' => '{"fr":"Français","en":"Français","nl":"Français"}', 'key' => 'languages.fr', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
@@ -33,6 +33,6 @@ class TranslationSeeder extends Seeder
             ['id' => 21, 'translation' => '{"fr":"Aller à la navigation","nl":"Open navigatie","en":"Open navigation"}', 'key' => 'Open navigation', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ];
 
-        DB::table('translations')->insert($typi_translations);
+        DB::table('translations')->insert($translations);
     }
 }

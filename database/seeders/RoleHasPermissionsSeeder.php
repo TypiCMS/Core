@@ -5,11 +5,11 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PermissionRoleSeeder extends Seeder
+class RoleHasPermissionsSeeder extends Seeder
 {
     public function run()
     {
-        $typi_permission_role = [
+        $roleHasPermissions = [
             ['permission_id' => 1, 'role_id' => 1],
             ['permission_id' => 2, 'role_id' => 1],
             ['permission_id' => 3, 'role_id' => 1],
@@ -101,6 +101,6 @@ class PermissionRoleSeeder extends Seeder
             ['permission_id' => 89, 'role_id' => 1],
         ];
 
-        DB::table('permission_role')->insert($typi_permission_role);
+        DB::table('role_has_permissions')->insert($roleHasPermissions);
     }
 }

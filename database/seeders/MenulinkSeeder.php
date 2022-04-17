@@ -10,7 +10,7 @@ class MenulinkSeeder extends Seeder
 {
     public function run()
     {
-        $typi_menulinks = [
+        $menulinks = [
             ['id' => 1, 'menu_id' => 1, 'page_id' => 1, 'parent_id' => null, 'image_id' => null, 'position' => 1, 'target' => null, 'class' => null, 'status' => '{"en": 1, "fr": 1, "nl": 1}', 'description' => '{"en": null, "fr": null, "nl": null}', 'title' => '{"en": "Home", "fr": "Accueil", "nl": "Home"}', 'url' => '{"en": null, "fr": null, "nl": null}', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 2, 'menu_id' => 1, 'page_id' => 2, 'parent_id' => null, 'image_id' => null, 'position' => 2, 'target' => null, 'class' => null, 'status' => '{"en": 1, "fr": 1, "nl": 1}', 'description' => '{"en": null, "fr": null, "nl": null}', 'title' => '{"en": "Contact", "fr": "Contact", "nl": "Contact"}', 'url' => '{"en": null, "fr": null, "nl": null}', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 3, 'menu_id' => 2, 'page_id' => 2, 'parent_id' => null, 'image_id' => null, 'position' => 1, 'target' => null, 'class' => null, 'status' => '{"en": 1, "fr": 1, "nl": 1}', 'description' => '{"en": null, "fr": null, "nl": null}', 'title' => '{"en": "Contact", "fr": "Contact", "nl": "Contact"}', 'url' => '{"en": null, "fr": null, "nl": null}', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
@@ -24,6 +24,6 @@ class MenulinkSeeder extends Seeder
             ['id' => 11, 'menu_id' => 4, 'page_id' => 5, 'parent_id' => null, 'image_id' => null, 'position' => 0, 'target' => null, 'class' => null, 'status' => '{"en": 1, "fr": 1, "nl": 1}', 'description' => '{"en": null, "fr": null, "nl": null}', 'title' => '{"en": "Cookie policy", "fr": "Politique des cookies", "nl": "Cookieverklaring"}', 'url' => '{"en": null, "fr": null, "nl": null}', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ];
 
-        DB::table('menulinks')->insert($typi_menulinks);
+        DB::table('menulinks')->insert($menulinks);
     }
 }
