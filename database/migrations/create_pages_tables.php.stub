@@ -12,11 +12,10 @@ class CreatePagesTables extends Migration
     public function up()
     {
         Schema::create('pages', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->id();
-            $table->integer('image_id')->unsigned()->nullable();
-            $table->integer('position')->unsigned()->default(0);
-            $table->integer('parent_id')->unsigned()->nullable()->default(null);
+            $table->foreignId('image_id')->nullable();
+            $table->foreignId('parent_id')->nullable();
+            $table->unsignedInteger('position');
             $table->boolean('private')->default(0);
             $table->boolean('is_home')->default(0);
             $table->boolean('redirect')->default(0);
@@ -35,11 +34,10 @@ class CreatePagesTables extends Migration
             $table->foreign('parent_id')->references('id')->on('pages')->onDelete('cascade');
         });
         Schema::create('page_sections', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->id();
             $table->integer('page_id')->unsigned();
             $table->integer('image_id')->unsigned()->nullable();
-            $table->integer('position')->unsigned()->default(0);
+            $table->unsignedInteger('position');
             $table->json('status');
             $table->json('title');
             $table->json('slug');

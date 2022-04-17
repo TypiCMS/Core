@@ -12,15 +12,13 @@ class CreateModelHasFilesTable extends Migration
     public function up()
     {
         Schema::create('model_has_files', function (Blueprint $table) {
-            $table->integer('file_id')->unsigned();
+            $table->foreignId('file_id');
             $table->morphs('model', 'file');
-            $table->integer('position')->unsigned();
-
+            $table->unsignedInteger('position');
             $table->foreign('file_id')
                 ->references('id')
                 ->on('files')
                 ->onDelete('cascade');
-
             $table->primary(['file_id', 'model_id', 'model_type']);
         });
     }

@@ -12,23 +12,21 @@ class CreateMenusTables extends Migration
     public function up()
     {
         Schema::create('menus', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->id();
-            $table->integer('image_id')->unsigned()->nullable();
+            $table->foreignId('image_id')->nullable();
             $table->string('name');
             $table->string('class')->nullable();
             $table->json('status');
             $table->timestamps();
         });
         Schema::create('menulinks', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->id();
-            $table->integer('menu_id')->unsigned();
-            $table->integer('page_id')->unsigned()->nullable();
-            $table->integer('section_id')->unsigned()->nullable();
-            $table->integer('parent_id')->unsigned()->nullable()->default(null);
-            $table->integer('image_id')->unsigned()->nullable();
-            $table->integer('position')->unsigned()->default(0);
+            $table->foreignId('menu_id');
+            $table->foreignId('page_id')->nullable();
+            $table->foreignId('section_id')->nullable();
+            $table->foreignId('parent_id')->nullable();
+            $table->foreignId('image_id')->nullable();
+            $table->unsignedInteger('position');
             $table->string('target', 10)->nullable();
             $table->string('class')->nullable();
             $table->json('status');
