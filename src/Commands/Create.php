@@ -5,9 +5,11 @@ namespace TypiCMS\Modules\Core\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-use League\Flysystem\Adapter\Local as LocalAdapter;
 use League\Flysystem\Filesystem as Flysystem;
+use League\Flysystem\Local\LocalFilesystemAdapter as LocalAdapter;
 use League\Flysystem\MountManager;
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
+use League\Flysystem\Visibility;
 
 class Create extends Command
 {
@@ -76,6 +78,7 @@ class Create extends Command
     {
         if (!preg_match('/^[a-z]+$/i', $this->argument('module'))) {
             $this->error('Only alphabetic characters are allowed.');
+
             return;
         }
 
@@ -90,6 +93,7 @@ class Create extends Command
 
         if ($this->moduleExists()) {
             $this->error('A module named ['.$this->module.'] already exists.');
+
             return;
         }
         $this->publishModule();
@@ -139,7 +143,7 @@ class Create extends Command
         foreach ($manager->listContents('directory://', true) as $file) {
             if ($file['type'] === 'file') {
                 $content = str_replace($this->search, $this->replace, $manager->read('directory://'.$file['path']));
-                $manager->put('directory://'.$file['path'], $content);
+                $manager->write('directory://'.$file['path'], $content);
             }
         }
     }
@@ -232,14 +236,28 @@ class Create extends Command
      */
     protected function publishDirectory($from, $to)
     {
-        $manager = new MountManager([
-            'from' => new Flysystem(new LocalAdapter($from)),
-            'to' => new Flysystem(new LocalAdapter($to)),
-        ]);
+        $visibility = PortableVisibilityConverter::fromArray([], Visibility::PUBLIC);
 
+        $this->moveManagedFiles(new MountManager([
+            'from' => new Flysystem(new LocalAdapter($from)),
+            'to' => new Flysystem(new LocalAdapter($to, $visibility)),
+        ]));
+
+        $this->status($from, $to, 'Directory');
+    }
+
+    /**
+     * Move all the files in the given MountManager.
+     *
+     * @param \League\Flysystem\MountManager $manager
+     */
+    protected function moveManagedFiles($manager)
+    {
         foreach ($manager->listContents('from://', true) as $file) {
-            if ($file['type'] === 'file' && (!$manager->has('to://'.$file['path']) || $this->option('force'))) {
-                $manager->put('to://'.$file['path'], $manager->read('from://'.$file['path']));
+            $path = Str::after($file['path'], 'from://');
+
+            if ($file['type'] === 'file' && (!$manager->fileExists('to://'.$path) || $this->option('force'))) {
+                $manager->write('to://'.$path, $manager->read($file['path']));
             }
         }
     }
@@ -267,5 +285,21 @@ class Create extends Command
         $location2 = $this->files->isDirectory(base_path('vendor/typicms/'.mb_strtolower($this->module)));
 
         return $location1 || $location2;
+    }
+
+    /**
+     * Write a status message to the console.
+     *
+     * @param string $from
+     * @param string $to
+     * @param string $type
+     */
+    protected function status($from, $to, $type)
+    {
+        $from = str_replace(base_path(), '', realpath($from));
+
+        $to = str_replace(base_path(), '', realpath($to));
+
+        $this->line('<info>Copied '.$type.'</info> <comment>['.$from.']</comment> <info>To</info> <comment>['.$to.']</comment>');
     }
 }

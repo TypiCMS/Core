@@ -5,9 +5,12 @@ namespace TypiCMS\Modules\Core\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use League\Flysystem\Adapter\Local as LocalAdapter;
+use Illuminate\Support\Str;
 use League\Flysystem\Filesystem as Flysystem;
+use League\Flysystem\Local\LocalFilesystemAdapter as LocalAdapter;
 use League\Flysystem\MountManager;
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
+use League\Flysystem\Visibility;
 
 class Publish extends Command
 {
@@ -96,18 +99,20 @@ class Publish extends Command
      */
     protected function publishDirectory($from, $to)
     {
+        $visibility = PortableVisibilityConverter::fromArray([], Visibility::PUBLIC);
+
         $manager = new MountManager([
             'from' => new Flysystem(new LocalAdapter($from)),
-            'to' => new Flysystem(new LocalAdapter($to)),
+            'to' => new Flysystem(new LocalAdapter($to, $visibility)),
         ]);
 
         foreach ($manager->listContents('from://', true) as $file) {
-            $path = $file['path'];
-            if (mb_substr($path, 0, 15) === 'resources/views' || mb_substr($path, 0, 16) === 'resources/assets') {
+            if (mb_substr($file['path'], 0, 15) === 'resources/views' || mb_substr($file['path'], 0, 16) === 'resources/assets') {
                 continue;
             }
-            if ($file['type'] === 'file' && (!$manager->has('to://'.$file['path']) || $this->option('force'))) {
-                $manager->put('to://'.$file['path'], $manager->read('from://'.$file['path']));
+            $path = Str::after($file['path'], 'from://');
+            if ($file['type'] === 'file' && (!$manager->fileExists('to://'.$path) || $this->option('force'))) {
+                $manager->write('to://'.$path, $manager->read($file['path']));
             }
         }
 
