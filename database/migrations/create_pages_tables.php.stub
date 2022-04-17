@@ -35,8 +35,8 @@ class CreatePagesTables extends Migration
         });
         Schema::create('page_sections', function (Blueprint $table) {
             $table->id();
-            $table->integer('page_id')->unsigned();
-            $table->integer('image_id')->unsigned()->nullable();
+            $table->foreignId('page_id');
+            $table->foreignId('image_id')->nullable();
             $table->unsignedInteger('position');
             $table->json('status');
             $table->json('title');
