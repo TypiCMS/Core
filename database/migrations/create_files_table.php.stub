@@ -13,7 +13,7 @@ class CreateFilesTable extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('id');
+            $table->id();
             $table->integer('folder_id')->unsigned()->nullable();
             $table->enum('type', ['a', 'v', 'd', 'i', 'o', 'f'])->nullable();
             $table->string('name')->nullable();

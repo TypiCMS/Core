@@ -12,13 +12,13 @@ class CreateTagsTable extends Migration
     public function up()
     {
         Schema::create('tags', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('tag');
             $table->string('slug');
             $table->timestamps();
         });
         Schema::create('taggables', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->integer('tag_id')->unsigned();
             $table->integer('taggable_id')->unsigned();
             $table->string('taggable_type');

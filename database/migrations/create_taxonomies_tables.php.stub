@@ -10,7 +10,7 @@ class CreateTaxonomiesTables extends Migration
     {
         Schema::create('taxonomies', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('id');
+            $table->id();
             $table->integer('position')->unsigned()->default(1);
             $table->string('name');
             $table->json('title');
@@ -22,7 +22,7 @@ class CreateTaxonomiesTables extends Migration
         });
         Schema::create('terms', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('id');
+            $table->id();
             $table->integer('position')->unsigned()->default(1);
             $table->integer('taxonomy_id')->unsigned()->nullable();
             $table->json('title');
@@ -31,7 +31,7 @@ class CreateTaxonomiesTables extends Migration
             $table->foreign('taxonomy_id')->references('id')->on('taxonomies')->onDelete('cascade');
         });
         Schema::create('model_has_terms', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->integer('term_id')->unsigned();
             $table->integer('model_id')->unsigned();
             $table->string('model_type');

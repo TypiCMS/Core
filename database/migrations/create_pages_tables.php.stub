@@ -13,7 +13,7 @@ class CreatePagesTables extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('id');
+            $table->id();
             $table->integer('image_id')->unsigned()->nullable();
             $table->integer('position')->unsigned()->default(0);
             $table->integer('parent_id')->unsigned()->nullable()->default(null);
@@ -36,7 +36,7 @@ class CreatePagesTables extends Migration
         });
         Schema::create('page_sections', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('id');
+            $table->id();
             $table->integer('page_id')->unsigned();
             $table->integer('image_id')->unsigned()->nullable();
             $table->integer('position')->unsigned()->default(0);
