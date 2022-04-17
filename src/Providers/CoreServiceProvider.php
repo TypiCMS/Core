@@ -134,7 +134,7 @@ class CoreServiceProvider extends ServiceProvider
             __DIR__.'/../../database/seeders/MenuSeeder.php' => database_path('seeders/MenuSeeder.php'),
             __DIR__.'/../../database/seeders/PermissionSeeder.php' => database_path('seeders/PermissionSeeder.php'),
             __DIR__.'/../../database/seeders/RoleSeeder.php' => database_path('seeders/RoleSeeder.php'),
-            __DIR__.'/../../database/seeders/PermissionRoleSeeder.php' => database_path('seeders/PermissionRoleSeeder.php'),
+            __DIR__.'/../../database/seeders/RoleHasPermissionsSeeder.php' => database_path('seeders/RoleHasPermissionsSeeder.php'),
             __DIR__.'/../../database/seeders/SettingsSeeder.php' => database_path('seeders/SettingsSeeder.php'),
             __DIR__.'/../../database/seeders/TranslationSeeder.php' => database_path('seeders/TranslationSeeder.php'),
         ], 'typicms-seeders');
