@@ -22,7 +22,6 @@ class CreateFilesTable extends Migration
             $table->integer('width')->unsigned()->nullable();
             $table->integer('height')->unsigned()->nullable();
             $table->integer('filesize')->unsigned()->nullable();
-            $table->unsignedInteger('position');
             $table->json('description');
             $table->json('alt_attribute');
             $table->timestamps();
