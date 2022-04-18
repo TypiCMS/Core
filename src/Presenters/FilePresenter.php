@@ -11,7 +11,7 @@ class FilePresenter extends Presenter
      */
     protected function getImagePathOrDefault(): string
     {
-        $imagePath = $this->entity->path;
+        $imagePath = $this->entity->path ?? '';
 
         if (!Storage::exists($imagePath)) {
             $imagePath = $this->imgNotFound();
