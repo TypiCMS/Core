@@ -40,9 +40,9 @@ window.Vue = Vue;
  * i18n
  */
 import VueI18n from 'vue-i18n';
-import fr from '../lang/fr.json';
-import en from '../lang/en.json';
-import es from '../lang/es.json';
+import fr from '../../lang/fr.json';
+import en from '../../lang/en.json';
+import es from '../../lang/es.json';
 const messages = { fr, en, es };
 const i18n = new VueI18n({ locale: window.TypiCMS.locale, messages });
 

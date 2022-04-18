@@ -200,7 +200,7 @@ class Create extends Command
      */
     public function addTranslations()
     {
-        $this->call('translations:add', ['path' => 'Modules/'.$this->module.'/resources/lang']);
+        $this->call('translations:add', ['path' => 'Modules/'.$this->module.'/lang']);
     }
 
     /**
