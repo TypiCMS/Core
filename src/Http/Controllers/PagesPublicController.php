@@ -30,7 +30,7 @@ class PagesPublicController extends BasePublicController
         }
 
         // get submenu
-        $children = $page->getSubMenu();
+        $children = $page->getSubPages();
 
         $templateDir = 'pages::'.config('typicms.template_dir', 'public').'.';
         $template = $page->template ?: 'default';

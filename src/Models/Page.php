@@ -100,7 +100,7 @@ class Page extends Base
         return ['' => ''] + array_map('strip_tags', $pages);
     }
 
-    public function getSubMenu(): NestableCollection
+    public function getSubPages(): NestableCollection
     {
         $rootUriArray = explode('/', $this->uri);
         $uri = $rootUriArray[0];
