@@ -474,6 +474,7 @@ export default {
             this.startLoading();
             formData.append('folder_id', this.folder.id);
             for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
+                formData.append('title[' + TypiCMS.locales[i].short + ']', '');
                 formData.append('description[' + TypiCMS.locales[i].short + ']', '');
                 formData.append('alt_attribute[' + TypiCMS.locales[i].short + ']', '');
             }
@@ -572,10 +573,12 @@ export default {
                 folder_id: folderId,
                 type: 'f',
                 name: name,
+                title: {},
                 description: {},
                 alt_attribute: {},
             };
             for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
+                data['title'][TypiCMS.locales[i].short] = null;
                 data['description'][TypiCMS.locales[i].short] = null;
                 data['alt_attribute'][TypiCMS.locales[i].short] = null;
             }

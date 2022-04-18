@@ -25,6 +25,10 @@ class FilePresenter extends Presenter
      */
     public function title(): string
     {
+        if (!empty($this->entity->title)) {
+            return $this->entity->title;
+        }
+
         return $this->entity->name;
     }
 

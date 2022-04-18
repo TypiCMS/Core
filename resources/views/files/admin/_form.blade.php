@@ -14,6 +14,7 @@
 
     <div class="col-lg-6">
 
+        {!! TranslatableBootForm::text(__('Title'), 'title') !!}
         {!! TranslatableBootForm::textarea(__('Description'), 'description') !!}
 
         @if ($model->type === 'i')

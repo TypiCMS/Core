@@ -4,7 +4,7 @@
         <li class="image-list-item">
             <a class="image-list-item-link"
                 href="{{ $image->present()->image(1200, 1200, ['resize']) }}"
-                data-caption="{{ $image->alt_attribute }}"
+                data-caption="{{ $image->present()->title }}"
                 data-fancybox="{{ $model->slug ? : 'group' }}"
                 data-options='{ "buttons": ["close"], "infobar": false }'
             >
