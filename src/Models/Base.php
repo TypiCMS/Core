@@ -31,7 +31,7 @@ abstract class Base extends Model
             return route($route, $this->translate('slug', $locale));
         }
 
-        return '/';
+        return url('/');
     }
 
     public function isPublished($locale = null): bool
