@@ -106,7 +106,7 @@ $sidebar-width: 260px;
                 color: $gray-500;
             }
         }
-        &:hover &-link {
+        &:hover &-link.hasAppend {
             width: calc(100% - 2.5rem);
         }
         &:hover &-append {
