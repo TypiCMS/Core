@@ -11,7 +11,7 @@
     <div class="page-body-container">
 
         @empty(!$page->image)
-            <img class="page-image" src="{{ $page->present()->image(200, 200) }}" width="{{ $page->image->width }}" height="{{ $page->image->height }}" alt="">
+            <img class="page-image" src="{{ $page->present()->image(2000) }}" width="{{ $page->image->width }}" height="{{ $page->image->height }}" alt="">
         @endempty
 
         @empty(!$page->body)
