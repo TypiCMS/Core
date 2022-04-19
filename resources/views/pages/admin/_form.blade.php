@@ -14,25 +14,9 @@
 
     {!! BootForm::hidden('id') !!}
 
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link active" href="#tab-content" data-bs-toggle="tab">{{ __('Content') }}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#tab-meta" data-bs-toggle="tab">{{ __('Meta') }}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#tab-options" data-bs-toggle="tab">{{ __('Options') }}</a>
-        </li>
-    </ul>
+    <div class="row">
 
-    <div class="tab-content">
-
-        <div class="tab-pane fade show active" id="tab-content">
-
-            <file-manager related-table="{{ $model->getTable() }}" :related-id="{{ $model->id ?? 0 }}"></file-manager>
-            <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>
-            <files-field :init-files="{{ $model->files }}"></files-field>
+        <div class="col-lg-8">
 
             <div class="row gx-3">
                 <div class="col-md-6">
@@ -45,7 +29,7 @@
                         <div class="input-group">
                             <span class="input-group-text">{{ $model->present()->parentUri($lang) }}</span>
                             <input class="form-control @if ($errors->has('slug.'.$lang))is-invalid @endif" type="text" name="slug[{{ $lang }}]" id="slug[{{ $lang }}]" value="{{ $model->translate('slug', $lang) }}" data-slug="title[{{ $lang }}]" data-language="{{ $lang }}">
-                            <button class="btn btn-outline-secondary btn-slug" type="button">{{ __('Generate') }}</button>
+                            <button class="btn btn-outline-dark btn-slug" type="button">{{ __('Generate') }}</button>
                             {!! $errors->first('slug.'.$lang, '<div class="invalid-feedback">:message</div>') !!}
                         </div>
                     </div>
@@ -100,27 +84,36 @@
 
         </div>
 
-        <div class="tab-pane fade" id="tab-meta">
-            {!! TranslatableBootForm::text(__('Meta keywords'), 'meta_keywords') !!}
-            {!! TranslatableBootForm::text(__('Meta description'), 'meta_description') !!}
-        </div>
+        <div class="col-lg-4">
+            <div class="bg-light p-4">
+                @if ($model->redirect !== 1)
+                    <file-manager related-table="{{ $model->getTable() }}" :related-id="{{ $model->id ?? 0 }}"></file-manager>
+                    <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>
+                    <files-field :init-files="{{ $model->files }}"></files-field>
+                    {!! TranslatableBootForm::text(__('Meta keywords'), 'meta_keywords') !!}
+                    {!! TranslatableBootForm::text(__('Meta description'), 'meta_description') !!}
+                @endif
 
-        <div class="tab-pane fade" id="tab-options">
-            <div class="mb-3">
-                {!! BootForm::hidden('is_home')->value(0) !!}
-                {!! BootForm::checkbox(__('Is home'), 'is_home') !!}
-                {!! BootForm::hidden('private')->value(0) !!}
-                {!! BootForm::checkbox(__('Private'), 'private') !!}
-                {!! BootForm::hidden('redirect')->value(0) !!}
-                {!! BootForm::checkbox(__('Redirect to first child'), 'redirect') !!}
+                <div class="mb-3">
+                    @if ($model->redirect !== 1)
+                        {!! BootForm::hidden('is_home')->value(0) !!}
+                        {!! BootForm::checkbox(__('Is home'), 'is_home') !!}
+                        {!! BootForm::hidden('private')->value(0) !!}
+                        {!! BootForm::checkbox(__('Private'), 'private') !!}
+                    @endif
+                    {!! BootForm::hidden('redirect')->value(0) !!}
+                    {!! BootForm::checkbox(__('Redirect to first child'), 'redirect') !!}
+                </div>
+                @if ($model->redirect !== 1)
+                    {!! BootForm::select(__('Module'), 'module', TypiCMS::getModulesForSelect())->disable($model->subpages->count() > 0)->formText($model->subpages->count() ? __('A page containing subpages cannot be linked to a module') : '') !!}
+                    {!! BootForm::select(__('Template'), 'template', TypiCMS::templates()) !!}
+                    @if (!$model->id)
+                    {!! BootForm::select(__('Add to menu'), 'add_to_menu', ['' => ''] + Menus::all()->pluck('name', 'id')->all(), null, ['class' => 'form-control']) !!}
+                    @endif
+                    {!! BootForm::textarea(__('Css'), 'css') !!}
+                    {!! BootForm::textarea(__('Js'), 'js') !!}
+                @endif
             </div>
-            {!! BootForm::select(__('Module'), 'module', TypiCMS::getModulesForSelect())->disable($model->subpages->count() > 0)->formText($model->subpages->count() ? __('A page containing subpages cannot be linked to a module') : '') !!}
-            {!! BootForm::select(__('Template'), 'template', TypiCMS::templates()) !!}
-            @if (!$model->id)
-            {!! BootForm::select(__('Add to menu'), 'add_to_menu', ['' => ''] + Menus::all()->pluck('name', 'id')->all(), null, ['class' => 'form-control']) !!}
-            @endif
-            {!! BootForm::textarea(__('Css'), 'css') !!}
-            {!! BootForm::textarea(__('Js'), 'js') !!}
         </div>
 
     </div>
