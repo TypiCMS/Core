@@ -23,6 +23,8 @@ abstract class Presenter extends BasePresenter
     /**
      * Allow for property-style retrieval.
      *
+     * @param mixed $property
+     *
      * @return mixed
      */
     public function __get($property)
@@ -144,6 +146,10 @@ abstract class Presenter extends BasePresenter
 
     public function title(): string
     {
+        if (!$this->entity->id) {
+            return '';
+        }
+
         return strip_tags($this->entity->title);
     }
 

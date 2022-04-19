@@ -1,5 +1,9 @@
-@component('core::admin._buttons-form', ['model' => $model])
-@endcomponent
+<div class="header">
+    @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Taxonomies')])
+    @include('core::admin._title', ['default' => __('New taxonomy')])
+    @component('core::admin._buttons-form', ['model' => $model])
+    @endcomponent
+</div>
 
 {!! BootForm::hidden('id') !!}
 

@@ -3,8 +3,12 @@
     <script src="{{ asset('components/ckeditor4/config-full.js') }}"></script>
 @endpush
 
-@component('core::admin._buttons-form', ['model' => $model])
-@endcomponent
+<div class="header">
+    @include('core::admin._button-back', ['url' => $page->editUrl(), 'title' => $page->title])
+    @include('core::admin._title', ['default' => __('New page section')])
+    @component('core::admin._buttons-form', ['model' => $model])
+    @endcomponent
+</div>
 
 {!! BootForm::hidden('id') !!}
 {!! BootForm::hidden('page_id')->value($page->id) !!}

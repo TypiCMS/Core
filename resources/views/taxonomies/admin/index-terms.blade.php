@@ -16,7 +16,7 @@
     :sorting="['position']">
 
     <template slot="back-button">
-        @include('core::admin._button-back', ['module' => 'taxonomies'])
+        @include('core::admin._button-back', ['url' => route('admin::index-taxonomies'), 'title' => __('Taxonomies')])
     </template>
 
     <template slot="add-button">

@@ -3,8 +3,12 @@
     <script src="{{ asset('components/ckeditor4/config-full.js') }}"></script>
 @endpush
 
-@component('core::admin._buttons-form', ['model' => $model])
-@endcomponent
+<div class="header">
+    @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Blocks')])
+    @include('core::admin._title', ['default' => __('New block')])
+    @component('core::admin._buttons-form', ['model' => $model])
+    @endcomponent
+</div>
 
 <file-manager related-table="{{ $model->getTable() }}" :related-id="{{ $model->id ?? 0 }}"></file-manager>
 

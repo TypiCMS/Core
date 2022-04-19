@@ -1,5 +1,9 @@
-@component('core::admin._buttons-form', ['model' => $model])
-@endcomponent
+<div class="header">
+    @include('core::admin._button-back', ['url' => route('admin::index-terms', $taxonomy), 'title' => __('Terms')])
+    @include('core::admin._title', ['default' => __('New term')])
+    @component('core::admin._buttons-form', ['model' => $model])
+    @endcomponent
+</div>
 
 {!! BootForm::hidden('id') !!}
 

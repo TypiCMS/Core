@@ -1,6 +1,6 @@
 @php
     $data = [];
-    foreach ($model->terms->load('taxonomy') as $term){
+    foreach ($model->terms as $term){
         $data[$term->taxonomy->name][] = $term->id;
     }
     $model->terms = $data;

@@ -1,5 +1,9 @@
-@component('core::admin._buttons-form', ['model' => $model, 'langSwitcher' => false])
-@endcomponent
+<div class="header">
+    @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Users')])
+    @include('core::admin._title', ['default' => __('New user')])
+    @component('core::admin._buttons-form', ['model' => $model, 'langSwitcher' => false])
+    @endcomponent
+</div>
 
 {!! BootForm::hidden('id') !!}
 

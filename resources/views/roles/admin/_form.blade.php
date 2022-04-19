@@ -1,7 +1,11 @@
 {!! BootForm::hidden('id') !!}
 
-@component('core::admin._buttons-form', ['model' => $model, 'langSwitcher' => false])
-@endcomponent
+<div class="header">
+    @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Roles')])
+    @include('core::admin._title', ['default' => __('New role')])
+    @component('core::admin._buttons-form', ['model' => $model, 'langSwitcher' => false])
+    @endcomponent
+</div>
 
 <div class="row gx-3">
     <div class="col-sm-6">

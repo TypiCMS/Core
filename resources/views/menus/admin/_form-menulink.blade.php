@@ -1,5 +1,9 @@
-@component('core::admin._buttons-form', ['model' => $model, 'langSwitcher' => true])
-@endcomponent
+<div class="header">
+    @include('core::admin._button-back', ['url' => $menu->editUrl(), 'title' => $menu->name])
+    @include('core::admin._title', ['default' => __('New menulink')])
+    @component('core::admin._buttons-form', ['model' => $model, 'langSwitcher' => true])
+    @endcomponent
+</div>
 
 {!! BootForm::hidden('id') !!}
 {!! BootForm::hidden('menu_id')->value($menu->id) !!}

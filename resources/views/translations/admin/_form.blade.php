@@ -1,5 +1,9 @@
-@component('core::admin._buttons-form', ['model' => $model, 'langSwitcher' => false])
-@endcomponent
+<div class="header">
+    @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Translations')])
+    @include('core::admin._title', ['default' => __('New translation')])
+    @component('core::admin._buttons-form', ['model' => $model, 'langSwitcher' => false])
+    @endcomponent
+</div>
 
 {!! BootForm::hidden('id') !!}
 
