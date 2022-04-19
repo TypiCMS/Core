@@ -22,9 +22,113 @@
                 </a>
                 <h1 class="filemanager-title header-title">{{ path[path.length - 1].name }}</h1>
                 <div class="header-toolbar btn-toolbar">
+                    <button class="btn btn-sm btn-secondary me-2" @click="newFolder(folder.id)" type="button">
+                        <svg
+                            class="me-1 text-muted"
+                            width="1em"
+                            height="1em"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"
+                            />
+                        </svg>
+                        {{ $t('New folder') }}
+                    </button>
+                    <div class="btn-group btn-group-sm me-2">
+                        <button
+                            class="btn btn-secondary dropdown-toggle"
+                            :class=""
+                            type="button"
+                            id="dropdown-action-button"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="true"
+                        >
+                            {{ $t('Action') }}
+                        </button>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdown-action-button">
+                            <button
+                                class="dropdown-item"
+                                type="button"
+                                @click="deleteSelected"
+                                :disabled="selectedItems.length === 0"
+                            >
+                                {{ $t('Delete') }}
+                            </button>
+                            <button
+                                class="dropdown-item"
+                                type="button"
+                                @click="moveToParentFolder()"
+                                :disabled="!folder.id || selectedFiles.length === 0"
+                            >
+                                {{ $t('Move to parent folder') }}
+                            </button>
+                            <div class="dropdown-divider"></div>
+                            <button class="dropdown-item" type="button" disabled="disabled">
+                                {{
+                                    $tc('# items selected', selectedItems.length, {
+                                        count: selectedItems.length,
+                                    })
+                                }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="btn-group btn-group-sm">
+                        <button
+                            class="btn btn-secondary"
+                            :class="{ active: view === 'grid' }"
+                            type="button"
+                            @click="switchView('grid')"
+                        >
+                            <svg
+                                class="text-muted"
+                                width="1em"
+                                height="1em"
+                                viewBox="0 0 16 16"
+                                fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M1 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V4zM1 9a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V9zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V9z"
+                                />
+                            </svg>
+                            {{ $t('Grid') }}
+                        </button>
+                        <button
+                            class="btn btn-secondary"
+                            :class="{ active: view === 'list' }"
+                            type="button"
+                            @click="switchView('list')"
+                        >
+                            <svg
+                                class="text-muted"
+                                width="1em"
+                                height="1em"
+                                viewBox="0 0 16 16"
+                                fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"
+                                />
+                            </svg>
+                            {{ $t('List') }}
+                        </button>
+                    </div>
+                    <div class="d-flex align-items-center ms-2">
+                        <div class="spinner-border spinner-border-sm text-dark" role="status" v-if="loading">
+                            <span class="visually-hidden">{{ $t('Loading…') }}</span>
+                        </div>
+                    </div>
                     <button
                         type="button"
-                        class="btn btn-sm btn-primary header-btn-add"
+                        class="btn btn-sm btn-primary header-btn-add ms-auto"
                         id="upload-files-button"
                         v-if="dropzone"
                     >
@@ -61,226 +165,125 @@
                 </svg>
             </button>
 
-            <div class="btn-toolbar mb-4">
-                <button class="btn btn-sm btn-light me-2" @click="newFolder(folder.id)" type="button">
-                    <svg
-                        class="me-1 text-muted"
-                        width="1em"
-                        height="1em"
-                        viewBox="0 0 16 16"
-                        fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            fill-rule="evenodd"
-                            d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"
-                        />
-                    </svg>
-                    {{ $t('New folder') }}
-                </button>
-                <div class="btn-group btn-group-sm me-2">
-                    <button
-                        class="btn btn-light dropdown-toggle"
-                        :class=""
-                        type="button"
-                        id="dropdown-action-button"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="true"
-                    >
-                        {{ $t('Action') }}
-                    </button>
-
-                    <div class="dropdown-menu" aria-labelledby="dropdown-action-button">
-                        <button
-                            class="dropdown-item"
-                            type="button"
-                            @click="deleteSelected"
-                            :disabled="selectedItems.length === 0"
-                        >
-                            {{ $t('Delete') }}
-                        </button>
-                        <button
-                            class="dropdown-item"
-                            type="button"
-                            @click="moveToParentFolder()"
-                            :disabled="!folder.id || selectedFiles.length === 0"
-                        >
-                            {{ $t('Move to parent folder') }}
-                        </button>
-                        <div class="dropdown-divider"></div>
-                        <button class="dropdown-item" type="button" disabled="disabled">
-                            {{
-                                $tc('# items selected', selectedItems.length, {
-                                    count: selectedItems.length,
-                                })
-                            }}
-                        </button>
-                    </div>
-                </div>
-                <div class="btn-group btn-group-sm">
-                    <button
-                        class="btn btn-light"
-                        :class="{ active: view === 'grid' }"
-                        type="button"
-                        @click="switchView('grid')"
-                    >
-                        <svg
-                            class="text-muted"
-                            width="1em"
-                            height="1em"
-                            viewBox="0 0 16 16"
-                            fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M1 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V4zM1 9a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V9zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V9z"
-                            />
-                        </svg>
-                        {{ $t('Grid') }}
-                    </button>
-                    <button
-                        class="btn btn-light"
-                        :class="{ active: view === 'list' }"
-                        type="button"
-                        @click="switchView('list')"
-                    >
-                        <svg
-                            class="text-muted"
-                            width="1em"
-                            height="1em"
-                            viewBox="0 0 16 16"
-                            fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"
-                            />
-                        </svg>
-                        {{ $t('List') }}
-                    </button>
-                </div>
-                <div class="d-flex align-items-center ms-2">
-                    <div class="spinner-border spinner-border-sm text-secondary" role="status" v-if="loading">
-                        <span class="visually-hidden">{{ $t('Loading…') }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <vue-dropzone
-                id="dropzone"
-                ref="dropzone"
-                :options="dropOptions"
-                @vdropzone-success="dropzoneSuccess"
-                @vdropzone-sending="dropzoneSending"
-                @vdropzone-complete="dropzoneComplete"
-                @vdropzone-error="dropzoneError"
-                v-if="dropzone"
-            >
-            </vue-dropzone>
-
-            <div @click="checkNone()" class="filemanager-list" :class="{ 'filemanager-view-list': view === 'list' }">
-                <div
-                    class="filemanager-item filemanager-item-with-name filemanager-item-editable"
-                    v-for="item in filteredItems"
-                    @click="check(item, $event)"
-                    :id="'item_' + item.id"
-                    :class="{
-                        'filemanager-item-selected': selectedItems.indexOf(item) !== -1,
-                        'filemanager-item-folder': item.type === 'f',
-                        'filemanager-item-file': item.type !== 'f',
-                        'filemanager-item-dragging-source': dragging && selectedItems.indexOf(item) !== -1,
-                    }"
-                    draggable="true"
-                    @drop="drop(item, $event)"
-                    @dragstart="dragStart(item, $event)"
-                    @dragover="dragOver($event)"
-                    @dragenter="dragEnter($event)"
-                    @dragleave="dragLeave($event)"
-                    @dragend="dragEnd($event)"
-                    @dblclick="onDoubleClick(item)"
+            <div class="content">
+                <vue-dropzone
+                    id="dropzone"
+                    ref="dropzone"
+                    :options="dropOptions"
+                    @vdropzone-success="dropzoneSuccess"
+                    @vdropzone-sending="dropzoneSending"
+                    @vdropzone-complete="dropzoneComplete"
+                    @vdropzone-error="dropzoneError"
+                    v-if="dropzone"
                 >
-                    <div class="filemanager-item-wrapper">
-                        <div class="filemanager-item-icon" v-if="item.type === 'i'">
-                            <div class="filemanager-item-image-wrapper">
-                                <img
-                                    class="filemanager-item-image"
-                                    :src="item.thumb_sm"
-                                    :alt="item.alt_attribute_translated"
-                                />
+                </vue-dropzone>
+
+                <div
+                    @click="checkNone()"
+                    class="filemanager-list"
+                    :class="{ 'filemanager-view-list': view === 'list' }"
+                >
+                    <div
+                        class="filemanager-item filemanager-item-with-name filemanager-item-editable"
+                        v-for="item in filteredItems"
+                        @click="check(item, $event)"
+                        :id="'item_' + item.id"
+                        :class="{
+                            'filemanager-item-selected': selectedItems.indexOf(item) !== -1,
+                            'filemanager-item-folder': item.type === 'f',
+                            'filemanager-item-file': item.type !== 'f',
+                            'filemanager-item-dragging-source': dragging && selectedItems.indexOf(item) !== -1,
+                        }"
+                        draggable="true"
+                        @drop="drop(item, $event)"
+                        @dragstart="dragStart(item, $event)"
+                        @dragover="dragOver($event)"
+                        @dragenter="dragEnter($event)"
+                        @dragleave="dragLeave($event)"
+                        @dragend="dragEnd($event)"
+                        @dblclick="onDoubleClick(item)"
+                    >
+                        <div class="filemanager-item-wrapper">
+                            <div class="filemanager-item-icon" v-if="item.type === 'i'">
+                                <div class="filemanager-item-image-wrapper">
+                                    <img
+                                        class="filemanager-item-image"
+                                        :src="item.thumb_sm"
+                                        :alt="item.alt_attribute_translated"
+                                    />
+                                </div>
                             </div>
+                            <div class="filemanager-item-icon" :class="'filemanager-item-icon-' + item.type" v-else>
+                                <svg
+                                    v-if="item.type === 'a'"
+                                    width="80px"
+                                    height="80px"
+                                    viewBox="0 0 16 16"
+                                    class="bi bi-file-earmark-music"
+                                    fill="currentColor"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"
+                                    />
+                                    <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z" />
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M9.757 5.67A1 1 0 0 1 11 6.64v1.75l-2 .5v3.61c0 .495-.301.883-.662 1.123C7.974 13.866 7.499 14 7 14c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 11.134 6.501 11 7 11c.356 0 .7.068 1 .196V6.89a1 1 0 0 1 .757-.97l1-.25z"
+                                    />
+                                </svg>
+                                <svg
+                                    v-if="item.type === 'v'"
+                                    width="80px"
+                                    height="80px"
+                                    viewBox="0 0 16 16"
+                                    class="bi bi-file-earmark-play-fill"
+                                    fill="currentColor"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zM6 6.883v4.234a.5.5 0 0 0 .757.429l3.528-2.117a.5.5 0 0 0 0-.858L6.757 6.454a.5.5 0 0 0-.757.43z"
+                                    />
+                                </svg>
+                                <svg
+                                    v-if="item.type === 'd'"
+                                    width="80px"
+                                    height="80px"
+                                    viewBox="0 0 16 16"
+                                    class="bi bi-file-earmark"
+                                    fill="currentColor"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"
+                                    />
+                                    <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z" />
+                                </svg>
+                                <svg
+                                    v-if="item.type === 'f'"
+                                    width="80px"
+                                    height="80px"
+                                    viewBox="0 0 16 16"
+                                    class="bi bi-folder"
+                                    fill="currentColor"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M9.828 4a3 3 0 0 1-2.12-.879l-.83-.828A1 1 0 0 0 6.173 2H2.5a1 1 0 0 0-1 .981L1.546 4h-1L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3v1z"
+                                    />
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M13.81 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4zM2.19 3A2 2 0 0 0 .198 5.181l.637 7A2 2 0 0 0 2.826 14h10.348a2 2 0 0 0 1.991-1.819l.637-7A2 2 0 0 0 13.81 3H2.19z"
+                                    />
+                                </svg>
+                            </div>
+                            <div class="filemanager-item-name">{{ item.name }}</div>
+                            <a class="filemanager-item-editable-button" :href="'/admin/files/' + item.id + '/edit'">
+                                <span class="filemanager-item-editable-button-icon"></span>
+                                <span class="visually-hidden">{{ $t('Edit') }}</span>
+                            </a>
                         </div>
-                        <div class="filemanager-item-icon" :class="'filemanager-item-icon-' + item.type" v-else>
-                            <svg
-                                v-if="item.type === 'a'"
-                                width="80px"
-                                height="80px"
-                                viewBox="0 0 16 16"
-                                class="bi bi-file-earmark-music"
-                                fill="currentColor"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"
-                                />
-                                <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z" />
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M9.757 5.67A1 1 0 0 1 11 6.64v1.75l-2 .5v3.61c0 .495-.301.883-.662 1.123C7.974 13.866 7.499 14 7 14c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 11.134 6.501 11 7 11c.356 0 .7.068 1 .196V6.89a1 1 0 0 1 .757-.97l1-.25z"
-                                />
-                            </svg>
-                            <svg
-                                v-if="item.type === 'v'"
-                                width="80px"
-                                height="80px"
-                                viewBox="0 0 16 16"
-                                class="bi bi-file-earmark-play-fill"
-                                fill="currentColor"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zM6 6.883v4.234a.5.5 0 0 0 .757.429l3.528-2.117a.5.5 0 0 0 0-.858L6.757 6.454a.5.5 0 0 0-.757.43z"
-                                />
-                            </svg>
-                            <svg
-                                v-if="item.type === 'd'"
-                                width="80px"
-                                height="80px"
-                                viewBox="0 0 16 16"
-                                class="bi bi-file-earmark"
-                                fill="currentColor"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"
-                                />
-                                <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z" />
-                            </svg>
-                            <svg
-                                v-if="item.type === 'f'"
-                                width="80px"
-                                height="80px"
-                                viewBox="0 0 16 16"
-                                class="bi bi-folder"
-                                fill="currentColor"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M9.828 4a3 3 0 0 1-2.12-.879l-.83-.828A1 1 0 0 0 6.173 2H2.5a1 1 0 0 0-1 .981L1.546 4h-1L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3v1z"
-                                />
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M13.81 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4zM2.19 3A2 2 0 0 0 .198 5.181l.637 7A2 2 0 0 0 2.826 14h10.348a2 2 0 0 0 1.991-1.819l.637-7A2 2 0 0 0 13.81 3H2.19z"
-                                />
-                            </svg>
-                        </div>
-                        <div class="filemanager-item-name">{{ item.name }}</div>
-                        <a class="filemanager-item-editable-button" :href="'/admin/files/' + item.id + '/edit'">
-                            <span class="filemanager-item-editable-button-icon"></span>
-                            <span class="visually-hidden">{{ $t('Edit') }}</span>
-                        </a>
                     </div>
                 </div>
             </div>
