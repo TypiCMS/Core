@@ -18,7 +18,7 @@ class JavaScriptData
         $data = [
             'content_locale' => config('typicms.content_locale'),
             'locale' => app()->getLocale(),
-            'locale_country' => TypiCMS::localeAndCountry('-'),
+            'locale_region' => TypiCMS::localeAndRegion('-'),
         ];
         foreach (locales() as $locale) {
             $data['locales'][] = [

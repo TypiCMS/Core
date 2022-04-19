@@ -38,19 +38,19 @@ class TypiCMS
         return Arr::first(locales());
     }
 
-    public function localeAndCountry(string $separator = null, ?string $locale = null): ?string
+    public function localeAndRegion(string $separator = null, ?string $locale = null): ?string
     {
         $locale = $locale ?? app()->getLocale();
         $locales = config('typicms.locales');
         if (!array_key_exists($locale, $locales)) {
             return null;
         }
-        $localeAndCountry = $locales[$locale];
+        $localeAndRegion = $locales[$locale];
         if (!is_null($separator)) {
-            return str_replace('_', $separator, $localeAndCountry);
+            return str_replace('_', $separator, $localeAndRegion);
         }
 
-        return $localeAndCountry;
+        return $localeAndRegion;
     }
 
     public function isLocaleEnabled($locale): bool
