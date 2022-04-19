@@ -15,7 +15,7 @@
 @import 'admin/permissions';
 @import 'admin/modal';
 @import 'admin/header';
-@import 'admin/item-list-actions';
+@import 'admin/content';
 @import 'admin/item-list-table';
 @import 'admin/item-list-pagination';
 
@@ -33,7 +33,6 @@ body {
 }
 
 .main {
-    padding: 1.5rem;
     @include media-breakpoint-up(md) {
         min-height: 0;
         margin-left: 260px;
