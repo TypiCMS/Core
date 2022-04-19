@@ -30,6 +30,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | You can choose to have a lang chooser in the root url
+    |--------------------------------------------------------------------------
+    |
+    | If set to false, the root URL will redirect to the browser locale
+    | or the main locale (the first in the above array). If set to true,
+    | main_locale_in_url must be true.
+    |
+    */
+    'lang_chooser' => false,
+
+    /*
+    |--------------------------------------------------------------------------
     | Max file upload size allowed
     |--------------------------------------------------------------------------
     */
