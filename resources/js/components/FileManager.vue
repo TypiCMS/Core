@@ -2,40 +2,49 @@
     <div class="filepicker" :class="classes" id="filepicker" ref="filepicker">
         <div class="wrapper">
             <div class="filemanager-header header">
-                <h1 class="filemanager-title header-title">
-                    <div v-for="(folder, index) in path">
-                        <span
-                            class="filemanager-title-clickable"
-                            v-if="path.length !== index + 1"
-                            @click="openFolder(folder)"
-                        >
-                            {{ folder.name }}
-                        </span>
-                        <span v-else>{{ folder.name }}</span>
-                    </div>
-                </h1>
-                <button
-                    type="button"
-                    class="btn btn-sm btn-primary header-btn-add"
-                    id="upload-files-button"
-                    v-if="dropzone"
-                >
+                <a v-if="path.length > 1" class="btn-back" @click="openFolder(path[path.length - 2])" href="#">
                     <svg
-                        class="me-1"
-                        width="1em"
+                        class="btn-back-icon"
                         height="1em"
-                        viewBox="0 0 16 16"
-                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        width="1em"
                         xmlns="http://www.w3.org/2000/svg"
                     >
                         <path
+                            fill="currentColor"
+                            d="m16.133.427-11.572 11.573 11.572 11.573 3.306-3.311-8.267-8.262 8.267-8.267z"
                             fill-rule="evenodd"
-                            d="M8 0a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 4.095 0 5.555 0 7.318 0 9.366 1.708 11 3.781 11H7.5V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11h4.188C14.502 11 16 9.57 16 7.773c0-1.636-1.242-2.969-2.834-3.194C12.923 1.999 10.69 0 8 0zm-.5 14.5V11h1v3.5a.5.5 0 0 1-1 0z"
                         />
                     </svg>
+                    <span class="btn-back-label">
+                        {{ path[path.length - 2].name }}
+                    </span>
+                </a>
+                <h1 class="filemanager-title header-title">{{ path[path.length - 1].name }}</h1>
+                <div class="header-toolbar btn-toolbar">
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-primary header-btn-add"
+                        id="upload-files-button"
+                        v-if="dropzone"
+                    >
+                        <svg
+                            class="me-1"
+                            width="1em"
+                            height="1em"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M8 0a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 4.095 0 5.555 0 7.318 0 9.366 1.708 11 3.781 11H7.5V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11h4.188C14.502 11 16 9.57 16 7.773c0-1.636-1.242-2.969-2.834-3.194C12.923 1.999 10.69 0 8 0zm-.5 14.5V11h1v3.5a.5.5 0 0 1-1 0z"
+                            />
+                        </svg>
 
-                    {{ $t('Upload files') }}
-                </button>
+                        {{ $t('Upload files') }}
+                    </button>
+                </div>
             </div>
 
             <button class="filemanager-btn-close" type="button" v-if="this.modal" @click="closeModal">
