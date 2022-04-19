@@ -11,7 +11,7 @@
     table="users"
     title="users"
     include="roles"
-    :multilingual="false"
+    :translatable="false"
     :publishable="false"
     :exportable="true"
     :searchable="['first_name,last_name,email']"

@@ -146,7 +146,7 @@ export default {
             if (this.appends !== '') {
                 query.push('append=' + this.appends);
             }
-            if (this.multilingual) {
+            if (this.translatable) {
                 query.push('locale=' + this.currentLocale);
             }
             if (this.pagination) {
