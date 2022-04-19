@@ -17,7 +17,7 @@
             {!! Form::label(__('Slug'))->addClass('form-label')->forId('slug') !!}
             <div class="input-group">
                 {!! Form::text('slug')->addClass('form-control')->addClass($errors->has('slug') ? 'is-invalid' : '')->id('slug')->data('slug', 'tag') !!}
-                <button class="btn btn-outline-secondary btn-slug @if ($errors->has('slug'))btn-danger @endif" type="button">{{ __('Generate') }}</button>
+                <button class="btn btn-outline-dark btn-slug @if ($errors->has('slug'))btn-danger @endif" type="button">{{ __('Generate') }}</button>
                 {!! $errors->first('slug', '<div class="invalid-feedback">:message</div>') !!}
             </div>
         </div>

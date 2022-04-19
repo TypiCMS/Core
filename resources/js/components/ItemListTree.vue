@@ -6,7 +6,7 @@
                 <slot name="buttons"></slot>
                 <slot name="add-button"></slot>
                 <div class="d-flex align-items-center ms-2">
-                    <div class="spinner-border spinner-border-sm text-secondary" role="status" v-if="loading">
+                    <div class="spinner-border spinner-border-sm text-dark" role="status" v-if="loading">
                         <span class="visually-hidden">{{ $t('Loading…') }}</span>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                     </svg>
 
                     <a
-                        class="btn btn-xs btn-secondary py-0 px-1 fw-bold"
+                        class="btn btn-xs btn-dark py-0 px-1 fw-bold"
                         :href="'/admin/' + node.data.module"
                         v-if="node.data.module"
                     >
