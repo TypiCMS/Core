@@ -5,6 +5,10 @@
     @endcomponent
 </div>
 
-{!! BootForm::hidden('id') !!}
+<div class="content">
 
-@include('core::form._title-and-slug')
+    {!! BootForm::hidden('id') !!}
+
+    @include('core::form._title-and-slug')
+
+</div>

@@ -7,11 +7,15 @@
     @endcomponent
 </div>
 
-<div class="row gx-3">
-    <div class="col-sm-6">
-        {!! BootForm::text(__('Name'), 'name')->required() !!}
-    </div>
-</div>
+<div class="content">
 
-<label class="form-label">@lang('Role permissions')</label>
-@include('core::admin._permissions-form')
+    <div class="row gx-3">
+        <div class="col-sm-6">
+            {!! BootForm::text(__('Name'), 'name')->required() !!}
+        </div>
+    </div>
+
+    <label class="form-label">@lang('Role permissions')</label>
+    @include('core::admin._permissions-form')
+
+</div>

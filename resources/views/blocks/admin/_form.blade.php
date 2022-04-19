@@ -12,18 +12,22 @@
 
 <file-manager related-table="{{ $model->getTable() }}" :related-id="{{ $model->id ?? 0 }}"></file-manager>
 
-{!! BootForm::hidden('id') !!}
+<div class="content">
 
-@if ($model->id)
-{!! BootForm::hidden('name') !!}
-@else
-{!! BootForm::text(__('Name'), 'name')->required() !!}
-@endif
+    {!! BootForm::hidden('id') !!}
 
-<div class="mb-3">
-    {!! TranslatableBootForm::hidden('status')->value(0) !!}
-    {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}
-</div>
-{!! TranslatableBootForm::textarea(__('Body'), 'body')->addClass('ckeditor-full') !!}
+    @if ($model->id)
+    {!! BootForm::hidden('name') !!}
+    @else
+    {!! BootForm::text(__('Name'), 'name')->required() !!}
+    @endif
+
+    <div class="mb-3">
+        {!! TranslatableBootForm::hidden('status')->value(0) !!}
+        {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}
+    </div>
+    {!! TranslatableBootForm::textarea(__('Body'), 'body')->addClass('ckeditor-full') !!}
+
+    </div>
 
 </div>
