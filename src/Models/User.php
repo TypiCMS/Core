@@ -36,7 +36,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     protected $presenter = UsersPresenter::class;
 
-    protected $guarded = [];
+    protected $guarded = ['my_name', 'my_time'];
 
     protected $hidden = [
         'password',

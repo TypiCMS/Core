@@ -24,6 +24,8 @@
 
         @include('users::_status')
 
+        {!! Honeypot::generate('my_name', 'my_time') !!}
+
         {!! BootForm::email(__('Email'), 'email')->addClass('form-control-lg')->required()->autocomplete('username') !!}
         <div class="row gx-3">
             <div class="col-sm-6">
