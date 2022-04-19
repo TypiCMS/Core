@@ -31,6 +31,10 @@
         {!! Form::checkbox('permissions[]', 'see unpublished items')->id('permission-see-unpublished-items')->addClass('form-check-input') !!}
         <label class="form-check-label" for="permission-see-unpublished-items">@lang('Preview unpublished items')</label>
     </div>
+    <div class="form-check">
+        {!! Form::checkbox('permissions[]', 'impersonate users')->id('permission-impersonate-users')->addClass('form-check-input') !!}
+        <label class="form-check-label" for="permission-impersonate-users">@lang('Impersonate users')</label>
+    </div>
 </div>
 
 <div class="permissions-modules">

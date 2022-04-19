@@ -3,6 +3,7 @@
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use TypiCMS\Modules\Core\Http\Controllers\ForgotPasswordController;
+use TypiCMS\Modules\Core\Http\Controllers\ImpersonateController;
 use TypiCMS\Modules\Core\Http\Controllers\LoginController;
 use TypiCMS\Modules\Core\Http\Controllers\RegisterController;
 use TypiCMS\Modules\Core\Http\Controllers\ResetPasswordController;
@@ -37,6 +38,8 @@ foreach (locales() as $lang) {
         $router->post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.reset-action');
         // Logout
         $router->post('logout', [LoginController::class, 'logout'])->name('logout');
+        // Impersonate
+        $router->get('stop-impersonation', [ImpersonateController::class, 'stopImpersonation'])->name('stop-impersonation');
     });
 }
 
@@ -52,6 +55,7 @@ Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Ro
     $router->get('users/{user}/edit', [UsersAdminController::class, 'edit'])->name('edit-user')->middleware('can:read users');
     $router->post('users', [UsersAdminController::class, 'store'])->name('store-user')->middleware('can:create users');
     $router->put('users/{user}', [UsersAdminController::class, 'update'])->name('update-user')->middleware('can:update users');
+    $router->get('users/{id}/impersonate', [ImpersonateController::class, 'start'])->name('impersonate-user')->middleware('can:impersonate users');
 });
 
 /*

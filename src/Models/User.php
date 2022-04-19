@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\Permission\Models\Permission;
@@ -119,5 +120,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function sendEmailVerificationNotification(): void
     {
         $this->notify(new VerifyEmail());
+    }
+
+    public function isImpersonating(): bool
+    {
+        return Session::has('impersonation');
     }
 }
