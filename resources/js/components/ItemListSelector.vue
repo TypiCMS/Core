@@ -1,6 +1,6 @@
 <template>
     <div class="btn-group btn-group-sm item-list-selector">
-        <label class="btn btn-light mb-0" :class="{ disabled: !filteredModels.length || loading }">
+        <label class="btn btn-secondary mb-0" :class="{ disabled: !filteredModels.length || loading }">
             <input
                 class="form-check-input"
                 type="checkbox"
@@ -12,7 +12,7 @@
         </label>
         <button
             type="button"
-            class="btn btn-light dropdown-toggle dropdown-toggle-split"
+            class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
             :disabled="!filteredModels.length || loading"
             data-bs-toggle="dropdown"
             aria-haspopup="true"

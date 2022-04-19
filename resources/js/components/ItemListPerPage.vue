@@ -1,7 +1,7 @@
 <template>
     <div class="btn-group btn-group-sm item-list-per-page">
         <button
-            class="btn btn-light dropdown-toggle"
+            class="btn btn-secondary dropdown-toggle"
             :disabled="loading"
             type="button"
             data-bs-toggle="dropdown"

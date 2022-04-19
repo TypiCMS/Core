@@ -35,7 +35,7 @@
         <td class="checkbox" v-if="$can('update taxonomies')||$can('delete taxonomies')"><item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox></td>
         <td v-if="$can('update taxonomies')">@include('core::admin._button-edit', ['segment' => 'taxonomies', 'module' => 'taxonomies'])</td>
         <td v-if="$can('update terms')">
-            <a class="btn btn-light btn-xs" :href="'taxonomies/'+model.id+'/terms'">@lang('Terms')</a>
+            <a class="btn btn-secondary btn-xs" :href="'taxonomies/'+model.id+'/terms'">@lang('Terms')</a>
         </td>
         <td><item-list-position-input :model="model"></item-list-position-input></td>
         <td>@{{ model.name }}</td>
