@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use League\Flysystem\Filesystem as Flysystem;
-use League\Flysystem\Local\LocalFilesystemAdapter as LocalAdapter;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\MountManager;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\Visibility;
@@ -102,8 +102,8 @@ class Publish extends Command
         $visibility = PortableVisibilityConverter::fromArray([], Visibility::PUBLIC);
 
         $manager = new MountManager([
-            'from' => new Flysystem(new LocalAdapter($from)),
-            'to' => new Flysystem(new LocalAdapter($to, $visibility)),
+            'from' => new Flysystem(new LocalFilesystemAdapter($from)),
+            'to' => new Flysystem(new LocalFilesystemAdapter($to, $visibility)),
         ]);
 
         foreach ($manager->listContents('from://', true) as $file) {
