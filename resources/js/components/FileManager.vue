@@ -20,7 +20,7 @@
                         {{ path[path.length - 2].name }}
                     </span>
                 </a>
-                <h1 class="filemanager-title header-title">{{ path[path.length - 1].name }}</h1>
+                <h1 class="filemanager-title header-title" v-if="path.length > 1">{{ path[path.length - 1].name }}</h1>
                 <div class="header-toolbar btn-toolbar">
                     <button class="btn btn-sm btn-secondary me-2" @click="newFolder(folder.id)" type="button">
                         <svg
