@@ -7,6 +7,8 @@
 
 <div class="content">
 
+    @include('core::admin._form-errors')
+
     {!! BootForm::hidden('id') !!}
     {!! BootForm::hidden('menu_id')->value($menu->id) !!}
     {!! BootForm::hidden('position') !!}

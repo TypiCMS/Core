@@ -9,8 +9,6 @@
 @endsection
 @section('mainClass')
 @endsection
-@section('errors')
-@endsection
 
 @section('content')
 

@@ -14,6 +14,8 @@
 
 <div class="content">
 
+    @include('core::admin._form-errors')
+
     {!! BootForm::hidden('id') !!}
 
     @if ($model->id)
