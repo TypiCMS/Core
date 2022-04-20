@@ -52,8 +52,7 @@
                 table="page_sections"
                 title="sections"
                 include="image"
-                appends="thumb"
-                :searchable="['title']"
+                            :searchable="['title']"
                 :sorting="['position']">
 
                 <template slot="add-button" v-if="$can('create page_sections')">

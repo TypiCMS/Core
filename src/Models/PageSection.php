@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Route;
 use Laracasts\Presenter\PresentableTrait;
@@ -24,6 +25,8 @@ class PageSection extends Base implements Sortable
 
     protected $guarded = [];
 
+    protected $appends = ['thumb'];
+
     public $translatable = [
         'title',
         'slug',
@@ -40,9 +43,11 @@ class PageSection extends Base implements Sortable
         return static::query()->where('page_id', $this->page_id);
     }
 
-    public function getThumbAttribute(): string
+    protected function thumb(): Attribute
     {
-        return $this->present()->image(null, 54);
+        return new Attribute(
+            get: fn () => $this->present()->image(null, 54),
+        );
     }
 
     public function uri($locale = null): string

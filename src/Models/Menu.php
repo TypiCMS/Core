@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Models;
 
 use Exception;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Log;
@@ -21,6 +22,8 @@ class Menu extends Base
     protected $presenter = MenusPresenter::class;
 
     protected $guarded = [];
+
+    protected $appends = ['thumb'];
 
     public $translatable = [
         'status',
@@ -100,9 +103,11 @@ class Menu extends Base
         return implode(' ', $classArray);
     }
 
-    public function getThumbAttribute(): string
+    protected function thumb(): Attribute
     {
-        return $this->present()->image(null, 54);
+        return new Attribute(
+            get: fn () => $this->present()->image(null, 54),
+        );
     }
 
     public function image(): BelongsTo

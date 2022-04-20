@@ -11,7 +11,6 @@
     table="menus"
     title="menus"
     include="image"
-    appends="thumb"
     :searchable="['name']"
     :sorting="['name']">
 
