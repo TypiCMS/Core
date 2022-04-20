@@ -4,11 +4,11 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use TypiCMS\Modules\Core\Filters\FilterOr;
 use TypiCMS\Modules\Core\Models\History;
+use TypiCMS\Modules\Core\Models\User;
 
 class HistoryApiController extends BaseApiController
 {
@@ -25,15 +25,7 @@ class HistoryApiController extends BaseApiController
                 'history.action',
                 'history.user_id',
             ])
-            ->addSelect(
-                DB::raw(
-                    '(SELECT CONCAT(`first_name`, \' \', `last_name`) FROM `'.
-                    DB::getTablePrefix().
-                    'users` WHERE `id` = `'.
-                    DB::getTablePrefix().
-                    "history`.`user_id`) AS 'user_name'"
-                )
-            )
+            ->selectSub(User::selectRaw('CONCAT(`first_name`, " ", `last_name`)')->whereColumn('user_id', 'users.id'), 'user_name')
             ->allowedSorts(['created_at', 'title', 'historable_type', 'action', 'user_name'])
             ->allowedFilters([
                 AllowedFilter::custom('title,historable_type,action,user_name', new FilterOr()),
