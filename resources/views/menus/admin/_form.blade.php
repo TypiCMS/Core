@@ -35,6 +35,7 @@
             table="menulinks"
             title="Menulinks"
             v-if="$can('read menulinks')"
+            :sub-list="true"
         >
 
             <template slot="add-button" v-if="$can('create menulinks')">

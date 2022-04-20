@@ -1,7 +1,12 @@
 <template>
-    <div class="item-list-tree">
+    <div class="item-list-tree" :class="{ 'sub-list': subList }">
         <div class="item-list-header header">
-            <h1 class="item-list-title header-title">{{ $t(title) }}</h1>
+            <h1 class="item-list-title" v-if="!subList">
+                {{ $t(title) }}
+            </h1>
+            <h2 class="item-list-subtitle" v-else>
+                {{ $t(title) }}
+            </h2>
             <div class="btn-toolbar item-list-toolbar header-toolbar">
                 <slot name="buttons"></slot>
                 <slot name="add-button"></slot>
@@ -195,13 +200,13 @@ export default {
         fields: {
             type: String,
         },
-        appends: {
-            type: String,
-            default: '',
-        },
         translatable: {
             type: Boolean,
             default: true,
+        },
+        subList: {
+            type: Boolean,
+            default: false,
         },
     },
     data() {
@@ -220,9 +225,6 @@ export default {
         url() {
             let query = ['fields[' + this.table + ']=' + this.fields];
 
-            if (this.appends !== '') {
-                query.push('append=' + this.appends);
-            }
             if (this.translatable) {
                 query.push('locale=' + this.currentLocale);
             }

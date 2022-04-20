@@ -1,10 +1,13 @@
 <template>
-    <div class="item-list">
+    <div class="item-list" :class="{ 'sub-list': subList }">
         <div class="item-list-header header">
             <slot name="back-button"></slot>
-            <h1 class="item-list-title header-title">
+            <h1 class="item-list-title" v-if="!subList">
                 {{ $t(title.charAt(0).toUpperCase() + title.slice(1)) }}
             </h1>
+            <h2 class="item-list-subtitle" v-else>
+                {{ $t(title.charAt(0).toUpperCase() + title.slice(1)) }}
+            </h2>
             <div class="btn-toolbar header-toolbar">
                 <item-list-selector
                     v-if="selector && ($can('update ' + table) || $can('delete ' + table))"
@@ -217,6 +220,10 @@ export default {
         fields: {
             type: String,
             default: '',
+        },
+        subList: {
+            type: Boolean,
+            default: false,
         },
     },
     data() {
