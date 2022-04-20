@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use League\Flysystem\Filesystem as Flysystem;
-use League\Flysystem\Local\LocalFilesystemAdapter as LocalAdapter;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\MountManager;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\Visibility;
@@ -33,10 +33,10 @@ class Create extends Command
      * @var array
      */
     protected $search = [
-        'objects',
-        'object',
-        'Objects',
-        'Object',
+        'things',
+        'thing',
+        'Things',
+        'Thing',
     ];
 
     /**
@@ -103,7 +103,7 @@ class Create extends Command
         $this->publishScssFiles();
         $this->moveMigrationFile();
         $this->addTranslations();
-        $this->deleteResourcesDirectory();
+        $this->deleteDirectories();
         $this->line('------------------');
         $this->line('<info>The module</info> <comment>'.$this->module.'</comment> <info>was created in</info> <comment>/Modules</comment><info>, customize it!</info>');
         $this->line('<info>Add</info> <comment>TypiCMS\Modules\\'.$this->module.'\Providers\ModuleServiceProvider::class,</comment>');
@@ -118,7 +118,7 @@ class Create extends Command
      */
     private function publishModule()
     {
-        $from = base_path('vendor/typicms/objects/src');
+        $from = base_path('vendor/typicms/things/src');
         $to = base_path('Modules/'.$this->module);
 
         if ($this->files->isDirectory($from)) {
@@ -129,21 +129,21 @@ class Create extends Command
     }
 
     /**
-     * Search and remplace all occurences of ‘Objects’
-     * in all files with the name of the new module.
+     * Search and remplace all occurences of ‘Things’
+     * in all files by the name of the new module.
      */
     public function searchAndReplaceInFiles()
     {
         $directory = base_path('Modules/'.$this->module);
 
         $manager = new MountManager([
-            'directory' => new Flysystem(new LocalAdapter($directory)),
+            'directory' => new Flysystem(new LocalFilesystemAdapter($directory)),
         ]);
 
         foreach ($manager->listContents('directory://', true) as $file) {
             if ($file['type'] === 'file') {
-                $content = str_replace($this->search, $this->replace, $manager->read('directory://'.$file['path']));
-                $manager->write('directory://'.$file['path'], $content);
+                $content = str_replace($this->search, $this->replace, $manager->read($file['path']));
+                $manager->write($file['path'], $content);
             }
         }
     }
@@ -155,10 +155,10 @@ class Create extends Command
     {
         $moduleDir = base_path('Modules/'.$this->module);
         $paths = [
-            $moduleDir.'/Models/Object.php',
-            $moduleDir.'/Facades/Objects.php',
-            $moduleDir.'/resources/scss/public/_object.scss',
-            $moduleDir.'/resources/scss/public/_object-list.scss',
+            $moduleDir.'/Models/Thing.php',
+            $moduleDir.'/Facades/Things.php',
+            $moduleDir.'/resources/scss/public/_thing.scss',
+            $moduleDir.'/resources/scss/public/_thing-list.scss',
         ];
         foreach ($paths as $path) {
             $this->files->move($path, str_replace($this->search, $this->replace, $path));
@@ -190,7 +190,7 @@ class Create extends Command
      */
     public function moveMigrationFile()
     {
-        $from = base_path('Modules/'.$this->module.'/database/migrations/create_objects_table.php.stub');
+        $from = base_path('Modules/'.$this->module.'/database/migrations/create_things_table.php.stub');
         $to = getMigrationFileName('create_'.mb_strtolower($this->module).'_table');
         $this->files->move($from, $to);
     }
@@ -203,12 +203,11 @@ class Create extends Command
         $this->call('translations:add', ['path' => 'Modules/'.$this->module.'/lang']);
     }
 
-    /**
-     * Delete resources directory.
-     */
-    public function deleteResourcesDirectory()
+    public function deleteDirectories()
     {
         $this->files->deleteDirectory(base_path('Modules/'.$this->module.'/resources'));
+        $this->files->deleteDirectory(base_path('Modules/'.$this->module.'/lang'));
+        $this->files->deleteDirectory(base_path('Modules/'.$this->module.'/database'));
     }
 
     /**
@@ -239,8 +238,8 @@ class Create extends Command
         $visibility = PortableVisibilityConverter::fromArray([], Visibility::PUBLIC);
 
         $this->moveManagedFiles(new MountManager([
-            'from' => new Flysystem(new LocalAdapter($from)),
-            'to' => new Flysystem(new LocalAdapter($to, $visibility)),
+            'from' => new Flysystem(new LocalFilesystemAdapter($from)),
+            'to' => new Flysystem(new LocalFilesystemAdapter($to, $visibility)),
         ]));
 
         $this->status($from, $to, 'Directory');
