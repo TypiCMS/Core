@@ -20,15 +20,9 @@ class TagsApiController extends BaseApiController
             ->allowedFilters([
                 AllowedFilter::custom('tag', new FilterOr()),
             ])
-            ->addSelect(
-                DB::raw(
-                    '(SELECT COUNT(*) FROM `'.
-                    DB::getTablePrefix().
-                    'taggables` WHERE `tag_id` = `'.
-                    DB::getTablePrefix().
-                    "tags`.`id`) AS 'uses'"
-                )
-            )
+            ->addSelect([
+                'uses' => DB::table('taggables')->selectRaw('COUNT(*)')->whereColumn('tags.id', 'taggables.tag_id'),
+            ])
             ->paginate($request->input('per_page'));
 
         return $data;
