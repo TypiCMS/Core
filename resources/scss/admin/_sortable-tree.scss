@@ -5,7 +5,6 @@
 }
 
 .sl-vue-tree-root > .sl-vue-tree-nodes-list {
-    overflow: hidden;
     position: relative;
     padding-bottom: 4px;
 }
@@ -18,8 +17,6 @@
     position: relative;
     display: flex;
     flex-direction: row;
-    padding-left: 20px;
-    padding-right: 10px;
     line-height: 28px;
     border: 1px solid transparent;
     border-top: 1px solid #ddd;
@@ -64,7 +61,7 @@
 .sl-vue-tree-toggle {
     position: absolute;
     cursor: pointer;
-    left: 4px;
+    left: -15px;
     top: 4px;
     color: $gray-600;
 }
