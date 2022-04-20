@@ -218,10 +218,6 @@ export default {
             type: String,
             default: '',
         },
-        appends: {
-            type: String,
-            default: '',
-        },
     },
     data() {
         return {
@@ -284,9 +280,6 @@ export default {
                 query.push('fields[' + table + ']=' + fields[table].join(','));
             }
 
-            if (this.appends !== '') {
-                query.push('append=' + this.appends);
-            }
             if (this.translatable) {
                 query.push('locale=' + this.currentLocale);
             }
@@ -319,9 +312,6 @@ export default {
 
             if (this.include !== '') {
                 query.push('include=' + this.include);
-            }
-            if (this.appends !== '') {
-                query.push('append=' + this.appends);
             }
             if (this.translatable) {
                 query.push('locale=' + this.currentLocale);
