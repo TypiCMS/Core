@@ -2,20 +2,15 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
 use TypiCMS\Modules\Core\Models\Page;
 
 class PagesPublicController extends BasePublicController
 {
-    /**
-     * Page uri : lang/slug.
-     *
-     * @param null|mixed $uri
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
-     */
-    public function uri($uri = null)
+    public function uri(?string $uri = null): RedirectResponse|View
     {
         $page = $this->findPageByUri($uri);
 
@@ -29,7 +24,7 @@ class PagesPublicController extends BasePublicController
             return redirect($childUri);
         }
 
-        // get submenu
+        // Get subpages.
         $children = $page->getSubPages();
 
         $templateDir = 'pages::'.config('typicms.template_dir', 'public').'.';
@@ -43,9 +38,6 @@ class PagesPublicController extends BasePublicController
         return view($templateDir.$template, compact('children', 'page'));
     }
 
-    /**
-     * Find page by URI.
-     */
     private function findPageByUri(?string $uri): Page
     {
         $query = Page::published()
@@ -80,12 +72,7 @@ class PagesPublicController extends BasePublicController
         return $query->firstOrFail();
     }
 
-    /**
-     * Get browser language or default locale and redirect to homepage.
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function redirectToHomepage()
+    public function redirectToHomepage(): RedirectResponse
     {
         $homepage = Page::published()->where('is_home', 1)->firstOrFail();
         $locale = $this->getBrowserLanguageOrDefault();
@@ -93,27 +80,18 @@ class PagesPublicController extends BasePublicController
         return redirect($homepage->uri($locale));
     }
 
-    /**
-     * Get browser language or app.locale.
-     *
-     * @return string
-     */
-    private function getBrowserLanguageOrDefault()
+    private function getBrowserLanguageOrDefault(): string
     {
-        if ($browserLanguage = getenv('HTTP_ACCEPT_LANGUAGE')) {
-            $browserLocale = mb_substr($browserLanguage, 0, 2);
-            if (in_array($browserLocale, TypiCMS::enabledLocales())) {
-                return $browserLocale;
+        if ($locale = mb_substr(getenv('HTTP_ACCEPT_LANGUAGE'), 0, 2)) {
+            if (in_array($locale, TypiCMS::enabledLocales())) {
+                return $locale;
             }
         }
 
-        return config('app.locale');
+        return TypiCMS::mainLocale();
     }
 
-    /**
-     * Display the lang chooser.
-     */
-    public function langChooser()
+    public function langChooser(): View
     {
         $homepage = Page::published()->where('is_home', 1)->first();
         if (!$homepage) {
