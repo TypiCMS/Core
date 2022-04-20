@@ -16,7 +16,7 @@ class AddLocaleToRootUrl
             !config('typicms.lang_chooser') &&
             config('typicms.main_locale_in_url')
         ) {
-            return redirect($this->getBrowserLanguageOrDefault(), 301);
+            return redirect($this->getBrowserLanguageOrDefault());
         }
 
         return $next($request);
