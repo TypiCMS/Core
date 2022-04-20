@@ -275,6 +275,7 @@ export default {
                 .delete(this.urlBase + '/' + model.id)
                 .then((data) => {
                     this.$refs.slVueTree.remove([node.path]);
+                    alertify.success(this.$i18n.t('Item successfully deleted.'));
                 })
                 .catch((error) => {
                     alertify.error(
