@@ -58,6 +58,17 @@ class TypiCMS
         return in_array($locale, $this->enabledLocales());
     }
 
+    public function getBrowserLocaleOrMainLocale(): string
+    {
+        if ($locale = mb_substr(getenv('HTTP_ACCEPT_LANGUAGE'), 0, 2)) {
+            if (in_array($locale, $this->enabledLocales())) {
+                return $locale;
+            }
+        }
+
+        return $this->mainLocale();
+    }
+
     public function modules(): array
     {
         $modules = config('typicms.modules');

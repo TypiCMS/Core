@@ -75,20 +75,9 @@ class PagesPublicController extends BasePublicController
     public function redirectToHomepage(): RedirectResponse
     {
         $homepage = Page::published()->where('is_home', 1)->firstOrFail();
-        $locale = $this->getBrowserLanguageOrDefault();
+        $locale = TypiCMS::getBrowserLocaleOrMainLocale();
 
         return redirect($homepage->uri($locale));
-    }
-
-    private function getBrowserLanguageOrDefault(): string
-    {
-        if ($locale = mb_substr(getenv('HTTP_ACCEPT_LANGUAGE'), 0, 2)) {
-            if (in_array($locale, TypiCMS::enabledLocales())) {
-                return $locale;
-            }
-        }
-
-        return TypiCMS::mainLocale();
     }
 
     public function langChooser(): View
