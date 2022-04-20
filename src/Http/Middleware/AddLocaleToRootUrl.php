@@ -12,9 +12,9 @@ class AddLocaleToRootUrl
     {
         // Add locale prefix to root URL if required.
         if (
-            $request->segment(1) === null &&
-            !config('typicms.lang_chooser') &&
-            config('typicms.main_locale_in_url')
+            $request->segment(1) === null
+            && !config('typicms.lang_chooser')
+            && config('typicms.main_locale_in_url')
         ) {
             return redirect($this->getBrowserLanguageOrDefault());
         }
