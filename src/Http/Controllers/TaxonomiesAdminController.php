@@ -40,7 +40,8 @@ class TaxonomiesAdminController extends BaseAdminController
     {
         $taxonomy = Taxonomy::create($request->validated());
 
-        return $this->redirect($request, $taxonomy);
+        return $this->redirect($request, $taxonomy)
+            ->withMessage(__('Item successfully created.'));
     }
 
     public function update(Taxonomy $taxonomy, TaxonomyFormRequest $request): RedirectResponse
@@ -48,6 +49,7 @@ class TaxonomiesAdminController extends BaseAdminController
         $taxonomy->update($request->validated());
         (new Term())->flushCache();
 
-        return $this->redirect($request, $taxonomy);
+        return $this->redirect($request, $taxonomy)
+            ->withMessage(__('Item successfully updated.'));
     }
 }

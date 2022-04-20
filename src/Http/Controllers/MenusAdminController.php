@@ -32,13 +32,15 @@ class MenusAdminController extends BaseAdminController
     {
         $menu = Menu::create($request->validated());
 
-        return $this->redirect($request, $menu);
+        return $this->redirect($request, $menu)
+            ->withMessage(__('Item successfully created.'));
     }
 
     public function update(Menu $menu, MenuFormRequest $request): RedirectResponse
     {
         $menu->update($request->validated());
 
-        return $this->redirect($request, $menu);
+        return $this->redirect($request, $menu)
+            ->withMessage(__('Item successfully updated.'));
     }
 }

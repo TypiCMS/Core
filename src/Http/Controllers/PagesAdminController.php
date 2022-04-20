@@ -32,13 +32,15 @@ class PagesAdminController extends BaseAdminController
     {
         $page = Page::create($request->validated());
 
-        return $this->redirect($request, $page);
+        return $this->redirect($request, $page)
+            ->withMessage(__('Item successfully created.'));
     }
 
     public function update(Page $page, PageFormRequest $request): RedirectResponse
     {
         $page->update($request->validated());
 
-        return $this->redirect($request, $page);
+        return $this->redirect($request, $page)
+            ->withMessage(__('Item successfully updated.'));
     }
 }

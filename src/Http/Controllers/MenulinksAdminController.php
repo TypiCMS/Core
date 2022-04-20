@@ -40,13 +40,15 @@ class MenulinksAdminController extends BaseAdminController
     {
         $menulink = Menulink::create($request->validated());
 
-        return $this->redirect($request, $menulink);
+        return $this->redirect($request, $menulink)
+            ->withMessage(__('Item successfully created.'));
     }
 
     public function update(Menu $menu, Menulink $menulink, MenulinkFormRequest $request): RedirectResponse
     {
         $menulink->update($request->validated());
 
-        return $this->redirect($request, $menulink);
+        return $this->redirect($request, $menulink)
+            ->withMessage(__('Item successfully updated.'));
     }
 }

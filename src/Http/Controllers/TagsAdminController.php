@@ -32,13 +32,15 @@ class TagsAdminController extends BaseAdminController
     {
         $tag = Tag::create($request->validated());
 
-        return $this->redirect($request, $tag);
+        return $this->redirect($request, $tag)
+            ->withMessage(__('Item successfully created.'));
     }
 
     public function update(Tag $tag, TagsFormRequest $request): RedirectResponse
     {
         $tag->update($request->validated());
 
-        return $this->redirect($request, $tag);
+        return $this->redirect($request, $tag)
+            ->withMessage(__('Item successfully updated.'));
     }
 }

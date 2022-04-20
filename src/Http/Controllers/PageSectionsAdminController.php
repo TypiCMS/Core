@@ -31,13 +31,15 @@ class PageSectionsAdminController extends BaseAdminController
     {
         $section = PageSection::create($request->validated());
 
-        return $this->redirect($request, $section);
+        return $this->redirect($request, $section)
+            ->withMessage(__('Item successfully created.'));
     }
 
     public function update(Page $page, PageSection $section, PageSectionFormRequest $request): RedirectResponse
     {
         $section->update($request->validated());
 
-        return $this->redirect($request, $section);
+        return $this->redirect($request, $section)
+            ->withMessage(__('Item successfully updated.'));
     }
 }
