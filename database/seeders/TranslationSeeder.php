@@ -18,7 +18,7 @@ class TranslationSeeder extends Seeder
             ['id' => 5, 'translation' => '{"fr":"Nederlands","en":"Nederlands","nl":"Nederlands"}', 'key' => 'languages.nl', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 6, 'translation' => '{"fr":"Chercher","en":"Search","nl":"Zoeken"}', 'key' => 'Search', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 7, 'translation' => '{"fr":"Merci","en":"Thank you","nl":"Dank u"}', 'key' => 'message when contact form is sent', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['id' => 8, 'translation' => '{"fr":"Veuillez s’il vous plaît corriger les erreurs ci-dessous","en":"Please correct the errors below","nl":"Gelieve de onderstaande fouten te corrigeren"}', 'key' => 'message when errors in form', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['id' => 8, 'translation' => '{"fr":"Merci","en":"Thank you","nl":"Dank u"}', 'key' => 'message when registered to event', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 9, 'translation' => '{"fr":"Ajouter au calendrier","en":"Add to calendar","nl":"Toevoegen aan Agenda"}', 'key' => 'Add to calendar', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 10, 'translation' => '{"fr":"Toutes les actualités","nl":"Alle nieuws","en":"All news"}', 'key' => 'All news', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 11, 'translation' => '{"fr":"Tous les événements","nl":"Alle evenementen","en":"All events"}', 'key' => 'All events', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
@@ -31,6 +31,7 @@ class TranslationSeeder extends Seeder
             ['id' => 19, 'translation' => '{"fr":"Désolé, cette page n’a pas été trouvée","nl":"Sorry, deze pagina is niet gevonden","en":"Sorry, this page was not found"}', 'key' => 'Sorry, this page was not found', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 20, 'translation' => '{"fr":"Désolé, une erreur serveur est survenue","nl":"Sorry, er is een serverfout opgetreden","en":"Sorry, a server error occurred"}', 'key' => 'Sorry, a server error occurred', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 21, 'translation' => '{"fr":"Aller à la navigation","nl":"Open navigatie","en":"Open navigation"}', 'key' => 'Open navigation', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['id' => 22, 'translation' => '{"fr":"Veuillez s’il vous plaît corriger les erreurs ci-dessous","en":"Please correct the errors below","nl":"Gelieve de onderstaande fouten te corrigeren"}', 'key' => 'message when errors in form', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ];
 
         DB::table('translations')->insert($translations);
