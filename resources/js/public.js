@@ -19,8 +19,8 @@ require('@fancyapps/fancybox');
 /**
  * Swiper
  */
-import Swiper, { Navigation, Pagination } from 'swiper';
-Swiper.use([Navigation, Pagination]);
+import Swiper, { Navigation, Pagination, Autoplay, Parallax, EffectFade } from 'swiper';
+Swiper.use([Navigation, Pagination, Autoplay, Parallax, EffectFade]);
 window.Swiper = Swiper;
 
 /**
