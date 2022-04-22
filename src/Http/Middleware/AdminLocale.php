@@ -4,8 +4,6 @@ namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Config;
 
 class AdminLocale
 {
@@ -16,23 +14,23 @@ class AdminLocale
      */
     public function handle(Request $request, Closure $next)
     {
-        $locale = $request->input('locale');
-
-        // If requested locale is present in app.locales, store locale in session.
-        if (in_array($locale, locales())) {
-            $request->session()->put('locale', $locale);
+        // Store requested locale in session.
+        $localeFromRequest = $request->input('locale');
+        if (in_array($localeFromRequest, locales())) {
+            session(['locale' => $localeFromRequest]);
         }
 
-        // Set app.locale to user locale or value in config
-        $adminLocale = auth()->user()->locale ?? config('typicms.admin_locale');
-        App::setLocale($adminLocale);
-        config(['typicms.admin_locale' => $adminLocale]);
+        // Set admin interface locale.
+        $userLocale = auth()->user()->locale;
+        if (in_array($userLocale, locales())) {
+            app()->setLocale($userLocale);
+            config(['typicms.admin_locale' => $userLocale]);
+        }
 
-        // Set translatable locale to locale
-        // Don’t set translatable locale if locale is 'all'
-        $localeInSession = $request->session()->get('locale', config('app.locale'));
-        if (in_array($localeInSession, locales())) {
-            Config::set('typicms.content_locale', $localeInSession);
+        // Set content locale.
+        $localeFromSession = session('locale', config('app.locale'));
+        if (in_array($localeFromSession, locales())) {
+            config(['typicms.content_locale' => $localeFromSession]);
         }
 
         return $next($request);
