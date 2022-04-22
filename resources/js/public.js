@@ -5,13 +5,6 @@ import jQuery from 'jquery';
 window.$ = window.jQuery = jQuery;
 
 /**
- * Smooth scroll polyfill
- */
-import smoothscroll from 'smoothscroll-polyfill';
-smoothscroll.polyfill();
-import 'smoothscroll-anchor-polyfill';
-
-/**
  * Bootstrap
  */
 import Dropdown from 'bootstrap/js/dist/dropdown';

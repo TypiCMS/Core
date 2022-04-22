@@ -22,11 +22,6 @@
 @import 'public/image-list';
 @import 'public/share-links';
 
-html {
-    --scroll-behavior: smooth;
-    scroll-behavior: smooth;
-}
-
 table {
     @extend .table;
 }
