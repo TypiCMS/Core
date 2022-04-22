@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Models;
 
 use Exception;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
@@ -29,11 +30,38 @@ class File extends Base
 
     protected $appends = ['thumb_sm', 'alt_attribute_translated', 'url'];
 
-    public function getAltAttributeTranslatedAttribute(): string
+    protected function thumbSm(): Attribute
     {
-        $locale = config('app.locale');
+        return new Attribute(
+            get: fn () => $this->present()->image(240, 240, ['resize']),
+        );
+    }
 
-        return $this->translate('alt_attribute', config('typicms.content_locale', $locale));
+    protected function altAttributeTranslated(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                $locale = app()->getLocale();
+
+                return $this->translate('alt_attribute', config('typicms.content_locale', $locale));
+            },
+        );
+    }
+
+    protected function url(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                $url = '';
+
+                try {
+                    $url = Storage::url($this->path);
+                } catch (Exception $e) {
+                }
+
+                return $url;
+            },
+        );
     }
 
     public function folder(): BelongsTo
@@ -44,22 +72,5 @@ class File extends Base
     public function children(): HasMany
     {
         return $this->hasMany(self::class, 'folder_id', 'id');
-    }
-
-    public function getThumbSmAttribute(): string
-    {
-        return $this->present()->image(240, 240, ['resize']);
-    }
-
-    public function getUrlAttribute(): string
-    {
-        $url = '';
-
-        try {
-            $url = Storage::url($this->path);
-        } catch (Exception $e) {
-        }
-
-        return $url;
     }
 }
