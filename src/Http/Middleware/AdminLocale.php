@@ -24,8 +24,8 @@ class AdminLocale
         $userLocale = auth()->user()->locale;
         if (in_array($userLocale, locales())) {
             app()->setLocale($userLocale);
-            config(['typicms.admin_locale' => $userLocale]);
         }
+        config(['typicms.admin_locale' => config('app.locale')]);
 
         // Set content locale.
         $localeFromSession = session('locale', config('app.locale'));
