@@ -33,8 +33,6 @@ class PagesApiController extends BaseApiController
 
     public function linksForEditor(Request $request)
     {
-        app()->setLocale(config('typicms.admin_locale'));
-
         $data = Page::order()
             ->get()
             ->nest()

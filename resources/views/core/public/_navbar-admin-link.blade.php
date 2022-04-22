@@ -7,5 +7,5 @@
 @else
 <a class="nav-link" href="{{ route('admin::dashboard') }}">
 @endif
-{{ __('Back-office', [], config('typicms.admin_locale')) }}
+{{ __('Back-office', [], config('typicms.navbar_locale')) }}
 </a>

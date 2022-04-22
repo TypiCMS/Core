@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ config('typicms.admin_locale') }}">
+<html lang="{{ config('app.locale') }}">
 
 <head>
 
@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="api-token" content="{{ auth()->user()->api_token ?? '' }}">
 
-    <title>[admin] @yield('title') – {{ config('typicms.'.config('typicms.admin_locale').'.website_title') }}</title>
+    <title>[admin] @yield('title') – {{ config('typicms.'.config('app.locale').'.website_title') }}</title>
 
     @stack('css')
 

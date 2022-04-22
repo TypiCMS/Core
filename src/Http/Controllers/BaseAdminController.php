@@ -9,7 +9,7 @@ abstract class BaseAdminController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('verified:'.config('typicms.admin_locale').'::verification.notice');
+        $this->middleware('verified:'.config('app.locale').'::verification.notice');
     }
 
     protected function redirect($request, $model): RedirectResponse

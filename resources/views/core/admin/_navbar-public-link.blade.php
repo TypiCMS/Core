@@ -5,5 +5,5 @@
 @else
 <a class="nav-link" href="{{ url('/') }}">
 @endif
-{{ __('View website', [], config('typicms.admin_locale')) }}
+{{ __('View website', [], config('typicms.navbar_locale')) }}
 </a>

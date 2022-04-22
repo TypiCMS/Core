@@ -5,7 +5,7 @@ namespace TypiCMS\Modules\Core\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class AdminLocale
+class SetContentLocale
 {
     /**
      * Handle an incoming request.
@@ -19,13 +19,6 @@ class AdminLocale
         if (in_array($localeFromRequest, locales())) {
             session(['locale' => $localeFromRequest]);
         }
-
-        // Set admin interface locale.
-        $userLocale = auth()->user()->locale;
-        if (in_array($userLocale, locales())) {
-            app()->setLocale($userLocale);
-        }
-        config(['typicms.admin_locale' => config('app.locale')]);
 
         // Set content locale.
         $localeFromSession = session('locale', config('app.locale'));
