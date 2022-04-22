@@ -209,7 +209,7 @@
                                     <img
                                         class="filemanager-item-image"
                                         :src="item.thumb_sm"
-                                        :alt="item.alt_attribute_translated"
+                                        :alt="item.alt_attribute[locale]"
                                     />
                                 </div>
                             </div>

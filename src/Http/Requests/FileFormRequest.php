@@ -12,7 +12,7 @@ class FileFormRequest extends AbstractFormRequest
             'type' => 'nullable|string|max:1',
             'title.*' => 'nullable|max:255',
             'description.*' => 'nullable|max:255',
-            'name' => 'nullable|max:255',
+            'name' => 'required|max:255',
         ];
 
         if ($this->hasFile('name')) {

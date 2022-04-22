@@ -28,23 +28,12 @@ class File extends Base
         'alt_attribute',
     ];
 
-    protected $appends = ['thumb_sm', 'alt_attribute_translated', 'url'];
+    protected $appends = ['thumb_sm', 'url'];
 
     protected function thumbSm(): Attribute
     {
         return new Attribute(
             get: fn () => $this->present()->image(240, 240, ['resize']),
-        );
-    }
-
-    protected function altAttributeTranslated(): Attribute
-    {
-        return new Attribute(
-            get: function () {
-                $locale = app()->getLocale();
-
-                return $this->translate('alt_attribute', config('typicms.content_locale', $locale));
-            },
         );
     }
 

@@ -22,14 +22,16 @@
 
         <div class="col-lg-6">
 
+            @if ($model->type !== 'f')
             {!! TranslatableBootForm::text(__('Title'), 'title') !!}
             {!! TranslatableBootForm::textarea(__('Description'), 'description') !!}
+            @endif
 
             @if ($model->type === 'i')
             {!! TranslatableBootForm::text(__('Alt attribute'), 'alt_attribute') !!}
             @endif
 
-            {!! BootForm::text(__('Display name'), 'name') !!}
+            {!! BootForm::text(__('Name'), 'name') !!}
 
         </div>
 
