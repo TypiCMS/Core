@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use TypiCMS\Modules\Core\Models\File;
 
 trait HasFiles
@@ -27,27 +28,27 @@ trait HasFiles
         $this->files()->sync($data);
     }
 
-    public function images()
+    public function images(): MorphToMany
     {
         return $this->files()->where('type', 'i');
     }
 
-    public function documents()
+    public function documents(): MorphToMany
     {
         return $this->files()->where('type', 'd');
     }
 
-    public function videos()
+    public function videos(): MorphToMany
     {
         return $this->files()->where('type', 'v');
     }
 
-    public function audios()
+    public function audios(): MorphToMany
     {
         return $this->files()->where('type', 'a');
     }
 
-    public function files()
+    public function files(): MorphToMany
     {
         return $this->morphToMany(File::class, 'model', 'model_has_files', 'model_id', 'file_id')
             ->orderBy('model_has_files.position');
