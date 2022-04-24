@@ -30,8 +30,7 @@ class UsersAdminController extends BaseAdminController
     public function create(): View
     {
         $model = new User();
-        $model->permissions = [];
-        $model->roles = [];
+        $model->checked_roles = [];
         $roles = Role::get();
 
         return view('users::admin.create')
@@ -40,8 +39,7 @@ class UsersAdminController extends BaseAdminController
 
     public function edit(User $user): View
     {
-        $user->permissions = $user->permissions()->pluck('name')->all();
-        $user->roles = $user->roles()->pluck('id')->all();
+        $user->checked_roles = $user->roles()->pluck('id')->all();
         $roles = Role::get();
 
         return view('users::admin.edit')
@@ -54,7 +52,7 @@ class UsersAdminController extends BaseAdminController
         $data['password'] = Hash::make($request->input('password'));
         $data['email_verified_at'] = Carbon::now();
         $user = User::create($data);
-        $user->roles()->sync($request->input('roles', []));
+        $user->roles()->sync($request->input('checked_roles', []));
 
         return $this->redirect($request, $user);
     }
@@ -68,7 +66,7 @@ class UsersAdminController extends BaseAdminController
             unset($data['password']);
         }
         $user->update($data);
-        $user->roles()->sync($request->input('roles', []));
+        $user->roles()->sync($request->input('checked_roles', []));
         (new Role())->flushCache();
 
         return $this->redirect($request, $user);

@@ -18,7 +18,7 @@ class RolesAdminController extends BaseAdminController
     public function create(): View
     {
         $model = new Role();
-        $model->permissions = [];
+        $model->checked_permissions = [];
 
         return view('roles::admin.create')
             ->with(compact('model'));
@@ -26,7 +26,7 @@ class RolesAdminController extends BaseAdminController
 
     public function edit(Role $role, $child = null): View
     {
-        $role->permissions = $role->permissions()->pluck('name')->all();
+        $role->checked_permissions = $role->permissions()->pluck('name')->all();
 
         return view('roles::admin.edit')
             ->with(['model' => $role]);
@@ -34,25 +34,25 @@ class RolesAdminController extends BaseAdminController
 
     public function store(RolesFormRequest $request): RedirectResponse
     {
-        $permissions = $request->input('permissions', []);
-        $data = $request->except(['exit', 'permissions']);
+        $checkedPermissions = $request->input('checked_permissions', []);
+        $data = $request->except(['exit', 'checked_permissions']);
 
-        $this->storeNewPermissions($permissions);
+        $this->storeNewPermissions($checkedPermissions);
 
         $role = Role::create($data);
-        $role->syncPermissions($permissions);
+        $role->syncPermissions($checkedPermissions);
 
         return $this->redirect($request, $role);
     }
 
     public function update(Role $role, RolesFormRequest $request): RedirectResponse
     {
-        $permissions = $request->input('permissions', []);
-        $data = $request->except(['exit', 'permissions']);
+        $checkedPermissions = $request->input('checked_permissions', []);
+        $data = $request->except(['exit', 'checked_permissions']);
         $role->update($data);
 
-        $this->storeNewPermissions($permissions);
-        $role->syncPermissions($permissions);
+        $this->storeNewPermissions($checkedPermissions);
+        $role->syncPermissions($checkedPermissions);
         $role->forgetCachedPermissions();
 
         return $this->redirect($request, $role);
