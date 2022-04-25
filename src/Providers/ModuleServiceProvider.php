@@ -53,7 +53,7 @@ use TypiCMS\Modules\Core\Observers\UriObserver;
 use TypiCMS\Modules\Core\Services\FileUploader;
 use TypiCMS\Modules\Core\Services\TypiCMS;
 
-class CoreServiceProvider extends ServiceProvider
+class ModuleServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application events.
