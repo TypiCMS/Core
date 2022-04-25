@@ -14,6 +14,7 @@ class PageSectionFormRequest extends AbstractFormRequest
             'slug.*' => 'nullable|alpha_dash|max:255|required_if:status.*,1|required_with:title.*',
             'status.*' => 'boolean',
             'body.*' => 'nullable',
+            'template' => 'nullable|max:255',
         ];
     }
 }

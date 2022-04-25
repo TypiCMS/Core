@@ -38,6 +38,7 @@ class CreatePagesTables extends Migration
             $table->foreignId('page_id');
             $table->foreignId('image_id')->nullable();
             $table->unsignedInteger('position');
+            $table->string('template');
             $table->json('status');
             $table->json('title');
             $table->json('slug');

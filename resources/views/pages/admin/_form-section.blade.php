@@ -26,6 +26,11 @@
         {!! TranslatableBootForm::hidden('status')->value(0) !!}
         {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            {!! BootForm::select(__('Template'), 'template', TypiCMS::pageSectionTemplates()) !!}
+        </div>
+    </div>
     {!! TranslatableBootForm::textarea(__('Body'), 'body')->addClass('ckeditor-full') !!}
 
 </div>

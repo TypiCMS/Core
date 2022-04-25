@@ -142,7 +142,7 @@ class TypiCMS
         return $pages;
     }
 
-    public function templates(): array
+    public function pageTemplates(): array
     {
         try {
             $directory = $this->getTemplateDir();
@@ -163,6 +163,26 @@ class TypiCMS
         }
 
         return ['' => 'Default'] + $templates;
+    }
+
+    public function pageSectionTemplates(): array
+    {
+        try {
+            $directory = $this->getTemplateDir();
+            $files = File::files($directory);
+        } catch (Exception $e) {
+            $files = File::files(base_path('vendor/typicms/pages/src/resources/views/public'));
+        }
+        $templates = [];
+        foreach ($files as $file) {
+            $filename = File::name($file);
+            if (str_starts_with($filename, '_section-')) {
+                $name = str_replace(['_section-', '.blade'], '', $filename);
+                $templates[$name] = ucfirst($name);
+            }
+        }
+
+        return $templates;
     }
 
     public function getTemplateDir(): string

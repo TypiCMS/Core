@@ -1,0 +1,5 @@
+.section-default {
+    &-container {
+        @extend .container-xl;
+    }
+}
