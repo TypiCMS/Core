@@ -66,7 +66,6 @@ class Publish extends Command
         if (class_exists($provider)) {
             $this->call('vendor:publish', ['--provider' => $provider]);
             $this->publishModule();
-            $this->removeLoadViewsFromProvider();
             $this->uninstallFromComposer();
         } else {
             throw new Exception($provider.' not found, did you add it to config/app.php?');
@@ -134,17 +133,6 @@ class Publish extends Command
         $to = str_replace(base_path(), '', realpath($to));
 
         $this->line('<info>Copied '.$type.'</info> <comment>['.$from.']</comment> <info>To</info> <comment>['.$to.']</comment>');
-    }
-
-    /**
-     * Remove the loadViewsFrom from the ServiceProvider to allow view caching.
-     */
-    private function removeLoadViewsFromProvider()
-    {
-        $file = 'Modules/'.ucfirst($this->module).'/Providers/ModuleServiceProvider.php';
-        $contents = $this->files->get($file);
-        $contents = preg_replace('/^.*loadViewsFrom.*$(?:\r\n|\n)?/m', '', $contents);
-        $this->files->put($file, $contents);
     }
 
     /**
