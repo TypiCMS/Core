@@ -24,9 +24,6 @@ class PagesPublicController extends BasePublicController
             return redirect($childUri);
         }
 
-        // Get subpages.
-        $children = $page->getSubPages();
-
         $templateDir = 'pages::'.config('typicms.template_dir', 'public').'.';
         $template = $page->template ?: 'default';
 
@@ -35,7 +32,7 @@ class PagesPublicController extends BasePublicController
             $template = 'default';
         }
 
-        return view($templateDir.$template, compact('children', 'page'));
+        return view($templateDir.$template, compact('page', 'templateDir'));
     }
 
     private function findPageByUri(?string $uri): Page

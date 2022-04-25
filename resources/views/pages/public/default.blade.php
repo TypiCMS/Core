@@ -6,20 +6,14 @@
 
     <div class="page-body-container">
 
-        @if ($children->count() > 0)
-        <ul class="nav nav-subpages">
-            @foreach ($children as $child)
-            @include('pages::public._list-item', ['child' => $child])
-            @endforeach
-        </ul>
-        @endif
+        @include('pages::public._subpages')
 
         @empty(!$page->image)
             <img class="page-image" src="{{ $page->present()->image(2000) }}" width="{{ $page->image->width }}" height="{{ $page->image->height }}" alt="">
         @endempty
 
         @empty(!$page->body)
-        <div class="rich-content">{!! $page->present()->body !!}</div>
+            <div class="rich-content">{!! $page->present()->body !!}</div>
         @endempty
 
         @include('files::public._documents', ['model' => $page])
@@ -27,7 +21,7 @@
 
     </div>
 
-    @include('pages::public._sections', ['model' => $page])
+    @include('pages::public._sections', compact('page'))
 
 </div>
 

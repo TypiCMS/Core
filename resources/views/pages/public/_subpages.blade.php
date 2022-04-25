@@ -1,7 +1,7 @@
 @if ($subpages = $page->getSubPages() and !empty($subpages))
-<ul class="page-header-subpages">
-    @foreach ($subpages as $subpage)
-    <li><a class="page-header-subpages-link {{ $page->id === $subpage->id ? 'page-header-subpages-link-active' : '' }}" href="{{ url($subpage->uri()) }}">{{ $subpage->title }}</a></li>
+<ul class="subpages">
+    @foreach ($subpages as $child)
+    @include('pages::public._list-item', compact('child'))
     @endforeach
 </ul>
 @endif
