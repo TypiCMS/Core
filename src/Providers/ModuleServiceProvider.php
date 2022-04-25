@@ -105,7 +105,7 @@ class ModuleServiceProvider extends ServiceProvider
         | Publish config.
         |--------------------------------------------------------------------------
         */
-        $this->publishes([__DIR__.'/../../config/typicms.php' => config_path('typicms.php')], 'typicms-config');
+        $this->publishes([__DIR__.'/../config/typicms.php' => config_path('typicms.php')], 'typicms-config');
 
         /*
         |--------------------------------------------------------------------------
