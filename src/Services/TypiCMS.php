@@ -200,7 +200,7 @@ class TypiCMS
             ->transform(function ($properties, $module) use ($locale) {
                 $routeName = $locale.'::'.$module.'-feed';
                 if (isset($properties['has_feed']) && $properties['has_feed'] === true && Route::has($routeName)) {
-                    return ['url' => route($routeName), 'title' => __(ucfirst($module).' feed').' – '.$this->title()];
+                    return ['url' => route($routeName, $module), 'title' => __(ucfirst($module).' feed').' – '.$this->title()];
                 }
             })->reject(function ($value) {
                 return empty($value);
