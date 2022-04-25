@@ -71,6 +71,8 @@ import ItemListColumnHeader from './components/ItemListColumnHeader.vue';
 import ItemList from './components/ItemList.vue';
 import ItemListTree from './components/ItemListTree.vue';
 import ItemListStatusButton from './components/ItemListStatusButton.vue';
+import ItemListEditButton from './components/ItemListEditButton.vue';
+import ItemListShowButton from './components/ItemListShowButton.vue';
 import ItemListCheckbox from './components/ItemListCheckbox.vue';
 import ItemListPositionInput from './components/ItemListPositionInput.vue';
 
@@ -95,6 +97,8 @@ new Vue({
         ItemList,
         ItemListTree,
         ItemListStatusButton,
+        ItemListEditButton,
+        ItemListShowButton,
         ItemListCheckbox,
         ItemListPositionInput,
         FileManager,

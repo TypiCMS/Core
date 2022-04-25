@@ -27,7 +27,7 @@
 
     <template slot="table-row" slot-scope="{ model, checkedModels, loading }">
         <td class="checkbox" v-if="$can('update tags')||$can('delete tags')"><item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox></td>
-        <td v-if="$can('update tags')">@include('core::admin._button-edit', ['module' => 'tags'])</td>
+        <td v-if="$can('update tags')"><item-list-edit-button :url="'/admin/tags/'+model.id+'/edit'"></item-list-edit-button></td>
         <td>@{{ model.tag }}</td>
         <td>@{{ model.uses }}</td>
     </template>

@@ -33,7 +33,7 @@
 
     <template slot="table-row" slot-scope="{ model, checkedModels, loading }">
         <td class="checkbox" v-if="$can('update users')||$can('delete users')"><item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox></td>
-        <td v-if="$can('update users')">@include('core::admin._button-edit', ['module' => 'users'])</td>
+        <td v-if="$can('update users')"><item-list-edit-button :url="'/admin/users/'+model.id+'/edit'"></item-list-edit-button></td>
         <td v-if="$can('impersonate users')">
             <a class="btn-impersonate btn btn-link btn-sm text-secondary" title="Impersonate" onclick="if(!confirm('@lang('Impersonate this user?')'))return false" :href="'/admin/users/'+model.id+'/impersonate'"></a>
         </td>

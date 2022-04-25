@@ -32,9 +32,9 @@
 
     <template slot="table-row" slot-scope="{ model, checkedModels, loading }">
         <td class="checkbox" v-if="$can('update taxonomies')||$can('delete taxonomies')"><item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox></td>
-        <td v-if="$can('update taxonomies')">@include('core::admin._button-edit', ['segment' => 'taxonomies', 'module' => 'taxonomies'])</td>
+        <td v-if="$can('update taxonomies')"><item-list-edit-button :url="'/admin/taxonomies/'+model.id+'/edit'"></item-list-edit-button></td>
         <td v-if="$can('update terms')">
-            <a class="btn btn-secondary btn-xs" :href="'taxonomies/'+model.id+'/terms'">@lang('Terms')</a>
+            <a class="btn btn-secondary btn-xs" :href="'/admin/taxonomies/'+model.id+'/terms'">@lang('Terms')</a>
         </td>
         <td><item-list-position-input :model="model"></item-list-position-input></td>
         <td>@{{ model.name }}</td>

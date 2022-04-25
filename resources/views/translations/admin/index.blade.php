@@ -26,7 +26,7 @@
 
     <template slot="table-row" slot-scope="{ model, checkedModels, loading }">
         <td class="checkbox" v-if="$can('update translations')||$can('delete translations')"><item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox></td>
-        <td v-if="$can('update translations')">@include('core::admin._button-edit', ['module' => 'translations'])</td>
+        <td v-if="$can('update translations')"><item-list-edit-button :url="'/admin/translations/'+model.id+'/edit'"></item-list-edit-button></td>
         <td>@{{ model.key }}</td>
         <td>@{{ model.translation_translated }}</td>
     </template>

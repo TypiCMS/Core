@@ -33,7 +33,7 @@
 
     <template slot="table-row" slot-scope="{ model, checkedModels, loading }">
         <td class="checkbox" v-if="$can('update terms')||$can('delete terms')"><item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox></td>
-        <td v-if="$can('update terms')">@include('core::admin._button-edit', ['module' => 'terms'])</td>
+        <td v-if="$can('update terms')"><item-list-edit-button :url="'/admin/taxonomies/'+model.taxonomy_id+'/terms/'+model.id+'/edit'"></item-list-edit-button></td>
         <td><item-list-position-input :model="model"></item-list-position-input></td>
         <td v-html="model.title_translated"></td>
     </template>
