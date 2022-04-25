@@ -171,7 +171,7 @@ class Create extends Command
     public function publishViews()
     {
         $from = base_path('Modules/'.$this->module.'/resources/views');
-        $to = resource_path('views/vendor/'.mb_strtolower($this->module));
+        $to = resource_path('views/'.mb_strtolower($this->module));
         $this->publishDirectory($from, $to);
     }
 
