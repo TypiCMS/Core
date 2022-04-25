@@ -127,7 +127,7 @@ $sidebar-width: 260px;
     }
 }
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(md) {
     .sidebar,
     .main {
         transition: all 0.25s ease-out;
