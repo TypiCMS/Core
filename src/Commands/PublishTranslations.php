@@ -39,7 +39,7 @@ class PublishTranslations extends Command
      *
      * @var string
      */
-    protected $description = 'Copy the lang directory from Core to /resources directory.';
+    protected $description = 'Copy the lang directory from Core to /lang directory.';
 
     /**
      * Create a new key generator command.
@@ -56,7 +56,7 @@ class PublishTranslations extends Command
      */
     public function handle()
     {
-        $from = base_path('vendor/typicms/core/resources/lang');
+        $from = base_path('vendor/typicms/core/lang');
         $to = resource_path('lang');
 
         if ($this->files->isDirectory($from)) {
