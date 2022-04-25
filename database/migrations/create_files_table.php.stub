@@ -19,12 +19,14 @@ class CreateFilesTable extends Migration
             $table->string('path')->nullable();
             $table->string('extension', 8)->nullable();
             $table->string('mimetype', 100)->nullable();
-            $table->integer('width')->unsigned()->nullable();
-            $table->integer('height')->unsigned()->nullable();
-            $table->integer('filesize')->unsigned()->nullable();
+            $table->unsignedInteger('width')->nullable();
+            $table->unsignedInteger('height')->nullable();
+            $table->unsignedInteger('filesize')->nullable();
             $table->json('title');
             $table->json('description');
             $table->json('alt_attribute');
+            $table->unsignedTinyInteger('focal_x')->nullable();
+            $table->unsignedTinyInteger('focal_y')->nullable();
             $table->timestamps();
             $table->foreign('folder_id')->references('id')->on('files');
         });
