@@ -6,7 +6,6 @@
 
 <item-list
     url-base="/api/roles"
-    locale="{{ config('typicms.content_locale') }}"
     fields="id,name"
     table="roles"
     title="roles"

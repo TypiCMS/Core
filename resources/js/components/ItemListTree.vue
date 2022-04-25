@@ -24,12 +24,12 @@
                         aria-haspopup="true"
                         aria-expanded="false"
                     >
-                        <span id="active-locale">{{ locales.find((item) => item.short === currentLocale).long }}</span>
+                        <span id="active-locale">{{ locales.find((item) => item.short === contentLocale).long }}</span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
                         <button
                             class="dropdown-item"
-                            :class="{ active: locale === currentLocale }"
+                            :class="{ active: locale === contentLocale }"
                             type="button"
                             v-for="locale in locales"
                             @click="switchLocale(locale.short)"
@@ -189,10 +189,6 @@ export default {
             type: String,
             required: true,
         },
-        locale: {
-            type: String,
-            required: true,
-        },
         table: {
             type: String,
             required: true,
@@ -213,7 +209,7 @@ export default {
         return {
             loadingTimeout: null,
             locales: window.TypiCMS.locales,
-            currentLocale: this.locale,
+            contentLocale: window.TypiCMS.locale,
             loading: false,
             models: [],
         };
@@ -226,7 +222,7 @@ export default {
             let query = ['fields[' + this.table + ']=' + this.fields];
 
             if (this.translatable) {
-                query.push('locale=' + this.currentLocale);
+                query.push('locale=' + this.contentLocale);
             }
 
             return this.urlBase + '?' + query.join('&');
@@ -261,7 +257,7 @@ export default {
         },
         switchLocale(locale) {
             this.startLoading();
-            this.currentLocale = locale;
+            this.contentLocale = locale;
             axios.get('/admin/_locale/' + locale).then((response) => {
                 this.stopLoading();
                 this.fetchData();
@@ -341,7 +337,7 @@ export default {
                 label = newStatus === 1 ? 'published' : 'unpublished';
 
             if (this.translatable) {
-                data.status[this.currentLocale] = newStatus;
+                data.status[this.contentLocale] = newStatus;
                 node.data.status_translated = newStatus;
             } else {
                 data.status = newStatus;

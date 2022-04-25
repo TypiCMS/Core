@@ -355,6 +355,7 @@ export default {
             view: 'grid',
             selectedItems: [],
             baseUrl: '/api/files',
+            locale: TypiCMS.content_locale,
             options: {
                 modal: this.modal,
                 dropzone: this.dropzone,

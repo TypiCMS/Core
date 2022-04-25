@@ -49,7 +49,7 @@
                             <img
                                 class="filemanager-item-image"
                                 :src="file.thumb_sm"
-                                :alt="file.alt_attribute[locale]"
+                                :alt="file.alt_attribute[contentLocale]"
                             />
                         </div>
                     </div>
@@ -144,6 +144,7 @@ export default {
     },
     data() {
         return {
+            contentLocale: window.TypiCMS.content_locale,
             files: this.initFiles,
         };
     },

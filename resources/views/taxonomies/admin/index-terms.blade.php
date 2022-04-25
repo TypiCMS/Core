@@ -6,7 +6,6 @@
 
 <item-list
     url-base="/api/taxonomies/{{ $taxonomy->id }}/terms"
-    locale="{{ config('typicms.content_locale') }}"
     fields="id,taxonomy_id,title,position"
     table="terms"
     title="terms"

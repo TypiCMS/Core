@@ -6,7 +6,6 @@
 
 <item-list
     url-base="/api/taxonomies"
-    locale="{{ config('typicms.content_locale') }}"
     fields="id,title,name,validation_rule,position,result_string,modules"
     table="taxonomies"
     title="taxonomies"

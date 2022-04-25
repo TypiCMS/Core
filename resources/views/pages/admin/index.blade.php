@@ -5,7 +5,6 @@
 @section('content')
 
 <item-list-tree
-    locale="{{ config('typicms.content_locale') }}"
     url-base="/api/pages"
     fields="id,position,parent_id,module,redirect,is_home,private,status,title,slug,uri"
     table="pages"

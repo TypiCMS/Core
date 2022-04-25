@@ -6,7 +6,6 @@
 
 <item-list
     url-base="/api/users"
-    locale="{{ config('typicms.content_locale') }}"
     fields="id,first_name,last_name,email,activated,superuser,roles.name"
     table="users"
     title="users"

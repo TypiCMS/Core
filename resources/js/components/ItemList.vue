@@ -84,13 +84,13 @@
                             aria-expanded="false"
                         >
                             <span id="active-locale">{{
-                                locales.find((item) => item.short === currentLocale).long
+                                locales.find((item) => item.short === contentLocale).long
                             }}</span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
                             <button
                                 class="dropdown-item"
-                                :class="{ active: locale === currentLocale }"
+                                :class="{ active: locale === contentLocale }"
                                 type="button"
                                 v-for="locale in locales"
                                 @click="switchLocale(locale.short)"
@@ -173,10 +173,6 @@ export default {
             type: String,
             required: true,
         },
-        locale: {
-            type: String,
-            required: true,
-        },
         sorting: {
             type: Array,
             default: () => ['-id'],
@@ -233,7 +229,7 @@ export default {
             sortArray: this.sorting,
             searchableArray: this.searchable,
             locales: window.TypiCMS.locales,
-            currentLocale: this.locale,
+            contentLocale: window.TypiCMS.content_locale,
             loading: false,
             total: 0,
             last_page: null,
@@ -288,7 +284,7 @@ export default {
             }
 
             if (this.translatable) {
-                query.push('locale=' + this.currentLocale);
+                query.push('locale=' + this.contentLocale);
             }
             if (this.searchQuery !== '') {
                 query.push(this.searchQuery);
@@ -321,7 +317,7 @@ export default {
                 query.push('include=' + this.include);
             }
             if (this.translatable) {
-                query.push('locale=' + this.currentLocale);
+                query.push('locale=' + this.contentLocale);
             }
             if (this.pagination) {
                 query.push('page=' + this.data.current_page);
@@ -373,7 +369,7 @@ export default {
         },
         switchLocale(locale) {
             this.startLoading();
-            this.currentLocale = locale;
+            this.contentLocale = locale;
             axios.get('/admin/_locale/' + locale).then((response) => {
                 this.stopLoading();
                 this.fetchData();
@@ -497,7 +493,7 @@ export default {
 
             if (this.translatable) {
                 statusVar = 'status_translated';
-                data.status[this.currentLocale] = status;
+                data.status[this.contentLocale] = status;
             } else {
                 data.status = status;
             }
@@ -542,7 +538,7 @@ export default {
 
             if (translatable) {
                 model.status_translated = newStatus;
-                data.status[this.currentLocale] = newStatus;
+                data.status[this.contentLocale] = newStatus;
             } else {
                 model.status = newStatus;
                 data.status = newStatus;

@@ -6,7 +6,6 @@
 
 <item-list
     url-base="/api/blocks"
-    locale="{{ config('typicms.content_locale') }}"
     fields="id,name,body,status,body"
     table="blocks"
     title="blocks"

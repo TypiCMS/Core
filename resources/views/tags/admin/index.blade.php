@@ -6,7 +6,6 @@
 
 <item-list
     url-base="/api/tags"
-    locale="{{ config('typicms.content_locale') }}"
     fields="id,tag,slug"
     table="tags"
     title="tags"
