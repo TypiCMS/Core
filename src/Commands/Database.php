@@ -2,11 +2,11 @@
 
 namespace TypiCMS\Modules\Core\Commands;
 
-use DB;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Schema;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Question\Question;
