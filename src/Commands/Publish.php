@@ -141,7 +141,7 @@ class Publish extends Command
      */
     private function removeLoadViewsFromProvider()
     {
-        $file = 'Modules/news/Providers/ModuleServiceProvider.php';
+        $file = 'Modules/'.ucfirst($this->module).'/Providers/ModuleServiceProvider.php';
         $contents = $this->files->get($file);
         $contents = preg_replace('/^.*loadViewsFrom.*$(?:\r\n|\n)$(?:\r\n|\n)?/m', '', $contents);
         $this->files->put($file, $contents);
