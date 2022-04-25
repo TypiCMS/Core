@@ -149,12 +149,13 @@ class Create extends Command
     }
 
     /**
-     * Rename models and repositories.
+     * Rename files.
      */
     public function renameModelsAndRepositories()
     {
         $moduleDir = base_path('Modules/'.$this->module);
         $paths = [
+            $moduleDir.'/config/things.php',
             $moduleDir.'/Models/Thing.php',
             $moduleDir.'/Facades/Things.php',
             $moduleDir.'/resources/scss/public/_thing.scss',
