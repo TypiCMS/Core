@@ -71,20 +71,20 @@ class ModuleServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom(__DIR__.'/../../config/modules.php', 'typicms.modules');
 
-        $this->loadRoutesFrom(__DIR__.'/../../routes/blocks.php');
-        $this->loadRoutesFrom(__DIR__.'/../../routes/core.php');
-        $this->loadRoutesFrom(__DIR__.'/../../routes/dashboard.php');
-        $this->loadRoutesFrom(__DIR__.'/../../routes/files.php');
-        $this->loadRoutesFrom(__DIR__.'/../../routes/history.php');
-        $this->loadRoutesFrom(__DIR__.'/../../routes/menus.php');
-        $this->loadRoutesFrom(__DIR__.'/../../routes/roles.php');
-        $this->loadRoutesFrom(__DIR__.'/../../routes/search.php');
-        $this->loadRoutesFrom(__DIR__.'/../../routes/settings.php');
-        $this->loadRoutesFrom(__DIR__.'/../../routes/tags.php');
-        $this->loadRoutesFrom(__DIR__.'/../../routes/taxonomies.php');
-        $this->loadRoutesFrom(__DIR__.'/../../routes/translations.php');
-        $this->loadRoutesFrom(__DIR__.'/../../routes/users.php');
-        $this->loadRoutesFrom(__DIR__.'/../../routes/pages.php'); // <- Contains a catch all route, so it should stay at last.
+        $this->loadRoutesFrom(__DIR__.'/../routes/blocks.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/core.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/dashboard.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/files.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/history.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/menus.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/roles.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/search.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/settings.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/tags.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/taxonomies.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/translations.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/users.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/pages.php'); // <- Contains a catch all route, so it should stay at last.
 
         $this->loadViewsFrom(__DIR__.'/../../resources/views/blocks/', 'blocks');
         $this->loadViewsFrom(__DIR__.'/../../resources/views/core/', 'core');
