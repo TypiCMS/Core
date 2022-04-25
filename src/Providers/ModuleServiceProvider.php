@@ -69,7 +69,7 @@ class ModuleServiceProvider extends ServiceProvider
         $config = $this->app['config']->get('typicms', []);
         $this->app['config']->set('typicms', array_merge($TypiCMSConfig, $config));
 
-        $this->mergeConfigFrom(__DIR__.'/../../config/modules.php', 'typicms.modules');
+        $this->mergeConfigFrom(__DIR__.'/../config/modules.php', 'typicms.modules');
 
         $this->loadRoutesFrom(__DIR__.'/../routes/blocks.php');
         $this->loadRoutesFrom(__DIR__.'/../routes/core.php');
