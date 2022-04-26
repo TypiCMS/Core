@@ -22,6 +22,7 @@
     "# slides": "Geen dia|1 dia|{count} dia’s",
     "# tags": "Geen tag|1 tag|{count} tags",
     "# taxonomies": "Geen taxonomie|1 taxonomie|{count} taxonomieën",
+    "# terms": "Geen term|1 term|{count} termen",
     "# translations": "Geen vertaling|1 vertaling|{count} vertalingen",
     "# users": "Geen gebruiker|1 gebruiker|{count} gebruikers",
     "A fresh verification link has been sent to your email address.": "Er is een nieuwe verificatielink naar uw e-mailadres gestuurd.",

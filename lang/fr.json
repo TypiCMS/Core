@@ -22,6 +22,7 @@
     "# slides": "Aucun slide|1 slide|{count} slides",
     "# tags": "Aucun tag|1 tag|{count} tags",
     "# taxonomies": "Aucune taxonomie|1 taxonomie|{count} taxonomies",
+    "# terms": "Aucune terme|1 terme|{count} termes",
     "# translations": "Aucune traduction|1 traduction|{count} traductions",
     "# users": "Aucun utilisateur|1 utilisateur|{count} utilisateurs",
     "A fresh verification link has been sent to your email address.": "Un nouveau lien de vérification a été envoyé à votre adresse email.",

@@ -21,6 +21,7 @@
     "# slides": "No slides|1 slide|{count} slides",
     "# tags": "No tags|1 tag|{count} tags",
     "# taxonomies": "No taxonomies|1 taxonomy|{count} taxonomies",
+    "# terms": "No term|1 term|{count} terms",
     "# translations": "No translations|1 translation|{count} translations",
     "# users": "No users|1 user|{count} users",
     "Are you sure you want to delete # items?": "Are you sure you want to delete {count} item?|Are you sure you want to delete {count} items?",
