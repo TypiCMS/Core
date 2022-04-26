@@ -99,6 +99,15 @@ class PermissionSeeder extends Seeder
             ['id' => 87, 'name' => 'create users', 'guard_name' => 'web'],
             ['id' => 88, 'name' => 'update users', 'guard_name' => 'web'],
             ['id' => 89, 'name' => 'delete users', 'guard_name' => 'web'],
+            ['id' => 90, 'name' => 'impersonate users', 'guard_name' => 'web'],
+            ['id' => 91, 'name' => 'read taxonomies', 'guard_name' => 'web'],
+            ['id' => 92, 'name' => 'create taxonomies', 'guard_name' => 'web'],
+            ['id' => 93, 'name' => 'update taxonomies', 'guard_name' => 'web'],
+            ['id' => 94, 'name' => 'delete taxonomies', 'guard_name' => 'web'],
+            ['id' => 95, 'name' => 'read terms', 'guard_name' => 'web'],
+            ['id' => 96, 'name' => 'create terms', 'guard_name' => 'web'],
+            ['id' => 97, 'name' => 'update terms', 'guard_name' => 'web'],
+            ['id' => 98, 'name' => 'delete terms', 'guard_name' => 'web'],
         ];
 
         DB::table('permissions')->insert($permissions);
