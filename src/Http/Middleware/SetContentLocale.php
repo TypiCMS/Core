@@ -17,13 +17,13 @@ class SetContentLocale
         // Store requested locale in session.
         $localeFromRequest = $request->input('locale');
         if (in_array($localeFromRequest, locales())) {
-            session(['locale' => $localeFromRequest]);
+            session(['content_locale' => $localeFromRequest]);
         }
 
         // Set content locale.
-        $localeFromSession = session('locale', config('app.locale'));
-        if (in_array($localeFromSession, locales())) {
-            config(['typicms.content_locale' => $localeFromSession]);
+        $contentLocale = session('content_locale', config('app.locale'));
+        if (in_array($contentLocale, locales())) {
+            config(['typicms.content_locale' => $contentLocale]);
         }
 
         return $next($request);
