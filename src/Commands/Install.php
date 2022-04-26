@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Core\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use TypiCMS\Modules\Core\Providers\ModuleServiceProvider;
 
 class Install extends Command
 {
@@ -36,8 +37,8 @@ class Install extends Command
         $this->info('Publishing vendor packages...');
         $this->call('vendor:publish', ['--all' => true]);
         $this->call('vendor:publish', [
-            '--provider' => 'TypiCMS\Modules\Core\Providers\CoreServiceProvider',
-            '--tag' => 'views',
+            '--provider' => ModuleServiceProvider::class,
+            '--tag' => 'typicms-views',
             '--force' => true,
         ]);
         $this->line('------------------');
