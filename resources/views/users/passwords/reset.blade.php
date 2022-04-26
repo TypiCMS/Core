@@ -12,13 +12,13 @@
 
 @section('content')
 
-<div id="login" class="container-newpassword auth-container auth-container-sm">
+<div id="login" class="container-newpassword auth auth-sm">
 
-    @include('users::_logo')
+    @include('users::_auth-header')
 
-    {!! BootForm::open()->action(route(app()->getLocale().'::password.request'))->addClass('auth-container-form') !!}
+    {!! BootForm::open()->action(route(app()->getLocale().'::password.request'))->addClass('auth-form') !!}
 
-        <h1 class="auth-container-title">{{ __('New password') }}</h1>
+        <h1 class="auth-title">{{ __('New password') }}</h1>
 
         @include('users::_status')
 

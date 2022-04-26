@@ -12,13 +12,13 @@
 
 @section('content')
 
-<div id="register" class="container-register auth-container">
+<div id="register" class="container-register auth">
 
-    @include('users::_logo')
+    @include('users::_auth-header')
 
-    {!! BootForm::open()->addClass('auth-container-form') !!}
+    {!! BootForm::open()->addClass('auth-form') !!}
 
-        <h1 class="auth-container-title">{{ __('Register') }}</h1>
+        <h1 class="auth-title">{{ __('Register') }}</h1>
 
         @include('users::_status')
 

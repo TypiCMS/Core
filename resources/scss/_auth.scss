@@ -8,12 +8,12 @@
 }
 
 .container-login {
-    .auth-container-title {
+    .auth-title {
         @include visually-hidden;
     }
 }
 
-.auth-container {
+.auth {
     background-color: #fff;
     margin: 5vh auto 0;
     padding-top: 35px;
@@ -72,9 +72,9 @@
         }
     }
 
-    &-logo {
+    &-header {
         text-align: center;
-        .logo {
+        &-logo {
             height: 40px;
             display: block;
             margin: 0 auto;

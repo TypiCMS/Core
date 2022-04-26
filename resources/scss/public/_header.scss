@@ -1,4 +1,4 @@
-.site-header {
+.header {
     padding-top: 1.125rem;
     padding-bottom: 1rem;
     z-index: 999;
@@ -19,11 +19,11 @@
         justify-content: space-between;
         align-items: center;
     }
-    .site-title {
+    &-title {
         font-size: 32px; // in px to force constant height on all sreen sizes
         line-height: 1.25;
         margin-bottom: 0;
-        .logo {
+        &-logo {
             @extend .img-fluid;
         }
     }
@@ -60,7 +60,7 @@
                 .primary-nav-item,
                 .lang-switcher,
                 .btn-offcanvas-close,
-                .site-header-contact {
+                .header-contact {
                     opacity: 1;
                     transform: translateY(0);
                 }

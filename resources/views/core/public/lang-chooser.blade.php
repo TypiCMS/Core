@@ -1,9 +1,9 @@
 @extends('core::public.master')
 
 @section('lang-switcher') @endsection
-@section('site-header') @endsection
+@section('header') @endsection
 @section('primary-nav') @endsection
-@section('site-footer') @endsection
+@section('footer') @endsection
 @section('bodyClass') lang-chooser @endsection
 @section('skip-links') @endsection
 

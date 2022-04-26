@@ -2,26 +2,32 @@
 @import 'public/bootstrap';
 @import 'public/html5video';
 @import '@fancyapps/fancybox/dist/jquery.fancybox';
-@import 'public/page';
-@import 'public/section-default';
+@import 'navbar';
 @import 'public/errors';
 @import 'public/skip-to-content';
-@import 'public/pagination';
-@import 'public/site-header';
-@import 'public/site-footer';
+
 @import 'public/lang-switcher';
+
 @import 'public/primary-nav';
 @import 'public/social-nav';
 @import 'public/footer-nav';
 @import 'public/legal-nav';
-@import 'public/swiper';
-@import 'public/anchor-top';
-@import 'public/gmaps';
-@import 'navbar';
-@import 'public/navbar-hide-left-button';
+
+@import 'public/header';
+
+@import 'public/page';
+@import 'public/section-default';
+@import 'public/share-links';
+@import 'public/pagination';
 @import 'public/document-list';
 @import 'public/image-list';
-@import 'public/share-links';
+
+@import 'public/footer';
+@import 'public/anchor-top';
+
+@import 'public/swiper';
+@import 'public/gmaps';
+@import 'public/navbar-hide-left-button';
 
 table {
     @extend .table;

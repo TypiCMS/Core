@@ -12,13 +12,13 @@
 
 @section('content')
 
-<div id="login" class="container-login auth-container auth-container-sm">
+<div id="login" class="container-login auth auth-sm">
 
-    @include('users::_logo')
+    @include('users::_auth-header')
 
-    {!! BootForm::open()->addClass('auth-container-form') !!}
+    {!! BootForm::open()->addClass('auth-form') !!}
 
-        <h1 class="auth-container-title">{{ __('Login') }}</h1>
+        <h1 class="auth-title">{{ __('Login') }}</h1>
 
         @include('users::_status')
 
@@ -43,8 +43,8 @@
     </p>
     @endif
 
-    <p class="auth-container-back-to-website">
-        <a class="auth-container-back-to-website-link" href="{{ TypiCMS::homeUrl() }}">
+    <p class="auth-back-to-website">
+        <a class="auth-back-to-website-link" href="{{ TypiCMS::homeUrl() }}">
             <svg class="me-1" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
             </svg>{{ __('Back to the website') }}
