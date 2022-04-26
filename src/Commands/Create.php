@@ -100,6 +100,7 @@ class Create extends Command
         $this->renameModelsAndRepositories();
         $this->searchAndReplaceInFiles();
         $this->publishViews();
+        $this->changePathForLoadViews();
         $this->publishScssFiles();
         $this->moveMigrationFile();
         $this->addTranslations();
@@ -174,6 +175,17 @@ class Create extends Command
         $from = base_path('Modules/'.$this->module.'/resources/views');
         $to = resource_path('views/'.mb_strtolower($this->module));
         $this->publishDirectory($from, $to);
+    }
+
+    /**
+     * Change the path of loadViewsFrom.
+     */
+    private function changePathForLoadViews()
+    {
+        $file = 'Modules/'.ucfirst($this->module).'/Providers/ModuleServiceProvider.php';
+        $contents = $this->files->get($file);
+        $contents = preg_replace('#loadViewsFrom(.*)/\', \'(.*)\'\)#', 'loadViewsFrom(resource_path(\'views/$2\'), \'$2\')', $contents);
+        $this->files->put($file, $contents);
     }
 
     /**
