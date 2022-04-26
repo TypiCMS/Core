@@ -26,7 +26,7 @@ class CreateMenusTables extends Migration
             $table->foreignId('section_id')->nullable();
             $table->foreignId('parent_id')->nullable();
             $table->foreignId('image_id')->nullable();
-            $table->unsignedInteger('position');
+            $table->unsignedInteger('position')->default(0);
             $table->string('target', 10)->nullable();
             $table->string('class')->nullable();
             $table->json('status');
