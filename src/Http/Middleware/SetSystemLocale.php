@@ -16,10 +16,6 @@ class SetSystemLocale
     public function handle(Request $request, Closure $next)
     {
         $locale = TypiCMS::localeAndRegion();
-        if ($locale === null) {
-            // For backward compatibility.
-            $locale = app()->getLocale().'_'.mb_strtoupper(app()->getLocale());
-        }
         setlocale(LC_ALL, $locale.'.utf8', $locale.'.utf-8', $locale.'.UTF-8', $locale);
 
         return $next($request);
