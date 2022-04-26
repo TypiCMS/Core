@@ -57,7 +57,7 @@ class PublishTranslations extends Command
     public function handle()
     {
         $from = base_path('vendor/typicms/core/lang');
-        $to = resource_path('lang');
+        $to = lang_path();
 
         if ($this->files->isDirectory($from)) {
             $this->publishDirectory($from, $to);
