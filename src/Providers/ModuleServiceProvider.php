@@ -156,7 +156,6 @@ class ModuleServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../database/seeders/DatabaseSeeder.php' => database_path('seeders/DatabaseSeeder.php'),
             __DIR__.'/../../database/seeders/PageSeeder.php' => database_path('seeders/PageSeeder.php'),
-            __DIR__.'/../../database/seeders/MenulinkSeeder.php' => database_path('seeders/MenulinkSeeder.php'),
             __DIR__.'/../../database/seeders/MenuSeeder.php' => database_path('seeders/MenuSeeder.php'),
             __DIR__.'/../../database/seeders/PermissionSeeder.php' => database_path('seeders/PermissionSeeder.php'),
             __DIR__.'/../../database/seeders/RoleSeeder.php' => database_path('seeders/RoleSeeder.php'),
