@@ -137,7 +137,7 @@ class Publish extends Command
     }
 
     /**
-     * Remove the loadViewsFrom from the ServiceProvider to allow view caching.
+     * Change the path of loadViewsFrom.
      */
     private function changePathForLoadViews()
     {
