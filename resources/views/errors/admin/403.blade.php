@@ -1,25 +1,17 @@
 @extends('core::admin.master')
 
-@section('title', 'Error 403 – '.$websiteTitle)
+@section('title', 'Error 403')
 
 @section('bodyClass', 'error-403')
-@section('sidebar')@endsection
 
 @section('content')
 
-<header class="page-header">
-    <div class="page-header-container">
-        <h1 class="page-title">@lang('Error') 403</h1>
-    </div>
-</header>
+<div class="header">
+    <h1 class="page-title">@lang('Error') 403</h1>
+</div>
 
-<div class="page-body">
-    <div class="page-body-container">
-        <p class="lead">@lang('Sorry, you are not authorized to view this page').</p>
-        <p>
-            {!! trans('Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) !!}
-        </p>
-    </div>
+<div class="content">
+    <p class="lead">@lang('Sorry, you are not authorized to view this page').</p>
 </div>
 
 @endsection
