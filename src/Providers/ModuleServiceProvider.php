@@ -170,10 +170,10 @@ class ModuleServiceProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
         $this->publishes([
+            __DIR__.'/../../resources/views/errors' => resource_path('views/errors'),
             __DIR__.'/../../resources/views/blocks' => resource_path('views/vendor/blocks'),
             __DIR__.'/../../resources/views/core' => resource_path('views/vendor/core'),
             __DIR__.'/../../resources/views/dashboard' => resource_path('views/vendor/dashboard'),
-            __DIR__.'/../../resources/views/errors' => resource_path('views/vendor/errors'),
             __DIR__.'/../../resources/views/files' => resource_path('views/vendor/files'),
             __DIR__.'/../../resources/views/menus' => resource_path('views/vendor/menus'),
             __DIR__.'/../../resources/views/pages' => resource_path('views/vendor/pages'),
