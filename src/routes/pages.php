@@ -27,6 +27,8 @@ Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Ro
 
     $router->get('sections', [PageSectionsAdminController::class, 'index'])->name('index-page_sections')->middleware('can:read page_sections');
     $router->delete('sections/{section}', [PageSectionsAdminController::class, 'destroyMultiple'])->name('destroy-page_section')->middleware('can:delete page_sections');
+
+    $router->get('{uri}', [PagesAdminController::class, 'notFound'])->where('uri', '(.*)');
 });
 
 /*

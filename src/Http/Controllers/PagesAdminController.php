@@ -43,4 +43,9 @@ class PagesAdminController extends BaseAdminController
         return $this->redirect($request, $page)
             ->withMessage(__('Item successfully updated.'));
     }
+
+    public function notFound()
+    {
+        abort(404);
+    }
 }
