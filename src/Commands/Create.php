@@ -184,7 +184,7 @@ class Create extends Command
     {
         $file = 'Modules/'.ucfirst($this->module).'/Providers/ModuleServiceProvider.php';
         $contents = $this->files->get($file);
-        $contents = preg_replace('#loadViewsFrom(.*)/\', \'(.*)\'\)#', 'loadViewsFrom(resource_path(\'views/$2\'), \'$2\')', $contents);
+        $contents = preg_replace('#loadViewsFrom(.*)/\', \'(.*)\'\)#', 'loadViewsFrom(resource_path(\'views\'), \'$2\')', $contents);
         $this->files->put($file, $contents);
     }
 
