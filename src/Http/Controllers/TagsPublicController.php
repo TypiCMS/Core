@@ -9,7 +9,7 @@ class TagsPublicController extends BasePublicController
 {
     public function index(): View
     {
-        $perPage = config('typicms.tags.per_page');
+        $perPage = config('typicms.modules.tags.per_page');
         $models = Tag::paginate($perPage);
 
         return view('tags::public.index')
