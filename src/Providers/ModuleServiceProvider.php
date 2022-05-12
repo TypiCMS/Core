@@ -302,15 +302,6 @@ class ModuleServiceProvider extends ServiceProvider
 
         /*
         |--------------------------------------------------------------------------
-        | Disk drivers for images and crops.
-        |--------------------------------------------------------------------------
-        */
-        $this->app->singleton('filesystem.default.driver', function () {
-            return $this->app['filesystem.disk']->getDriver();
-        });
-
-        /*
-        |--------------------------------------------------------------------------
         | Register TypiCMS commands.
         |--------------------------------------------------------------------------
         */
