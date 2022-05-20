@@ -99,7 +99,6 @@ class ModuleServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/taxonomies.php');
         $this->loadRoutesFrom(__DIR__.'/../routes/translations.php');
         $this->loadRoutesFrom(__DIR__.'/../routes/users.php');
-        $this->loadRoutesFrom(__DIR__.'/../routes/pages.php'); // <- Contains a catch all route, so it should stay at last.
 
         $this->loadViewsFrom(__DIR__.'/../../resources/views/blocks/', 'blocks');
         $this->loadViewsFrom(__DIR__.'/../../resources/views/core/', 'core');
