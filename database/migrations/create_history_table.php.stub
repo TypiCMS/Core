@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -20,8 +21,8 @@ class CreateHistoryTable extends Migration
             $table->string('locale')->nullable();
             $table->string('historable_table');
             $table->string('action');
-            $table->json('old');
-            $table->json('new');
+            $table->json('old')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('new')->default(new Expression('(JSON_OBJECT())'));
             $table->timestamps();
         });
     }

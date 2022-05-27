@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -12,19 +13,19 @@ class CreateTaxonomiesTables extends Migration
             $table->id();
             $table->unsignedInteger('position');
             $table->string('name');
-            $table->json('title');
-            $table->json('slug');
+            $table->json('title')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('slug')->default(new Expression('(JSON_OBJECT())'));
             $table->string('validation_rule')->nullable();
-            $table->json('result_string');
-            $table->json('modules');
+            $table->json('result_string')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('modules')->default(new Expression('(JSON_ARRAY())'));
             $table->timestamps();
         });
         Schema::create('terms', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('position');
             $table->foreignId('taxonomy_id')->nullable();
-            $table->json('title');
-            $table->json('slug');
+            $table->json('title')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('slug')->default(new Expression('(JSON_OBJECT())'));
             $table->timestamps();
             $table->foreign('taxonomy_id')->references('id')->on('taxonomies')->onDelete('cascade');
         });

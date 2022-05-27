@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -19,13 +20,13 @@ class CreatePagesTables extends Migration
             $table->boolean('private')->default(0);
             $table->boolean('is_home')->default(0);
             $table->boolean('redirect')->default(0);
-            $table->json('title');
-            $table->json('slug');
-            $table->json('uri');
-            $table->json('body');
-            $table->json('status');
-            $table->json('meta_keywords');
-            $table->json('meta_description');
+            $table->json('title')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('slug')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('uri')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('body')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('status')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('meta_keywords')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('meta_description')->default(new Expression('(JSON_OBJECT())'));
             $table->text('css')->nullable();
             $table->text('js')->nullable();
             $table->string('module')->nullable();
@@ -39,10 +40,10 @@ class CreatePagesTables extends Migration
             $table->foreignId('image_id')->nullable();
             $table->unsignedInteger('position');
             $table->string('template');
-            $table->json('status');
-            $table->json('title');
-            $table->json('slug');
-            $table->json('body');
+            $table->json('status')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('title')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('slug')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('body')->default(new Expression('(JSON_OBJECT())'));
             $table->timestamps();
             $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
         });

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -16,7 +17,7 @@ class CreateMenusTables extends Migration
             $table->foreignId('image_id')->nullable();
             $table->string('name');
             $table->string('class')->nullable();
-            $table->json('status');
+            $table->json('status')->default(new Expression('(JSON_OBJECT())'));
             $table->timestamps();
         });
         Schema::create('menulinks', function (Blueprint $table) {
@@ -29,10 +30,10 @@ class CreateMenusTables extends Migration
             $table->unsignedInteger('position')->default(0);
             $table->string('target', 10)->nullable();
             $table->string('class')->nullable();
-            $table->json('status');
-            $table->json('title');
-            $table->json('url');
-            $table->json('description');
+            $table->json('status')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('title')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('url')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('description')->default(new Expression('(JSON_OBJECT())'));
             $table->timestamps();
             $table->foreign('menu_id')->references('id')->on('menus')->onDelete('cascade');
             $table->foreign('parent_id')->references('id')->on('menulinks')->onDelete('cascade');

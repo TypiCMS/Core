@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -14,8 +15,8 @@ class CreateBlocksTable extends Migration
         Schema::create('blocks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->json('status');
-            $table->json('body');
+            $table->json('status')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('body')->default(new Expression('(JSON_OBJECT())'));
             $table->timestamps();
         });
     }
