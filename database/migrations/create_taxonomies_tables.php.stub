@@ -23,19 +23,17 @@ class CreateTaxonomiesTables extends Migration
         Schema::create('terms', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('position');
-            $table->foreignId('taxonomy_id')->nullable();
+            $table->foreignId('taxonomy_id')->nullable()->constrained()->onDelete('cascade');
             $table->json('title')->default(new Expression('(JSON_OBJECT())'));
             $table->json('slug')->default(new Expression('(JSON_OBJECT())'));
             $table->timestamps();
-            $table->foreign('taxonomy_id')->references('id')->on('taxonomies')->onDelete('cascade');
         });
         Schema::create('model_has_terms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('term_id');
+            $table->foreignId('term_id')->constrained()->onDelete('cascade');
             $table->foreignId('model_id');
             $table->string('model_type');
             $table->timestamps();
-            $table->foreign('term_id')->references('id')->on('terms')->onDelete('cascade');
         });
     }
 

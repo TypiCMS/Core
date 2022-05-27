@@ -14,7 +14,7 @@ class CreateFilesTable extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('folder_id')->nullable();
+            $table->foreignId('folder_id')->nullable()->constrained('files');
             $table->enum('type', ['a', 'v', 'd', 'i', 'o', 'f'])->nullable();
             $table->string('name')->nullable();
             $table->string('path')->nullable();
@@ -29,7 +29,6 @@ class CreateFilesTable extends Migration
             $table->unsignedTinyInteger('focal_x')->nullable();
             $table->unsignedTinyInteger('focal_y')->nullable();
             $table->timestamps();
-            $table->foreign('folder_id')->references('id')->on('files');
         });
     }
 

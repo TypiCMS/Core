@@ -22,10 +22,10 @@ class CreateMenusTables extends Migration
         });
         Schema::create('menulinks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('menu_id');
-            $table->foreignId('page_id')->nullable();
-            $table->foreignId('section_id')->nullable();
-            $table->foreignId('parent_id')->nullable();
+            $table->foreignId('menu_id')->constrained()->onDelete('cascade');
+            $table->foreignId('page_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('section_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('parent_id')->nullable()->constrained('menulinks')->onDelete('cascade');
             $table->foreignId('image_id')->nullable();
             $table->unsignedInteger('position')->default(0);
             $table->string('target', 10)->nullable();
@@ -35,8 +35,6 @@ class CreateMenusTables extends Migration
             $table->json('url')->default(new Expression('(JSON_OBJECT())'));
             $table->json('description')->default(new Expression('(JSON_OBJECT())'));
             $table->timestamps();
-            $table->foreign('menu_id')->references('id')->on('menus')->onDelete('cascade');
-            $table->foreign('parent_id')->references('id')->on('menulinks')->onDelete('cascade');
         });
     }
 
