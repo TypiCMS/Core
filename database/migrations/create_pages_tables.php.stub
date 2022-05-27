@@ -14,8 +14,8 @@ class CreatePagesTables extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('image_id')->nullable();
-            $table->foreignId('parent_id')->nullable()->constrained('pages')->onDelete('cascade');
+            $table->foreignId('image_id')->nullable()->constrained('files')->nullOnDelete();
+            $table->foreignId('parent_id')->nullable()->constrained('pages');
             $table->unsignedInteger('position')->default(0);
             $table->boolean('private')->default(0);
             $table->boolean('is_home')->default(0);
@@ -36,7 +36,7 @@ class CreatePagesTables extends Migration
         Schema::create('page_sections', function (Blueprint $table) {
             $table->id();
             $table->foreignId('page_id')->constrained()->onDelete('cascade');
-            $table->foreignId('image_id')->nullable();
+            $table->foreignId('image_id')->nullable()->constrained('files')->nullOnDelete();
             $table->unsignedInteger('position');
             $table->string('template');
             $table->json('status')->default(new Expression('(JSON_OBJECT())'));
