@@ -12,10 +12,7 @@
             class="page-item pagination-page-nav"
             v-for="page in getPages()"
             :disabled="page === '…'"
-            :class="{
-                active: page == data.current_page && page !== '…',
-                'btn-light': page !== data.current_page && page !== '…',
-            }"
+            :class="{ active: page === data.current_page }"
             @click="selectPage(page)"
         >
             {{ page }}
