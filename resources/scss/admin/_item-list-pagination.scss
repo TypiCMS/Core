@@ -2,12 +2,19 @@
     .page-item {
         @extend .btn;
         @extend .btn-sm;
+        @extend .btn-secondary;
+        background-color: #fff;
+        border-color: transparent;
         margin: 0 0.2rem;
         padding-top: 0.1rem;
         padding-bottom: 0.1rem;
         &.active {
             @extend .btn-dark;
             cursor: default !important;
+        }
+        &:disabled {
+            background-color: #fff;
+            border-color: transparent;
         }
     }
     .pagination-prev-nav,
