@@ -24,7 +24,7 @@ class SearchPublicController extends BasePublicController
                 ->withErrors($validator);
         }
 
-        $config = config('typicms.modules.search');
+        $config = config('typicms.search');
         $words = array_filter(explode(' ', $data['search']));
 
         foreach ($config as $key => $data) {
