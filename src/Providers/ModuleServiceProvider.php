@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Providers;
 
 use Exception;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
@@ -55,6 +56,8 @@ use TypiCMS\Modules\Core\Services\TypiCMS;
 
 class ModuleServiceProvider extends ServiceProvider
 {
+    private $migrationCount = 0;
+
     /**
      * Bootstrap the application events.
      */
@@ -191,18 +194,18 @@ class ModuleServiceProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
         $this->publishes([
-            __DIR__.'/../../database/migrations/create_pages_tables.php.stub' => getMigrationFileName('create_pages_tables'),
-            __DIR__.'/../../database/migrations/create_blocks_table.php.stub' => getMigrationFileName('create_blocks_table'),
-            __DIR__.'/../../database/migrations/create_settings_table.php.stub' => getMigrationFileName('create_settings_table'),
-            __DIR__.'/../../database/migrations/create_history_table.php.stub' => getMigrationFileName('create_history_table'),
-            __DIR__.'/../../database/migrations/create_users_table.php.stub' => getMigrationFileName('create_users_table'),
-            __DIR__.'/../../database/migrations/create_password_resets_table.php.stub' => getMigrationFileName('create_password_resets_table'),
-            __DIR__.'/../../database/migrations/create_files_table.php.stub' => getMigrationFileName('create_files_table'),
-            __DIR__.'/../../database/migrations/create_model_has_files_table.php.stub' => getMigrationFileName('create_model_has_files_table'),
-            __DIR__.'/../../database/migrations/create_menus_tables.php.stub' => getMigrationFileName('create_menus_tables'),
-            __DIR__.'/../../database/migrations/create_tags_table.php.stub' => getMigrationFileName('create_tags_table'),
-            __DIR__.'/../../database/migrations/create_taxonomies_tables.php.stub' => getMigrationFileName('create_taxonomies_tables'),
-            __DIR__.'/../../database/migrations/create_translations_table.php.stub' => getMigrationFileName('create_translations_table'),
+            __DIR__.'/../../database/migrations/create_files_table.php.stub' => $this->getMigrationFileName('create_files_table'),
+            __DIR__.'/../../database/migrations/create_pages_tables.php.stub' => $this->getMigrationFileName('create_pages_tables'),
+            __DIR__.'/../../database/migrations/create_blocks_table.php.stub' => $this->getMigrationFileName('create_blocks_table'),
+            __DIR__.'/../../database/migrations/create_settings_table.php.stub' => $this->getMigrationFileName('create_settings_table'),
+            __DIR__.'/../../database/migrations/create_history_table.php.stub' => $this->getMigrationFileName('create_history_table'),
+            __DIR__.'/../../database/migrations/create_users_table.php.stub' => $this->getMigrationFileName('create_users_table'),
+            __DIR__.'/../../database/migrations/create_password_resets_table.php.stub' => $this->getMigrationFileName('create_password_resets_table'),
+            __DIR__.'/../../database/migrations/create_model_has_files_table.php.stub' => $this->getMigrationFileName('create_model_has_files_table'),
+            __DIR__.'/../../database/migrations/create_menus_tables.php.stub' => $this->getMigrationFileName('create_menus_tables'),
+            __DIR__.'/../../database/migrations/create_tags_table.php.stub' => $this->getMigrationFileName('create_tags_table'),
+            __DIR__.'/../../database/migrations/create_taxonomies_tables.php.stub' => $this->getMigrationFileName('create_taxonomies_tables'),
+            __DIR__.'/../../database/migrations/create_translations_table.php.stub' => $this->getMigrationFileName('create_translations_table'),
         ], 'typicms-migrations');
 
         /*
@@ -327,5 +330,15 @@ class ModuleServiceProvider extends ServiceProvider
                 return [];
             }
         });
+    }
+
+    private function getMigrationFileName(string $name): string
+    {
+        $filesystem = $this->app->make(Filesystem::class);
+        $timestamp = date('Y_m_d_His', time() + ++$this->migrationCount);
+        $directory = database_path(DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR);
+        $migrations = $filesystem->glob($directory.'*_'.$name.'.php');
+
+        return $migrations[0] ?? $directory.$timestamp.'_'.$name.'.php';
     }
 }
