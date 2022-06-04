@@ -24,7 +24,7 @@ class CreateMenusTables extends Migration
             $table->id();
             $table->foreignId('menu_id')->constrained()->onDelete('cascade');
             $table->foreignId('page_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('section_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('section_id')->nullable()->constrained('page_sections')->onDelete('cascade');
             $table->foreignId('parent_id')->nullable()->constrained('menulinks')->onDelete('cascade');
             $table->foreignId('image_id')->nullable()->constrained('files')->nullOnDelete();
             $table->unsignedInteger('position')->default(0);
