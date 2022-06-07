@@ -42,7 +42,7 @@ class FileUploader
         if (!function_exists('exif_read_data')) {
             return;
         }
-        $exif = exif_read_data($file);
+        $exif = @exif_read_data($file);
         if (empty($exif) || !isset($exif['Orientation'])) {
             return;
         }
