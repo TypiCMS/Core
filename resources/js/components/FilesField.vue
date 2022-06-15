@@ -23,7 +23,7 @@
             </p>
         </div>
 
-        <draggable v-model="files" group="files" @start="drag = true" @end="drag = false">
+        <draggable class="filemanager-list" v-model="files" group="files" @start="drag = true" @end="drag = false">
             <div
                 class="filemanager-item filemanager-item-with-name filemanager-item-removable"
                 v-for="file in files"
