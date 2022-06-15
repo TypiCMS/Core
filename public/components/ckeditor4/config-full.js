@@ -48,7 +48,7 @@ for (var i = 0; i < editors.length; ++i) {
         extraPlugins: 'adv_link,image2,codemirror,panelbutton,html5video,embed,justify,showblocks,div,dialogadvtab',
         removePlugins: 'image,link',
         embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
-        extraAllowedContent: 'dl;dt;dd;small',
+        extraAllowedContent: 'dl;dt;dd;small;img[!src,alt,width,height,loading]',
         bodyClass: 'rich-content',
         height: 500,
         contentsCss: ['/css/public.css', '/components/ckeditor4/custom.css'],
