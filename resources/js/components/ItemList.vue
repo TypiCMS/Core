@@ -209,6 +209,10 @@ export default {
             type: String,
             required: true,
         },
+        perPage: {
+            type: Number,
+            default: 100,
+        },
         include: {
             type: String,
             default: '',
@@ -240,7 +244,7 @@ export default {
                 from: 1,
                 last_page: 1,
                 next_page_url: null,
-                per_page: 50,
+                per_page: this.perPage,
                 prev_page_url: null,
                 to: 1,
                 total: 0,
