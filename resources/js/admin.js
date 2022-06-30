@@ -111,12 +111,13 @@ new Vue({
 /**
  * Alertify
  */
-window.alertify = require('alertify.js');
+import alertify from 'alertify.js';
+window.alertify = alertify;
 
 /**
  * Selectize
  */
-require('selectize');
+import selectize from 'selectize';
 
 /**
  * All files in /reources/js/admin
