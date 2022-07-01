@@ -1,5 +1,5 @@
 /*
- * Slug 2.1.0, jQuery plugin
+ * Slug 2.1.1, jQuery plugin
  *
  * Copyright(c) 2016, Samuel De Backer
  * http://www.typi.be
@@ -185,7 +185,7 @@
                 '©':'(c)', 'œ':'oe', 'Œ':'OE', '∑':'sum', '®':'(r)', '†':'+',
                 '“':'"', '”':'"', '‘':"'", '’':"'", '∂':'d', 'ƒ':'f', '™':'tm',
                 '℠':'sm', '…':'...', '˚':'o', 'º':'o', 'ª':'a', '•':'*',
-                '∆':'delta', '∞':'infinity', '♥':'love', '&':'and'
+                '∆':'delta', '∞':'infinity', '♥':'love', '&':'and', 'ᵉ':'e', '²':'2', '³':'3', '×':'x'
             };
         }
     };
