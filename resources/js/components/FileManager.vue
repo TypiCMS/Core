@@ -41,7 +41,6 @@
                     <div class="btn-group btn-group-sm me-2">
                         <button
                             class="btn btn-secondary dropdown-toggle"
-                            :class=""
                             type="button"
                             id="dropdown-action-button"
                             data-bs-toggle="dropdown"
