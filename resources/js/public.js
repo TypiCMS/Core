@@ -26,7 +26,7 @@ window.Swiper = Swiper;
 /**
  * Get files from /resources/js/public
  */
-var req = require.context('./public', true, /^(.*\.(js$))[^.]*$/im);
-req.keys().forEach(function (key) {
-    req(key);
-});
+import enableAnchorTop from './public/anchor-top.js';
+enableAnchorTop();
+import enableOffCanvas from './public/offcanvas.js';
+enableOffCanvas();
