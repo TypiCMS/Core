@@ -17,7 +17,7 @@ class LocaleController extends BaseAdminController
         if ($locale === 'all') {
             Session::put('allLocalesInForm', true);
         } else {
-            Session::put('locale', $locale);
+            Session::put('content_locale', $locale);
         }
     }
 }
