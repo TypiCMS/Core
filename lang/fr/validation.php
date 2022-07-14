@@ -1,17 +1,6 @@
 <?php
 
 return [
-    /*
-    |--------------------------------------------------------------------------
-    | Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines contain the default error messages used by
-    | the validator class. Some of these rules have multiple versions such
-    | as the size rules. Feel free to tweak each of these messages here.
-    |
-    */
-
     'accepted' => 'Le champ :attribute doit être accepté.',
     'accepted_if' => 'Le champ :attribute doit être accepté quand :other a la valeur :value.',
     'active_url' => 'Le champ :attribute n’est pas une URL valide.',
@@ -36,13 +25,17 @@ return [
     'date' => 'Le champ :attribute n’est pas une date valide.',
     'date_equals' => 'Le champ :attribute doit être une date égale à :date.',
     'date_format' => 'Le champ :attribute ne correspond pas au format :format.',
+    'declined' => 'Le champ :attribute doit être décliné.',
+    'declined_if' => 'Le champ :attribute doit être décliné quand :other a la valeur :value.',
     'different' => 'Les champs :attribute et :other doivent être différents.',
     'digits' => 'Le champ :attribute doit contenir :digits chiffres.',
     'digits_between' => 'Le champ :attribute doit contenir entre :min et :max chiffres.',
     'dimensions' => 'La taille de l’image :attribute n’est pas conforme.',
     'distinct' => 'Le champ :attribute a une valeur en double.',
+    'doesnt_start_with' => 'Le champ :attribute ne doit pas commencer avec une des valeurs suivantes : :values.',
     'email' => 'Le champ :attribute doit être une adresse e-mail valide.',
     'ends_with' => 'Le champ :attribute doit se terminer par une des valeurs suivantes : :values',
+    'enum' => 'Le champ :attribute sélectionné est invalide.',
     'exists' => 'Le champ :attribute sélectionné est invalide.',
     'file' => 'Le champ :attribute doit être un fichier.',
     'filled' => 'Le champ :attribute doit avoir une valeur.',
@@ -78,17 +71,18 @@ return [
         'numeric' => 'La valeur de :attribute doit être inférieure ou égale à :value.',
         'string' => 'Le texte :attribute doit contenir au plus :value caractères.',
     ],
+    'mac_address' => 'Le champ :attribute doit être une adresse MAC valide.',
     'max' => [
-        'array' => 'Le tableau :attribute ne peut contenir plus de :max éléments.',
+        'array' => 'Le tableau :attribute ne peut pas contenir plus que :max éléments.',
         'file' => 'La taille du fichier de :attribute ne peut pas dépasser :max kilo-octets.',
-        'numeric' => 'La valeur de :attribute ne peut être supérieure à :max.',
-        'string' => 'Le texte de :attribute ne peut contenir plus de :max caractères.',
+        'numeric' => 'La valeur de :attribute ne peut pas être supérieure à :max.',
+        'string' => 'Le texte de :attribute ne peut pas contenir plus de :max caractères.',
     ],
     'mimes' => 'Le champ :attribute doit être un fichier de type : :values.',
     'mimetypes' => 'Le champ :attribute doit être un fichier de type : :values.',
     'min' => [
         'array' => 'Le tableau :attribute doit contenir au moins :min éléments.',
-        'file' => 'La taille du fichier de :attribute doit être supérieure à :min kilo-octets.',
+        'file' => 'La taille du fichier de :attribute doit être supérieure ou égale à :min kilo-octets.',
         'numeric' => 'La valeur de :attribute doit être supérieure ou égale à :min.',
         'string' => 'Le texte :attribute doit contenir au moins :min caractères.',
     ],
@@ -96,7 +90,13 @@ return [
     'not_in' => 'Le champ :attribute sélectionné n’est pas valide.',
     'not_regex' => 'Le format du champ :attribute n’est pas valide.',
     'numeric' => 'Le champ :attribute doit contenir un nombre.',
-    'password' => 'Le mot de passe est incorrect',
+    'password' => [
+        'letters' => 'Le champ :attribute doit contenir au moins une lettre.',
+        'mixed' => 'Le champ :attribute doit contenir au moins une majuscule et une minuscule.',
+        'numbers' => 'Le champ :attribute doit contenir au moins un chiffre.',
+        'symbols' => 'Le champ :attribute doit contenir au moins un symbole.',
+        'uncompromised' => 'La valeur du champ :attribute est apparue dans une fuite de données. Veuillez choisir une valeur différente.',
+    ],
     'present' => 'Le champ :attribute doit être présent.',
     'prohibited' => 'Le champ :attribute est interdit.',
     'prohibited_if' => 'Le champ :attribute est interdit quand :other a la valeur :value.',
@@ -105,6 +105,7 @@ return [
     'regex' => 'Le format du champ :attribute est invalide.',
     'relatable' => ':attribute n’est sans doute pas associé(e) avec cette donnée.',
     'required' => 'Le champ :attribute est obligatoire.',
+    'required_array_keys' => 'Le champ :attribute doit contenir des entrées pour : :values.',
     'required_if' => 'Le champ :attribute est obligatoire quand la valeur de :other est :value.',
     'required_unless' => 'Le champ :attribute est obligatoire sauf si :other est :values.',
     'required_with' => 'Le champ :attribute est obligatoire quand :values est présent.',
@@ -125,34 +126,16 @@ return [
     'uploaded' => 'Le fichier du champ :attribute n’a pu être téléversé.',
     'url' => 'Le format de l’URL de :attribute n’est pas valide.',
     'uuid' => 'Le champ :attribute doit être un UUID valide',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify custom validation messages for attributes using the
-    | convention "attribute.rule" to name the lines. This makes it quick to
-    | specify a specific custom language line for a given attribute rule.
-    |
-    */
-
     'custom' => [
-        'allsections.*.title.*' => [
-            'max' => 'Le titre d’une section ne peut contenir plus de :max caractères.',
+        'allsections' => [
+            '*' => [
+                'title' => [
+                    '*' => [
+                        'max' => 'Le titre d’une section ne peut contenir plus de :max caractères.',
+                    ],
+                ],
+            ],
         ],
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Attributes
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used to swap attribute place-holders
-    | with something more reader friendly such as E-Mail Address instead
-    | of "email". This simply helps us make messages a little cleaner.
-    |
-    */
-
     'attributes' => [],
 ];
