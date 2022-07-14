@@ -14,7 +14,7 @@ class SearchPublicController extends BasePublicController
         $tabs = [];
         $count = 0;
         $data = [];
-        $data['search'] = urlencode(e($request->input('search')));
+        $data['search'] = e($request->input('search'));
         $validator = Validator::make($data, [
             'search' => 'required|string|min:3',
         ]);
