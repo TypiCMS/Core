@@ -34,3 +34,7 @@
     --swiper-theme-color: #fff;
     --swiper-navigation-size: 40px;
 }
+
+.swiper-slide {
+    -webkit-transform: translate3d(0, 0, 0); // Safari
+}
