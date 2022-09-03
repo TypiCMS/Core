@@ -33,7 +33,7 @@
                     @unpublish="unpublish"
                 ></item-list-actions>
                 <item-list-per-page
-                    v-if="pagination && this.data.total > 10 && $can('read ' + table)"
+                    v-if="data.total > perPage && pagination && $can('read ' + table)"
                     class="me-2"
                     :loading="loading"
                     :per-page="parseInt(data.per_page)"
