@@ -27,6 +27,7 @@
                     :number-of-checked-models="numberOfCheckedItems"
                     :loading="loading"
                     :publishable="publishable"
+                    :deletable="deletable"
                     :table="table"
                     @destroy="destroy"
                     @publish="publish"
@@ -194,6 +195,10 @@ export default {
             default: () => [],
         },
         publishable: {
+            type: Boolean,
+            default: true,
+        },
+        deletable: {
             type: Boolean,
             default: true,
         },

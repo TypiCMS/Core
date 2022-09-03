@@ -19,7 +19,7 @@
                 {{ $t('Unpublish') }} <span class="text-muted">({{ locale }})</span>
             </button>
             <div class="dropdown-divider" v-if="publishable"></div>
-            <button type="button" class="dropdown-item" @click="$emit('destroy')">
+            <button type="button" class="dropdown-item" v-if="deletable" @click="$emit('destroy')">
                 {{ $t('Delete') }}
             </button>
             <div role="separator" class="divider"></div>
@@ -38,6 +38,10 @@
 export default {
     props: {
         publishable: {
+            type: Boolean,
+            default: true,
+        },
+        deletable: {
             type: Boolean,
             default: true,
         },
