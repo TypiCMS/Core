@@ -15,6 +15,8 @@ abstract class Presenter extends BasePresenter
 {
     protected $entity;
 
+    protected $imageNotFound = 'img-not-found.png';
+
     public function __construct($entity)
     {
         $this->entity = $entity;
@@ -136,12 +138,11 @@ abstract class Presenter extends BasePresenter
      */
     public function imgNotFound(): string
     {
-        $file = 'img-not-found.png';
-        if (!Storage::exists($file)) {
-            Storage::put($file, File::get(public_path('img/'.$file)));
+        if (!Storage::exists($this->imageNotFound)) {
+            Storage::put($this->imageNotFound, File::get(public_path('img/'.$this->imageNotFound)));
         }
 
-        return $file;
+        return $this->imageNotFound;
     }
 
     public function title(): string
