@@ -10,6 +10,7 @@
     <div class="col-md-3">
         <label class="form-label" for="">@lang('validation.attributes.terms.'.$taxonomy->name)</label>
         @foreach ($taxonomy->terms as $term)
+        {!! Form::hidden('terms['.$taxonomy->name.'][]')->value(0) !!}
         <div class="form-check {{ $errors->has('terms.'.$taxonomy->name) ? 'is-invalid' : '' }}">
             {!! Form::checkbox('terms['.$taxonomy->name.'][]', $term->id)->id('term_'.$term->id)->addClass('form-check-input')->addClass($errors->has('terms.'.$taxonomy->name) ? 'is-invalid' : '' ) !!}
             <label class="form-check-label" for="{{ 'term_'.$term->id }}">{{ $term->title }}</label>
