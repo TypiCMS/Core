@@ -1,4 +1,5 @@
 $gray-300: #dee2e6;
+$gray-500: #adb5bd;
 $gray-600: #6c757d;
 
 $secondary: $gray-300;
@@ -9,3 +10,11 @@ $link-decoration: none;
 $table-group-separator-color: $gray-300;
 
 $enable-validation-icons: false;
+
+$pagination-padding-x: 0;
+$pagination-padding-y: 0;
+$pagination-border-width: 0;
+$pagination-color: $dark;
+$pagination-hover-color: darken($dark, 20%);
+$pagination-active-bg: $dark;
+$pagination-disabled-color: $gray-500;

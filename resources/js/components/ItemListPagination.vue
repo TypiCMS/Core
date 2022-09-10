@@ -1,30 +1,35 @@
 <template>
-    <nav class="pagination item-list-pagination" v-if="data.total > data.per_page">
-        <button
-            class="page-item pagination-prev-nav"
-            :disabled="!data.prev_page_url"
-            :aria-label="$t('Previous')"
-            @click="selectPage(--data.current_page)"
-        >
-            <small aria-hidden="true">←</small> <small>{{ $t('Previous') }}</small>
-        </button>
-        <button
-            class="page-item pagination-page-nav"
-            v-for="page in getPages()"
-            :disabled="page === '…'"
-            :class="{ active: page === data.current_page }"
-            @click="selectPage(page)"
-        >
-            {{ page }}
-        </button>
-        <button
-            class="page-item pagination-next-nav"
-            :disabled="!data.next_page_url"
-            :aria-label="$t('Next')"
-            @click="selectPage(++data.current_page)"
-        >
-            <small>{{ $t('Next') }}</small> <small aria-hidden="true">→</small>
-        </button>
+    <nav class="item-list-pagination" v-if="data.total > data.per_page">
+        <ul class="pagination">
+            <li class="page-item" :class="{ disabled: !data.prev_page_url }">
+                <button
+                    class="page-link pagination-prev-nav"
+                    :aria-label="$t('Previous')"
+                    @click="selectPage(--data.current_page)"
+                >
+                    <small aria-hidden="true">←</small> <small class="ms-2">{{ $t('Previous') }}</small>
+                </button>
+            </li>
+            <li
+                class="page-item"
+                :class="{ disabled: page === '…', active: page == data.current_page && page !== '…' }"
+                v-for="page in getPages()"
+            >
+                <button class="page-link pagination-page-nav" @click="selectPage(page)">
+                    {{ page }}
+                </button>
+            </li>
+            <li class="page-item">
+                <button
+                    class="page-link pagination-next-nav"
+                    :disabled="!data.next_page_url"
+                    :aria-label="$t('Next')"
+                    @click="selectPage(++data.current_page)"
+                >
+                    <small class="me-2">{{ $t('Next') }}</small> <small aria-hidden="true">→</small>
+                </button>
+            </li>
+        </ul>
     </nav>
 </template>
 
