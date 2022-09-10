@@ -34,11 +34,15 @@ $min-contrast-ratio: 4.5;
 
 $body-bg: $white;
 $body-color: $gray-900;
+$link-color: $primary;
 
 $font-family-sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
     'Liberation Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
 $font-size-base: 1.125rem;
+
+$paragraph-margin-bottom: 1.5rem;
+$headings-margin-bottom: $paragraph-margin-bottom;
 
 $h1-font-size: $font-size-base * 2;
 $h2-font-size: $font-size-base * 1.75;
