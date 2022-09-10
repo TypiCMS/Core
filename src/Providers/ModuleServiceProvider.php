@@ -63,7 +63,7 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Paginator::useBootstrap();
+        Paginator::useBootstrapFive();
 
         /*
          * Get configuration from DB and store it in the container
