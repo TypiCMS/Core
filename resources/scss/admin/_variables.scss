@@ -7,6 +7,10 @@ $dark: $gray-600;
 
 $link-decoration: none;
 
+$border-radius: 0.375rem;
+$border-radius-sm: 0.25rem;
+$border-radius-lg: 0.5rem;
+
 $table-group-separator-color: $gray-300;
 
 $enable-validation-icons: false;
@@ -18,3 +22,4 @@ $pagination-color: $dark;
 $pagination-hover-color: darken($dark, 20%);
 $pagination-active-bg: $dark;
 $pagination-disabled-color: $gray-500;
+$pagination-border-radius: $border-radius-sm;
