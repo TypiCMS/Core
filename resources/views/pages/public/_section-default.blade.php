@@ -1,4 +1,4 @@
-<div class="section-default section-{{ $section->id }}" id="section-{{ $section->id }}">
+<div class="section-default section-{{ $section->id }}" id="{{ $section->slug }}-{{ $section->id }}">
     <div class="section-default-container">
         @empty ($section->image)
         <div class="section-default-content">
