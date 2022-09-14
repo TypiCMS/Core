@@ -71,18 +71,18 @@
                         {{ $t('Edit') }}
                     </a>
 
-                    <div
-                        class="btn btn-xs btn-link btn-status me-1"
-                        :class="node.data.status_translated === 1 ? 'btn-status-on' : 'btn-status-off'"
-                        @click="toggleStatus(node)"
-                        v-if="translatable"
-                    ></div>
-                    <div
-                        class="btn btn-xs btn-link btn-status me-1"
-                        :class="node.data.status === 1 ? 'btn-status-on' : 'btn-status-off'"
-                        @click="toggleStatus(node)"
-                        v-else
-                    ></div>
+                    <button class="btn-status" type="button" @click="toggleStatus(node)">
+                        <span
+                            class="btn-status-icon"
+                            :class="node.data.status_translated === 1 ? 'btn-status-icon-on' : 'btn-status-icon-off'"
+                            v-if="translatable"
+                        ></span>
+                        <span
+                            class="btn-status-icon"
+                            :class="node.data.status === 1 ? 'btn-status-icon-on' : 'btn-status-icon-off'"
+                            v-else
+                        ></span>
+                    </button>
 
                     <svg
                         class="text-muted"
