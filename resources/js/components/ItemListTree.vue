@@ -71,7 +71,7 @@
                         {{ $t('Edit') }}
                     </a>
 
-                    <button class="btn-status" type="button" @click="toggleStatus(node)">
+                    <button class="btn-status me-2" type="button" @click="toggleStatus(node)">
                         <span
                             class="btn-status-icon"
                             :class="node.data.status_translated === 1 ? 'btn-status-icon-on' : 'btn-status-icon-off'"
