@@ -19,7 +19,7 @@
             </div>
         </div>
         @endempty
-        @include('files::public._documents', ['model' => $section])
-        @include('files::public._images', ['model' => $section])
+        @include('files::public._document-list', ['model' => $section])
+        @include('files::public._image-list', ['model' => $section])
     </div>
 </div>

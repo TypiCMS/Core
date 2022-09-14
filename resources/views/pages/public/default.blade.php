@@ -8,8 +8,8 @@
 
         @include('pages::public._subpages')
         @include('pages::public._main-content', ['page' => $page])
-        @include('files::public._documents', ['model' => $page])
-        @include('files::public._images', ['model' => $page])
+        @include('files::public._document-list', ['model' => $page])
+        @include('files::public._image-list', ['model' => $page])
 
     </div>
 

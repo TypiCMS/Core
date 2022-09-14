@@ -18,8 +18,8 @@
         <div class="rich-content">{!! $page->present()->body !!}</div>
         @endempty
 
-        @include('files::public._documents', ['model' => $page])
-        @include('files::public._images', ['model' => $page])
+        @include('files::public._document-list', ['model' => $page])
+        @include('files::public._image-list', ['model' => $page])
 
         {{--
             @if ($slides = Slides::published()->order()->get() and $slides->count() > 0)
