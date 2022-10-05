@@ -42,7 +42,7 @@
         <td><small class="text-muted">@{{ model.validation_rule }}</small></td>
         <td>@{{ model.result_string_translated }}</td>
         <td>
-            <span class="badge bg-warning text-dark me-1" v-for="module in model.modules">@{{ module }}</span>
+            <span class="badge bg-warning text-body me-1" v-for="module in model.modules">@{{ module }}</span>
         </td>
     </template>
 
