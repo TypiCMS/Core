@@ -35,9 +35,13 @@ class Menu extends Base
             $menu = $this->published()
                 ->with([
                     'menulinks' => function ($query) {
-                        $query->published();
+                        $query->with([
+                            'page',
+                            'section',
+                            'image',
+                            'parent',
+                        ])->published();
                     },
-                    'menulinks.page',
                 ])
                 ->where('name', $name)
                 ->first();
