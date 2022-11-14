@@ -117,7 +117,7 @@ window.alertify = alertify;
 /**
  * Selectize
  */
-import selectize from 'selectize';
+import selectize from '@selectize/selectize';
 
 /**
  * All files in /reources/js/admin
