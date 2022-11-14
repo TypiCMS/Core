@@ -28,7 +28,7 @@ $selectize-color-optgroup: $dropdown-bg !default;
 $selectize-color-optgroup-text: $dropdown-header-color !default;
 $selectize-color-optgroup-border: $dropdown-divider-bg !default;
 $selectize-color-dropdown: $dropdown-bg !default;
-$selectize-color-dropdown-border-top: mix($input-border-color, $input-bg, 0.8) !default;
+$selectize-color-dropdown-border-top: mix($input-border-color, $input-bg, 1%) !default;
 $selectize-color-dropdown-item-active: $dropdown-link-hover-bg !default;
 $selectize-color-dropdown-item-active-text: $dropdown-link-hover-color !default;
 $selectize-color-dropdown-item-create-active-text: $dropdown-link-hover-color !default;
