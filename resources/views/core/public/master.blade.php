@@ -25,7 +25,7 @@
     <meta property="fb:app_id" content="{{ config('typicms.facebook_app_id') }}">
     @endif
 
-    <link href="{{ App::environment('production') ? mix('css/public.css') : asset('css/public.css') }}" rel="stylesheet">
+    @vite('resources/scss/public.scss')
 
     @include('core::public._feed-links')
 
