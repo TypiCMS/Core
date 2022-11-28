@@ -34,6 +34,7 @@ class PagesApiController extends BaseApiController
     public function linksForEditor(Request $request)
     {
         $data = Page::order()
+            ->select(['id', 'parent_id', 'title'])
             ->get()
             ->nest()
             ->listsFlattened();
