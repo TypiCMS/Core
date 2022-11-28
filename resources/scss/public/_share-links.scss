@@ -29,31 +29,31 @@
     &-facebook {
         background-color: #3b5998;
         &-icon {
-            mask-image: url('/img/facebook.svg');
+            mask-image: url('../img/facebook.svg');
         }
     }
     &-twitter {
         background-color: #55acee;
         &-icon {
-            mask-image: url('/img/twitter.svg');
+            mask-image: url('../img/twitter.svg');
         }
     }
     &-linkedin {
         background-color: #007bb5;
         &-icon {
-            mask-image: url('/img/linkedin.svg');
+            mask-image: url('../img/linkedin.svg');
         }
     }
     &-whatsapp {
         background-color: #6ebf58;
         &-icon {
-            mask-image: url('/img/whatsapp.svg');
+            mask-image: url('../img/whatsapp.svg');
         }
     }
     &-mail {
         background-color: #495057;
         &-icon {
-            mask-image: url('/img/envelope.svg');
+            mask-image: url('../img/envelope.svg');
         }
     }
 }
