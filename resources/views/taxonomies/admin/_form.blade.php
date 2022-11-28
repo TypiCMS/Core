@@ -16,7 +16,7 @@
 
     @include('core::form._title-and-slug')
 
-    {!! BootForm::text(__('Validation rule'), 'validation_rule') !!}
+    {!! BootForm::text(__('Validation rule'), 'validation_rule')->placeholder('required|array|size:2')->required() !!}
 
     {!! Form::hidden('modules[]')->value('') !!}
     @if (!empty($modules))
