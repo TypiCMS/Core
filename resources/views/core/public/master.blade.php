@@ -44,7 +44,7 @@
     @include('core::_navbar')
 
     @auth
-    @if(auth()->user()->isImpersonating())
+    @if (auth()->user()->isImpersonating())
         <a class="stop-impersonation-button" href="{{ route($lang.'::stop-impersonation') }}">@lang('Stop impersonation')</a>
     @endif
     @endauth
