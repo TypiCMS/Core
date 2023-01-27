@@ -114,7 +114,8 @@
 
     </div>
 
-    <script src="{{ App::environment('production') ? mix('js/public.js') : asset('js/public.js') }}"></script>
+    @vite('resources/js/public.js')
+
     @can('see unpublished items')
     @if (request('preview'))
     <script src="{{ asset('js/previewmode.js') }}"></script>
