@@ -1,20 +1,9 @@
 /**
- * jQuery
- */
-import jQuery from 'jquery';
-window.$ = window.jQuery = jQuery;
-
-/**
  * Bootstrap
  */
 import Dropdown from 'bootstrap/js/dist/dropdown';
 import Collapse from 'bootstrap/js/dist/collapse';
 import Alert from 'bootstrap/js/dist/alert';
-
-/**
- * Fancybox
- */
-require('@fancyapps/fancybox');
 
 /**
  * Swiper
