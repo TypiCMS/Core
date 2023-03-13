@@ -32,6 +32,16 @@ table {
     @extend .table;
 }
 
+figure {
+    @extend .figure;
+    img {
+        @extend .figure-img;
+    }
+    figcaption {
+        @extend .figure-caption;
+    }
+}
+
 blockquote {
     color: $gray-700;
     border-left: 5px solid $gray-300;
