@@ -52,21 +52,21 @@ class FileUploader
             $deg = 0;
 
             switch ($orientation) {
-                    case 3:
-                        $deg = 180;
+                case 3:
+                    $deg = 180;
 
-                        break;
+                    break;
 
-                    case 6:
-                        $deg = 270;
+                case 6:
+                    $deg = 270;
 
-                        break;
+                    break;
 
-                    case 8:
-                        $deg = 90;
+                case 8:
+                    $deg = 90;
 
-                        break;
-                }
+                    break;
+            }
             if ($deg) {
                 $img = imagerotate($img, $deg, 0);
             }
