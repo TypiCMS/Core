@@ -2,7 +2,6 @@
 
 namespace TypiCMS\Modules\Core\Providers;
 
-use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Pagination\Paginator;
@@ -126,10 +125,11 @@ class ModuleServiceProvider extends ServiceProvider
 
         /*
         |--------------------------------------------------------------------------
-        | Publish js and scss files.
+        | Publish images, js and scss files.
         |--------------------------------------------------------------------------
         */
         $this->publishes([
+            __DIR__.'/../../resources/images' => resource_path('images'),
             __DIR__.'/../../resources/js' => resource_path('js'),
             __DIR__.'/../../resources/scss' => resource_path('scss'),
         ], 'typicms-resources');
@@ -326,7 +326,7 @@ class ModuleServiceProvider extends ServiceProvider
                 return Page::with('images', 'documents')
                     ->where('module', '!=', null)
                     ->get();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 return [];
             }
         });
