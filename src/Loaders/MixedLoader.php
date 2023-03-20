@@ -2,7 +2,6 @@
 
 namespace TypiCMS\Modules\Core\Loaders;
 
-use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Translation\FileLoader;
 use TypiCMS\Modules\Core\Models\Translation;
@@ -14,7 +13,7 @@ class MixedLoader extends FileLoader
      *
      * @param string      $locale
      * @param string      $group
-     * @param string|null $namespace
+     * @param null|string $namespace
      */
     public function load($locale, $group, $namespace = null): array
     {
@@ -26,7 +25,7 @@ class MixedLoader extends FileLoader
         }
 
         if (is_null($namespace) || $namespace === '*') {
-            return $this->loadPath($this->path, $locale, $group);
+            return $this->loadPaths($this->paths, $locale, $group);
         }
 
         return $this->loadNamespaced($locale, $group, $namespace);
@@ -41,7 +40,7 @@ class MixedLoader extends FileLoader
             return Translation::select(DB::raw("JSON_UNQUOTE(JSON_EXTRACT(`translation`, '$.".$locale."')) AS translated"), 'key')
                 ->pluck('translated', 'key')
                 ->all();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
 
         return [];
