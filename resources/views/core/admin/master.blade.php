@@ -12,7 +12,7 @@
 
     @stack('css')
 
-    <link href="{{ App::environment('production') ? mix('/css/admin.css') : asset('/css/admin.css') }}" rel="stylesheet">
+    @vite('resources/scss/admin.scss')
 
 </head>
 
@@ -40,7 +40,7 @@
 
         @include('core::admin._javascript')
 
-        <script src="{{ App::environment('production') ? mix('/js/admin.js') : asset('/js/admin.js') }}"></script>
+        @vite('resources/js/admin.js')
 
         @stack('js')
 
