@@ -44,7 +44,7 @@
 
         @stack('js')
 
-        <script>
+        <script type="module">
             alertify.logPosition('bottom right');
             @if (session('message'))
                 alertify.success('{{ session('message') }}');
