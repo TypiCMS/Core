@@ -14,30 +14,36 @@ export default function enablePreviewWindow() {
     /**
      * Open preview window
      */
-    document.querySelector('.btn-preview').addEventListener(
-        'click',
-        function (event) {
-            event.preventDefault();
-            document.getElementById('preview-content').src = this.href;
-            document.documentElement.classList.add('noscroll'); // add noscroll class to <html>
-            document.body.classList.add('noscroll'); // add noscroll class to <body>
-            document.getElementById('preview-window').classList.add('typicms-modal-open');
-        },
-        false
-    );
+    let btnPreview = document.querySelector('.btn-preview');
+    if (btnPreview) {
+        btnPreview.addEventListener(
+            'click',
+            function (event) {
+                event.preventDefault();
+                document.getElementById('preview-content').src = this.href;
+                document.documentElement.classList.add('noscroll'); // add noscroll class to <html>
+                document.body.classList.add('noscroll'); // add noscroll class to <body>
+                document.getElementById('preview-window').classList.add('typicms-modal-open');
+            },
+            false
+        );
+    }
 
     /**
      * Close preview window
      */
-    document.getElementById('close-preview').addEventListener(
-        'click',
-        function (event) {
-            event.preventDefault();
-            document.getElementById('preview-content').src = '';
-            document.documentElement.classList.remove('noscroll'); // remove noscroll class to <html>
-            document.body.classList.remove('noscroll'); // remove noscroll class to <body>
-            document.getElementById('preview-window').classList.remove('typicms-modal-open');
-        },
-        false
-    );
+    let btnClosePreview = document.getElementById('close-preview');
+    if (btnClosePreview) {
+        btnClosePreview.addEventListener(
+            'click',
+            function (event) {
+                event.preventDefault();
+                document.getElementById('preview-content').src = '';
+                document.documentElement.classList.remove('noscroll'); // remove noscroll class to <html>
+                document.body.classList.remove('noscroll'); // remove noscroll class to <body>
+                document.getElementById('preview-window').classList.remove('typicms-modal-open');
+            },
+            false
+        );
+    }
 }
