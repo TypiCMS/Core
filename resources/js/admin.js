@@ -119,3 +119,9 @@ window.TomSelect = TomSelect;
  */
 import enablePreviewWindow from './admin/preview-window.js';
 enablePreviewWindow();
+
+/**
+ * Set content locale
+ */
+import enableSetContentLocale from './admin/set-content-locale.js';
+enableSetContentLocale();
