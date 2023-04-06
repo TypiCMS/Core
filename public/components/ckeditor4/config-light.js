@@ -11,7 +11,7 @@ for (var i = 0; i < editors.length; ++i) {
         emailProtection: 'encode',
         height: 240,
         contentsCss: ['/css/public.css', '/components/ckeditor4/custom.css'],
-        language: $('html').attr('lang'),
+        language: document.documentElement.lang,
         stylesSet: [],
         extraPlugins: 'adv_link,codemirror',
         removePlugins: 'link',

@@ -55,7 +55,7 @@ for (var i = 0; i < editors.length; ++i) {
         codemirror: {
             theme: 'twilight',
         },
-        language: $('html').attr('lang'),
+        language: document.documentElement.lang,
         filebrowserBrowseUrl: '/admin/files?view=filepicker',
         filebrowserImageBrowseUrl: '/admin/files?type=i&view=filepicker',
     });
