@@ -1,10 +1,4 @@
 /**
- * jQuery
- */
-import jQuery from 'jquery';
-window.$ = window.jQuery = jQuery;
-
-/**
  * Bootstrap
  */
 import Dropdown from 'bootstrap/js/dist/dropdown';
@@ -115,14 +109,13 @@ import alertify from 'alertify.js';
 window.alertify = alertify;
 
 /**
- * Selectize
+ * TomSelect
  */
-import selectize from '@selectize/selectize';
+import TomSelect from 'tom-select';
+window.TomSelect = TomSelect;
 
 /**
- * All files in /reources/js/admin
+ * Preview window
  */
-var req = require.context('./admin', true, /^(.*\.(js$))[^.]*$/im);
-req.keys().forEach(function (key) {
-    req(key);
-});
+import enablePreviewWindow from './admin/preview-window.js';
+enablePreviewWindow();
