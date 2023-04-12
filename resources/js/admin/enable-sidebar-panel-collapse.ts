@@ -9,11 +9,12 @@ export default (): void => {
         })
             .then((response) => {
                 if (!response.ok) {
-                    alertify.error("User preference couldn't be set.");
+                    throw new Error('Network response was not ok.');
                 }
             })
-            .catch(() => {
+            .catch((error) => {
                 alertify.error("User preference couldn't be set.");
+                console.error('There was a problem with the fetch operation:', error);
             });
     }
 
