@@ -63,6 +63,6 @@ Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Ro
  */
 Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router) {
     $router->get('users', [UsersApiController::class, 'index'])->middleware('can:read users');
-    $router->post('users/current/updatepreferences', [UsersApiController::class, 'updatePreferences'])->middleware('can:update users');
+    $router->post('users/current/update-preferences', [UsersApiController::class, 'updatePreferences'])->middleware('can:update users');
     $router->delete('users/{user}', [UsersApiController::class, 'destroy'])->middleware('can:delete users');
 });
