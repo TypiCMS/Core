@@ -27,27 +27,22 @@
     width: 100%;
     height: 100%;
     z-index: 99999;
-
     &.hide {
         opacity: 0;
         pointer-events: none;
     }
-
     &,
     &.show {
         box-sizing: border-box;
         transition: all 0.33s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-
     &,
     * {
         box-sizing: border-box;
     }
-
     .dialog {
         padding: 12px;
     }
-
     .dialog,
     .alert {
         width: 100%;
@@ -55,7 +50,6 @@
         position: relative;
         top: 50%;
         transform: translateY(-50%);
-
         > * {
             width: 400px;
             max-width: 95%;
@@ -64,16 +58,13 @@
             padding: $spacer;
             background: #fff;
             box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.14), 0 4px 5px 0 rgba(0, 0, 0, 0.098),
-                0 1px 10px 0 rgba(0, 0, 0, 0.084);
+            0 1px 10px 0 rgba(0, 0, 0, 0.084);
         }
-
         .msg {
             padding: $spacer;
-            margin-bottom: $spacer;
-            margin: 0;
+            margin: 0 0 $spacer 0;
             text-align: left;
         }
-
         input:not(.form-control) {
             margin-bottom: 15px;
             width: 100%;
@@ -88,14 +79,12 @@
         }
         nav {
             text-align: right;
-
             button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button) {
                 background: transparent;
                 box-sizing: border-box;
                 color: rgba(0, 0, 0, 0.87);
                 position: relative;
                 outline: 0;
-                border: 0;
                 display: inline-block;
                 align-items: center;
                 padding: 0 6px;
@@ -111,17 +100,14 @@
                 cursor: pointer;
                 border: 1px solid transparent;
                 border-radius: 2px;
-
                 &:hover,
                 &:active {
                     background-color: rgba(0, 0, 0, 0.05);
                 }
-
                 &:focus {
                     border: 1px solid rgba(0, 0, 0, 0.1);
                 }
             }
-
             button.btn {
                 margin: 6px 4px;
             }
@@ -132,7 +118,6 @@
 .alertify-logs {
     position: fixed;
     z-index: 99999;
-
     &.bottom,
     &:not(.top) {
         bottom: 16px;
@@ -148,7 +133,6 @@
             }
         }
     }
-
     // All left positions.
     &.left,
     &:not(.right) {
@@ -157,7 +141,6 @@
             float: left;
             transform: translate3d(0, 0, 0);
             height: auto;
-
             &.show {
                 left: 0;
             }
@@ -167,7 +150,6 @@
             }
         }
     }
-
     &.right {
         right: 16px;
         > * {
@@ -184,7 +166,6 @@
             }
         }
     }
-
     &.top {
         top: 0;
         // Top left placement, use for transitions.
@@ -199,15 +180,13 @@
             }
         }
     }
-
     > * {
         box-sizing: border-box;
         transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         position: relative;
         clear: both;
         backface-visibility: hidden;
-        perspective: 1000;
-
+        perspective: 1000px;
         & {
             max-height: 0;
             margin: 0;
@@ -216,7 +195,6 @@
             opacity: 0;
             pointer-events: none;
         }
-
         &.show {
             margin-top: $spacer;
             opacity: 1;
