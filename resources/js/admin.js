@@ -125,3 +125,9 @@ enablePreviewWindow();
  */
 import enableSetContentLocale from './admin/set-content-locale.js';
 enableSetContentLocale();
+
+/**
+ * Enable sidebar section collapse
+ */
+import enableSidebarPanelCollapse from './admin/enable-sidebar-panel-collapse.ts';
+enableSidebarPanelCollapse();
