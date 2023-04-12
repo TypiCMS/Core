@@ -1,26 +1,20 @@
 import alertify from 'alertify.js';
+import fetcher from './fetcher';
 
-export default function enableSidebarPanelCollapse(): boolean {
-    function updatePreferences(key: string, value: string): boolean {
-        let data: { [key: string]: string } = {};
-        data[key] = value;
-
-        const apiTokenElement: HTMLElement | null = document.head.querySelector('meta[name="api-token"]');
-
-        if (apiTokenElement instanceof HTMLMetaElement) {
-            fetch('/api/users/current/update-preferences', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                    Authorization: `Bearer ${apiTokenElement.content}`,
-                },
-                body: JSON.stringify(data),
-            }).catch(function () {
+export default (): void => {
+    function updatePreferences(key: string, value: string): void {
+        fetcher('/api/users/current/update-preferences', {
+            method: 'POST',
+            body: JSON.stringify({ [key]: value }),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    alertify.error("User preference couldn't be set.");
+                }
+            })
+            .catch(() => {
                 alertify.error("User preference couldn't be set.");
             });
-        }
-        return false;
     }
 
     document.querySelectorAll('.panel-collapse').forEach((panel: Element) => {
@@ -32,6 +26,4 @@ export default function enableSidebarPanelCollapse(): boolean {
             updatePreferences(`menus_${panel.getAttribute('id')}_collapsed`, '');
         });
     });
-
-    return false;
-}
+};
