@@ -43,7 +43,7 @@ const i18n = new VueI18n({ locale: window.TypiCMS.locale, messages });
 /**
  * Permissions mixin
  */
-import Permissions from './mixins/Permissions';
+import Permissions from './mixins/Permissions.js';
 Vue.mixin(Permissions);
 
 /**
