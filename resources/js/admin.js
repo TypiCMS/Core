@@ -5,6 +5,7 @@ import Dropdown from 'bootstrap/js/dist/dropdown';
 import Tab from 'bootstrap/js/dist/tab';
 import Collapse from 'bootstrap/js/dist/collapse';
 import Alert from 'bootstrap/js/dist/alert';
+import Offcanvas from 'bootstrap/js/dist/offcanvas';
 
 /**
  * Axios HTTP library

@@ -31,7 +31,7 @@
                         <div class="input-group">
                             <span class="input-group-text">{{ $model->present()->parentUri($lang) }}</span>
                             <input class="form-control @if ($errors->has('slug.'.$lang))is-invalid @endif" type="text" name="slug[{{ $lang }}]" id="slug[{{ $lang }}]" value="{{ $model->translate('slug', $lang) }}" data-slug="title[{{ $lang }}]" data-language="{{ $lang }}">
-                            <button class="btn btn-outline-dark btn-slug" type="button">{{ __('Generate') }}</button>
+                            <button class="btn btn-outline-secondary btn-slug" type="button">{{ __('Generate') }}</button>
                             {!! $errors->first('slug.'.$lang, '<div class="invalid-feedback">:message</div>') !!}
                         </div>
                     </div>

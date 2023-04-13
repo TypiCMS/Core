@@ -1,6 +1,6 @@
 @if (count($locales) > 1)
     <div class="btn-group btn-group-sm ms-auto">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownLangSwitcher" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownLangSwitcher" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span id="active-locale">{{ $locale ? : __('All languages') }}</span>
         </button>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">

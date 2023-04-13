@@ -28,15 +28,12 @@ body {
     overflow-x: hidden;
 }
 
-.container-menulinks {
-    position: static;
+.noscroll {
+    overflow: hidden;
 }
 
-.main {
-    @include media-breakpoint-up(md) {
-        min-height: 0;
-        margin-left: 260px;
-    }
+.container-menulinks {
+    position: static;
 }
 
 h1 {
@@ -46,6 +43,7 @@ h1 {
         text-decoration: none;
     }
 }
+
 .btn-status {
     all: unset;
     flex-shrink: 0;
@@ -105,8 +103,4 @@ h1 {
     & + .checkbox.form-group-translation {
         margin-top: 10px;
     }
-}
-
-.noscroll {
-    overflow: hidden;
 }

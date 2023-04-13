@@ -17,7 +17,7 @@
                 </div>
                 <div class="btn-group btn-group-sm ms-auto" v-if="translatable && locales.length > 1">
                     <button
-                        class="btn btn-secondary dropdown-toggle"
+                        class="btn btn-light dropdown-toggle"
                         type="button"
                         id="dropdownLangSwitcher"
                         data-bs-toggle="dropdown"
@@ -64,7 +64,7 @@
                     </button>
 
                     <a
-                        class="btn btn-secondary btn-xs ms-1 me-2"
+                        class="btn btn-light btn-xs ms-1 me-2"
                         :href="table + '/' + node.data.id + '/edit'"
                         v-if="$can('update ' + table)"
                     >
@@ -130,7 +130,7 @@
                     </svg>
 
                     <a
-                        class="btn btn-xs btn-dark py-0 px-1 fw-bold"
+                        class="btn btn-xs btn-secondary py-0 px-1 fw-bold"
                         :href="'/admin/' + node.data.module"
                         v-if="node.data.module"
                     >

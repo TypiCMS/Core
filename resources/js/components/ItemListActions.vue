@@ -1,7 +1,7 @@
 <template>
     <div class="btn-group btn-group-sm">
         <button
-            class="btn btn-secondary dropdown-toggle"
+            class="btn btn-light dropdown-toggle"
             :disabled="numberOfCheckedModels === 0 || loading"
             type="button"
             data-bs-toggle="dropdown"

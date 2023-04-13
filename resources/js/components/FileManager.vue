@@ -22,7 +22,7 @@
                 </a>
                 <h1 class="filemanager-title header-title" v-if="path.length > 0">{{ path[path.length - 1].name }}</h1>
                 <div class="header-toolbar btn-toolbar">
-                    <button class="btn btn-sm btn-secondary me-2" @click="newFolder(folder.id)" type="button">
+                    <button class="btn btn-sm btn-light me-2" @click="newFolder(folder.id)" type="button">
                         <svg
                             class="me-1 text-muted"
                             width="1em"
@@ -40,7 +40,7 @@
                     </button>
                     <div class="btn-group btn-group-sm me-2">
                         <button
-                            class="btn btn-secondary dropdown-toggle"
+                            class="btn btn-light dropdown-toggle"
                             type="button"
                             id="dropdown-action-button"
                             data-bs-toggle="dropdown"
@@ -79,7 +79,7 @@
                     </div>
                     <div class="btn-group btn-group-sm">
                         <button
-                            class="btn btn-secondary"
+                            class="btn btn-light"
                             :class="{ active: view === 'grid' }"
                             type="button"
                             @click="switchView('grid')"
@@ -99,7 +99,7 @@
                             {{ $t('Grid') }}
                         </button>
                         <button
-                            class="btn btn-secondary"
+                            class="btn btn-light"
                             :class="{ active: view === 'list' }"
                             type="button"
                             @click="switchView('list')"

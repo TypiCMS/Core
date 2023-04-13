@@ -77,7 +77,7 @@
                     </div>
                     <div class="btn-group btn-group-sm ms-2" v-if="translatable && locales.length > 1">
                         <button
-                            class="btn btn-secondary dropdown-toggle"
+                            class="btn btn-light dropdown-toggle"
                             type="button"
                             id="dropdownLangSwitcher"
                             data-bs-toggle="dropdown"
@@ -100,7 +100,7 @@
                             </button>
                         </div>
                     </div>
-                    <a :href="this.exportUrl" class="btn btn-sm btn-secondary ms-2" v-if="exportable">
+                    <a :href="this.exportUrl" class="btn btn-sm btn-light ms-2" v-if="exportable">
                         <svg
                             width="1em"
                             height="1em"

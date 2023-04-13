@@ -1,22 +1,24 @@
 $sidebar-width: 260px;
 
+.offcanvas-lg {
+    overflow-y: auto;
+    @include media-breakpoint-up(lg) {
+        height: calc(100vh - 56px); // 56px = navbar height.
+    }
+}
+
+.offcanvas-body {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .sidebar-menu {
     @include list-unstyled();
 }
 
 .sidebar {
-    position: fixed;
-    bottom: 0;
-    top: 0;
-    left: 0;
     padding-top: 5rem;
-    background-color: $gray-700;
-    flex-shrink: 0;
-    overflow-x: hidden;
-    overflow-y: auto;
-    z-index: 1000;
     width: $sidebar-width;
-    padding-bottom: 1rem;
 }
 
 .sidebar-panel {
@@ -124,21 +126,5 @@ $sidebar-width: 260px;
         .icon {
             color: #eee;
         }
-    }
-}
-
-@include media-breakpoint-down(md) {
-    .sidebar,
-    .main {
-        transition: all 0.25s ease-out;
-    }
-    .sidebar {
-        transform: translateX(-$sidebar-width);
-    }
-    .active .sidebar {
-        transform: translateX(0);
-    }
-    .active .main {
-        transform: translateX($sidebar-width);
     }
 }
