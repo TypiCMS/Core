@@ -1,10 +1,9 @@
-import fetcher from './fetcher';
+// @ts-ignore
 import alertify from 'alertify.js';
+import fetcher from './fetcher';
 
-type DeleteButton = HTMLElement | null;
-
-const handleDeleteAttachment = async (attachment: DeleteButton): Promise<void> => {
-    const field = attachment?.dataset?.field;
+const handleDeleteAttachment = async (button: HTMLElement): Promise<void> => {
+    const field = button?.dataset?.field;
 
     if (!field) {
         return;
@@ -32,9 +31,9 @@ const handleDeleteAttachment = async (attachment: DeleteButton): Promise<void> =
 };
 
 export default (): void => {
-    const attachmentElements: NodeListOf<DeleteButton> = document.querySelectorAll('.delete-attachment');
+    const buttons: NodeListOf<HTMLElement> = document.querySelectorAll('.delete-attachment');
 
-    attachmentElements.forEach((attachment) => {
-        attachment?.addEventListener('click', () => handleDeleteAttachment(attachment));
+    buttons.forEach((button) => {
+        button?.addEventListener('click', () => handleDeleteAttachment(button));
     });
 };
