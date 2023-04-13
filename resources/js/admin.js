@@ -143,3 +143,9 @@ enableDeleteAttachment();
  */
 import enableCheckboxesPermissions from './admin/enable-checkboxes-permissions';
 enableCheckboxesPermissions();
+
+/**
+ * Enable tag field with TomSelect.
+ */
+import enableTagsField from './admin/enable-tags-field';
+enableTagsField();
