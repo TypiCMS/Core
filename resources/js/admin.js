@@ -149,3 +149,9 @@ enableCheckboxesPermissions();
  */
 import enableTagsField from './admin/enable-tags-field';
 enableTagsField();
+
+/**
+ * Slug plugin.
+ */
+import Slug from './admin/slug';
+window.Slug = Slug;
