@@ -1,7 +1,6 @@
+// @ts-ignore
 import alertify from 'alertify.js';
 import fetcher from './fetcher';
-
-type PanelElement = Element | null;
 
 export default (): void => {
     async function updatePreferences(key: string, value: string): Promise<void> {
@@ -20,7 +19,7 @@ export default (): void => {
         }
     }
 
-    document.querySelectorAll('.panel-collapse').forEach((panel: PanelElement) => {
+    document.querySelectorAll('.panel-collapse').forEach((panel: Element) => {
         const panelId: string | null = panel?.getAttribute('id');
 
         if (panelId) {
