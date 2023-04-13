@@ -1,22 +1,22 @@
-const updateOptions = (options: RequestInit): RequestInit => {
+const updateOptions = (options?: RequestInit): RequestInit => {
     const update = { ...options };
     const apiTokenElement = document.head.querySelector<HTMLMetaElement>('meta[name="api-token"]');
+    const csrfTokenElement = document.head.querySelector<HTMLMetaElement>('meta[name="csrf-token"]');
 
-    if (apiTokenElement) {
+    if (apiTokenElement && csrfTokenElement) {
         update.headers = {
             ...update.headers,
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
             Authorization: `Bearer ${apiTokenElement.content}`,
+            'X-CSRF-TOKEN': csrfTokenElement.content,
         };
     }
 
     return update;
 };
 
-const fetchWithHeaders = (url: string, options: RequestInit): Promise<Response> => {
+export default (url: string, options?: RequestInit): Promise<Response> => {
     const updatedOptions = updateOptions(options);
     return fetch(url, updatedOptions);
 };
-
-export default fetchWithHeaders;
