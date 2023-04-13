@@ -154,4 +154,6 @@ enableTagsField();
  * Slug plugin.
  */
 import Slug from './admin/slug';
-window.Slug = Slug;
+const items = document.querySelectorAll('[data-slug]').forEach((item) => {
+    new Slug(item);
+});
