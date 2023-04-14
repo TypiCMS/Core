@@ -414,11 +414,13 @@ export default {
             this.view = JSON.parse(sessionStorage.getItem('view'));
         }
         window.EventBus.$on('openFilepickerForCKEditor', (options) => {
-            $('html, body').addClass('noscroll');
+            document.documentElement.classList.add('noscroll');
+            document.body.classList.add('noscroll');
             this.options = options;
         });
         this.$root.$on('openFilepicker', (options) => {
-            $('html, body').addClass('noscroll');
+            document.documentElement.classList.add('noscroll');
+            document.body.classList.add('noscroll');
             this.options = options;
         });
     },
@@ -491,9 +493,29 @@ export default {
                 formData.append('alt_attribute[' + TypiCMS.locales[i].short + ']', '');
             }
         },
+        fadeOut(element, duration, callback) {
+            let opacity = 1;
+            const interval = 50; // 50 milliseconds
+            let time = duration;
+            let fadeOutInterval = setInterval(function () {
+                if (time <= 0) {
+                    clearInterval(fadeOutInterval);
+                    element.style.display = 'none';
+                    if (typeof callback === 'function') {
+                        callback();
+                    }
+                } else {
+                    opacity -= interval / duration;
+                    element.style.opacity = opacity;
+                    time -= interval;
+                }
+            }, interval);
+        },
         dropzoneSuccess(file, response) {
             window.setTimeout(() => {
-                $(file.previewElement).fadeOut('fast', () => {
+                const previewElement = file.previewElement;
+                this.fadeOut(previewElement, 250, () => {
+                    console.log('Fade out complete!');
                     this.$refs.dropzone.removeFile(file);
                     this.data.models.push(response.model);
                     this.data.models.sort((a, b) => a.id - b.id);
@@ -701,8 +723,9 @@ export default {
         },
         addSingleFile(item) {
             this.$root.$emit('fileAdded', item);
-            var CKEditorCleanUpFuncNum = $('#filepicker').data('CKEditorCleanUpFuncNum'),
-                CKEditorFuncNum = $('#filepicker').data('CKEditorFuncNum');
+            const filepicker = document.getElementById('filepicker');
+            const CKEditorCleanUpFuncNum = filepicker.dataset.CKEditorCleanUpFuncNum,
+                CKEditorFuncNum = filepicker.dataset.CKEditorFuncNum;
             if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
                 parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, item.url);
                 parent.CKEDITOR.tools.callFunction(CKEditorCleanUpFuncNum);
@@ -726,7 +749,8 @@ export default {
             this.checkNone();
         },
         closeModal() {
-            $('html, body').removeClass('noscroll');
+            document.documentElement.classList.remove('noscroll');
+            document.body.classList.remove('noscroll');
             this.options.open = false;
         },
         switchView(view) {
