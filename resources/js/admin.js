@@ -118,25 +118,25 @@ window.TomSelect = TomSelect;
 /**
  * Preview window
  */
-import enablePreviewWindow from './admin/preview-window.js';
+import enablePreviewWindow from './admin/preview-window';
 enablePreviewWindow();
 
 /**
  * Set content locale
  */
-import enableSetContentLocale from './admin/set-content-locale.js';
+import enableSetContentLocale from './admin/set-content-locale';
 enableSetContentLocale();
 
 /**
  * Enable sidebar section collapse
  */
-import enableSidebarPanelCollapse from './admin/enable-sidebar-panel-collapse.ts';
+import enableSidebarPanelCollapse from './admin/enable-sidebar-panel-collapse';
 enableSidebarPanelCollapse();
 
 /**
  * Enable delete attachment
  */
-import enableDeleteAttachment from './admin/enable-delete-attachment.ts';
+import enableDeleteAttachment from './admin/enable-delete-attachment';
 enableDeleteAttachment();
 
 /**
