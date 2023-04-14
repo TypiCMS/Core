@@ -28,6 +28,12 @@ body {
     overflow-x: hidden;
 }
 
+.main {
+    @include media-breakpoint-up(lg) {
+        padding-left: $sidebar-width;
+    }
+}
+
 .noscroll {
     overflow: hidden;
 }
