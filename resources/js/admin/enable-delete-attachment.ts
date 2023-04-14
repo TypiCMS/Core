@@ -20,7 +20,7 @@ const handleDeleteAttachment = async (button: HTMLElement): Promise<void> => {
         });
 
         if (!response.ok) {
-            throw new Error('Failed to delete attachment. Network response was not ok.');
+            throw new Error('Network response was not ok.');
         }
 
         document.querySelector('.fieldset-preview')?.remove();
