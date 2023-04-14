@@ -1,23 +1,33 @@
 $sidebar-width: 260px;
 
 .offcanvas-lg {
-    overflow-y: auto;
+    overflow-y: scroll;
     @include media-breakpoint-up(lg) {
-        height: calc(100vh - 56px); // 56px = navbar height.
+        position: fixed;
+        height: calc(100% - 56px); // 56px = navbar height.
+        background-color: $gray-700 !important;
     }
 }
 
 .offcanvas-body {
+    padding-top: 1rem !important;
     padding-left: 0;
     padding-right: 0;
+    background-color: $gray-700 !important;
+}
+
+.offcanvas-header {
+    flex-shrink: 0;
+    height: 56px !important;
+    background-color: transparent;
 }
 
 .sidebar-menu {
     @include list-unstyled();
+    width: 100%;
 }
 
 .sidebar {
-    padding-top: 5rem;
     width: $sidebar-width;
 }
 

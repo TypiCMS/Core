@@ -1,9 +1,18 @@
+$white: #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
 $gray-300: #dee2e6;
+$gray-400: #ced4da;
 $gray-500: #adb5bd;
 $gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black: #000;
 
-$secondary: $gray-300;
-$dark: $gray-600;
+$light: $gray-300;
+$secondary: $gray-600;
+$dark: $gray-800;
 
 $link-decoration: none;
 
@@ -25,3 +34,10 @@ $pagination-active-bg: $dark;
 $pagination-disabled-color: $gray-500;
 $pagination-disabled-bg: transparent;
 $pagination-border-radius: $border-radius-sm;
+
+$offcanvas-horizontal-width: 260px;
+$offcanvas-vertical-height: 100vh;
+$offcanvas-transition-duration: 0.3s;
+$offcanvas-border-width: 0;
+$offcanvas-bg-color: transparent;
+$offcanvas-color: $gray-200;
