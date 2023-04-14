@@ -1,4 +1,4 @@
-export default function enableOffCanvas() {
+export default () => {
     const sidebar = document.getElementById('navigation');
     const items = document.querySelectorAll('[data-toggle="offcanvas"]');
     for (var i = 0; i < items.length; i++) {
@@ -11,4 +11,4 @@ export default function enableOffCanvas() {
             event.preventDefault();
         });
     }
-}
+};

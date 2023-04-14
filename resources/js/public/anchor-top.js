@@ -1,4 +1,4 @@
-export default function enableAnchorTop() {
+export default () => {
     window.addEventListener('scroll', function (e) {
         var anchorTop = document.getElementById('anchor-top');
         if (window.scrollY > 300) {
@@ -7,4 +7,4 @@ export default function enableAnchorTop() {
             anchorTop.classList.add('disabled');
         }
     });
-}
+};
