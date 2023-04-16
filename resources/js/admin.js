@@ -8,24 +8,6 @@ import Alert from 'bootstrap/js/dist/alert';
 import Offcanvas from 'bootstrap/js/dist/offcanvas';
 
 /**
- * Axios HTTP library
- */
-import axios from 'axios';
-window.axios = axios;
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-/**
- * API Token
- */
-let apiToken = document.head.querySelector('meta[name="api-token"]');
-
-if (apiToken) {
-    window.axios.defaults.headers.common['Authorization'] = `Bearer ${apiToken.content}`;
-} else {
-    console.error('API token not found.');
-}
-
-/**
  * Vue
  */
 import Vue from 'vue';

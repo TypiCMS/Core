@@ -156,6 +156,7 @@ import ItemListActions from './ItemListActions.vue';
 import ItemListPerPage from './ItemListPerPage.vue';
 import ItemListStatusButton from './ItemListStatusButton.vue';
 import ItemListPagination from './ItemListPagination.vue';
+import fetcher from '../admin/fetcher';
 
 export default {
     components: {
@@ -347,19 +348,19 @@ export default {
         },
     },
     methods: {
-        fetchData() {
+        async fetchData() {
             this.startLoading();
-            axios
-                .get(this.url)
-                .then((response) => {
-                    this.data = response.data;
-                    this.stopLoading();
-                })
-                .catch((error) => {
-                    alertify.error(
-                        error.response.data.message || this.$i18n.t('An error occurred with the data fetch.')
-                    );
-                });
+            try {
+                const response = await fetcher(this.url);
+                if (!response.ok) {
+                    const responseData = await response.json();
+                    throw new Error(responseData.message);
+                }
+                this.data = await response.json();
+                this.stopLoading();
+            } catch (error) {
+                alertify.error(error.message || this.$i18n.t('An error occurred with the data fetch.'));
+            }
         },
         onSearchStringChanged() {
             clearTimeout(this.fetchTimeout);
@@ -376,13 +377,20 @@ export default {
             clearTimeout(this.loadingTimeout);
             this.loading = false;
         },
-        switchLocale(locale) {
+        async switchLocale(locale) {
             this.startLoading();
             this.contentLocale = locale;
-            axios.get('/admin/_locale/' + locale).then((response) => {
+            try {
+                const response = await fetcher('/admin/_locale/' + locale);
+                if (!response.ok) {
+                    const responseData = await response.json();
+                    throw new Error(responseData.message);
+                }
                 this.stopLoading();
-                this.fetchData();
-            });
+                await this.fetchData();
+            } catch (error) {
+                alertify.error(error.message);
+            }
         },
         search(string) {
             this.data.current_page = 1;
@@ -418,7 +426,7 @@ export default {
             }
             this.checkedItems = this.filteredItems.filter((model) => model[statusVar] === 0);
         },
-        destroy() {
+        async destroy() {
             this.data.current_page = 1;
             const deleteLimit = 100;
 
@@ -441,33 +449,30 @@ export default {
             }
 
             this.startLoading();
-
-            axios
-                .all(
-                    this.checkedItems.map((model) =>
-                        axios
-                            .delete(this.urlBase + '/' + model.id)
-                            .catch((error) =>
-                                alertify.error(
-                                    this.$i18n.tc(error.response.data.message) ||
-                                        this.$i18n.t('Sorry, an error occurred.')
-                                )
-                            )
-                    )
-                )
-                .then((responses) => {
-                    let successes = responses.filter((response) => response.statusText === 'OK');
-                    if (successes.length > 0) {
-                        alertify.success(
-                            this.$i18n.tc('# items deleted', successes.length, {
-                                count: successes.length,
-                            })
-                        );
+            const deletePromises = this.checkedItems.map(async (model) => {
+                try {
+                    const response = await fetcher(this.urlBase + '/' + model.id, { method: 'DELETE' });
+                    if (!response.ok) {
+                        const responseData = await response.json();
+                        throw new Error(responseData.message);
                     }
-                    this.checkNone();
-                    this.stopLoading();
-                    this.fetchData();
-                });
+                } catch (error) {
+                    alertify.error(this.$i18n.tc(error.message) || this.$i18n.t('Sorry, an error occurred.'));
+                }
+            });
+
+            const responses = await Promise.all(deletePromises);
+            let successes = responses.filter((response) => response && response.status === 200);
+            if (successes.length > 0) {
+                alertify.success(
+                    this.$i18n.tc('# items deleted', successes.length, {
+                        count: successes.length,
+                    })
+                );
+            }
+            this.checkNone();
+            this.stopLoading();
+            await this.fetchData();
         },
         publish() {
             if (
@@ -493,7 +498,7 @@ export default {
             }
             this.setStatus(0);
         },
-        setStatus(status) {
+        async setStatus(status) {
             let data = {
                     status: {},
                 },
@@ -509,34 +514,38 @@ export default {
 
             this.startLoading();
 
-            axios
-                .all(
-                    this.checkedItems.map((model) =>
-                        axios
-                            .patch(this.urlBase + '/' + model.id, data)
-                            .catch((error) =>
-                                alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'))
-                            )
-                    )
-                )
-                .then((responses) => {
-                    let successes = responses.filter((response) => response.statusText === 'OK');
-                    if (successes.length > 0) {
-                        alertify.success(
-                            this.$i18n.tc('# items ' + label, successes.length, {
-                                count: successes.length,
-                            })
-                        );
+            const updatePromises = this.checkedItems.map(async (model) => {
+                try {
+                    const response = await fetcher(this.urlBase + '/' + model.id, {
+                        method: 'PATCH',
+                        body: JSON.stringify(data),
+                    });
+                    if (!response.ok) {
+                        const responseData = await response.json();
+                        throw new Error(responseData.message);
                     }
-                    for (let i = this.checkedItems.length - 1; i >= 0; i--) {
-                        let index = this.data.data.indexOf(this.checkedItems[i]);
-                        this.data.data[index][statusVar] = status;
-                    }
-                    this.checkNone();
-                    this.stopLoading();
-                });
+                } catch (error) {
+                    alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                }
+            });
+
+            const responses = await Promise.all(updatePromises);
+            let successes = responses.filter((response) => response && response.status === 200);
+            if (successes.length > 0) {
+                alertify.success(
+                    this.$i18n.tc('# items ' + label, successes.length, {
+                        count: successes.length,
+                    })
+                );
+            }
+            for (let i = this.checkedItems.length - 1; i >= 0; i--) {
+                let index = this.data.data.indexOf(this.checkedItems[i]);
+                this.data.data[index][statusVar] = status;
+            }
+            this.checkNone();
+            this.stopLoading();
         },
-        toggleStatus(model) {
+        async toggleStatus(model) {
             let translatable = typeof model.status_translated !== 'undefined' ? this.translatable : false,
                 status = translatable ? model.status_translated : model.status,
                 newStatus = Math.abs(status - 1),
@@ -552,22 +561,36 @@ export default {
                 model.status = newStatus;
                 data.status = newStatus;
             }
-            axios
-                .patch(this.urlBase + '/' + model.id, data)
-                .then((response) => {
-                    alertify.success(this.$i18n.t('Item is ' + label + '.'));
-                })
-                .catch((error) => {
-                    alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
+            try {
+                const response = await fetcher(this.urlBase + '/' + model.id, {
+                    method: 'PATCH',
+                    body: JSON.stringify(data),
                 });
+                if (!response.ok) {
+                    const responseData = await response.json();
+                    throw new Error(responseData.message);
+                }
+                alertify.success(this.$i18n.t('Item is ' + label + '.'));
+            } catch (error) {
+                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+            }
         },
-        updatePosition(model) {
+        async updatePosition(model) {
             let data = {
                 position: model.position,
             };
-            axios.patch(this.urlBase + '/' + model.id, data).catch((error) => {
-                alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
-            });
+            try {
+                const response = await fetcher(this.urlBase + '/' + model.id, {
+                    method: 'PATCH',
+                    body: JSON.stringify(data),
+                });
+                if (!response.ok) {
+                    const responseData = await response.json();
+                    throw new Error(responseData.message);
+                }
+            } catch (error) {
+                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+            }
         },
         sort(object) {
             this.data.current_page = 1;

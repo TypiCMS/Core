@@ -2,16 +2,23 @@ CKEDITOR.dtd.$removeEmpty.span = 0;
 CKEDITOR.dtd.$removeEmpty.i = 0;
 
 // Get the local pages for making links to CMS pages.
-var localPages = null;
-axios
-    .get('/api/pages/links-for-editor')
-    .then((response) => {
-        localPages = response.data;
+let localPages = null;
+
+fetch('/api/pages/links-for-editor', {
+    headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        Authorization: `Bearer ${document.head.querySelector('meta[name="api-token"]').content}`,
+        'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
+    },
+})
+    .then((response) => response.json())
+    .then((data) => {
+        localPages = data;
     })
-    .catch((error) => {
+    .catch(() => {
         alertify.error('An error occurred while loading the local pages for the editor.');
     });
-
 // dialogDefinition
 CKEDITOR.on('dialogDefinition', function (event) {
     var editor = event.editor;

@@ -173,6 +173,7 @@
 import SlVueTree from 'sl-vue-tree';
 import ItemListSelector from './ItemListSelector.vue';
 import ItemListActions from './ItemListActions.vue';
+import fetcher from '../admin/fetcher';
 
 export default {
     components: {
@@ -232,19 +233,19 @@ export default {
         },
     },
     methods: {
-        fetchData() {
+        async fetchData() {
             this.startLoading();
-            axios
-                .get(this.url)
-                .then((response) => {
-                    this.models = response.data;
-                    this.stopLoading();
-                })
-                .catch((error) => {
-                    alertify.error(
-                        error.response.data.message || this.$i18n.t('An error occurred with the data fetch.')
-                    );
-                });
+            try {
+                const response = await fetcher(this.url);
+                if (!response.ok) {
+                    const responseData = await response.json();
+                    throw new Error(responseData.message);
+                }
+                this.models = await response.json();
+                this.stopLoading();
+            } catch (error) {
+                alertify.error(error.message || this.$i18n.t('An error occurred with the data fetch.'));
+            }
         },
         startLoading() {
             this.loadingTimeout = setTimeout(() => {
@@ -255,34 +256,42 @@ export default {
             clearTimeout(this.loadingTimeout);
             this.loading = false;
         },
-        switchLocale(locale) {
+        async switchLocale(locale) {
             this.startLoading();
             this.contentLocale = locale;
-            axios.get('/admin/_locale/' + locale).then((response) => {
+            try {
+                const response = await fetcher('/admin/_locale/' + locale);
+                if (!response.ok) {
+                    const responseData = await response.json();
+                    throw new Error(responseData.message);
+                }
                 this.stopLoading();
-                this.fetchData();
-            });
+                await this.fetchData();
+            } catch (error) {
+                alertify.error(error.message);
+            }
         },
-        deleteFromNested(node) {
+        async deleteFromNested(node) {
             let model = node.data;
             let title = model.title_translated;
             if (!window.confirm(this.$i18n.t('Are you sure you want to delete “{title}”?', { title }))) {
                 return false;
             }
-            axios
-                .delete(this.urlBase + '/' + model.id)
-                .then((data) => {
-                    this.$refs.slVueTree.remove([node.path]);
-                    alertify.success(this.$i18n.t('Item successfully deleted.'));
-                })
-                .catch((error) => {
-                    alertify.error(
-                        this.$i18n.t(error.response.data.message) || this.$i18n.t('Sorry, an error occurred.')
-                    );
-                });
+            try {
+                const response = await fetcher(this.urlBase + '/' + model.id, { method: 'DELETE' });
+                if (!response.ok) {
+                    const responseData = await response.json();
+                    throw new Error(responseData.message);
+                }
+                this.$refs.slVueTree.remove([node.path]);
+                alertify.success(this.$i18n.t('Item successfully deleted.'));
+            } catch (error) {
+                console.log(error);
+                alertify.error(this.$i18n.t(error.message) || this.$i18n.t('Sorry, an error occurred.'));
+            }
         },
 
-        drop(draggingNodes, position) {
+        async drop(draggingNodes, position) {
             let list = [];
             let draggedNode = draggingNodes[0];
             let parentId = position.node.data.parent_id;
@@ -315,19 +324,36 @@ export default {
                 moved: draggedNode.data.id,
                 item: list,
             };
-
-            axios.post(this.urlBase + '/sort', data).catch((error) => {
-                alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
-            });
+            try {
+                const response = await fetcher(this.urlBase + '/sort', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                });
+                if (!response.ok) {
+                    const responseData = await response.json();
+                    throw new Error(responseData.message);
+                }
+            } catch (error) {
+                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+            }
         },
-        toggle(node) {
+        async toggle(node) {
             let data = {};
             data[this.title + '_' + node.data.id + '_collapsed'] = node.isExpanded;
-            axios.post('/api/users/current/update-preferences', data).catch((error) => {
-                alertify.error('User preference couldn’t be set.');
-            });
+            try {
+                const response = await fetcher('/api/users/current/update-preferences', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                });
+                if (!response.ok) {
+                    const responseData = await response.json();
+                    throw new Error(responseData.message);
+                }
+            } catch (error) {
+                alertify.error("User preference couldn't be set.");
+            }
         },
-        toggleStatus(node) {
+        async toggleStatus(node) {
             let originalNode = JSON.parse(JSON.stringify(node)),
                 status = this.translatable ? parseInt(node.data.status_translated) : parseInt(node.data.status) || 0,
                 newStatus = Math.abs(status - 1),
@@ -345,15 +371,20 @@ export default {
             }
 
             this.$refs.slVueTree.updateNode(node.path, node);
-            axios
-                .patch(this.urlBase + '/' + node.data.id, data)
-                .then((response) => {
-                    alertify.success(this.$i18n.t('Item is ' + label + '.'));
-                })
-                .catch((error) => {
-                    this.$refs.slVueTree.updateNode(node.path, originalNode);
-                    alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'));
+            try {
+                const response = await fetcher(this.urlBase + '/' + node.data.id, {
+                    method: 'PATCH',
+                    body: JSON.stringify(data),
                 });
+                if (!response.ok) {
+                    const responseData = await response.json();
+                    throw new Error(responseData.message);
+                }
+                alertify.success(this.$i18n.t('Item is ' + label + '.'));
+            } catch (error) {
+                this.$refs.slVueTree.updateNode(node.path, originalNode);
+                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+            }
         },
     },
 };

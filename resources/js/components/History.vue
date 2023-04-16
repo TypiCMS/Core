@@ -70,6 +70,7 @@
 
 <script>
 import ItemListPagination from './ItemListPagination.vue';
+import fetcher from '../admin/fetcher';
 
 export default {
     components: {
@@ -165,19 +166,18 @@ export default {
         this.fetchData();
     },
     methods: {
-        fetchData() {
+        async fetchData() {
             this.loading = true;
-            axios
-                .get(this.url)
-                .then((response) => {
-                    this.data = response.data;
-                    this.loading = false;
-                })
-                .catch((error) => {
-                    alertify.error(
-                        error.response.data.message || this.$i18n.t('An error occurred with the data fetch.')
-                    );
-                });
+            try {
+                const response = await fetcher(this.url);
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+                this.data = await response.json();
+                this.loading = false;
+            } catch (error) {
+                alertify.error(error.message || this.$i18n.t('An error occurred with the data fetch.'));
+            }
         },
         onSearchStringChanged() {
             clearTimeout(this.fetchTimeout);
@@ -194,22 +194,21 @@ export default {
             this.data.current_page = page;
             this.fetchData();
         },
-        clearHistory() {
+        async clearHistory() {
             if (!window.confirm(this.$i18n.t('Do you want to clear history?'))) {
                 return false;
             }
             this.loading = true;
-            axios
-                .delete(this.url)
-                .then((response) => {
-                    this.data.data = [];
-                    this.loading = false;
-                })
-                .catch((error) => {
-                    alertify.error(
-                        error.response.data.message || this.$i18n.t('An error occurred with the data fetch.')
-                    );
-                });
+            try {
+                const response = await fetcher(this.url, { method: 'DELETE' });
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+                this.data.data = [];
+                this.loading = false;
+            } catch (error) {
+                alertify.error(this.$i18n.tc(error.message) || this.$i18n.t('Sorry, an error occurred.'));
+            }
         },
         sort(object) {
             this.data.current_page = 1;

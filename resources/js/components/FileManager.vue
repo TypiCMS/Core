@@ -314,6 +314,7 @@
 
 <script>
 import vueDropzone from 'vue2-dropzone';
+import fetcher from '../admin/fetcher';
 
 export default {
     components: {
@@ -461,19 +462,19 @@ export default {
         },
     },
     methods: {
-        fetchData() {
+        async fetchData() {
             this.startLoading();
-            axios
-                .get(this.url)
-                .then((response) => {
-                    this.data = response.data;
-                    this.stopLoading();
-                })
-                .catch((error) => {
-                    alertify.error(
-                        error.response.data.message || this.$i18n.t('An error occurred with the data fetch.')
-                    );
-                });
+            try {
+                const response = await fetcher(this.url);
+                if (!response.ok) {
+                    const responseData = await response.json();
+                    throw new Error(responseData.message);
+                }
+                this.data = await response.json();
+                this.stopLoading();
+            } catch (error) {
+                alertify.error(error.message || this.$i18n.t('An error occurred with the data fetch.'));
+            }
         },
         startLoading() {
             this.loadingTimeout = setTimeout(() => {
@@ -564,7 +565,7 @@ export default {
         dragLeave(event) {
             event.target.classList.remove('filemanager-item-over');
         },
-        drop(targetItem, event) {
+        async drop(targetItem, event) {
             event.target.classList.remove('filemanager-item-over');
             this.dragging = false;
 
@@ -586,19 +587,23 @@ export default {
             let data = {
                 folder_id: targetItem.id,
             };
-
-            axios
-                .patch('/api/files/' + ids.join(), data)
-                .then((response) => {
-                    this.fetchData();
-                })
-                .catch((error) => {
-                    alertify.error('Error ' + error.status + ' ' + error.statusText);
+            try {
+                const response = await fetcher('/api/files/' + ids.join(), {
+                    method: 'PATCH',
+                    body: JSON.stringify(data),
                 });
+                if (!response.ok) {
+                    const responseData = await response.json();
+                    throw new Error(responseData.message);
+                }
+                await this.fetchData();
+            } catch (error) {
+                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+            }
 
             this.checkNone();
         },
-        newFolder(folderId) {
+        async newFolder(folderId) {
             let name = window.prompt(this.$i18n.t('Enter a name for the new folder.'));
             if (!name) {
                 return;
@@ -616,15 +621,19 @@ export default {
                 data['description'][TypiCMS.locales[i].short] = null;
                 data['alt_attribute'][TypiCMS.locales[i].short] = null;
             }
-
-            axios
-                .post('/api/files', data)
-                .then((response) => {
-                    this.data.models.push(response.data.model);
-                })
-                .catch((error) => {
-                    alertify.error(error.response.data.message || this.$i18n.t('An error occurred.'));
+            try {
+                const response = await fetcher('/api/files', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
                 });
+                if (!response.ok) {
+                    const responseData = await response.json();
+                    throw new Error(responseData.message);
+                }
+                this.data.models.push(response.data.model);
+            } catch (error) {
+                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+            }
         },
         check(item, $event) {
             $event.stopPropagation();
@@ -669,7 +678,7 @@ export default {
                 }
             }
         },
-        moveToParentFolder() {
+        async moveToParentFolder() {
             if (!this.folder.id) {
                 return;
             }
@@ -696,30 +705,34 @@ export default {
             let data = {
                 folder_id: this.path[this.path.length - 2].id,
             };
-
-            axios
-                .patch('/api/files/' + ids.join(), data)
-                .then((response) => {
-                    this.stopLoading();
-                    if (response.data.number < number) {
-                        alertify.error(
-                            this.$i18n.tc('# files could not be moved.', number - response.data.number, {
-                                count: number - response.data.number,
-                            })
-                        );
-                    }
-                    if (response.data.number > 0) {
-                        alertify.success(
-                            this.$i18n.tc('# files moved.', response.data.number, {
-                                count: response.data.number,
-                            })
-                        );
-                    }
-                })
-                .catch((error) => {
-                    this.stopLoading();
-                    alertify.error('Error ' + error.status + ' ' + error.statusText);
+            try {
+                const response = await fetcher('/api/files/' + ids.join(), {
+                    method: 'PATCH',
+                    body: JSON.stringify(data),
                 });
+                this.stopLoading();
+                const responseData = await response.json();
+                if (!response.ok) {
+                    throw new Error(responseData.message);
+                }
+                if (responseData.number < number) {
+                    alertify.error(
+                        this.$i18n.tc('# files could not be moved.', number - responseData.number, {
+                            count: number - responseData.number,
+                        })
+                    );
+                }
+                if (responseData.number > 0) {
+                    alertify.success(
+                        this.$i18n.tc('# files moved.', response.data.number, {
+                            count: response.data.number,
+                        })
+                    );
+                }
+            } catch (error) {
+                this.stopLoading();
+                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+            }
         },
         addSingleFile(item) {
             this.$root.$emit('fileAdded', item);
@@ -779,7 +792,7 @@ export default {
         checkNone() {
             this.selectedItems = [];
         },
-        deleteSelected() {
+        async deleteSelected() {
             const deleteLimit = 100;
 
             if (this.selectedItems.length > deleteLimit) {
@@ -801,30 +814,30 @@ export default {
             }
 
             this.startLoading();
-
-            axios
-                .all(
-                    this.selectedItems.map((item) =>
-                        axios
-                            .delete(this.baseUrl + '/' + item.id)
-                            .catch((error) =>
-                                alertify.error(error.response.data.message || this.$i18n.t('Sorry, an error occurred.'))
-                            )
-                    )
-                )
-                .then((responses) => {
-                    let successes = responses.filter((response) => response.statusText === 'OK');
-                    if (successes.length > 0) {
-                        alertify.success(
-                            this.$i18n.tc('# items deleted', successes.length, {
-                                count: successes.length,
-                            })
-                        );
+            const deletePromises = this.checkedItems.map(async (model) => {
+                try {
+                    const response = await fetcher(this.urlBase + '/' + model.id, { method: 'DELETE' });
+                    if (!response.ok) {
+                        const responseData = await response.json();
+                        throw new Error(responseData.message);
                     }
-                    this.stopLoading();
-                    this.checkNone();
-                    this.fetchData();
-                });
+                } catch (error) {
+                    alertify.error(this.$i18n.tc(error.message) || this.$i18n.t('Sorry, an error occurred.'));
+                }
+            });
+
+            const responses = await Promise.all(deletePromises);
+            let successes = responses.filter((response) => response && response.status === 200);
+            if (successes.length > 0) {
+                alertify.success(
+                    this.$i18n.tc('# items deleted', successes.length, {
+                        count: successes.length,
+                    })
+                );
+            }
+            this.checkNone();
+            this.stopLoading();
+            await this.fetchData();
         },
     },
 };
