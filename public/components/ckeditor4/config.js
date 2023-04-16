@@ -21,28 +21,31 @@ fetch('/api/pages/links-for-editor', {
     });
 // dialogDefinition
 CKEDITOR.on('dialogDefinition', function (event) {
-    var editor = event.editor;
-    var dialogDefinition = event.data.definition;
-    var dialogName = event.data.name;
+    const editor = event.editor;
+    const dialogDefinition = event.data.definition;
+    const dialogName = event.data.name;
 
     // table config
     if (dialogName === 'table') {
-        var info = dialogDefinition.getContents('info');
+        const info = dialogDefinition.getContents('info');
         info.get('txtWidth')['default'] = '100%';
         info.get('txtBorder')['default'] = '0';
         info.get('txtCellPad')['default'] = '0';
         info.get('txtCellSpace')['default'] = '0';
     }
 
-    // filepicker
-    var cleanUpFuncRef = CKEDITOR.tools.addFunction(function () {
-        $('#filepicker').data('CKEditorCleanUpFuncNum', 0).data('CKEditorFuncNum', 0);
-        $('html, body').removeClass('noscroll');
+    // Filepicker
+    const cleanUpFuncRef = CKEDITOR.tools.addFunction(function () {
+        const filepicker = document.getElementById('filepicker');
+        filepicker.dataset.CKEditorCleanUpFuncNum = '0';
+        filepicker.dataset.CKEditorFuncNum = '0';
+        document.documentElement.classList.remove('noscroll');
+        document.body.classList.remove('noscroll');
     });
 
-    var tabCount = dialogDefinition.contents.length;
-    for (var i = 0; i < tabCount; i++) {
-        var browseButton = dialogDefinition.contents[i].get('browse');
+    const tabCount = dialogDefinition.contents.length;
+    for (let i = 0; i < tabCount; i++) {
+        const browseButton = dialogDefinition.contents[i].get('browse');
 
         if (browseButton !== null) {
             browseButton.hidden = false;
@@ -65,9 +68,9 @@ CKEDITOR.on('dialogDefinition', function (event) {
                     },
                 });
 
-                $('#filepicker')
-                    .data('CKEditorCleanUpFuncNum', cleanUpFuncRef)
-                    .data('CKEditorFuncNum', CKEDITOR.instances[event.editor.name]._.filebrowserFn);
+                const filepicker = document.getElementById('filepicker');
+                filepicker.dataset.CKEditorCleanUpFuncNum = cleanUpFuncRef;
+                filepicker.dataset.CKEditorFuncNum = CKEDITOR.instances[event.editor.name]._.filebrowserFn;
             };
         }
     }
@@ -85,4 +88,3 @@ CKEDITOR.on('instanceReady', function (event) {
         }
     });
 });
-
