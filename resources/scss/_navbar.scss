@@ -4,8 +4,10 @@
     font-size: 1rem;
     background-color: #343a40 !important;
     line-height: 24px;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    .container-fluid {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
     &-brand {
         font-size: 1.25rem;
         overflow: hidden;
