@@ -1,14 +1,12 @@
 export default () => {
     document.body.insertAdjacentHTML(
         'beforeend',
-        `<div id="preview-window" class="typicms-modal">
-            <div id="preview-window-wrapper" class="typicms-modal-wrapper">
-                <iframe id="preview-content" class="typicms-modal-content"></iframe>
+        `<div id='preview-window' class='typicms-modal'>
+            <div id='preview-window-wrapper' class='typicms-modal-wrapper'>
+                <iframe id='preview-content' class='typicms-modal-content'></iframe>
             </div>
-            <button id="close-preview" class="typicms-modal-btn-close">
-                <svg width="20" height="20" viewBox="0 0 1792 1792" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"/>
-                </svg>
+            <button id='close-preview' class='typicms-modal-btn-close'>
+                <i class='bi bi-x fs-2'></i>
             </button>
         </div>`
     );

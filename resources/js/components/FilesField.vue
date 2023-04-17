@@ -5,19 +5,7 @@
             <label class="form-label">{{ $t(label) }}</label>
             <p>
                 <button class="filemanager-field-btn-add" @click="openFilepicker" type="button">
-                    <svg
-                        class="filemanager-field-btn-add-icon"
-                        width="1em"
-                        height="1em"
-                        viewBox="0 0 16 16"
-                        fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            fill-rule="evenodd"
-                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
-                        />
-                    </svg>
+                    <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
                     {{ $t('Add files') }}
                 </button>
             </p>
@@ -32,17 +20,7 @@
             >
                 <div class="filemanager-item-wrapper">
                     <button class="filemanager-item-removable-button" @click="remove(file)" type="button">
-                        <svg
-                            width="12"
-                            height="12"
-                            viewBox="0 0 1792 1792"
-                            fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"
-                            />
-                        </svg>
+                        <i class="bi bi-x fs-3"></i>
                     </button>
                     <div class="filemanager-item-icon" v-if="file.type === 'i'">
                         <div class="filemanager-item-image-wrapper">

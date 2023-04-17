@@ -83,51 +83,10 @@
                             v-else
                         ></span>
                     </button>
-
-                    <svg
-                        class="text-muted"
-                        v-if="node.data.is_home === 1"
-                        width="1em"
-                        height="1em"
-                        viewBox="0 0 16 16"
-                        fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M6.5 10.995V14.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5V11c0-.25-.25-.5-.5-.5H7c-.25 0-.5.25-.5.495z"
-                        />
-                        <path fill-rule="evenodd" d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
-                    </svg>
-
-                    <svg
-                        class="text-muted"
-                        v-if="node.data.private === 1"
-                        width="1em"
-                        height="1em"
-                        viewBox="0 0 16 16"
-                        fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path d="M2.5 9a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V9z" />
-                        <path fill-rule="evenodd" d="M4.5 4a3.5 3.5 0 1 1 7 0v3h-1V4a2.5 2.5 0 0 0-5 0v3h-1V4z" />
-                    </svg>
-
+                    <i class="bi bi-house-door-fill text-secondary" v-if="node.data.is_home === 1"></i>
+                    <i class="bi bi-lock-fill text-secondary" v-if="node.data.private === 1"></i>
                     <div class="title" v-html="translatable ? node.data.title_translated : node.data.title"></div>
-
-                    <svg
-                        class="text-muted"
-                        v-if="node.data.redirect === 1"
-                        :title="$t('Redirect to first child')"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        viewBox="0 0 1792 1792"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M416 256h704q13 0 22.5 9.5t9.5 23.5v863h192q40 0 58 37t-9 69l-320 384q-18 22-49 22t-49-22l-320-384q-26-31-9-69 18-37 58-37h192v-640h-320q-14 0-25-11l-160-192q-13-14-4-34 9-19 29-19z"
-                        />
-                    </svg>
+                    <i class="bi bi-arrow-down-right-square text-secondary" v-if="node.data.redirect === 1"></i>
 
                     <a
                         class="btn btn-xs btn-secondary py-0 px-1 fw-bold"
