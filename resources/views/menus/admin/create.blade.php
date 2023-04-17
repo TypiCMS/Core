@@ -5,7 +5,7 @@
 @section('content')
 
     {!! BootForm::open()->action(route('admin::index-menus'))->multipart()->role('form') !!}
-        @include('menus::admin._form')
+    @include('menus::admin._form')
     {!! BootForm::close() !!}
 
 @endsection

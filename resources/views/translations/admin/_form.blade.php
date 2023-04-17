@@ -12,9 +12,9 @@
     {!! BootForm::hidden('id') !!}
 
     @if ($model->id)
-    {!! BootForm::hidden('key') !!}
+        {!! BootForm::hidden('key') !!}
     @else
-    {!! BootForm::text(__('Key'), 'key')->required() !!}
+        {!! BootForm::text(__('Key'), 'key')->required() !!}
     @endif
 
     <label class="form-label">{{ __('Translations') }}</label>

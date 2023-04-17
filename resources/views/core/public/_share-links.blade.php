@@ -7,7 +7,8 @@
             </a>
         </li>
         <li class="share-links-item">
-            <a class="share-links-link share-links-twitter" href="https://twitter.com/intent/tweet?text={{ rawurlencode($model->title) }}&url={{ url()->current() }}" target="_blank" rel="noopener noreferrer">
+            <a class="share-links-link share-links-twitter" href="https://twitter.com/intent/tweet?text={{ rawurlencode($model->title) }}&url={{ url()->current() }}" target="_blank"
+               rel="noopener noreferrer">
                 <span class="share-links-icon share-links-twitter-icon"></span>
                 <span class="visually-hidden">@lang('Share on Twitter')</span>
             </a>

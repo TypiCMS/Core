@@ -1,11 +1,15 @@
-@if (isset($model))
-<a class="nav-link" href="{{ $model->editUrl() }}?locale={{ config('app.locale') }}">
-@elseif (isset($page) and $page->module and Route::has('admin::index-'.$page->module))
-<a class="nav-link" href="{{ route('admin::index-'.$page->module) }}?locale={{ config('app.locale') }}">
-@elseif (isset($page))
-<a class="nav-link" href="{{ $page->editUrl() }}?locale={{ config('app.locale') }}">
-@else
-<a class="nav-link" href="{{ route('admin::dashboard') }}">
-@endif
-{{ __('Back-office', [], config('typicms.navbar_locale')) }}
+@php
+    if (isset($model)) {
+        $url = $model->editUrl();
+    } elseif (isset($page) and $page->module and Route::has('admin::index-' . $page->module)) {
+        $url = route('admin::index-' . $page->module);
+    } elseif (isset($page)) {
+        $url = $page->editUrl();
+    } else {
+        $url = route('admin::dashboard');
+    }
+@endphp
+
+<a class="nav-link" href="{{ $url }}?locale={{ config('app.locale') }}">
+    {{ __('Back-office', [], config('typicms.navbar_locale')) }}
 </a>

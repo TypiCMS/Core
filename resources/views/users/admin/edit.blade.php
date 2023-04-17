@@ -6,7 +6,7 @@
 
     {!! BootForm::open()->put()->action(route('admin::update-user', $model->id))->multipart()->role('form') !!}
     {!! BootForm::bind($model) !!}
-        @include('users::admin._form')
+    @include('users::admin._form')
     {!! BootForm::close() !!}
 
 @endsection

@@ -5,7 +5,7 @@
 @section('content')
 
     {!! BootForm::open()->action(route('admin::index-blocks'))->multipart()->role('form') !!}
-        @include('blocks::admin._form')
+    @include('blocks::admin._form')
     {!! BootForm::close() !!}
 
 @endsection

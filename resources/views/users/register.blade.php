@@ -12,11 +12,11 @@
 
 @section('content')
 
-<div id="register" class="container-register auth">
+    <div id="register" class="container-register auth">
 
-    @include('users::_auth-header')
+        @include('users::_auth-header')
 
-    {!! BootForm::open()->addClass('auth-form') !!}
+        {!! BootForm::open()->addClass('auth-form') !!}
 
         <h1 class="auth-title">{{ __('Register') }}</h1>
 
@@ -46,8 +46,8 @@
             {!! BootForm::submit(__('Register'), 'btn-primary')->addClass('btn-lg') !!}
         </div>
 
-    {!! BootForm::close() !!}
+        {!! BootForm::close() !!}
 
-</div>
+    </div>
 
 @endsection

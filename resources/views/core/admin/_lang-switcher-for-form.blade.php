@@ -5,7 +5,7 @@
         </button>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
             @foreach ($locales as $lang)
-            <a class="dropdown-item btn-lang-js @if (!session('allLocalesInForm') && $lang == $locale)active @endif" href="#" data-locale="{{ $lang }}">@lang('languages.'.$lang)</a>
+                <a class="dropdown-item btn-lang-js @if (!session('allLocalesInForm') && $lang == $locale)active @endif" href="#" data-locale="{{ $lang }}">@lang('languages.'.$lang)</a>
             @endforeach
             <div class="dropdown-divider"></div>
             <a class="dropdown-item btn-lang-js @if (session('allLocalesInForm'))active @endif" href="#" data-locale="all">@lang('All languages')</a>

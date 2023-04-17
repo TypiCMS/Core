@@ -20,13 +20,13 @@
 
     {!! Form::hidden('modules[]')->value('') !!}
     @if (!empty($modules))
-    <label class="form-label">@lang('Use in modules')</label>
-    @foreach ($modules as $module => $properties)
-    <div class="form-check">
-        {!! Form::checkbox('modules[]', $module)->id($module)->addClass('form-check-input') !!}
-        <label class="form-check-label" for="{{ $module }}">@lang(ucfirst($module))</label>
-    </div>
-    @endforeach
+        <label class="form-label">@lang('Use in modules')</label>
+        @foreach ($modules as $module => $properties)
+            <div class="form-check">
+                {!! Form::checkbox('modules[]', $module)->id($module)->addClass('form-check-input') !!}
+                <label class="form-check-label" for="{{ $module }}">@lang(ucfirst($module))</label>
+            </div>
+        @endforeach
     @endif
 
 </div>

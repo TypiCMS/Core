@@ -4,24 +4,24 @@
 
 @section('page')
 
-<div class="page-body">
+    <div class="page-body">
 
-    <div class="page-body-container">
+        <div class="page-body-container">
 
-        <div class="rich-content">{!! $page->present()->body !!}</div>
+            <div class="rich-content">{!! $page->present()->body !!}</div>
 
-        @include('files::public._document-list', ['model' => $page])
-        @include('files::public._image-list', ['model' => $page])
+            @include('files::public._document-list', ['model' => $page])
+            @include('files::public._image-list', ['model' => $page])
 
 
-        @if ($models->count() > 0)
-        @include('tags::public._list', ['items' => $models])
-        @endif
+            @if ($models->count() > 0)
+                @include('tags::public._list', ['items' => $models])
+            @endif
 
-        {!! $models->appends(Request::except('page'))->links() !!}
+            {!! $models->appends(Request::except('page'))->links() !!}
+
+        </div>
 
     </div>
-
-</div>
 
 @endsection

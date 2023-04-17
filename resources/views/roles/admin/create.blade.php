@@ -5,7 +5,7 @@
 @section('content')
 
     {!! BootForm::open()->action(route('admin::index-roles'))->multipart()->role('form') !!}
-        @include('roles::admin._form')
+    @include('roles::admin._form')
     {!! BootForm::close() !!}
 
 @endsection

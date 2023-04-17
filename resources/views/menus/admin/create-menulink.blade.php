@@ -5,7 +5,7 @@
 @section('content')
 
     {!! BootForm::open()->action(route('admin::store-menulink', $menu->id))->multipart() !!}
-        @include('menus::admin._form-menulink')
+    @include('menus::admin._form-menulink')
     {!! BootForm::close() !!}
 
 @endsection

@@ -1,52 +1,52 @@
 <!doctype html>
 <html lang="{{ config('app.locale') }}">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <meta name="api-token" content="{{ auth()->user()->api_token ?? '' }}">
-        <title>[admin] @yield('title') – {{ config('typicms.'.config('app.locale').'.website_title') }}</title>
-        @stack('css')
-        @vite('resources/scss/admin.scss')
-    </head>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="api-token" content="{{ auth()->user()->api_token ?? '' }}">
+    <title>[admin] @yield('title') – {{ config('typicms.'.config('app.locale').'.website_title') }}</title>
+    @stack('css')
+    @vite('resources/scss/admin.scss')
+</head>
 
-    <body class="@can('see navbar')has-navbar @endcan @yield('bodyClass')">
+<body class="@can('see navbar')has-navbar @endcan @yield('bodyClass')">
 
-        @section('navbar')
-            @include('core::_navbar')
-        @show
+@section('navbar')
+    @include('core::_navbar')
+@show
 
-        @section('otherSideLink')
-            @include('core::admin._navbar-public-link')
-        @endsection
+@section('otherSideLink')
+    @include('core::admin._navbar-public-link')
+@endsection
 
-        @section('sidebar')
-            @include('core::admin._sidebar')
-        @show
-        <div id="app" class="@section('mainClass')main @show">
-            @yield('content')
-        </div>
+@section('sidebar')
+    @include('core::admin._sidebar')
+@show
+<div id="app" class="@section('mainClass')main @show">
+    @yield('content')
+</div>
 
-        @include('core::admin._javascript')
+@include('core::admin._javascript')
 
-        @vite('resources/js/admin.js')
+@vite('resources/js/admin.js')
 
-        @stack('js')
+@stack('js')
 
-        <script type="module">
-            alertify.logPosition('bottom right');
-            @if (session('message'))
-                alertify.success('{{ session('message') }}');
-            @endif
-            @if (session('success'))
-                alertify.success('{{ session('success') }}');
-            @endif
-            @if (session('error'))
-                alertify.error('{{ session('error') }}');
-            @endif
-        </script>
+<script type="module">
+    alertify.logPosition('bottom right');
+    @if (session('message'))
+    alertify.success('{{ session('message') }}');
+    @endif
+    @if (session('success'))
+    alertify.success('{{ session('success') }}');
+    @endif
+    @if (session('error'))
+    alertify.error('{{ session('error') }}');
+    @endif
+</script>
 
-    </body>
+</body>
 
 </html>

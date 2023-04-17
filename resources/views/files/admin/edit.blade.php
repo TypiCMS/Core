@@ -6,7 +6,7 @@
 
     {!! BootForm::open()->put()->action(route('admin::update-file', $model->id))->multipart()->role('form') !!}
     {!! BootForm::bind($model) !!}
-        @include('files::admin._form')
+    @include('files::admin._form')
     {!! BootForm::close() !!}
 
 @endsection

@@ -41,17 +41,17 @@
     <h2 class="permissions-modules-title">{{ __('Modules') }}</h2>
     <div class="permissions-modules-items">
         @foreach (TypiCMS::permissions() as $module => $permissions)
-        <div class="permissions-modules-item mt-4 mb-4">
-            <label class="permissions-modules-item-title">{{ $module }}</label>
-            @foreach ($permissions as $permission => $label)
-            <div class="permissions-modules-item-checkbox checkbox">
-                <div class="form-check">
-                    {!! Form::checkbox('checked_permissions[]', $permission)->id('permission-'.Str::slug($permission))->addClass('form-check-input') !!}
-                    <label class="form-check-label" for="permission-{{ Str::slug($permission) }}">{{ __($label) }}</label>
-                </div>
+            <div class="permissions-modules-item mt-4 mb-4">
+                <label class="permissions-modules-item-title">{{ $module }}</label>
+                @foreach ($permissions as $permission => $label)
+                    <div class="permissions-modules-item-checkbox checkbox">
+                        <div class="form-check">
+                            {!! Form::checkbox('checked_permissions[]', $permission)->id('permission-'.Str::slug($permission))->addClass('form-check-input') !!}
+                            <label class="form-check-label" for="permission-{{ Str::slug($permission) }}">{{ __($label) }}</label>
+                        </div>
+                    </div>
+                @endforeach
             </div>
-            @endforeach
-        </div>
         @endforeach
     </div>
 </div>

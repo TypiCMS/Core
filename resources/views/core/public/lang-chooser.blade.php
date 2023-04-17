@@ -4,7 +4,7 @@
 @section('header') @endsection
 @section('primary-nav') @endsection
 @section('footer') @endsection
-@section('bodyClass') lang-chooser @endsection
+@section('bodyClass', 'lang-chooser')
 @section('skip-links') @endsection
 
 @section('content')

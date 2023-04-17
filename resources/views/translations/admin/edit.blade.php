@@ -6,7 +6,7 @@
 
     {!! BootForm::open()->put()->action(route('admin::update-translation', $model->id))->multipart()->role('form') !!}
     {!! BootForm::bind($model) !!}
-        @include('translations::admin._form')
+    @include('translations::admin._form')
     {!! BootForm::close() !!}
 
 @endsection

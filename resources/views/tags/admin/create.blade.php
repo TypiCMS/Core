@@ -5,7 +5,7 @@
 @section('content')
 
     {!! BootForm::open()->action(route('admin::index-tags'))->multipart()->role('form') !!}
-        @include('tags::admin._form')
+    @include('tags::admin._form')
     {!! BootForm::close() !!}
 
 @endsection

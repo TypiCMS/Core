@@ -12,11 +12,11 @@
 
 @section('content')
 
-<div id="login" class="container-newpassword auth auth-sm">
+    <div id="login" class="container-newpassword auth auth-sm">
 
-    @include('users::_auth-header')
+        @include('users::_auth-header')
 
-    {!! BootForm::open()->action(route(app()->getLocale().'::password.request'))->addClass('auth-form') !!}
+        {!! BootForm::open()->action(route(app()->getLocale().'::password.request'))->addClass('auth-form') !!}
 
         <h1 class="auth-title">{{ __('New password') }}</h1>
 
@@ -31,8 +31,8 @@
             {!! BootForm::submit(__('Change Password'), 'btn-primary')->addClass('btn-lg') !!}
         </div>
 
-    {!! BootForm::close() !!}
+        {!! BootForm::close() !!}
 
-</div>
+    </div>
 
 @endsection

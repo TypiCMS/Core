@@ -4,9 +4,8 @@
 
 @section('content')
 
-
-{!! BootForm::open()->multipart() !!}
-{!! BootForm::bind($data) !!}
+    {!! BootForm::open()->multipart() !!}
+    {!! BootForm::bind($data) !!}
 
     <div class="header">
         <h1 class="header-title">@lang('Settings')</h1>
@@ -36,13 +35,14 @@
                 <label class="form-label">{{ __('Publish website') }}</label>
 
                 <div class="mb-3">
-                @foreach ($locales as $lang)
-                <div class="form-check form-check-inline">
-                    <input type="hidden" name="{{ $lang }}[status]" value="0">
-                    <input class="form-check-input" type="checkbox" name="{{ $lang }}[status]" id="{{ $lang }}[status]" value="1" @if (isset($data->$lang) and $data->$lang->status)checked @endif>
-                    <label class="form-check-label" for="{{ $lang }}[status]">{{ strtoupper($lang) }}</label>
-                </div>
-                @endforeach
+                    @foreach ($locales as $lang)
+                        <div class="form-check form-check-inline">
+                            <input type="hidden" name="{{ $lang }}[status]" value="0">
+                            <input class="form-check-input" type="checkbox" name="{{ $lang }}[status]" id="{{ $lang }}[status]" value="1"
+                                   @if (isset($data->$lang) and $data->$lang->status)checked @endif>
+                            <label class="form-check-label" for="{{ $lang }}[status]">{{ strtoupper($lang) }}</label>
+                        </div>
+                    @endforeach
                 </div>
 
                 <label class="form-label">{{ __('Website baseline') }}</label>
@@ -58,10 +58,10 @@
                 <div class="fieldset-media fieldset-image">
                     {!! BootForm::hidden('image') !!}
                     @if (isset($data->image) and $data->image)
-                    <div class="fieldset-preview">
-                        <img class="img-fluid" src="{{ Storage::url('settings/'.$data->image) }}" alt="">
-                        <small class="text-danger delete-attachment" data-table="settings" data-id="" data-field="image">@lang('Delete')</small>
-                    </div>
+                        <div class="fieldset-preview">
+                            <img class="img-fluid" src="{{ Storage::url('settings/'.$data->image) }}" alt="">
+                            <small class="text-danger delete-attachment" data-table="settings" data-id="" data-field="image">@lang('Delete')</small>
+                        </div>
                     @endif
                     <div class="fieldset-field">
                         {!! BootForm::file(__('Logo'), 'image') !!}
@@ -82,26 +82,31 @@
             <div class="col-lg-6">
                 <table class="table table-sm table-striped">
                     <tbody>
-                        <tr>
-                            <td class="w-25">@lang('Environment')</td>
-                            <td><b>{{ App::environment() }}</b></td>
-                        </tr>
-                        <tr>
-                            <td>@lang('System locales')</td>
-                            <td>
-                                <div class="container-system-locales">
-                                    <b><?php try { system('locale -a'); } catch (Exception $e) { echo $e->getMessage(); } ?></b>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>@lang('Active locale')</td>
-                            <td><b>{{ config('app.locale') }}</b></td>
-                        </tr>
-                        <tr>
-                            <td>@lang('Cache')</td>
-                            <td><b>{{ config('laravel-model-caching.enabled') ? __('Yes') : __('No') }}</b></td>
-                        </tr>
+                    <tr>
+                        <td class="w-25">@lang('Environment')</td>
+                        <td><b>{{ App::environment() }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>@lang('System locales')</td>
+                        <td>
+                            <div class="container-system-locales">
+                                <b><?php
+                                   try {
+                                       system('locale -a');
+                                   } catch (Exception $e) {
+                                       echo $e->getMessage();
+                                   } ?></b>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@lang('Active locale')</td>
+                        <td><b>{{ config('app.locale') }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>@lang('Cache')</td>
+                        <td><b>{{ config('laravel-model-caching.enabled') ? __('Yes') : __('No') }}</b></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -110,6 +115,6 @@
 
     </div>
 
-{!! BootForm::close() !!}
+    {!! BootForm::close() !!}
 
 @endsection

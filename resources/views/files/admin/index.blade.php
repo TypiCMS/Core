@@ -4,6 +4,6 @@
 
 @section('content')
 
-<file-manager :modal="false"></file-manager>
+    <file-manager :modal="false"></file-manager>
 
 @endsection

@@ -5,7 +5,7 @@
 @section('content')
 
     {!! BootForm::open()->action(route('admin::index-taxonomies'))->multipart()->role('form') !!}
-        @include('taxonomies::admin._form')
+    @include('taxonomies::admin._form')
     {!! BootForm::close() !!}
 
 @endsection

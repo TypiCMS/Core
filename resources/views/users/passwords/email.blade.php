@@ -12,11 +12,11 @@
 
 @section('content')
 
-<div id="reset" class="container-reset auth auth-sm">
+    <div id="reset" class="container-reset auth auth-sm">
 
-    @include('users::_auth-header')
+        @include('users::_auth-header')
 
-    {!! BootForm::open()->action(route(app()->getLocale().'::password.email'))->addClass('auth-form') !!}
+        {!! BootForm::open()->action(route(app()->getLocale().'::password.email'))->addClass('auth-form') !!}
 
         <h1 class="auth-title">{{ __('Reset Password') }}</h1>
 
@@ -28,8 +28,8 @@
             {!! BootForm::submit(__('Send Password Reset Link'), 'btn-primary')->addClass('btn-lg') !!}
         </div>
 
-    {!! BootForm::close() !!}
+        {!! BootForm::close() !!}
 
-</div>
+    </div>
 
 @endsection

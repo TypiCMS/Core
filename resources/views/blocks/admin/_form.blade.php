@@ -19,9 +19,9 @@
     {!! BootForm::hidden('id') !!}
 
     @if ($model->id)
-    {!! BootForm::hidden('name') !!}
+        {!! BootForm::hidden('name') !!}
     @else
-    {!! BootForm::text(__('Name'), 'name')->required() !!}
+        {!! BootForm::text(__('Name'), 'name')->required() !!}
     @endif
 
     <div class="mb-3">
@@ -30,6 +30,6 @@
     </div>
     {!! TranslatableBootForm::textarea(__('Body'), 'body')->addClass('ckeditor-full') !!}
 
-    </div>
+</div>
 
 </div>

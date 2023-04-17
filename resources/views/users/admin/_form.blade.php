@@ -70,23 +70,23 @@
     </div>
 
     <div class="mb-3">
-    {!! BootForm::hidden('activated')->value(0) !!}
-    {!! BootForm::checkbox(__('Activated'), 'activated') !!}
+        {!! BootForm::hidden('activated')->value(0) !!}
+        {!! BootForm::checkbox(__('Activated'), 'activated') !!}
     </div>
 
     <div class="mb-3">
         <label class="form-label">{{ __('Roles') }}</label>
         @if (auth()->user()->isSuperUser())
-        {!! BootForm::hidden('superuser')->value(0) !!}
-        {!! BootForm::checkbox(__('Superuser'), 'superuser') !!}
+            {!! BootForm::hidden('superuser')->value(0) !!}
+            {!! BootForm::checkbox(__('Superuser'), 'superuser') !!}
         @endif
         @if ($roles->count() > 0)
-        @foreach ($roles as $role)
-        <div class="form-check">
-            {!! Form::checkbox('checked_roles[]', $role->id)->addClass('form-check-input')->id('role-'.$role->name) !!}
-            <label class="form-check-label" for="{{ 'role-'.$role->name }}">{{ $role->name }}</label>
-        </div>
-        @endforeach
+            @foreach ($roles as $role)
+                <div class="form-check">
+                    {!! Form::checkbox('checked_roles[]', $role->id)->addClass('form-check-input')->id('role-'.$role->name) !!}
+                    <label class="form-check-label" for="{{ 'role-'.$role->name }}">{{ $role->name }}</label>
+                </div>
+            @endforeach
         @endif
     </div>
 

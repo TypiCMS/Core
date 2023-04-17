@@ -15,9 +15,9 @@
     <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>
 
     @if ($model->id)
-    {!! BootForm::hidden('name') !!}
+        {!! BootForm::hidden('name') !!}
     @else
-    {!! BootForm::text(__('Name'), 'name')->required() !!}
+        {!! BootForm::text(__('Name'), 'name')->required() !!}
     @endif
 
     {!! BootForm::text(__('Class'), 'class') !!}

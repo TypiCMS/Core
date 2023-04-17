@@ -12,13 +12,13 @@
 
 @section('content')
 
-<div id="verify" class="container-verify auth">
+    <div id="verify" class="container-verify auth">
 
-    @include('users::_auth-header')
+        @include('users::_auth-header')
 
-    <div class="auth-form">
+        <div class="auth-form">
 
-        <h1 class="auth-title">{{ __('Verify Your Email Address') }}</h1>
+            <h1 class="auth-title">{{ __('Verify Your Email Address') }}</h1>
 
             @if (session('resent'))
                 <div class="alert alert-success" role="alert">
@@ -33,6 +33,6 @@
 
     </div>
 
-</div>
+    </div>
 
 @endsection
