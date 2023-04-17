@@ -50,17 +50,7 @@
                         @click="deleteFromNested(node)"
                         v-if="$can('delete ' + table)"
                     >
-                        <svg
-                            width="12"
-                            height="12"
-                            viewBox="0 0 1792 1792"
-                            fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"
-                            />
-                        </svg>
+                        <i class="bi bi-x-lg fs-6 text-danger"></i>
                     </button>
 
                     <a
@@ -98,30 +88,8 @@
                 </template>
 
                 <template slot="toggle" slot-scope="{ node }">
-                    <svg
-                        v-if="node.children.length > 0 && node.isExpanded"
-                        width="0.8em"
-                        height="0.8em"
-                        viewBox="0 0 16 16"
-                        fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
-                        />
-                    </svg>
-                    <svg
-                        v-if="node.children.length > 0 && !node.isExpanded"
-                        width="0.8em"
-                        height="0.8em"
-                        viewBox="0 0 16 16"
-                        fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"
-                        />
-                    </svg>
+                    <small class="bi bi-caret-down-fill" v-if="node.children.length > 0 && node.isExpanded"></small>
+                    <small class="bi bi-caret-right-fill" v-if="node.children.length > 0 && !node.isExpanded"></small>
                 </template>
             </sl-vue-tree>
         </div>

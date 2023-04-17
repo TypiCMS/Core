@@ -54,17 +54,7 @@
                     <div class="filters form-inline" v-if="searchable.length > 0">
                         <div class="input-group input-group-sm mb-0">
                             <div class="input-group-text">
-                                <svg
-                                    width="14"
-                                    height="14"
-                                    viewBox="0 0 1792 1792"
-                                    fill="currentColor"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M1216 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z"
-                                    />
-                                </svg>
+                                <i class="bi bi-search"></i>
                             </div>
                             <input
                                 class="form-control"
@@ -101,19 +91,7 @@
                         </div>
                     </div>
                     <a :href="this.exportUrl" class="btn btn-sm btn-light ms-2" v-if="exportable">
-                        <svg
-                            width="1em"
-                            height="1em"
-                            viewBox="0 0 16 16"
-                            class="bi bi-table"
-                            fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"
-                            />
-                        </svg>
+                        <i class="bi bi-table me-1"></i>
                         Export
                     </a>
                 </div>
