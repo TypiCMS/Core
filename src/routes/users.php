@@ -16,7 +16,7 @@ use TypiCMS\Modules\Core\Http\Middleware\JavaScriptData;
  * Front office routes
  */
 foreach (locales() as $lang) {
-    Route::middleware(['public', JavaScriptData::class])->prefix($lang)->name($lang.'::')->group(function (Router $router) {
+    Route::middleware(['public', JavaScriptData::class])->prefix($lang)->name($lang . '::')->group(function (Router $router) {
         if (config('typicms.register')) {
             // Registration
             $router->get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
@@ -43,7 +43,7 @@ foreach (locales() as $lang) {
     });
 }
 
-Route::redirect('/.well-known/change-password', '/'.app()->getLocale().'/password/reset');
+Route::redirect('/.well-known/change-password', '/' . app()->getLocale() . '/password/reset');
 
 /*
  * Admin routes

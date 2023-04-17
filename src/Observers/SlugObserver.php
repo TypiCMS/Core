@@ -24,7 +24,7 @@ class SlugObserver
                 while ($this->slugExists($model, $locale)) {
                     ++$i;
                     // increment slug if exists
-                    $model->setTranslation('slug', $locale, $slug.'-'.$i);
+                    $model->setTranslation('slug', $locale, $slug . '-' . $i);
                 }
             }
         }
@@ -35,7 +35,7 @@ class SlugObserver
      */
     private function slugExists(Model $model, string $locale): bool
     {
-        $query = $model::where('slug->'.$locale, $model->getTranslation('slug', $locale));
+        $query = $model::where('slug->' . $locale, $model->getTranslation('slug', $locale));
         if ($model->id) {
             $query->where('id', '!=', $model->id);
         }

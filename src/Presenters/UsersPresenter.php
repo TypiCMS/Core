@@ -9,6 +9,6 @@ class UsersPresenter extends Presenter
      */
     public function title(): string
     {
-        return $this->entity->first_name.' '.$this->entity->last_name;
+        return $this->entity->first_name . ' ' . $this->entity->last_name;
     }
 }

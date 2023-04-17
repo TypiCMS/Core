@@ -18,7 +18,7 @@ class SlugMonolingualObserver
             while ($this->slugExists($model)) {
                 ++$i;
                 // increment slug if exists
-                $model->slug = $slug.'-'.$i;
+                $model->slug = $slug . '-' . $i;
             }
         }
     }

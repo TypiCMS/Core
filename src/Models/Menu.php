@@ -50,7 +50,7 @@ class Menu extends Base
 
             return $menu;
         } catch (Exception $e) {
-            Log::info('No menu found with name “'.$name.'”');
+            Log::info('No menu found with name “' . $name . '”');
 
             return null;
         }
@@ -77,7 +77,7 @@ class Menu extends Base
         }
         if ($menulink->page) {
             if ($menulink->section !== null) {
-                return $menulink->page->uri().'#'.$menulink->section->slug.'-'.$menulink->section->id;
+                return $menulink->page->uri() . '#' . $menulink->section->slug . '-' . $menulink->section->id;
             }
 
             return $menulink->page->uri();

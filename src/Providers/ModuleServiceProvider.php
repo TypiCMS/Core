@@ -72,57 +72,57 @@ class ModuleServiceProvider extends ServiceProvider
         $config = $this->app['config']->get('typicms', []);
         $this->app['config']->set('typicms', array_merge($TypiCMSConfig, $config));
 
-        $this->mergeConfigFrom(__DIR__.'/../config/dashboard.php', 'typicms.modules.dashboard');
-        $this->mergeConfigFrom(__DIR__.'/../config/pages.php', 'typicms.modules.pages');
-        $this->mergeConfigFrom(__DIR__.'/../config/page_sections.php', 'typicms.modules.page_sections');
-        $this->mergeConfigFrom(__DIR__.'/../config/blocks.php', 'typicms.modules.blocks');
-        $this->mergeConfigFrom(__DIR__.'/../config/history.php', 'typicms.modules.history');
-        $this->mergeConfigFrom(__DIR__.'/../config/menus.php', 'typicms.modules.menus');
-        $this->mergeConfigFrom(__DIR__.'/../config/menulinks.php', 'typicms.modules.menulinks');
-        $this->mergeConfigFrom(__DIR__.'/../config/files.php', 'typicms.modules.files');
-        $this->mergeConfigFrom(__DIR__.'/../config/search.php', 'typicms.modules.search');
-        $this->mergeConfigFrom(__DIR__.'/../config/tags.php', 'typicms.modules.tags');
-        $this->mergeConfigFrom(__DIR__.'/../config/taxonomies.php', 'typicms.modules.taxonomies');
-        $this->mergeConfigFrom(__DIR__.'/../config/terms.php', 'typicms.modules.terms');
-        $this->mergeConfigFrom(__DIR__.'/../config/translations.php', 'typicms.modules.translations');
-        $this->mergeConfigFrom(__DIR__.'/../config/users.php', 'typicms.modules.users');
-        $this->mergeConfigFrom(__DIR__.'/../config/roles.php', 'typicms.modules.roles');
+        $this->mergeConfigFrom(__DIR__ . '/../config/dashboard.php', 'typicms.modules.dashboard');
+        $this->mergeConfigFrom(__DIR__ . '/../config/pages.php', 'typicms.modules.pages');
+        $this->mergeConfigFrom(__DIR__ . '/../config/page_sections.php', 'typicms.modules.page_sections');
+        $this->mergeConfigFrom(__DIR__ . '/../config/blocks.php', 'typicms.modules.blocks');
+        $this->mergeConfigFrom(__DIR__ . '/../config/history.php', 'typicms.modules.history');
+        $this->mergeConfigFrom(__DIR__ . '/../config/menus.php', 'typicms.modules.menus');
+        $this->mergeConfigFrom(__DIR__ . '/../config/menulinks.php', 'typicms.modules.menulinks');
+        $this->mergeConfigFrom(__DIR__ . '/../config/files.php', 'typicms.modules.files');
+        $this->mergeConfigFrom(__DIR__ . '/../config/search.php', 'typicms.modules.search');
+        $this->mergeConfigFrom(__DIR__ . '/../config/tags.php', 'typicms.modules.tags');
+        $this->mergeConfigFrom(__DIR__ . '/../config/taxonomies.php', 'typicms.modules.taxonomies');
+        $this->mergeConfigFrom(__DIR__ . '/../config/terms.php', 'typicms.modules.terms');
+        $this->mergeConfigFrom(__DIR__ . '/../config/translations.php', 'typicms.modules.translations');
+        $this->mergeConfigFrom(__DIR__ . '/../config/users.php', 'typicms.modules.users');
+        $this->mergeConfigFrom(__DIR__ . '/../config/roles.php', 'typicms.modules.roles');
 
-        $this->loadRoutesFrom(__DIR__.'/../routes/blocks.php');
-        $this->loadRoutesFrom(__DIR__.'/../routes/core.php');
-        $this->loadRoutesFrom(__DIR__.'/../routes/dashboard.php');
-        $this->loadRoutesFrom(__DIR__.'/../routes/files.php');
-        $this->loadRoutesFrom(__DIR__.'/../routes/history.php');
-        $this->loadRoutesFrom(__DIR__.'/../routes/menus.php');
-        $this->loadRoutesFrom(__DIR__.'/../routes/roles.php');
-        $this->loadRoutesFrom(__DIR__.'/../routes/search.php');
-        $this->loadRoutesFrom(__DIR__.'/../routes/settings.php');
-        $this->loadRoutesFrom(__DIR__.'/../routes/sitemap.php');
-        $this->loadRoutesFrom(__DIR__.'/../routes/tags.php');
-        $this->loadRoutesFrom(__DIR__.'/../routes/taxonomies.php');
-        $this->loadRoutesFrom(__DIR__.'/../routes/translations.php');
-        $this->loadRoutesFrom(__DIR__.'/../routes/users.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/blocks.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/core.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/dashboard.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/files.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/history.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/menus.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/roles.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/search.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/settings.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/sitemap.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/tags.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/taxonomies.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/translations.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/users.php');
 
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/blocks/', 'blocks');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/core/', 'core');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/dashboard/', 'dashboard');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/files/', 'files');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/menus/', 'menus');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/pages/', 'pages');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/roles/', 'roles');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/search/', 'search');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/settings/', 'settings');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/tags/', 'tags');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/taxonomies/', 'taxonomies');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/translations/', 'translations');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views/users/', 'users');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views/blocks/', 'blocks');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views/core/', 'core');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views/dashboard/', 'dashboard');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views/files/', 'files');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views/menus/', 'menus');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views/pages/', 'pages');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views/roles/', 'roles');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views/search/', 'search');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views/settings/', 'settings');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views/tags/', 'tags');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views/taxonomies/', 'taxonomies');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views/translations/', 'translations');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views/users/', 'users');
 
         /*
         |--------------------------------------------------------------------------
         | Publish config.
         |--------------------------------------------------------------------------
         */
-        $this->publishes([__DIR__.'/../config/typicms.php' => config_path('typicms.php')], 'typicms-config');
+        $this->publishes([__DIR__ . '/../config/typicms.php' => config_path('typicms.php')], 'typicms-config');
 
         /*
         |--------------------------------------------------------------------------
@@ -130,9 +130,9 @@ class ModuleServiceProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
         $this->publishes([
-            __DIR__.'/../../resources/images' => resource_path('images'),
-            __DIR__.'/../../resources/js' => resource_path('js'),
-            __DIR__.'/../../resources/scss' => resource_path('scss'),
+            __DIR__ . '/../../resources/images' => resource_path('images'),
+            __DIR__ . '/../../resources/js' => resource_path('js'),
+            __DIR__ . '/../../resources/scss' => resource_path('scss'),
         ], 'typicms-resources');
 
         /*
@@ -141,7 +141,7 @@ class ModuleServiceProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
         $this->publishes([
-            __DIR__.'/../../lang' => lang_path(),
+            __DIR__ . '/../../lang' => lang_path(),
         ], 'typicms-lang');
 
         /*
@@ -149,7 +149,7 @@ class ModuleServiceProvider extends ServiceProvider
         | Publish public folder.
         |--------------------------------------------------------------------------
         */
-        $this->publishes([__DIR__.'/../../public' => public_path()], 'typicms-public');
+        $this->publishes([__DIR__ . '/../../public' => public_path()], 'typicms-public');
 
         /*
         |--------------------------------------------------------------------------
@@ -157,14 +157,14 @@ class ModuleServiceProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
         $this->publishes([
-            __DIR__.'/../../database/seeders/DatabaseSeeder.php' => database_path('seeders/DatabaseSeeder.php'),
-            __DIR__.'/../../database/seeders/PageSeeder.php' => database_path('seeders/PageSeeder.php'),
-            __DIR__.'/../../database/seeders/MenuSeeder.php' => database_path('seeders/MenuSeeder.php'),
-            __DIR__.'/../../database/seeders/PermissionSeeder.php' => database_path('seeders/PermissionSeeder.php'),
-            __DIR__.'/../../database/seeders/RoleSeeder.php' => database_path('seeders/RoleSeeder.php'),
-            __DIR__.'/../../database/seeders/RoleHasPermissionsSeeder.php' => database_path('seeders/RoleHasPermissionsSeeder.php'),
-            __DIR__.'/../../database/seeders/SettingsSeeder.php' => database_path('seeders/SettingsSeeder.php'),
-            __DIR__.'/../../database/seeders/TranslationSeeder.php' => database_path('seeders/TranslationSeeder.php'),
+            __DIR__ . '/../../database/seeders/DatabaseSeeder.php' => database_path('seeders/DatabaseSeeder.php'),
+            __DIR__ . '/../../database/seeders/PageSeeder.php' => database_path('seeders/PageSeeder.php'),
+            __DIR__ . '/../../database/seeders/MenuSeeder.php' => database_path('seeders/MenuSeeder.php'),
+            __DIR__ . '/../../database/seeders/PermissionSeeder.php' => database_path('seeders/PermissionSeeder.php'),
+            __DIR__ . '/../../database/seeders/RoleSeeder.php' => database_path('seeders/RoleSeeder.php'),
+            __DIR__ . '/../../database/seeders/RoleHasPermissionsSeeder.php' => database_path('seeders/RoleHasPermissionsSeeder.php'),
+            __DIR__ . '/../../database/seeders/SettingsSeeder.php' => database_path('seeders/SettingsSeeder.php'),
+            __DIR__ . '/../../database/seeders/TranslationSeeder.php' => database_path('seeders/TranslationSeeder.php'),
         ], 'typicms-seeders');
 
         /*
@@ -173,20 +173,20 @@ class ModuleServiceProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
         $this->publishes([
-            __DIR__.'/../../resources/views/errors' => resource_path('views/errors'),
-            __DIR__.'/../../resources/views/blocks' => resource_path('views/vendor/blocks'),
-            __DIR__.'/../../resources/views/core' => resource_path('views/vendor/core'),
-            __DIR__.'/../../resources/views/dashboard' => resource_path('views/vendor/dashboard'),
-            __DIR__.'/../../resources/views/files' => resource_path('views/vendor/files'),
-            __DIR__.'/../../resources/views/menus' => resource_path('views/vendor/menus'),
-            __DIR__.'/../../resources/views/pages' => resource_path('views/vendor/pages'),
-            __DIR__.'/../../resources/views/roles' => resource_path('views/vendor/roles'),
-            __DIR__.'/../../resources/views/search' => resource_path('views/vendor/search'),
-            __DIR__.'/../../resources/views/settings' => resource_path('views/vendor/settings'),
-            __DIR__.'/../../resources/views/tags' => resource_path('views/vendor/tags'),
-            __DIR__.'/../../resources/views/taxonomies' => resource_path('views/vendor/taxonomies'),
-            __DIR__.'/../../resources/views/translations' => resource_path('views/vendor/translations'),
-            __DIR__.'/../../resources/views/users' => resource_path('views/vendor/users'),
+            __DIR__ . '/../../resources/views/errors' => resource_path('views/errors'),
+            __DIR__ . '/../../resources/views/blocks' => resource_path('views/vendor/blocks'),
+            __DIR__ . '/../../resources/views/core' => resource_path('views/vendor/core'),
+            __DIR__ . '/../../resources/views/dashboard' => resource_path('views/vendor/dashboard'),
+            __DIR__ . '/../../resources/views/files' => resource_path('views/vendor/files'),
+            __DIR__ . '/../../resources/views/menus' => resource_path('views/vendor/menus'),
+            __DIR__ . '/../../resources/views/pages' => resource_path('views/vendor/pages'),
+            __DIR__ . '/../../resources/views/roles' => resource_path('views/vendor/roles'),
+            __DIR__ . '/../../resources/views/search' => resource_path('views/vendor/search'),
+            __DIR__ . '/../../resources/views/settings' => resource_path('views/vendor/settings'),
+            __DIR__ . '/../../resources/views/tags' => resource_path('views/vendor/tags'),
+            __DIR__ . '/../../resources/views/taxonomies' => resource_path('views/vendor/taxonomies'),
+            __DIR__ . '/../../resources/views/translations' => resource_path('views/vendor/translations'),
+            __DIR__ . '/../../resources/views/users' => resource_path('views/vendor/users'),
         ], 'typicms-views');
 
         /*
@@ -195,18 +195,18 @@ class ModuleServiceProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
         $this->publishes([
-            __DIR__.'/../../database/migrations/create_files_table.php.stub' => $this->getMigrationFileName('create_files_table'),
-            __DIR__.'/../../database/migrations/create_pages_tables.php.stub' => $this->getMigrationFileName('create_pages_tables'),
-            __DIR__.'/../../database/migrations/create_blocks_table.php.stub' => $this->getMigrationFileName('create_blocks_table'),
-            __DIR__.'/../../database/migrations/create_settings_table.php.stub' => $this->getMigrationFileName('create_settings_table'),
-            __DIR__.'/../../database/migrations/create_history_table.php.stub' => $this->getMigrationFileName('create_history_table'),
-            __DIR__.'/../../database/migrations/create_users_table.php.stub' => $this->getMigrationFileName('create_users_table'),
-            __DIR__.'/../../database/migrations/create_password_resets_table.php.stub' => $this->getMigrationFileName('create_password_resets_table'),
-            __DIR__.'/../../database/migrations/create_model_has_files_table.php.stub' => $this->getMigrationFileName('create_model_has_files_table'),
-            __DIR__.'/../../database/migrations/create_menus_tables.php.stub' => $this->getMigrationFileName('create_menus_tables'),
-            __DIR__.'/../../database/migrations/create_tags_table.php.stub' => $this->getMigrationFileName('create_tags_table'),
-            __DIR__.'/../../database/migrations/create_taxonomies_tables.php.stub' => $this->getMigrationFileName('create_taxonomies_tables'),
-            __DIR__.'/../../database/migrations/create_translations_table.php.stub' => $this->getMigrationFileName('create_translations_table'),
+            __DIR__ . '/../../database/migrations/create_files_table.php.stub' => $this->getMigrationFileName('create_files_table'),
+            __DIR__ . '/../../database/migrations/create_pages_tables.php.stub' => $this->getMigrationFileName('create_pages_tables'),
+            __DIR__ . '/../../database/migrations/create_blocks_table.php.stub' => $this->getMigrationFileName('create_blocks_table'),
+            __DIR__ . '/../../database/migrations/create_settings_table.php.stub' => $this->getMigrationFileName('create_settings_table'),
+            __DIR__ . '/../../database/migrations/create_history_table.php.stub' => $this->getMigrationFileName('create_history_table'),
+            __DIR__ . '/../../database/migrations/create_users_table.php.stub' => $this->getMigrationFileName('create_users_table'),
+            __DIR__ . '/../../database/migrations/create_password_resets_table.php.stub' => $this->getMigrationFileName('create_password_resets_table'),
+            __DIR__ . '/../../database/migrations/create_model_has_files_table.php.stub' => $this->getMigrationFileName('create_model_has_files_table'),
+            __DIR__ . '/../../database/migrations/create_menus_tables.php.stub' => $this->getMigrationFileName('create_menus_tables'),
+            __DIR__ . '/../../database/migrations/create_tags_table.php.stub' => $this->getMigrationFileName('create_tags_table'),
+            __DIR__ . '/../../database/migrations/create_taxonomies_tables.php.stub' => $this->getMigrationFileName('create_taxonomies_tables'),
+            __DIR__ . '/../../database/migrations/create_translations_table.php.stub' => $this->getMigrationFileName('create_translations_table'),
         ], 'typicms-migrations');
 
         /*
@@ -337,9 +337,9 @@ class ModuleServiceProvider extends ServiceProvider
     {
         $filesystem = $this->app->make(Filesystem::class);
         $timestamp = date('Y_m_d_His', time() + ++$this->migrationCount);
-        $directory = database_path(DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR);
-        $migrations = $filesystem->glob($directory.'*_'.$name.'.php');
+        $directory = database_path(DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR);
+        $migrations = $filesystem->glob($directory . '*_' . $name . '.php');
 
-        return $migrations[0] ?? $directory.$timestamp.'_'.$name.'.php';
+        return $migrations[0] ?? $directory . $timestamp . '_' . $name . '.php';
     }
 }

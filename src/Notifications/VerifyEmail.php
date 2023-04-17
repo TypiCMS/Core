@@ -19,7 +19,7 @@ class VerifyEmail extends Base
     protected function verificationUrl($notifiable)
     {
         return URL::temporarySignedRoute(
-            app()->getLocale().'::verification.verify',
+            app()->getLocale() . '::verification.verify',
             Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
             ['id' => $notifiable->getKey()]
         );

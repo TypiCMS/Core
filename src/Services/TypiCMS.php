@@ -25,7 +25,7 @@ class TypiCMS
     {
         $locales = [];
         foreach (locales() as $locale) {
-            if (config('typicms.'.$locale.'.status') || request('preview')) {
+            if (config('typicms.' . $locale . '.status') || request('preview')) {
                 $locales[] = $locale;
             }
         }
@@ -112,12 +112,12 @@ class TypiCMS
 
     public function title($locale = null): ?string
     {
-        return config('typicms.'.($locale ?: config('app.locale')).'.website_title');
+        return config('typicms.' . ($locale ?: config('app.locale')) . '.website_title');
     }
 
     public function baseline($locale = null): ?string
     {
-        return config('typicms.'.($locale ?: config('app.locale')).'.website_baseline');
+        return config('typicms.' . ($locale ?: config('app.locale')) . '.website_baseline');
     }
 
     public function getPageLinkedToModule($module = null): ?Page
@@ -193,7 +193,7 @@ class TypiCMS
         $templateDir = config('typicms.template_dir', 'public');
         $viewPath = app()['view']->getFinder()->getHints()['pages'][0];
 
-        return rtrim($viewPath.DIRECTORY_SEPARATOR.$templateDir, DIRECTORY_SEPARATOR);
+        return rtrim($viewPath . DIRECTORY_SEPARATOR . $templateDir, DIRECTORY_SEPARATOR);
     }
 
     public function feeds(): Collection
@@ -201,9 +201,9 @@ class TypiCMS
         $locale = config('app.locale');
         $feeds = collect(config('typicms.modules'))
             ->transform(function ($properties, $module) use ($locale) {
-                $routeName = $locale.'::'.$module.'-feed';
+                $routeName = $locale . '::' . $module . '-feed';
                 if (isset($properties['has_feed']) && $properties['has_feed'] === true && Route::has($routeName)) {
-                    return ['url' => route($routeName, $module), 'title' => __(ucfirst($module).' feed').' – '.$this->title()];
+                    return ['url' => route($routeName, $module), 'title' => __(ucfirst($module) . ' feed') . ' – ' . $this->title()];
                 }
             })->reject(function ($value) {
                 return empty($value);

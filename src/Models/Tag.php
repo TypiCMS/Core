@@ -26,7 +26,7 @@ class Tag extends Base
     public function uri($locale = null): string
     {
         $locale = $locale ?: config('app.locale');
-        $route = $locale.'::'.Str::singular($this->getTable());
+        $route = $locale . '::' . Str::singular($this->getTable());
         if (Route::has($route)) {
             return route($route, $this->slug);
         }

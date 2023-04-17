@@ -26,7 +26,7 @@ abstract class Base extends Model
     public function uri($locale = null): string
     {
         $locale = $locale ?: config('app.locale');
-        $route = $locale.'::'.Str::singular($this->getTable());
+        $route = $locale . '::' . Str::singular($this->getTable());
         if (Route::has($route)) {
             return route($route, $this->translate('slug', $locale));
         }
@@ -48,7 +48,7 @@ abstract class Base extends Model
         }
         $field = 'status';
         if (in_array($field, (array) $this->translatable)) {
-            $field .= '->'.config('app.locale');
+            $field .= '->' . config('app.locale');
         }
 
         return $query->where($field, '1');
@@ -58,7 +58,7 @@ abstract class Base extends Model
     {
         $field = 'slug';
         if (in_array($field, (array) $this->translatable)) {
-            $field .= '->'.config('app.locale');
+            $field .= '->' . config('app.locale');
         }
 
         return $query->where($field, $slug);
@@ -66,7 +66,7 @@ abstract class Base extends Model
 
     public function scopeOrder(Builder $query): Builder
     {
-        if ($order = config('typicms.modules.'.$this->getTable().'.order')) {
+        if ($order = config('typicms.modules.' . $this->getTable() . '.order')) {
             foreach ($order as $field => $direction) {
                 $query->orderBy($field, $direction);
             }
@@ -83,13 +83,13 @@ abstract class Base extends Model
             if (isset($this->translatable) && $this->isTranslatableAttribute($field)) {
                 if ($field === 'status') {
                     if (config('typicms.postgresql') === true) {
-                        $query->selectRaw('('.$field.'::json->>\''.$locale.'\' )::int AS '.$field.'_translated');
+                        $query->selectRaw('(' . $field . '::json->>\'' . $locale . '\' )::int AS ' . $field . '_translated');
                     } else {
                         $query
                             ->selectRaw('
                                 CAST(JSON_UNQUOTE(
-                                    JSON_EXTRACT(`'.$field.'`, \'$.'.$locale.'\')
-                                ) AS UNSIGNED) AS `'.$field.'_translated`
+                                    JSON_EXTRACT(`' . $field . '`, \'$.' . $locale . '\')
+                                ) AS UNSIGNED) AS `' . $field . '_translated`
                             ');
                     }
                 } else {
@@ -97,28 +97,28 @@ abstract class Base extends Model
                         $query
                             ->selectRaw('
                                 CASE WHEN
-                                    '.$field.'::json->>\''.$locale.'\' = null
+                                    ' . $field . '::json->>\'' . $locale . '\' = null
                                 THEN
                                     NULL
                                 ELSE
-                                    '.$field.'::json->>\''.$locale.'\'
+                                    ' . $field . '::json->>\'' . $locale . '\'
                                 END
-                                AS  '.$field.'_translated
+                                AS  ' . $field . '_translated
                             ');
                     } else {
                         $query
                             ->selectRaw('
                                 CASE WHEN
                                 JSON_UNQUOTE(
-                                    JSON_EXTRACT(`'.$field.'`, \'$.'.$locale.'\')
+                                    JSON_EXTRACT(`' . $field . '`, \'$.' . $locale . '\')
                                 ) = \'null\' THEN NULL
                                 ELSE
                                 JSON_UNQUOTE(
-                                    JSON_EXTRACT(`'.$field.'`, \'$.'.$locale.'\')
+                                    JSON_EXTRACT(`' . $field . '`, \'$.' . $locale . '\')
                                 )
-                                END '.
-                                (config('typicms.mariadb') === false ? 'COLLATE '.(DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci') : '').'
-                                AS `'.$field.'_translated`
+                                END ' .
+                                (config('typicms.mariadb') === false ? 'COLLATE ' . (DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci') : '') . '
+                                AS `' . $field . '_translated`
                             ');
                     }
                 }
@@ -143,7 +143,7 @@ abstract class Base extends Model
 
     public function editUrl(): string
     {
-        $route = 'admin::edit-'.Str::singular($this->getTable());
+        $route = 'admin::edit-' . Str::singular($this->getTable());
         if (Route::has($route)) {
             return route($route, $this->id);
         }
@@ -153,7 +153,7 @@ abstract class Base extends Model
 
     public function indexUrl(): string
     {
-        $route = 'admin::index-'.$this->getTable();
+        $route = 'admin::index-' . $this->getTable();
         if (Route::has($route)) {
             return route($route);
         }

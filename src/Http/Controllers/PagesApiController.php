@@ -21,7 +21,7 @@ class PagesApiController extends BaseApiController
             ->map(function ($item) use ($userPreferences) {
                 $item->data = $item->toArray();
                 $item->isLeaf = $item->module === null ? false : true;
-                $item->isExpanded = !Arr::get($userPreferences, 'Pages_'.$item->id.'_collapsed', false);
+                $item->isExpanded = !Arr::get($userPreferences, 'Pages_' . $item->id . '_collapsed', false);
 
                 return $item;
             })

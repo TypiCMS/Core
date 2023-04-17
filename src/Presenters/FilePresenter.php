@@ -40,6 +40,6 @@ class FilePresenter extends Presenter
         $base = log($this->entity->filesize, 1024);
         $suffixes = ['', __('KB'), __('MB'), __('GB'), __('TB')];
 
-        return round(pow(1024, $base - floor($base)), $precision).' '.$suffixes[floor($base)];
+        return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
     }
 }

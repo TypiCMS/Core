@@ -15,7 +15,7 @@ class PagesPublicController extends BasePublicController
         $page = $this->findPageByUri($uri);
 
         if ($page->private && !Auth::check()) {
-            return redirect()->guest(route(app()->getLocale().'::login'));
+            return redirect()->guest(route(app()->getLocale() . '::login'));
         }
 
         if ($page->redirect && $page->publishedSubpages->count() > 0) {
@@ -24,15 +24,15 @@ class PagesPublicController extends BasePublicController
             return redirect($childUri);
         }
 
-        $templateDir = 'pages::'.config('typicms.template_dir', 'public').'.';
+        $templateDir = 'pages::' . config('typicms.template_dir', 'public') . '.';
         $template = $page->template ?: 'default';
 
-        if (!view()->exists($templateDir.$template)) {
-            info('Template '.$template.' not found, switching to default template.');
+        if (!view()->exists($templateDir . $template)) {
+            info('Template ' . $template . ' not found, switching to default template.');
             $template = 'default';
         }
 
-        return view($templateDir.$template, compact('page', 'templateDir'));
+        return view($templateDir . $template, compact('page', 'templateDir'));
     }
 
     private function findPageByUri(?string $uri): Page

@@ -23,7 +23,7 @@ class MenulinksApiController extends BaseApiController
             ->map(function ($item) use ($userPreferences) {
                 $item->data = $item->toArray();
                 $item->isLeaf = $item->module === null ? false : true;
-                $item->isExpanded = !Arr::get($userPreferences, 'Menulinks_'.$item->id.'_collapsed', false);
+                $item->isExpanded = !Arr::get($userPreferences, 'Menulinks_' . $item->id . '_collapsed', false);
 
                 return $item;
             })

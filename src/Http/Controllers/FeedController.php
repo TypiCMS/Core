@@ -9,7 +9,7 @@ class FeedController
 {
     public function __invoke(string $module)
     {
-        abort_unless(config('typicms.modules.'.$module.'.has_feed', false), 404);
+        abort_unless(config('typicms.modules.' . $module . '.has_feed', false), 404);
 
         $page = TypiCMS::getPageLinkedToModule($module);
         abort_if(is_null($page), 404);

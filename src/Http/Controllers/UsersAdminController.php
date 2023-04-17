@@ -22,7 +22,7 @@ class UsersAdminController extends BaseAdminController
 
     public function export(Request $request)
     {
-        $filename = date('Y-m-d').' '.config('app.name').' users.xlsx';
+        $filename = date('Y-m-d') . ' ' . config('app.name') . ' users.xlsx';
 
         return Excel::download(new UsersExport(), $filename);
     }

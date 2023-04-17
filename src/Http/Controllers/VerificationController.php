@@ -28,7 +28,7 @@ class VerificationController extends Controller
      */
     public function redirectTo()
     {
-        return route(app()->getLocale().'::verification.verified');
+        return route(app()->getLocale() . '::verification.verified');
     }
 
     /**

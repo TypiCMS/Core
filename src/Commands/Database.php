@@ -68,18 +68,18 @@ class Database extends Command
 
         // Update DB credentials in .env file.
         $search = [
-            '/('.preg_quote('DB_HOST=').')(.*)/',
-            '/('.preg_quote('DB_PORT=').')(.*)/',
-            '/('.preg_quote('DB_DATABASE=').')(.*)/',
-            '/('.preg_quote('DB_USERNAME=').')(.*)/',
-            '/('.preg_quote('DB_PASSWORD=').')(.*)/',
+            '/(' . preg_quote('DB_HOST=') . ')(.*)/',
+            '/(' . preg_quote('DB_PORT=') . ')(.*)/',
+            '/(' . preg_quote('DB_DATABASE=') . ')(.*)/',
+            '/(' . preg_quote('DB_USERNAME=') . ')(.*)/',
+            '/(' . preg_quote('DB_PASSWORD=') . ')(.*)/',
         ];
         $replace = [
-            '${1}'.$dbAddress,
-            '${1}'.$dbPort,
-            '${1}'.$dbName,
-            '${1}'.$dbUserName,
-            '${1}'.$dbPassword,
+            '${1}' . $dbAddress,
+            '${1}' . $dbPort,
+            '${1}' . $dbName,
+            '${1}' . $dbUserName,
+            '${1}' . $dbPassword,
         ];
         $contents = preg_replace($search, $replace, $contents);
 
@@ -100,13 +100,13 @@ class Database extends Command
         DB::purge();
 
         // Create database if not exists
-        DB::unprepared('CREATE DATABASE IF NOT EXISTS `'.$dbName.'`');
-        DB::unprepared('USE `'.$dbName.'`');
+        DB::unprepared('CREATE DATABASE IF NOT EXISTS `' . $dbName . '`');
+        DB::unprepared('USE `' . $dbName . '`');
         DB::connection()->setDatabaseName($dbName);
 
         // Migrate DB
         if (Schema::hasTable('migrations')) {
-            $this->error('A migrations table was found in database ['.$dbName.'], no migration and seed were done.');
+            $this->error('A migrations table was found in database [' . $dbName . '], no migration and seed were done.');
         } else {
             $this->call('migrate');
             $this->call('db:seed');

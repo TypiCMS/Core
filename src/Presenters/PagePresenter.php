@@ -12,7 +12,7 @@ class PagePresenter extends Presenter
         $parentUri = $this->entity->translate('uri', $locale) ?: '/';
         $parentUri = explode('/', $parentUri);
         array_pop($parentUri);
-        $parentUri = implode('/', $parentUri).'/';
+        $parentUri = implode('/', $parentUri) . '/';
 
         return $parentUri;
     }

@@ -94,8 +94,8 @@ class PublishTranslations extends Command
         foreach ($manager->listContents('from://', true) as $file) {
             $path = Str::after($file['path'], 'from://');
 
-            if ($file['type'] === 'file' && (!$manager->fileExists('to://'.$path) || $this->option('force'))) {
-                $manager->write('to://'.$path, $manager->read($file['path']));
+            if ($file['type'] === 'file' && (!$manager->fileExists('to://' . $path) || $this->option('force'))) {
+                $manager->write('to://' . $path, $manager->read($file['path']));
             }
         }
     }
@@ -113,6 +113,6 @@ class PublishTranslations extends Command
 
         $to = str_replace(base_path(), '', realpath($to));
 
-        $this->line('<info>Copied '.$type.'</info> <comment>['.$from.']</comment> <info>To</info> <comment>['.$to.']</comment>');
+        $this->line('<info>Copied ' . $type . '</info> <comment>[' . $from . ']</comment> <info>To</info> <comment>[' . $to . ']</comment>');
     }
 }

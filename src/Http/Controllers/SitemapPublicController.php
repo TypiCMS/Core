@@ -40,7 +40,7 @@ class SitemapPublicController extends Controller
                         continue;
                     }
 
-                    if (!Route::has($locale.'::'.Str::singular(mb_strtolower($module)))) {
+                    if (!Route::has($locale . '::' . Str::singular(mb_strtolower($module)))) {
                         continue;
                     }
 

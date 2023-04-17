@@ -58,7 +58,7 @@ class RegisterController extends Controller
 
         if (User::where('email', $data['email'])->exists()) {
             return redirect()
-                ->route(app()->getLocale().'::login')
+                ->route(app()->getLocale() . '::login')
                 ->withStatus(__('An account already exists for this email address. Log in or request a new password.'));
         }
 

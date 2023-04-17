@@ -97,7 +97,7 @@ abstract class Presenter extends BasePresenter
      */
     public function link(string $column = 'website'): string
     {
-        return '<a href="'.$this->entity->{$column}.'" target="_blank" rel="noopener noreferrer">'.$this->urlWithoutScheme($column).'</a>';
+        return '<a href="' . $this->entity->{$column} . '" target="_blank" rel="noopener noreferrer">' . $this->urlWithoutScheme($column) . '</a>';
     }
 
     /**
@@ -130,7 +130,7 @@ abstract class Presenter extends BasePresenter
             return Storage::url($path);
         }
 
-        return url(Croppa::url('storage/'.$path, $width, $height, $options));
+        return url(Croppa::url('storage/' . $path, $width, $height, $options));
     }
 
     /**
@@ -139,7 +139,7 @@ abstract class Presenter extends BasePresenter
     public function imgNotFound(): string
     {
         if (!Storage::exists($this->imageNotFound)) {
-            Storage::put($this->imageNotFound, File::get(public_path('img/'.$this->imageNotFound)));
+            Storage::put($this->imageNotFound, File::get(public_path('img/' . $this->imageNotFound)));
         }
 
         return $this->imageNotFound;
@@ -169,9 +169,9 @@ abstract class Presenter extends BasePresenter
                 $patterns[] = $match[0];
                 $module = $match[1];
                 if (in_array($module, ['page', 'tag', 'user', 'term', 'taxonomy'])) {
-                    $classname = 'TypiCMS\Modules\Core\Models\\'.ucfirst($module);
+                    $classname = 'TypiCMS\Modules\Core\Models\\' . ucfirst($module);
                 } else {
-                    $classname = 'TypiCMS\Modules\\'.ucfirst(Str::plural($module)).'\Models\\'.ucfirst($module);
+                    $classname = 'TypiCMS\Modules\\' . ucfirst(Str::plural($module)) . '\Models\\' . ucfirst($module);
                 }
                 $model = null;
                 if (class_exists($classname)) {
@@ -185,8 +185,8 @@ abstract class Presenter extends BasePresenter
                 if ($module === 'page') {
                     $replacements[] = url($model->uri($lang));
                 } else {
-                    if (Route::has($lang.'::'.$module)) {
-                        $replacements[] = route($lang.'::'.$module, $model->slug);
+                    if (Route::has($lang . '::' . $module)) {
+                        $replacements[] = route($lang . '::' . $module, $model->slug);
                     } else {
                         $replacements[] = '';
                     }

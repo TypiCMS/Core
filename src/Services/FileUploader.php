@@ -28,8 +28,8 @@ class FileUploader
         list($width, $height) = getimagesize($file);
 
         $filecounter = 1;
-        while (Storage::disk($disk)->exists($path.'/'.$filename)) {
-            $filename = $filenameWithoutExtension.'_'.$filecounter++.'.'.$extension;
+        while (Storage::disk($disk)->exists($path . '/' . $filename)) {
+            $filename = $filenameWithoutExtension . '_' . $filecounter++ . '.' . $extension;
         }
         $path = $file->storeAs($path, $filename, $disk);
         $type = Arr::get(config('file.types'), $extension, 'd');
@@ -70,7 +70,7 @@ class FileUploader
             if ($deg) {
                 $img = imagerotate($img, $deg, 0);
             }
-            imagejpeg($img, $file->getPath().DIRECTORY_SEPARATOR.$file->getFilename(), 100);
+            imagejpeg($img, $file->getPath() . DIRECTORY_SEPARATOR . $file->getFilename(), 100);
         }
     }
 }

@@ -44,7 +44,7 @@ class Page extends Base
             TypiCMS::mainLocale() !== $locale
             || config('typicms.main_locale_in_url')
         ) {
-            $uri = $uri ? $locale.'/'.$uri : $locale;
+            $uri = $uri ? $locale . '/' . $uri : $locale;
         }
 
         return $uri ?: '/';
@@ -64,7 +64,7 @@ class Page extends Base
     {
         $field = 'uri';
         if (in_array($field, (array) $this->translatable)) {
-            $field .= '->'.config('app.locale');
+            $field .= '->' . config('app.locale');
         }
 
         return $query->where($field, $uri);
@@ -74,7 +74,7 @@ class Page extends Base
     {
         $field = 'uri';
         if (in_array($field, (array) $this->translatable)) {
-            $field .= '->'.config('app.locale');
+            $field .= '->' . config('app.locale');
         }
 
         return $query->where($field, '!=', $uri);
@@ -84,7 +84,7 @@ class Page extends Base
     {
         $field = 'uri';
         if (in_array($field, (array) $this->translatable)) {
-            $field .= '->'.config('app.locale');
+            $field .= '->' . config('app.locale');
         }
 
         return $query->where($field, 'LIKE', $uri);
@@ -106,14 +106,14 @@ class Page extends Base
         $uri = $rootUriArray[0];
         if (in_array($uri, locales())) {
             if (isset($rootUriArray[1])) {
-                $uri .= '/'.$rootUriArray[1]; // add next part of uri in locale
+                $uri .= '/' . $rootUriArray[1]; // add next part of uri in locale
             }
         }
 
         $nestedCollection = $this->whereUriIsNot($uri)
             ->published()
             ->orderBy('position', 'asc')
-            ->whereUriIsLike($uri.'%')
+            ->whereUriIsLike($uri . '%')
             ->get()
             ->noCleaning()
             ->nest();

@@ -27,7 +27,7 @@ class ResetPasswordController extends Controller
 
     protected function redirectTo()
     {
-        return route(app()->getLocale().'::login');
+        return route(app()->getLocale() . '::login');
     }
 
     /**

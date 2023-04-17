@@ -37,11 +37,11 @@ class SearchPublicController extends BasePublicController
                             $word = addslashes($word);
                             if (in_array($column, (array) $model->translatable)) {
                                 $query->published()->whereRaw(
-                                    'JSON_UNQUOTE(JSON_EXTRACT(`'.$column.'`, \'$.'.app()->getLocale().'\')) LIKE \'%'.$word.'%\' COLLATE utf8mb4_unicode_ci'
+                                    'JSON_UNQUOTE(JSON_EXTRACT(`' . $column . '`, \'$.' . app()->getLocale() . '\')) LIKE \'%' . $word . '%\' COLLATE utf8mb4_unicode_ci'
                                 );
                             } else {
                                 $query->published()->whereRaw(
-                                    '`'.$column.'` LIKE \'%'.$word.'%\' COLLATE utf8mb4_unicode_ci'
+                                    '`' . $column . '` LIKE \'%' . $word . '%\' COLLATE utf8mb4_unicode_ci'
                                 );
                             }
                         }
@@ -54,11 +54,11 @@ class SearchPublicController extends BasePublicController
                                     $word = addslashes($word);
                                     if (in_array($column, (array) $model->translatable)) {
                                         $query->published()->whereRaw(
-                                            'JSON_UNQUOTE(JSON_EXTRACT(`'.$column.'`, \'$.'.app()->getLocale().'\')) LIKE \'%'.$word.'%\' COLLATE utf8mb4_unicode_ci'
+                                            'JSON_UNQUOTE(JSON_EXTRACT(`' . $column . '`, \'$.' . app()->getLocale() . '\')) LIKE \'%' . $word . '%\' COLLATE utf8mb4_unicode_ci'
                                         );
                                     } else {
                                         $query->published()->whereRaw(
-                                            '`'.$column.'` LIKE \'%'.$word.'%\' COLLATE utf8mb4_unicode_ci'
+                                            '`' . $column . '` LIKE \'%' . $word . '%\' COLLATE utf8mb4_unicode_ci'
                                         );
                                     }
                                 }
