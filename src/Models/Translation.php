@@ -17,7 +17,7 @@ class Translation extends Base
 
     protected $guarded = [];
 
-    public $translatable = [
+    public array $translatable = [
         'translation',
     ];
 }

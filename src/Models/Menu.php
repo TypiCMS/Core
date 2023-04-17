@@ -25,7 +25,7 @@ class Menu extends Base
 
     protected $appends = ['thumb'];
 
-    public $translatable = [
+    public array $translatable = [
         'status',
     ];
 

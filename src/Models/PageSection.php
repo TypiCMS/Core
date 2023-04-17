@@ -27,7 +27,7 @@ class PageSection extends Base implements Sortable
 
     protected $appends = ['thumb'];
 
-    public $translatable = [
+    public array $translatable = [
         'title',
         'slug',
         'status',

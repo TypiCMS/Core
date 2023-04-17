@@ -22,7 +22,7 @@ class File extends Base
 
     protected $guarded = [];
 
-    public $translatable = [
+    public array $translatable = [
         'title',
         'description',
         'alt_attribute',

@@ -21,7 +21,7 @@ class Taxonomy extends Base implements Sortable
 
     protected $guarded = [];
 
-    public $translatable = [
+    public array $translatable = [
         'title',
         'slug',
         'result_string',
