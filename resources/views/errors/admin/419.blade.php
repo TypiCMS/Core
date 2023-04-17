@@ -6,12 +6,12 @@
 
 @section('content')
 
-<div class="header">
-    <h1 class="page-title">@lang('Error') 419</h1>
-</div>
+    <div class="header">
+        <h1 class="page-title">@lang('Error') 419</h1>
+    </div>
 
-<div class="content">
-    <p class="lead">@lang('Page Expired').</p>
-</div>
+    <div class="content">
+        <p class="lead">@lang('Page Expired').</p>
+    </div>
 
 @endsection

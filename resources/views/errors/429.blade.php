@@ -15,9 +15,7 @@
     <div class="page-body">
         <div class="page-body-container">
             <p class="lead">@lang('Too Many Requests').</p>
-            <p>
-                {!! trans('Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) !!}
-            </p>
+            <p>{!! trans('Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) !!}</p>
         </div>
     </div>
 
