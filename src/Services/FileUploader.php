@@ -25,7 +25,7 @@ class FileUploader
         $filenameWithoutExtension = Str::slug(json_encode($filenameWithoutExtension ?: pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)));
 
         $filename = "{$filenameWithoutExtension}.{$extension}";
-        list($width, $height) = getimagesize($file);
+        [$width, $height] = getimagesize($file);
 
         $filecounter = 1;
         while (Storage::disk($disk)->exists($path . '/' . $filename)) {
