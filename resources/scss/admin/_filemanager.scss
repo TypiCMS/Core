@@ -192,6 +192,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            i:before {
+                font-size: 5rem;
+                color: $dark;
+            }
         }
 
         &-dragging-source {
@@ -255,8 +259,8 @@
             height: 55px;
             padding: 10px;
 
-            &:before {
-                font-size: 40px;
+            i:before {
+                font-size: 2rem;
             }
         }
     }
