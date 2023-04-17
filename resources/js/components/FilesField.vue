@@ -150,7 +150,7 @@ export default {
     },
     mounted() {
         this.$root.$on('filesAdded', (files) => {
-            for (var i = files.length - 1; i >= 0; i--) {
+            for (let i = files.length - 1; i >= 0; i--) {
                 if (this.files.find(({ id }) => id === files[i].id) === undefined) {
                     this.files.push(files[i]);
                 }
@@ -160,7 +160,7 @@ export default {
     computed: {
         fileIds() {
             let fileIds = [];
-            for (var i = 0; i < this.files.length; i++) {
+            for (let i = 0; i < this.files.length; i++) {
                 fileIds.push(this.files[i].id);
             }
             return fileIds;
