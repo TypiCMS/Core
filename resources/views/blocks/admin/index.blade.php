@@ -34,7 +34,7 @@
             <td>
                 <item-list-status-button :model="model"></item-list-status-button>
             </td>
-            <td><span class="badge bg-secondary text-body">@{{ model.name }}</span></td>
+            <td><span class="badge bg-secondary">@{{ model.name }}</span></td>
             <td>@{{ model.body_translated }}</td>
         </template>
 

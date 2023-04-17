@@ -47,13 +47,13 @@
             <td><a :href="'mailto:'+model.email">@{{ model.email }}</a></td>
             <td>
                 <span class="badge bg-dark" v-if="model.activated">@lang('Yes')</span>
-                <span class="badge bg-secondary text-body" v-else>@lang('No')</span>
+                <span class="badge bg-secondary" v-else>@lang('No')</span>
             </td>
             <td>
                 @if (auth()->user()->isSuperUser())
                     <span class="badge bg-dark" v-if="model.superuser">Superuser</span>
                 @endif
-                <span class="badge bg-secondary text-body me-1" v-for="role in model.roles">@{{ role.name }}</span>
+                <span class="badge bg-secondary me-1" v-for="role in model.roles">@{{ role.name }}</span>
             </td>
         </template>
 
