@@ -77,9 +77,9 @@ class Role extends Base implements RoleContract
      *
      * @param null|string $guardName
      *
-     * @throws \Spatie\Permission\Exceptions\RoleDoesNotExist
-     *
      * @return \Spatie\Permission\Contracts\Role|\Spatie\Permission\Models\Role
+     *
+     * @throws \Spatie\Permission\Exceptions\RoleDoesNotExist
      */
     public static function findByName(string $name, $guardName = null): RoleContract
     {

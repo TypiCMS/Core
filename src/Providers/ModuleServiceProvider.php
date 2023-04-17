@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Providers;
 
+use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Pagination\Paginator;
@@ -326,7 +327,7 @@ class ModuleServiceProvider extends ServiceProvider
                 return Page::with('images', 'documents')
                     ->where('module', '!=', null)
                     ->get();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return [];
             }
         });

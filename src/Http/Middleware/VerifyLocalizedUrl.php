@@ -11,9 +11,9 @@ class VerifyLocalizedUrl
     public function handle(Request $request, Closure $next)
     {
         if (
-            config('typicms.main_locale_in_url') &&
-            $request->segment(1) !== null &&
-            !in_array($request->segment(1), TypiCMS::enabledLocales())
+            config('typicms.main_locale_in_url')
+            && $request->segment(1) !== null
+            && !in_array($request->segment(1), TypiCMS::enabledLocales())
         ) {
             abort(404);
         }

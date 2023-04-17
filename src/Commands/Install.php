@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use TypiCMS\Modules\Core\Providers\ModuleServiceProvider;
@@ -93,7 +94,7 @@ class Install extends Command
             $name = explode('.', $segments[1])[0];
 
             return Str::slug($name);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return '';
         }
     }
