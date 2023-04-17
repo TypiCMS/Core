@@ -40,7 +40,7 @@ class TypiCMS
 
     public function localeAndRegion(string $separator = null, ?string $locale = null): ?string
     {
-        $locale = $locale ?? app()->getLocale();
+        $locale ??= app()->getLocale();
         $locales = config('typicms.locales');
         if (!array_key_exists($locale, $locales)) {
             return null;
