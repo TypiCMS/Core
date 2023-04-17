@@ -354,7 +354,7 @@ export default {
             total: 0,
             view: 'grid',
             selectedItems: [],
-            baseUrl: '/api/files',
+            urlBase: '/api/files',
             locale: TypiCMS.content_locale,
             options: {
                 modal: this.modal,
@@ -436,7 +436,7 @@ export default {
             };
         },
         url() {
-            let url = this.baseUrl;
+            let url = this.urlBase;
             if (sessionStorage.getItem('folder')) {
                 this.folder = JSON.parse(sessionStorage.getItem('folder'));
             }
@@ -471,10 +471,10 @@ export default {
                     throw new Error(responseData.message);
                 }
                 this.data = await response.json();
-                this.stopLoading();
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('An error occurred with the data fetch.'));
+                alertify.error(error.message || this.$i18n.t('Sorry, a network error occurred.'));
             }
+            this.stopLoading();
         },
         startLoading() {
             this.loadingTimeout = setTimeout(() => {
@@ -488,7 +488,7 @@ export default {
         dropzoneSending(file, xhr, formData) {
             this.startLoading();
             formData.append('folder_id', this.folder.id);
-            for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
+            for (let i = TypiCMS.locales.length - 1; i >= 0; i--) {
                 formData.append('title[' + TypiCMS.locales[i].short + ']', '');
                 formData.append('description[' + TypiCMS.locales[i].short + ']', '');
                 formData.append('alt_attribute[' + TypiCMS.locales[i].short + ']', '');
@@ -533,7 +533,7 @@ export default {
                 }, 1000);
             }
         },
-        dropzoneError(file, message, xhr) {
+        dropzoneError(file, message) {
             let errorMessage = '';
             if (typeof message.errors !== 'undefined') {
                 errorMessage = Object.values(message.errors)[0];
@@ -554,7 +554,7 @@ export default {
             event.preventDefault();
             event.dataTransfer.dropEffect = 'move';
         },
-        dragEnd(event) {
+        dragEnd() {
             this.dragging = false;
         },
         dragEnter(event) {
@@ -578,9 +578,9 @@ export default {
                 return;
             }
 
-            for (var i = this.selectedItems.length - 1; i >= 0; i--) {
-                let draggedItem = this.selectedItems[i];
-                var index = this.data.models.indexOf(draggedItem);
+            for (let i = this.selectedItems.length - 1; i >= 0; i--) {
+                const draggedItem = this.selectedItems[i];
+                const index = this.data.models.indexOf(draggedItem);
                 this.data.models.splice(index, 1);
             }
 
@@ -616,7 +616,7 @@ export default {
                 description: {},
                 alt_attribute: {},
             };
-            for (var i = TypiCMS.locales.length - 1; i >= 0; i--) {
+            for (let i = TypiCMS.locales.length - 1; i >= 0; i--) {
                 data['title'][TypiCMS.locales[i].short] = null;
                 data['description'][TypiCMS.locales[i].short] = null;
                 data['alt_attribute'][TypiCMS.locales[i].short] = null;
@@ -626,11 +626,11 @@ export default {
                     method: 'POST',
                     body: JSON.stringify(data),
                 });
+                const responseData = await response.json();
                 if (!response.ok) {
-                    const responseData = await response.json();
                     throw new Error(responseData.message);
                 }
-                this.data.models.push(response.data.model);
+                this.data.models.push(responseData.model);
             } catch (error) {
                 alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
             }
@@ -683,7 +683,7 @@ export default {
                 return;
             }
 
-            var ids = [],
+            let ids = [],
                 models = this.selectedItems,
                 number = models.length;
 
@@ -694,7 +694,7 @@ export default {
 
             models.forEach((item) => {
                 ids.push(item.id);
-                var index = this.data.models.indexOf(item);
+                const index = this.data.models.indexOf(item);
                 this.data.models.splice(index, 1);
             });
 
@@ -710,7 +710,6 @@ export default {
                     method: 'PATCH',
                     body: JSON.stringify(data),
                 });
-                this.stopLoading();
                 const responseData = await response.json();
                 if (!response.ok) {
                     throw new Error(responseData.message);
@@ -724,15 +723,15 @@ export default {
                 }
                 if (responseData.number > 0) {
                     alertify.success(
-                        this.$i18n.tc('# files moved.', response.data.number, {
-                            count: response.data.number,
+                        this.$i18n.tc('# files moved.', responseData.number, {
+                            count: responseData.number,
                         })
                     );
                 }
             } catch (error) {
-                this.stopLoading();
                 alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
             }
+            this.stopLoading();
         },
         addSingleFile(item) {
             this.$root.$emit('fileAdded', item);
@@ -814,7 +813,7 @@ export default {
             }
 
             this.startLoading();
-            const deletePromises = this.checkedItems.map(async (model) => {
+            const deletePromises = this.selectedItems.map(async (model) => {
                 try {
                     const response = await fetcher(this.urlBase + '/' + model.id, { method: 'DELETE' });
                     if (!response.ok) {
