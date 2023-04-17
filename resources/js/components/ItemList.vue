@@ -357,10 +357,10 @@ export default {
                     throw new Error(responseData.message);
                 }
                 this.data = await response.json();
-                this.stopLoading();
             } catch (error) {
                 alertify.error(error.message || this.$i18n.t('An error occurred with the data fetch.'));
             }
+            this.stopLoading();
         },
         onSearchStringChanged() {
             clearTimeout(this.fetchTimeout);
@@ -389,6 +389,7 @@ export default {
                 this.stopLoading();
                 await this.fetchData();
             } catch (error) {
+                this.stopLoading();
                 alertify.error(error.message);
             }
         },
