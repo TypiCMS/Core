@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Models;
 
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -83,19 +84,24 @@ abstract class Base extends Model
             if (isset($this->translatable) && $this->isTranslatableAttribute($field)) {
                 if ($field === 'status') {
                     if (config('typicms.postgresql') === true) {
-                        $query->selectRaw('(' . $field . '::json->>\'' . $locale . '\' )::int AS ' . $field . '_translated');
+                        $query->selectRaw(
+                            '(' . $field . '::json->>\'' . $locale . '\' )::int AS ' . $field . '_translated'
+                        );
                     } else {
                         $query
-                            ->selectRaw('
+                            ->selectRaw(
+                                '
                                 CAST(JSON_UNQUOTE(
                                     JSON_EXTRACT(`' . $field . '`, \'$.' . $locale . '\')
                                 ) AS UNSIGNED) AS `' . $field . '_translated`
-                            ');
+                            '
+                            );
                     }
                 } else {
                     if (config('typicms.postgresql') === true) {
                         $query
-                            ->selectRaw('
+                            ->selectRaw(
+                                '
                                 CASE WHEN
                                     ' . $field . '::json->>\'' . $locale . '\' = null
                                 THEN
@@ -104,10 +110,12 @@ abstract class Base extends Model
                                     ' . $field . '::json->>\'' . $locale . '\'
                                 END
                                 AS  ' . $field . '_translated
-                            ');
+                            '
+                            );
                     } else {
                         $query
-                            ->selectRaw('
+                            ->selectRaw(
+                                '
                                 CASE WHEN
                                 JSON_UNQUOTE(
                                     JSON_EXTRACT(`' . $field . '`, \'$.' . $locale . '\')
@@ -117,9 +125,11 @@ abstract class Base extends Model
                                     JSON_EXTRACT(`' . $field . '`, \'$.' . $locale . '\')
                                 )
                                 END ' .
-                                (config('typicms.mariadb') === false ? 'COLLATE ' . (DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci') : '') . '
+                                (config('typicms.mariadb') === false ? 'COLLATE ' . (DB::connection()->getConfig(
+                                )['collation'] ?? 'utf8mb4_unicode_ci') : '') . '
                                 AS `' . $field . '_translated`
-                            ');
+                            '
+                            );
                     }
                 }
             } else {
@@ -130,15 +140,21 @@ abstract class Base extends Model
         return $query;
     }
 
-    public function setStatusAttribute($status)
+    protected function status(): Attribute
     {
-        if (is_array($status)) {
-            $this->attributes['status'] = json_encode(array_map(function ($item) {
-                return (int) $item;
-            }, $status));
-        } else {
-            $this->attributes['status'] = $status;
-        }
+        return Attribute::make(
+            set: function ($status) {
+                if (is_array($status)) {
+                    $status = json_encode(
+                        array_map(function ($item) {
+                            return (int) $item;
+                        }, $status)
+                    );
+                }
+
+                return $status;
+            },
+        );
     }
 
     public function editUrl(): string

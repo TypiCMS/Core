@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Laracasts\Presenter\PresentableTrait;
@@ -38,12 +39,15 @@ class History extends Base
         return $this->belongsTo(User::class);
     }
 
-    public function getHrefAttribute(): ?string
+    protected function href(): Attribute
     {
+        $href = null;
         if ($this->historable) {
-            return $this->historable->editUrl();
+            $href = $this->historable->editUrl();
         }
 
-        return null;
+        return Attribute::make(
+            get: fn () => $href,
+        );
     }
 }

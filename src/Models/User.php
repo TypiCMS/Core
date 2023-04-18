@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
@@ -48,8 +49,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'preferences' => 'array',
     ];
 
-    protected function getDefaultGuardName(): string // https://github.com/spatie/laravel-permission/issues/1156#issue-466659658
+    protected function getDefaultGuardName(): string
     {
+        // https://github.com/spatie/laravel-permission/issues/1156#issue-466659658
         return 'web';
     }
 
@@ -96,20 +98,22 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return (bool) $this->superuser;
     }
 
-    public function getAllPermissionsAttribute(): array
+    protected function allPermissions(): Attribute
     {
+        $permissions = [];
         $user = auth()->user();
         if ($user->isSuperUser()) {
-            return ['all'];
+            $permissions = ['all'];
         }
-        $permissions = [];
         foreach (Permission::all() as $permission) {
             if ($user->can($permission->name)) {
                 $permissions[] = $permission->name;
             }
         }
 
-        return $permissions;
+        return Attribute::make(
+            get: fn () => $permissions,
+        );
     }
 
     public function sendPasswordResetNotification($token): void

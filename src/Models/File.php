@@ -32,24 +32,22 @@ class File extends Base
 
     protected function thumbSm(): Attribute
     {
-        return new Attribute(
+        return Attribute::make(
             get: fn () => $this->present()->image(240, 240, ['resize']),
         );
     }
 
     protected function url(): Attribute
     {
-        return new Attribute(
-            get: function () {
-                $url = '';
+        $url = '';
 
-                try {
-                    $url = Storage::url($this->path);
-                } catch (Exception $e) {
-                }
+        try {
+            $url = Storage::url($this->path);
+        } catch (Exception $e) {
+        }
 
-                return $url;
-            },
+        return Attribute::make(
+            get: fn () => $url
         );
     }
 
