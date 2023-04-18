@@ -20,7 +20,7 @@
     <div class="content">
         <div class="row">
 
-            <div class="col-lg-6">
+            <div class="col-lg-7">
 
                 <label class="form-label">{{ __('Website title') }}</label>
                 @foreach ($locales as $lang)
@@ -68,7 +68,6 @@
                     </div>
                 </div>
 
-                {!! BootForm::email(__('Webmaster Email'), 'webmaster_email') !!}
                 @if (!config('typicms.welcome_message_url'))
                     {!! BootForm::textarea(__('Administration Welcome Message'), 'welcome_message') !!}
                 @endif
@@ -79,33 +78,33 @@
 
             </div>
 
-            <div class="col-lg-6">
-                <table class="table table-sm table-striped">
+            <div class="col-lg-5">
+                <table class="table table-sm">
                     <tbody>
                     <tr>
-                        <td class="w-25">@lang('Environment')</td>
-                        <td><b>{{ App::environment() }}</b></td>
+                        <th class="text-nowrap"><small>@lang('Environment')</small></th>
+                        <td><small>{{ App::environment() }}</small></td>
                     </tr>
                     <tr>
-                        <td>@lang('System locales')</td>
+                        <th class="text-nowrap"><small>@lang('System locales')</small></th>
                         <td>
                             <div class="container-system-locales">
-                                <b><?php
+                                <small><?php
                                    try {
                                        system('locale -a');
                                    } catch (Exception $e) {
                                        echo $e->getMessage();
-                                   } ?></b>
+                                   } ?></small>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td>@lang('Active locale')</td>
-                        <td><b>{{ config('app.locale') }}</b></td>
+                        <th class="text-nowrap"><small>@lang('Active locale')</small></th>
+                        <td><small>{{ config('app.locale') }}</small></td>
                     </tr>
                     <tr>
-                        <td>@lang('Cache')</td>
-                        <td><b>{{ config('laravel-model-caching.enabled') ? __('Yes') : __('No') }}</b></td>
+                        <th class="text-nowrap"><small>@lang('Cache')</small></th>
+                        <td><small>{{ config('laravel-model-caching.enabled') ? __('Yes') : __('No') }}</small></td>
                     </tr>
                     </tbody>
                 </table>
