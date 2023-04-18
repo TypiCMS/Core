@@ -13,7 +13,6 @@ class SettingsSeeder extends Seeder
         DB::table('settings')->truncate();
 
         $settings = [
-            ['group_name' => 'config', 'key_name' => 'webmaster_email', 'value' => 'info@example.com', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['group_name' => 'fr', 'key_name' => 'website_title', 'value' => 'Site web sans titre', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['group_name' => 'fr', 'key_name' => 'status', 'value' => '1', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['group_name' => 'nl', 'key_name' => 'website_title', 'value' => 'Untitled website', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
