@@ -26,6 +26,11 @@ class Page extends Base
 
     protected $guarded = [];
 
+    protected $casts = [
+        'is_home' => 'boolean',
+        'private' => 'boolean',
+    ];
+
     public array $translatable = [
         'title',
         'slug',
@@ -50,20 +55,20 @@ class Page extends Base
         return $uri ?: '/';
     }
 
-    public function isHome()
+    public function isHome(): bool
     {
-        return (bool) $this->is_home;
+        return $this->is_home;
     }
 
-    public function isPrivate()
+    public function isPrivate(): bool
     {
-        return (bool) $this->private;
+        return $this->private;
     }
 
     public function scopeWhereUriIs($query, $uri): Builder
     {
         $field = 'uri';
-        if (in_array($field, (array) $this->translatable)) {
+        if (in_array($field, $this->translatable)) {
             $field .= '->' . config('app.locale');
         }
 
@@ -73,7 +78,7 @@ class Page extends Base
     public function scopeWhereUriIsNot($query, $uri): Builder
     {
         $field = 'uri';
-        if (in_array($field, (array) $this->translatable)) {
+        if (in_array($field, $this->translatable)) {
             $field .= '->' . config('app.locale');
         }
 
@@ -83,7 +88,7 @@ class Page extends Base
     public function scopeWhereUriIsLike($query, $uri): Builder
     {
         $field = 'uri';
-        if (in_array($field, (array) $this->translatable)) {
+        if (in_array($field, $this->translatable)) {
             $field .= '->' . config('app.locale');
         }
 
@@ -110,15 +115,13 @@ class Page extends Base
             }
         }
 
-        $nestedCollection = $this->whereUriIsNot($uri)
+        return $this->whereUriIsNot($uri)
             ->published()
-            ->orderBy('position', 'asc')
+            ->orderBy('position')
             ->whereUriIsLike($uri . '%')
             ->get()
             ->noCleaning()
             ->nest();
-
-        return $nestedCollection;
     }
 
     public function sections(): HasMany
