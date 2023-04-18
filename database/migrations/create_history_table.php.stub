@@ -5,12 +5,11 @@ use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHistoryTable extends Migration
-{
+return new class() extends Migration {
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('history', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -30,8 +29,8 @@ class CreateHistoryTable extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::drop('history');
     }
-}
+};

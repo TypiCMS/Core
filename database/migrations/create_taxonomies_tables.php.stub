@@ -5,9 +5,8 @@ use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTaxonomiesTables extends Migration
-{
-    public function up()
+return new class() extends Migration {
+    public function up(): void
     {
         Schema::create('taxonomies', function (Blueprint $table) {
             $table->id();
@@ -37,10 +36,10 @@ class CreateTaxonomiesTables extends Migration
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::drop('model_has_terms');
         Schema::drop('terms');
         Schema::drop('taxonomies');
     }
-}
+};
