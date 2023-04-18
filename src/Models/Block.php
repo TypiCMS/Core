@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\Translatable\HasTranslations;
+use TypiCMS\Modules\Core\Presenters\BlockPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
 class Block extends Base
@@ -12,7 +13,7 @@ class Block extends Base
     use Historable;
     use PresentableTrait;
 
-    protected $presenter = 'TypiCMS\Modules\Core\Presenters\BlockPresenter';
+    protected string $presenter = BlockPresenter::class;
 
     protected $guarded = [];
 

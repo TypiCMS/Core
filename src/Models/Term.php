@@ -18,7 +18,7 @@ class Term extends Base implements Sortable
     use PresentableTrait;
     use SortableTrait;
 
-    protected $presenter = TermPresenter::class;
+    protected string $presenter = TermPresenter::class;
 
     protected $guarded = [];
 

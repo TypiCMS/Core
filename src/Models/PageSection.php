@@ -21,7 +21,7 @@ class PageSection extends Base implements Sortable
     use PresentableTrait;
     use SortableTrait;
 
-    protected $presenter = PagePresenter::class;
+    protected string $presenter = PagePresenter::class;
 
     protected $guarded = [];
 

@@ -18,7 +18,7 @@ class File extends Base
     use Historable;
     use PresentableTrait;
 
-    protected $presenter = FilePresenter::class;
+    protected string $presenter = FilePresenter::class;
 
     protected $guarded = [];
 

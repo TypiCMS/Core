@@ -36,7 +36,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     use Notifiable;
     use PresentableTrait;
 
-    protected $presenter = UsersPresenter::class;
+    protected string $presenter = UsersPresenter::class;
 
     protected $guarded = ['my_name', 'my_time'];
 

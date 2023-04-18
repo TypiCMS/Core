@@ -14,7 +14,7 @@ class History extends Base
 
     protected $table = 'history';
 
-    protected $presenter = HistoryPresenter::class;
+    protected string $presenter = HistoryPresenter::class;
 
     protected $guarded = [];
 

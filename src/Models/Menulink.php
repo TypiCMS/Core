@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Route;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\Translatable\HasTranslations;
+use TypiCMS\Modules\Core\Presenters\MenulinkPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 use TypiCMS\NestableTrait;
 
@@ -17,7 +18,7 @@ class Menulink extends Base
     use NestableTrait;
     use PresentableTrait;
 
-    protected $presenter = 'TypiCMS\Modules\Core\Presenters\MenulinkPresenter';
+    protected string $presenter = MenulinkPresenter::class;
 
     protected $guarded = [];
 

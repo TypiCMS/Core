@@ -19,7 +19,7 @@ class Menu extends Base
     use Historable;
     use PresentableTrait;
 
-    protected $presenter = MenusPresenter::class;
+    protected string $presenter = MenusPresenter::class;
 
     protected $guarded = [];
 

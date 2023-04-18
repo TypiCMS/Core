@@ -14,7 +14,7 @@ class Tag extends Base
     use Historable;
     use PresentableTrait;
 
-    protected $presenter = TagsModulePresenter::class;
+    protected string $presenter = TagsModulePresenter::class;
 
     protected $guarded = [];
 

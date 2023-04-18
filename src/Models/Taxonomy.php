@@ -17,7 +17,7 @@ class Taxonomy extends Base implements Sortable
     use PresentableTrait;
     use SortableTrait;
 
-    protected $presenter = TaxonomyPresenter::class;
+    protected string $presenter = TaxonomyPresenter::class;
 
     protected $guarded = [];
 

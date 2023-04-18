@@ -21,7 +21,7 @@ class Role extends Base implements RoleContract
     use PresentableTrait;
     use RefreshesPermissionCache;
 
-    protected $presenter = RolePresenter::class;
+    protected string $presenter = RolePresenter::class;
 
     public $guarded = ['id'];
 

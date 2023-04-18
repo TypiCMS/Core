@@ -22,7 +22,7 @@ class Page extends Base
     use NestableTrait;
     use PresentableTrait;
 
-    protected $presenter = PagePresenter::class;
+    protected string $presenter = PagePresenter::class;
 
     protected $guarded = [];
 

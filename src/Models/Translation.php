@@ -13,7 +13,7 @@ class Translation extends Base
     use Historable;
     use PresentableTrait;
 
-    protected $presenter = TranslationsPresenter::class;
+    protected string $presenter = TranslationsPresenter::class;
 
     protected $guarded = [];
 
