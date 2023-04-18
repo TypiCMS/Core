@@ -20,7 +20,7 @@
             >
                 <div class="filemanager-item-wrapper">
                     <button class="filemanager-item-removable-button" @click="remove(file)" type="button">
-                        <i class="bi bi-x fs-3"></i>
+                        <i class="bi bi-x fs-5"></i>
                     </button>
                     <div class="filemanager-item-icon" v-if="file.type === 'i'">
                         <div class="filemanager-item-image-wrapper">

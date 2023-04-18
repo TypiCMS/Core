@@ -11,7 +11,7 @@
             <div class="filemanager-item filemanager-item-with-name filemanager-item-removable" v-if="file !== null">
                 <div class="filemanager-item-wrapper">
                     <button class="filemanager-item-removable-button" type="button" @click="remove">
-                        <i class="bi bi-x fs-3"></i>
+                        <i class="bi bi-x fs-5"></i>
                     </button>
                     <div class="filemanager-item-icon" v-if="file.type === 'i'">
                         <div class="filemanager-item-image-wrapper">
