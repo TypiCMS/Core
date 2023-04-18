@@ -102,13 +102,15 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected function allPermissions(): Attribute
     {
         $permissions = [];
-        $user = auth()->user();
-        if ($user->isSuperUser()) {
-            $permissions = ['all'];
-        }
-        foreach (Permission::all() as $permission) {
-            if ($user->can($permission->name)) {
-                $permissions[] = $permission->name;
+        if (auth()->check()) {
+            $user = auth()->user();
+            if ($user->isSuperUser()) {
+                $permissions = ['all'];
+            }
+            foreach (Permission::all() as $permission) {
+                if ($user->can($permission->name)) {
+                    $permissions[] = $permission->name;
+                }
             }
         }
 
