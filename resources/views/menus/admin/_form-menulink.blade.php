@@ -38,42 +38,53 @@
     </div>
     @push('js')
         <script>
-            var selectPage = document.getElementById('page_id');
-            var selectSection = document.getElementById('section_id');
-            var selectedSectionId = parseInt('{{ $model->section_id }}');
+            document.addEventListener('DOMContentLoaded', () => {
+                const selectPage = document.getElementById('page_id');
+                const selectSection = document.getElementById('section_id');
+                const selectedSectionId = parseInt('{{ $model->section_id }}');
 
-            function initSelect() {
-                for (var i = 0; i < selectSection.length; i++) {
-                    if (selectSection.options[i].value !== '') {
-                        selectSection.remove(i);
-                    }
-                }
-            }
-
-            function getSections() {
-                initSelect();
-                var pageId = selectPage.options[selectPage.selectedIndex].value;
-                if (!pageId) {
-                    return;
-                }
-
-                // Get sections and create <option> elements.
-                axios.get('/api/pages/' + pageId + '/sections?sort=position&fields[page_sections]=id,position,title').then(function (response) {
-                    var sections = response.data.data;
-                    for (var i = 0; i < sections.length; i++) {
-                        var option = document.createElement('option');
-                        option.value = sections[i].id;
-                        option.innerHTML = sections[i].title_translated + ' (#' + sections[i].id + ')';
-                        if (sections[i].id === selectedSectionId) {
-                            option.selected = true;
+                function initSelect() {
+                    for (let i = selectSection.length - 1; i >= 0; i--) {
+                        if (selectSection.options[i].value !== '') {
+                            selectSection.remove(i);
                         }
-                        selectSection.appendChild(option);
                     }
-                });
-            }
+                }
 
-            selectPage.onchange = getSections;
-            getSections();
+                function getSections() {
+                    initSelect();
+                    const pageId = selectPage.options[selectPage.selectedIndex].value;
+                    if (!pageId) {
+                        return;
+                    }
+
+                    // Get sections and create <option> elements.
+                    fetch('/api/pages/' + pageId + '/sections?sort=position&fields[page_sections]=id,position,title', {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            Authorization: `Bearer ${document.head.querySelector('meta[name="api-token"]').content}`,
+                            'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content
+                        }
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            const sections = data.data;
+                            for (let i = 0; i < sections.length; i++) {
+                                let option = document.createElement('option');
+                                option.value = sections[i].id;
+                                option.innerHTML = sections[i].title_translated + ' (#' + sections[i].id + ')';
+                                if (sections[i].id === selectedSectionId) {
+                                    option.selected = true;
+                                }
+                                selectSection.appendChild(option);
+                            }
+                        });
+                }
+
+                getSections();
+                selectPage.onchange = getSections;
+            });
         </script>
     @endpush
 
