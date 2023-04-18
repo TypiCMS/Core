@@ -97,7 +97,7 @@ class Create extends Command
             return;
         }
         $this->publishModule();
-        $this->renameModelsAndRepositories();
+        $this->moveAndRenameFiles();
         $this->searchAndReplaceInFiles();
         $this->publishViews();
         $this->changePathForLoadViews();
@@ -152,7 +152,7 @@ class Create extends Command
     /**
      * Rename files.
      */
-    public function renameModelsAndRepositories()
+    public function moveAndRenameFiles()
     {
         $moduleDir = base_path('Modules/' . $this->module);
         $paths = [
