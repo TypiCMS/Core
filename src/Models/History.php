@@ -25,9 +25,9 @@ class History extends Base
         'new' => 'object',
     ];
 
-    public $order = 'id';
+    public string $order = 'id';
 
-    public $direction = 'desc';
+    public string $direction = 'desc';
 
     public function historable(): MorphTo
     {
