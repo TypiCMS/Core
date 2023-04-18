@@ -9,8 +9,6 @@
 
     @include('core::admin._form-errors')
 
-    {!! BootForm::hidden('id') !!}
-
     @include('core::form._title-and-slug')
 
 </div>

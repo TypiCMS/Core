@@ -14,8 +14,6 @@
 
     @include('core::admin._form-errors')
 
-    {!! BootForm::hidden('id') !!}
-
     <div class="row">
 
         <div class="col-lg-8">

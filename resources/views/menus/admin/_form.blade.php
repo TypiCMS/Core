@@ -9,8 +9,6 @@
 
     @include('core::admin._form-errors')
 
-    {!! BootForm::hidden('id') !!}
-
     <file-manager related-table="{{ $model->getTable() }}" :related-id="{{ $model->id ?? 0 }}"></file-manager>
     <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>
 

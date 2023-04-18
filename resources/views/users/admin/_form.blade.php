@@ -9,8 +9,6 @@
 
     @include('core::admin._form-errors')
 
-    {!! BootForm::hidden('id') !!}
-
     <div class="row gx-3">
         <div class="col-sm-6">
             {!! BootForm::text(__('First name'), 'first_name')->required() !!}

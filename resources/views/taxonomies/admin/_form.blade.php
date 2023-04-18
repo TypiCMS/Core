@@ -9,8 +9,6 @@
 
     @include('core::admin._form-errors')
 
-    {!! BootForm::hidden('id') !!}
-
     {!! BootForm::text(__('Name'), 'name')->required() !!}
     {!! TranslatableBootForm::text(__('Info for search results'), 'result_string') !!}
 

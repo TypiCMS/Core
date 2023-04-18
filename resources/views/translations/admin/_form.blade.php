@@ -9,8 +9,6 @@
 
     @include('core::admin._form-errors')
 
-    {!! BootForm::hidden('id') !!}
-
     @if ($model->id)
         {!! BootForm::hidden('key') !!}
     @else
