@@ -9,7 +9,7 @@ class LocalesComposer
     /*
      * For back end forms
      */
-    public function compose(View $view)
+    public function compose(View $view): void
     {
         $view->with('locales', locales());
         $view->with('locale', config('typicms.content_locale'));

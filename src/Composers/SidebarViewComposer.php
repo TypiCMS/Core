@@ -9,7 +9,7 @@ use Maatwebsite\Sidebar\SidebarItem;
 
 class SidebarViewComposer
 {
-    public function compose(View $view)
+    public function compose(View $view): void
     {
         if (Gate::allows('see dashboard')) {
             $view->sidebar->group('dashboard', function (SidebarGroup $group) {

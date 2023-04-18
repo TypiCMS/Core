@@ -9,7 +9,7 @@ class LocaleComposer
     /*
      * For front end
      */
-    public function compose(View $view)
+    public function compose(View $view): void
     {
         $view->with('lang', config('app.locale'));
     }

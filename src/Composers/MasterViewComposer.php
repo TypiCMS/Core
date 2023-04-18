@@ -7,7 +7,7 @@ use TypiCMS\Modules\Core\Facades\TypiCMS;
 
 class MasterViewComposer
 {
-    public function compose(View $view)
+    public function compose(View $view): void
     {
         $view->with('websiteTitle', TypiCMS::title());
         $navbar = false;
