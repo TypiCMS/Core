@@ -47,6 +47,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     protected $casts = [
         'preferences' => 'array',
+        'superuser' => 'boolean',
     ];
 
     protected function getDefaultGuardName(): string
