@@ -159,6 +159,7 @@ class Create extends Command
             $moduleDir . '/config/things.php',
             $moduleDir . '/Models/Thing.php',
             $moduleDir . '/Facades/Things.php',
+            $moduleDir . '/routes/things.php',
             $moduleDir . '/resources/scss/public/_thing.scss',
             $moduleDir . '/resources/scss/public/_thing-list.scss',
         ];
