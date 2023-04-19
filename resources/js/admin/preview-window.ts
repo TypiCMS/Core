@@ -6,7 +6,7 @@ export default () => {
                 <iframe id='preview-content' class='typicms-modal-content'></iframe>
             </div>
             <button id='close-preview' class='typicms-modal-btn-close'>
-                <i class='bi bi-x fs-2'></i>
+                <i class='bi bi-x fs-3'></i>
             </button>
         </div>`
     );

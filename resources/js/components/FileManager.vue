@@ -91,7 +91,7 @@
             </div>
 
             <button class="filemanager-btn-close" type="button" v-if="this.modal" @click="closeModal">
-                <i class="bi bi-x fs-2"></i>
+                <i class="bi bi-x fs-3"></i>
             </button>
 
             <div class="content">
