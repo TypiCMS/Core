@@ -21,8 +21,8 @@ class FeedController
             ->get();
 
         $feed = [
-            'title' => $page->title,
-            'description' => $page->body,
+            'title' => TypiCMS::title().' – '.$page->title,
+            'description' => strip_tags($page->body),
             'language' => TypiCMS::localeAndRegion('-'),
             'image' => $page->present()->image(1200, 630),
         ];
