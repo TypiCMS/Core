@@ -24,7 +24,7 @@ class FeedController
             'title' => TypiCMS::title().' – '.$page->title,
             'description' => strip_tags($page->body),
             'language' => TypiCMS::localeAndRegion('-'),
-            'image' => $page->present()->image(1200, 630),
+            'image' => $page->image !== null ? $page->present()->image(1200, 630) : null,
         ];
 
         return new Feed(
