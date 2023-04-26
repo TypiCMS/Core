@@ -15,15 +15,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ URL::full() }}">
     <meta property="og:image" content="@yield('ogImage')">
-
-    @if (config('typicms.twitter_site') !== null)
-        <meta name="twitter:site" content="{{ config('typicms.twitter_site') }}">
-        <meta name="twitter:card" content="summary_large_image">
-    @endif
-
-    @if (config('typicms.facebook_app_id') !== null)
-        <meta property="fb:app_id" content="{{ config('typicms.facebook_app_id') }}">
-    @endif
+    <meta name="twitter:card" content="summary_large_image">
 
     @vite('resources/scss/public.scss')
 
