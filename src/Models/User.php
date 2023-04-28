@@ -48,6 +48,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $casts = [
         'preferences' => 'array',
         'superuser' => 'boolean',
+        'activated' => 'boolean',
+        'privacy_policy_accepted' => 'boolean',
     ];
 
     protected function getDefaultGuardName(): string

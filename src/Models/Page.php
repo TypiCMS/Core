@@ -29,6 +29,7 @@ class Page extends Base
     protected $casts = [
         'is_home' => 'boolean',
         'private' => 'boolean',
+        'redirect' => 'boolean',
     ];
 
     public array $translatable = [

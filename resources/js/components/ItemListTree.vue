@@ -73,10 +73,10 @@
                             v-else
                         ></span>
                     </button>
-                    <i class="bi bi-house-door-fill text-secondary" v-if="node.data.is_home === 1"></i>
-                    <i class="bi bi-lock-fill text-secondary" v-if="node.data.private === 1"></i>
+                    <i class="bi bi-house-door-fill text-secondary" v-if="node.data.is_home"></i>
+                    <i class="bi bi-lock-fill text-secondary" v-if="node.data.private"></i>
                     <div class="title" v-html="translatable ? node.data.title_translated : node.data.title"></div>
-                    <i class="bi bi-arrow-down-right-square text-secondary" v-if="node.data.redirect === 1"></i>
+                    <i class="bi bi-arrow-down-right-square text-secondary" v-if="node.data.redirect"></i>
 
                     <a
                         class="btn btn-xs btn-secondary py-0 px-1 fw-bold"
@@ -234,8 +234,8 @@ export default {
                     if (node.data.id === parentId) {
                         list = node.children.map((item) => {
                             item.data.parent_id = parentId;
-                            if (node.data.private === 1) {
-                                item.data.private = 1;
+                            if (node.data.private) {
+                                item.data.private = true;
                             }
                             return item.data;
                         });
