@@ -6,6 +6,7 @@ const updateOptions = (options?: RequestInit): RequestInit => {
     if (apiTokenElement && csrfTokenElement) {
         update.headers = {
             ...update.headers,
+            Accept: 'application/json',
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
             Authorization: `Bearer ${apiTokenElement.content}`,
