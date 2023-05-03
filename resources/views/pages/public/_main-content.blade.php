@@ -2,7 +2,7 @@
     <div class="page-row">
         <div class="page-left">
             <h1 class="page-title">{!! nl2br($page->title) !!}</h1>
-            @empty($page->body)
+            @empty(!$page->body)
                 <div class="rich-content">{!! $page->present()->body !!}</div>
             @endempty
         </div>
