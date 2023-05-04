@@ -35,10 +35,8 @@ class Install extends Command
         $this->line('------------------');
 
         $this->info('Publishing vendor packages...');
-        $this->call('vendor:publish', ['--all' => true]);
         $this->call('vendor:publish', [
             '--provider' => ModuleServiceProvider::class,
-            '--tag' => 'typicms-views',
             '--force' => true,
         ]);
         $this->line('------------------');
