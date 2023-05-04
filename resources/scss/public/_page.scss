@@ -4,12 +4,51 @@
             @extend .container-xl;
         }
     }
+
     &-body {
         &-container {
             @extend .container-xl;
         }
     }
-    &-image {
-        @extend .img-fluid;
+
+    &-row {
+        @include make-row();
+    }
+
+    &-content {
+        @include make-col-ready();
+        @include media-breakpoint-up(md) {
+            @include make-col(10);
+        }
+        @include media-breakpoint-up(xxl) {
+            @include make-col(9);
+        }
+    }
+
+    &-left {
+        @include make-col-ready();
+        @include media-breakpoint-up(md) {
+            @include make-col(10);
+        }
+        @include media-breakpoint-up(xl) {
+            @include make-col(6);
+        }
+    }
+
+    &-right {
+        @include make-col-ready();
+        @include media-breakpoint-up(md) {
+            @include make-col(8);
+        }
+        @include media-breakpoint-up(xl) {
+            @include make-col-offset(1);
+            @include make-col(5);
+        }
+    }
+
+    &-figure {
+        &-image {
+            @extend .img-fluid;
+        }
     }
 }
