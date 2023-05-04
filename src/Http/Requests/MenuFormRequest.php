@@ -8,7 +8,7 @@ class MenuFormRequest extends AbstractFormRequest
     {
         return [
             'image_id' => 'nullable|integer',
-            'name' => 'required|max:255|alpha_dash|unique:menus,name,' . $this->id,
+            'name' => 'required|max:255|alpha_dash|unique:menus,name,' . $this->menu?->id,
             'class' => 'nullable|max:255',
             'status.*' => 'boolean',
         ];
