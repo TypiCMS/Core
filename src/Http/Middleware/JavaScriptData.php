@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Vite;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
 
 class JavaScriptData
@@ -29,6 +30,8 @@ class JavaScriptData
         if (auth()->check()) {
             $data['permissions'] = $request->user()->allPermissions;
         }
+        $data['public_css_file'] = Vite::asset('resources/scss/public.scss');
+
         app('JavaScript')->put($data);
 
         return $next($request);

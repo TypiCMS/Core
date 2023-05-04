@@ -1,4 +1,6 @@
-var editors = document.querySelectorAll('.ckeditor-full');
+const editors = document.querySelectorAll('.ckeditor-full');
+const publicCssFile = window.TypiCMS.public_css_file;
+
 for (var i = 0; i < editors.length; ++i) {
     CKEDITOR.replace(editors[i].id, {
         toolbar: [
@@ -20,7 +22,6 @@ for (var i = 0; i < editors.length; ++i) {
             { name: 'Button 2', element: 'a', attributes: { class: 'btn btn-secondary' } },
             { name: 'Button 1 outline', element: 'a', attributes: { class: 'btn btn-outline-primary' } },
             { name: 'Button 2 outline', element: 'a', attributes: { class: 'btn btn-outline-secondary' } },
-            { name: 'Link button', element: 'a', attributes: { class: 'btn btn-link' } },
 
             { name: 'Alert Success', element: 'div', attributes: { class: 'alert alert-success' } },
             { name: 'Alert Info', element: 'div', attributes: { class: 'alert alert-info' } },
@@ -51,7 +52,7 @@ for (var i = 0; i < editors.length; ++i) {
         extraAllowedContent: 'dl;dt;dd;small;img[!src,alt,width,height,loading]',
         bodyClass: 'rich-content',
         height: 500,
-        contentsCss: ['/css/public.css', '/components/ckeditor4/custom.css'],
+        contentsCss: [publicCssFile, '/components/ckeditor4/custom.css'],
         codemirror: {
             theme: 'twilight',
         },
