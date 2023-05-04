@@ -1,24 +1,27 @@
 <div class="section-default section-{{ $section->id }}" id="{{ $section->slug }}-{{ $section->id }}">
     <div class="section-default-container">
-        @empty ($section->image)
-            <div class="section-default-content">
-                <h2 class="section-default-title">{{ $section->title }}</h2>
-                <div class="section-default-text rich-content">{!! $section->present()->body !!}</div>
-            </div>
-        @else
-            <div class="section-default-row">
-                <div class="section-default-image">
-                    <figure class="section-default-image-figure">
-                        <img class="section-default-image-img" src="{{ $section->present()->image(1136, 940) }}" width="1136" height="940" alt="{{ $section->image->alt_attribute }}">
-                        <figcaption class="section-default-image-figcaption">{!! nl2br($section->image->description) !!}</figcaption>
-                    </figure>
-                </div>
+        <div class="section-default-row">
+            @empty($section->image)
                 <div class="section-default-content">
                     <h2 class="section-default-title">{{ $section->title }}</h2>
                     <div class="section-default-text rich-content">{!! $section->present()->body !!}</div>
                 </div>
-            </div>
-        @endempty
+            @else
+                <div class="section-default-left">
+                    <h2 class="section-default-title">{{ $section->title }}</h2>
+                    <div class="section-default-text rich-content">{!! $section->present()->body !!}</div>
+                </div>
+                <div class="section-default-right">
+                    <figure class="section-default-figure">
+                        <img class="section-default-figure-image mb-5" src="{{ $section->present()->image(990) }}" width="{{ $section->image->width }}" height="{{ $section->image->height }}"
+                             alt="{{ $section->image->alt_attribute }}">
+                        @empty(!$section->image->description)
+                            <figcaption class="section-default-figure-caption">{{ $section->image->description }}</figcaption>
+                        @endempty
+                    </figure>
+                </div>
+            @endempty
+        </div>
         @include('files::public._document-list', ['model' => $section])
         @include('files::public._image-list', ['model' => $section])
     </div>
