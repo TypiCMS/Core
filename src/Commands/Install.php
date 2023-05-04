@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Core\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Spatie\Permission\PermissionServiceProvider;
 use TypiCMS\Modules\Core\Providers\ModuleServiceProvider;
 
 class Install extends Command
@@ -35,10 +36,8 @@ class Install extends Command
         $this->line('------------------');
 
         $this->info('Publishing vendor packages...');
-        $this->call('vendor:publish', [
-            '--provider' => ModuleServiceProvider::class,
-            '--force' => true,
-        ]);
+        $this->call('vendor:publish', ['--provider' => PermissionServiceProvider::class]);
+        $this->call('vendor:publish', ['--provider' => ModuleServiceProvider::class]);
         $this->line('------------------');
 
         $this->info('Publishing translations...');
