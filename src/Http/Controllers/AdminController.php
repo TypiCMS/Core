@@ -4,7 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use TypiCMS\Modules\Core\Http\Requests\FormRequest;
+use TypiCMS\Modules\Core\Http\Requests\BlockFormRequest;
 use TypiCMS\Modules\Core\Models\Block;
 
 class AdminController extends BaseAdminController
@@ -28,7 +28,7 @@ class AdminController extends BaseAdminController
             ->with(['model' => $block]);
     }
 
-    public function store(FormRequest $request): RedirectResponse
+    public function store(BlockFormRequest $request): RedirectResponse
     {
         $block = Block::create($request->validated());
 
@@ -36,7 +36,7 @@ class AdminController extends BaseAdminController
             ->withMessage(__('Item successfully created.'));
     }
 
-    public function update(Block $block, FormRequest $request): RedirectResponse
+    public function update(Block $block, BlockFormRequest $request): RedirectResponse
     {
         $block->update($request->validated());
 
