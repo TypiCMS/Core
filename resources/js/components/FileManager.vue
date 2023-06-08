@@ -95,18 +95,7 @@
             </button>
 
             <div class="content">
-                <vue-dropzone
-                    id="dropzone"
-                    ref="dropzone"
-                    :options="dropOptions"
-                    @vdropzone-success="dropzoneSuccess"
-                    @vdropzone-sending="dropzoneSending"
-                    @vdropzone-complete="dropzoneComplete"
-                    @vdropzone-error="dropzoneError"
-                    v-if="dropzone"
-                >
-                </vue-dropzone>
-
+                <Dashboard :uppy="uppy" :plugins="['ImageEditor']" />
                 <div
                     @click="checkNone()"
                     class="filemanager-list"
@@ -184,12 +173,18 @@
 </template>
 
 <script>
-import vueDropzone from 'vue2-dropzone';
 import fetcher from '../admin/fetcher';
+import { Dashboard } from '@uppy/vue';
+import Uppy from '@uppy/core';
+import XHRUpload from '@uppy/xhr-upload';
+import ImageEditor from '@uppy/image-editor';
+import '@uppy/core/dist/style.css';
+import '@uppy/dashboard/dist/style.css';
+import '@uppy/image-editor/dist/style.min.css';
 
 export default {
     components: {
-        vueDropzone,
+        Dashboard,
     },
     props: {
         modal: {
@@ -237,8 +232,6 @@ export default {
             },
             dropOptions: {
                 clickable: ['#upload-files-button'],
-                url: '/api/files',
-                dictDefaultMessage: this.$i18n.t('Drop to upload.'),
                 acceptedFiles: [
                     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -262,12 +255,7 @@ export default {
                     'audio/*',
                     'video/*',
                 ].join(),
-                timeout: null,
                 maxFilesize: 60,
-                paramName: 'name',
-                headers: {
-                    Authorization: 'Bearer ' + document.head.querySelector('meta[name="api-token"]').content,
-                },
             },
             folder: {
                 id: '',
@@ -296,7 +284,31 @@ export default {
             this.options = options;
         });
     },
+    beforeUnmount() {
+        this.uppy.close();
+    },
     computed: {
+        uppy: () =>
+            new Uppy({
+                metaFields: [
+                    { id: 'description', name: 'Description', placeholder: 'file name' },
+                    {
+                        id: 'caption',
+                        name: 'Caption',
+                        placeholder: 'describe what the image is about',
+                    },
+                ],
+            })
+                .use(XHRUpload, {
+                    endpoint: '/api/files',
+                    formData: true,
+                    fieldName: 'name',
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: 'Bearer ' + document.head.querySelector('meta[name="api-token"]').content,
+                    },
+                })
+                .use(ImageEditor, { quality: 0.8 }),
         classes() {
             return {
                 'filemanager-modal': this.options.modal,
@@ -355,63 +367,6 @@ export default {
         stopLoading() {
             clearTimeout(this.loadingTimeout);
             this.loading = false;
-        },
-        dropzoneSending(file, xhr, formData) {
-            this.startLoading();
-            formData.append('folder_id', this.folder.id);
-            for (let i = TypiCMS.locales.length - 1; i >= 0; i--) {
-                formData.append('title[' + TypiCMS.locales[i].short + ']', '');
-                formData.append('description[' + TypiCMS.locales[i].short + ']', '');
-                formData.append('alt_attribute[' + TypiCMS.locales[i].short + ']', '');
-            }
-        },
-        fadeOut(element, duration, callback) {
-            let opacity = 1;
-            const interval = 50; // 50 milliseconds
-            let time = duration;
-            let fadeOutInterval = setInterval(function () {
-                if (time <= 0) {
-                    clearInterval(fadeOutInterval);
-                    element.style.display = 'none';
-                    if (typeof callback === 'function') {
-                        callback();
-                    }
-                } else {
-                    opacity -= interval / duration;
-                    element.style.opacity = opacity;
-                    time -= interval;
-                }
-            }, interval);
-        },
-        dropzoneSuccess(file, response) {
-            window.setTimeout(() => {
-                const previewElement = file.previewElement;
-                this.fadeOut(previewElement, 250, () => {
-                    console.log('Fade out complete!');
-                    this.$refs.dropzone.removeFile(file);
-                    this.data.models.push(response.model);
-                    this.data.models.sort((a, b) => a.id - b.id);
-                });
-            }, 1000);
-        },
-        dropzoneComplete() {
-            if (
-                this.$refs.dropzone.getUploadingFiles().length === 0 &&
-                this.$refs.dropzone.getQueuedFiles().length === 0
-            ) {
-                setTimeout(() => {
-                    this.stopLoading();
-                }, 1000);
-            }
-        },
-        dropzoneError(file, message) {
-            let errorMessage = '';
-            if (typeof message.errors !== 'undefined') {
-                errorMessage = Object.values(message.errors)[0];
-            } else {
-                errorMessage = message.message;
-            }
-            file.previewElement.querySelectorAll('.dz-error-message span')[0].textContent = errorMessage;
         },
         dragStart(item, event) {
             event.dataTransfer.setData('text', '');
