@@ -1,29 +1,43 @@
 .document-list {
     &-list {
         @include list-unstyled();
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: $grid-gutter-width * 2;
     }
+
     &-item {
-        margin-bottom: $grid-gutter-width * 0.5;
         &-link {
             @extend .btn;
-            @extend .btn-light;
-            display: flex;
+            @extend .btn-outline-primary;
+            display: inline-flex;
             align-items: center;
-            border: 1px solid $gray-300;
+            white-space: normal;
+            line-height: $line-height-sm;
+            word-wrap: break-word;
         }
-        &-filename {
+        
+        &-info {
             text-align: left;
-            margin-left: 1rem;
-            flex-grow: 1;
-            display: block;
-            font-size: 1rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            padding-left: 1rem;
         }
-        &-filesize {
-            display: block;
+
+        &-filename {
+            flex-grow: 1;
             font-size: 1rem;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        &-meta {
+            font-size: 0.875rem;
+            color: $gray-600;
+            transition: $transition-base;
+        }
+
+        &-link:hover &-meta {
+            color: rgba($white, 0.7);
         }
     }
 }
