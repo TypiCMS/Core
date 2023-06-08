@@ -23,6 +23,8 @@ for (var i = 0; i < editors.length; ++i) {
             { name: 'Button 1 outline', element: 'a', attributes: { class: 'btn btn-outline-primary' } },
             { name: 'Button 2 outline', element: 'a', attributes: { class: 'btn btn-outline-secondary' } },
 
+            { name: 'Responsive table', element: 'div', attributes: { class: 'table-responsive' } },
+
             { name: 'Alert Success', element: 'div', attributes: { class: 'alert alert-success' } },
             { name: 'Alert Info', element: 'div', attributes: { class: 'alert alert-info' } },
             { name: 'Alert Warning', element: 'div', attributes: { class: 'alert alert-warning' } },
