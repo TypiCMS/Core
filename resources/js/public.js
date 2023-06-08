@@ -19,3 +19,9 @@ import enableAnchorTop from './public/anchor-top.js';
 enableAnchorTop();
 import enableOffCanvas from './public/offcanvas.js';
 enableOffCanvas();
+
+/**
+ * For TypiCMS’s Places module
+ */
+// import initMap from './public/map';
+// window.initMap = initMap;
