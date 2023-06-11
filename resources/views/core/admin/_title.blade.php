@@ -1,4 +1,4 @@
-@empty ($model->id)
+@empty($model->id)
     <h1 class="header-title">
         {{ $default ?? __('New') }}
     </h1>

@@ -2,11 +2,11 @@
     @include('core::admin._button-back', ['url' => $menu->editUrl(), 'title' => $menu->name])
     @include('core::admin._title', ['default' => __('New menulink')])
     @component('core::admin._buttons-form', ['model' => $model, 'langSwitcher' => true])
+        
     @endcomponent
 </div>
 
 <div class="content">
-
     @include('core::admin._form-errors')
 
     {!! BootForm::hidden('id') !!}
@@ -15,7 +15,6 @@
     {!! BootForm::hidden('parent_id') !!}
 
     <div class="row gx-3">
-
         <div class="col-sm-6">
             {!! TranslatableBootForm::text(__('Title'), 'title') !!}
             <div class="mb-3">
@@ -34,7 +33,6 @@
             {!! BootForm::select(__('Target'), 'target', ['' => __('Active tab'), '_blank' => __('New tab')]) !!}
             {!! BootForm::text(__('Class'), 'class') !!}
         </div>
-
     </div>
     @push('js')
         <script>
@@ -64,8 +62,8 @@
                             'Content-Type': 'application/json',
                             'X-Requested-With': 'XMLHttpRequest',
                             Authorization: `Bearer ${document.head.querySelector('meta[name="api-token"]').content}`,
-                            'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content
-                        }
+                            'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
+                        },
                     })
                         .then((response) => response.json())
                         .then((data) => {
@@ -87,5 +85,4 @@
             });
         </script>
     @endpush
-
 </div>

@@ -7,11 +7,11 @@
     @include('core::admin._button-back', ['url' => $page->editUrl(), 'title' => $page->title])
     @include('core::admin._title', ['default' => __('New page section')])
     @component('core::admin._buttons-form', ['model' => $model])
+        
     @endcomponent
 </div>
 
 <div class="content">
-
     @include('core::admin._form-errors')
 
     {!! BootForm::hidden('id') !!}
@@ -32,5 +32,4 @@
         </div>
     </div>
     {!! TranslatableBootForm::textarea(__('Body'), 'body')->addClass('ckeditor-full') !!}
-
 </div>

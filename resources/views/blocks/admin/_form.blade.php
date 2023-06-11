@@ -7,13 +7,13 @@
     @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Blocks')])
     @include('core::admin._title', ['default' => __('New block')])
     @component('core::admin._buttons-form', ['model' => $model])
+        
     @endcomponent
 </div>
 
 <file-manager related-table="{{ $model->getTable() }}" :related-id="{{ $model->id ?? 0 }}"></file-manager>
 
 <div class="content">
-
     @include('core::admin._form-errors')
 
     @if ($model->id)
@@ -27,7 +27,4 @@
         {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}
     </div>
     {!! TranslatableBootForm::textarea(__('Body'), 'body')->addClass('ckeditor-full') !!}
-
-</div>
-
 </div>

@@ -1,6 +1,6 @@
-<input type="hidden" name="checked_permissions[]" value="change locale">
-<input type="hidden" name="checked_permissions[]" value="update preferences">
-<input type="hidden" name="checked_permissions[]" value="clear cache">
+<input type="hidden" name="checked_permissions[]" value="change locale" />
+<input type="hidden" name="checked_permissions[]" value="update preferences" />
+<input type="hidden" name="checked_permissions[]" value="clear cache" />
 
 <div class="mb-3">
     <div class="form-check">
@@ -29,7 +29,9 @@
     </div>
     <div class="form-check">
         {!! Form::checkbox('checked_permissions[]', 'see unpublished items')->id('permission-see-unpublished-items')->addClass('form-check-input') !!}
-        <label class="form-check-label" for="permission-see-unpublished-items">@lang('Preview unpublished items')</label>
+        <label class="form-check-label" for="permission-see-unpublished-items">
+            @lang('Preview unpublished items')
+        </label>
     </div>
     <div class="form-check">
         {!! Form::checkbox('checked_permissions[]', 'impersonate users')->id('permission-impersonate-users')->addClass('form-check-input') !!}
@@ -46,8 +48,10 @@
                 @foreach ($permissions as $permission => $label)
                     <div class="permissions-modules-item-checkbox checkbox">
                         <div class="form-check">
-                            {!! Form::checkbox('checked_permissions[]', $permission)->id('permission-'.Str::slug($permission))->addClass('form-check-input') !!}
-                            <label class="form-check-label" for="permission-{{ Str::slug($permission) }}">{{ __($label) }}</label>
+                            {!! Form::checkbox('checked_permissions[]', $permission)->id('permission-' . Str::slug($permission))->addClass('form-check-input') !!}
+                            <label class="form-check-label" for="permission-{{ Str::slug($permission) }}">
+                                {{ __($label) }}
+                            </label>
                         </div>
                     </div>
                 @endforeach

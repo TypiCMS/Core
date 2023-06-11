@@ -13,10 +13,17 @@
                 </div>
                 <div class="section-default-right">
                     <figure class="section-default-figure">
-                        <img class="section-default-figure-image" src="{{ $section->present()->image(990) }}" width="{{ $section->image->width }}" height="{{ $section->image->height }}"
-                             alt="{{ $section->image->alt_attribute }}">
-                        @empty(!$section->image->description)
-                            <figcaption class="section-default-figure-caption">{{ $section->image->description }}</figcaption>
+                        <img
+                            class="section-default-figure-image"
+                            src="{{ $section->present()->image(990) }}"
+                            width="{{ $section->image->width }}"
+                            height="{{ $section->image->height }}"
+                            alt="{{ $section->image->alt_attribute }}"
+                        />
+                        @empty(! $section->image->description)
+                            <figcaption class="section-default-figure-caption">
+                                {{ $section->image->description }}
+                            </figcaption>
                         @endempty
                     </figure>
                 </div>

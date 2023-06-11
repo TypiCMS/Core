@@ -1,9 +1,15 @@
 @if ($model->images->count() > 0)
     <div class="carousel-container">
-        <div class="carousel @if ($model->images->count() > 1)carousel-swiper @endif swiper-container">
+        <div @class(['carousel', 'carousel-swiper' => $model->images->count() > 1, 'swiper-container'])>
             <div class="swiper-wrapper">
                 @foreach ($model->images as $image)
-                    <img class="carousel-image swiper-slide" src="{!! $image->present()->image(2880, 1920) !!}" width="1440" height="960" alt="">
+                    <img
+                        class="carousel-image swiper-slide"
+                        src="{!! $image->present()->image(2880, 1920) !!}"
+                        width="1440"
+                        height="960"
+                        alt=""
+                    />
                 @endforeach
             </div>
             @if ($model->images->count() > 1)
@@ -45,6 +51,5 @@
             //   },
             // },
         });
-
     </script>
 @endpush

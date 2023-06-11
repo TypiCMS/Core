@@ -4,20 +4,22 @@
 @section('bodyClass', 'auth-background')
 
 @section('page-header')
+    
 @endsection
+
 @section('sidebar')
+    
 @endsection
+
 @section('mainClass')
+    
 @endsection
 
 @section('content')
-
     <div id="verify" class="container-verify auth">
-
         @include('users::_auth-header')
 
         <div class="auth-form">
-
             <h1 class="auth-title">{{ __('Verify Your Email Address') }}</h1>
 
             @if (session('resent'))
@@ -27,12 +29,11 @@
             @endif
 
             {{ __('Before proceeding, please check your email for a verification link.') }}
-            {{ __('If you did not receive the email') }}, <a href="{{ route(app()->getLocale().'::verification.resend') }}">{{ __('click here to request another') }}</a>.
-
+            {{ __('If you did not receive the email') }},
+            <a href="{{ route(app()->getLocale() . '::verification.resend') }}">
+                {{ __('click here to request another') }}
+            </a>
+            .
         </div>
-
     </div>
-
-    </div>
-
 @endsection

@@ -2,11 +2,11 @@
     @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Menus')])
     @include('core::admin._title', ['default' => __('New menu')])
     @component('core::admin._buttons-form', ['model' => $model])
+        
     @endcomponent
 </div>
 
 <div class="content">
-
     @include('core::admin._form-errors')
 
     <file-manager related-table="{{ $model->getTable() }}" :related-id="{{ $model->id ?? 0 }}"></file-manager>
@@ -25,7 +25,6 @@
     </div>
 
     @if ($model->id)
-
         <item-list-tree
             url-base="/api/menus/{{ $model->id }}/menulinks"
             fields="id,menu_id,page_id,position,parent_id,status,title,url"
@@ -34,13 +33,9 @@
             v-if="$can('read menulinks')"
             :sub-list="true"
         >
-
             <template slot="add-button" v-if="$can('create menulinks')">
                 @include('core::admin._button-create', ['url' => route('admin::create-menulink', $model->id), 'module' => 'menus'])
             </template>
-
         </item-list-tree>
-
     @endif
-
 </div>

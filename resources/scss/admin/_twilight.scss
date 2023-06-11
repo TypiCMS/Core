@@ -41,7 +41,7 @@
 }
 
 .cm-s-twilight .cm-atom {
-    color: #FC0;
+    color: #fc0;
 }
 
 .cm-s-twilight .cm-number {
@@ -49,14 +49,16 @@
 }
 
 .cm-s-twilight .cm-def {
-    color: #8DA6CE;
+    color: #8da6ce;
 }
 
-.cm-s-twilight span.cm-variable-2, .cm-s-twilight span.cm-tag {
+.cm-s-twilight span.cm-variable-2,
+.cm-s-twilight span.cm-tag {
     color: #607392;
 }
 
-.cm-s-twilight span.cm-variable-3, .cm-s-twilight span.cm-def {
+.cm-s-twilight span.cm-variable-3,
+.cm-s-twilight span.cm-def {
     color: #607392;
 }
 
@@ -97,11 +99,11 @@
 }
 
 .cm-s-twilight .cm-header {
-    color: #FF6400;
+    color: #ff6400;
 }
 
 .cm-s-twilight .cm-hr {
-    color: #AEAEAE;
+    color: #aeaeae;
 }
 
 .cm-s-twilight .cm-link {
@@ -115,7 +117,7 @@
 }
 
 .cm-s-twilight .CodeMirror-activeline-background {
-    background: #27282E !important;
+    background: #27282e !important;
 }
 
 .cm-s-twilight .CodeMirror-matchingbracket {

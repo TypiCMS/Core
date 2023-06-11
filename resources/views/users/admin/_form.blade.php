@@ -2,11 +2,11 @@
     @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Users')])
     @include('core::admin._title', ['default' => __('New user')])
     @component('core::admin._buttons-form', ['model' => $model, 'langSwitcher' => false])
+        
     @endcomponent
 </div>
 
 <div class="content">
-
     @include('core::admin._form-errors')
 
     <div class="row gx-3">
@@ -48,7 +48,6 @@
         </div>
     </div>
 
-
     <div class="row gx-3">
         <div class="col">
             {!! BootForm::text(__('Postal code'), 'postal_code') !!}
@@ -78,11 +77,12 @@
             {!! BootForm::hidden('superuser')->value(0) !!}
             {!! BootForm::checkbox(__('Superuser'), 'superuser') !!}
         @endif
+
         @if ($roles->count() > 0)
             @foreach ($roles as $role)
                 <div class="form-check">
-                    {!! Form::checkbox('checked_roles[]', $role->id)->addClass('form-check-input')->id('role-'.$role->name) !!}
-                    <label class="form-check-label" for="{{ 'role-'.$role->name }}">{{ $role->name }}</label>
+                    {!! Form::checkbox('checked_roles[]', $role->id)->addClass('form-check-input')->id('role-' . $role->name) !!}
+                    <label class="form-check-label" for="{{ 'role-' . $role->name }}">{{ $role->name }}</label>
                 </div>
             @endforeach
         @endif
@@ -90,8 +90,7 @@
 
     <!-- Per user permissions -->
     {{--
-    <label class="form-label">{{ __('User permissions') }}</label>
-    @include('core::admin._permissions-form')
+        <label class="form-label">{{ __('User permissions') }}</label>
+        @include('core::admin._permissions-form')
     --}}
-
 </div>

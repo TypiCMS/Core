@@ -4,16 +4,19 @@
 @section('bodyClass', 'auth-background')
 
 @section('page-header')
+    
 @endsection
+
 @section('sidebar')
+    
 @endsection
+
 @section('mainClass')
+    
 @endsection
 
 @section('content')
-
     <div id="register" class="container-register auth">
-
         @include('users::_auth-header')
 
         {!! BootForm::open()->addClass('auth-form') !!}
@@ -47,7 +50,5 @@
         </div>
 
         {!! BootForm::close() !!}
-
     </div>
-
 @endsection

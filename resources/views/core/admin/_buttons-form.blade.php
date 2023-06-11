@@ -5,11 +5,14 @@
     <button class="btn btn-sm btn-light me-2" type="submit">
         {{ __('Save') }}
     </button>
-    @if ($model->getTable() === 'pages' || Route::has($locale.'::'.Str::singular($model->getTable())))
-        <a class="btn btn-sm btn-light btn-preview me-2" href="{{ $model->previewUri() }}?preview=true">{{ __('Preview') }}</a>
+    @if ($model->getTable() === 'pages' || Route::has($locale . '::' . Str::singular($model->getTable())))
+        <a class="btn btn-sm btn-light btn-preview me-2" href="{{ $model->previewUri() }}?preview=true">
+            {{ __('Preview') }}
+        </a>
     @endif
+
     {{ $slot }}
-    @if (!isset($langSwitcher) || $langSwitcher)
+    @if (! isset($langSwitcher) || $langSwitcher)
         @include('core::admin._lang-switcher-for-form')
     @endif
 </div>
