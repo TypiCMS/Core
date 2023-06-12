@@ -19,13 +19,11 @@
             </a>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    @section('otherSideLink')
                     @if (Request::segment(1) === 'admin')
                         @include('core::admin._navbar-public-link')
                     @else
                         @include('core::public._navbar-admin-link')
                     @endif
-                    @show
                 </li>
                 <li class="nav-item dropdown">
                     <a

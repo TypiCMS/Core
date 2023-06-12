@@ -2,18 +2,9 @@
 
 @section('title', __('Register'))
 @section('bodyClass', 'auth-background')
-
-@section('page-header')
-    
-@endsection
-
-@section('sidebar')
-    
-@endsection
-
-@section('mainClass')
-    
-@endsection
+@section('page-header', '')
+@section('sidebar', '')
+@section('mainClass', '')
 
 @section('content')
     <div id="register" class="container-register auth">

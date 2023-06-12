@@ -2,18 +2,9 @@
 
 @section('title', __('Reset Password'))
 @section('bodyClass', 'auth-background')
-
-@section('page-header')
-    
-@endsection
-
-@section('sidebar')
-    
-@endsection
-
-@section('mainClass')
-    
-@endsection
+@section('page-header', '')
+@section('sidebar', '')
+@section('mainClass', '')
 
 @section('content')
     <div id="reset" class="container-reset auth auth-sm">

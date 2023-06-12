@@ -2,10 +2,6 @@
 
 @section('title', __('Dashboard'))
 
-@section('h1')
-    
-@endsection
-
 @section('content')
     <div class="header">
         <h1 class="card-title">@lang('Welcome, :name!', ['name' => e(auth()->user()->first_name)])</h1>

@@ -2,18 +2,9 @@
 
 @section('title', __('New password'))
 @section('bodyClass', 'auth-background')
-
-@section('page-header')
-    
-@endsection
-
-@section('sidebar')
-    
-@endsection
-
-@section('mainClass')
-    
-@endsection
+@section('page-header', '')
+@section('sidebar', '')
+@section('mainClass', '')
 
 @section('content')
     <div id="login" class="container-newpassword auth auth-sm">

@@ -2,18 +2,9 @@
 
 @section('title', __('Verify'))
 @section('bodyClass', 'auth-background')
-
-@section('page-header')
-    
-@endsection
-
-@section('sidebar')
-    
-@endsection
-
-@section('mainClass')
-    
-@endsection
+@section('page-header', '')
+@section('sidebar', '')
+@section('mainClass', '')
 
 @section('content')
     <div id="verify" class="container-verify auth">

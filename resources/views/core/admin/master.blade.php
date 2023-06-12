@@ -13,17 +13,12 @@
     </head>
 
     <body class="@can('see navbar') has-navbar @endcan @yield('bodyClass')">
-        @section('navbar')
         @include('core::_navbar')
-        @show
-
-        @section('otherSideLink')
-            @include('core::admin._navbar-public-link')
-        @endsection
 
         @section('sidebar')
         @include('core::admin._sidebar')
         @show
+
         <div id="app" class="@section('mainClass') main @show">
             @yield('content')
         </div>

@@ -1,25 +1,11 @@
 @extends('core::public.master')
 
-@section('lang-switcher')
-    
-@endsection
-
-@section('header')
-    
-@endsection
-
-@section('primary-nav')
-    
-@endsection
-
-@section('footer')
-    
-@endsection
-
+@section('lang-switcher', '')
+@section('header', '')
+@section('primary-nav', '')
+@section('footer', '')
 @section('bodyClass', 'lang-chooser')
-@section('skip-links')
-    
-@endsection
+@section('skip-links', '')
 
 @section('content')
     <div class="page-header lang-chooser-header">

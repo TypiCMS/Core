@@ -1,11 +1,8 @@
 @extends('core::public.master')
 
 @section('title', 'Error 500 – '.$websiteTitle)
-
 @section('bodyClass', 'error-500')
-@section('lang-switcher')
-    
-@endsection
+@section('lang-switcher', '')
 
 @section('content')
     <header class="page-header">
