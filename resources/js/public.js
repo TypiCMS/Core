@@ -15,9 +15,9 @@ window.Swiper = Swiper;
 /**
  * Get files from /resources/js/public
  */
-import enableAnchorTop from './public/anchor-top.js';
+import enableAnchorTop from './public/anchor-top.ts';
 enableAnchorTop();
-import enableOffCanvas from './public/offcanvas.js';
+import enableOffCanvas from './public/offcanvas.ts';
 enableOffCanvas();
 
 /**
