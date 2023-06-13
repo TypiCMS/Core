@@ -232,9 +232,6 @@ export default {
             this.options = options;
         });
     },
-    beforeUnmount() {
-        this.uppy.close();
-    },
     computed: {
         uppy() {
             return new Uppy({
@@ -307,7 +304,6 @@ export default {
                             this.data.models.sort((a, b) => a.id - b.id);
                         });
                     }
-                    //this.uppy.getPlugin('Dashboard').closeModal();
                 });
         },
         classes() {
