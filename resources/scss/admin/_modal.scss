@@ -7,16 +7,20 @@ $height: 75vh;
     position: fixed;
     top: (100 - $height) * 0.5 - 3vh;
     left: (100 - $width) * 0.5 + 0vw;
+    height: $height;
+    width: $width;
 
     &-open {
         display: block;
     }
 
     &-wrapper {
-        height: $height;
-        width: $width;
+        height: 100%;
         background-color: #fff;
         overflow: auto;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
     }
 
     &:after {
@@ -31,37 +35,43 @@ $height: 75vh;
         content: '';
     }
 
-    &-content {
-        width: 100%;
-        height: 100%;
+    &-body {
         display: block;
+        height: auto;
+        flex-grow: 1;
+        padding: 2rem;
     }
 
     &-btn-close {
-        color: #fff;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
+        @extend .btn;
+        @extend .btn-link;
+        color: rgb(255 255 255 / 0.9);
+        width: 35px;
+        height: 35px;
+        font-size: 35px;
+        position: absolute;
+        right: -2.625rem;
+        top: -0.5rem;
+        padding: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: #000;
-        border: 2px solid #fff;
-        box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
-        position: absolute;
-        right: -15px;
-        top: -15px;
         cursor: pointer;
         z-index: 2002;
+        background-color: transparent;
+        border: none;
+        line-height: 0;
+        &:hover {
+            color: #fff;
+        }
+    }
+
+    &-footer {
+        padding: 2rem;
     }
 
     &-btn-add {
-        @extend .btn-lg;
-        border-radius: 0;
-        position: fixed;
-        height: 50px;
-        top: (100 - $height) * 0.5 - 3 + $height;
-        left: (100 - $width) * 0.5 + 0vw;
-        width: $width;
+        @extend .btn;
+        @extend .btn-primary;
     }
 }

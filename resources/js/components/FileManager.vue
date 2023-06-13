@@ -58,11 +58,9 @@
                 </div>
             </div>
 
-            <button class="filemanager-btn-close" type="button" v-if="this.modal" @click="closeModal">
-                <i class="bi bi-x fs-3"></i>
-            </button>
+            <button class="filemanager-btn-close" type="button" v-if="this.modal" @click="closeModal" :aria-label="$t('Close window')"><span aria-hidden="true">×</span></button>
 
-            <div class="content">
+            <div class="filemanager-body">
                 <Dashboard
                     :uppy="uppy"
                     :props="{
@@ -115,27 +113,29 @@
                 </div>
             </div>
 
-            <button
-                class="btn btn-success filemanager-btn-add btn-add-multiple"
-                type="button"
-                @click="addSelectedFiles()"
-                id="add-selected-files-button"
-                v-if="options.multiple"
-                :disabled="selectedFiles.length < 1"
-            >
-                {{ $t('Add selected files') }}
-            </button>
+            <div class="filemanager-footer">
+                <button
+                    class="btn btn-success filemanager-btn-add btn-add-multiple"
+                    type="button"
+                    @click="addSelectedFiles()"
+                    id="add-selected-files-button"
+                    v-if="options.multiple"
+                    :disabled="selectedFiles.length < 1"
+                >
+                    {{ $t('Add selected files') }}
+                </button>
 
-            <button
-                class="btn btn-success filemanager-btn-add btn-add-single"
-                type="button"
-                @click="addSingleFile(selectedFiles[0])"
-                id="add-selected-file-button"
-                v-if="options.single"
-                :disabled="selectedFiles.length !== 1"
-            >
-                {{ $t('Add selected file') }}
-            </button>
+                <button
+                    class="btn btn-success filemanager-btn-add btn-add-single"
+                    type="button"
+                    @click="addSingleFile(selectedFiles[0])"
+                    id="add-selected-file-button"
+                    v-if="options.single"
+                    :disabled="selectedFiles.length !== 1"
+                >
+                    {{ $t('Add selected file') }}
+                </button>
+            </div>
         </div>
     </div>
 </template>

@@ -15,6 +15,14 @@
         }
     }
 
+    &-body {
+        @extend .typicms-modal-body;
+    }
+
+    &-footer {
+        @extend .typicms-modal-footer;
+    }
+
     &-btn-close {
         @extend .typicms-modal-btn-close;
     }
