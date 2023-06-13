@@ -20,6 +20,7 @@ class JavaScriptData
             'content_locale' => config('typicms.content_locale'),
             'locale' => app()->getLocale(),
             'locale_region' => TypiCMS::localeAndRegion('-'),
+            'max_file_upload_size' => config('typicms.max_file_upload_size'),
         ];
         foreach (locales() as $locale) {
             $data['locales'][] = [
