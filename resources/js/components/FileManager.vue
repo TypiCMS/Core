@@ -2,15 +2,29 @@
     <div class="filepicker" :class="classes" id="filepicker" ref="filepicker">
         <div class="wrapper">
             <div class="filemanager-header header">
-                <a v-if="path.length > 1" class="btn-back" @click="openFolder(path[path.length - 2])" href="#">
+                <a
+                    v-if="path.length > 1"
+                    class="btn-back"
+                    @click="openFolder(path[path.length - 2])"
+                    href="#"
+                >
                     <i class="bi bi-arrow-left me-1"></i>
                     <span class="btn-back-label">
                         {{ path[path.length - 2].name }}
                     </span>
                 </a>
-                <h1 class="filemanager-title header-title" v-if="path.length > 0">{{ path[path.length - 1].name }}</h1>
+                <h1
+                    class="filemanager-title header-title"
+                    v-if="path.length > 0"
+                >
+                    {{ path[path.length - 1].name }}
+                </h1>
                 <div class="header-toolbar btn-toolbar">
-                    <button class="btn btn-sm btn-light me-2" @click="newFolder(folder.id)" type="button">
+                    <button
+                        class="btn btn-sm btn-light me-2"
+                        @click="newFolder(folder.id)"
+                        type="button"
+                    >
                         <i class="bi bi-folder-fill text-black-50 me-1"></i>
                         {{ $t('New folder') }}
                     </button>
@@ -26,7 +40,10 @@
                             {{ $t('Action') }}
                         </button>
 
-                        <div class="dropdown-menu" aria-labelledby="dropdown-action-button">
+                        <div
+                            class="dropdown-menu"
+                            aria-labelledby="dropdown-action-button"
+                        >
                             <button
                                 class="dropdown-item"
                                 type="button"
@@ -39,16 +56,26 @@
                                 class="dropdown-item"
                                 type="button"
                                 @click="moveToParentFolder()"
-                                :disabled="!folder.id || selectedFiles.length === 0"
+                                :disabled="
+                                    !folder.id || selectedFiles.length === 0
+                                "
                             >
                                 {{ $t('Move to parent folder') }}
                             </button>
                             <div class="dropdown-divider"></div>
-                            <button class="dropdown-item" type="button" disabled="disabled">
+                            <button
+                                class="dropdown-item"
+                                type="button"
+                                disabled="disabled"
+                            >
                                 {{
-                                    $tc('# items selected', selectedItems.length, {
-                                        count: selectedItems.length,
-                                    })
+                                    $tc(
+                                        '# items selected',
+                                        selectedItems.length,
+                                        {
+                                            count: selectedItems.length,
+                                        }
+                                    )
                                 }}
                             </button>
                         </div>
@@ -60,7 +87,9 @@
                             type="button"
                             @click="switchView('grid')"
                         >
-                            <i class="bi bi-grid-3x2-gap-fill text-black-50 me-1"></i>
+                            <i
+                                class="bi bi-grid-3x2-gap-fill text-black-50 me-1"
+                            ></i>
                             {{ $t('Grid') }}
                         </button>
                         <button
@@ -74,8 +103,14 @@
                         </button>
                     </div>
                     <div class="d-flex align-items-center ms-2">
-                        <div class="spinner-border spinner-border-sm text-dark" role="status" v-if="loading">
-                            <span class="visually-hidden">{{ $t('Loading…') }}</span>
+                        <div
+                            class="spinner-border spinner-border-sm text-dark"
+                            role="status"
+                            v-if="loading"
+                        >
+                            <span class="visually-hidden">{{
+                                $t('Loading…')
+                            }}</span>
                         </div>
                     </div>
                     <button
@@ -90,7 +125,12 @@
                 </div>
             </div>
 
-            <button class="filemanager-btn-close" type="button" v-if="this.modal" @click="closeModal">
+            <button
+                class="filemanager-btn-close"
+                type="button"
+                v-if="this.modal"
+                @click="closeModal"
+            >
                 <i class="bi bi-x fs-3"></i>
             </button>
 
@@ -107,10 +147,12 @@
                         @click="check(item, $event)"
                         :id="'item_' + item.id"
                         :class="{
-                            'filemanager-item-selected': selectedItems.indexOf(item) !== -1,
+                            'filemanager-item-selected':
+                                selectedItems.indexOf(item) !== -1,
                             'filemanager-item-folder': item.type === 'f',
                             'filemanager-item-file': item.type !== 'f',
-                            'filemanager-item-dragging-source': dragging && selectedItems.indexOf(item) !== -1,
+                            'filemanager-item-dragging-source':
+                                dragging && selectedItems.indexOf(item) !== -1,
                         }"
                         draggable="true"
                         @drop="drop(item, $event)"
@@ -122,25 +164,52 @@
                         @dblclick="onDoubleClick(item)"
                     >
                         <div class="filemanager-item-wrapper">
-                            <div class="filemanager-item-icon" v-if="item.type === 'i'">
+                            <div
+                                class="filemanager-item-icon"
+                                v-if="item.type === 'i'"
+                            >
                                 <div class="filemanager-item-image-wrapper">
                                     <img
                                         class="filemanager-item-image"
                                         :src="item.thumb_sm"
-                                        :alt="item.alt_attribute[locale]"
                                     />
                                 </div>
                             </div>
-                            <div class="filemanager-item-icon" :class="'filemanager-item-icon-' + item.type" v-else>
-                                <i class="bi bi-file-earmark-music" v-if="item.type === 'a'"></i>
-                                <i class="bi bi-file-earmark-play" v-if="item.type === 'v'"></i>
-                                <i class="bi bi-file-earmark" v-if="item.type === 'd'"></i>
-                                <i class="bi bi-folder" v-if="item.type === 'f'"></i>
+                            <div
+                                class="filemanager-item-icon"
+                                :class="'filemanager-item-icon-' + item.type"
+                                v-else
+                            >
+                                <i
+                                    class="bi bi-file-earmark-music"
+                                    v-if="item.type === 'a'"
+                                ></i>
+                                <i
+                                    class="bi bi-file-earmark-play"
+                                    v-if="item.type === 'v'"
+                                ></i>
+                                <i
+                                    class="bi bi-file-earmark"
+                                    v-if="item.type === 'd'"
+                                ></i>
+                                <i
+                                    class="bi bi-folder"
+                                    v-if="item.type === 'f'"
+                                ></i>
                             </div>
-                            <div class="filemanager-item-name">{{ item.name }}</div>
-                            <a class="filemanager-item-editable-button" :href="'/admin/files/' + item.id + '/edit'">
-                                <span class="filemanager-item-editable-button-icon"></span>
-                                <span class="visually-hidden">{{ $t('Edit') }}</span>
+                            <div class="filemanager-item-name">
+                                {{ item.name }}
+                            </div>
+                            <a
+                                class="filemanager-item-editable-button"
+                                :href="'/admin/files/' + item.id + '/edit'"
+                            >
+                                <span
+                                    class="filemanager-item-editable-button-icon"
+                                ></span>
+                                <span class="visually-hidden">{{
+                                    $t('Edit')
+                                }}</span>
                             </a>
                         </div>
                     </div>
@@ -178,6 +247,7 @@ import { Dashboard } from '@uppy/vue';
 import Uppy from '@uppy/core';
 import XHRUpload from '@uppy/xhr-upload';
 import ImageEditor from '@uppy/image-editor';
+import DropTarget from '@uppy/drop-target';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 import '@uppy/image-editor/dist/style.min.css';
@@ -288,27 +358,86 @@ export default {
         this.uppy.close();
     },
     computed: {
-        uppy: () =>
-            new Uppy({
-                metaFields: [
-                    { id: 'description', name: 'Description', placeholder: 'file name' },
-                    {
-                        id: 'caption',
-                        name: 'Caption',
-                        placeholder: 'describe what the image is about',
-                    },
-                ],
-            })
-                .use(XHRUpload, {
-                    endpoint: '/api/files',
-                    formData: true,
-                    fieldName: 'name',
-                    headers: {
-                        Accept: 'application/json',
-                        Authorization: 'Bearer ' + document.head.querySelector('meta[name="api-token"]').content,
-                    },
+        uppy() {
+            return (
+                new Uppy({
+                    autoProceed: false,
+                    restrictions: { maxFileSize: 8000000 },
                 })
-                .use(ImageEditor, { quality: 0.8 }),
+                    .use(DropTarget, {
+                        target: document.body,
+                    })
+                    // .use(Dashboard, {
+                    //     note: 'Images and PDF files only, 8 MB max, 3 files max',
+                    //     inline: false,
+                    //     trigger: '#upload-files-button',
+                    //     metaFields: (file) => {
+                    //         const fields = [{ id: 'name', name: 'File name' }];
+                    //         if (file.type.startsWith('image/')) {
+                    //             fields.push({ id: 'alt_attribute', name: 'Alt text' });
+                    //         }
+                    //         return fields;
+                    //     },
+                    // })
+                    .use(XHRUpload, {
+                        endpoint: '/api/files',
+                        formData: true,
+                        fieldName: 'name',
+                        // allowedMetaFields: ['folder_id'],
+                        headers: {
+                            Accept: 'application/json',
+                            Authorization:
+                                'Bearer ' +
+                                document.head.querySelector(
+                                    'meta[name="api-token"]'
+                                ).content,
+                        },
+                    })
+                    .use(ImageEditor, { quality: 0.8 })
+                    .on('file-added', (file) => {
+                        this.uppy.setFileMeta(file.id, {
+                            folder_id: this.folder.id,
+                        });
+                    })
+                    .on('complete', (result) => {
+                        const fails = result.failed;
+                        if (fails.length > 0) {
+                            alertify.error(
+                                this.$i18n.tc(
+                                    '# files could not be uploaded.',
+                                    fails.length,
+                                    {
+                                        count: fails.length,
+                                    }
+                                )
+                            );
+                        }
+
+                        const successes = result.successful;
+                        if (successes.length > 0) {
+                            alertify.success(
+                                this.$i18n.tc(
+                                    '# files uploaded.',
+                                    successes.length,
+                                    {
+                                        count: successes.length,
+                                    }
+                                )
+                            );
+                            successes.forEach((success) => {
+                                this.data.models.push(
+                                    success.response.body.model
+                                );
+                                this.data.models.sort((a, b) => a.id - b.id);
+                            });
+                        }
+                    })
+                    .on('upload-success', (result) => {
+                        // const succesFiles = result.successful;
+                        console.log(result);
+                    })
+            );
+        },
         classes() {
             return {
                 'filemanager-modal': this.options.modal,
@@ -335,13 +464,18 @@ export default {
             return this.data.path;
         },
         allChecked() {
-            return this.filteredItems.length > 0 && this.filteredItems.length === this.selectedItems.length;
+            return (
+                this.filteredItems.length > 0 &&
+                this.filteredItems.length === this.selectedItems.length
+            );
         },
         numberOfselectedItems() {
             return this.selectedItems.length;
         },
         selectedFiles() {
-            return this.selectedItems.filter((item) => item.type !== 'f').sort((a, b) => b.name.localeCompare(a.name));
+            return this.selectedItems
+                .filter((item) => item.type !== 'f')
+                .sort((a, b) => b.name.localeCompare(a.name));
         },
     },
     methods: {
@@ -355,7 +489,10 @@ export default {
                 }
                 this.data = await response.json();
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('Sorry, a network error occurred.'));
+                alertify.error(
+                    error.message ||
+                        this.$i18n.t('Sorry, a network error occurred.')
+                );
             }
             this.stopLoading();
         },
@@ -424,13 +561,17 @@ export default {
                 }
                 await this.fetchData();
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(
+                    error.message || this.$i18n.t('Sorry, an error occurred.')
+                );
             }
 
             this.checkNone();
         },
         async newFolder(folderId) {
-            let name = window.prompt(this.$i18n.t('Enter a name for the new folder.'));
+            let name = window.prompt(
+                this.$i18n.t('Enter a name for the new folder.')
+            );
             if (!name) {
                 return;
             }
@@ -438,15 +579,7 @@ export default {
                 folder_id: folderId,
                 type: 'f',
                 name: name,
-                title: {},
-                description: {},
-                alt_attribute: {},
             };
-            for (let i = TypiCMS.locales.length - 1; i >= 0; i--) {
-                data['title'][TypiCMS.locales[i].short] = null;
-                data['description'][TypiCMS.locales[i].short] = null;
-                data['alt_attribute'][TypiCMS.locales[i].short] = null;
-            }
             try {
                 const response = await fetcher('/api/files', {
                     method: 'POST',
@@ -458,12 +591,16 @@ export default {
                 }
                 this.data.models.push(responseData.model);
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(
+                    error.message || this.$i18n.t('Sorry, an error occurred.')
+                );
             }
         },
         check(item, $event) {
             $event.stopPropagation();
-            let indexOfLastCheckedItem = this.data.models.indexOf(this.selectedItems[this.selectedItems.length - 1]);
+            let indexOfLastCheckedItem = this.data.models.indexOf(
+                this.selectedItems[this.selectedItems.length - 1]
+            );
             let index = this.selectedItems.indexOf(item);
             if (!($event.ctrlKey || $event.metaKey || $event.shiftKey)) {
                 this.checkNone();
@@ -484,8 +621,13 @@ export default {
                                 }
                             }
                             if (indexOfLastCheckedItem !== -1) {
-                                if (index > indexOfLastCheckedItem && index < currentItemIndex) {
-                                    if (this.selectedItems.indexOf(item) === -1) {
+                                if (
+                                    index > indexOfLastCheckedItem &&
+                                    index < currentItemIndex
+                                ) {
+                                    if (
+                                        this.selectedItems.indexOf(item) === -1
+                                    ) {
                                         this.selectedItems.push(item);
                                     }
                                 }
@@ -493,8 +635,13 @@ export default {
                         }
                         if (currentItemIndex < indexOfLastCheckedItem) {
                             if (indexOfLastCheckedItem !== -1) {
-                                if (index < indexOfLastCheckedItem && index > currentItemIndex) {
-                                    if (this.selectedItems.indexOf(item) === -1) {
+                                if (
+                                    index < indexOfLastCheckedItem &&
+                                    index > currentItemIndex
+                                ) {
+                                    if (
+                                        this.selectedItems.indexOf(item) === -1
+                                    ) {
                                         this.selectedItems.push(item);
                                     }
                                 }
@@ -514,7 +661,9 @@ export default {
                 number = models.length;
 
             if (this.selectedItems.length > this.deleteLimit) {
-                alertify.error('Too much elements (max ' + this.deleteLimit + ' items.)');
+                alertify.error(
+                    'Too much elements (max ' + this.deleteLimit + ' items.)'
+                );
                 return false;
             }
 
@@ -542,9 +691,13 @@ export default {
                 }
                 if (responseData.number < number) {
                     alertify.error(
-                        this.$i18n.tc('# files could not be moved.', number - responseData.number, {
-                            count: number - responseData.number,
-                        })
+                        this.$i18n.tc(
+                            '# files could not be moved.',
+                            number - responseData.number,
+                            {
+                                count: number - responseData.number,
+                            }
+                        )
                     );
                 }
                 if (responseData.number > 0) {
@@ -555,14 +708,17 @@ export default {
                     );
                 }
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(
+                    error.message || this.$i18n.t('Sorry, an error occurred.')
+                );
             }
             this.stopLoading();
         },
         addSingleFile(item) {
             this.$root.$emit('fileAdded', item);
             const filepicker = document.getElementById('filepicker');
-            const CKEditorCleanUpFuncNum = filepicker.dataset.CKEditorCleanUpFuncNum,
+            const CKEditorCleanUpFuncNum =
+                    filepicker.dataset.CKEditorCleanUpFuncNum,
                 CKEditorFuncNum = filepicker.dataset.CKEditorFuncNum;
             if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
                 parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, item.url);
@@ -622,17 +778,24 @@ export default {
 
             if (this.selectedItems.length > deleteLimit) {
                 alertify.error(
-                    this.$i18n.t('Impossible to delete more than # items in one go.', {
-                        deleteLimit,
-                    })
+                    this.$i18n.t(
+                        'Impossible to delete more than # items in one go.',
+                        {
+                            deleteLimit,
+                        }
+                    )
                 );
                 return false;
             }
             if (
                 !window.confirm(
-                    this.$i18n.tc('Are you sure you want to delete # items?', this.selectedItems.length, {
-                        count: this.selectedItems.length,
-                    })
+                    this.$i18n.tc(
+                        'Are you sure you want to delete # items?',
+                        this.selectedItems.length,
+                        {
+                            count: this.selectedItems.length,
+                        }
+                    )
                 )
             ) {
                 return false;
@@ -641,21 +804,32 @@ export default {
             this.startLoading();
             const deletePromises = this.selectedItems.map(async (model) => {
                 try {
-                    const response = await fetcher(this.urlBase + '/' + model.id, { method: 'DELETE' });
+                    const response = await fetcher(
+                        this.urlBase + '/' + model.id,
+                        {
+                            method: 'DELETE',
+                        }
+                    );
                     if (!response.ok) {
                         const responseData = await response.json();
                         throw new Error(responseData.message);
                     }
+                    return response;
                 } catch (error) {
-                    alertify.error(this.$i18n.tc(error.message) || this.$i18n.t('Sorry, an error occurred.'));
+                    alertify.error(
+                        this.$i18n.tc(error.message) ||
+                            this.$i18n.t('Sorry, an error occurred.')
+                    );
                 }
             });
 
             const responses = await Promise.all(deletePromises);
-            let successes = responses.filter((response) => response && response.status === 200);
+            let successes = responses.filter(
+                (response) => response && response.ok
+            );
             if (successes.length > 0) {
                 alertify.success(
-                    this.$i18n.tc('# items deleted', successes.length, {
+                    this.$i18n.tc('# files deleted.', successes.length, {
                         count: successes.length,
                     })
                 );
