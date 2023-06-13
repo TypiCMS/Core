@@ -1,4 +1,3 @@
-<script src="../../../public/components/uppy/locales/fr_FR.min.js"></script>
 <template>
     <div class="filepicker" :class="classes" id="filepicker" ref="filepicker">
         <div class="wrapper">
