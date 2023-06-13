@@ -140,9 +140,3 @@ import Slug from './admin/slug';
 const items = document.querySelectorAll('[data-slug]').forEach((item) => {
     new Slug(item);
 });
-
-/**
- * Enable file dropping into the file manager.
- */
-import enableFilemanagerDragAndDrop from './admin/filemanager-drag-and-drop';
-enableFilemanagerDragAndDrop();
