@@ -142,7 +142,7 @@ abstract class Base extends Model
 
     protected function status(): Attribute
     {
-        return Attribute::make(
+        return new Attribute(
             set: function ($status) {
                 if (is_array($status)) {
                     $status = json_encode(

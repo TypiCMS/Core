@@ -32,7 +32,7 @@ class File extends Base
 
     protected function thumbSm(): Attribute
     {
-        return Attribute::make(
+        return new Attribute(
             get: fn () => $this->present()->image(240, 240, ['resize']),
         );
     }
@@ -46,7 +46,7 @@ class File extends Base
         } catch (Exception $e) {
         }
 
-        return Attribute::make(
+        return new Attribute(
             get: fn () => $url
         );
     }

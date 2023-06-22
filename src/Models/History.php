@@ -46,7 +46,7 @@ class History extends Base
             $href = $this->historable->editUrl();
         }
 
-        return Attribute::make(
+        return new Attribute(
             get: fn () => $href,
         );
     }
