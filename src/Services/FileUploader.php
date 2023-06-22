@@ -22,7 +22,10 @@ class FileUploader
         $filesize = $file->getSize();
         $mimetype = $file->getClientMimeType();
 
-        $filenameWithoutExtension = Str::slug(json_encode($filenameWithoutExtension ?: pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)));
+        $filenameWithoutExtension = Str::slug($filenameWithoutExtension ?: pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
+        if ($filenameWithoutExtension === '') {
+            $filenameWithoutExtension = Str::slug(Str::random(16));
+        }
 
         $filename = "{$filenameWithoutExtension}.{$extension}";
         [$width, $height] = getimagesize($file);
