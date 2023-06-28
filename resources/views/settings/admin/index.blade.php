@@ -26,12 +26,7 @@
                     <div class="mb-3">
                         <div class="input-group">
                             <span class="input-group-text">{{ strtoupper($lang) }}</span>
-                            <input
-                                class="form-control"
-                                type="text"
-                                name="{{ $lang }}[website_title]"
-                                value="{{ $data->$lang->website_title ?? '' }}"
-                            />
+                            <input class="form-control" type="text" name="{{ $lang }}[website_title]" value="{{ $data->$lang->website_title ?? '' }}" />
                         </div>
                     </div>
                 @endforeach
@@ -60,12 +55,7 @@
                     <div class="mb-3">
                         <div class="input-group">
                             <span class="input-group-text">{{ strtoupper($lang) }}</span>
-                            <input
-                                class="form-control"
-                                type="text"
-                                name="{{ $lang }}[website_baseline]"
-                                value="{{ $data->$lang->website_baseline ?? '' }}"
-                            />
+                            <input class="form-control" type="text" name="{{ $lang }}[website_baseline]" value="{{ $data->$lang->website_baseline ?? '' }}" />
                         </div>
                     </div>
                 @endforeach
@@ -75,12 +65,7 @@
                     @if (isset($data->image) and $data->image)
                         <div class="fieldset-preview">
                             <img class="img-fluid" src="{{ Storage::url('settings/' . $data->image) }}" alt="" />
-                            <small
-                                class="text-danger delete-attachment"
-                                data-table="settings"
-                                data-id=""
-                                data-field="image"
-                            >
+                            <small class="text-danger delete-attachment" data-table="settings" data-id="" data-field="image">
                                 @lang('Delete')
                             </small>
                         </div>

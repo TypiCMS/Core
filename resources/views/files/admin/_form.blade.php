@@ -44,18 +44,10 @@
                             <th class="w-25">{{ __('URL') }}</th>
                             <td>
                                 <div class="d-flex align-items-start justify-content-between">
-                                    <a
-                                        href="{{ Storage::url($model->path) }}"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
+                                    <a href="{{ Storage::url($model->path) }}" target="_blank" rel="noopener noreferrer">
                                         {{ Storage::url($model->path) }}
                                     </a>
-                                    <button
-                                        class="btn btn-light btn-xs text-nowrap"
-                                        type="button"
-                                        onclick="copyToClipboard('{{ Storage::url($model->path) }}')"
-                                    >
+                                    <button class="btn btn-light btn-xs text-nowrap" type="button" onclick="copyToClipboard('{{ Storage::url($model->path) }}')">
                                         @lang('Copy')
                                     </button>
                                 </div>

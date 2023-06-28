@@ -1,18 +1,6 @@
-<div
-    class="offcanvas-lg offcanvas-start sidebar"
-    tabindex="-1"
-    id="offcanvasResponsive"
-    aria-labelledby="offcanvasResponsiveLabel"
->
+<div class="offcanvas-lg offcanvas-start sidebar" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
     <div class="offcanvas-header">
-        <button
-            class="btn btn-dark"
-            type="button"
-            data-bs-dismiss="offcanvas"
-            data-bs-target="#offcanvasResponsive"
-            aria-controls="offcanvasResponsive"
-            aria-label="{{ __('Close navigation') }}"
-        >
+        <button class="btn btn-dark" type="button" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive" aria-label="{{ __('Close navigation') }}">
             <i class="bi bi-x-lg" aria-hidden="true"></i>
         </button>
     </div>

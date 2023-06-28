@@ -6,12 +6,6 @@
         data-fancybox="{{ $model->slug ?: 'group' }}"
         data-options='{ "buttons": ["close"], "infobar": false }'
     >
-        <img
-            class="image-list-item-image"
-            src="{{ $image->present()->image(520, 520) }}"
-            width="260"
-            height="260"
-            alt="{{ $image->alt_attribute }}"
-        />
+        <img class="image-list-item-image" src="{{ $image->present()->image(520, 520) }}" width="260" height="260" alt="{{ $image->alt_attribute }}" />
     </a>
 </li>

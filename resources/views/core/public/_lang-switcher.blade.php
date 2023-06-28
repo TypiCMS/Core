@@ -1,12 +1,6 @@
 @if (($enabledLocales = TypiCMS::enabledLocales()) and count($enabledLocales) > 1)
     <nav class="lang-switcher dropdown">
-        <button
-            class="lang-switcher-btn dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            id="dropdownLangSwitcher"
-        >
+        <button class="lang-switcher-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownLangSwitcher">
             {{ $lang }}
         </button>
         <ul class="lang-switcher-list dropdown-menu" aria-labelledby="dropdownLangSwitcher">
@@ -15,10 +9,7 @@
                     <li>
                         @isset($page)
                             @if ($page->isPublished($locale))
-                                <a
-                                    class="lang-switcher-item dropdown-item"
-                                    href="{{ isset($model) && $model->isPublished($locale) ? url($model->uri($locale)) : url($page->uri($locale)) }}"
-                                >
+                                <a class="lang-switcher-item dropdown-item" href="{{ isset($model) && $model->isPublished($locale) ? url($model->uri($locale)) : url($page->uri($locale)) }}">
                                     {{ $locale }}
                                 </a>
                             @else

@@ -71,47 +71,20 @@
                         </template>
 
                         <template slot="columns" slot-scope="{ sortArray }">
-                            <item-list-column-header
-                                name="checkbox"
-                                v-if="$can('update page_sections')||$can('delete page_sections')"
-                            ></item-list-column-header>
-                            <item-list-column-header
-                                name="edit"
-                                v-if="$can('update page_sections')"
-                            ></item-list-column-header>
-                            <item-list-column-header
-                                name="status_translated"
-                                sortable
-                                :sort-array="sortArray"
-                                :label="$t('Status')"
-                            ></item-list-column-header>
-                            <item-list-column-header
-                                name="position"
-                                sortable
-                                :sort-array="sortArray"
-                                :label="$t('Position')"
-                            ></item-list-column-header>
+                            <item-list-column-header name="checkbox" v-if="$can('update page_sections')||$can('delete page_sections')"></item-list-column-header>
+                            <item-list-column-header name="edit" v-if="$can('update page_sections')"></item-list-column-header>
+                            <item-list-column-header name="status_translated" sortable :sort-array="sortArray" :label="$t('Status')"></item-list-column-header>
+                            <item-list-column-header name="position" sortable :sort-array="sortArray" :label="$t('Position')"></item-list-column-header>
                             <item-list-column-header name="image" :label="$t('Image')"></item-list-column-header>
-                            <item-list-column-header
-                                name="title_translated"
-                                sortable
-                                :sort-array="sortArray"
-                                :label="$t('Title')"
-                            ></item-list-column-header>
+                            <item-list-column-header name="title_translated" sortable :sort-array="sortArray" :label="$t('Title')"></item-list-column-header>
                         </template>
 
                         <template slot="table-row" slot-scope="{ model, checkedModels, loading }">
                             <td class="checkbox" v-if="$can('update page_sections')||$can('delete page_sections')">
-                                <item-list-checkbox
-                                    :model="model"
-                                    :checked-models-prop="checkedModels"
-                                    :loading="loading"
-                                ></item-list-checkbox>
+                                <item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox>
                             </td>
                             <td v-if="$can('update page_sections')">
-                                <item-list-edit-button
-                                    :url="'/admin/pages/'+model.page_id+'/sections/'+model.id+'/edit'"
-                                ></item-list-edit-button>
+                                <item-list-edit-button :url="'/admin/pages/'+model.page_id+'/sections/'+model.id+'/edit'"></item-list-edit-button>
                             </td>
                             <td>
                                 <item-list-status-button :model="model"></item-list-status-button>
@@ -132,14 +105,11 @@
         <div class="col-lg-4">
             <div class="bg-light p-4">
                 @if ($model->redirect !== 1)
-                    <file-manager
-                        related-table="{{ $model->getTable() }}"
-                        :related-id="{{ $model->id ?? 0 }}"
-                    ></file-manager>
+                    <file-manager related-table="{{ $model->getTable() }}" :related-id="{{ $model->id ?? 0 }}"></file-manager>
                     <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>
                     <files-field :init-files="{{ $model->files }}"></files-field>
+                    {!! TranslatableBootForm::textarea(__('Meta description'), 'meta_description')->rows(3) !!}
                     {!! TranslatableBootForm::text(__('Meta keywords'), 'meta_keywords') !!}
-                    {!! TranslatableBootForm::text(__('Meta description'), 'meta_description') !!}
                 @endif
 
                 <div class="mb-3">

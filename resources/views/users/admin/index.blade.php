@@ -21,46 +21,19 @@
     </template>
 
     <template slot="columns" slot-scope="{ sortArray }">
-        <item-list-column-header
-            name="checkbox"
-            v-if="$can('update users')||$can('delete users')"
-        ></item-list-column-header>
+        <item-list-column-header name="checkbox" v-if="$can('update users')||$can('delete users')"></item-list-column-header>
         <item-list-column-header name="edit" v-if="$can('update users')"></item-list-column-header>
         <item-list-column-header name="impersonate" v-if="$can('impersonate users')"></item-list-column-header>
-        <item-list-column-header
-            name="first_name"
-            sortable
-            :sort-array="sortArray"
-            :label="$t('First name')"
-        ></item-list-column-header>
-        <item-list-column-header
-            name="last_name"
-            sortable
-            :sort-array="sortArray"
-            :label="$t('Last name')"
-        ></item-list-column-header>
-        <item-list-column-header
-            name="email"
-            sortable
-            :sort-array="sortArray"
-            :label="$t('Email')"
-        ></item-list-column-header>
-        <item-list-column-header
-            name="activated"
-            sortable
-            :sort-array="sortArray"
-            :label="$t('Activated')"
-        ></item-list-column-header>
+        <item-list-column-header name="first_name" sortable :sort-array="sortArray" :label="$t('First name')"></item-list-column-header>
+        <item-list-column-header name="last_name" sortable :sort-array="sortArray" :label="$t('Last name')"></item-list-column-header>
+        <item-list-column-header name="email" sortable :sort-array="sortArray" :label="$t('Email')"></item-list-column-header>
+        <item-list-column-header name="activated" sortable :sort-array="sortArray" :label="$t('Activated')"></item-list-column-header>
         <item-list-column-header name="role_names" :label="$t('Roles')"></item-list-column-header>
     </template>
 
     <template slot="table-row" slot-scope="{ model, checkedModels, loading }">
         <td class="checkbox" v-if="$can('update users')||$can('delete users')">
-            <item-list-checkbox
-                :model="model"
-                :checked-models-prop="checkedModels"
-                :loading="loading"
-            ></item-list-checkbox>
+            <item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox>
         </td>
         <td v-if="$can('update users')">
             <item-list-edit-button :url="'/admin/users/'+model.id+'/edit'"></item-list-edit-button>
