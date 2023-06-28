@@ -20,17 +20,13 @@ export default () => {
         headingCheckbox.addEventListener('click', (event) => {
             const element = event.target as HTMLInputElement,
                 parentItem = element.closest('.permissions-modules-item'),
-                checkboxes =
-                    parentItem?.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:not(:disabled)') ?? [];
+                checkboxes = parentItem?.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:not(:disabled)') ?? [];
             checkboxes.forEach((headingCheckbox) => (headingCheckbox.checked = element.checked));
         });
         // Set the status of each heading checkbox to checked or unchecked.
         const parentItem = headingCheckbox.closest('.permissions-modules-item'),
-            numberOfCheckboxes =
-                parentItem?.querySelectorAll<HTMLInputElement>('input[name="checked_permissions[]"]').length ?? 0,
-            numberOfCheckedCheckboxes =
-                parentItem?.querySelectorAll<HTMLInputElement>('input[name="checked_permissions[]"]:checked').length ??
-                0;
+            numberOfCheckboxes = parentItem?.querySelectorAll<HTMLInputElement>('input[name="checked_permissions[]"]').length ?? 0,
+            numberOfCheckedCheckboxes = parentItem?.querySelectorAll<HTMLInputElement>('input[name="checked_permissions[]"]:checked').length ?? 0;
         if (numberOfCheckboxes === numberOfCheckedCheckboxes) {
             headingCheckbox.checked = true;
         }

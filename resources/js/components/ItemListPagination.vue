@@ -6,11 +6,7 @@
                     <small aria-hidden="true">←</small> <small class="ms-2">{{ $t('Previous') }}</small>
                 </button>
             </li>
-            <li
-                class="page-item"
-                :class="{ disabled: page === '…', active: page == data.current_page && page !== '…' }"
-                v-for="page in getPages()"
-            >
+            <li class="page-item" :class="{ disabled: page === '…', active: page == data.current_page && page !== '…' }" v-for="page in getPages()">
                 <button class="page-link pagination-page-nav" @click="selectPage(page)">
                     {{ page }}
                 </button>

@@ -12,23 +12,14 @@
         </div>
 
         <draggable class="filemanager-list" v-model="files" group="files" @start="drag = true" @end="drag = false">
-            <div
-                class="filemanager-item filemanager-item-with-name filemanager-item-removable"
-                v-for="file in files"
-                :id="'item_' + file.id"
-                :key="file.id"
-            >
+            <div class="filemanager-item filemanager-item-with-name filemanager-item-removable" v-for="file in files" :id="'item_' + file.id" :key="file.id">
                 <div class="filemanager-item-wrapper">
                     <button class="filemanager-item-removable-button" @click="remove(file)" type="button">
                         <i class="bi bi-x fs-5"></i>
                     </button>
                     <div class="filemanager-item-icon" v-if="file.type === 'i'">
                         <div class="filemanager-item-image-wrapper">
-                            <img
-                                class="filemanager-item-image"
-                                :src="file.thumb_sm"
-                                :alt="file.alt_attribute[contentLocale]"
-                            />
+                            <img class="filemanager-item-image" :src="file.thumb_sm" :alt="file.alt_attribute[contentLocale]" />
                         </div>
                     </div>
                     <div class="filemanager-item-icon" :class="'filemanager-item-icon-' + file.type" v-else>

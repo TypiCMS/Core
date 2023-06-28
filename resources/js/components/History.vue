@@ -2,12 +2,7 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between">
             {{ $t('Latest changes') }}
-            <button
-                class="btn-clear-history"
-                id="clear-history"
-                @click="clearHistory"
-                v-if="filteredItems.length > 0 && clearButton"
-            >
+            <button class="btn-clear-history" id="clear-history" @click="clearHistory" v-if="filteredItems.length > 0 && clearButton">
                 {{ $t('Clear') }}
             </button>
         </div>
@@ -52,18 +47,11 @@
                 <span class="text-muted">{{ $t('Loading…') }}</span>
             </div>
             <div v-else>
-                <span class="text-muted">{{
-                    searchString !== '' ? $t('Nothing found.') : $t('History is empty.')
-                }}</span>
+                <span class="text-muted">{{ searchString !== '' ? $t('Nothing found.') : $t('History is empty.') }}</span>
             </div>
         </div>
         <div class="card-footer" v-if="filteredItems.length > 0 && data.total > data.per_page">
-            <item-list-pagination
-                class="justify-content-center"
-                :data="data"
-                @pagination-change-page="changePage"
-                v-if="pagination"
-            ></item-list-pagination>
+            <item-list-pagination class="justify-content-center" :data="data" @pagination-change-page="changePage" v-if="pagination"></item-list-pagination>
         </div>
     </div>
 </template>

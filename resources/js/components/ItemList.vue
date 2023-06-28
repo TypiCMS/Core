@@ -56,36 +56,15 @@
                             <div class="input-group-text">
                                 <i class="bi bi-search"></i>
                             </div>
-                            <input
-                                class="form-control"
-                                type="text"
-                                id="search"
-                                v-model="searchString"
-                                @input="onSearchStringChanged"
-                            />
+                            <input class="form-control" type="text" id="search" v-model="searchString" @input="onSearchStringChanged" />
                         </div>
                     </div>
                     <div class="btn-group btn-group-sm ms-2" v-if="translatable && locales.length > 1">
-                        <button
-                            class="btn btn-light dropdown-toggle"
-                            type="button"
-                            id="dropdownLangSwitcher"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                        >
-                            <span id="active-locale">{{
-                                locales.find((item) => item.short === contentLocale).long
-                            }}</span>
+                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownLangSwitcher" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span id="active-locale">{{ locales.find((item) => item.short === contentLocale).long }}</span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
-                            <button
-                                class="dropdown-item"
-                                :class="{ active: locale === contentLocale }"
-                                type="button"
-                                v-for="locale in locales"
-                                @click="switchLocale(locale.short)"
-                            >
+                            <button class="dropdown-item" :class="{ active: locale === contentLocale }" type="button" v-for="locale in locales" @click="switchLocale(locale.short)">
                                 {{ locale.long }}
                             </button>
                         </div>
@@ -108,22 +87,13 @@
                     </thead>
                     <tbody>
                         <tr v-for="model in filteredItems">
-                            <slot
-                                :model="model"
-                                :checked-models="checkedItems"
-                                :loading="loading"
-                                name="table-row"
-                            ></slot>
+                            <slot :model="model" :checked-models="checkedItems" :loading="loading" name="table-row"></slot>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <item-list-pagination
-                :data="data"
-                @pagination-change-page="changePage"
-                v-if="pagination"
-            ></item-list-pagination>
+            <item-list-pagination :data="data" @pagination-change-page="changePage" v-if="pagination"></item-list-pagination>
         </div>
     </div>
 </template>
