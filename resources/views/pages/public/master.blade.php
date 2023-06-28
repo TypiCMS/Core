@@ -12,7 +12,7 @@
 
 @if ($page->css)
     @push('css')
-        <style type="text/css">
+        <style>
             {{ $page->css }}
         </style>
     @endpush
