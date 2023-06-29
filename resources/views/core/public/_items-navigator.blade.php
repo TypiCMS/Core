@@ -1,7 +1,7 @@
 <div class="items-navigator">
     <a class="items-navigator-back" href="{{ url($page->uri($lang)) }}">
         ←
-        @lang('Back to' . $model->getTable() . 'list')
+        @lang("Back to {$model->getTable()} list")
     </a>
     <div class="items-navigator-previous-next">
         <a class="items-navigator-previous @if (!$prev = $module::prev($model))disabled @endif" href="@if ($prev){{ route($lang.'::'.Str::singular($model->getTable()), $prev->slug) }}@endif">
