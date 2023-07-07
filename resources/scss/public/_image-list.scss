@@ -2,6 +2,8 @@
     &-list {
         @include list-unstyled();
         @include make-row();
+        margin-bottom: 0;
+        row-gap: $grid-gutter-width;
     }
     &-item {
         @include make-col-ready();
@@ -14,7 +16,6 @@
         @include media-breakpoint-up(md) {
             @include make-col(2);
         }
-        margin-bottom: $grid-gutter-width;
         &-image {
             @include img-fluid();
         }
