@@ -8,7 +8,7 @@ export default () => {
             <button id='close-preview' class='typicms-modal-btn-close'>
                 <i class='bi bi-x fs-3'></i>
             </button>
-        </div>`
+        </div>`,
     );
 
     /**
@@ -25,7 +25,7 @@ export default () => {
                 document.body.classList.add('noscroll'); // add noscroll class to <body>
                 document.getElementById('preview-window')!.classList.add('typicms-modal-open');
             },
-            false
+            false,
         );
     }
 
@@ -43,7 +43,7 @@ export default () => {
                 document.body.classList.remove('noscroll'); // remove noscroll class from <body>
                 document.getElementById('preview-window')!.classList.remove('typicms-modal-open');
             },
-            false
+            false,
         );
     }
 };

@@ -383,7 +383,7 @@ export default {
                 alertify.error(
                     this.$i18n.t('Impossible to delete more than # items in one go.', {
                         deleteLimit,
-                    })
+                    }),
                 );
                 return false;
             }
@@ -391,7 +391,7 @@ export default {
                 !window.confirm(
                     this.$i18n.tc('Are you sure you want to delete # items?', this.numberOfCheckedItems, {
                         count: this.numberOfCheckedItems,
-                    })
+                    }),
                 )
             ) {
                 return false;
@@ -416,7 +416,7 @@ export default {
                 alertify.success(
                     this.$i18n.tc('# items deleted', successes.length, {
                         count: successes.length,
-                    })
+                    }),
                 );
             }
             this.checkNone();
@@ -428,7 +428,7 @@ export default {
                 !window.confirm(
                     this.$i18n.tc('Are you sure you want to publish # items?', this.checkedItems.length, {
                         count: this.checkedItems.length,
-                    })
+                    }),
                 )
             ) {
                 return false;
@@ -440,7 +440,7 @@ export default {
                 !window.confirm(
                     this.$i18n.tc('Are you sure you want to unpublish # items?', this.checkedItems.length, {
                         count: this.checkedItems.length,
-                    })
+                    }),
                 )
             ) {
                 return false;
@@ -484,7 +484,7 @@ export default {
                 alertify.success(
                     this.$i18n.tc('# items ' + label, successes.length, {
                         count: successes.length,
-                    })
+                    }),
                 );
             }
             for (let i = this.checkedItems.length - 1; i >= 0; i--) {

@@ -288,7 +288,7 @@ export default {
                         alertify.error(
                             this.$i18n.tc('# files could not be uploaded.', fails.length, {
                                 count: fails.length,
-                            })
+                            }),
                         );
                     }
 
@@ -297,7 +297,7 @@ export default {
                         alertify.success(
                             this.$i18n.tc('# files uploaded.', successes.length, {
                                 count: successes.length,
-                            })
+                            }),
                         );
                         successes.forEach((success) => {
                             this.data.models.push(success.response.body.model);
@@ -533,14 +533,14 @@ export default {
                     alertify.error(
                         this.$i18n.tc('# files could not be moved.', number - responseData.number, {
                             count: number - responseData.number,
-                        })
+                        }),
                     );
                 }
                 if (responseData.number > 0) {
                     alertify.success(
                         this.$i18n.tc('# files moved.', responseData.number, {
                             count: responseData.number,
-                        })
+                        }),
                     );
                 }
             } catch (error) {
@@ -613,7 +613,7 @@ export default {
                 alertify.error(
                     this.$i18n.t('Impossible to delete more than # items in one go.', {
                         deleteLimit,
-                    })
+                    }),
                 );
                 return false;
             }
@@ -621,7 +621,7 @@ export default {
                 !window.confirm(
                     this.$i18n.tc('Are you sure you want to delete # items?', this.selectedItems.length, {
                         count: this.selectedItems.length,
-                    })
+                    }),
                 )
             ) {
                 return false;
@@ -647,7 +647,7 @@ export default {
                 alertify.success(
                     this.$i18n.tc('# files deleted.', successes.length, {
                         count: successes.length,
-                    })
+                    }),
                 );
             }
             this.checkNone();
