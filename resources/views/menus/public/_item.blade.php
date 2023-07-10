@@ -1,9 +1,11 @@
 <li class="{{ $name }}-nav-item {{ $name }}-nav-item-{{ $menulink->id }} {{ $menulink->class }}" id="menuitem_{{ $menulink->id }}" role="menuitem">
     <a
-        class="{{ $name }}-nav-link {{ $menulink->items->count() > 0 ? 'dropdown-toggle' : '' }}{{ ! empty($menulink->parent) ? 'dropdown-item' : '' }}"
-        href="{{ $menulink->items->count() > 0 ? '#' : url($menulink->href) }}"
-        @if ($menulink->target === '_blank') target="_blank" rel="noopener noreferrer"
-       @endif
+        class="{{ $name }}-nav-link {{ $menulink->items->count() > 0 ? "dropdown-toggle" : "" }}{{ ! empty($menulink->parent) ? "dropdown-item" : "" }}"
+        href="{{ $menulink->items->count() > 0 ? "#" : url($menulink->href) }}"
+        @if ($menulink->target === "_blank")
+            target="_blank"
+            rel="noopener noreferrer"
+        @endif
         @if ($menulink->items->count() > 0) role="button" id="menuitem_{{ $menulink->id }}_id" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" @endif
     >
         @if ($menulink->image !== null)
