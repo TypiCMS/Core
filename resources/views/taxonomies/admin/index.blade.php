@@ -3,16 +3,8 @@
 @section('title', __('Taxonomies'))
 
 @section('content')
-    <item-list
-        url-base="/api/taxonomies"
-        fields="id,title,name,validation_rule,position,result_string,modules"
-        table="taxonomies"
-        title="taxonomies"
-        :publishable="false"
-        :exportable="false"
-        :searchable="['title,name,validation_rule,result_string']"
-        :sorting="['position']"
-    >
+    <item-list url-base="/api/taxonomies" fields="id,title,name,validation_rule,position,result_string,modules" table="taxonomies" title="taxonomies" :publishable="false" :exportable="false"
+        :searchable="['title,name,validation_rule,result_string']" :sorting="['position']">
         <template slot="add-button" v-if="$can('create taxonomies')">
             @include('core::admin._button-create', ['module' => 'taxonomies'])
         </template>
@@ -34,10 +26,10 @@
                 <item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox>
             </td>
             <td v-if="$can('update taxonomies')">
-                <item-list-edit-button :url="'/admin/taxonomies/'+model.id+'/edit'"></item-list-edit-button>
+                <item-list-edit-button :url="'/admin/taxonomies/' + model.id + '/edit'"></item-list-edit-button>
             </td>
             <td v-if="$can('update terms')">
-                <a class="btn btn-light btn-xs" :href="'/admin/taxonomies/'+model.id+'/terms'">@lang('Terms')</a>
+                <a class="btn btn-light btn-xs" :href="'/admin/taxonomies/' + model.id + '/terms'">@lang('Terms')</a>
             </td>
             <td>
                 <item-list-position-input :model="model"></item-list-position-input>

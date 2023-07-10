@@ -2,14 +2,8 @@
     <nav class="typicms-navbar navbar navbar-expand bg-dark justify-content-between sticky-top" data-bs-theme="dark">
         <div class="container-fluid">
             @if (Request::segment(1) === 'admin')
-                <button
-                    class="btn btn-dark d-lg-none"
-                    type="button"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasResponsive"
-                    aria-controls="offcanvasResponsive"
-                    aria-label="{{ __('Toggle navigation') }}"
-                >
+                <button class="btn btn-dark d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive"
+                    aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
             @endif

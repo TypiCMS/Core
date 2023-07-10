@@ -13,13 +13,8 @@
 
     <div class="content">
         @can('see history')
-            <history
-                fields="history.id,history.created_at,history.title,history.locale,history.historable_id,history.historable_type,history.action,history.user_id"
-                include="historable"
-                :searchable="['title,historable_type,action,user_name']"
-                :sorting="['-created_at']"
-                @can('clear history'):clear-button="true"@endcan
-            >
+            <history fields="history.id,history.created_at,history.title,history.locale,history.historable_id,history.historable_type,history.action,history.user_id" include="historable"
+                :searchable="['title,historable_type,action,user_name']" :sorting="['-created_at']" @can('clear history'):clear-button="true"@endcan>
                 <template slot="columns" slot-scope="{ sortArray }">
                     <item-list-column-header name="created_at" sortable :sort-array="sortArray" :label="$t('Date')"></item-list-column-header>
                     <item-list-column-header name="title" sortable :sort-array="sortArray" :label="$t('Title')"></item-list-column-header>

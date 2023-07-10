@@ -7,7 +7,6 @@
     @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Pages')])
     @include('core::admin._title', ['default' => __('New page')])
     @component('core::admin._buttons-form', ['model' => $model])
-        
     @endcomponent
 </div>
 
@@ -29,15 +28,8 @@
                             </label>
                             <div class="input-group">
                                 <span class="input-group-text">{{ $model->present()->parentUri($lang) }}</span>
-                                <input
-                                    class="form-control @if ($errors->has('slug.'.$lang))is-invalid @endif"
-                                    type="text"
-                                    name="slug[{{ $lang }}]"
-                                    id="slug[{{ $lang }}]"
-                                    value="{{ $model->translate('slug', $lang) }}"
-                                    data-slug="title[{{ $lang }}]"
-                                    data-language="{{ $lang }}"
-                                />
+                                <input class="form-control @if ($errors->has('slug.' . $lang)) is-invalid @endif" type="text" name="slug[{{ $lang }}]" id="slug[{{ $lang }}]"
+                                    value="{{ $model->translate('slug', $lang) }}" data-slug="title[{{ $lang }}]" data-language="{{ $lang }}" />
                                 <button class="btn btn-outline-secondary btn-slug" type="button">
                                     {{ __('Generate') }}
                                 </button>
@@ -56,16 +48,8 @@
 
             @can('read page_sections')
                 @if ($model->id)
-                    <item-list
-                        url-base="/api/pages/{{ $model->id }}/sections"
-                        fields="id,image_id,page_id,position,status,title"
-                        table="page_sections"
-                        title="sections"
-                        include="image"
-                        :sub-list="true"
-                        :searchable="['title']"
-                        :sorting="['position']"
-                    >
+                    <item-list url-base="/api/pages/{{ $model->id }}/sections" fields="id,image_id,page_id,position,status,title" table="page_sections" title="sections" include="image"
+                        :sub-list="true" :searchable="['title']" :sorting="['position']">
                         <template slot="add-button" v-if="$can('create page_sections')">
                             @include('core::admin._button-create', ['url' => route('admin::create-page_section', $model->id), 'module' => 'page_sections'])
                         </template>
@@ -84,7 +68,7 @@
                                 <item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox>
                             </td>
                             <td v-if="$can('update page_sections')">
-                                <item-list-edit-button :url="'/admin/pages/'+model.page_id+'/sections/'+model.id+'/edit'"></item-list-edit-button>
+                                <item-list-edit-button :url="'/admin/pages/' + model.page_id + '/sections/' + model.id + '/edit'"></item-list-edit-button>
                             </td>
                             <td>
                                 <item-list-status-button :model="model"></item-list-status-button>
@@ -126,8 +110,15 @@
                 @if ($model->redirect !== 1)
                     {!! BootForm::select(__('Module'), 'module', TypiCMS::getModulesForSelect())->disable($model->subpages->count() > 0)->formText($model->subpages->count() ? __('A page containing subpages cannot be linked to a module') : '') !!}
                     {!! BootForm::select(__('Template'), 'template', TypiCMS::pageTemplates()) !!}
-                    @if (! $model->id)
-                        {!! BootForm::select(__('Add to menu'),'add_to_menu',['' => ''] + Menus::all()->pluck('name', 'id')->all(), null,['class' => 'form-control'],) !!}
+                    @if (!$model->id)
+                        {!! BootForm::select(
+                            __('Add to menu'),
+                            'add_to_menu',
+                            ['' => ''] +
+                                Menus::all()->pluck('name', 'id')->all(),
+                            null,
+                            ['class' => 'form-control'],
+                        ) !!}
                     @endif
 
                     {!! BootForm::textarea(__('Css'), 'css') !!}

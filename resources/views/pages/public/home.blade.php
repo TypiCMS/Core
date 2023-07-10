@@ -7,23 +7,25 @@
 @section('page')
     <div class="page-body">
         <div class="page-body-container">
-            @empty(! $page->image)
+            @empty(!$page->image)
                 <img class="page-image" src="{{ $page->present()->image(2000) }}" width="{{ $page->image->width }}" height="{{ $page->image->height }}" alt="" />
             @endempty
 
-            @empty(! $page->body)
+            @empty(!$page->body)
                 <div class="rich-content">{!! $page->present()->body !!}</div>
             @endempty
 
             @include('files::public._document-list', ['model' => $page])
             @include('files::public._image-list', ['model' => $page])
             {{--
-            @if (($slides = Slides::published()->order()->get()) and$slides->count() > 0)
+            @if (($slides = Slides::published()->order()->get()) and
+    $slides->count() > 0)
                 @include('slides::public._slider', ['items' => $slides])
             @endif
             --}}
             {{--
-            @if (($latestNews = News::published()->order()->take(3)->get()) and$latestNews->count() > 0)
+            @if (($latestNews = News::published()->order()->take(3)->get()) and
+    $latestNews->count() > 0)
                 <div class="news-list-container">
                     <h3 class="news-list-title">
                         <a href="{{ Route::has($lang . '::index-news') ? route($lang . '::index-news') : '/' }}">@lang('Latest news')</a>
@@ -45,7 +47,8 @@
             @endif
             --}}
             {{--
-            @if (($partners = Partners::published()->where('homepage', 1)->get()) and$partners->count() > 0)
+            @if (($partners = Partners::published()->where('homepage', 1)->get()) and
+    $partners->count() > 0)
                 <div class="partner-list-container">
                     <h3 class="partner-list-title">
                         <a href="{{ Route::has($lang . '::index-partners') ? route($lang . '::index-partners') : '/' }}">@lang('Partners')</a>

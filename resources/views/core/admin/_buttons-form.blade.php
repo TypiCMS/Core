@@ -12,7 +12,7 @@
     @endif
 
     {{ $slot }}
-    @if (! isset($langSwitcher) || $langSwitcher)
+    @if (!isset($langSwitcher) || $langSwitcher)
         @include('core::admin._lang-switcher-for-form')
     @endif
 </div>

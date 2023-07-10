@@ -2,7 +2,6 @@
     @include('core::admin._button-back', ['url' => $menu->editUrl(), 'title' => $menu->name])
     @include('core::admin._title', ['default' => __('New menulink')])
     @component('core::admin._buttons-form', ['model' => $model, 'langSwitcher' => true])
-        
     @endcomponent
 </div>
 
@@ -58,13 +57,13 @@
 
                     // Get sections and create <option> elements.
                     fetch('/api/pages/' + pageId + '/sections?sort=position&fields[page_sections]=id,position,title', {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-Requested-With': 'XMLHttpRequest',
-                            Authorization: `Bearer ${document.head.querySelector('meta[name="api-token"]').content}`,
-                            'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
-                        },
-                    })
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest',
+                                Authorization: `Bearer ${document.head.querySelector('meta[name="api-token"]').content}`,
+                                'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
+                            },
+                        })
                         .then((response) => response.json())
                         .then((data) => {
                             const sections = data.data;

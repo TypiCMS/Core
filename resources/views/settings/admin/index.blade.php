@@ -37,14 +37,8 @@
                     @foreach ($locales as $lang)
                         <div class="form-check form-check-inline">
                             <input type="hidden" name="{{ $lang }}[status]" value="0" />
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="{{ $lang }}[status]"
-                                id="{{ $lang }}[status]"
-                                value="1"
-                                @if (isset($data->$lang) and $data->$lang->status)checked @endif
-                            />
+                            <input class="form-check-input" type="checkbox" name="{{ $lang }}[status]" id="{{ $lang }}[status]" value="1"
+                                @if (isset($data->$lang) and $data->$lang->status) checked @endif />
                             <label class="form-check-label" for="{{ $lang }}[status]">{{ strtoupper($lang) }}</label>
                         </div>
                     @endforeach
@@ -76,7 +70,7 @@
                     </div>
                 </div>
 
-                @if (! config('typicms.welcome_message_url'))
+                @if (!config('typicms.welcome_message_url'))
                     {!! BootForm::textarea(__('Administration Welcome Message'), 'welcome_message') !!}
                 @endif
 

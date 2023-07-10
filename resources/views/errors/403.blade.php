@@ -1,6 +1,6 @@
 @extends('core::public.master')
 
-@section('title', 'Error 403 – '.$websiteTitle)
+@section('title', 'Error 403 – ' . $websiteTitle)
 
 @section('bodyClass', 'error-403')
 

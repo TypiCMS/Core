@@ -3,7 +3,7 @@
         {{ $default ?? __('New') }}
     </h1>
 @else
-    <h1 class="header-title @if (!$model->present()->title)text-muted @endif">
+    <h1 class="header-title @if (!$model->present()->title) text-muted @endif">
         {{ $model->present()->title ?: __('Untitled') }}
     </h1>
 @endempty

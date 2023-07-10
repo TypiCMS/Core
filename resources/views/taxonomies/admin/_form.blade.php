@@ -2,7 +2,6 @@
     @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Taxonomies')])
     @include('core::admin._title', ['default' => __('New taxonomy')])
     @component('core::admin._buttons-form', ['model' => $model])
-        
     @endcomponent
 </div>
 
@@ -17,7 +16,7 @@
     {!! BootForm::text(__('Validation rule'), 'validation_rule')->placeholder('required|array|size:2')->required() !!}
 
     {!! Form::hidden('modules[]')->value('') !!}
-    @if (! empty($modules))
+    @if (!empty($modules))
         <label class="form-label">@lang('Use in modules')</label>
         @foreach ($modules as $module => $properties)
             <div class="form-check">

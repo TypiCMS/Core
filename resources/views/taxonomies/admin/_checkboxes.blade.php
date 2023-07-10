@@ -6,7 +6,9 @@
     $model->terms = $data;
 @endphp
 
-@if (($taxonomies = Taxonomies::whereJsonContains('modules', $module)->order()->get()) and$taxonomies->count() > 0)
+@if (
+    ($taxonomies = Taxonomies::whereJsonContains('modules', $module)->order()->get()) and
+        $taxonomies->count() > 0)
     @foreach ($taxonomies as $taxonomy)
         <div class="col-sm-6 col-xl-3">
             <label class="form-label" for="">@lang('validation.attributes.terms.' . $taxonomy->name)</label>

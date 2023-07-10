@@ -1,6 +1,6 @@
 @extends('core::public.master')
 
-@section('title', 'Error 500 – '.$websiteTitle)
+@section('title', 'Error 500 – ' . $websiteTitle)
 @section('bodyClass', 'error-500')
 @section('lang-switcher', '')
 

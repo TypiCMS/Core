@@ -1,11 +1,11 @@
 @extends('pages::public.master')
 
-@section('bodyClass', 'body-search body-search-index body-page body-page-'.$page->id)
+@section('bodyClass', 'body-search body-search-index body-page body-page-' . $page->id)
 
 @section('page')
     <div class="page-body">
         <div class="page-body-container">
-            @if (! $errors->has('search'))
+            @if (!$errors->has('search'))
                 <div class="search-results">
                     <h1 class="search-results-title">
                         @lang('Search results for “:search”', ['search' => request('search')])
@@ -20,7 +20,7 @@
                                         @choice($result['module'], $result['models']->count())
                                     </h2>
                                     <div class="search-results-module-results">
-                                        @include($result['module'].'::public._list-results', ['items' => $result['models']])
+                                        @include($result['module'] . '::public._list-results', ['items' => $result['models']])
                                     </div>
                                 </div>
                             @endforeach

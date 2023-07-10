@@ -20,7 +20,7 @@
                 <item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox>
             </td>
             <td v-if="$can('update tags')">
-                <item-list-edit-button :url="'/admin/tags/'+model.id+'/edit'"></item-list-edit-button>
+                <item-list-edit-button :url="'/admin/tags/' + model.id + '/edit'"></item-list-edit-button>
             </td>
             <td>@{{ model.tag }}</td>
             <td>@{{ model.uses }}</td>

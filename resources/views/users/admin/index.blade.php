@@ -3,18 +3,8 @@
 @section('title', __('Users'))
 
 @section('content')
-    <item-list
-        url-base="/api/users"
-        fields="id,first_name,last_name,email,activated,superuser,roles.name"
-        table="users"
-        title="users"
-        include="roles"
-        :translatable="false"
-        :publishable="false"
-        :exportable="true"
-        :searchable="['first_name,last_name,email']"
-        :sorting="['first_name']"
-    >
+    <item-list url-base="/api/users" fields="id,first_name,last_name,email,activated,superuser,roles.name" table="users" title="users" include="roles" :translatable="false" :publishable="false"
+        :exportable="true" :searchable="['first_name,last_name,email']" :sorting="['first_name']">
         <template slot="add-button" v-if="$can('create users')">
             @include('core::admin._button-create', ['module' => 'users'])
         </template>
@@ -35,19 +25,15 @@
                 <item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox>
             </td>
             <td v-if="$can('update users')">
-                <item-list-edit-button :url="'/admin/users/'+model.id+'/edit'"></item-list-edit-button>
+                <item-list-edit-button :url="'/admin/users/' + model.id + '/edit'"></item-list-edit-button>
             </td>
             <td v-if="$can('impersonate users')">
-                <a
-                    class="btn-impersonate btn btn-link btn-sm text-secondary"
-                    title="Impersonate"
-                    onclick="if(!confirm('@lang('Impersonate this user?')'))return false"
-                    :href="'/admin/users/'+model.id+'/impersonate'"
-                ></a>
+                <a class="btn-impersonate btn btn-link btn-sm text-secondary" title="Impersonate" onclick="if(!confirm('@lang('Impersonate this user?')'))return false"
+                    :href="'/admin/users/' + model.id + '/impersonate'"></a>
             </td>
             <td>@{{ model.first_name }}</td>
             <td>@{{ model.last_name }}</td>
-            <td><a :href="'mailto:'+model.email">@{{ model.email }}</a></td>
+            <td><a :href="'mailto:' + model.email">@{{ model.email }}</a></td>
             <td>
                 <span class="badge bg-dark" v-if="model.activated">@lang('Yes')</span>
                 <span class="badge bg-secondary" v-else>@lang('No')</span>

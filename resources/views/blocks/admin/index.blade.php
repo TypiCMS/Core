@@ -21,7 +21,7 @@
                 <item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox>
             </td>
             <td v-if="$can('update blocks')">
-                <item-list-edit-button :url="'/admin/blocks/'+model.id+'/edit'"></item-list-edit-button>
+                <item-list-edit-button :url="'/admin/blocks/' + model.id + '/edit'"></item-list-edit-button>
             </td>
             <td>
                 <item-list-status-button :model="model"></item-list-status-button>
