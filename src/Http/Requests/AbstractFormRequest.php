@@ -34,8 +34,9 @@ abstract class AbstractFormRequest extends FormRequest
             'body.*' => Str::lower(__('Body')),
             'website.*' => Str::lower(__('Website')),
             'url.*' => Str::lower(__('Url')),
-            'meta_keywords.*' => Str::lower(__('Meta keywords')),
+            'meta_title.*' => Str::lower(__('Meta title')),
             'meta_description.*' => Str::lower(__('Meta description')),
+            'meta_keywords.*' => Str::lower(__('Meta keywords')),
         ];
     }
 }

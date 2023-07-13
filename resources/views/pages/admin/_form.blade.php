@@ -92,7 +92,8 @@
                     <file-manager related-table="{{ $model->getTable() }}" :related-id="{{ $model->id ?? 0 }}"></file-manager>
                     <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>
                     <files-field :init-files="{{ $model->files }}"></files-field>
-                    {!! TranslatableBootForm::textarea(__('Meta description'), 'meta_description')->rows(3) !!}
+                    {!! TranslatableBootForm::textarea(__('Meta title'), 'meta_title')->rows(2) !!}
+                    {!! TranslatableBootForm::textarea(__('Meta description'), 'meta_description')->rows(4) !!}
                     {!! TranslatableBootForm::text(__('Meta keywords'), 'meta_keywords') !!}
                 @endif
 

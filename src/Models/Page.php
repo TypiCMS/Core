@@ -38,8 +38,9 @@ class Page extends Base
         'uri',
         'status',
         'body',
-        'meta_keywords',
+        'meta_title',
         'meta_description',
+        'meta_keywords',
     ];
 
     public function uri($locale = null): string

@@ -16,4 +16,9 @@ class PagePresenter extends Presenter
 
         return $parentUri;
     }
+
+    public function metaTitle(): string
+    {
+        return !empty($this->entity->meta_title) ? $this->entity->meta_title : $this->entity->title;
+    }
 }

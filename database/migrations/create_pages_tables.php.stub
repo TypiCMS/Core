@@ -24,8 +24,9 @@ return new class() extends Migration {
             $table->json('uri')->default(new Expression('(JSON_OBJECT())'));
             $table->json('body')->default(new Expression('(JSON_OBJECT())'));
             $table->json('status')->default(new Expression('(JSON_OBJECT())'));
-            $table->json('meta_keywords')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('meta_title')->default(new Expression('(JSON_OBJECT())'));
             $table->json('meta_description')->default(new Expression('(JSON_OBJECT())'));
+            $table->json('meta_keywords')->default(new Expression('(JSON_OBJECT())'));
             $table->text('css')->nullable();
             $table->text('js')->nullable();
             $table->string('module')->nullable();
