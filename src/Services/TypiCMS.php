@@ -104,12 +104,7 @@ class TypiCMS
 
         return $permissions;
     }
-
-    public function hasLogo(): bool
-    {
-        return (bool) config('typicms.image');
-    }
-
+    
     public function title($locale = null): ?string
     {
         return config('typicms.' . ($locale ?: config('app.locale')) . '.website_title');

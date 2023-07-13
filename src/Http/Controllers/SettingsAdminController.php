@@ -2,13 +2,9 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Bkwld\Croppa\Facades\Croppa;
-use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use stdClass;
 use TypiCMS\Modules\Core\Models\Setting;
@@ -39,18 +35,7 @@ class SettingsAdminController extends BaseAdminController
 
     public function save(Request $request, FileUploader $fileUploader): RedirectResponse
     {
-        $data = $request->except('_token', 'image');
-
-        if ($request->hasFile('image')) {
-            $validator = Validator::make($request->all(), [
-                'image' => 'image',
-            ]);
-            if ($validator->passes()) {
-                $file = $fileUploader->handle($request->file('image'), 'settings');
-                $this->deleteImage();
-                $data['image'] = $file['filename'];
-            }
-        }
+        $data = $request->except('_token');
 
         foreach ($data as $group_name => $array) {
             if (!is_array($array)) {
@@ -65,18 +50,6 @@ class SettingsAdminController extends BaseAdminController
         }
 
         return redirect()->route('admin::index-settings');
-    }
-
-    public function deleteImage(): void
-    {
-        if ($filename = Setting::where('key_name', 'image')->value('value')) {
-            try {
-                Croppa::delete('storage/settings/' . $filename);
-            } catch (Exception $e) {
-                Log::info($e->getMessage());
-            }
-        }
-        Setting::where('key_name', 'image')->delete();
     }
 
     public function clearCache(): RedirectResponse

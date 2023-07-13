@@ -54,22 +54,6 @@
                     </div>
                 @endforeach
 
-                <div class="fieldset-media fieldset-image">
-                    {!! BootForm::hidden('image') !!}
-                    @if (isset($data->image) and $data->image)
-                        <div class="fieldset-preview">
-                            <img class="img-fluid" src="{{ Storage::url('settings/' . $data->image) }}" alt="" />
-                            <small class="text-danger delete-attachment" data-table="settings" data-id="" data-field="image">
-                                @lang('Delete')
-                            </small>
-                        </div>
-                    @endif
-
-                    <div class="fieldset-field">
-                        {!! BootForm::file(__('Logo'), 'image') !!}
-                    </div>
-                </div>
-
                 @if (!config('typicms.welcome_message_url'))
                     {!! BootForm::textarea(__('Administration Welcome Message'), 'welcome_message') !!}
                 @endif
