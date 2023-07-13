@@ -56,7 +56,7 @@
                 @can('read settings')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin::index-settings') }}">
-                            <span class="bi bi-gear-fill"></span>
+                            <span class="bi bi-gear-fill me-2"></span>
                             <span class="d-none d-lg-inline">
                                 {{ __('Settings', [], config('typicms.navbar_locale')) }}
                             </span>
