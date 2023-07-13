@@ -8,7 +8,9 @@
                         {{ path[path.length - 2].name }}
                     </span>
                 </a>
-                <h1 class="filemanager-title header-title" v-if="path.length > 0">{{ path[path.length - 1].name }}</h1>
+                <h1 class="filemanager-title header-title" v-if="path.length > 0">
+                    {{ path[path.length - 1].name }}
+                </h1>
                 <div class="header-toolbar btn-toolbar">
                     <button class="btn btn-sm btn-light me-2" @click="newFolder(folder.id)" type="button">
                         <i class="bi bi-folder-fill text-black-50 me-1"></i>
@@ -36,7 +38,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="btn-group btn-group-sm">
+                    <div class="btn-group btn-group-sm me-2">
                         <button class="btn btn-light" :class="{ active: view === 'grid' }" type="button" @click="switchView('grid')">
                             <i class="bi bi-grid-3x2-gap-fill text-black-50 me-1"></i>
                             {{ $t('Grid') }}
@@ -51,14 +53,39 @@
                             <span class="visually-hidden">{{ $t('Loading…') }}</span>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-sm btn-primary header-btn-add ms-auto" id="upload-files-button" v-if="dropzone">
+                    <div class="btn-group btn-group-sm me-2 ms-auto">
+                        <button
+                            class="btn btn-primary filemanager-btn-add btn-add-multiple"
+                            type="button"
+                            @click="addSelectedFiles()"
+                            id="add-selected-files-button"
+                            v-if="options.multiple"
+                            :disabled="selectedFiles.length < 1"
+                        >
+                            {{ $t('Add selected files') }}
+                        </button>
+
+                        <button
+                            class="btn btn-primary filemanager-btn-add btn-add-single"
+                            type="button"
+                            @click="addSingleFile(selectedFiles[0])"
+                            id="add-selected-file-button"
+                            v-if="options.single"
+                            :disabled="selectedFiles.length !== 1"
+                        >
+                            {{ $t('Add selected file') }}
+                        </button>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-light header-btn-add" id="upload-files-button" v-if="dropzone">
                         <i class="bi bi-cloud-upload-fill me-1"></i>
                         {{ $t('Upload files') }}
                     </button>
                 </div>
             </div>
 
-            <button class="filemanager-btn-close" type="button" v-if="this.modal" @click="closeModal" :aria-label="$t('Close window')"><span aria-hidden="true">×</span></button>
+            <button class="filemanager-btn-close" type="button" v-if="this.modal" @click="closeModal" :aria-label="$t('Close window')">
+                <span aria-hidden="true">×</span>
+            </button>
 
             <div class="filemanager-body">
                 <Dashboard
@@ -103,7 +130,9 @@
                                 <i class="bi bi-file-earmark" v-if="item.type === 'd'"></i>
                                 <i class="bi bi-folder" v-if="item.type === 'f'"></i>
                             </div>
-                            <div class="filemanager-item-name">{{ item.name }}</div>
+                            <div class="filemanager-item-name">
+                                {{ item.name }}
+                            </div>
                             <a class="filemanager-item-editable-button" :href="'/admin/files/' + item.id + '/edit'">
                                 <span class="filemanager-item-editable-button-icon"></span>
                                 <span class="visually-hidden">{{ $t('Edit') }}</span>
@@ -111,30 +140,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="filemanager-footer">
-                <button
-                    class="btn btn-success filemanager-btn-add btn-add-multiple"
-                    type="button"
-                    @click="addSelectedFiles()"
-                    id="add-selected-files-button"
-                    v-if="options.multiple"
-                    :disabled="selectedFiles.length < 1"
-                >
-                    {{ $t('Add selected files') }}
-                </button>
-
-                <button
-                    class="btn btn-success filemanager-btn-add btn-add-single"
-                    type="button"
-                    @click="addSingleFile(selectedFiles[0])"
-                    id="add-selected-file-button"
-                    v-if="options.single"
-                    :disabled="selectedFiles.length !== 1"
-                >
-                    {{ $t('Add selected file') }}
-                </button>
             </div>
         </div>
     </div>
