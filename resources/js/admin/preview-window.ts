@@ -21,7 +21,6 @@ export default () => {
             (event: Event) => {
                 event.preventDefault();
                 (document.getElementById('preview-content') as HTMLIFrameElement).src = btnPreview.href;
-                document.documentElement.classList.add('noscroll'); // add noscroll class to <html>
                 document.body.classList.add('noscroll'); // add noscroll class to <body>
                 document.getElementById('preview-window')!.classList.add('typicms-modal-open');
             },
@@ -39,7 +38,6 @@ export default () => {
             (event: Event) => {
                 event.preventDefault();
                 (document.getElementById('preview-content') as HTMLIFrameElement).src = '';
-                document.documentElement.classList.remove('noscroll'); // remove noscroll class from <html>
                 document.body.classList.remove('noscroll'); // remove noscroll class from <body>
                 document.getElementById('preview-window')!.classList.remove('typicms-modal-open');
             },

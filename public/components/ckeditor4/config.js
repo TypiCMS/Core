@@ -43,7 +43,6 @@ CKEDITOR.on('dialogDefinition', function (event) {
         const filepicker = document.getElementById('filepicker');
         filepicker.dataset.CKEditorCleanUpFuncNum = '0';
         filepicker.dataset.CKEditorFuncNum = '0';
-        document.documentElement.classList.remove('noscroll');
         document.body.classList.remove('noscroll');
     });
 

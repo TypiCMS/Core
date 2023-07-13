@@ -8,9 +8,7 @@
                         {{ path[path.length - 2].name }}
                     </span>
                 </a>
-                <h1 class="filemanager-title header-title" v-if="path.length > 0">
-                    {{ path[path.length - 1].name }}
-                </h1>
+                <h1 class="filemanager-title header-title" v-if="path.length > 0">{{ path[path.length - 1].name }}</h1>
                 <div class="header-toolbar btn-toolbar">
                     <button class="btn btn-sm btn-light me-2" @click="newFolder(folder.id)" type="button">
                         <i class="bi bi-folder-fill text-black-50 me-1"></i>
@@ -83,9 +81,7 @@
                 </div>
             </div>
 
-            <button class="filemanager-btn-close" type="button" v-if="this.modal" @click="closeModal" :aria-label="$t('Close window')">
-                <span aria-hidden="true">×</span>
-            </button>
+            <button class="filemanager-btn-close" type="button" v-if="this.modal" @click="closeModal" :aria-label="$t('Close window')"><span aria-hidden="true">×</span></button>
 
             <div class="filemanager-body">
                 <Dashboard
@@ -130,9 +126,7 @@
                                 <i class="bi bi-file-earmark" v-if="item.type === 'd'"></i>
                                 <i class="bi bi-folder" v-if="item.type === 'f'"></i>
                             </div>
-                            <div class="filemanager-item-name">
-                                {{ item.name }}
-                            </div>
+                            <div class="filemanager-item-name">{{ item.name }}</div>
                             <a class="filemanager-item-editable-button" :href="'/admin/files/' + item.id + '/edit'">
                                 <span class="filemanager-item-editable-button-icon"></span>
                                 <span class="visually-hidden">{{ $t('Edit') }}</span>
@@ -227,12 +221,10 @@ export default {
             this.view = JSON.parse(sessionStorage.getItem('view'));
         }
         window.EventBus.$on('openFilepickerForCKEditor', (options) => {
-            document.documentElement.classList.add('noscroll');
             document.body.classList.add('noscroll');
             this.options = options;
         });
         this.$root.$on('openFilepicker', (options) => {
-            document.documentElement.classList.add('noscroll');
             document.body.classList.add('noscroll');
             this.options = options;
         });
@@ -581,7 +573,6 @@ export default {
             this.checkNone();
         },
         closeModal() {
-            document.documentElement.classList.remove('noscroll');
             document.body.classList.remove('noscroll');
             this.options.open = false;
         },

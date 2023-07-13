@@ -26,12 +26,11 @@ html {
 
 body {
     min-height: 100%;
-    overflow-x: hidden;
 }
 
 .main {
     @include media-breakpoint-up(lg) {
-        padding-left: $sidebar-width;
+        padding-left: $offcanvas-horizontal-width;
     }
 }
 

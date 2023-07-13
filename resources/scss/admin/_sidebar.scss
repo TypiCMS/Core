@@ -1,5 +1,3 @@
-$sidebar-width: 260px;
-
 .offcanvas-lg {
     overflow-y: scroll;
     @include media-breakpoint-up(lg) {
@@ -28,7 +26,7 @@ $sidebar-width: 260px;
 }
 
 .sidebar {
-    width: $sidebar-width;
+    width: $offcanvas-horizontal-width;
 }
 
 .sidebar-panel {
