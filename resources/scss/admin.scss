@@ -50,6 +50,13 @@ h1 {
     }
 }
 
+h2 {
+    border-bottom: 1px solid $gray-400;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.375rem;
+}
+
 .btn-status {
     all: unset;
     flex-shrink: 0;

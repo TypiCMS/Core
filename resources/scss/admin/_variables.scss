@@ -16,6 +16,12 @@ $light: $gray-300;
 $secondary: $gray-600;
 $dark: $gray-800;
 
+$font-size-base: 1rem;
+
+$h1-font-size: $font-size-base * 2.25;
+$h2-font-size: $font-size-base * 1.25;
+$h3-font-size: $font-size-base * 1.125;
+
 $link-decoration: none;
 
 $border-radius: 0.375rem;
