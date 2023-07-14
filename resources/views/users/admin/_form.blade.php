@@ -10,19 +10,19 @@
 
     <div class="row gx-3">
         <div class="col-sm-6">
-            {!! BootForm::text(__('First name'), 'first_name')->required() !!}
+            {!! BootForm::text(__('First name'), 'first_name')->required()->autocomplete('off') !!}
         </div>
         <div class="col-sm-6">
-            {!! BootForm::text(__('Last name'), 'last_name')->required() !!}
+            {!! BootForm::text(__('Last name'), 'last_name')->required()->autocomplete('off') !!}
         </div>
     </div>
 
     <div class="row gx-3">
         <div class="col">
-            {!! BootForm::email(__('Email'), 'email') !!}
+            {!! BootForm::email(__('Email'), 'email')->autocomplete('off') !!}
         </div>
         <div class="col">
-            {!! BootForm::text(__('Phone'), 'phone') !!}
+            {!! BootForm::text(__('Phone'), 'phone')->autocomplete('off') !!}
         </div>
     </div>
 
@@ -49,13 +49,13 @@
 
     <div class="row gx-3">
         <div class="col">
-            {!! BootForm::text(__('Postal code'), 'postal_code') !!}
+            {!! BootForm::text(__('Postal code'), 'postal_code')->autocomplete('off') !!}
         </div>
         <div class="col">
             {!! BootForm::text(__('City'), 'city') !!}
         </div>
         <div class="col">
-            {!! BootForm::text(__('Country'), 'country') !!}
+            {!! BootForm::text(__('Country'), 'country')->autocomplete('off') !!}
         </div>
     </div>
 
@@ -71,7 +71,7 @@
     </div>
 
     <div class="mb-3">
-        <label class="form-label">{{ __('Roles') }}</label>
+        <p class="form-label">{{ __('Roles') }}</p>
         @if (auth()->user()->isSuperUser())
             {!! BootForm::hidden('superuser')->value(0) !!}
             {!! BootForm::checkbox(__('Superuser'), 'superuser') !!}

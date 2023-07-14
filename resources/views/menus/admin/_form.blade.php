@@ -14,7 +14,7 @@
     @if ($model->id)
         {!! BootForm::hidden('name') !!}
     @else
-        {!! BootForm::text(__('Name'), 'name')->required() !!}
+        {!! BootForm::text(__('Name'), 'name')->required()->autocomplete('off') !!}
     @endif
 
     {!! BootForm::text(__('Class'), 'class') !!}

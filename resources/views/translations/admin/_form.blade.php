@@ -14,7 +14,7 @@
         {!! BootForm::text(__('Key'), 'key')->required() !!}
     @endif
 
-    <label class="form-label">{{ __('Translations') }}</label>
+    <p class="form-label">{{ __('Translations') }}</p>
 
     @foreach ($locales as $lang)
         <div class="mb-3">

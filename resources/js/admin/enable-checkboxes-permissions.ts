@@ -1,17 +1,16 @@
 export default () => {
     // Create a heading checkbox.
-    const headingCheckbox = document.createElement('input');
-    headingCheckbox.type = 'checkbox';
-    headingCheckbox.classList.add('permissions-modules-item-title-checkbox', 'form-check-input');
-
-    // Add a clone of the heading checkbox into each label.
     const labels = document.querySelectorAll<HTMLLabelElement>('.permissions-modules-item-title');
-    labels.forEach((label) => {
+    labels.forEach((label, index) => {
         let wrapper = document.createElement('div');
         wrapper.classList.add('form-check');
         label.parentNode?.insertBefore(wrapper, label);
         wrapper.appendChild(label);
-        label.prepend(headingCheckbox.cloneNode(true));
+        const headingCheckbox = document.createElement('input');
+        headingCheckbox.type = 'checkbox';
+        headingCheckbox.id = `check-all-checkbox-${++index}`;
+        headingCheckbox.classList.add('permissions-modules-item-title-checkbox', 'form-check-input');
+        label.prepend(headingCheckbox);
     });
 
     const headingCheckboxes = document.querySelectorAll<HTMLInputElement>('.permissions-modules-item-title-checkbox');

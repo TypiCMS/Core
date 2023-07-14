@@ -10,7 +10,7 @@
 <div class="content">
     <div class="row gx-3">
         <div class="col-sm-6">
-            {!! BootForm::text(__('Name'), 'name')->required() !!}
+            {!! BootForm::text(__('Name'), 'name')->required()->autocomplete('off') !!}
         </div>
     </div>
 

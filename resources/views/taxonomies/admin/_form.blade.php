@@ -8,7 +8,7 @@
 <div class="content">
     @include('core::admin._form-errors')
 
-    {!! BootForm::text(__('Name'), 'name')->required() !!}
+    {!! BootForm::text(__('Name'), 'name')->required()->autocomplete('off') !!}
     {!! TranslatableBootForm::text(__('Info for search results'), 'result_string') !!}
 
     @include('core::form._title-and-slug')
@@ -17,7 +17,7 @@
 
     {!! Form::hidden('modules[]')->value('') !!}
     @if (!empty($modules))
-        <label class="form-label">@lang('Use in modules')</label>
+        <p class="form-label">@lang('Use in modules')</p>
         @foreach ($modules as $module => $properties)
             <div class="form-check">
                 {!! Form::checkbox('modules[]', $module)->id($module)->addClass('form-check-input') !!}

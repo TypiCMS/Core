@@ -28,7 +28,7 @@
                 {!! TranslatableBootForm::text(__('Alt attribute'), 'alt_attribute') !!}
             @endif
 
-            {!! BootForm::text(__('Name'), 'name') !!}
+            {!! BootForm::text(__('Name'), 'name')->autocomplete('off') !!}
         </div>
 
         <div class="col-lg-6">
