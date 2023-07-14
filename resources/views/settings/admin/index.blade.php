@@ -55,7 +55,7 @@
                 @endforeach
 
                 @if (!config('typicms.welcome_message_url'))
-                    {!! BootForm::textarea(__('Administration Welcome Message'), 'welcome_message') !!}
+                    {!! BootForm::textarea(__('Administration Welcome Message'), 'welcome_message')->rows(3) !!}
                 @endif
 
                 {!! BootForm::hidden('auth_public')->value(0) !!}
