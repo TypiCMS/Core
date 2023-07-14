@@ -2,6 +2,8 @@
 <input type="hidden" name="checked_permissions[]" value="update preferences" />
 <input type="hidden" name="checked_permissions[]" value="clear cache" />
 
+<h2>{{ __('Global permissions') }}</h2>
+
 <div class="mb-3">
     <div class="form-check">
         {!! Form::checkbox('checked_permissions[]', 'see navbar')->id('permission-see-navbar')->addClass('form-check-input') !!}
@@ -40,7 +42,7 @@
 </div>
 
 <div class="permissions-modules">
-    <h2 class="permissions-modules-title">{{ __('Modules') }}</h2>
+    <h2>{{ __('Modules permissions') }}</h2>
     <div class="permissions-modules-items">
         @foreach (TypiCMS::permissions() as $module => $permissions)
             <div class="permissions-modules-item mt-4 mb-4">

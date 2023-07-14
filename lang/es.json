@@ -1,4 +1,6 @@
 {
+    "Modules permissions": "Permisos de los módulos",
+    "Global permissions": "Permisos globales",
     "# blocks": "Ningún bloque|1 bloque|{count} bloques",
     "# categories": "Ningún categoría|1 categoría|{count} categorías",
     "# contacts": "Ningún contacto|1 contacto|{count} contactos",

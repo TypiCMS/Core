@@ -1,4 +1,6 @@
 {
+    "Modules permissions": "Toestemmingen voor modules",
+    "Global permissions": "Globale toestemmingen",
     "# blocks": "Geen inhoudsblok|1 inhoudsblok|{count} inhoudsblokken",
     "# categories": "Geen categorie|1 categorie|{count} categorieën",
     "# contacts": "Geen contact|1 contact|{count} contacten",

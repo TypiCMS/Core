@@ -14,6 +14,5 @@
         </div>
     </div>
 
-    <label class="form-label">@lang('Role permissions')</label>
     @include('core::admin._permissions-form')
 </div>
