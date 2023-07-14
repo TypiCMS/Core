@@ -3,6 +3,7 @@
         <label class="btn btn-light mb-0" :class="{ disabled: !filteredModels.length || loading }">
             <input
                 class="form-check-input"
+                id="check-all-checkbox"
                 type="checkbox"
                 :disabled="!filteredModels.length || loading"
                 :checked="allChecked"

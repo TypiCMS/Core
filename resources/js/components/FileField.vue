@@ -1,11 +1,11 @@
 <template>
     <div>
-        <label class="form-label" :for="field">
+        <p class="form-label mb-2">
             <span v-if="label">{{ $t(label) }}</span>
             <span v-else>
                 {{ type === 'document' ? $t('Document') : $t('Image') }}
             </span>
-        </label>
+        </p>
         <input type="hidden" :name="field" :id="field" :rel="field" v-model="fileId" />
         <div>
             <div class="filemanager-item filemanager-item-with-name filemanager-item-removable" v-if="file !== null">

@@ -2,7 +2,7 @@
     <div>
         <input type="hidden" name="file_ids" :value="fileIds.join()" />
         <div class="mb-3">
-            <label class="form-label">{{ $t(label) }}</label>
+            <p class="form-label mb-2">{{ $t(label) }}</p>
             <p>
                 <button class="filemanager-field-btn-add" @click="openFilepicker" type="button">
                     <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
