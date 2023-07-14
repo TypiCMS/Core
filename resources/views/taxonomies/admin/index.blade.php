@@ -3,8 +3,7 @@
 @section('title', __('Taxonomies'))
 
 @section('content')
-    <item-list url-base="/api/taxonomies" fields="id,title,name,validation_rule,position,result_string,modules" table="taxonomies" title="taxonomies" :publishable="false" :exportable="false"
-        :searchable="['title,name,validation_rule,result_string']" :sorting="['position']">
+    <item-list url-base="/api/taxonomies" fields="id,title,name,validation_rule,position,result_string,modules" table="taxonomies" title="taxonomies" :publishable="false" :exportable="false" :searchable="['title,name,validation_rule,result_string']" :sorting="['position']">
         <template slot="add-button" v-if="$can('create taxonomies')">
             @include('core::admin._button-create', ['module' => 'taxonomies'])
         </template>

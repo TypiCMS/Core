@@ -12,14 +12,31 @@
             {{ $t('Action') }}
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownActions">
-            <button type="button" class="dropdown-item" v-if="publishable" @click="$emit('publish')">
-                {{ $t('Publish') }} <span class="text-muted">({{ locale }})</span>
+            <button
+                type="button"
+                class="dropdown-item"
+                v-if="publishable"
+                @click="$emit('publish')"
+            >
+                {{ $t('Publish') }}
+                <span class="text-muted">({{ locale }})</span>
             </button>
-            <button type="button" class="dropdown-item" v-if="publishable" @click="$emit('unpublish')">
-                {{ $t('Unpublish') }} <span class="text-muted">({{ locale }})</span>
+            <button
+                type="button"
+                class="dropdown-item"
+                v-if="publishable"
+                @click="$emit('unpublish')"
+            >
+                {{ $t('Unpublish') }}
+                <span class="text-muted">({{ locale }})</span>
             </button>
             <div class="dropdown-divider" v-if="publishable"></div>
-            <button type="button" class="dropdown-item" v-if="deletable" @click="$emit('destroy')">
+            <button
+                type="button"
+                class="dropdown-item"
+                v-if="deletable"
+                @click="$emit('destroy')"
+            >
                 {{ $t('Delete') }}
             </button>
             <div role="separator" class="divider"></div>

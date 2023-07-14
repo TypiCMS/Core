@@ -3,10 +3,12 @@
 @section('title', __('Terms'))
 
 @section('content')
-    <item-list url-base="/api/taxonomies/{{ $taxonomy->id }}/terms" fields="id,taxonomy_id,title,position" table="terms" title="terms" :publishable="false" :exportable="false" :searchable="['title']"
-        :sorting="['position']">
+    <item-list url-base="/api/taxonomies/{{ $taxonomy->id }}/terms" fields="id,taxonomy_id,title,position" table="terms" title="terms" :publishable="false" :exportable="false" :searchable="['title']" :sorting="['position']">
         <template slot="back-button">
-            @include('core::admin._button-back', ['url' => route('admin::index-taxonomies'), 'title' => __('Taxonomies')])
+            @include('core::admin._button-back', [
+                'url' => route('admin::index-taxonomies'),
+                'title' => __('Taxonomies'),
+            ])
         </template>
 
         <template slot="add-button">

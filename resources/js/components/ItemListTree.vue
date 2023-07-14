@@ -11,16 +11,45 @@
                 <slot name="buttons"></slot>
                 <slot name="add-button"></slot>
                 <div class="d-flex align-items-center ms-2">
-                    <div class="spinner-border spinner-border-sm text-dark" role="status" v-if="loading">
-                        <span class="visually-hidden">{{ $t('Loading…') }}</span>
+                    <div
+                        class="spinner-border spinner-border-sm text-dark"
+                        role="status"
+                        v-if="loading"
+                    >
+                        <span class="visually-hidden">{{
+                            $t('Loading…')
+                        }}</span>
                     </div>
                 </div>
-                <div class="btn-group btn-group-sm ms-auto" v-if="translatable && locales.length > 1">
-                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownLangSwitcher" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span id="active-locale">{{ locales.find((item) => item.short === contentLocale).long }}</span>
+                <div
+                    class="btn-group btn-group-sm ms-auto"
+                    v-if="translatable && locales.length > 1"
+                >
+                    <button
+                        class="btn btn-light dropdown-toggle"
+                        type="button"
+                        id="dropdownLangSwitcher"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    >
+                        <span id="active-locale">{{
+                            locales.find((item) => item.short === contentLocale)
+                                .long
+                        }}</span>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLangSwitcher">
-                        <button class="dropdown-item" :class="{ active: locale === contentLocale }" type="button" v-for="locale in locales" @click="switchLocale(locale.short)" :key="locale.short">
+                    <div
+                        class="dropdown-menu dropdown-menu-right"
+                        aria-labelledby="dropdownLangSwitcher"
+                    >
+                        <button
+                            class="dropdown-item"
+                            :class="{ active: locale === contentLocale }"
+                            type="button"
+                            v-for="locale in locales"
+                            @click="switchLocale(locale.short)"
+                            :key="locale.short"
+                        >
                             {{ locale.long }}
                         </button>
                     </div>
@@ -28,33 +57,99 @@
             </div>
         </div>
         <div class="item-list-content content">
-            <sl-vue-tree v-model="models" :allowMultiselect="false" ref="slVueTree" @drop="drop" @toggle="toggle">
+            <sl-vue-tree
+                v-model="models"
+                :allowMultiselect="false"
+                ref="slVueTree"
+                @drop="drop"
+                @toggle="toggle"
+            >
                 <template slot="title" slot-scope="{ node }">
-                    <button class="btn btn-xs btn-link" type="button" @click="deleteFromNested(node)" v-if="$can('delete ' + table)">
+                    <button
+                        class="btn btn-xs btn-link"
+                        type="button"
+                        @click="deleteFromNested(node)"
+                        v-if="$can('delete ' + table)"
+                    >
                         <i class="bi bi-x-lg fs-6 text-danger"></i>
                     </button>
 
-                    <a class="btn btn-light btn-xs ms-1 me-2" :href="table + '/' + node.data.id + '/edit'" v-if="$can('update ' + table)">
+                    <a
+                        class="btn btn-light btn-xs ms-1 me-2"
+                        :href="table + '/' + node.data.id + '/edit'"
+                        v-if="$can('update ' + table)"
+                    >
                         {{ $t('Edit') }}
                     </a>
 
-                    <button class="btn-status me-2" type="button" @click="toggleStatus(node)">
-                        <span class="btn-status-icon" :class="node.data.status_translated === 1 ? 'btn-status-icon-on' : 'btn-status-icon-off'" v-if="translatable"></span>
-                        <span class="btn-status-icon" :class="node.data.status === 1 ? 'btn-status-icon-on' : 'btn-status-icon-off'" v-else></span>
+                    <button
+                        class="btn-status me-2"
+                        type="button"
+                        @click="toggleStatus(node)"
+                    >
+                        <span
+                            class="btn-status-icon"
+                            :class="
+                                node.data.status_translated === 1
+                                    ? 'btn-status-icon-on'
+                                    : 'btn-status-icon-off'
+                            "
+                            v-if="translatable"
+                        ></span>
+                        <span
+                            class="btn-status-icon"
+                            :class="
+                                node.data.status === 1
+                                    ? 'btn-status-icon-on'
+                                    : 'btn-status-icon-off'
+                            "
+                            v-else
+                        ></span>
                     </button>
-                    <i class="bi bi-house-door-fill text-secondary" v-if="node.data.is_home"></i>
-                    <i class="bi bi-lock-fill text-secondary" v-if="node.data.private"></i>
-                    <div class="title" v-html="translatable ? node.data.title_translated : node.data.title"></div>
-                    <i class="bi bi-arrow-down-right-square text-secondary" v-if="node.data.redirect"></i>
+                    <i
+                        class="bi bi-house-door-fill text-secondary"
+                        v-if="node.data.is_home"
+                    ></i>
+                    <i
+                        class="bi bi-lock-fill text-secondary"
+                        v-if="node.data.private"
+                    ></i>
+                    <div
+                        class="title"
+                        v-html="
+                            translatable
+                                ? node.data.title_translated
+                                : node.data.title
+                        "
+                    ></div>
+                    <i
+                        class="bi bi-arrow-down-right-square text-secondary"
+                        v-if="node.data.redirect"
+                    ></i>
 
-                    <a class="btn btn-xs btn-secondary py-0 px-1 fw-bold" :href="'/admin/' + node.data.module" v-if="node.data.module">
-                        {{ $t(node.data.module.charAt(0).toUpperCase() + node.data.module.slice(1)) }}
+                    <a
+                        class="btn btn-xs btn-secondary py-0 px-1 fw-bold"
+                        :href="'/admin/' + node.data.module"
+                        v-if="node.data.module"
+                    >
+                        {{
+                            $t(
+                                node.data.module.charAt(0).toUpperCase() +
+                                    node.data.module.slice(1),
+                            )
+                        }}
                     </a>
                 </template>
 
                 <template slot="toggle" slot-scope="{ node }">
-                    <small class="bi bi-caret-down-fill" v-if="node.children.length > 0 && node.isExpanded"></small>
-                    <small class="bi bi-caret-right-fill" v-if="node.children.length > 0 && !node.isExpanded"></small>
+                    <small
+                        class="bi bi-caret-down-fill"
+                        v-if="node.children.length > 0 && node.isExpanded"
+                    ></small>
+                    <small
+                        class="bi bi-caret-right-fill"
+                        v-if="node.children.length > 0 && !node.isExpanded"
+                    ></small>
                 </template>
             </sl-vue-tree>
         </div>
@@ -136,7 +231,10 @@ export default {
                 this.models = await response.json();
                 this.stopLoading();
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('An error occurred with the data fetch.'));
+                alertify.error(
+                    error.message ||
+                        this.$i18n.t('An error occurred with the data fetch.'),
+                );
             }
         },
         startLoading() {
@@ -166,11 +264,19 @@ export default {
         async deleteFromNested(node) {
             let model = node.data;
             let title = model.title_translated;
-            if (!window.confirm(this.$i18n.t('Are you sure you want to delete “{title}”?', { title }))) {
+            if (
+                !window.confirm(
+                    this.$i18n.t('Are you sure you want to delete “{title}”?', {
+                        title,
+                    }),
+                )
+            ) {
                 return false;
             }
             try {
-                const response = await fetcher(this.urlBase + '/' + model.id, { method: 'DELETE' });
+                const response = await fetcher(this.urlBase + '/' + model.id, {
+                    method: 'DELETE',
+                });
                 if (!response.ok) {
                     const responseData = await response.json();
                     throw new Error(responseData.message);
@@ -179,7 +285,10 @@ export default {
                 alertify.success(this.$i18n.t('Item successfully deleted.'));
             } catch (error) {
                 console.log(error);
-                alertify.error(this.$i18n.t(error.message) || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(
+                    this.$i18n.t(error.message) ||
+                        this.$i18n.t('Sorry, an error occurred.'),
+                );
             }
         },
 
@@ -226,17 +335,23 @@ export default {
                     throw new Error(responseData.message);
                 }
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(
+                    error.message || this.$i18n.t('Sorry, an error occurred.'),
+                );
             }
         },
         async toggle(node) {
             let data = {};
-            data[this.title + '_' + node.data.id + '_collapsed'] = node.isExpanded;
+            data[this.title + '_' + node.data.id + '_collapsed'] =
+                node.isExpanded;
             try {
-                const response = await fetcher('/api/users/current/update-preferences', {
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                });
+                const response = await fetcher(
+                    '/api/users/current/update-preferences',
+                    {
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                    },
+                );
                 if (!response.ok) {
                     const responseData = await response.json();
                     throw new Error(responseData.message);
@@ -247,7 +362,9 @@ export default {
         },
         async toggleStatus(node) {
             let originalNode = JSON.parse(JSON.stringify(node)),
-                status = this.translatable ? parseInt(node.data.status_translated) : parseInt(node.data.status) || 0,
+                status = this.translatable
+                    ? parseInt(node.data.status_translated)
+                    : parseInt(node.data.status) || 0,
                 newStatus = Math.abs(status - 1),
                 data = {
                     status: {},
@@ -264,10 +381,13 @@ export default {
 
             this.$refs.slVueTree.updateNode(node.path, node);
             try {
-                const response = await fetcher(this.urlBase + '/' + node.data.id, {
-                    method: 'PATCH',
-                    body: JSON.stringify(data),
-                });
+                const response = await fetcher(
+                    this.urlBase + '/' + node.data.id,
+                    {
+                        method: 'PATCH',
+                        body: JSON.stringify(data),
+                    },
+                );
                 if (!response.ok) {
                     const responseData = await response.json();
                     throw new Error(responseData.message);
@@ -275,7 +395,9 @@ export default {
                 alertify.success(this.$i18n.t('Item is ' + label + '.'));
             } catch (error) {
                 this.$refs.slVueTree.updateNode(node.path, originalNode);
-                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(
+                    error.message || this.$i18n.t('Sorry, an error occurred.'),
+                );
             }
         },
     },

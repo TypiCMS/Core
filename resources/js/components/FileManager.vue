@@ -2,53 +2,115 @@
     <div class="filepicker" :class="classes" id="filepicker" ref="filepicker">
         <div class="wrapper">
             <div class="filemanager-header header">
-                <a v-if="path.length > 1" class="btn-back" @click="openFolder(path[path.length - 2])" href="#">
+                <a
+                    v-if="path.length > 1"
+                    class="btn-back"
+                    @click="openFolder(path[path.length - 2])"
+                    href="#"
+                >
                     <i class="bi bi-arrow-left me-1"></i>
                     <span class="btn-back-label">
                         {{ path[path.length - 2].name }}
                     </span>
                 </a>
-                <h1 class="filemanager-title header-title" v-if="path.length > 0">{{ path[path.length - 1].name }}</h1>
+                <h1
+                    class="filemanager-title header-title"
+                    v-if="path.length > 0"
+                >
+                    {{ path[path.length - 1].name }}
+                </h1>
                 <div class="header-toolbar btn-toolbar">
-                    <button class="btn btn-sm btn-light me-2" @click="newFolder(folder.id)" type="button">
+                    <button
+                        class="btn btn-sm btn-light me-2"
+                        @click="newFolder(folder.id)"
+                        type="button"
+                    >
                         <i class="bi bi-folder-fill text-black-50 me-1"></i>
                         {{ $t('New folder') }}
                     </button>
                     <div class="btn-group btn-group-sm me-2">
-                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdown-action-button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <button
+                            class="btn btn-light dropdown-toggle"
+                            type="button"
+                            id="dropdown-action-button"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="true"
+                        >
                             {{ $t('Action') }}
                         </button>
 
-                        <div class="dropdown-menu" aria-labelledby="dropdown-action-button">
-                            <button class="dropdown-item" type="button" @click="deleteSelected" :disabled="selectedItems.length === 0">
+                        <div
+                            class="dropdown-menu"
+                            aria-labelledby="dropdown-action-button"
+                        >
+                            <button
+                                class="dropdown-item"
+                                type="button"
+                                @click="deleteSelected"
+                                :disabled="selectedItems.length === 0"
+                            >
                                 {{ $t('Delete') }}
                             </button>
-                            <button class="dropdown-item" type="button" @click="moveToParentFolder()" :disabled="!folder.id || selectedFiles.length === 0">
+                            <button
+                                class="dropdown-item"
+                                type="button"
+                                @click="moveToParentFolder()"
+                                :disabled="
+                                    !folder.id || selectedFiles.length === 0
+                                "
+                            >
                                 {{ $t('Move to parent folder') }}
                             </button>
                             <div class="dropdown-divider"></div>
-                            <button class="dropdown-item" type="button" disabled="disabled">
+                            <button
+                                class="dropdown-item"
+                                type="button"
+                                disabled="disabled"
+                            >
                                 {{
-                                    $tc('# items selected', selectedItems.length, {
-                                        count: selectedItems.length,
-                                    })
+                                    $tc(
+                                        '# items selected',
+                                        selectedItems.length,
+                                        {
+                                            count: selectedItems.length,
+                                        },
+                                    )
                                 }}
                             </button>
                         </div>
                     </div>
                     <div class="btn-group btn-group-sm me-2">
-                        <button class="btn btn-light" :class="{ active: view === 'grid' }" type="button" @click="switchView('grid')">
-                            <i class="bi bi-grid-3x2-gap-fill text-black-50 me-1"></i>
+                        <button
+                            class="btn btn-light"
+                            :class="{ active: view === 'grid' }"
+                            type="button"
+                            @click="switchView('grid')"
+                        >
+                            <i
+                                class="bi bi-grid-3x2-gap-fill text-black-50 me-1"
+                            ></i>
                             {{ $t('Grid') }}
                         </button>
-                        <button class="btn btn-light" :class="{ active: view === 'list' }" type="button" @click="switchView('list')">
+                        <button
+                            class="btn btn-light"
+                            :class="{ active: view === 'list' }"
+                            type="button"
+                            @click="switchView('list')"
+                        >
                             <i class="bi bi-list-ul text-black-50 me-1"></i>
                             {{ $t('List') }}
                         </button>
                     </div>
                     <div class="d-flex align-items-center ms-2">
-                        <div class="spinner-border spinner-border-sm text-dark" role="status" v-if="loading">
-                            <span class="visually-hidden">{{ $t('Loading…') }}</span>
+                        <div
+                            class="spinner-border spinner-border-sm text-dark"
+                            role="status"
+                            v-if="loading"
+                        >
+                            <span class="visually-hidden">{{
+                                $t('Loading…')
+                            }}</span>
                         </div>
                     </div>
                     <div class="btn-group btn-group-sm me-2 ms-auto">
@@ -74,14 +136,27 @@
                             {{ $t('Add selected file') }}
                         </button>
                     </div>
-                    <button type="button" class="btn btn-sm btn-light header-btn-add" id="upload-files-button" v-if="dropzone">
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-light header-btn-add"
+                        id="upload-files-button"
+                        v-if="dropzone"
+                    >
                         <i class="bi bi-cloud-upload-fill me-1"></i>
                         {{ $t('Upload files') }}
                     </button>
                 </div>
             </div>
 
-            <button class="filemanager-btn-close" type="button" v-if="this.modal" @click="closeModal" :aria-label="$t('Close window')"><span aria-hidden="true">×</span></button>
+            <button
+                class="filemanager-btn-close"
+                type="button"
+                v-if="this.modal"
+                @click="closeModal"
+                :aria-label="$t('Close window')"
+            >
+                <span aria-hidden="true">×</span>
+            </button>
 
             <div class="filemanager-body">
                 <Dashboard
@@ -93,17 +168,23 @@
                     }"
                     :plugins="['ImageEditor']"
                 />
-                <div @click="checkNone()" class="filemanager-list" :class="{ 'filemanager-view-list': view === 'list' }">
+                <div
+                    @click="checkNone()"
+                    class="filemanager-list"
+                    :class="{ 'filemanager-view-list': view === 'list' }"
+                >
                     <div
                         class="filemanager-item filemanager-item-with-name filemanager-item-editable"
                         v-for="item in filteredItems"
                         @click="check(item, $event)"
                         :id="'item_' + item.id"
                         :class="{
-                            'filemanager-item-selected': selectedItems.indexOf(item) !== -1,
+                            'filemanager-item-selected':
+                                selectedItems.indexOf(item) !== -1,
                             'filemanager-item-folder': item.type === 'f',
                             'filemanager-item-file': item.type !== 'f',
-                            'filemanager-item-dragging-source': dragging && selectedItems.indexOf(item) !== -1,
+                            'filemanager-item-dragging-source':
+                                dragging && selectedItems.indexOf(item) !== -1,
                         }"
                         draggable="true"
                         @drop="drop(item, $event)"
@@ -115,21 +196,52 @@
                         @dblclick="onDoubleClick(item)"
                     >
                         <div class="filemanager-item-wrapper">
-                            <div class="filemanager-item-icon" v-if="item.type === 'i'">
+                            <div
+                                class="filemanager-item-icon"
+                                v-if="item.type === 'i'"
+                            >
                                 <div class="filemanager-item-image-wrapper">
-                                    <img class="filemanager-item-image" :src="item.thumb_sm" />
+                                    <img
+                                        class="filemanager-item-image"
+                                        :src="item.thumb_sm"
+                                    />
                                 </div>
                             </div>
-                            <div class="filemanager-item-icon" :class="'filemanager-item-icon-' + item.type" v-else>
-                                <i class="bi bi-file-earmark-music" v-if="item.type === 'a'"></i>
-                                <i class="bi bi-file-earmark-play" v-if="item.type === 'v'"></i>
-                                <i class="bi bi-file-earmark" v-if="item.type === 'd'"></i>
-                                <i class="bi bi-folder" v-if="item.type === 'f'"></i>
+                            <div
+                                class="filemanager-item-icon"
+                                :class="'filemanager-item-icon-' + item.type"
+                                v-else
+                            >
+                                <i
+                                    class="bi bi-file-earmark-music"
+                                    v-if="item.type === 'a'"
+                                ></i>
+                                <i
+                                    class="bi bi-file-earmark-play"
+                                    v-if="item.type === 'v'"
+                                ></i>
+                                <i
+                                    class="bi bi-file-earmark"
+                                    v-if="item.type === 'd'"
+                                ></i>
+                                <i
+                                    class="bi bi-folder"
+                                    v-if="item.type === 'f'"
+                                ></i>
                             </div>
-                            <div class="filemanager-item-name">{{ item.name }}</div>
-                            <a class="filemanager-item-editable-button" :href="'/admin/files/' + item.id + '/edit'">
-                                <span class="filemanager-item-editable-button-icon"></span>
-                                <span class="visually-hidden">{{ $t('Edit') }}</span>
+                            <div class="filemanager-item-name">
+                                {{ item.name }}
+                            </div>
+                            <a
+                                class="filemanager-item-editable-button"
+                                :href="'/admin/files/' + item.id + '/edit'"
+                            >
+                                <span
+                                    class="filemanager-item-editable-button-icon"
+                                ></span>
+                                <span class="visually-hidden">{{
+                                    $t('Edit')
+                                }}</span>
                             </a>
                         </div>
                     </div>
@@ -270,7 +382,11 @@ export default {
                     allowedMetaFields: ['folder_id'],
                     headers: {
                         Accept: 'application/json',
-                        Authorization: 'Bearer ' + document.head.querySelector('meta[name="api-token"]').content,
+                        Authorization:
+                            'Bearer ' +
+                            document.head.querySelector(
+                                'meta[name="api-token"]',
+                            ).content,
                     },
                 })
                 .use(ImageEditor, { quality: 0.8 })
@@ -283,18 +399,26 @@ export default {
                     const fails = result.failed;
                     if (fails.length > 0) {
                         alertify.error(
-                            this.$i18n.tc('# files could not be uploaded.', fails.length, {
-                                count: fails.length,
-                            }),
+                            this.$i18n.tc(
+                                '# files could not be uploaded.',
+                                fails.length,
+                                {
+                                    count: fails.length,
+                                },
+                            ),
                         );
                     }
 
                     const successes = result.successful;
                     if (successes.length > 0) {
                         alertify.success(
-                            this.$i18n.tc('# files uploaded.', successes.length, {
-                                count: successes.length,
-                            }),
+                            this.$i18n.tc(
+                                '# files uploaded.',
+                                successes.length,
+                                {
+                                    count: successes.length,
+                                },
+                            ),
                         );
                         successes.forEach((success) => {
                             this.data.models.push(success.response.body.model);
@@ -329,13 +453,18 @@ export default {
             return this.data.path;
         },
         allChecked() {
-            return this.filteredItems.length > 0 && this.filteredItems.length === this.selectedItems.length;
+            return (
+                this.filteredItems.length > 0 &&
+                this.filteredItems.length === this.selectedItems.length
+            );
         },
         numberOfselectedItems() {
             return this.selectedItems.length;
         },
         selectedFiles() {
-            return this.selectedItems.filter((item) => item.type !== 'f').sort((a, b) => b.name.localeCompare(a.name));
+            return this.selectedItems
+                .filter((item) => item.type !== 'f')
+                .sort((a, b) => b.name.localeCompare(a.name));
         },
     },
     methods: {
@@ -349,7 +478,10 @@ export default {
                 }
                 this.data = await response.json();
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('Sorry, a network error occurred.'));
+                alertify.error(
+                    error.message ||
+                        this.$i18n.t('Sorry, a network error occurred.'),
+                );
             }
             this.stopLoading();
         },
@@ -418,13 +550,17 @@ export default {
                 }
                 await this.fetchData();
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(
+                    error.message || this.$i18n.t('Sorry, an error occurred.'),
+                );
             }
 
             this.checkNone();
         },
         async newFolder(folderId) {
-            let name = window.prompt(this.$i18n.t('Enter a name for the new folder.'));
+            let name = window.prompt(
+                this.$i18n.t('Enter a name for the new folder.'),
+            );
             if (!name) {
                 return;
             }
@@ -444,12 +580,16 @@ export default {
                 }
                 this.data.models.push(responseData.model);
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(
+                    error.message || this.$i18n.t('Sorry, an error occurred.'),
+                );
             }
         },
         check(item, $event) {
             $event.stopPropagation();
-            let indexOfLastCheckedItem = this.data.models.indexOf(this.selectedItems[this.selectedItems.length - 1]);
+            let indexOfLastCheckedItem = this.data.models.indexOf(
+                this.selectedItems[this.selectedItems.length - 1],
+            );
             let index = this.selectedItems.indexOf(item);
             if (!($event.ctrlKey || $event.metaKey || $event.shiftKey)) {
                 this.checkNone();
@@ -470,8 +610,13 @@ export default {
                                 }
                             }
                             if (indexOfLastCheckedItem !== -1) {
-                                if (index > indexOfLastCheckedItem && index < currentItemIndex) {
-                                    if (this.selectedItems.indexOf(item) === -1) {
+                                if (
+                                    index > indexOfLastCheckedItem &&
+                                    index < currentItemIndex
+                                ) {
+                                    if (
+                                        this.selectedItems.indexOf(item) === -1
+                                    ) {
                                         this.selectedItems.push(item);
                                     }
                                 }
@@ -479,8 +624,13 @@ export default {
                         }
                         if (currentItemIndex < indexOfLastCheckedItem) {
                             if (indexOfLastCheckedItem !== -1) {
-                                if (index < indexOfLastCheckedItem && index > currentItemIndex) {
-                                    if (this.selectedItems.indexOf(item) === -1) {
+                                if (
+                                    index < indexOfLastCheckedItem &&
+                                    index > currentItemIndex
+                                ) {
+                                    if (
+                                        this.selectedItems.indexOf(item) === -1
+                                    ) {
                                         this.selectedItems.push(item);
                                     }
                                 }
@@ -500,7 +650,9 @@ export default {
                 number = models.length;
 
             if (this.selectedItems.length > this.deleteLimit) {
-                alertify.error('Too much elements (max ' + this.deleteLimit + ' items.)');
+                alertify.error(
+                    'Too much elements (max ' + this.deleteLimit + ' items.)',
+                );
                 return false;
             }
 
@@ -528,9 +680,13 @@ export default {
                 }
                 if (responseData.number < number) {
                     alertify.error(
-                        this.$i18n.tc('# files could not be moved.', number - responseData.number, {
-                            count: number - responseData.number,
-                        }),
+                        this.$i18n.tc(
+                            '# files could not be moved.',
+                            number - responseData.number,
+                            {
+                                count: number - responseData.number,
+                            },
+                        ),
                     );
                 }
                 if (responseData.number > 0) {
@@ -541,14 +697,17 @@ export default {
                     );
                 }
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(
+                    error.message || this.$i18n.t('Sorry, an error occurred.'),
+                );
             }
             this.stopLoading();
         },
         addSingleFile(item) {
             this.$root.$emit('fileAdded', item);
             const filepicker = document.getElementById('filepicker');
-            const CKEditorCleanUpFuncNum = filepicker.dataset.CKEditorCleanUpFuncNum,
+            const CKEditorCleanUpFuncNum =
+                    filepicker.dataset.CKEditorCleanUpFuncNum,
                 CKEditorFuncNum = filepicker.dataset.CKEditorFuncNum;
             if (!!CKEditorFuncNum || !!CKEditorCleanUpFuncNum) {
                 parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, item.url);
@@ -607,17 +766,24 @@ export default {
 
             if (this.selectedItems.length > deleteLimit) {
                 alertify.error(
-                    this.$i18n.t('Impossible to delete more than # items in one go.', {
-                        deleteLimit,
-                    }),
+                    this.$i18n.t(
+                        'Impossible to delete more than # items in one go.',
+                        {
+                            deleteLimit,
+                        },
+                    ),
                 );
                 return false;
             }
             if (
                 !window.confirm(
-                    this.$i18n.tc('Are you sure you want to delete # items?', this.selectedItems.length, {
-                        count: this.selectedItems.length,
-                    }),
+                    this.$i18n.tc(
+                        'Are you sure you want to delete # items?',
+                        this.selectedItems.length,
+                        {
+                            count: this.selectedItems.length,
+                        },
+                    ),
                 )
             ) {
                 return false;
@@ -626,19 +792,27 @@ export default {
             this.startLoading();
             const deletePromises = this.selectedItems.map(async (model) => {
                 try {
-                    const response = await fetcher(this.urlBase + '/' + model.id, { method: 'DELETE' });
+                    const response = await fetcher(
+                        this.urlBase + '/' + model.id,
+                        { method: 'DELETE' },
+                    );
                     if (!response.ok) {
                         const responseData = await response.json();
                         throw new Error(responseData.message);
                     }
                     return response;
                 } catch (error) {
-                    alertify.error(this.$i18n.tc(error.message) || this.$i18n.t('Sorry, an error occurred.'));
+                    alertify.error(
+                        this.$i18n.tc(error.message) ||
+                            this.$i18n.t('Sorry, an error occurred.'),
+                    );
                 }
             });
 
             const responses = await Promise.all(deletePromises);
-            let successes = responses.filter((response) => response && response.ok);
+            let successes = responses.filter(
+                (response) => response && response.ok,
+            );
             if (successes.length > 0) {
                 alertify.success(
                     this.$i18n.tc('# files deleted.', successes.length, {

@@ -3,19 +3,30 @@ import alertify from 'alertify.js';
 import fetcher from './fetcher';
 
 export default (): void => {
-    async function updatePreferences(key: string, value: string): Promise<void> {
+    async function updatePreferences(
+        key: string,
+        value: string,
+    ): Promise<void> {
         try {
-            const response = await fetcher('/api/users/current/update-preferences', {
-                method: 'POST',
-                body: JSON.stringify({ [key]: value }),
-            });
+            const response = await fetcher(
+                '/api/users/current/update-preferences',
+                {
+                    method: 'POST',
+                    body: JSON.stringify({ [key]: value }),
+                },
+            );
 
             if (!response.ok) {
-                throw new Error('Failed to update preferences. Network response was not ok.');
+                throw new Error(
+                    'Failed to update preferences. Network response was not ok.',
+                );
             }
         } catch (error) {
             alertify.error("User preference couldn't be set.");
-            console.error('There was a problem with the fetch operation:', error);
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
         }
     }
 

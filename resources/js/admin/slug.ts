@@ -24,7 +24,9 @@ export default class Slug {
         if (!this.input.dataset.slug) {
             throw new Error('Slug: data-slug attribute is not defined');
         }
-        this.titleField = document.getElementById(this.input.dataset.slug) as HTMLInputElement;
+        this.titleField = document.getElementById(
+            this.input.dataset.slug,
+        ) as HTMLInputElement;
         if (!this.titleField) {
             throw new Error('Slug: titleField is not defined');
         }
@@ -32,7 +34,9 @@ export default class Slug {
         if (!parentElement) {
             throw new Error('Slug: parentElement is not defined');
         }
-        this.slugGenerateButton = parentElement.querySelector('.btn-slug') as HTMLButtonElement;
+        this.slugGenerateButton = parentElement.querySelector(
+            '.btn-slug',
+        ) as HTMLButtonElement;
         this.init();
     }
 
@@ -76,7 +80,10 @@ export default class Slug {
         }
 
         // Ensure separator is composable into regexes
-        const sep_esc = opts.separator.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
+        const sep_esc = opts.separator.replace(
+            /([.*+?^=!:${}()|\[\]\/\\])/g,
+            '\\$1',
+        );
         const re_trail = new RegExp('^' + sep_esc + '+|' + sep_esc + '+$', 'g');
         const re_multi = new RegExp(sep_esc + '+', 'g');
 

@@ -47,19 +47,15 @@
                 @section('header-title')
                     <div class="header-title">@include('core::public._header-title')</div>
                 @show
-                <a class="d-flex d-lg-none btn-offcanvas" href="#navigation" data-toggle="offcanvas" title="@lang('Open navigation')" aria-label="@lang('Open navigation')" role="button"
-                    aria-controls="navigation" aria-expanded="false">
+                <a class="d-flex d-lg-none btn-offcanvas" href="#navigation" data-toggle="offcanvas" title="@lang('Open navigation')" aria-label="@lang('Open navigation')" role="button" aria-controls="navigation" aria-expanded="false">
                     <svg width="2.5em" height="2.5em" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+                        <path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
                     </svg>
                 </a>
                 <div class="header-offcanvas" id="navigation">
-                    <button class="d-flex d-lg-none btn-offcanvas btn-offcanvas-close" type="button" data-toggle="offcanvas" title="@lang('Close navigation')" aria-label="@lang('Close navigation')"
-                        aria-controls="navigation" aria-expanded="false">
+                    <button class="d-flex d-lg-none btn-offcanvas btn-offcanvas-close" type="button" data-toggle="offcanvas" title="@lang('Close navigation')" aria-label="@lang('Close navigation')" aria-controls="navigation" aria-expanded="false">
                         <svg width="2.5em" height="2.5em" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                            <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                         </svg>
                     </button>
                     @section('primary-nav')

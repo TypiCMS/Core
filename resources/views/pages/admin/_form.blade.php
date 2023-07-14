@@ -28,8 +28,7 @@
                             </label>
                             <div class="input-group">
                                 <span class="input-group-text">{{ $model->present()->parentUri($lang) }}</span>
-                                <input class="form-control @if ($errors->has('slug.' . $lang)) is-invalid @endif" type="text" name="slug[{{ $lang }}]" id="slug[{{ $lang }}]"
-                                    value="{{ $model->translate('slug', $lang) }}" data-slug="title[{{ $lang }}]" data-language="{{ $lang }}" />
+                                <input class="form-control @if ($errors->has('slug.' . $lang)) is-invalid @endif" type="text" name="slug[{{ $lang }}]" id="slug[{{ $lang }}]" value="{{ $model->translate('slug', $lang) }}" data-slug="title[{{ $lang }}]" data-language="{{ $lang }}" />
                                 <button class="btn btn-outline-secondary btn-slug" type="button">
                                     {{ __('Generate') }}
                                 </button>
@@ -48,10 +47,12 @@
 
             @can('read page_sections')
                 @if ($model->id)
-                    <item-list url-base="/api/pages/{{ $model->id }}/sections" fields="id,image_id,page_id,position,status,title" table="page_sections" title="sections" include="image"
-                        :sub-list="true" :searchable="['title']" :sorting="['position']">
+                    <item-list url-base="/api/pages/{{ $model->id }}/sections" fields="id,image_id,page_id,position,status,title" table="page_sections" title="sections" include="image" :sub-list="true" :searchable="['title']" :sorting="['position']">
                         <template slot="add-button" v-if="$can('create page_sections')">
-                            @include('core::admin._button-create', ['url' => route('admin::create-page_section', $model->id), 'module' => 'page_sections'])
+                            @include('core::admin._button-create', [
+                                'url' => route('admin::create-page_section', $model->id),
+                                'module' => 'page_sections',
+                            ])
                         </template>
 
                         <template slot="columns" slot-scope="{ sortArray }">

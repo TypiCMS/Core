@@ -2,18 +2,36 @@
     <nav class="item-list-pagination" v-if="data.total > data.per_page">
         <ul class="pagination">
             <li class="page-item" :class="{ disabled: !data.prev_page_url }">
-                <button class="page-link pagination-prev-nav" @click="selectPage(--data.current_page)">
-                    <small aria-hidden="true">←</small> <small class="ms-2">{{ $t('Previous') }}</small>
+                <button
+                    class="page-link pagination-prev-nav"
+                    @click="selectPage(--data.current_page)"
+                >
+                    <small aria-hidden="true">←</small>
+                    <small class="ms-2">{{ $t('Previous') }}</small>
                 </button>
             </li>
-            <li class="page-item" :class="{ disabled: page === '…', active: page == data.current_page && page !== '…' }" v-for="page in getPages()">
-                <button class="page-link pagination-page-nav" @click="selectPage(page)">
+            <li
+                class="page-item"
+                :class="{
+                    disabled: page === '…',
+                    active: page == data.current_page && page !== '…',
+                }"
+                v-for="page in getPages()"
+            >
+                <button
+                    class="page-link pagination-page-nav"
+                    @click="selectPage(page)"
+                >
                     {{ page }}
                 </button>
             </li>
             <li class="page-item" :class="{ disabled: !data.next_page_url }">
-                <button class="page-link pagination-next-nav" @click="selectPage(++data.current_page)">
-                    <small class="me-2">{{ $t('Next') }}</small> <small aria-hidden="true">→</small>
+                <button
+                    class="page-link pagination-next-nav"
+                    @click="selectPage(++data.current_page)"
+                >
+                    <small class="me-2">{{ $t('Next') }}</small>
+                    <small aria-hidden="true">→</small>
                 </button>
             </li>
         </ul>
@@ -69,7 +87,11 @@ export default {
                 l;
 
             for (let i = 1; i <= this.data.last_page; i++) {
-                if (i == 1 || i == this.data.last_page || (i >= left && i < right)) {
+                if (
+                    i == 1 ||
+                    i == this.data.last_page ||
+                    (i >= left && i < right)
+                ) {
                     range.push(i);
                 }
             }

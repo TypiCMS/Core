@@ -16,13 +16,21 @@ export default (): void => {
         });
         button.classList.add('active');
         if (locale === 'all') {
-            document.querySelectorAll<HTMLElement>('.form-group-translation').forEach((element) => {
-                element.style.display = 'block';
-            });
+            document
+                .querySelectorAll<HTMLElement>('.form-group-translation')
+                .forEach((element) => {
+                    element.style.display = 'block';
+                });
         } else {
-            document.querySelectorAll<HTMLElement>('.form-group-translation').forEach((element) => {
-                element.style.display = element.querySelector(`[data-language="${locale}"]`) ? 'block' : 'none';
-            });
+            document
+                .querySelectorAll<HTMLElement>('.form-group-translation')
+                .forEach((element) => {
+                    element.style.display = element.querySelector(
+                        `[data-language="${locale}"]`,
+                    )
+                        ? 'block'
+                        : 'none';
+                });
         }
         const activeLocale = document.getElementById('active-locale');
         if (activeLocale) {
@@ -42,17 +50,23 @@ export default (): void => {
                 }
             } catch (error) {
                 alertify.error(`Content locale couldn't be set to ${locale}`);
-                console.error('There was a problem with the fetch operation:', error);
+                console.error(
+                    'There was a problem with the fetch operation:',
+                    error,
+                );
             }
         }
     }
 
-    const buttons: NodeListOf<HTMLElement> = document.querySelectorAll('.btn-lang-js');
+    const buttons: NodeListOf<HTMLElement> =
+        document.querySelectorAll('.btn-lang-js');
     buttons.forEach((button) => {
         button.addEventListener('click', handleSetLocale);
     });
 
-    const currentLocaleButton = document.querySelector<HTMLElement>('.btn-lang-js.active');
+    const currentLocaleButton = document.querySelector<HTMLElement>(
+        '.btn-lang-js.active',
+    );
     if (currentLocaleButton) {
         currentLocaleButton.click();
     }

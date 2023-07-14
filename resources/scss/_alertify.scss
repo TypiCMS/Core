@@ -81,7 +81,9 @@
         }
         nav {
             text-align: right;
-            button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button) {
+            button:not(.btn):not(.pure-button):not(.md-button):not(
+                    .mdl-button
+                ) {
                 background: transparent;
                 box-sizing: border-box;
                 color: rgba(0, 0, 0, 0.87);

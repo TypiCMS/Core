@@ -1,6 +1,13 @@
 <template>
-    <button class="btn-status" type="button" @click="$parent.$emit('toggle-status', model)">
-        <span class="btn-status-icon" :class="statusOn ? 'btn-status-icon-on' : 'btn-status-icon-off'"></span>
+    <button
+        class="btn-status"
+        type="button"
+        @click="$parent.$emit('toggle-status', model)"
+    >
+        <span
+            class="btn-status-icon"
+            :class="statusOn ? 'btn-status-icon-on' : 'btn-status-icon-off'"
+        ></span>
     </button>
 </template>
 

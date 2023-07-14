@@ -3,7 +3,8 @@
         <i class="document-list-item-icon bi bi-file-earmark-arrow-down"></i>
         <div class="document-list-item-info">
             <span class="document-list-item-filename">{{ $document->present()->title }}</span>
-            <small class="document-list-item-meta">({{ mb_strtoupper($document->extension) }}, {{ $document->present()->filesize }})</small>
+            <small class="document-list-item-meta">({{ mb_strtoupper($document->extension) }},
+                {{ $document->present()->filesize }})</small>
         </div>
     </a>
 </li>

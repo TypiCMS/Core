@@ -3,8 +3,7 @@
 @section('title', __('Users'))
 
 @section('content')
-    <item-list url-base="/api/users" fields="id,first_name,last_name,email,activated,superuser,roles.name" table="users" title="users" include="roles" :translatable="false" :publishable="false"
-        :exportable="true" :searchable="['first_name,last_name,email']" :sorting="['first_name']">
+    <item-list url-base="/api/users" fields="id,first_name,last_name,email,activated,superuser,roles.name" table="users" title="users" include="roles" :translatable="false" :publishable="false" :exportable="true" :searchable="['first_name,last_name,email']" :sorting="['first_name']">
         <template slot="add-button" v-if="$can('create users')">
             @include('core::admin._button-create', ['module' => 'users'])
         </template>
@@ -28,8 +27,7 @@
                 <item-list-edit-button :url="'/admin/users/' + model.id + '/edit'"></item-list-edit-button>
             </td>
             <td v-if="$can('impersonate users')">
-                <a class="btn-impersonate btn btn-link btn-sm text-secondary" title="Impersonate" onclick="if(!confirm('@lang('Impersonate this user?')'))return false"
-                    :href="'/admin/users/' + model.id + '/impersonate'"></a>
+                <a class="btn-impersonate btn btn-link btn-sm text-secondary" title="Impersonate" onclick="if(!confirm('@lang('Impersonate this user?')'))return false" :href="'/admin/users/' + model.id + '/impersonate'"></a>
             </td>
             <td>@{{ model.first_name }}</td>
             <td>@{{ model.last_name }}</td>

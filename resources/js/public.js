@@ -8,7 +8,13 @@ import Alert from 'bootstrap/js/dist/alert';
 /**
  * Swiper
  */
-import Swiper, { Navigation, Pagination, Autoplay, Parallax, EffectFade } from 'swiper';
+import Swiper, {
+    Navigation,
+    Pagination,
+    Autoplay,
+    Parallax,
+    EffectFade,
+} from 'swiper';
 Swiper.use([Navigation, Pagination, Autoplay, Parallax, EffectFade]);
 window.Swiper = Swiper;
 

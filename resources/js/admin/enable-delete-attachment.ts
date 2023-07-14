@@ -31,7 +31,8 @@ const handleDeleteAttachment = async (button: HTMLElement): Promise<void> => {
 };
 
 export default (): void => {
-    const buttons: NodeListOf<HTMLElement> = document.querySelectorAll('.delete-attachment');
+    const buttons: NodeListOf<HTMLElement> =
+        document.querySelectorAll('.delete-attachment');
 
     buttons.forEach((button) => {
         button?.addEventListener('click', () => handleDeleteAttachment(button));

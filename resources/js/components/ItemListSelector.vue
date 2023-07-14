@@ -1,6 +1,9 @@
 <template>
     <div class="btn-group btn-group-sm item-list-selector">
-        <label class="btn btn-light mb-0" :class="{ disabled: !filteredModels.length || loading }">
+        <label
+            class="btn btn-light mb-0"
+            :class="{ disabled: !filteredModels.length || loading }"
+        >
             <input
                 class="form-check-input"
                 id="check-all-checkbox"
@@ -21,17 +24,35 @@
             id="dropdownSelect"
         ></button>
         <div class="dropdown-menu" aria-labelledby="dropdownSelect">
-            <button type="button" class="dropdown-item" @click="$emit('check-all')">
+            <button
+                type="button"
+                class="dropdown-item"
+                @click="$emit('check-all')"
+            >
                 {{ $t('All') }}
             </button>
-            <button type="button" class="dropdown-item" @click="$emit('check-none')">
+            <button
+                type="button"
+                class="dropdown-item"
+                @click="$emit('check-none')"
+            >
                 {{ $t('None') }}
             </button>
             <div class="dropdown-divider" v-if="publishable"></div>
-            <button type="button" class="dropdown-item" v-if="publishable" @click="$emit('check-published')">
+            <button
+                type="button"
+                class="dropdown-item"
+                v-if="publishable"
+                @click="$emit('check-published')"
+            >
                 {{ $t('Published items') }}
             </button>
-            <button type="button" class="dropdown-item" v-if="publishable" @click="$emit('check-unpublished')">
+            <button
+                type="button"
+                class="dropdown-item"
+                v-if="publishable"
+                @click="$emit('check-unpublished')"
+            >
                 {{ $t('Unpublished items') }}
             </button>
         </div>
