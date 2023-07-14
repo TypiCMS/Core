@@ -4,7 +4,6 @@ namespace TypiCMS\Modules\Core\Presenters;
 
 use Bkwld\Croppa\Facades\Croppa;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -143,6 +142,18 @@ abstract class Presenter extends BasePresenter
         }
 
         return $this->imageNotFound;
+    }
+
+    /**
+     * Get model’s image or default Open Graph image.
+     */
+    public function ogImage(): string
+    {
+        if ($this->entity->image) {
+            return $this->image(1200, 630);
+        }
+
+        return url('img/og-image.png');
     }
 
     public function title(): string

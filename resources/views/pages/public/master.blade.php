@@ -4,9 +4,7 @@
 @section('ogTitle', $page->present()->metaTitle())
 @section('description', $page->meta_description)
 @section('keywords', $page->meta_keywords)
-@empty(!$page->image)
-    @section('ogImage', $page->present()->image(1200, 630))
-@endempty
+@section('ogImage', $page->present()->ogImage())
 
 @section('bodyClass', 'body-page body-page-' . $page->id)
 
