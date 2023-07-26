@@ -34,7 +34,7 @@ export default async (): Promise<void> => {
             persist: false,
             create: true,
             options: tags,
-            createOnBlur: true,
+            createOnBlur: false,
         });
         if (!select) {
             throw new Error('Failed to initialize TomSelect.');
