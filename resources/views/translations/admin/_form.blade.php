@@ -8,9 +8,7 @@
 <div class="content">
     @include('core::admin._form-errors')
 
-    @if ($model->id)
-        {!! BootForm::hidden('key') !!}
-    @else
+    @if (empty($model->id))
         {!! BootForm::text(__('Key'), 'key')->required() !!}
     @endif
 
