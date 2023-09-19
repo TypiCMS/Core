@@ -64,10 +64,10 @@ class Install extends Command
             system('chmod 755 $(find bootstrap/cache -type d)');
             $this->info('Directory bootstrap/cache is now writable (755).');
             $this->line('------------------');
-            $this->info('Running yarn...');
-            system('yarn');
+            $this->info('Running bun...');
+            system('bun i');
             $this->info('npm packages installed.');
-            system('npm run prod');
+            system('bun run build');
             $this->info('Assets compiled.');
         } else {
             $this->line('You can now make /storage, /bootstrap/cache directories writable,');
