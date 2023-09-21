@@ -93,7 +93,7 @@ class Menu extends Base
      */
     public function setClass($menulink): string
     {
-        $classArray = preg_split('/ /', $menulink->class, -1, PREG_SPLIT_NO_EMPTY);
+        $classArray = preg_split('/ /', (string) $menulink->class, -1, PREG_SPLIT_NO_EMPTY);
         // add active class if current uri is equal to item uri or contains
         // item uri and is bigger than 3 to avoid homepage link always active ('/', '/lg')
         $pattern = $menulink->href;
