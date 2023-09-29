@@ -1,7 +1,7 @@
 const editors = document.querySelectorAll('.ckeditor-full');
 const publicCssFile = window.TypiCMS.public_css_file;
 
-for (var i = 0; i < editors.length; ++i) {
+for (let i = 0; i < editors.length; ++i) {
     CKEDITOR.replace(editors[i].id, {
         toolbar: [
             { items: ['Format', 'Styles', 'Font', 'FontSize'] },
