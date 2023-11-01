@@ -120,8 +120,9 @@ class Database extends Command
         if (count(Schema::getAllTables()) !== 0) {
             error('The database ' . $dbName . ' is not empty, no migration and seed were done.');
         } else {
-            $this->call('migrate');
-            $this->call('db:seed');
+            $this->callSilently('migrate');
+            $this->callSilently('db:seed');
+            info('The database ' . $dbName . ' was migrated and seeded.');
         }
 
         // Write to .env
