@@ -41,7 +41,6 @@ class Install extends Command
         $this->line('------------------');
 
         $this->info('Publishing translations...');
-        $this->call('typicms:publish-translations', ['--force' => true]);
         $this->line('------------------');
 
         $this->laravel['env'] = 'local';
