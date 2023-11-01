@@ -11,6 +11,9 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\MountManager;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\Visibility;
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\spin;
 
 class Publish extends Command
 {
@@ -56,7 +59,7 @@ class Publish extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $this->module = mb_strtolower($this->argument('module'));
         if (!is_dir(base_path('vendor/typicms/' . $this->module))) {
@@ -68,6 +71,7 @@ class Publish extends Command
             $this->publishModule();
             $this->changePathForLoadViews();
             $this->uninstallFromComposer();
+            info(ucfirst($this->module) . ' module successfully published.');
         } else {
             throw new Exception($provider . ' not found, did you add it to config/app.php?');
         }
@@ -86,10 +90,8 @@ class Publish extends Command
         if ($this->files->isDirectory($from)) {
             $this->publishDirectory($from, $to);
         } else {
-            $this->error("Can’t locate path: <{$from}>");
+            error("Can’t locate path: <{$from}>");
         }
-
-        $this->info('Publishing complete for module [' . ucfirst($this->module) . ']!');
     }
 
     /**
@@ -116,24 +118,6 @@ class Publish extends Command
                 $manager->write('to://' . $path, $manager->read($file['path']));
             }
         }
-
-        $this->status($from, $to, 'Directory');
-    }
-
-    /**
-     * Write a status message to the console.
-     *
-     * @param string $from
-     * @param string $to
-     * @param string $type
-     */
-    protected function status($from, $to, $type)
-    {
-        $from = str_replace(base_path(), '', realpath($from));
-
-        $to = str_replace(base_path(), '', realpath($to));
-
-        $this->line('<info>Copied ' . $type . '</info> <comment>[' . $from . ']</comment> <info>To</info> <comment>[' . $to . ']</comment>');
     }
 
     /**
@@ -152,11 +136,14 @@ class Publish extends Command
      */
     private function uninstallFromComposer()
     {
-        $uninstallCommand = 'composer remove typicms/' . $this->module;
-        if (function_exists('system')) {
-            system($uninstallCommand);
+        if (is_callable('shell_exec') && !stripos(ini_get('disable_functions'), 'shell_exec')) {
+            $uninstallCommand = 'composer remove typicms/' . $this->module . ' 2> /dev/null';
+            spin(
+                fn () => shell_exec($uninstallCommand),
+                'Uninstall ' . $this->module . ' from composer…'
+            );
         } else {
-            $this->line('You can now run ' . $uninstallCommand . '.');
+            info('You can now run ' . $uninstallCommand . '.');
         }
     }
 }
