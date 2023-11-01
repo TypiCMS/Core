@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Question\Question;
+use function Laravel\Prompts\text;
+use function Laravel\Prompts\password;
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\info;
 
 class Database extends Command
 {
@@ -47,24 +51,32 @@ class Database extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $contents = $this->getKeyFile();
 
         $dbName = $this->argument('database');
 
-        $dbAddress = $this->ask('What is your MySQL address?', '127.0.0.1');
-
-        $dbPort = $this->ask('What is your MySQL port?', '3306');
-
-        $dbUserName = $this->ask('What is your MySQL username?', 'root');
-
-        $question = new Question('What is your MySQL password?', '<none>');
-        $question->setHidden(true)->setHiddenFallback(true);
-        $dbPassword = (new SymfonyQuestionHelper())->ask($this->input, $this->output, $question);
-        if ($dbPassword === '<none>') {
-            $dbPassword = '';
-        }
+        $dbAddress = text(
+            label: 'What is your MySQL server address?',
+            placeholder: '127.0.0.1',
+            default: '127.0.0.1',
+            required: 'The MySQL server address is required.',
+        );
+        $dbPort = text(
+            label: 'What is your MySQL server port?',
+            placeholder: '3306',
+            default: '3306',
+            required: 'The MySQL server port is required.',
+        );
+        $dbUserName = text(
+            label: 'What is your MySQL server username?',
+            default: 'root',
+            required: 'The MySQL server username is required.',
+        );
+        $dbPassword = password(
+            label: 'What is your MySQL server password?',
+        );
 
         // Update DB credentials in .env file.
         $search = [
@@ -105,8 +117,8 @@ class Database extends Command
         DB::connection()->setDatabaseName($dbName);
 
         // Migrate DB
-        if (Schema::hasTable('migrations')) {
-            $this->error('A migrations table was found in database [' . $dbName . '], no migration and seed were done.');
+        if (count(Schema::getAllTables()) !== 0) {
+            error('The database ' . $dbName . ' is not empty, no migration and seed were done.');
         } else {
             $this->call('migrate');
             $this->call('db:seed');

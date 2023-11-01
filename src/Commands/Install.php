@@ -7,6 +7,11 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Spatie\Permission\PermissionServiceProvider;
 use TypiCMS\Modules\Core\Providers\ModuleServiceProvider;
+use function Laravel\Prompts\text;
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\note;
+use function Laravel\Prompts\alert;
+use function Laravel\Prompts\spin;
 
 class Install extends Command
 {
@@ -29,53 +34,62 @@ class Install extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
-        $this->line('------------------');
-        $this->line('Welcome to TypiCMS');
-        $this->line('------------------');
+        info('Welcome to TypiCMS');
 
-        $this->info('Publishing vendor packages...');
-        $this->call('vendor:publish', ['--provider' => PermissionServiceProvider::class]);
-        $this->call('vendor:publish', ['--provider' => ModuleServiceProvider::class]);
-        $this->line('------------------');
-
-        $this->info('Publishing translations...');
-        $this->line('------------------');
+        $this->call('vendor:publish', ['--tag' => [
+            'typicms-config',
+            'typicms-resources',
+            'typicms-public',
+            'typicms-lang',
+        ]]);
 
         $this->laravel['env'] = 'local';
 
         // Ask for database name
-        $this->info('Setting up database...');
-        $dbName = $this->ask('Enter a database name', $this->guessDatabaseName());
+        info('Setting up database…');
+        $dbName = text(
+            label: 'Choose a database name',
+            placeholder: $this->guessDatabaseName(),
+            default: $this->guessDatabaseName(),
+            required: 'The database name is required.',
+            hint: 'The database will be created if it doesn’t exist.',
+        );
 
         // Set database credentials in .env and migrate
         $this->call('typicms:database', ['database' => $dbName]);
-        $this->line('------------------');
 
         // Create a super user
         $this->call('typicms:user');
 
         // Composer install
-        if (function_exists('system')) {
-            system('chmod 755 $(find storage -type d)');
-            $this->info('Directory storage is now writable (755).');
-            system('chmod 755 $(find bootstrap/cache -type d)');
-            $this->info('Directory bootstrap/cache is now writable (755).');
-            $this->line('------------------');
-            $this->info('Running bun...');
-            system('bun i');
-            $this->info('npm packages installed.');
-            system('bun run build');
-            $this->info('Assets compiled.');
+        if (is_callable('shell_exec') && !stripos(ini_get('disable_functions'), 'shell_exec')) {
+
+            spin(
+                function () {
+                    shell_exec('chmod 755 $(find storage -type d) 2> /dev/null');
+                    shell_exec('chmod 755 $(find bootstrap/cache -type d) 2> /dev/null');
+                },
+                'Set permissions on directories…'
+            );
+
+            spin(
+                fn () => shell_exec('bun i 2> /dev/null'),
+                'Install packages with bun…'
+            );
+
+            spin(
+                fn () => shell_exec('bun run build 2> /dev/null'),
+                'Compiling assets…'
+            );
         } else {
-            $this->line('You can now make /storage, /bootstrap/cache directories writable,');
-            $this->line('run "composer install", "npm install", and finally "npm run dev".');
+            info('You can now make /storage and /bootstrap/cache directories writable,');
+            info('run "composer install", "npm install", and finally "npm run dev".');
         }
 
         // Done
-        $this->line('------------------');
-        $this->line('Done. Enjoy TypiCMS!');
+        alert('Done. Enjoy TypiCMS!');
     }
 
     /**

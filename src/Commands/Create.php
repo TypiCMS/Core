@@ -10,6 +10,11 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\MountManager;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\Visibility;
+use Symfony\Component\Console\Output\NullOutput;
+
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\note;
 
 class Create extends Command
 {
@@ -74,10 +79,10 @@ class Create extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         if (!preg_match('/^[a-z]+$/i', $this->argument('module'))) {
-            $this->error('Only alphabetic characters are allowed.');
+            error('Only alphabetic characters are allowed.');
 
             return;
         }
@@ -92,7 +97,7 @@ class Create extends Command
         ];
 
         if ($this->moduleExists()) {
-            $this->error('A module named [' . $this->module . '] already exists.');
+            error('A module named ' . $this->module . ' already exists.');
 
             return;
         }
@@ -105,13 +110,10 @@ class Create extends Command
         $this->moveMigrationFile();
         $this->addTranslations();
         $this->deleteDirectories();
-        $this->line('------------------');
-        $this->line('<info>The module</info> <comment>' . $this->module . '</comment> <info>was created in</info> <comment>/Modules</comment><info>, customize it!</info>');
-        $this->line('<info>Add</info> <comment>TypiCMS\Modules\\' . $this->module . '\Providers\ModuleServiceProvider::class,</comment>');
-        $this->line('<info>to the providers array in</info> <comment>config/app.php</comment><info>.</info>');
-        $this->line('<info>Run the database migration with the command</info> <comment>php artisan migrate</comment><info>.</info>');
-        $this->line('<info>Run</info> <comment>npm run dev</comment> <info>to finish.</info>');
-        $this->line('------------------');
+        info('<info>The module</info> <comment>' . $this->module . '</comment> <info>was created in</info> <comment>/Modules</comment><info>, customize it!</info>');
+        info('<info>Add</info> <comment>TypiCMS\Modules\\' . $this->module . '\Providers\ModuleServiceProvider::class,</comment> <info>to the providers array in</info> <comment>config/app.php</comment><info>.</info>');
+        info('<info>Run the database migration with the command</info> <comment>php artisan migrate</comment><info>.</info>');
+        info('<info>Run</info> <comment>npm run dev</comment> <info>to finish.</info>');
     }
 
     /**
@@ -125,7 +127,7 @@ class Create extends Command
         if ($this->files->isDirectory($from)) {
             $this->publishDirectory($from, $to);
         } else {
-            $this->error("Can’t locate path: <{$from}>");
+            error("Can’t locate path: <{$from}>");
         }
     }
 
@@ -214,7 +216,7 @@ class Create extends Command
      */
     public function addTranslations()
     {
-        $this->call('translations:add', ['path' => 'Modules/' . $this->module . '/lang']);
+        $this->callSilently('translations:add', ['path' => 'Modules/' . $this->module . '/lang']);
     }
 
     public function deleteDirectories()
@@ -255,8 +257,6 @@ class Create extends Command
             'from' => new Flysystem(new LocalFilesystemAdapter($from)),
             'to' => new Flysystem(new LocalFilesystemAdapter($to, $visibility)),
         ]));
-
-        $this->status($from, $to, 'Directory');
     }
 
     /**
@@ -298,21 +298,5 @@ class Create extends Command
         $location2 = $this->files->isDirectory(base_path('vendor/typicms/' . mb_strtolower($this->module)));
 
         return $location1 || $location2;
-    }
-
-    /**
-     * Write a status message to the console.
-     *
-     * @param string $from
-     * @param string $to
-     * @param string $type
-     */
-    protected function status($from, $to, $type)
-    {
-        $from = str_replace(base_path(), '', realpath($from));
-
-        $to = str_replace(base_path(), '', realpath($to));
-
-        $this->line('<info>Copied ' . $type . '</info> <comment>[' . $from . ']</comment> <info>To</info> <comment>[' . $to . ']</comment>');
     }
 }
