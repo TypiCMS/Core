@@ -39,10 +39,14 @@ class Install extends Command
         info('Welcome to TypiCMS');
 
         $this->call('vendor:publish', ['--tag' => [
+            'permission-migrations',
             'typicms-config',
             'typicms-resources',
             'typicms-public',
             'typicms-lang',
+            'typicms-views',
+            'typicms-migrations',
+            'typicms-seeders',
         ]]);
 
         $this->laravel['env'] = 'local';
