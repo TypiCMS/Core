@@ -5,8 +5,11 @@
             v-if="type === 'number' || type === 'text' || type === 'email' || type === 'date' || type === 'time' || type === 'datetime-local' || type === 'url'"
             :id="fieldId"
             :data-language="locale"
+            :max="max"
+            :min="min"
             :name="fieldNameComplete"
             :placeholder="placeholder"
+            :step="step"
             :type="type"
             :value="initModel"
             class="form-control"
@@ -67,6 +70,9 @@ export default {
             title: this.field.title,
             type: this.field.type,
             rows: this.field.rows,
+            min: this.field.min,
+            max: this.field.max,
+            step: this.field.step,
             items: this.field.items,
             placeholder: this.field.placeholder,
         };
