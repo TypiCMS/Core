@@ -3,30 +3,34 @@
         <input v-if="items.length === 0" :name="name + '[]'" type="hidden" />
         <label class="form-label">{{ $t(title) }}</label>
         <div>
-            <button :disabled="items.length >= maxItems" class="btn btn-secondary btn-sm" @click.prevent="add">
+            <button :disabled="maxItems !== null && items.length >= maxItems" class="btn btn-secondary btn-sm" @click.prevent="add">
                 <span class="bi bi-plus-circle-fill text-white-50 me-1"></span>
                 {{ $t('Add') }}
             </button>
         </div>
 
-        <draggable v-if="items.length > 0" v-model="items" class="d-flex flex-column gap-3 mt-3" group="items" handle=".handle">
-            <div v-for="(item, index) in items" class="d-flex gap-2 card">
+        <draggable v-model="items" :group="'items_' + name" class="d-flex flex-column gap-3 mt-3" handle=".handle">
+            <div v-for="(item, index) in items" :key="index" class="d-flex gap-2 card item">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <i class="bi bi-arrows-move handle"></i>
                     <button class="btn btn-danger btn-sm" @click.prevent="remove(item)">{{ $t('Delete') }}</button>
                 </div>
                 <div class="card-body d-flex flex-row gap-2 justify-content-between">
                     <div v-for="field in fields" class="flex-grow-1">
-                        <repeater-translatable-field
-                            v-for="locale in locales"
-                            v-if="field.translatable"
-                            :field="field"
-                            :field-name="name"
-                            :index="index"
-                            :init-model="item[field.name] ? item[field.name][locale.short] : ''"
-                            :locale="locale.short"
-                        ></repeater-translatable-field>
-                        <repeater-field v-else :field="field" :field-name="name" :index="index" :item="item"></repeater-field>
+                        <template v-if="field.translatable">
+                            <repeater-field
+                                v-for="locale in locales"
+                                :key="'item_' + name + '_' + index + '_' + field.name + '_' + locale.short"
+                                :field="field"
+                                :field-name="name"
+                                :index="index"
+                                :init-model="item[field.name][locale.short]"
+                                :locale="locale.short"
+                                :value="item[field.name][locale.short]"
+                                @input="item[field.name][locale.short] = $event"
+                            ></repeater-field>
+                        </template>
+                        <repeater-field v-else v-model="item[field.name]" :field="field" :field-name="name" :index="index" :init-model="item[field.name]"></repeater-field>
                     </div>
                 </div>
             </div>
@@ -37,11 +41,9 @@
 <script>
 import draggable from 'vuedraggable';
 import RepeaterField from './RepeaterField.vue';
-import RepeaterTranslatableField from './RepeaterTranslatableField.vue';
 
 export default {
     components: {
-        RepeaterTranslatableField,
         RepeaterField,
         draggable,
     },
@@ -60,23 +62,29 @@ export default {
             items: this.initItems || [],
             title: this.config.title,
             name: this.config.name,
-            maxItems: this.config.max_items,
+            maxItems: this.config.max_items || null,
             fields: this.config.fields,
         };
     },
-    created() {
-        // console.log(this.config);
-    },
-    computed: {},
     methods: {
         add() {
-            if (this.items.length >= this.max_items) {
-                return;
+            if (this.maxItems === null || this.items.length < this.maxItems) {
+                let object = {};
+                this.fields.forEach((field) => {
+                    if (field.translatable) {
+                        object[field.name] = {};
+                        this.locales.forEach((locale) => {
+                            object[field.name][locale.short] = '';
+                        });
+                    } else {
+                        object[field.name] = '';
+                    }
+                });
+                this.items.push(object);
             }
-            this.items.push({});
         },
         remove(item) {
-            var index = this.items.indexOf(item);
+            const index = this.items.indexOf(item);
             this.items.splice(index, 1);
         },
     },

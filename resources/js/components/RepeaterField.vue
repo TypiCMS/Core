@@ -1,25 +1,39 @@
 <template>
-    <div class="mb-3">
-        <label :for="name" class="form-label">{{ $t(title) }}</label>
+    <div :class="{ 'form-group-translation': locale !== null, 'form-check': type === 'checkbox' || type === 'radio' }" class="mb-3">
+        <label :class="type === 'checkbox' || type === 'radio' ? 'form-check-label' : 'form-label'" :for="fieldId">{{ fieldLabel }}</label>
         <input
             v-if="type === 'number' || type === 'text' || type === 'email' || type === 'date' || type === 'time' || type === 'datetime-local' || type === 'url'"
-            :id="name"
-            v-model="item[name]"
-            :name="fieldName + '[' + index + '][' + name + ']'"
+            :id="fieldId"
+            :data-language="locale"
+            :name="fieldNameComplete"
             :placeholder="placeholder"
             :type="type"
+            :value="initModel"
             class="form-control"
+            @input="$emit('input', $event.target.value)"
+        />
+        <input
+            v-if="type === 'checkbox' || type === 'radio'"
+            :id="fieldId"
+            :checked="initModel"
+            :data-language="locale"
+            :name="fieldNameComplete"
+            :type="type"
+            class="form-check-input"
+            @change="$emit('input', $event.target.checked)"
         />
         <textarea
             v-if="type === 'textarea'"
-            :id="name"
-            v-model="item[name]"
-            :name="fieldName + '[' + index + '][' + name + ']'"
+            :id="fieldId"
+            :data-language="locale"
+            :name="fieldNameComplete"
             :placeholder="placeholder"
             :rows="rows"
+            :value="initModel"
             class="form-control"
+            @input="$emit('input', $event.target.value)"
         ></textarea>
-        <select v-if="type === 'select'" :id="name" v-model="item[name]" :name="fieldName + '[' + index + '][' + name + ']'" class="form-select">
+        <select v-if="type === 'select'" :id="fieldId" :data-language="locale" :name="fieldNameComplete" :value="initModel" class="form-select" @change="$emit('input', $event.target.value)">
             <option v-for="(item, key) in items" :value="key">{{ item }}</option>
         </select>
     </div>
@@ -30,15 +44,21 @@ export default {
     props: {
         field: {
             type: Object,
+            required: true,
         },
         fieldName: {
             type: String,
+            required: true,
         },
         index: {
             type: Number,
         },
-        item: {
-            type: Object,
+        initModel: {
+            required: true,
+        },
+        locale: {
+            type: String,
+            default: null,
         },
     },
     data() {
@@ -51,10 +71,28 @@ export default {
             placeholder: this.field.placeholder,
         };
     },
-    created() {
-        // console.log(this.config);
+    computed: {
+        fieldNameComplete: function () {
+            let fieldName = this.fieldName + '[' + this.index + '][' + this.name + ']';
+            if (this.locale !== null) {
+                fieldName += '[' + this.locale + ']';
+            }
+            return fieldName;
+        },
+        fieldId: function () {
+            let id = this.fieldName + '_' + this.index + '_' + this.name;
+            if (this.locale !== null) {
+                id += '_' + this.locale;
+            }
+            return id;
+        },
+        fieldLabel: function () {
+            let label = this.$i18n.t(this.title);
+            if (this.locale !== null) {
+                label += ' (' + this.locale + ')';
+            }
+            return label;
+        },
     },
-    computed: {},
-    methods: {},
 };
 </script>
