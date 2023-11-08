@@ -4,6 +4,7 @@
         <input
             v-if="type === 'number' || type === 'text' || type === 'email' || type === 'date' || type === 'time' || type === 'datetime-local' || type === 'url'"
             :id="fieldId"
+            :class="{ 'is-invalid': errors.length > 0 }"
             :data-language="locale"
             :max="max"
             :min="min"
@@ -15,19 +16,23 @@
             class="form-control"
             @input="$emit('input', $event.target.value)"
         />
+        <input v-if="type === 'checkbox'" :class="{ 'is-invalid': errors.length > 0 }" :data-language="locale" :name="fieldNameComplete" type="hidden" value="0" />
         <input
             v-if="type === 'checkbox' || type === 'radio'"
             :id="fieldId"
-            :checked="initModel"
+            :checked="parseInt(initModel) === 1"
+            :class="{ 'is-invalid': errors.length > 0 }"
             :data-language="locale"
             :name="fieldNameComplete"
             :type="type"
+            :value="1"
             class="form-check-input"
             @change="$emit('input', $event.target.checked)"
         />
         <textarea
             v-if="type === 'textarea'"
             :id="fieldId"
+            :class="{ 'is-invalid': errors.length > 0 }"
             :data-language="locale"
             :name="fieldNameComplete"
             :placeholder="placeholder"
@@ -36,9 +41,21 @@
             class="form-control"
             @input="$emit('input', $event.target.value)"
         ></textarea>
-        <select v-if="type === 'select'" :id="fieldId" :data-language="locale" :name="fieldNameComplete" :value="initModel" class="form-select" @change="$emit('input', $event.target.value)">
+        <select
+            v-if="type === 'select'"
+            :id="fieldId"
+            :class="{ 'is-invalid': errors.length > 0 }"
+            :data-language="locale"
+            :name="fieldNameComplete"
+            :value="initModel"
+            class="form-select"
+            @change="$emit('input', $event.target.value)"
+        >
             <option v-for="(item, key) in items" :value="key">{{ item }}</option>
         </select>
+        <div v-if="errors.length > 0" class="invalid-feedback">
+            {{ errors[0] }}
+        </div>
     </div>
 </template>
 
@@ -63,7 +80,14 @@ export default {
             type: String,
             default: null,
         },
+        errors: {
+            type: Array,
+            required: true,
+        },
     },
+    // created() {
+    //     console.log(this.errors);
+    // },
     data() {
         return {
             name: this.field.name,
