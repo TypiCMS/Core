@@ -105,10 +105,16 @@ export default {
                 return [];
             }
             if (locale !== null) {
+                if (this.errors[index] === undefined) {
+                    return [];
+                }
                 if (this.errors[index][fieldName] === undefined) {
                     return [];
                 }
                 return this.errors[index][fieldName][locale] ?? [];
+            }
+            if (this.errors[index] === undefined) {
+                return [];
             }
             return this.errors[index][fieldName] ?? [];
         },
