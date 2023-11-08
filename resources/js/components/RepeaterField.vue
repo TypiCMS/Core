@@ -1,6 +1,6 @@
 <template>
-    <div :class="{ 'form-group-translation': locale !== null, 'form-check': type === 'checkbox' || type === 'radio' }" class="mb-3">
-        <label :class="type === 'checkbox' || type === 'radio' ? 'form-check-label' : 'form-label'" :for="fieldId">{{ fieldLabel }}</label>
+    <div :class="{ 'form-group-translation': locale !== null, 'form-check': type === 'checkbox' }" class="mb-3">
+        <label v-if="type !== 'radio'" :class="type === 'checkbox' ? 'form-check-label' : 'form-label'" :for="fieldId">{{ fieldLabel }}</label>
         <input
             v-if="type === 'number' || type === 'text' || type === 'email' || type === 'date' || type === 'time' || type === 'datetime-local' || type === 'url'"
             :id="fieldId"
@@ -18,7 +18,7 @@
         />
         <input v-if="type === 'checkbox'" :class="{ 'is-invalid': errors.length > 0 }" :data-language="locale" :name="fieldNameComplete" type="hidden" value="0" />
         <input
-            v-if="type === 'checkbox' || type === 'radio'"
+            v-if="type === 'checkbox'"
             :id="fieldId"
             :checked="parseInt(initModel) === 1"
             :class="{ 'is-invalid': errors.length > 0 }"
@@ -53,6 +53,22 @@
         >
             <option v-for="(item, key) in items" :value="key">{{ item }}</option>
         </select>
+        <div v-if="type === 'radio'">
+            <div v-for="(item, key) in items" class="form-check">
+                <label :for="fieldId + '_' + key" class="form-check-label">{{ $t(item) }}</label>
+                <input
+                    :id="fieldId + '_' + key"
+                    :checked="parseInt(initModel) === 1"
+                    :class="{ 'is-invalid': errors.length > 0 }"
+                    :data-language="locale"
+                    :name="fieldNameComplete"
+                    :type="type"
+                    :value="key"
+                    class="form-check-input"
+                    @change="$emit('change', $event.target.checked)"
+                />
+            </div>
+        </div>
         <div v-if="errors.length > 0" class="invalid-feedback">
             {{ errors[0] }}
         </div>
