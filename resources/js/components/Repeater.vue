@@ -9,7 +9,7 @@
             </button>
         </div>
 
-        <draggable v-if="items.length > 0" v-model="items" :group="'items_' + name" class="d-flex flex-column gap-3 mt-3" handle=".handle">
+        <draggable v-if="items.length > 0" v-model="items" :group="'items_' + name" class="d-flex flex-column gap-3 mt-3" handle=".handle" @change="errors = []">
             <div v-for="(item, index) in items" :key="index" class="d-flex gap-2 card item">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <i class="bi bi-arrows-move handle"></i>
@@ -64,7 +64,7 @@ export default {
             type: Object,
             required: true,
         },
-        errors: {
+        initErrors: {
             type: Array,
             required: true,
         },
@@ -77,6 +77,7 @@ export default {
             name: this.config.name,
             maxItems: this.config.max_items || null,
             fields: this.config.fields,
+            errors: this.initErrors,
         };
     },
     methods: {
@@ -91,10 +92,10 @@ export default {
                 if (field.translatable) {
                     object[field.name] = {};
                     this.locales.forEach((locale) => {
-                        object[field.name][locale.short] = '';
+                        object[field.name][locale.short] = field.default !== undefined ? field.default : '';
                     });
                 } else {
-                    object[field.name] = '';
+                    object[field.name] = field.default !== undefined ? field.default : '';
                 }
             });
 
