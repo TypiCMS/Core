@@ -1,76 +1,99 @@
 <template>
-    <div :class="{ 'form-group-translation': locale !== null, 'form-check': type === 'checkbox' }" class="mb-3">
-        <label v-if="type !== 'radio'" :class="type === 'checkbox' ? 'form-check-label' : 'form-label'" :for="fieldId">{{ fieldLabel }}</label>
-        <input
-            v-if="type === 'number' || type === 'text' || type === 'email' || type === 'date' || type === 'time' || type === 'datetime-local' || type === 'url'"
-            :id="fieldId"
-            :class="{ 'is-invalid': errors.length > 0 }"
-            :data-language="locale"
-            :max="max"
-            :min="min"
-            :name="fieldNameComplete"
-            :placeholder="placeholder"
-            :step="step"
-            :type="type"
-            :value="initModel"
-            class="form-control"
-            @input="$emit('input', $event.target.value)"
-        />
-        <input v-if="type === 'checkbox'" :class="{ 'is-invalid': errors.length > 0 }" :data-language="locale" :name="fieldNameComplete" type="hidden" value="0" />
-        <input
-            v-if="type === 'checkbox'"
-            :id="fieldId"
-            :checked="parseInt(initModel) === 1"
-            :class="{ 'is-invalid': errors.length > 0 }"
-            :data-language="locale"
-            :name="fieldNameComplete"
-            :type="type"
-            :value="1"
-            class="form-check-input"
-            @change="$emit('input', $event.target.checked)"
-        />
-        <textarea
-            v-if="type === 'textarea'"
-            :id="fieldId"
-            :class="{ 'is-invalid': errors.length > 0 }"
-            :data-language="locale"
-            :name="fieldNameComplete"
-            :placeholder="placeholder"
-            :rows="rows"
-            :value="initModel"
-            class="form-control"
-            @input="$emit('input', $event.target.value)"
-        ></textarea>
-        <select
-            v-if="type === 'select'"
-            :id="fieldId"
-            :class="{ 'is-invalid': errors.length > 0 }"
-            :data-language="locale"
-            :name="fieldNameComplete"
-            :value="initModel"
-            class="form-select"
-            @change="$emit('input', $event.target.value)"
+    <div>
+        <div
+            v-if="['text', 'url', 'tel', 'email', 'date', 'month', 'week', 'time', 'datetime-local', 'number', 'range', 'color'].includes(type)"
+            :class="{ 'form-group-translation': locale !== null }"
+            class="mb-3"
         >
-            <option v-for="(item, key) in items" :value="key">{{ item }}</option>
-        </select>
-        <div v-if="type === 'radio'">
-            <div v-for="(item, key) in items" class="form-check">
-                <label :for="fieldId + '_' + key" class="form-check-label">{{ $t(item) }}</label>
+            <label :for="fieldId" class="form-label">{{ fieldLabel }}</label>
+            <input
+                :id="fieldId"
+                :class="{ 'is-invalid': errors.length > 0 }"
+                :data-language="locale"
+                :max="max"
+                :min="min"
+                :name="fieldNameComplete"
+                :placeholder="placeholder"
+                :required="required"
+                :step="step"
+                :type="type"
+                :value="initModel"
+                class="form-control"
+                @input="$emit('input', $event.target.value)"
+            />
+            <div v-if="errors.length > 0" class="invalid-feedback">{{ errors[0] }}</div>
+        </div>
+        <div v-if="type === 'textarea'" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
+            <label :for="fieldId" class="form-label">{{ fieldLabel }}</label>
+            <textarea
+                :id="fieldId"
+                :class="{ 'is-invalid': errors.length > 0 }"
+                :data-language="locale"
+                :name="fieldNameComplete"
+                :placeholder="placeholder"
+                :required="required"
+                :rows="rows"
+                :value="initModel"
+                class="form-control"
+                @input="$emit('input', $event.target.value)"
+            ></textarea>
+            <div v-if="errors.length > 0" class="invalid-feedback">{{ errors[0] }}</div>
+        </div>
+        <div v-if="type === 'select'" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
+            <label :for="fieldId" class="form-label">{{ fieldLabel }}</label>
+            <select
+                :id="fieldId"
+                :class="{ 'is-invalid': errors.length > 0 }"
+                :data-language="locale"
+                :name="fieldNameComplete"
+                :required="required"
+                :value="initModel"
+                class="form-select"
+                @change="$emit('input', $event.target.value)"
+            >
+                <option v-for="(label, value) in items" :value="value">{{ label }}</option>
+            </select>
+            <div v-if="errors.length > 0" class="invalid-feedback">{{ errors[0] }}</div>
+        </div>
+        <div v-if="type === 'checkbox'" :class="{ 'form-group-translation': locale !== null }" class="form-check mb-3">
+            <p class="form-label">{{ fieldLabel }}</p>
+            <div class="form-check">
+                <label :for="fieldId" class="form-check-label">{{ fieldLabel }}</label>
+                <input :name="fieldNameComplete" type="hidden" value="0" />
                 <input
-                    :id="fieldId + '_' + key"
+                    :id="fieldId"
                     :checked="parseInt(initModel) === 1"
                     :class="{ 'is-invalid': errors.length > 0 }"
                     :data-language="locale"
                     :name="fieldNameComplete"
+                    :required="required"
                     :type="type"
-                    :value="key"
+                    :value="1"
                     class="form-check-input"
-                    @change="$emit('change', $event.target.checked)"
+                    @change="$emit('input', $event.target.checked ? 1 : 0)"
                 />
+                <div v-if="errors.length > 0" class="invalid-feedback">{{ errors[0] }}</div>
             </div>
         </div>
-        <div v-if="errors.length > 0" class="invalid-feedback">
-            {{ errors[0] }}
+        <div v-if="type === 'radio'" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
+            <p class="form-label">{{ fieldLabel }}</p>
+            <input :name="fieldNameComplete" type="hidden" value="" />
+            <div v-for="(label, value) in items" class="form-check">
+                <label :for="fieldId + '_' + value" class="form-check-label">{{ $t(label) }}</label>
+                <input
+                    :id="fieldId + '_' + value"
+                    :checked="initModel === value"
+                    :class="{ 'is-invalid': errors.length > 0 }"
+                    :data-language="locale"
+                    :name="fieldNameComplete"
+                    :required="required"
+                    :type="type"
+                    :value="value"
+                    class="form-check-input"
+                    @change="$emit('input', value)"
+                />
+                <div v-if="errors.length > 0" class="invalid-feedback">{{ errors[0] }}</div>
+            </div>
         </div>
     </div>
 </template>
@@ -101,9 +124,6 @@ export default {
             required: true,
         },
     },
-    // created() {
-    //     console.log(this.errors);
-    // },
     data() {
         return {
             name: this.field.name,
@@ -114,6 +134,7 @@ export default {
             max: this.field.max,
             step: this.field.step,
             items: this.field.items,
+            required: this.field.required,
             placeholder: this.field.placeholder,
         };
     },
