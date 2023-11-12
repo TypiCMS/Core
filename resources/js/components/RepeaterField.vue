@@ -95,11 +95,19 @@
                 <div v-if="errors.length > 0" class="invalid-feedback">{{ errors[0] }}</div>
             </div>
         </div>
+        <div v-if="type === 'image'" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
+            <file-manager></file-manager>
+            <file-field :field="fieldNameComplete" :init-file="null" :label="fieldLabel" type="image"></file-field>
+        </div>
     </div>
 </template>
 
 <script>
+import FileManager from './FileManager.vue';
+import FileField from './FileField.vue';
+
 export default {
+    components: { FileManager, FileField },
     props: {
         field: {
             type: Object,
