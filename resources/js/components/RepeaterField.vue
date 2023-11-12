@@ -172,7 +172,7 @@ export default {
         },
     },
     mounted() {
-        if (this.type === 'image' || this.type === 'document') {
+        if ((this.type === 'image' || this.type === 'document') && this.initModel !== '') {
             this.getFile(this.initModel);
         }
     },
