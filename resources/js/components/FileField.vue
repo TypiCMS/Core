@@ -62,11 +62,16 @@ export default {
     },
     data() {
         return {
-            file: this.initFile,
             choosingFile: false,
         };
     },
     computed: {
+        file() {
+            if (this.initFile !== null) {
+                return this.initFile;
+            }
+            return null;
+        },
         fileId() {
             if (this.file !== null) {
                 return this.file.id;
