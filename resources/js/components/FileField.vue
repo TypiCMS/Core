@@ -82,6 +82,11 @@ export default {
             this.choosingFile = false;
         });
     },
+    watch: {
+        initFile: function (newVal) {
+            this.file = newVal;
+        },
+    },
     methods: {
         remove() {
             this.file = null;
