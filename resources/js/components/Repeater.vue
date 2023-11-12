@@ -95,7 +95,7 @@ export default {
                         object[field.name][locale.short] = field.default !== undefined ? field.default : '';
                     });
                 } else {
-                    object[field.name] = field.default !== undefined ? field.default : '';
+                    object[field.name] = field.default !== undefined ? field.default : null;
                 }
             });
 
