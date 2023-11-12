@@ -2,17 +2,12 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between">
             {{ $t('Latest changes') }}
-            <button
-                class="btn-clear-history"
-                id="clear-history"
-                @click="clearHistory"
-                v-if="filteredItems.length > 0 && clearButton"
-            >
+            <button v-if="filteredItems.length > 0 && clearButton" id="clear-history" class="btn-clear-history" @click="clearHistory">
                 {{ $t('Clear') }}
             </button>
         </div>
 
-        <div class="history table-responsive" v-if="filteredItems.length">
+        <div v-if="filteredItems.length" class="history table-responsive">
             <table class="history-table table table-main mb-0">
                 <thead>
                     <tr>
@@ -23,69 +18,40 @@
                 <tbody>
                     <tr v-for="model in filteredItems">
                         <td>
-                            <small class="text-muted text-nowrap">{{
-                                model.created_at | datetime
-                            }}</small>
+                            <small class="text-muted text-nowrap">{{ model.created_at | datetime }}</small>
                         </td>
                         <td>
-                            <a
-                                v-if="model.href"
-                                :href="model.href + '?locale=' + model.locale"
-                                >{{ model.title }}</a
-                            >
+                            <a v-if="model.href" :href="model.href + '?locale=' + model.locale">{{ model.title }}</a>
                             <span v-if="!model.href">{{ model.title }}</span>
-                            <span v-if="model.locale"
-                                >({{ model.locale }})</span
-                            >
+                            <span v-if="model.locale">({{ model.locale }})</span>
                         </td>
                         <td>
-                            {{
-                                model.historable_type.substring(
-                                    model.historable_type.lastIndexOf('\\') + 1,
-                                )
-                            }}
+                            {{ model.historable_type.substring(model.historable_type.lastIndexOf('\\') + 1) }}
                         </td>
                         <td class="action">
                             <small class="action-content">
-                                <span
-                                    class="icon"
-                                    :class="'icon-' + model.action"
-                                ></span>
+                                <span :class="'icon-' + model.action" class="icon"></span>
                                 {{ model.action }}
                             </small>
                         </td>
                         <td>
-                            <small class="user-name">{{
-                                model.user_name
-                            }}</small>
+                            <small class="user-name">{{ model.user_name }}</small>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="card-body" v-else>
+        <div v-else class="card-body">
             <div v-if="loading">
                 <span class="text-muted">{{ $t('Loading…') }}</span>
             </div>
             <div v-else>
-                <span class="text-muted">{{
-                    searchString !== ''
-                        ? $t('Nothing found.')
-                        : $t('History is empty.')
-                }}</span>
+                <span class="text-muted">{{ searchString !== '' ? $t('Nothing found.') : $t('History is empty.') }}</span>
             </div>
         </div>
-        <div
-            class="card-footer"
-            v-if="filteredItems.length > 0 && data.total > data.per_page"
-        >
-            <item-list-pagination
-                class="justify-content-center"
-                :data="data"
-                @pagination-change-page="changePage"
-                v-if="pagination"
-            ></item-list-pagination>
+        <div v-if="filteredItems.length > 0 && data.total > data.per_page" class="card-footer">
+            <item-list-pagination v-if="pagination" :data="data" class="justify-content-center" @pagination-change-page="changePage"></item-list-pagination>
         </div>
     </div>
 </template>
@@ -158,15 +124,10 @@ export default {
             if (this.searchString === null) {
                 return '';
             }
-            return this.searchableArray
-                .map((item) => 'filter[' + item + ']=' + this.searchString)
-                .join('&');
+            return this.searchableArray.map((item) => 'filter[' + item + ']=' + this.searchString).join('&');
         },
         url() {
-            let query = [
-                'sort=' + this.sortArray.join(','),
-                'fields[history]=' + this.fields,
-            ];
+            let query = ['sort=' + this.sortArray.join(','), 'fields[history]=' + this.fields];
 
             if (this.include !== '') {
                 query.push('include=' + this.include);
@@ -203,10 +164,7 @@ export default {
                 this.data = await response.json();
                 this.loading = false;
             } catch (error) {
-                alertify.error(
-                    error.message ||
-                        this.$i18n.t('An error occurred with the data fetch.'),
-                );
+                alertify.error(error.message || this.$i18n.t('An error occurred with the data fetch.'));
             }
         },
         onSearchStringChanged() {
@@ -225,9 +183,7 @@ export default {
             this.fetchData();
         },
         async clearHistory() {
-            if (
-                !window.confirm(this.$i18n.t('Do you want to clear history?'))
-            ) {
+            if (!window.confirm(this.$i18n.t('Do you want to clear history?'))) {
                 return false;
             }
             this.loading = true;
@@ -239,10 +195,7 @@ export default {
                 this.data.data = [];
                 this.loading = false;
             } catch (error) {
-                alertify.error(
-                    this.$i18n.tc(error.message) ||
-                        this.$i18n.t('Sorry, an error occurred.'),
-                );
+                alertify.error(this.$i18n.tc(error.message) || this.$i18n.t('Sorry, an error occurred.'));
             }
         },
         sort(object) {

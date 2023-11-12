@@ -1,127 +1,75 @@
 <template>
-    <div class="item-list" :class="{ 'sub-list': subList }">
+    <div :class="{ 'sub-list': subList }" class="item-list">
         <div class="item-list-header header">
             <slot name="back-button"></slot>
-            <h1 class="item-list-title" v-if="!subList">
+            <h1 v-if="!subList" class="item-list-title">
                 {{ $t(title.charAt(0).toUpperCase() + title.slice(1)) }}
             </h1>
-            <h2 class="item-list-subtitle" v-else>
+            <h2 v-else class="item-list-subtitle">
                 {{ $t(title.charAt(0).toUpperCase() + title.slice(1)) }}
             </h2>
             <div class="btn-toolbar header-toolbar">
                 <item-list-selector
-                    v-if="
-                        selector &&
-                        ($can('update ' + table) || $can('delete ' + table))
-                    "
-                    class="me-2"
-                    :filtered-models="filteredItems"
+                    v-if="selector && ($can('update ' + table) || $can('delete ' + table))"
                     :all-checked="allChecked"
+                    :filtered-models="filteredItems"
                     :loading="loading"
                     :publishable="publishable"
+                    class="me-2"
                     @check-all="checkAll"
                     @check-none="checkNone"
                     @check-published="checkPublished"
                     @check-unpublished="checkUnpublished"
                 ></item-list-selector>
                 <item-list-actions
-                    v-if="
-                        actions &&
-                        ($can('update ' + table) || $can('delete ' + table))
-                    "
-                    class="me-2"
-                    :number-of-checked-models="numberOfCheckedItems"
-                    :loading="loading"
-                    :publishable="publishable"
+                    v-if="actions && ($can('update ' + table) || $can('delete ' + table))"
                     :deletable="deletable"
+                    :loading="loading"
+                    :number-of-checked-models="numberOfCheckedItems"
+                    :publishable="publishable"
                     :table="table"
+                    class="me-2"
                     @destroy="destroy"
                     @publish="publish"
                     @unpublish="unpublish"
                 ></item-list-actions>
                 <item-list-per-page
-                    v-if="
-                        data.total > perPage &&
-                        pagination &&
-                        $can('read ' + table)
-                    "
-                    class="me-2"
+                    v-if="data.total > perPage && pagination && $can('read ' + table)"
                     :loading="loading"
                     :per-page="parseInt(data.per_page)"
+                    class="me-2"
                     @change-per-page="changeNumberOfItemsPerPage"
                 ></item-list-per-page>
                 <slot name="buttons"></slot>
                 <slot name="add-button"></slot>
                 <div class="d-flex align-items-center ms-2">
-                    <div
-                        class="spinner-border spinner-border-sm text-dark"
-                        role="status"
-                        v-if="loading"
-                    >
-                        <span class="visually-hidden">{{
-                            $t('Loading…')
-                        }}</span>
+                    <div v-if="loading" class="spinner-border spinner-border-sm text-dark" role="status">
+                        <span class="visually-hidden">{{ $t('Loading…') }}</span>
                     </div>
                 </div>
-                <small class="text-muted align-self-center" v-if="!loading">
+                <small v-if="!loading" class="text-muted align-self-center">
                     {{ $tc('# ' + title, data.total, { count: data.total }) }}
                 </small>
                 <div class="d-flex ms-auto">
-                    <div
-                        class="filters form-inline"
-                        v-if="searchable.length > 0"
-                    >
+                    <div v-if="searchable.length > 0" class="filters form-inline">
                         <div class="input-group input-group-sm mb-0">
                             <div class="input-group-text">
                                 <i class="bi bi-search"></i>
                             </div>
-                            <input
-                                class="form-control"
-                                type="text"
-                                id="search"
-                                v-model="searchString"
-                                @input="onSearchStringChanged"
-                            />
+                            <input id="search" v-model="searchString" class="form-control" type="text" @input="onSearchStringChanged" />
                         </div>
                     </div>
-                    <div
-                        class="btn-group btn-group-sm ms-2"
-                        v-if="translatable && locales.length > 1"
-                    >
-                        <button
-                            class="btn btn-light dropdown-toggle"
-                            type="button"
-                            id="dropdownLangSwitcher"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                        >
-                            <span id="active-locale">{{
-                                locales.find(
-                                    (item) => item.short === contentLocale,
-                                ).long
-                            }}</span>
+                    <div v-if="translatable && locales.length > 1" class="btn-group btn-group-sm ms-2">
+                        <button id="dropdownLangSwitcher" aria-expanded="false" aria-haspopup="true" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" type="button">
+                            <span id="active-locale">{{ locales.find((item) => item.short === contentLocale).long }}</span>
                         </button>
-                        <div
-                            class="dropdown-menu dropdown-menu-right"
-                            aria-labelledby="dropdownLangSwitcher"
-                        >
-                            <button
-                                class="dropdown-item"
-                                :class="{ active: locale === contentLocale }"
-                                type="button"
-                                v-for="locale in locales"
-                                @click="switchLocale(locale.short)"
-                            >
+                        <div aria-labelledby="dropdownLangSwitcher" class="dropdown-menu dropdown-menu-right">
+                            <button v-for="locale in locales" :class="{ active: locale === contentLocale }" class="dropdown-item" type="button" @click="switchLocale(locale.short)">
                                 {{ locale.long }}
                             </button>
                         </div>
                     </div>
-                    <a
-                        :href="this.exportUrl"
-                        class="btn btn-sm btn-light ms-2"
-                        v-if="exportable"
-                    >
+                    <a v-if="exportable" :href="this.exportUrl" class="btn btn-sm btn-light ms-2">
                         <i class="bi bi-table me-1"></i>
                         Export
                     </a>
@@ -130,7 +78,7 @@
         </div>
 
         <div class="item-list-content content">
-            <div class="table-responsive" v-if="filteredItems.length">
+            <div v-if="filteredItems.length" class="table-responsive">
                 <table class="table item-list-table">
                     <thead>
                         <tr>
@@ -139,22 +87,13 @@
                     </thead>
                     <tbody>
                         <tr v-for="model in filteredItems">
-                            <slot
-                                :model="model"
-                                :checked-models="checkedItems"
-                                :loading="loading"
-                                name="table-row"
-                            ></slot>
+                            <slot :checked-models="checkedItems" :loading="loading" :model="model" name="table-row"></slot>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <item-list-pagination
-                :data="data"
-                @pagination-change-page="changePage"
-                v-if="pagination"
-            ></item-list-pagination>
+            <item-list-pagination v-if="pagination" :data="data" @pagination-change-page="changePage"></item-list-pagination>
         </div>
     </div>
 </template>
@@ -279,9 +218,7 @@ export default {
             if (this.searchString === null) {
                 return '';
             }
-            return this.searchableArray
-                .map((item) => 'filter[' + item + ']=' + this.searchString)
-                .join('&');
+            return this.searchableArray.map((item) => 'filter[' + item + ']=' + this.searchString).join('&');
         },
         exportUrl() {
             let query = ['sort=' + this.sortArray.join(',')];
@@ -311,11 +248,7 @@ export default {
                 query.push(this.searchQuery);
             }
 
-            return (
-                this.urlBase.replace('api/', 'admin/') +
-                '/export?' +
-                query.join('&')
-            );
+            return this.urlBase.replace('api/', 'admin/') + '/export?' + query.join('&');
         },
         url() {
             let query = ['sort=' + this.sortArray.join(',')];
@@ -356,10 +289,7 @@ export default {
             return this.data.data;
         },
         allChecked() {
-            return (
-                this.filteredItems.length > 0 &&
-                this.filteredItems.length === this.checkedItems.length
-            );
+            return this.filteredItems.length > 0 && this.filteredItems.length === this.checkedItems.length;
         },
         numberOfCheckedItems() {
             return this.checkedItems.length;
@@ -376,10 +306,7 @@ export default {
                 }
                 this.data = await response.json();
             } catch (error) {
-                alertify.error(
-                    error.message ||
-                        this.$i18n.t('An error occurred with the data fetch.'),
-                );
+                alertify.error(error.message || this.$i18n.t('An error occurred with the data fetch.'));
             }
             this.stopLoading();
         },
@@ -439,18 +366,14 @@ export default {
             if (this.translatable) {
                 statusVar = 'status_translated';
             }
-            this.checkedItems = this.filteredItems.filter(
-                (model) => model[statusVar] === 1,
-            );
+            this.checkedItems = this.filteredItems.filter((model) => model[statusVar] === 1);
         },
         checkUnpublished() {
             let statusVar = 'status';
             if (this.translatable) {
                 statusVar = 'status_translated';
             }
-            this.checkedItems = this.filteredItems.filter(
-                (model) => model[statusVar] === 0,
-            );
+            this.checkedItems = this.filteredItems.filter((model) => model[statusVar] === 0);
         },
         async destroy() {
             this.data.current_page = 1;
@@ -458,24 +381,17 @@ export default {
 
             if (this.checkedItems.length > deleteLimit) {
                 alertify.error(
-                    this.$i18n.t(
-                        'Impossible to delete more than # items in one go.',
-                        {
-                            deleteLimit,
-                        },
-                    ),
+                    this.$i18n.t('Impossible to delete more than # items in one go.', {
+                        deleteLimit,
+                    }),
                 );
                 return false;
             }
             if (
                 !window.confirm(
-                    this.$i18n.tc(
-                        'Are you sure you want to delete # items?',
-                        this.numberOfCheckedItems,
-                        {
-                            count: this.numberOfCheckedItems,
-                        },
-                    ),
+                    this.$i18n.tc('Are you sure you want to delete # items?', this.numberOfCheckedItems, {
+                        count: this.numberOfCheckedItems,
+                    }),
                 )
             ) {
                 return false;
@@ -484,26 +400,18 @@ export default {
             this.startLoading();
             const deletePromises = this.checkedItems.map(async (model) => {
                 try {
-                    const response = await fetcher(
-                        this.urlBase + '/' + model.id,
-                        { method: 'DELETE' },
-                    );
+                    const response = await fetcher(this.urlBase + '/' + model.id, { method: 'DELETE' });
                     if (!response.ok) {
                         const responseData = await response.json();
                         throw new Error(responseData.message);
                     }
                 } catch (error) {
-                    alertify.error(
-                        this.$i18n.tc(error.message) ||
-                            this.$i18n.t('Sorry, an error occurred.'),
-                    );
+                    alertify.error(this.$i18n.tc(error.message) || this.$i18n.t('Sorry, an error occurred.'));
                 }
             });
 
             const responses = await Promise.all(deletePromises);
-            let successes = responses.filter(
-                (response) => response && response.status === 200,
-            );
+            let successes = responses.filter((response) => response && response.status === 200);
             if (successes.length > 0) {
                 alertify.success(
                     this.$i18n.tc('# items deleted', successes.length, {
@@ -518,13 +426,9 @@ export default {
         publish() {
             if (
                 !window.confirm(
-                    this.$i18n.tc(
-                        'Are you sure you want to publish # items?',
-                        this.checkedItems.length,
-                        {
-                            count: this.checkedItems.length,
-                        },
-                    ),
+                    this.$i18n.tc('Are you sure you want to publish # items?', this.checkedItems.length, {
+                        count: this.checkedItems.length,
+                    }),
                 )
             ) {
                 return false;
@@ -534,13 +438,9 @@ export default {
         unpublish() {
             if (
                 !window.confirm(
-                    this.$i18n.tc(
-                        'Are you sure you want to unpublish # items?',
-                        this.checkedItems.length,
-                        {
-                            count: this.checkedItems.length,
-                        },
-                    ),
+                    this.$i18n.tc('Are you sure you want to unpublish # items?', this.checkedItems.length, {
+                        count: this.checkedItems.length,
+                    }),
                 )
             ) {
                 return false;
@@ -565,29 +465,21 @@ export default {
 
             const updatePromises = this.checkedItems.map(async (model) => {
                 try {
-                    const response = await fetcher(
-                        this.urlBase + '/' + model.id,
-                        {
-                            method: 'PATCH',
-                            body: JSON.stringify(data),
-                        },
-                    );
+                    const response = await fetcher(this.urlBase + '/' + model.id, {
+                        method: 'PATCH',
+                        body: JSON.stringify(data),
+                    });
                     if (!response.ok) {
                         const responseData = await response.json();
                         throw new Error(responseData.message);
                     }
                 } catch (error) {
-                    alertify.error(
-                        error.message ||
-                            this.$i18n.t('Sorry, an error occurred.'),
-                    );
+                    alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
                 }
             });
 
             const responses = await Promise.all(updatePromises);
-            let successes = responses.filter(
-                (response) => response && response.status === 200,
-            );
+            let successes = responses.filter((response) => response && response.status === 200);
             if (successes.length > 0) {
                 alertify.success(
                     this.$i18n.tc('# items ' + label, successes.length, {
@@ -603,10 +495,7 @@ export default {
             this.stopLoading();
         },
         async toggleStatus(model) {
-            let translatable =
-                    typeof model.status_translated !== 'undefined'
-                        ? this.translatable
-                        : false,
+            let translatable = typeof model.status_translated !== 'undefined' ? this.translatable : false,
                 status = translatable ? model.status_translated : model.status,
                 newStatus = Math.abs(status - 1),
                 data = {
@@ -632,9 +521,7 @@ export default {
                 }
                 alertify.success(this.$i18n.t('Item is ' + label + '.'));
             } catch (error) {
-                alertify.error(
-                    error.message || this.$i18n.t('Sorry, an error occurred.'),
-                );
+                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
             }
         },
         async updatePosition(model) {
@@ -651,9 +538,7 @@ export default {
                     throw new Error(responseData.message);
                 }
             } catch (error) {
-                alertify.error(
-                    error.message || this.$i18n.t('Sorry, an error occurred.'),
-                );
+                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
             }
         },
         sort(object) {

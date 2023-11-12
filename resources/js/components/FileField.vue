@@ -6,64 +6,30 @@
                 {{ type === 'document' ? $t('Document') : $t('Image') }}
             </span>
         </p>
-        <input
-            type="hidden"
-            :name="field"
-            :id="field"
-            :rel="field"
-            v-model="fileId"
-        />
+        <input :id="field" v-model="fileId" :name="field" :rel="field" type="hidden" />
         <div>
-            <div
-                class="filemanager-item filemanager-item-with-name filemanager-item-removable"
-                v-if="file !== null"
-            >
+            <div v-if="file !== null" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
                 <div class="filemanager-item-wrapper">
-                    <button
-                        class="filemanager-item-removable-button"
-                        type="button"
-                        @click="remove"
-                    >
+                    <button class="filemanager-item-removable-button" type="button" @click="remove">
                         <i class="bi bi-x fs-5"></i>
                     </button>
-                    <div class="filemanager-item-icon" v-if="file.type === 'i'">
+                    <div v-if="file.type === 'i'" class="filemanager-item-icon">
                         <div class="filemanager-item-image-wrapper">
-                            <img
-                                class="filemanager-item-image"
-                                :src="file.thumb_sm"
-                                :alt="file.alt"
-                            />
+                            <img :alt="file.alt" :src="file.thumb_sm" class="filemanager-item-image" />
                         </div>
                     </div>
-                    <div
-                        class="filemanager-item-icon"
-                        :class="'filemanager-item-icon-' + file.type"
-                        v-else
-                    >
-                        <i
-                            class="bi bi-file-earmark-music"
-                            v-if="file.type === 'a'"
-                        ></i>
-                        <i
-                            class="bi bi-file-earmark-play"
-                            v-if="file.type === 'v'"
-                        ></i>
-                        <i
-                            class="bi bi-file-earmark"
-                            v-if="file.type === 'd'"
-                        ></i>
-                        <i class="bi bi-folder" v-if="file.type === 'f'"></i>
+                    <div v-else :class="'filemanager-item-icon-' + file.type" class="filemanager-item-icon">
+                        <i v-if="file.type === 'a'" class="bi bi-file-earmark-music"></i>
+                        <i v-if="file.type === 'v'" class="bi bi-file-earmark-play"></i>
+                        <i v-if="file.type === 'd'" class="bi bi-file-earmark"></i>
+                        <i v-if="file.type === 'f'" class="bi bi-folder"></i>
                     </div>
                     <div class="filemanager-item-name">{{ file.name }}</div>
                 </div>
             </div>
         </div>
-        <div class="mb-3" v-if="file === null">
-            <button
-                class="filemanager-field-btn-add"
-                @click="openFilepicker"
-                type="button"
-            >
+        <div v-if="file === null" class="mb-3">
+            <button class="filemanager-field-btn-add" type="button" @click="openFilepicker">
                 <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
                 {{ $t('Add') }}
             </button>

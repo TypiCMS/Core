@@ -1,68 +1,32 @@
 <template>
     <div>
-        <input type="hidden" name="file_ids" :value="fileIds.join()" />
+        <input :value="fileIds.join()" name="file_ids" type="hidden" />
         <div class="mb-3">
             <p class="form-label mb-2">{{ $t(label) }}</p>
             <p>
-                <button
-                    class="filemanager-field-btn-add"
-                    @click="openFilepicker"
-                    type="button"
-                >
+                <button class="filemanager-field-btn-add" type="button" @click="openFilepicker">
                     <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
                     {{ $t('Add files') }}
                 </button>
             </p>
         </div>
 
-        <draggable
-            class="filemanager-list"
-            v-model="files"
-            group="files"
-            @start="drag = true"
-            @end="drag = false"
-        >
-            <div
-                class="filemanager-item filemanager-item-with-name filemanager-item-removable"
-                v-for="file in files"
-                :id="'item_' + file.id"
-                :key="file.id"
-            >
+        <draggable v-model="files" class="filemanager-list" group="files" @end="drag = false" @start="drag = true">
+            <div v-for="file in files" :id="'item_' + file.id" :key="file.id" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
                 <div class="filemanager-item-wrapper">
-                    <button
-                        class="filemanager-item-removable-button"
-                        @click="remove(file)"
-                        type="button"
-                    >
+                    <button class="filemanager-item-removable-button" type="button" @click="remove(file)">
                         <i class="bi bi-x fs-5"></i>
                     </button>
-                    <div class="filemanager-item-icon" v-if="file.type === 'i'">
+                    <div v-if="file.type === 'i'" class="filemanager-item-icon">
                         <div class="filemanager-item-image-wrapper">
-                            <img
-                                class="filemanager-item-image"
-                                :src="file.thumb_sm"
-                                :alt="file.alt_attribute[contentLocale]"
-                            />
+                            <img :alt="file.alt_attribute[contentLocale]" :src="file.thumb_sm" class="filemanager-item-image" />
                         </div>
                     </div>
-                    <div
-                        class="filemanager-item-icon"
-                        :class="'filemanager-item-icon-' + file.type"
-                        v-else
-                    >
-                        <i
-                            class="bi bi-file-earmark-music"
-                            v-if="file.type === 'a'"
-                        ></i>
-                        <i
-                            class="bi bi-file-earmark-play"
-                            v-if="file.type === 'v'"
-                        ></i>
-                        <i
-                            class="bi bi-file-earmark"
-                            v-if="file.type === 'd'"
-                        ></i>
-                        <i class="bi bi-folder" v-if="file.type === 'f'"></i>
+                    <div v-else :class="'filemanager-item-icon-' + file.type" class="filemanager-item-icon">
+                        <i v-if="file.type === 'a'" class="bi bi-file-earmark-music"></i>
+                        <i v-if="file.type === 'v'" class="bi bi-file-earmark-play"></i>
+                        <i v-if="file.type === 'd'" class="bi bi-file-earmark"></i>
+                        <i v-if="file.type === 'f'" class="bi bi-folder"></i>
                     </div>
                     <div class="filemanager-item-name">{{ file.name }}</div>
                 </div>
@@ -97,10 +61,7 @@ export default {
     mounted() {
         this.$root.$on('filesAdded', (files) => {
             for (let i = files.length - 1; i >= 0; i--) {
-                if (
-                    this.files.find(({ id }) => id === files[i].id) ===
-                    undefined
-                ) {
+                if (this.files.find(({ id }) => id === files[i].id) === undefined) {
                     this.files.push(files[i]);
                 }
             }

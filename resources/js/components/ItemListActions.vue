@@ -1,46 +1,31 @@
 <template>
     <div class="btn-group btn-group-sm">
         <button
-            class="btn btn-light dropdown-toggle"
-            :disabled="numberOfCheckedModels === 0 || loading"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="true"
             id="dropdownActions"
+            :disabled="numberOfCheckedModels === 0 || loading"
+            aria-expanded="true"
+            aria-haspopup="true"
+            class="btn btn-light dropdown-toggle"
+            data-bs-toggle="dropdown"
+            type="button"
         >
             {{ $t('Action') }}
         </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownActions">
-            <button
-                type="button"
-                class="dropdown-item"
-                v-if="publishable"
-                @click="$emit('publish')"
-            >
+        <div aria-labelledby="dropdownActions" class="dropdown-menu">
+            <button v-if="publishable" class="dropdown-item" type="button" @click="$emit('publish')">
                 {{ $t('Publish') }}
                 <span class="text-muted">({{ locale }})</span>
             </button>
-            <button
-                type="button"
-                class="dropdown-item"
-                v-if="publishable"
-                @click="$emit('unpublish')"
-            >
+            <button v-if="publishable" class="dropdown-item" type="button" @click="$emit('unpublish')">
                 {{ $t('Unpublish') }}
                 <span class="text-muted">({{ locale }})</span>
             </button>
-            <div class="dropdown-divider" v-if="publishable"></div>
-            <button
-                type="button"
-                class="dropdown-item"
-                v-if="deletable"
-                @click="$emit('destroy')"
-            >
+            <div v-if="publishable" class="dropdown-divider"></div>
+            <button v-if="deletable" class="dropdown-item" type="button" @click="$emit('destroy')">
                 {{ $t('Delete') }}
             </button>
-            <div role="separator" class="divider"></div>
-            <button type="button" class="dropdown-item" disabled>
+            <div class="divider" role="separator"></div>
+            <button class="dropdown-item" disabled type="button">
                 <small>{{
                     $tc('# items selected', numberOfCheckedModels, {
                         count: numberOfCheckedModels,
