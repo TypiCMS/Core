@@ -22,6 +22,11 @@ class FilesApiController extends BaseApiController
         return $data;
     }
 
+    public function show(File $file): File
+    {
+        return $file;
+    }
+
     public function store(FileFormRequest $request): JsonResponse
     {
         $model = File::create($request->validated());

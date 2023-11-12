@@ -19,6 +19,7 @@ Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Ro
  */
 Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router) {
     $router->get('files', [FilesApiController::class, 'index'])->middleware('can:read files');
+    $router->get('files/{file}', [FilesApiController::class, 'show'])->middleware('can:read files');
     $router->post('files', [FilesApiController::class, 'store'])->middleware('can:create files');
     $router->patch('files/{ids}', [FilesApiController::class, 'move'])->middleware('can:update files');
     $router->delete('files/{file}', [FilesApiController::class, 'destroy'])->middleware('can:delete files');
