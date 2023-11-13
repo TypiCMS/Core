@@ -96,8 +96,7 @@
             </div>
         </div>
         <div v-if="type === 'image'" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
-            <file-manager></file-manager>
-            <file-field :field="fieldNameComplete" :init-file="file" :label="fieldLabel" type="image"></file-field>
+            <repeater-file-field :field="fieldNameComplete" :init-model="JSON.parse(initModel)" :label="fieldLabel" type="image"></repeater-file-field>
         </div>
     </div>
 </template>
@@ -105,10 +104,10 @@
 <script>
 import fetcher from '../admin/fetcher';
 import FileManager from './FileManager.vue';
-import FileField from './FileField.vue';
+import RepeaterFileField from './RepeaterFileField.vue';
 
 export default {
-    components: { FileManager, FileField },
+    components: { FileManager, RepeaterFileField },
     props: {
         field: {
             type: Object,
@@ -145,7 +144,6 @@ export default {
             items: this.field.items,
             required: this.field.required,
             placeholder: this.field.placeholder,
-            file: null,
         };
     },
     computed: {
@@ -169,27 +167,6 @@ export default {
                 label += ' (' + this.locale + ')';
             }
             return label;
-        },
-    },
-    mounted() {
-        if ((this.type === 'image' || this.type === 'document') && this.initModel !== '') {
-            this.getFile(this.initModel);
-        }
-    },
-    methods: {
-        async getFile(fileId) {
-            if (fileId !== null) {
-                try {
-                    const response = await fetcher('/api/files/' + fileId);
-                    if (!response.ok) {
-                        const responseData = await response.json();
-                        throw new Error(responseData.message);
-                    }
-                    this.file = await response.json();
-                } catch (error) {
-                    alertify.error(error.message || this.$i18n.t('Sorry, a network error occurred.'));
-                }
-            }
         },
     },
 };
