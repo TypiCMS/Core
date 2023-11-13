@@ -102,7 +102,6 @@
 </template>
 
 <script>
-import fetcher from '../admin/fetcher';
 import FileManager from './FileManager.vue';
 import RepeaterFileField from './RepeaterFileField.vue';
 
