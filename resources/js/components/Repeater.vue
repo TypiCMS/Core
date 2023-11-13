@@ -34,6 +34,7 @@
                         <repeater-field
                             v-else
                             v-model="item[field.name]"
+                            :key="'item_' + name + '_' + index + '_' + field.name"
                             :errors="getError(index, field.name, null)"
                             :field="field"
                             :field-name="name"
