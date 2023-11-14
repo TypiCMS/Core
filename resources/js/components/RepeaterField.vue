@@ -17,7 +17,7 @@
                 :required="required"
                 :step="step"
                 :type="type"
-                :value="initModel"
+                :value="value"
                 class="form-control"
                 @input="$emit('input', $event.target.value)"
             />
@@ -33,7 +33,7 @@
                 :placeholder="placeholder"
                 :required="required"
                 :rows="rows"
-                :value="initModel"
+                :value="value"
                 class="form-control"
                 @input="$emit('input', $event.target.value)"
             ></textarea>
@@ -47,7 +47,7 @@
                 :data-language="locale"
                 :name="fieldNameComplete"
                 :required="required"
-                :value="initModel"
+                :value="value"
                 class="form-select"
                 @change="$emit('input', $event.target.value)"
             >
@@ -62,7 +62,7 @@
                 <input :name="fieldNameComplete" type="hidden" value="0" />
                 <input
                     :id="fieldId"
-                    :checked="parseInt(initModel) === 1"
+                    :checked="parseInt(value) === 1"
                     :class="{ 'is-invalid': errors.length > 0 }"
                     :data-language="locale"
                     :name="fieldNameComplete"
@@ -78,35 +78,66 @@
         <div v-if="type === 'radio'" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
             <p class="form-label">{{ fieldLabel }}</p>
             <input :name="fieldNameComplete" type="hidden" value="" />
-            <div v-for="(label, value) in items" class="form-check">
-                <label :for="fieldId + '_' + value" class="form-check-label">{{ $t(label) }}</label>
+            <div v-for="(label, radioButtonValue) in items" class="form-check">
+                <label :for="fieldId + '_' + radioButtonValue" class="form-check-label">{{ $t(label) }}</label>
                 <input
-                    :id="fieldId + '_' + value"
-                    :checked="initModel === value"
+                    :id="fieldId + '_' + radioButtonValue"
+                    :checked="value === radioButtonValue"
                     :class="{ 'is-invalid': errors.length > 0 }"
                     :data-language="locale"
                     :name="fieldNameComplete"
                     :required="required"
                     :type="type"
-                    :value="value"
+                    :value="radioButtonValue"
                     class="form-check-input"
-                    @change="$emit('input', value)"
+                    @change="$emit('input', radioButtonValue)"
                 />
                 <div v-if="errors.length > 0" class="invalid-feedback">{{ errors[0] }}</div>
             </div>
         </div>
         <div v-if="type === 'image'" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
-            <repeater-file-field :field="fieldNameComplete" :init-model="JSON.parse(initModel)" :label="fieldLabel" type="image"></repeater-file-field>
+            <div>
+                <p class="form-label mb-2">
+                    {{ type === 'document' ? $t('Document') : $t('Image') }}
+                </p>
+                <input :data-language="locale" :name="fieldNameComplete" :value="value" type="hidden" />
+                <div>
+                    <div v-if="file !== null" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
+                        <div class="filemanager-item-wrapper">
+                            <button class="filemanager-item-removable-button" type="button" @click="remove">
+                                <i class="bi bi-x fs-5"></i>
+                            </button>
+                            <div v-if="file.type === 'i'" class="filemanager-item-icon">
+                                <div class="filemanager-item-image-wrapper">
+                                    <img :alt="file.alt" :src="file.thumb_sm" class="filemanager-item-image" />
+                                </div>
+                            </div>
+                            <div v-else :class="'filemanager-item-icon-' + file.type" class="filemanager-item-icon">
+                                <i v-if="file.type === 'a'" class="bi bi-file-earmark-music"></i>
+                                <i v-if="file.type === 'v'" class="bi bi-file-earmark-play"></i>
+                                <i v-if="file.type === 'd'" class="bi bi-file-earmark"></i>
+                                <i v-if="file.type === 'f'" class="bi bi-folder"></i>
+                            </div>
+                            <div class="filemanager-item-name">{{ file.name }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="file === null" class="mb-3">
+                    <button class="filemanager-field-btn-add" type="button" @click="openFilepicker">
+                        <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
+                        {{ $t('Add') }}
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import FileManager from './FileManager.vue';
-import RepeaterFileField from './RepeaterFileField.vue';
 
 export default {
-    components: { FileManager, RepeaterFileField },
+    components: { FileManager },
     props: {
         field: {
             type: Object,
@@ -119,7 +150,7 @@ export default {
         index: {
             type: Number,
         },
-        initModel: {
+        value: {
             required: true,
         },
         locale: {
@@ -143,9 +174,16 @@ export default {
             items: this.field.items,
             required: this.field.required,
             placeholder: this.field.placeholder,
+            choosingFile: false,
         };
     },
     computed: {
+        file: function () {
+            if (this.type === 'image') {
+                return JSON.parse(this.value);
+            }
+            return null;
+        },
         fieldNameComplete: function () {
             let fieldName = this.fieldName + '[' + this.index + '][' + this.name + ']';
             if (this.locale !== null) {
@@ -166,6 +204,32 @@ export default {
                 label += ' (' + this.locale + ')';
             }
             return label;
+        },
+    },
+    mounted() {
+        this.$root.$on('fileAdded', (file) => {
+            if (this.choosingFile === true) {
+                this.file = file;
+                this.$emit('input', JSON.stringify(file));
+            }
+            this.choosingFile = false;
+        });
+    },
+    methods: {
+        remove() {
+            this.file = null;
+            this.$emit('input', null);
+        },
+        openFilepicker() {
+            this.choosingFile = true;
+            let options = {
+                open: true,
+                multiple: false,
+                overlay: true,
+                single: true,
+                modal: true,
+            };
+            this.$root.$emit('openFilepicker', options);
         },
     },
 };
