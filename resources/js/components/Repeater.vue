@@ -25,7 +25,6 @@
                                 :field="field"
                                 :field-name="name"
                                 :index="index"
-                                :init-model="item[field.name] ? item[field.name][locale.short] : ''"
                                 :locale="locale.short"
                                 :value="item[field.name] ? item[field.name][locale.short] : ''"
                                 @input="item[field.name] ? (item[field.name][locale.short] = $event) : ''"
@@ -33,13 +32,12 @@
                         </template>
                         <repeater-field
                             v-else
-                            v-model="item[field.name]"
                             :key="'item_' + name + '_' + index + '_' + field.name"
+                            v-model="item[field.name]"
                             :errors="getError(index, field.name, null)"
                             :field="field"
                             :field-name="name"
                             :index="index"
-                            :init-model="item[field.name]"
                         ></repeater-field>
                     </div>
                 </div>
