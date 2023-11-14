@@ -95,39 +95,35 @@
                 <div v-if="errors.length > 0" class="invalid-feedback">{{ errors[0] }}</div>
             </div>
         </div>
-        <div v-if="type === 'image'" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
+        <div v-if="['image', 'document'].includes(type)" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
+            <p class="form-label">{{ fieldLabel }}</p>
+            <input :data-language="locale" :name="fieldNameComplete" :value="value" type="hidden" />
             <div>
-                <p class="form-label mb-2">
-                    {{ type === 'document' ? $t('Document') : $t('Image') }}
-                </p>
-                <input :data-language="locale" :name="fieldNameComplete" :value="value" type="hidden" />
-                <div>
-                    <div v-if="file !== null" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
-                        <div class="filemanager-item-wrapper">
-                            <button class="filemanager-item-removable-button" type="button" @click="remove">
-                                <i class="bi bi-x fs-5"></i>
-                            </button>
-                            <div v-if="file.type === 'i'" class="filemanager-item-icon">
-                                <div class="filemanager-item-image-wrapper">
-                                    <img :alt="file.alt" :src="file.thumb_sm" class="filemanager-item-image" />
-                                </div>
+                <div v-if="file !== null" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
+                    <div class="filemanager-item-wrapper">
+                        <button class="filemanager-item-removable-button" type="button" @click="remove">
+                            <i class="bi bi-x fs-5"></i>
+                        </button>
+                        <div v-if="file.type === 'i'" class="filemanager-item-icon">
+                            <div class="filemanager-item-image-wrapper">
+                                <img :alt="file.alt" :src="file.thumb_sm" class="filemanager-item-image" />
                             </div>
-                            <div v-else :class="'filemanager-item-icon-' + file.type" class="filemanager-item-icon">
-                                <i v-if="file.type === 'a'" class="bi bi-file-earmark-music"></i>
-                                <i v-if="file.type === 'v'" class="bi bi-file-earmark-play"></i>
-                                <i v-if="file.type === 'd'" class="bi bi-file-earmark"></i>
-                                <i v-if="file.type === 'f'" class="bi bi-folder"></i>
-                            </div>
-                            <div class="filemanager-item-name">{{ file.name }}</div>
                         </div>
+                        <div v-else :class="'filemanager-item-icon-' + file.type" class="filemanager-item-icon">
+                            <i v-if="file.type === 'a'" class="bi bi-file-earmark-music"></i>
+                            <i v-if="file.type === 'v'" class="bi bi-file-earmark-play"></i>
+                            <i v-if="file.type === 'd'" class="bi bi-file-earmark"></i>
+                            <i v-if="file.type === 'f'" class="bi bi-folder"></i>
+                        </div>
+                        <div class="filemanager-item-name">{{ file.name }}</div>
                     </div>
                 </div>
-                <div v-if="file === null" class="mb-3">
-                    <button class="filemanager-field-btn-add" type="button" @click="openFilepicker">
-                        <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
-                        {{ $t('Add') }}
-                    </button>
-                </div>
+            </div>
+            <div v-if="file === null" class="mb-3">
+                <button class="filemanager-field-btn-add" type="button" @click="openFilepicker">
+                    <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
+                    {{ $t('Add') }}
+                </button>
             </div>
         </div>
     </div>
@@ -178,11 +174,18 @@ export default {
         };
     },
     computed: {
-        file: function () {
-            if (this.type === 'image') {
-                return JSON.parse(this.value);
-            }
-            return null;
+        file: {
+            get() {
+                if (['image', 'document'].includes(this.type)) {
+                    if (this.value) {
+                        return JSON.parse(this.value);
+                    }
+                }
+                return null;
+            },
+            set() {
+                return this.value;
+            },
         },
         fieldNameComplete: function () {
             let fieldName = this.fieldName + '[' + this.index + '][' + this.name + ']';
