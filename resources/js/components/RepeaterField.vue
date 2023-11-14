@@ -97,25 +97,32 @@
         </div>
         <div v-if="['image', 'document'].includes(type)" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
             <p class="form-label">{{ fieldLabel }}</p>
-            <input :data-language="locale" :name="fieldNameComplete" :value="value" type="hidden" />
+            <input :name="fieldNameComplete + '[id]'" :value="file ? file.id : ''" type="hidden" />
+            <input :name="fieldNameComplete + '[path]'" :value="file ? file.path : ''" type="hidden" />
+            <input :name="fieldNameComplete + '[extension]'" :value="file ? file.extension : ''" type="hidden" />
+            <input :name="fieldNameComplete + '[width]'" :value="file ? file.width : ''" type="hidden" />
+            <input :name="fieldNameComplete + '[height]'" :value="file ? file.height : ''" type="hidden" />
+            <input :name="fieldNameComplete + '[type]'" :value="file ? file.type : ''" type="hidden" />
+            <input :name="fieldNameComplete + '[name]'" :value="file ? file.name : ''" type="hidden" />
+            <input :name="fieldNameComplete + '[thumb_sm]'" :value="file ? file.thumb_sm : ''" type="hidden" />
             <div>
-                <div v-if="file !== null" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
+                <div v-if="value !== null" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
                     <div class="filemanager-item-wrapper">
                         <button class="filemanager-item-removable-button" type="button" @click="remove">
                             <i class="bi bi-x fs-5"></i>
                         </button>
-                        <div v-if="file.type === 'i'" class="filemanager-item-icon">
+                        <div v-if="value.type === 'i'" class="filemanager-item-icon">
                             <div class="filemanager-item-image-wrapper">
-                                <img :alt="file.alt" :src="file.thumb_sm" class="filemanager-item-image" />
+                                <img :alt="value.alt" :src="value.thumb_sm" class="filemanager-item-image" />
                             </div>
                         </div>
-                        <div v-else :class="'filemanager-item-icon-' + file.type" class="filemanager-item-icon">
-                            <i v-if="file.type === 'a'" class="bi bi-file-earmark-music"></i>
-                            <i v-if="file.type === 'v'" class="bi bi-file-earmark-play"></i>
-                            <i v-if="file.type === 'd'" class="bi bi-file-earmark"></i>
-                            <i v-if="file.type === 'f'" class="bi bi-folder"></i>
+                        <div v-else :class="'filemanager-item-icon-' + value.type" class="filemanager-item-icon">
+                            <i v-if="value.type === 'a'" class="bi bi-file-earmark-music"></i>
+                            <i v-if="value.type === 'v'" class="bi bi-file-earmark-play"></i>
+                            <i v-if="value.type === 'd'" class="bi bi-file-earmark"></i>
+                            <i v-if="value.type === 'f'" class="bi bi-folder"></i>
                         </div>
-                        <div class="filemanager-item-name">{{ file.name }}</div>
+                        <div class="filemanager-item-name">{{ value.name }}</div>
                     </div>
                 </div>
             </div>
@@ -178,7 +185,7 @@ export default {
             get() {
                 if (['image', 'document'].includes(this.type)) {
                     if (this.value) {
-                        return JSON.parse(this.value);
+                        return this.value;
                     }
                 }
                 return null;
@@ -213,7 +220,7 @@ export default {
         this.$root.$on('fileAdded', (file) => {
             if (this.choosingFile === true) {
                 this.file = file;
-                this.$emit('input', JSON.stringify(file));
+                this.$emit('input', file);
             }
             this.choosingFile = false;
         });
