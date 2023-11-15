@@ -21,13 +21,12 @@
                             <repeater-field
                                 v-for="locale in locales"
                                 :key="'item_' + name + '_' + index + '_' + field.name + '_' + locale.short"
+                                v-model="item[field.name][locale.short]"
                                 :errors="getError(index, field.name, locale.short)"
                                 :field="field"
                                 :field-name="name"
                                 :index="index"
                                 :locale="locale.short"
-                                :value="item[field.name] ? item[field.name][locale.short] : ''"
-                                @input="item[field.name] ? (item[field.name][locale.short] = $event) : ''"
                             ></repeater-field>
                         </template>
                         <repeater-field
@@ -82,23 +81,23 @@ export default {
     methods: {
         add() {
             if (this.maxItems === null || this.items.length < this.maxItems) {
-                this.items.push(this.createEmptyObject());
+                this.items.push(this.emptyItem());
             }
         },
-        createEmptyObject() {
-            let object = {};
+        emptyItem() {
+            let item = {};
             this.fields.forEach((field) => {
                 if (field.translatable) {
-                    object[field.name] = {};
+                    item[field.name] = {};
                     this.locales.forEach((locale) => {
-                        object[field.name][locale.short] = field.default !== undefined ? field.default : '';
+                        item[field.name][locale.short] = field.default !== undefined ? field.default : null;
                     });
                 } else {
-                    object[field.name] = field.default !== undefined ? field.default : null;
+                    item[field.name] = field.default !== undefined ? field.default : null;
                 }
             });
 
-            return object;
+            return item;
         },
         getError(index, fieldName, locale) {
             if (this.errors.length === 0) {
