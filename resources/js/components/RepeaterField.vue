@@ -106,31 +106,32 @@
             <input v-if="value !== null" :name="fieldNameComplete + '[type]'" :value="value.type" type="hidden" />
             <input v-if="value !== null" :name="fieldNameComplete + '[name]'" :value="value.name" type="hidden" />
             <input v-if="value !== null" :name="fieldNameComplete + '[thumb_sm]'" :value="value.thumb_sm" type="hidden" />
-
-            <div v-if="value !== null" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
-                <div class="filemanager-item-wrapper">
-                    <button class="filemanager-item-removable-button" type="button" @click="remove">
-                        <i class="bi bi-x fs-5"></i>
-                    </button>
-                    <div v-if="value.type === 'i'" class="filemanager-item-icon">
-                        <div class="filemanager-item-image-wrapper">
-                            <img :alt="value.alt" :src="value.thumb_sm" class="filemanager-item-image" />
+            <div :data-language="locale">
+                <div v-if="value !== null" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
+                    <div class="filemanager-item-wrapper">
+                        <button class="filemanager-item-removable-button" type="button" @click="remove">
+                            <i class="bi bi-x fs-5"></i>
+                        </button>
+                        <div v-if="value.type === 'i'" class="filemanager-item-icon">
+                            <div class="filemanager-item-image-wrapper">
+                                <img :alt="value.alt" :src="value.thumb_sm" class="filemanager-item-image" />
+                            </div>
                         </div>
+                        <div v-else :class="'filemanager-item-icon-' + value.type" class="filemanager-item-icon">
+                            <i v-if="value.type === 'a'" class="bi bi-file-earmark-music"></i>
+                            <i v-if="value.type === 'v'" class="bi bi-file-earmark-play"></i>
+                            <i v-if="value.type === 'd'" class="bi bi-file-earmark"></i>
+                            <i v-if="value.type === 'f'" class="bi bi-folder"></i>
+                        </div>
+                        <div class="filemanager-item-name">{{ value.name }}</div>
                     </div>
-                    <div v-else :class="'filemanager-item-icon-' + value.type" class="filemanager-item-icon">
-                        <i v-if="value.type === 'a'" class="bi bi-file-earmark-music"></i>
-                        <i v-if="value.type === 'v'" class="bi bi-file-earmark-play"></i>
-                        <i v-if="value.type === 'd'" class="bi bi-file-earmark"></i>
-                        <i v-if="value.type === 'f'" class="bi bi-folder"></i>
-                    </div>
-                    <div class="filemanager-item-name">{{ value.name }}</div>
                 </div>
-            </div>
-            <div v-if="value === null" class="mb-3">
-                <button class="filemanager-field-btn-add" type="button" @click="openFilepicker">
-                    <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
-                    {{ $t('Add') }}
-                </button>
+                <div v-if="value === null" class="mb-3">
+                    <button class="filemanager-field-btn-add" type="button" @click="openFilepicker">
+                        <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
+                        {{ $t('Add') }}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
