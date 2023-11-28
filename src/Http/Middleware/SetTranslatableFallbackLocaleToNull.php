@@ -16,7 +16,6 @@ class SetTranslatableFallbackLocaleToNull
     public function handle($request, Closure $next)
     {
         config(['app.fallback_locale' => null]);
-        config(['translatable.fallback_locale' => null]);
 
         return $next($request);
     }
