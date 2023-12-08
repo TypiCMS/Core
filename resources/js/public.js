@@ -10,23 +10,17 @@ import Alert from 'bootstrap/js/dist/alert';
  */
 
 import Swiper from 'swiper';
-import {
-    Navigation,
-    Pagination,
-    Autoplay,
-    EffectFade,
-    Parallax,
-} from 'swiper/modules';
+import {Navigation, Pagination, Autoplay, EffectFade, Parallax} from 'swiper/modules';
 
 Swiper.use([Navigation, Pagination, Autoplay, Parallax, EffectFade]);
 window.Swiper = Swiper;
 
-/**
- * Get files from /resources/js/public
- */
 import enableAnchorTop from './public/anchor-top.ts';
+
 enableAnchorTop();
+
 import enableOffCanvas from './public/offcanvas.ts';
+
 enableOffCanvas();
 
 /**
