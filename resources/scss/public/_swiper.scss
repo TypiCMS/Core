@@ -24,17 +24,19 @@
 // @import 'swiper/scss/lazy';
 // @import 'swiper/scss/manipulation';
 // @import 'swiper/scss/mousewheel';
-// @import 'swiper/scss/parallax';
+@import 'swiper/scss/parallax';
 // @import 'swiper/scss/scrollbar';
 // @import 'swiper/scss/thumbs';
 // @import 'swiper/scss/virtual';
 // @import 'swiper/scss/zoom';
-
 :root {
     --swiper-theme-color: #fff;
-    --swiper-navigation-size: 40px;
+    --swiper-navigation-size: 24px;
+    --swiper-pagination-bullet-height: 12px;
+    --swiper-pagination-bullet-width: 12px;
+    --swiper-pagination-bottom: -40px;
+    --swiper-pagination-color: #666;
 }
-
 .swiper-slide {
     -webkit-transform: translate3d(0, 0, 0); // Safari
 }
