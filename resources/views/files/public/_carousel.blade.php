@@ -22,7 +22,7 @@
 @endif
 
 @push('js')
-    <script>
+    <script type="module">
         new Swiper('.carousel-swiper', {
             loop: true,
             grabCursor: true,
