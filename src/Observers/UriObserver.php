@@ -96,10 +96,10 @@ class UriObserver
     /**
      * Add '-x' on uri if it exists in pages table.
      */
-    private function incrementWhileExists(Page $page, string $uri, string $locale, int $id = null): string
+    private function incrementWhileExists(Page $page, ?string $uri, string $locale, int $id = null): ?string
     {
         if (empty($uri)) {
-            return '';
+            return null;
         }
 
         $originalUri = $uri;
