@@ -14,11 +14,11 @@ abstract class Base extends Model
 {
     use Cachable;
 
-    public function previewUri(): string
+    public function previewUri($locale = null): string
     {
         $uri = '/';
         if ($this->id) {
-            $uri = $this->uri();
+            $uri = $this->uri($locale);
         }
 
         return url($uri);

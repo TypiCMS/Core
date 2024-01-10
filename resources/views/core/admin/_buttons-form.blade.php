@@ -1,14 +1,16 @@
 <div class="header-toolbar btn-toolbar">
     <button class="btn btn-sm btn-primary me-2" value="true" id="exit" name="exit" type="submit">
-        {{ __('Save and exit') }}
+        @lang('Save and exit')
     </button>
     <button class="btn btn-sm btn-light me-2" type="submit">
-        {{ __('Save') }}
+        @lang('Save')
     </button>
     @if ($model->getTable() === 'pages' || Route::has($locale . '::' . Str::singular($model->getTable())))
-        <a class="btn btn-sm btn-light btn-preview me-2" href="{{ $model->previewUri() }}?preview=true">
-            {{ __('Preview') }}
-        </a>
+        @foreach (locales() as $locale)
+            <a class="btn btn-sm btn-light btn-preview me-2" href="{{ $model->previewUri($locale) }}?preview=true" data-language="{{ $locale }}">
+                @lang('Preview')
+            </a>
+        @endforeach
     @endif
 
     {{ $slot }}

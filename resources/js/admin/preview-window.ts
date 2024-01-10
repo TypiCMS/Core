@@ -14,11 +14,10 @@ export default () => {
     /**
      * Open preview window
      */
-    const btnPreview = document.querySelector(
-        '.btn-preview',
-    ) as HTMLAnchorElement | null;
-    if (btnPreview) {
-        btnPreview.addEventListener(
+    const previewButtons: NodeListOf<HTMLAnchorElement> =
+        document.querySelectorAll('.btn-preview');
+    previewButtons.forEach((button: HTMLAnchorElement): void => {
+        button.addEventListener(
             'click',
             (event: Event) => {
                 event.preventDefault();
@@ -26,7 +25,7 @@ export default () => {
                     document.getElementById(
                         'preview-content',
                     ) as HTMLIFrameElement
-                ).src = btnPreview.href;
+                ).src = button.href;
                 document.body.classList.add('noscroll'); // add noscroll class to <body>
                 document
                     .getElementById('preview-window')!
@@ -34,7 +33,7 @@ export default () => {
             },
             false,
         );
-    }
+    });
 
     /**
      * Close preview window

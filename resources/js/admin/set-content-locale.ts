@@ -17,11 +17,22 @@ export default (): void => {
         button.classList.add('active');
         if (locale === 'all') {
             document
+                .querySelectorAll<HTMLElement>('.btn-preview')
+                .forEach((element: HTMLElement, index: number) => {
+                    element.style.display = index === 0 ? 'block' : 'none';
+                });
+            document
                 .querySelectorAll<HTMLElement>('.form-group-translation')
                 .forEach((element) => {
                     element.style.display = 'block';
                 });
         } else {
+            document
+                .querySelectorAll<HTMLElement>('.btn-preview')
+                .forEach((element: HTMLElement, index: number) => {
+                    element.style.display =
+                        element.dataset.language === locale ? 'block' : 'none';
+                });
             document
                 .querySelectorAll<HTMLElement>('.form-group-translation')
                 .forEach((element) => {
