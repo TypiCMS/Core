@@ -125,8 +125,7 @@ abstract class Base extends Model
                                     JSON_EXTRACT(`' . $field . '`, \'$.' . $locale . '\')
                                 )
                                 END ' .
-                                (config('typicms.mariadb') === false ? 'COLLATE ' . (DB::connection()->getConfig(
-                                )['collation'] ?? 'utf8mb4_unicode_ci') : '') . '
+                                (config('typicms.mariadb') === false ? 'COLLATE ' . (DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci') : '') . '
                                 AS `' . $field . '_translated`
                             '
                             );
