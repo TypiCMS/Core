@@ -28,8 +28,9 @@ abstract class Base extends Model
     {
         $locale = $locale ?: config('app.locale');
         $route = $locale . '::' . Str::singular($this->getTable());
-        if (Route::has($route)) {
-            return route($route, $this->translate('slug', $locale));
+        $slug = $this->translate('slug', $locale);
+        if (Route::has($route) && !empty($slug)) {
+            return route($route, $slug);
         }
 
         return url('/');
