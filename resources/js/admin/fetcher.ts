@@ -1,11 +1,7 @@
 const updateOptions = (options?: RequestInit): RequestInit => {
     const update = { ...options };
-    const apiTokenElement = document.head.querySelector<HTMLMetaElement>(
-        'meta[name="api-token"]',
-    );
-    const csrfTokenElement = document.head.querySelector<HTMLMetaElement>(
-        'meta[name="csrf-token"]',
-    );
+    const apiTokenElement = document.head.querySelector<HTMLMetaElement>('meta[name="api-token"]');
+    const csrfTokenElement = document.head.querySelector<HTMLMetaElement>('meta[name="csrf-token"]');
 
     if (apiTokenElement && csrfTokenElement) {
         update.headers = {
