@@ -2,14 +2,8 @@
     <div class="mb-3">
         <input v-if="items.length === 0" :name="name" type="hidden" />
         <label class="form-label">{{ $t(title) }}</label>
-        <div>
-            <button :disabled="maxItems !== null && items.length >= maxItems" class="btn btn-secondary btn-sm" @click.prevent="add">
-                <span class="bi bi-plus-circle-fill text-white-50 me-1"></span>
-                {{ $t('Add') }}
-            </button>
-        </div>
 
-        <draggable v-if="items.length > 0" v-model="items" :group="'items_' + name" class="d-flex flex-column gap-3 mt-3" handle=".handle" @change="errors = []">
+        <draggable v-if="items.length > 0" v-model="items" :group="'items_' + name" class="d-flex flex-column gap-3 mb-3" handle=".handle" @change="errors = []">
             <div v-for="(item, index) in items" :key="index" class="d-flex gap-2 card item">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <i class="bi bi-arrows-move handle"></i>
@@ -42,6 +36,12 @@
                 </div>
             </div>
         </draggable>
+        <div>
+            <button :disabled="maxItems !== null && items.length >= maxItems" class="btn btn-secondary btn-sm" @click.prevent="add">
+                <span class="bi bi-plus-circle-fill text-white-50 me-1"></span>
+                {{ $t('Add') }}
+            </button>
+        </div>
     </div>
 </template>
 
