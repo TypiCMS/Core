@@ -100,41 +100,41 @@ window.TomSelect = TomSelect;
 /**
  * Preview window
  */
-import enablePreviewWindow from './admin/preview-window';
+import enablePreviewWindow from './admin/preview-window.ts';
 enablePreviewWindow();
 
 /**
  * Set content locale
  */
-import enableSetContentLocale from './admin/set-content-locale';
+import enableSetContentLocale from './admin/set-content-locale.ts';
 enableSetContentLocale();
 
 /**
  * Enable sidebar section collapse
  */
-import enableSidebarPanelCollapse from './admin/enable-sidebar-panel-collapse';
+import enableSidebarPanelCollapse from './admin/enable-sidebar-panel-collapse.ts';
 enableSidebarPanelCollapse();
 
 /**
  * Enable delete attachment
  */
-import enableDeleteAttachment from './admin/enable-delete-attachment';
+import enableDeleteAttachment from './admin/enable-delete-attachment.ts';
 enableDeleteAttachment();
 
 /**
  * Enable checkboxes for the roles’ permissions.
  */
-import enableCheckboxesPermissions from './admin/enable-checkboxes-permissions';
+import enableCheckboxesPermissions from './admin/enable-checkboxes-permissions.ts';
 enableCheckboxesPermissions();
 
 /**
  * Enable tag field with TomSelect.
  */
-import enableTagsField from './admin/enable-tags-field';
+import enableTagsField from './admin/enable-tags-field.ts';
 enableTagsField();
 
 /**
  * Slug plugin.
  */
-import Slug from './admin/slug';
+import Slug from './admin/slug.ts';
 document.querySelectorAll('[data-slug]').forEach((item) => new Slug(item));
