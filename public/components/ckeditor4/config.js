@@ -1,5 +1,9 @@
 CKEDITOR.dtd.$removeEmpty.span = 0;
 CKEDITOR.dtd.$removeEmpty.i = 0;
+CKEDITOR.dtd.a.div = 1;
+CKEDITOR.dtd.a.p = 1;
+CKEDITOR.dtd.a.h2 = 1;
+CKEDITOR.dtd.a.img = 1;
 
 // Get the local pages for making links to CMS pages.
 let localPages = null;
