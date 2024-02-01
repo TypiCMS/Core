@@ -16,7 +16,7 @@ for (let i = 0; i < editors.length; ++i) {
         ],
         entities: false,
         emailProtection: 'encode',
-        format_tags: 'p;h1;h2;h3;h4;h5;h6;pre;address;div',
+        format_tags: 'p;h1;h2;h3;h4;h5;h6',
         stylesSet: [
             { name: 'Button 1', element: 'a', attributes: { class: 'btn btn-primary' } },
             { name: 'Button 2', element: 'a', attributes: { class: 'btn btn-secondary' } },
@@ -31,19 +31,6 @@ for (let i = 0; i < editors.length; ++i) {
             { name: 'Alert Danger', element: 'div', attributes: { class: 'alert alert-danger' } },
 
             { name: 'Small', element: 'small' },
-
-            { name: 'Typewriter', element: 'tt' },
-
-            { name: 'Computer Code', element: 'code' },
-            { name: 'Keyboard Phrase', element: 'kbd' },
-            { name: 'Sample Text', element: 'samp' },
-            { name: 'Variable', element: 'var' },
-
-            { name: 'Deleted Text', element: 'del' },
-            { name: 'Inserted Text', element: 'ins' },
-
-            { name: 'Cited Work', element: 'cite' },
-            { name: 'Inline Quotation', element: 'q' },
 
             { name: 'Language: RTL', element: 'span', attributes: { dir: 'rtl' } },
             { name: 'Language: LTR', element: 'span', attributes: { dir: 'ltr' } },
