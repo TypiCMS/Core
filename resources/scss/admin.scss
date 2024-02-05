@@ -5,7 +5,7 @@
 @import 'navbar';
 @import 'auth';
 @import 'alertify';
-@import '@remotedevforce/tom-select/dist/scss/tom-select.bootstrap5';
+@import 'tom-select/dist/scss/tom-select.bootstrap5';
 @import 'admin/sortable-tree';
 @import 'admin/dropzone';
 @import 'admin/history';
@@ -19,29 +19,23 @@
 @import 'admin/content';
 @import 'admin/item-list-table';
 @import 'admin/item-list-pagination';
-
 html {
     height: 100%;
 }
-
 body {
     min-height: 100%;
 }
-
 .main {
     @include media-breakpoint-up(lg) {
         padding-left: $offcanvas-horizontal-width;
     }
 }
-
 .noscroll {
     overflow: hidden;
 }
-
 .container-menulinks {
     position: static;
 }
-
 h1 {
     margin-top: 0;
     font-weight: normal;
@@ -49,14 +43,12 @@ h1 {
         text-decoration: none;
     }
 }
-
 h2 {
     border-bottom: 1px solid $gray-400;
     margin-top: 2rem;
     margin-bottom: 1rem;
     padding-bottom: 0.375rem;
 }
-
 .btn-status {
     all: unset;
     flex-shrink: 0;
@@ -84,7 +76,6 @@ h2 {
         }
     }
 }
-
 .btn-impersonate {
     @extend .btn;
     display: block;
@@ -101,16 +92,13 @@ h2 {
         background-color: $gray-600;
     }
 }
-
 .container-system-locales {
     max-height: 255px;
     overflow: auto;
 }
-
 .delete-attachment {
     cursor: pointer;
 }
-
 .checkbox.form-group-translation {
     margin-bottom: 20px;
     & + .checkbox.form-group-translation {

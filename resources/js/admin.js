@@ -94,7 +94,7 @@ window.alertify = alertify;
 /**
  * TomSelect
  */
-import TomSelect from '@remotedevforce/tom-select';
+import TomSelect from 'tom-select';
 window.TomSelect = TomSelect;
 
 /**

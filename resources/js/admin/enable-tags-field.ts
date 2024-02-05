@@ -1,7 +1,7 @@
 // @ts-ignore
 import alertify from 'alertify.js';
 import fetcher from './fetcher';
-import TomSelect from '@remotedevforce/tom-select';
+import TomSelect from 'tom-select';
 
 interface Tag {
     tag: string;
