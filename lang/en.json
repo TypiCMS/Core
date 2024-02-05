@@ -37,6 +37,7 @@
     "events": "event|events",
     "Forum_categories": "Forum categories",
     "Forum_discussions": "Forum discussions",
+    "Impossible to delete more than # items in one go.": "Impossible to delete more than {deleteLimit} items in one go.",
     "news": "news|news",
     "Page_sections": "Page sections",
     "pages": "page|pages",
