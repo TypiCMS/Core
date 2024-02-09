@@ -38,7 +38,7 @@ class TypiCMS
         return Arr::first(locales());
     }
 
-    public function localeAndRegion(string $separator = null, ?string $locale = null): ?string
+    public function localeAndRegion(?string $separator = null, ?string $locale = null): ?string
     {
         $locale ??= app()->getLocale();
         $locales = config('typicms.locales');
@@ -104,7 +104,7 @@ class TypiCMS
 
         return $permissions;
     }
-    
+
     public function title($locale = null): ?string
     {
         return config('typicms.' . ($locale ?: config('app.locale')) . '.website_title');
