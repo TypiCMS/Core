@@ -45,11 +45,7 @@ use TypiCMS\Modules\Core\Models\Tag;
 use TypiCMS\Modules\Core\Models\Taxonomy;
 use TypiCMS\Modules\Core\Models\Term;
 use TypiCMS\Modules\Core\Models\User;
-use TypiCMS\Modules\Core\Observers\AddToMenuObserver;
 use TypiCMS\Modules\Core\Observers\FileObserver;
-use TypiCMS\Modules\Core\Observers\HomePageObserver;
-use TypiCMS\Modules\Core\Observers\SlugObserver;
-use TypiCMS\Modules\Core\Observers\UriObserver;
 use TypiCMS\Modules\Core\Services\FileUploader;
 use TypiCMS\Modules\Core\Services\TypiCMS;
 
@@ -239,11 +235,6 @@ class ModuleServiceProvider extends ServiceProvider
         |--------------------------------------------------------------------------
         */
         File::observe(new FileObserver(new FileUploader()));
-        Page::observe(new AddToMenuObserver());
-        Page::observe(new HomePageObserver());
-        Page::observe(new UriObserver());
-        Taxonomy::observe(new SlugObserver());
-        Term::observe(new SlugObserver());
 
         /*
         |--------------------------------------------------------------------------

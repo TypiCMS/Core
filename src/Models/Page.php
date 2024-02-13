@@ -2,18 +2,23 @@
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\Translatable\HasTranslations;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
+use TypiCMS\Modules\Core\Observers\AddToMenuObserver;
+use TypiCMS\Modules\Core\Observers\HomePageObserver;
+use TypiCMS\Modules\Core\Observers\UriObserver;
 use TypiCMS\Modules\Core\Presenters\PagePresenter;
 use TypiCMS\Modules\Core\Traits\HasFiles;
 use TypiCMS\Modules\Core\Traits\Historable;
 use TypiCMS\NestableCollection;
 use TypiCMS\NestableTrait;
 
+#[ObservedBy([AddToMenuObserver::class, HomePageObserver::class, UriObserver::class])]
 class Page extends Base
 {
     use HasFiles;
