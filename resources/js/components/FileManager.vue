@@ -170,6 +170,10 @@ export default {
             type: Boolean,
             default: true,
         },
+        modalIsInFront: {
+            type: Boolean,
+            default: false,
+        },
         dropzone: {
             type: Boolean,
             default: true,
@@ -202,12 +206,13 @@ export default {
             urlBase: '/api/files',
             locale: TypiCMS.content_locale,
             options: {
-                modal: this.modal,
                 dropzone: this.dropzone,
+                modal: this.modal,
+                modalIsInFront: this.modalIsInFront,
                 multiple: this.multiple,
-                single: this.single,
                 open: this.open,
                 overlay: this.overlay,
+                single: this.single,
             },
             maxFilesize: window.TypiCMS.max_file_upload_size,
             folder: {
@@ -229,10 +234,23 @@ export default {
         window.EventBus.$on('openFilepickerForCKEditor', (options) => {
             document.body.classList.add('noscroll');
             this.options = options;
+            window.ckEditorDialogBlured = true;
+            this.$nextTick(() => {
+                document.querySelector('.filemanager-btn-close').focus();
+            });
         });
         this.$root.$on('openFilepicker', (options) => {
             document.body.classList.add('noscroll');
             this.options = options;
+        });
+        document.addEventListener('keydown', (event) => {
+            if (this.modal && this.options.modalIsInFront && event.code === 'Escape') {
+                this.closeModal();
+            } else {
+                if (CKEDITOR.dialog.getCurrent() !== null) {
+                    CKEDITOR.dialog.getCurrent().hide();
+                }
+            }
         });
     },
     computed: {
@@ -284,6 +302,12 @@ export default {
                     this.uppy.setFileMeta(file.id, {
                         folder_id: this.folder.id,
                     });
+                })
+                .on('dashboard:modal-open', () => {
+                    this.options.modalIsInFront = false;
+                })
+                .on('dashboard:modal-closed', () => {
+                    this.options.modalIsInFront = true;
                 })
                 .on('complete', (result) => {
                     const fails = result.failed;
@@ -581,6 +605,8 @@ export default {
         closeModal() {
             document.body.classList.remove('noscroll');
             this.options.open = false;
+            this.options.modalIsInFront = false;
+            window.ckEditorDialogBlured = false;
         },
         switchView(view) {
             this.view = view;

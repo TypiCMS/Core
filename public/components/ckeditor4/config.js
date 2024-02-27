@@ -31,12 +31,25 @@ if (apiTokenElement) {
             alertify.error('An error occurred while loading the local pages for the editor.');
         });
 }
-
+document.addEventListener('keydown', (event) => {
+    event.preventDefault();
+    if (this.modal && this.options.modalIsInFront && event.code === 'Escape') {
+        this.closeModal();
+    }
+});
 // dialogDefinition
 CKEDITOR.on('dialogDefinition', function (event) {
     const editor = event.editor;
     const dialogDefinition = event.data.definition;
     const dialogName = event.data.name;
+
+    dialogDefinition.onCancel = function (event) {
+        if (window.ckEditorDialogBlured) {
+            return false;
+        } else {
+            return true;
+        }
+    };
 
     // table config
     if (dialogName === 'table') {
@@ -68,6 +81,7 @@ CKEDITOR.on('dialogDefinition', function (event) {
                     data: {
                         options: {
                             modal: true,
+                            modalIsInFront: true,
                             dropzone: false,
                             multiple: false,
                             single: true,

@@ -79,11 +79,12 @@ export default {
     methods: {
         openFilepicker() {
             let options = {
-                open: true,
+                modal: true,
+                modalIsInFront: true,
                 multiple: true,
+                open: true,
                 overlay: true,
                 single: false,
-                modal: true,
             };
             this.$root.$emit('openFilepicker', options);
         },

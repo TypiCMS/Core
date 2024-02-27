@@ -219,11 +219,12 @@ export default {
         openFilepicker() {
             this.choosingFile = true;
             let options = {
-                open: true,
+                modal: true,
+                modalIsInFront: true,
                 multiple: false,
+                open: true,
                 overlay: true,
                 single: true,
-                modal: true,
             };
             this.$root.$emit('openFilepicker', options);
         },
