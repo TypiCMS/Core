@@ -313,6 +313,7 @@ export default {
         onSearchStringChanged() {
             clearTimeout(this.fetchTimeout);
             this.fetchTimeout = setTimeout(() => {
+                this.checkedItems = [];
                 this.fetchData();
             }, 200);
         },
@@ -344,15 +345,18 @@ export default {
         search(string) {
             this.data.current_page = 1;
             this.searchString = string;
+            this.checkedItems = [];
             this.fetchData();
         },
         changePage(page = 1) {
             this.data.current_page = page;
+            this.checkedItems = [];
             this.fetchData();
         },
         changeNumberOfItemsPerPage(per_page) {
             this.data.current_page = 1;
             this.data.per_page = per_page;
+            this.checkedItems = [];
             this.fetchData();
         },
         checkAll() {
