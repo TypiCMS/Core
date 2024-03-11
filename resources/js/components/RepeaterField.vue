@@ -1,5 +1,6 @@
 <template>
     <div>
+        <input v-if="type === 'hidden'" :id="fieldId" :name="fieldNameComplete" :type="type" :value="value" />
         <div
             v-if="['text', 'url', 'tel', 'email', 'date', 'month', 'week', 'time', 'datetime-local', 'number', 'range', 'color'].includes(type)"
             :class="{ 'form-group-translation': locale !== null }"
@@ -18,6 +19,8 @@
                 :step="step"
                 :type="type"
                 :value="value"
+                :readonly="readonly"
+                :disabled="disabled"
                 class="form-control"
                 @input="$emit('input', $event.target.value)"
             />
@@ -34,6 +37,8 @@
                 :required="required"
                 :rows="rows"
                 :value="value"
+                :readonly="readonly"
+                :disabled="disabled"
                 class="form-control"
                 @input="$emit('input', $event.target.value)"
             ></textarea>
@@ -48,6 +53,7 @@
                 :name="fieldNameComplete"
                 :required="required"
                 :value="value"
+                :disabled="disabled"
                 class="form-select"
                 @change="$emit('input', $event.target.value)"
             >
@@ -55,20 +61,21 @@
             </select>
             <div v-if="errors.length > 0" class="invalid-feedback">{{ errors[0] }}</div>
         </div>
-        <div v-if="type === 'checkbox'" :class="{ 'form-group-translation': locale !== null }" class="form-check mb-3">
+        <div v-if="type === 'checkbox'" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
             <p class="form-label">{{ fieldLabel }}</p>
             <div class="form-check">
                 <label :for="fieldId" class="form-check-label">{{ fieldLabel }}</label>
                 <input :name="fieldNameComplete" type="hidden" value="0" />
                 <input
                     :id="fieldId"
-                    :checked="parseInt(value) === 1"
+                    :checked="+value === 1"
                     :class="{ 'is-invalid': errors.length > 0 }"
                     :data-language="locale"
                     :name="fieldNameComplete"
                     :required="required"
                     :type="type"
                     :value="1"
+                    :disabled="disabled"
                     class="form-check-input"
                     @change="$emit('input', $event.target.checked ? 1 : 0)"
                 />
@@ -89,6 +96,7 @@
                     :required="required"
                     :type="type"
                     :value="radioButtonValue"
+                    :disabled="disabled"
                     class="form-check-input"
                     @change="$emit('input', radioButtonValue)"
                 />
@@ -127,7 +135,7 @@
                     </div>
                 </div>
                 <div v-if="value === null" class="mb-3">
-                    <button class="filemanager-field-btn-add" type="button" @click="openFilepicker">
+                    <button class="filemanager-field-btn-add" type="button" @click="openFilepicker" :disabled="disabled">
                         <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
                         {{ $t('Add') }}
                     </button>
@@ -177,6 +185,8 @@ export default {
             step: this.field.step,
             items: this.field.items,
             required: this.field.required,
+            disabled: this.field.disabled,
+            readonly: this.field.readonly,
             placeholder: this.field.placeholder,
             choosingFile: false,
         };
