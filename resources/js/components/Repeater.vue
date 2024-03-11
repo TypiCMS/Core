@@ -9,8 +9,8 @@
                     <i class="bi bi-arrows-move handle"></i>
                     <button class="btn btn-danger btn-sm" @click.prevent="remove(item)">{{ $t('Delete') }}</button>
                 </div>
-                <div class="card-body d-flex flex-row gap-2 justify-content-between">
-                    <div v-for="field in fields" class="flex-grow-1">
+                <div class="card-body d-flex flex-row gap-2 justify-content-between flex-wrap">
+                    <div v-for="field in fields" :class="[{ 'flex-grow-1': field.type !== 'hidden' }, field.class]">
                         <template v-if="field.translatable">
                             <repeater-field
                                 v-for="locale in locales"
