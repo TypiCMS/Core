@@ -8,7 +8,7 @@
             @if (!$errors->has('search'))
                 <div class="search-results">
                     <h1 class="search-results-title">
-                        @lang('Search results for “:search”', ['search' => request('search')])
+                        @lang('Search results for “:search”', ['search' => e(request('search'))])
                     </h1>
 
                     @if ($count)
