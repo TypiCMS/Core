@@ -32,7 +32,6 @@ if (apiTokenElement) {
         });
 }
 document.addEventListener('keydown', (event) => {
-    event.preventDefault();
     if (this.modal && this.options.modalIsInFront && event.code === 'Escape') {
         this.closeModal();
     }
