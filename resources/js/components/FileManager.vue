@@ -244,11 +244,13 @@ export default {
             this.options = options;
         });
         document.addEventListener('keydown', (event) => {
-            if (this.modal && this.options.modalIsInFront && event.code === 'Escape') {
-                this.closeModal();
-            } else {
-                if (CKEDITOR.dialog.getCurrent() !== null) {
-                    CKEDITOR.dialog.getCurrent().hide();
+            if (event.code === 'Escape') {
+                if (this.modal && this.options.modalIsInFront) {
+                    this.closeModal();
+                } else {
+                    if (CKEDITOR.dialog.getCurrent() !== null) {
+                        CKEDITOR.dialog.getCurrent().hide();
+                    }
                 }
             }
         });
