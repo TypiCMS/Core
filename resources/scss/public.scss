@@ -66,9 +66,23 @@ blockquote {
     figure {
         &[style*='float:left'] {
             margin-right: 20px;
+            margin-bottom: 20px;
+            @include media-breakpoint-down(sm) {
+                float: none !important;
+                display: block;
+                margin-right: 0;
+                width: 100%;
+            }
         }
         &[style*='float:right'] {
             margin-left: 20px;
+            margin-bottom: 20px;
+            @include media-breakpoint-down(sm) {
+                float: none !important;
+                display: block;
+                margin-left: 0;
+                width: 100%;
+            }
         }
     }
 }
