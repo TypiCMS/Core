@@ -30,8 +30,8 @@
         <div class="item-list-content content">
             <sl-vue-tree ref="slVueTree" v-model="models" :allowMultiselect="false" @drop="drop" @toggle="toggle">
                 <template slot="title" slot-scope="{ node }">
-                    <button v-if="$can('delete ' + table)" class="btn btn-xs btn-link" type="button" @click="deleteFromNested(node)">
-                        <i class="bi bi-x-lg fs-6 text-danger"></i>
+                    <button v-if="$can('delete ' + table)" class="btn btn-xs btn-link" type="button" @click="deleteFromNested(node)" :aria-label="$t('Remove')">
+                        <span class="fs-3 text-danger" aria-hidden="true">×</span>
                     </button>
 
                     <a v-if="$can('update ' + table)" :href="table + '/' + node.data.id + '/edit'" class="btn btn-light btn-xs ms-1 me-2">

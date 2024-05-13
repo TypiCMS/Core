@@ -117,8 +117,8 @@
             <div :data-language="locale">
                 <div v-if="value !== null" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
                     <div class="filemanager-item-wrapper">
-                        <button class="filemanager-item-removable-button" type="button" @click="remove">
-                            <i class="bi bi-x fs-5"></i>
+                        <button class="filemanager-item-removable-button" type="button" @click="remove" :aria-label="$t('Remove')">
+                            <span class="fs-3" aria-hidden="true">×</span>
                         </button>
                         <div v-if="value.type === 'i'" class="filemanager-item-icon">
                             <div class="filemanager-item-image-wrapper">
