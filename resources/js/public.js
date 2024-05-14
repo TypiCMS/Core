@@ -16,12 +16,12 @@ Swiper.use([Navigation, Pagination, Autoplay, Parallax, EffectFade]);
 window.Swiper = Swiper;
 
 import enableAnchorTop from './public/anchor-top.ts';
-
 enableAnchorTop();
 
 import enableOffCanvas from './public/offcanvas.ts';
-
 enableOffCanvas();
+
+import.meta.glob(['../images/**']);
 
 /**
  * For TypiCMS’s Places module
