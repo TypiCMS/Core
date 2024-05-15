@@ -84,8 +84,7 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Get the path of the first image linked to this model
-     * or the path to the default image.
+     * Get the path of the model’s linked image.
      */
     protected function getImagePathOrDefault(): string
     {
@@ -105,7 +104,7 @@ abstract class Presenter extends BasePresenter
     /**
      * Return src string of a resized or cropped image.
      */
-    public function image(int $width = null, int $height = null, array $options = []): string
+    public function image(?int $width = null, ?int $height = null, array $options = []): string
     {
         $path = $this->getImagePathOrDefault();
 
