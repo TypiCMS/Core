@@ -54,7 +54,7 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Return resource's datetime or curent date and time if empty.
+     * Return resource's datetime or current date and time if empty.
      */
     public function datetimeOrNow(string $column = 'date'): string
     {
@@ -64,7 +64,7 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Return resource's date or curent date if empty.
+     * Return resource's date or current date if empty.
      */
     public function dateOrNow(string $column = 'date'): string
     {
@@ -74,7 +74,7 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Return resource's time or curent time if empty.
+     * Return resource's time or current time if empty.
      */
     public function timeOrNow(string $column = 'date'): string
     {

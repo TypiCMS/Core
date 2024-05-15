@@ -15,7 +15,7 @@ class UserPrefs
      */
     public function handle(Request $request, Closure $next)
     {
-        // set curent user preferences to Config
+        // set current user preferences to Config
         if ($user = $request->user()) {
             Config::set('typicms.user', $user->preferences);
         }
