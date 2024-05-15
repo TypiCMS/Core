@@ -84,22 +84,6 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Get url without http(s)://.
-     */
-    public function urlWithoutScheme(string $column = 'website'): string
-    {
-        return str_replace(['http://', 'https://'], '', $this->entity->{$column});
-    }
-
-    /**
-     * Generate an external link.
-     */
-    public function link(string $column = 'website'): string
-    {
-        return '<a href="' . $this->entity->{$column} . '" target="_blank" rel="noopener noreferrer">' . $this->urlWithoutScheme($column) . '</a>';
-    }
-
-    /**
      * Get the path of the first image linked to this model
      * or the path to the default image.
      */
