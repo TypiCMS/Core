@@ -2,13 +2,16 @@
 
 namespace TypiCMS\Modules\Core\Models;
 
+use BackedEnum;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\Permission\Contracts\Role as RoleContract;
 use Spatie\Permission\Exceptions\GuardDoesNotMatch;
+use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Exceptions\RoleAlreadyExists;
 use Spatie\Permission\Exceptions\RoleDoesNotExist;
 use Spatie\Permission\Guard;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\RefreshesPermissionCache;
 use TypiCMS\Modules\Core\Presenters\RolePresenter;
@@ -75,33 +78,31 @@ class Role extends Base implements RoleContract
     /**
      * Find a role by its name and guard name.
      *
-     * @param null|string $guardName
+     * @return Role|RoleContract
      *
-     * @return \Spatie\Permission\Contracts\Role|\Spatie\Permission\Models\Role
-     *
-     * @throws \Spatie\Permission\Exceptions\RoleDoesNotExist
+     * @throws RoleDoesNotExist
      */
-    public static function findByName(string $name, $guardName = null): RoleContract
+    public static function findByName(string $name, ?string $guardName = null): RoleContract
     {
         $guardName ??= Guard::getDefaultName(static::class);
 
         $role = static::where('name', $name)->where('guard_name', $guardName)->first();
 
         if (!$role) {
-            throw RoleDoesNotExist::named($name);
+            throw RoleDoesNotExist::named($name, $guardName);
         }
 
         return $role;
     }
 
-    public static function findById(int $id, $guardName = null): RoleContract
+    public static function findById(int|string $id, $guardName = null): RoleContract
     {
         $guardName ??= Guard::getDefaultName(static::class);
 
         $role = static::where('id', $id)->where('guard_name', $guardName)->first();
 
         if (!$role) {
-            throw RoleDoesNotExist::withId($id);
+            throw RoleDoesNotExist::withId($id, $guardName);
         }
 
         return $role;
@@ -110,9 +111,9 @@ class Role extends Base implements RoleContract
     /**
      * Find or create role by its name (and optionally guardName).
      *
-     * @param null|string $guardName
+     * @return Role|RoleContract
      */
-    public static function findOrCreate(string $name, $guardName = null): RoleContract
+    public static function findOrCreate(string $name, ?string $guardName = null): RoleContract
     {
         $guardName ??= Guard::getDefaultName(static::class);
 
@@ -128,11 +129,11 @@ class Role extends Base implements RoleContract
     /**
      * Determine if the user may perform the given permission.
      *
-     * @param mixed $permission
+     * @param BackedEnum|int|Permission|string $permission
      *
-     * @throws \Spatie\Permission\Exceptions\GuardDoesNotMatch
+     * @throws GuardDoesNotMatch|PermissionDoesNotExist
      */
-    public function hasPermissionTo($permission): bool
+    public function hasPermissionTo($permission, ?string $guardName): bool
     {
         if (config('permission.enable_wildcard_permission', false)) {
             return $this->hasWildcardPermission($permission, $this->getDefaultGuardName());
@@ -153,32 +154,6 @@ class Role extends Base implements RoleContract
         }
 
         return $this->permissions->contains('id', $permission->id);
-    }
-
-    /**
-     * Fill model from array.
-     */
-    protected function fillModelFromArray(array $attributes)
-    {
-        $this->attributes = $attributes;
-        if (isset($attributes['id'])) {
-            $this->exists = true;
-            $this->original['id'] = $attributes['id'];
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get model from array.
-     *
-     * @return \Spatie\Permission\Contracts\Role
-     */
-    public static function getModelFromArray(array $attributes): ?RoleContract
-    {
-        $roles = new static();
-
-        return $roles->fillModelFromArray($attributes);
     }
 
     public function uri($locale = null): string
