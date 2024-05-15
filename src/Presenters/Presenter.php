@@ -40,17 +40,17 @@ abstract class Presenter extends BasePresenter
     /**
      * Return a localized date.
      */
-    public function dateLocalized(string $column = 'date'): string
+    public function dateLocalized(string $column = 'date', string $format = 'LL'): string
     {
-        return $this->entity->{$column}->formatLocalized('%e %B %Y');
+        return $this->entity->{$column}->isoFormat($format);
     }
 
     /**
      * Return a localized date and time.
      */
-    public function dateTimeLocalized(string $column = 'datetime'): string
+    public function dateTimeLocalized(string $column = 'datetime', string $format = 'LLL'): string
     {
-        return $this->entity->{$column}->formatLocalized('%e %B %Y %H:%M');
+        return $this->entity->{$column}->isoFormat($format);
     }
 
     /**
