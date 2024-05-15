@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
 
@@ -20,6 +21,7 @@ class SetLocaleFromUrl
         if (in_array($firstSegment, TypiCMS::enabledLocales())) {
             App::setLocale($firstSegment);
         }
+        Carbon::setLocale(TypiCMS::localeAndRegion());
 
         return $next($request);
     }
