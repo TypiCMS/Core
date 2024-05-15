@@ -13,9 +13,9 @@ class TranslationSeeder extends Seeder
         $translations = [
             ['id' => 1, 'translation' => '{"fr":"En savoir plus","en":"More","nl":"Meer"}', 'key' => 'More', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 2, 'translation' => '{"fr":"Aller au contenu","en":"Skip to content","nl":"Naar inhoud"}', 'key' => 'Skip to content', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['id' => 3, 'translation' => '{"fr":"Français","en":"Français","nl":"Français"}', 'key' => 'languages.fr', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['id' => 4, 'translation' => '{"fr":"English","en":"English","nl":"English"}', 'key' => 'languages.en', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['id' => 5, 'translation' => '{"fr":"Nederlands","en":"Nederlands","nl":"Nederlands"}', 'key' => 'languages.nl', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['id' => 3, 'translation' => '{"fr":"Français","en":"French","nl":"Frans"}', 'key' => 'languages.fr', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['id' => 4, 'translation' => '{"fr":"Anglais","en":"English","nl":"Engels"}', 'key' => 'languages.en', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['id' => 5, 'translation' => '{"fr":"Néerlandais","en":"Dutch","nl":"Nederlands"}', 'key' => 'languages.nl', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 6, 'translation' => '{"fr":"Chercher","en":"Search","nl":"Zoeken"}', 'key' => 'Search', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 7, 'translation' => '{"fr":"Merci","en":"Thank you","nl":"Dank u"}', 'key' => 'message when contact form is sent', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['id' => 8, 'translation' => '{"fr":"Merci","en":"Thank you","nl":"Dank u"}', 'key' => 'message when registered to event', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
