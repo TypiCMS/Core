@@ -2,6 +2,10 @@
     @include button-size($btn-padding-y-sm * 0.25, $btn-padding-x-sm * 0.8333, 0.75rem, 0.1875rem);
 }
 
+.btn-light {
+    @include button-variant($gray-300, $gray-300, $dark, $gray-400, $gray-400, $dark);
+}
+
 .btn-clear-history {
     @extend .btn;
     @extend .btn-outline-secondary;

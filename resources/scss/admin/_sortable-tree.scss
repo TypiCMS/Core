@@ -10,7 +10,7 @@
 }
 
 .sl-vue-tree-selected > .sl-vue-tree-node-item {
-    background-color: $gray-100;
+    background-color: $light;
 }
 
 .sl-vue-tree-node-item {
@@ -29,7 +29,7 @@
     }
 }
 .sl-vue-tree-node.sl-vue-tree-selected .sl-vue-tree-node-item.sl-vue-tree-cursor-inside {
-    background-color: $gray-100;
+    background-color: $light;
 }
 
 .sl-vue-tree-cursor {
