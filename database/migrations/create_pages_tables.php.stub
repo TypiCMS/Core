@@ -14,6 +14,7 @@ return new class() extends Migration {
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('image_id')->nullable()->constrained('files')->nullOnDelete();
+            $table->foreignId('og_image_id')->nullable()->constrained('files')->nullOnDelete();
             $table->foreignId('parent_id')->nullable()->constrained('pages');
             $table->unsignedInteger('position')->default(0);
             $table->boolean('private')->default(0);
