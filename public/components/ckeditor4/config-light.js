@@ -4,6 +4,7 @@ const publicCssFile = window.TypiCMS.public_css_file;
 for (let i = 0; i < editors.length; ++i) {
     CKEDITOR.replace(editors[i].id, {
         toolbar: [{ items: ['Bold', 'Italic', 'Subscript', 'Superscript'] }, { items: ['RemoveFormat'] }, { items: ['Link', 'Unlink'] }, { items: ['Source'] }],
+        versionCheck: false,
         entities: false,
         emailProtection: 'encode',
         height: 240,

@@ -14,6 +14,7 @@ for (let i = 0; i < editors.length; ++i) {
             { items: ['Image', 'oembed', 'Table', 'HorizontalRule', 'SpecialChar'] },
             { items: ['Maximize', 'ShowBlocks', 'Source'] },
         ],
+        versionCheck: false,
         entities: false,
         emailProtection: 'encode',
         format_tags: 'p;h1;h2;h3;h4;h5;h6',
