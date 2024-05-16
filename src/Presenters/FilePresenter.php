@@ -6,10 +6,7 @@ use Illuminate\Support\Facades\Storage;
 
 class FilePresenter extends Presenter
 {
-    /**
-     * Get the path of the image or the path to the default image.
-     */
-    protected function getImagePathOrDefault(): string
+    protected function getImagePathOrDefault(string $relationName): string
     {
         $imagePath = $this->entity->path ?? '';
 
@@ -20,9 +17,6 @@ class FilePresenter extends Presenter
         return $imagePath;
     }
 
-    /**
-     * Get title.
-     */
     public function title(): string
     {
         if (!empty($this->entity->title)) {
@@ -32,9 +26,6 @@ class FilePresenter extends Presenter
         return $this->entity->name;
     }
 
-    /**
-     * Format file size.
-     */
     public function filesize(int $precision = 0): string
     {
         $base = log($this->entity->filesize, 1024);
