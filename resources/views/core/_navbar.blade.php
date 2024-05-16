@@ -8,7 +8,7 @@
             @endif
 
             <a class="typicms-navbar-brand navbar-brand" href="{{ route('admin::dashboard') }}">
-                {{ TypiCMS::title(config('typicms.navbar_locale')) }}
+                {{ websiteTitle(config('typicms.navbar_locale')) }}
             </a>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
@@ -28,7 +28,7 @@
                     <div class="dropdown-menu dropdown-user">
                         <div class="dropdown-user-wrapper">
                             <div class="img">
-                                <img src="https://www.gravatar.com/avatar/{{ md5(auth()->user()->email) }}?d=mm" class="pull-left" />
+                                <img src="https://www.gravatar.com/avatar/{{ md5(auth()->user()->email) }}?d=mm" class="pull-left"/>
                             </div>
                             <div class="info">
                                 <div class="mt-1 mb-1">{{ auth()->user()->email }}</div>
@@ -41,7 +41,7 @@
                                 @endcan
 
                                 <div class="mb-2">
-                                    <form action="{{ route(TypiCMS::mainLocale() . '::logout') }}" method="post">
+                                    <form action="{{ route(mainLocale() . '::logout') }}" method="post">
                                         {{ csrf_field() }}
                                         <button class="btn btn-light btn-sm" type="submit">
                                             @lang('Logout', [], config('typicms.navbar_locale'))

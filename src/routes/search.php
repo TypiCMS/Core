@@ -2,13 +2,12 @@
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
-use TypiCMS\Modules\Core\Facades\TypiCMS;
 use TypiCMS\Modules\Core\Http\Controllers\SearchPublicController;
 
 /*
  * Front office routes
  */
-if ($page = TypiCMS::getPageLinkedToModule('search')) {
+if ($page = getPageLinkedToModule('search')) {
     $middleware = $page->private ? ['public', 'auth'] : ['public'];
     foreach (locales() as $lang) {
         if ($page->isPublished($lang) && $uri = $page->uri($lang)) {

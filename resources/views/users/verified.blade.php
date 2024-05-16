@@ -16,7 +16,7 @@
             </div>
 
             <div class="d-flex justify-content-center">
-                <a class="btn btn-light" href="{{ TypiCMS::homeUrl() }}">@lang('Go to our homepage')</a>
+                <a class="btn btn-light" href="{{ homeUrl() }}">@lang('Go to our homepage')</a>
             </div>
         </div>
     </div>

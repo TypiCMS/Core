@@ -2,7 +2,6 @@
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
-use TypiCMS\Modules\Core\Facades\TypiCMS;
 use TypiCMS\Modules\Core\Http\Controllers\PagesAdminController;
 use TypiCMS\Modules\Core\Http\Controllers\PagesApiController;
 use TypiCMS\Modules\Core\Http\Controllers\PageSectionsAdminController;
@@ -57,7 +56,7 @@ Route::middleware('public')->group(function (Router $router) {
         }
     }
     foreach (locales() as $locale) {
-        if (TypiCMS::mainLocale() !== $locale || config('typicms.main_locale_in_url')) {
+        if (mainLocale() !== $locale || config('typicms.main_locale_in_url')) {
             $router->prefix($locale)->get('{uri}', [PagesPublicController::class, 'uri'])->where('uri', '(.*)');
         }
     }

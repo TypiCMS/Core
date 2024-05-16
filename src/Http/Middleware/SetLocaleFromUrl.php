@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
-use TypiCMS\Modules\Core\Facades\TypiCMS;
 
 class SetLocaleFromUrl
 {
@@ -18,10 +17,10 @@ class SetLocaleFromUrl
     public function handle(Request $request, Closure $next)
     {
         $firstSegment = $request->segment(1);
-        if (in_array($firstSegment, TypiCMS::enabledLocales())) {
+        if (in_array($firstSegment, enabledLocales())) {
             App::setLocale($firstSegment);
         }
-        Carbon::setLocale(TypiCMS::localeAndRegion());
+        Carbon::setLocale(localeAndRegion());
 
         return $next($request);
     }

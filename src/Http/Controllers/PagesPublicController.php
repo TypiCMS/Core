@@ -5,7 +5,6 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use TypiCMS\Modules\Core\Facades\TypiCMS;
 use TypiCMS\Modules\Core\Models\Page;
 
 class PagesPublicController extends BasePublicController
@@ -53,9 +52,9 @@ class PagesPublicController extends BasePublicController
 
         // Only locale in url
         if (
-            in_array($uri, TypiCMS::enabledLocales())
+            in_array($uri, enabledLocales())
             && (
-                TypiCMS::mainLocale() !== $uri
+                mainLocale() !== $uri
                 || config('typicms.main_locale_in_url')
             )
         ) {
@@ -72,7 +71,7 @@ class PagesPublicController extends BasePublicController
     public function redirectToHomepage(): RedirectResponse
     {
         $homepage = Page::published()->where('is_home', 1)->firstOrFail();
-        $locale = TypiCMS::getBrowserLocaleOrMainLocale();
+        $locale = getBrowserLocaleOrMainLocale();
 
         return redirect($homepage->uri($locale));
     }
@@ -84,7 +83,7 @@ class PagesPublicController extends BasePublicController
             app('log')->error('No homepage found.');
             abort(404);
         }
-        $locales = TypiCMS::enabledLocales();
+        $locales = enabledLocales();
 
         return view('core::public.lang-chooser')
             ->with(compact('homepage', 'locales'));

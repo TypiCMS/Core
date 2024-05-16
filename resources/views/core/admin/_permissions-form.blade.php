@@ -44,7 +44,7 @@
 <div class="permissions-modules">
     <h2>{{ __('Modules permissions') }}</h2>
     <div class="permissions-modules-items">
-        @foreach (TypiCMS::permissions() as $module => $permissions)
+        @foreach (permissions() as $module => $permissions)
             <div class="permissions-modules-item mt-4 mb-4">
                 <label class="permissions-modules-item-title">{{ $module }}</label>
                 @foreach ($permissions as $permission => $label)

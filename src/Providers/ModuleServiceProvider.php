@@ -3,7 +3,6 @@
 namespace TypiCMS\Modules\Core\Providers;
 
 use Exception;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
@@ -30,7 +29,6 @@ use TypiCMS\Modules\Core\Facades\Roles;
 use TypiCMS\Modules\Core\Facades\Tags;
 use TypiCMS\Modules\Core\Facades\Taxonomies;
 use TypiCMS\Modules\Core\Facades\Terms;
-use TypiCMS\Modules\Core\Facades\TypiCMS as TypiCMSFacade;
 use TypiCMS\Modules\Core\Facades\Users;
 use TypiCMS\Modules\Core\Models\Block;
 use TypiCMS\Modules\Core\Models\File;
@@ -223,10 +221,10 @@ class ModuleServiceProvider extends ServiceProvider
             SidebarViewComposer::class => 'core::admin._sidebar',
         ]);
         View::composer('search::public.*', function ($view) {
-            $view->page = TypiCMSFacade::getPageLinkedToModule('search');
+            $view->page = getPageLinkedToModule('search');
         });
         View::composer('tags::public.*', function ($view) {
-            $view->page = TypiCMSFacade::getPageLinkedToModule('tags');
+            $view->page = getPageLinkedToModule('tags');
         });
 
         /*
@@ -252,7 +250,6 @@ class ModuleServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias('Tags', Tags::class);
         AliasLoader::getInstance()->alias('Taxonomies', Taxonomies::class);
         AliasLoader::getInstance()->alias('Terms', Terms::class);
-        AliasLoader::getInstance()->alias('TypiCMS', TypiCMSFacade::class);
         AliasLoader::getInstance()->alias('Users', Users::class);
 
         /*
@@ -290,7 +287,6 @@ class ModuleServiceProvider extends ServiceProvider
         $this->app->bind('Tags', Tag::class);
         $this->app->bind('Taxonomies', Taxonomy::class);
         $this->app->bind('Terms', Term::class);
-        $this->app->bind('TypiCMS', TypiCMS::class);
         $this->app->bind('Users', User::class);
 
         /*
@@ -314,7 +310,7 @@ class ModuleServiceProvider extends ServiceProvider
         $this->app->singleton('typicms.routes', function () {
             try {
                 return Page::with('images', 'documents')
-                    ->where('module', '!=', null)
+                    ->whereNotNull('module')
                     ->get();
             } catch (Exception $e) {
                 return [];
@@ -324,11 +320,6 @@ class ModuleServiceProvider extends ServiceProvider
 
     private function getMigrationFileName(string $name): string
     {
-        $filesystem = $this->app->make(Filesystem::class);
-        $timestamp = date('Y_m_d_His', time() + ++$this->migrationCount);
-        $directory = database_path(DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR);
-        $migrations = $filesystem->glob($directory . '*_' . $name . '.php');
-
-        return $migrations[0] ?? $directory . $timestamp . '_' . $name . '.php';
+        return getMigrationFileName($name, ++$this->migrationCount);
     }
 }

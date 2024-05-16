@@ -4,7 +4,6 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
-use TypiCMS\Modules\Core\Facades\TypiCMS;
 use TypiCMS\Modules\Core\Models\User;
 
 class ImpersonateController extends Controller
@@ -20,7 +19,7 @@ class ImpersonateController extends Controller
             return back()->withError(__('A Superuser can not be impersonated.'));
         }
 
-        return redirect(TypiCMS::homeUrl());
+        return redirect(homeUrl());
     }
 
     public function stopImpersonation()

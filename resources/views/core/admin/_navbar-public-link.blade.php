@@ -1,6 +1,6 @@
 @php
     if (isset($model) and $model->id) {
-        $url = TypiCMS::isLocaleEnabled($locale) ? url($model->uri($locale)) : url($model->uri());
+        $url = isLocaleEnabled($locale) ? url($model->uri($locale)) : url($model->uri());
     } elseif (($module = Request::segment(2)) and Route::has($locale . '::index-' . $module)) {
         $url = route($locale . '::index-' . $module);
     } else {

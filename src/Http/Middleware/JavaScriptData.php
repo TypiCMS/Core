@@ -5,7 +5,6 @@ namespace TypiCMS\Modules\Core\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Vite;
-use TypiCMS\Modules\Core\Facades\TypiCMS;
 
 class JavaScriptData
 {
@@ -19,7 +18,7 @@ class JavaScriptData
         $data = [
             'content_locale' => config('typicms.content_locale'),
             'locale' => app()->getLocale(),
-            'locale_region' => TypiCMS::localeAndRegion('-'),
+            'locale_region' => localeAndRegion('-'),
             'max_file_upload_size' => config('typicms.max_file_upload_size'),
         ];
         foreach (locales() as $locale) {

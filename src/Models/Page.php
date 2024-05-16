@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\Translatable\HasTranslations;
-use TypiCMS\Modules\Core\Facades\TypiCMS;
 use TypiCMS\Modules\Core\Observers\AddToMenuObserver;
 use TypiCMS\Modules\Core\Observers\HomePageObserver;
 use TypiCMS\Modules\Core\Observers\UriObserver;
@@ -53,7 +52,7 @@ class Page extends Base
         $locale = $locale ?: config('app.locale');
         $uri = $this->translate('uri', $locale);
         if (
-            TypiCMS::mainLocale() !== $locale
+            mainLocale() !== $locale
             || config('typicms.main_locale_in_url')
         ) {
             $uri = $uri ? $locale . '/' . $uri : $locale;

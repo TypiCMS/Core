@@ -5,7 +5,6 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
-use TypiCMS\Modules\Core\Facades\TypiCMS;
 use TypiCMS\Modules\Core\Models\Page;
 
 class SitemapPublicController extends Controller
@@ -23,7 +22,7 @@ class SitemapPublicController extends Controller
 
         // check if there is cached sitemap and build new only if is not
         if (!$sitemap->isCached()) {
-            foreach (TypiCMS::enabledLocales() as $locale) {
+            foreach (enabledLocales() as $locale) {
                 app()->setLocale($locale);
 
                 $pages = Page::published()->where('private', 0)->get();

@@ -3,7 +3,6 @@
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Spatie\Feed\Feed;
-use TypiCMS\Modules\Core\Facades\TypiCMS;
 
 class FeedController
 {
@@ -11,7 +10,7 @@ class FeedController
     {
         abort_unless(config('typicms.modules.' . $module . '.has_feed', false), 404);
 
-        $page = TypiCMS::getPageLinkedToModule($module);
+        $page = getPageLinkedToModule($module);
         abort_if(is_null($page), 404);
 
         $model = app(ucfirst($module));
@@ -21,9 +20,9 @@ class FeedController
             ->get();
 
         $feed = [
-            'title' => TypiCMS::title() . ' – ' . $page->title,
+            'title' => websiteTitle() . ' – ' . $page->title,
             'description' => strip_tags($page->body),
-            'language' => TypiCMS::localeAndRegion('-'),
+            'language' => localeAndRegion('-'),
             'image' => $page->image !== null ? $page->present()->image(1200, 630) : null,
         ];
 

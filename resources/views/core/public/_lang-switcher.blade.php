@@ -1,4 +1,4 @@
-@if (($enabledLocales = TypiCMS::enabledLocales()) and count($enabledLocales) > 1)
+@if (($enabledLocales = enabledLocales()) and count($enabledLocales) > 1)
     <nav class="lang-switcher dropdown">
         <button class="lang-switcher-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownLangSwitcher">
             {{ $lang }}

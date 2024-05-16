@@ -27,7 +27,7 @@
     </div>
     <div class="row">
         <div class="col-md-6">
-            {!! BootForm::select(__('Template'), 'template', TypiCMS::pageSectionTemplates()) !!}
+            {!! BootForm::select(__('Template'), 'template', pageSectionTemplates()) !!}
         </div>
     </div>
     {!! TranslatableBootForm::textarea(__('Body'), 'body')->addClass('ckeditor-full') !!}
