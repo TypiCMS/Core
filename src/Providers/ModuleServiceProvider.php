@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use TypiCMS\Modules\Core\Commands\Create;
@@ -56,6 +57,11 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Gate::before(function ($user) {
+            if ($user->isSuperUser()) {
+                return true;
+            }
+        });
         Paginator::useBootstrapFive();
 
         /*
