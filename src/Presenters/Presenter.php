@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
 use Laracasts\Presenter\Presenter as BasePresenter;
 
@@ -83,15 +84,12 @@ abstract class Presenter extends BasePresenter
         return $date->format('H:i');
     }
 
-    /**
-     * Get the path of the model’s linked image.
-     */
-    protected function getImagePathOrDefault(): string
+    protected function getImagePathOrDefault(string $relationName): string
     {
         $path = '';
 
-        if (is_object($this->entity->image)) {
-            $path = $this->entity->image->path;
+        if (is_object($this->entity->{$relationName})) {
+            $path = $this->entity->{$relationName}->path;
         }
 
         if (!is_file(Storage::path($path))) {
@@ -102,11 +100,11 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Return src string of a resized or cropped image.
+     * Return URL of a resized or cropped image.
      */
-    public function image(?int $width = null, ?int $height = null, array $options = []): string
+    public function image(?int $width = null, ?int $height = null, array $options = [], string $relationName = 'image'): string
     {
-        $path = $this->getImagePathOrDefault();
+        $path = $this->getImagePathOrDefault($relationName);
 
         if (in_array(pathinfo($path, PATHINFO_EXTENSION), ['svg', 'gif'])) {
             return Storage::url($path);
@@ -127,16 +125,16 @@ abstract class Presenter extends BasePresenter
         return $this->imageNotFound;
     }
 
-    /**
-     * Get model’s image or default Open Graph image.
-     */
     public function ogImage(): string
     {
-        if ($this->entity->image) {
+        if (!empty($this->entity->ogImage)) {
+            return $this->image(1200, 630, [], 'ogImage');
+        }
+        if (!empty($this->entity->image)) {
             return $this->image(1200, 630);
         }
 
-        return url('img/og-image.png');
+        return Vite::asset(config('typicms.og_image'));
     }
 
     public function title(): string
