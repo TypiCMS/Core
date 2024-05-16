@@ -1,7 +1,7 @@
 <template>
     <div :class="{ 'sub-list': subList }" class="item-list-tree">
         <div class="item-list-header header">
-            <h1 v-if="!subList" class="item-list-title">
+            <h1 v-if="!subList" class="item-list-title header-title">
                 {{ $t(title) }}
             </h1>
             <h2 v-else class="item-list-subtitle">
