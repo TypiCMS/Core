@@ -14,9 +14,9 @@ class SearchPublicController extends BasePublicController
         $tabs = [];
         $count = 0;
         $data = [];
-        $data['search'] = e($request->input('search'));
+        $data['query'] = e($request->input('query'));
         $validator = Validator::make($data, [
-            'search' => 'required|string|min:3',
+            'query' => 'required|string|min:3',
         ]);
         if ($validator->fails()) {
             return view('search::public.index')
@@ -25,7 +25,7 @@ class SearchPublicController extends BasePublicController
         }
 
         $config = config('typicms.search');
-        $words = array_filter(explode(' ', $data['search']));
+        $words = array_filter(explode(' ', $data['query']));
 
         foreach ($config as $key => $data) {
             $model = app($data['model']);
