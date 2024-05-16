@@ -11,6 +11,7 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\MountManager;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\Visibility;
+
 use function Laravel\Prompts\error;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\spin;
@@ -19,30 +20,22 @@ class Publish extends Command
 {
     /**
      * The filesystem instance.
-     *
-     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
     /**
      * The name of the module, pluralized and ucfirsted.
-     *
-     * @var string
      */
-    protected $module;
+    protected string $module;
 
     /**
      * The console command signature.
-     *
-     * @var string
      */
     protected $signature = 'typicms:publish {module : The module that you want to publish}
             {--force : Overwrite any existing files.}';
 
     /**
      * The console command description.
-     *
-     * @var string
      */
     protected $description = 'Move a module from the vendor directory to the /Modules directory.';
 
@@ -79,10 +72,8 @@ class Publish extends Command
 
     /**
      * Publishes the module.
-     *
-     * @return mixed
      */
-    private function publishModule()
+    private function publishModule(): void
     {
         $from = base_path('vendor/typicms/' . $this->module . '/src');
         $to = base_path('Modules/' . ucfirst($this->module));
@@ -96,11 +87,8 @@ class Publish extends Command
 
     /**
      * Publish the directory to the given directory.
-     *
-     * @param string $from
-     * @param string $to
      */
-    protected function publishDirectory($from, $to)
+    protected function publishDirectory(string $from, string $to): void
     {
         $visibility = PortableVisibilityConverter::fromArray([], Visibility::PUBLIC);
 
@@ -123,7 +111,7 @@ class Publish extends Command
     /**
      * Change the path of loadViewsFrom.
      */
-    private function changePathForLoadViews()
+    private function changePathForLoadViews(): void
     {
         $file = 'Modules/' . ucfirst($this->module) . '/Providers/ModuleServiceProvider.php';
         $contents = $this->files->get($file);
@@ -134,9 +122,9 @@ class Publish extends Command
     /**
      * Remove the module from composer.
      */
-    private function uninstallFromComposer()
+    private function uninstallFromComposer(): void
     {
-        if (is_callable('shell_exec') && !stripos(ini_get('disable_functions'), 'shell_exec')) {
+        if (is_callable('shell_exec') && !mb_stripos(ini_get('disable_functions'), 'shell_exec')) {
             $uninstallCommand = 'composer remove typicms/' . $this->module . ' 2> /dev/null';
             spin(
                 fn () => shell_exec($uninstallCommand),

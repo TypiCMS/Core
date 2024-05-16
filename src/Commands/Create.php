@@ -10,34 +10,26 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\MountManager;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\Visibility;
-use Symfony\Component\Console\Output\NullOutput;
 
 use function Laravel\Prompts\error;
 use function Laravel\Prompts\info;
-use function Laravel\Prompts\note;
 
 class Create extends Command
 {
     /**
      * The filesystem instance.
-     *
-     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
     /**
      * The name of the module, pluralized and ucfirsted.
-     *
-     * @var string
      */
     protected $module;
 
     /**
      * The search array.
-     *
-     * @var array
      */
-    protected $search = [
+    protected array $search = [
         'things',
         'thing',
         'Things',
@@ -46,23 +38,17 @@ class Create extends Command
 
     /**
      * The replace array.
-     *
-     * @var array
      */
     protected $replace;
 
     /**
      * The console command signature.
-     *
-     * @var string
      */
     protected $signature = 'typicms:create {module : The module that you want to create}
             {--force : Overwrite any existing files.}';
 
     /**
      * The console command description.
-     *
-     * @var string
      */
     protected $description = 'Create a module in the /Modules directory.';
 
@@ -119,7 +105,7 @@ class Create extends Command
     /**
      * Generate the module in Modules directory.
      */
-    private function publishModule()
+    private function publishModule(): void
     {
         $from = base_path('vendor/typicms/things/src');
         $to = base_path('Modules/' . $this->module);
@@ -135,7 +121,7 @@ class Create extends Command
      * Search and remplace all occurences of ‘Things’
      * in all files by the name of the new module.
      */
-    public function searchAndReplaceInFiles()
+    public function searchAndReplaceInFiles(): void
     {
         $directory = base_path('Modules/' . $this->module);
 
@@ -154,7 +140,7 @@ class Create extends Command
     /**
      * Rename files.
      */
-    public function moveAndRenameFiles()
+    public function moveAndRenameFiles(): void
     {
         $moduleDir = base_path('Modules/' . $this->module);
         $paths = [
@@ -173,7 +159,7 @@ class Create extends Command
     /**
      * Publish views.
      */
-    public function publishViews()
+    public function publishViews(): void
     {
         $from = base_path('Modules/' . $this->module . '/resources/views');
         $to = resource_path('views/vendor/' . mb_strtolower($this->module));
@@ -183,7 +169,7 @@ class Create extends Command
     /**
      * Change the path of loadViewsFrom.
      */
-    private function changePathForLoadViews()
+    private function changePathForLoadViews(): void
     {
         $file = 'Modules/' . ucfirst($this->module) . '/Providers/ModuleServiceProvider.php';
         $contents = $this->files->get($file);
@@ -194,7 +180,7 @@ class Create extends Command
     /**
      * Publish scss files.
      */
-    public function publishScssFiles()
+    public function publishScssFiles(): void
     {
         $from = base_path('Modules/' . $this->module . '/resources/scss/public');
         $to = resource_path('scss/public');
@@ -204,7 +190,7 @@ class Create extends Command
     /**
      * Rename and move migration file.
      */
-    public function moveMigrationFile()
+    public function moveMigrationFile(): void
     {
         $from = base_path('Modules/' . $this->module . '/database/migrations/create_things_table.php.stub');
         $to = getMigrationFileName('create_' . mb_strtolower($this->module) . '_table');
@@ -214,12 +200,12 @@ class Create extends Command
     /**
      * Add translations.
      */
-    public function addTranslations()
+    public function addTranslations(): void
     {
         $this->callSilently('translations:add', ['path' => 'Modules/' . $this->module . '/lang']);
     }
 
-    public function deleteDirectories()
+    public function deleteDirectories(): void
     {
         $this->files->deleteDirectory(base_path('Modules/' . $this->module . '/resources'));
         $this->files->deleteDirectory(base_path('Modules/' . $this->module . '/lang'));
@@ -228,11 +214,8 @@ class Create extends Command
 
     /**
      * Publish the file to the given path.
-     *
-     * @param string $from
-     * @param string $to
      */
-    protected function publishFile($from, $to)
+    protected function publishFile(string $from, string $to): void
     {
         if ($this->files->exists($to) && !$this->option('force')) {
             return;
@@ -245,11 +228,8 @@ class Create extends Command
 
     /**
      * Publish the directory to the given directory.
-     *
-     * @param string $from
-     * @param string $to
      */
-    protected function publishDirectory($from, $to)
+    protected function publishDirectory(string $from, string $to): void
     {
         $visibility = PortableVisibilityConverter::fromArray([], Visibility::PUBLIC);
 
@@ -261,10 +241,8 @@ class Create extends Command
 
     /**
      * Move all the files in the given MountManager.
-     *
-     * @param \League\Flysystem\MountManager $manager
      */
-    protected function moveManagedFiles($manager)
+    protected function moveManagedFiles(MountManager $manager): void
     {
         foreach ($manager->listContents('from://', true) as $file) {
             $path = Str::after($file['path'], 'from://');
@@ -277,10 +255,8 @@ class Create extends Command
 
     /**
      * Create the directory to house the published files if needed.
-     *
-     * @param string $directory
      */
-    protected function createParentDirectory($directory)
+    protected function createParentDirectory(string $directory): void
     {
         if (!$this->files->isDirectory($directory)) {
             $this->files->makeDirectory($directory, 0755, true);
@@ -289,10 +265,8 @@ class Create extends Command
 
     /**
      * Check if the module exists.
-     *
-     * @return bool
      */
-    public function moduleExists()
+    public function moduleExists(): bool
     {
         $location1 = $this->files->isDirectory(base_path('Modules/' . $this->module));
         $location2 = $this->files->isDirectory(base_path('vendor/typicms/' . mb_strtolower($this->module)));

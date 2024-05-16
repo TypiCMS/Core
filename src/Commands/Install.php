@@ -5,34 +5,26 @@ namespace TypiCMS\Modules\Core\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Spatie\Permission\PermissionServiceProvider;
-use TypiCMS\Modules\Core\Providers\ModuleServiceProvider;
-use function Laravel\Prompts\text;
-use function Laravel\Prompts\info;
-use function Laravel\Prompts\note;
+
 use function Laravel\Prompts\alert;
+use function Laravel\Prompts\info;
 use function Laravel\Prompts\spin;
+use function Laravel\Prompts\text;
 
 class Install extends Command
 {
     /**
      * The console command name.
-     *
-     * @var string
      */
     protected $name = 'typicms:install';
 
     /**
      * The console command description.
-     *
-     * @var string
      */
     protected $description = 'Installation of TypiCMS: Laravel setup, installation of composer and npm packages';
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle(): void
     {
@@ -64,12 +56,11 @@ class Install extends Command
         // Set database credentials in .env and migrate
         $this->call('typicms:database', ['database' => $dbName]);
 
-        // Create a super user
+        // Create a superuser
         $this->call('typicms:user');
 
         // Composer install
-        if (is_callable('shell_exec') && !stripos(ini_get('disable_functions'), 'shell_exec')) {
-
+        if (is_callable('shell_exec') && !mb_stripos(ini_get('disable_functions'), 'shell_exec')) {
             spin(
                 function () {
                     shell_exec('chmod 755 $(find storage -type d) 2> /dev/null');
@@ -98,10 +89,8 @@ class Install extends Command
 
     /**
      * Guess database name from app folder.
-     *
-     * @return string
      */
-    public function guessDatabaseName()
+    public function guessDatabaseName(): string
     {
         try {
             $segments = array_reverse(explode(DIRECTORY_SEPARATOR, app_path()));

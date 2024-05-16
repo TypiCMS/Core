@@ -7,34 +7,27 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Question\Question;
-use function Laravel\Prompts\text;
-use function Laravel\Prompts\password;
+
 use function Laravel\Prompts\error;
 use function Laravel\Prompts\info;
+use function Laravel\Prompts\password;
+use function Laravel\Prompts\text;
 
 class Database extends Command
 {
     /**
      * The console command name.
-     *
-     * @var string
      */
     protected $name = 'typicms:database';
 
     /**
      * The console command description.
-     *
-     * @var string
      */
     protected $description = 'Set database credentials in .env file';
 
     /**
      * The filesystem instance.
-     *
-     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
@@ -131,10 +124,8 @@ class Database extends Command
 
     /**
      * Get the console command arguments.
-     *
-     * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['database', InputArgument::REQUIRED, 'The database name'],
@@ -143,10 +134,8 @@ class Database extends Command
 
     /**
      * Get the key file and return its content.
-     *
-     * @return string
      */
-    protected function getKeyFile()
+    protected function getKeyFile(): string
     {
         return $this->files->exists('.env') ? $this->files->get('.env') : $this->files->get('.env.example');
     }
