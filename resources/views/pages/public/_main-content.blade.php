@@ -1,6 +1,5 @@
 @empty($page->image)
     <div class="page-content">
-        <h1 class="page-title">{!! nl2br($page->title) !!}</h1>
         @empty(!$page->body)
             <div class="rich-content">{!! $page->present()->body !!}</div>
         @endempty
@@ -8,7 +7,6 @@
 @else
     <div class="page-row">
         <div class="page-left">
-            <h1 class="page-title">{!! nl2br($page->title) !!}</h1>
             @empty(!$page->body)
                 <div class="rich-content">{!! $page->present()->body !!}</div>
             @endempty
