@@ -36,8 +36,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | List of available locales for your website, the first key of this array
-    | have to be the value of APP_LOCALE in your .env file, this key is also
-    | the value returned by the mainLocale() helper.
+    | is the value returned by the mainLocale() helper.
     |
     */
     'locales' => [
@@ -48,7 +47,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | You can choose not to have main locale in URLs
+    | You can choose not to have the main locale in URLs.
     |--------------------------------------------------------------------------
     |
     | If set to false, the main locale, the first of the locales array
@@ -59,7 +58,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | You can choose to have a lang chooser in the root url
+    | You can have a lang chooser at the root url.
     |--------------------------------------------------------------------------
     |
     | If set to false, the root URL will redirect to the browser locale
@@ -78,7 +77,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Welcome message url present in Dashboard
+    | Welcome message URL for the admin’s dashboard
     |--------------------------------------------------------------------------
     */
     'welcome_message_url' => env('WELCOME_MESSAGE_URL'),
