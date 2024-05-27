@@ -22,6 +22,9 @@ class SetLocaleFromUrl
         if (in_array($firstSegment, enabledLocales())) {
             $locale = $firstSegment;
         }
+        if ($locale === null) {
+            abort(404);
+        }
         App::setLocale($locale);
         Carbon::setLocale(localeAndRegion());
         Number::useLocale(localeAndRegion());
