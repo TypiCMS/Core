@@ -20,19 +20,19 @@
                     {!! TranslatableBootForm::text(__('Title'), 'title') !!}
                 </div>
                 <div class="col-md-6">
-                    @foreach ($locales as $lang)
+                    @foreach ($locales as $locale)
                         <div class="mb-3 form-group-translation">
-                            <label class="form-label" for="slug[{{ $lang }}]">
+                            <label class="form-label" for="slug[{{ $locale }}]">
                                 <span>{{ __('Url') }}</span>
-                                ({{ $lang }})
+                                ({{ $locale }})
                             </label>
                             <div class="input-group">
-                                <span class="input-group-text">{{ $model->present()->parentUri($lang) }}</span>
-                                <input class="form-control @if ($errors->has('slug.' . $lang)) is-invalid @endif" type="text" name="slug[{{ $lang }}]" id="slug[{{ $lang }}]" value="{{ $model->translate('slug', $lang) }}" data-slug="title[{{ $lang }}]" data-language="{{ $lang }}" />
+                                <span class="input-group-text">{{ $model->present()->parentUri($locale) }}</span>
+                                <input class="form-control @if ($errors->has('slug.' . $locale)) is-invalid @endif" type="text" name="slug[{{ $locale }}]" id="slug[{{ $locale }}]" value="{{ $model->translate('slug', $locale) }}" data-slug="title[{{ $locale }}]" data-language="{{ $locale }}" />
                                 <button class="btn btn-outline-secondary btn-slug" type="button">
                                     {{ __('Generate') }}
                                 </button>
-                                {!! $errors->first('slug.' . $lang, '<div class="invalid-feedback">:message</div>') !!}
+                                {!! $errors->first('slug.' . $locale, '<div class="invalid-feedback">:message</div>') !!}
                             </div>
                         </div>
                     @endforeach

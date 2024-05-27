@@ -22,11 +22,11 @@
         <div class="row">
             <div class="col-lg-7">
                 <label class="form-label">{{ __('Website title') }}</label>
-                @foreach ($locales as $lang)
+                @foreach ($locales as $locale)
                     <div class="mb-3">
                         <div class="input-group">
-                            <span class="input-group-text">{{ strtoupper($lang) }}</span>
-                            <input class="form-control" type="text" name="{{ $lang }}[website_title]" value="{{ $data->$lang->website_title ?? '' }}" />
+                            <span class="input-group-text">{{ strtoupper($locale) }}</span>
+                            <input class="form-control" type="text" name="{{ $locale }}[website_title]" value="{{ $data->$locale->website_title ?? '' }}" />
                         </div>
                     </div>
                 @endforeach
@@ -34,21 +34,21 @@
                 <label class="form-label">{{ __('Publish website') }}</label>
 
                 <div class="mb-3">
-                    @foreach ($locales as $lang)
+                    @foreach ($locales as $locale)
                         <div class="form-check form-check-inline">
-                            <input type="hidden" name="{{ $lang }}[status]" value="0" />
-                            <input class="form-check-input" type="checkbox" name="{{ $lang }}[status]" id="{{ $lang }}[status]" value="1" @if (isset($data->$lang) and $data->$lang->status) checked @endif />
-                            <label class="form-check-label" for="{{ $lang }}[status]">{{ strtoupper($lang) }}</label>
+                            <input type="hidden" name="{{ $locale }}[status]" value="0" />
+                            <input class="form-check-input" type="checkbox" name="{{ $locale }}[status]" id="{{ $locale }}[status]" value="1" @if (isset($data->$locale) and $data->$locale->status) checked @endif />
+                            <label class="form-check-label" for="{{ $locale }}[status]">{{ strtoupper($locale) }}</label>
                         </div>
                     @endforeach
                 </div>
 
                 <label class="form-label">{{ __('Website baseline') }}</label>
-                @foreach ($locales as $lang)
+                @foreach ($locales as $locale)
                     <div class="mb-3">
                         <div class="input-group">
-                            <span class="input-group-text">{{ strtoupper($lang) }}</span>
-                            <input class="form-control" type="text" name="{{ $lang }}[website_baseline]" value="{{ $data->$lang->website_baseline ?? '' }}" />
+                            <span class="input-group-text">{{ strtoupper($locale) }}</span>
+                            <input class="form-control" type="text" name="{{ $locale }}[website_baseline]" value="{{ $data->$locale->website_baseline ?? '' }}" />
                         </div>
                     </div>
                 @endforeach
@@ -66,43 +66,43 @@
             <div class="col-lg-5">
                 <table class="table table-sm">
                     <tbody>
-                        <tr>
-                            <th class="text-nowrap">
-                                <small>@lang('Environment')</small>
-                            </th>
-                            <td><small>{{ App::environment() }}</small></td>
-                        </tr>
-                        <tr>
-                            <th class="text-nowrap">
-                                <small>@lang('System locales')</small>
-                            </th>
-                            <td>
-                                <div class="container-system-locales">
-                                    <small>
-                                        <?php
-                                        try {
-                                            system('locale -a');
-                                        } catch (Exception $e) {
-                                            echo $e->getMessage();
-                                        } ?>
-                                    </small>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="text-nowrap">
-                                <small>@lang('Active locale')</small>
-                            </th>
-                            <td><small>{{ config('app.locale') }}</small></td>
-                        </tr>
-                        <tr>
-                            <th class="text-nowrap">
-                                <small>@lang('Cache')</small>
-                            </th>
-                            <td>
-                                <small>{{ config('laravel-model-caching.enabled') ? __('Yes') : __('No') }}</small>
-                            </td>
-                        </tr>
+                    <tr>
+                        <th class="text-nowrap">
+                            <small>@lang('Environment')</small>
+                        </th>
+                        <td><small>{{ App::environment() }}</small></td>
+                    </tr>
+                    <tr>
+                        <th class="text-nowrap">
+                            <small>@lang('System locales')</small>
+                        </th>
+                        <td>
+                            <div class="container-system-locales">
+                                <small>
+                                    <?php
+                                    try {
+                                        system('locale -a');
+                                    } catch (Exception $e) {
+                                        echo $e->getMessage();
+                                    } ?>
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-nowrap">
+                            <small>@lang('Active locale')</small>
+                        </th>
+                        <td><small>{{ config('app.locale') }}</small></td>
+                    </tr>
+                    <tr>
+                        <th class="text-nowrap">
+                            <small>@lang('Cache')</small>
+                        </th>
+                        <td>
+                            <small>{{ config('laravel-model-caching.enabled') ? __('Yes') : __('No') }}</small>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

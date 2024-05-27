@@ -12,6 +12,5 @@ class LocalesComposer
     public function compose(View $view): void
     {
         $view->with('locales', locales());
-        $view->with('locale', config('typicms.content_locale'));
     }
 }
