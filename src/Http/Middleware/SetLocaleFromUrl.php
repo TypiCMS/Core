@@ -17,10 +17,12 @@ class SetLocaleFromUrl
      */
     public function handle(Request $request, Closure $next)
     {
+        $locale = mainLocale();
         $firstSegment = $request->segment(1);
         if (in_array($firstSegment, enabledLocales())) {
-            App::setLocale($firstSegment);
+            $locale = $firstSegment;
         }
+        App::setLocale($locale);
         Carbon::setLocale(localeAndRegion());
         Number::useLocale(localeAndRegion());
 
