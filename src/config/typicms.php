@@ -8,7 +8,9 @@ return [
     | Locales
     |--------------------------------------------------------------------------
     |
-    | Available locales
+    | List of available locales for your website, the first key of this array
+    | have to be the value of APP_LOCALE in your .env file, this key is also
+    | the value returned by the mainLocale() helper.
     |
     */
     'locales' => [
@@ -22,8 +24,8 @@ return [
     | You can choose not to have main locale in URLs
     |--------------------------------------------------------------------------
     |
-    | If set to false, the main locale (the first in the above array)
-    | will not appears in URLs.
+    | If set to false, the main locale, the first of the locales array
+    | will not appear in URLs.
     |
     */
     'main_locale_in_url' => true,
@@ -59,7 +61,6 @@ return [
     | Folder to find template files for pages.
     | This folder is a subfolder of /resources/views/vendor/pages
     |--------------------------------------------------------------------------
-    |
     */
     'template_dir' => 'public',
 
@@ -67,7 +68,6 @@ return [
     |--------------------------------------------------------------------------
     | If you use MariaDB, set this value to true
     |--------------------------------------------------------------------------
-    |
     */
     'mariadb' => false,
 
@@ -76,7 +76,6 @@ return [
     | The following IP’s can visit the website without login when
     | the website is protected by a login and a password.
     |--------------------------------------------------------------------------
-    |
     */
     'authorized_ips' => [
         // '127.0.0.1',
@@ -86,7 +85,6 @@ return [
     |--------------------------------------------------------------------------
     | Search engine configuration.
     |--------------------------------------------------------------------------
-    |
     */
     'search' => [
         'linkable_to_page' => true,
@@ -106,6 +104,11 @@ return [
         // ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Modules configuration.
+    |--------------------------------------------------------------------------
+    */
     'modules' => [
         'news' => [
             // 'per_page' => 30
