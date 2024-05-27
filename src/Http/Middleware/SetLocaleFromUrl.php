@@ -22,7 +22,7 @@ class SetLocaleFromUrl
         if (in_array($firstSegment, enabledLocales())) {
             $locale = $firstSegment;
         }
-        if ($locale === null) {
+        if ($locale === null || !in_array($locale, enabledLocales())) {
             abort(404);
         }
         App::setLocale($locale);
