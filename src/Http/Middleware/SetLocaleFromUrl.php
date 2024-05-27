@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Number;
 
 class SetLocaleFromUrl
 {
@@ -21,6 +22,7 @@ class SetLocaleFromUrl
             App::setLocale($firstSegment);
         }
         Carbon::setLocale(localeAndRegion());
+        Number::useLocale(localeAndRegion());
 
         return $next($request);
     }
