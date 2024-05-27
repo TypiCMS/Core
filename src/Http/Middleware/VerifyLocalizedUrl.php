@@ -9,6 +9,8 @@ class VerifyLocalizedUrl
 {
     public function handle(Request $request, Closure $next)
     {
+        // If config(typicms.main_locale_in_url) is set to true,
+        // the URLs without locale in it should throw a 404 error.
         if (
             config('typicms.main_locale_in_url')
             && $request->segment(1) !== null
