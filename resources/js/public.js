@@ -11,14 +11,15 @@ import Alert from 'bootstrap/js/dist/alert';
 
 import Swiper from 'swiper';
 import { Navigation, Pagination, Autoplay, EffectFade, Parallax } from 'swiper/modules';
+import enablePhotoSwipeLightbox from './public/photo-swipe-lightbox.ts';
+import enableAnchorTop from './public/anchor-top.ts';
+import enableOffCanvas from './public/offcanvas.ts';
 
 Swiper.use([Navigation, Pagination, Autoplay, Parallax, EffectFade]);
 window.Swiper = Swiper;
 
-import enableAnchorTop from './public/anchor-top.ts';
+enablePhotoSwipeLightbox();
 enableAnchorTop();
-
-import enableOffCanvas from './public/offcanvas.ts';
 enableOffCanvas();
 
 import.meta.glob(['../images/**']);

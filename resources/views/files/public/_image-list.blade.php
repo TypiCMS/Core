@@ -1,20 +1,11 @@
 @if ($model->images->count() > 0)
-    <ul class="image-list-list" id="image-list-list">
-        @foreach ($model->images as $image)
-            @include('files::public._image-list-item')
-        @endforeach
-    </ul>
+    <div class="image-list">
+        <div class="image-list-container">
+            <ul class="image-list-list lightbox">
+                @foreach ($model->images as $image)
+                    @include('files::public._image-list-item')
+                @endforeach
+            </ul>
+        </div>
+    </div>
 @endif
-
-@push('js')
-    <script type="module">
-        import PhotoSwipeLightbox from '/components/photoswipe/photoswipe-lightbox.esm.min.js';
-
-        const lightbox = new PhotoSwipeLightbox({
-            gallery: '#image-list-list',
-            children: 'a',
-            pswpModule: () => import('/components/photoswipe/photoswipe.esm.min.js'),
-        });
-        lightbox.init();
-    </script>
-@endpush
