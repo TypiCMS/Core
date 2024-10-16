@@ -177,17 +177,17 @@ abstract class Base extends Model
         return route('admin::dashboard');
     }
 
-    public function next(Model $model, int $category_id = null): ?Model
+    public function next(Model $model, ?int $category_id = null): ?Model
     {
         return $this->adjacent(1, $model, $category_id);
     }
 
-    public function prev(Model $model, int $category_id = null): ?Model
+    public function prev(Model $model, ?int $category_id = null): ?Model
     {
         return $this->adjacent(-1, $model, $category_id);
     }
 
-    public function adjacent(int $direction, Model $model, int $category_id = null): ?Model
+    public function adjacent(int $direction, Model $model, ?int $category_id = null): ?Model
     {
         $currentModel = $model;
         if ($category_id !== null) {
