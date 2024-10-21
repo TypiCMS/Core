@@ -125,11 +125,12 @@ class ModuleServiceProvider extends ServiceProvider
 
         /*
         |--------------------------------------------------------------------------
-        | Publish images, js and scss files.
+        | Publish images, fonts, js and scss files.
         |--------------------------------------------------------------------------
         */
         $this->publishes([
             __DIR__ . '/../../resources/images' => resource_path('images'),
+            __DIR__ . '/../../resources/fonts' => resource_path('fonts'),
             __DIR__ . '/../../resources/js' => resource_path('js'),
             __DIR__ . '/../../resources/scss' => resource_path('scss'),
         ], 'typicms-resources');
