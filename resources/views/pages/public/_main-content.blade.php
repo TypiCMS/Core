@@ -1,11 +1,11 @@
-@empty($page->image)
-    <div class="page-content">
-        @empty(!$page->body)
-            <div class="rich-content">{!! $page->present()->body !!}</div>
-        @endempty
-    </div>
-@else
-    <div class="page-row">
+<div class="page-row">
+    @empty($page->image)
+        <div class="page-content">
+            @empty(!$page->body)
+                <div class="rich-content">{!! $page->present()->body !!}</div>
+            @endempty
+        </div>
+    @else
         <div class="page-left">
             @empty(!$page->body)
                 <div class="rich-content">{!! $page->present()->body !!}</div>
@@ -19,5 +19,5 @@
                 @endempty
             </figure>
         </div>
-    </div>
-@endempty
+    @endempty
+</div>
