@@ -3,7 +3,9 @@
 namespace TypiCMS\Modules\Core\Presenters;
 
 use Bkwld\Croppa\Facades\Croppa;
+use BumpCore\EditorPhp\EditorPhp;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -151,7 +153,8 @@ abstract class Presenter extends BasePresenter
      */
     public function body(): string
     {
-        $text = $this->entity->body;
+        $text = $this->convertJsonToHtml($this->entity->body);
+        // $text = $this->entity->body;
         preg_match_all('/{!! ([a-z]+):([0-9]+) !!}/', $text, $matches, PREG_SET_ORDER);
         $patterns = [];
         $replacements = [];
@@ -187,5 +190,14 @@ abstract class Presenter extends BasePresenter
         }
 
         return str_replace($patterns, $replacements, $text);
+    }
+
+    public function convertJsonToHtml($data)
+    {
+        try {
+            return EditorPhp::make($data)->toHtml();
+        } catch (Exception $e) {
+            return $data;
+        }
     }
 }

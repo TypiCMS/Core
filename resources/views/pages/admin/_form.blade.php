@@ -1,8 +1,3 @@
-@push('js')
-    <script type="module" src="{{ asset('components/ckeditor4/ckeditor.js') }}"></script>
-    <script type="module" src="{{ asset('components/ckeditor4/config-full.js') }}"></script>
-@endpush
-
 <div class="header">
     @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Pages')])
     @include('core::admin._title', ['default' => __('New page')])
@@ -43,7 +38,8 @@
                 {!! TranslatableBootForm::hidden('status')->value(0) !!}
                 {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}
             </div>
-            {!! TranslatableBootForm::textarea(__('Body'), 'body')->addClass('ckeditor-full') !!}
+
+            <editorjs placeholder="coucou ici" :init-data="{{ json_encode($model->translate('body', 'en')) }}"></editorjs>
 
             @can('read page_sections')
                 @if ($model->id)
@@ -90,10 +86,6 @@
         <div class="col-lg-4">
             <div class="bg-light p-4">
                 @if ($model->redirect !== 1)
-                    <file-manager related-table="{{ $model->getTable() }}" :related-id="{{ $model->id ?? 0 }}"></file-manager>
-                    <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>
-                    <file-field type="image" field="og_image_id" :init-file="{{ $model->ogImage ?? 'null' }}" label="Open Graph image"></file-field>
-                    <files-field :init-files="{{ $model->files }}"></files-field>
                     {!! TranslatableBootForm::textarea(__('Meta title'), 'meta_title')->rows(2) !!}
                     {!! TranslatableBootForm::textarea(__('Meta description'), 'meta_description')->rows(4) !!}
                     {!! TranslatableBootForm::text(__('Meta keywords'), 'meta_keywords') !!}
