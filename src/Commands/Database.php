@@ -110,7 +110,7 @@ class Database extends Command
         DB::connection()->setDatabaseName($dbName);
 
         // Migrate DB
-        if (count(Schema::getAllTables()) !== 0) {
+        if (count(Schema::getTables()) !== 0) {
             error('The database ' . $dbName . ' is not empty, no migration and seed were done.');
         } else {
             $this->callSilently('migrate');
