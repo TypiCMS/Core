@@ -18,7 +18,7 @@ class UsersFormRequest extends AbstractFormRequest
             'city' => 'nullable|max:255',
             'country' => 'nullable|max:255',
             'phone' => 'nullable|max:100',
-            'locale' => 'nullable|size:2',
+            'locale' => 'required|max:5',
             'activated' => 'boolean',
             'superuser' => 'boolean',
             'privacy_policy_accepted' => 'boolean',

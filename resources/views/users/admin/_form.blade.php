@@ -19,7 +19,7 @@
 
     <div class="row gx-3">
         <div class="col">
-            {!! BootForm::email(__('Email'), 'email')->autocomplete('off') !!}
+            {!! BootForm::email(__('Email'), 'email')->autocomplete('off')->required() !!}
         </div>
         <div class="col">
             {!! BootForm::text(__('Phone'), 'phone')->autocomplete('off') !!}
@@ -61,13 +61,13 @@
 
     <div class="row gx-3">
         <div class="col-6 col-lg-2">
-            {!! BootForm::select(__('Language'), 'locale', [
+            {!! BootForm::select(__('Prefered locale'), 'locale', [
                 '' => '',
                 'en' => 'en',
                 'fr' => 'fr',
                 'nl' => 'nl',
                 'es' => 'es',
-            ]) !!}
+            ])->required() !!}
         </div>
     </div>
 
