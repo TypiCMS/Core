@@ -6,8 +6,9 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
-use function Laravel\Prompts\alert;
 use function Laravel\Prompts\info;
+use function Laravel\Prompts\intro;
+use function Laravel\Prompts\outro;
 use function Laravel\Prompts\spin;
 use function Laravel\Prompts\text;
 
@@ -28,7 +29,7 @@ class Install extends Command
      */
     public function handle(): void
     {
-        info('Welcome to TypiCMS');
+        intro('Welcome to TypiCMS');
 
         $this->call('vendor:publish', ['--tag' => [
             'permission-migrations',
@@ -84,7 +85,7 @@ class Install extends Command
         }
 
         // Done
-        alert('Done. Enjoy TypiCMS!');
+        outro('Done. Enjoy TypiCMS!');
     }
 
     /**
