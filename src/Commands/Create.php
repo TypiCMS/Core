@@ -10,8 +10,8 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\MountManager;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\Visibility;
+use Symfony\Component\Console\Exception\RuntimeException;
 
-use function Laravel\Prompts\error;
 use function Laravel\Prompts\info;
 
 class Create extends Command
@@ -68,9 +68,7 @@ class Create extends Command
     public function handle(): void
     {
         if (!preg_match('/^[a-z]+$/i', $this->argument('module'))) {
-            error('Only alphabetic characters are allowed.');
-
-            return;
+            throw new RuntimeException('Only alphabetic characters are allowed.');
         }
 
         $this->module = Str::plural(mb_ucfirst(mb_strtolower($this->argument('module'))));
@@ -83,9 +81,7 @@ class Create extends Command
         ];
 
         if ($this->moduleExists()) {
-            error('A module named ' . $this->module . ' already exists.');
-
-            return;
+            throw new RuntimeException('A module named ' . $this->module . ' already exists.');
         }
         $this->publishModule();
         $this->moveAndRenameFiles();
@@ -113,7 +109,7 @@ class Create extends Command
         if ($this->files->isDirectory($from)) {
             $this->publishDirectory($from, $to);
         } else {
-            error("Can’t locate path: <{$from}>");
+            throw new RuntimeException("Can’t locate path: <{$from}>");
         }
     }
 
