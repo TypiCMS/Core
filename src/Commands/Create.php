@@ -87,7 +87,7 @@ class Create extends Command
         $this->moveAndRenameFiles();
         $this->searchAndReplaceInFiles();
         $this->publishViews();
-        $this->changePathForLoadViews();
+        $this->changeViewsPath();
         $this->publishScssFiles();
         $this->moveMigrationFile();
         $this->addTranslations();
@@ -165,7 +165,7 @@ class Create extends Command
     /**
      * Change the path of loadViewsFrom.
      */
-    private function changePathForLoadViews(): void
+    private function changeViewsPath(): void
     {
         $file = 'Modules/' . ucfirst($this->module) . '/Providers/ModuleServiceProvider.php';
         $contents = $this->files->get($file);
