@@ -13,11 +13,10 @@
 
     <div class="page-body">
         <div class="page-body-container">
-            <p class="lead">
-                @lang('Sorry, a server error occurred')
-                .
+            <p>
+                @lang('Sorry, a server error occurred.')
+                <br>{!! trans('Error :code', ['code' => '500']) !!}.
             </p>
-            <p>{!! trans('Error :code', ['code' => '500']) !!}.</p>
         </div>
     </div>
 @endsection

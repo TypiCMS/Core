@@ -16,11 +16,9 @@
 
     <div class="page-body">
         <div class="page-body-container">
-            <p class="lead">
-                @lang('Sorry, this page was not found')
-                .
-            </p>
             <p>
+                @lang('Sorry, this page was not found.')
+                <br>
                 {!! trans('Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) !!}
             </p>
         </div>

@@ -16,11 +16,9 @@
 
     <div class="page-body">
         <div class="page-body-container">
-            <p class="lead">
-                @lang('Unauthorized')
-                .
-            </p>
             <p>
+                @lang('Unauthorized')
+                <br>
                 {!! trans('Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) !!}
             </p>
         </div>
