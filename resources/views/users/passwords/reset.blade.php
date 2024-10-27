@@ -2,7 +2,6 @@
 
 @section('title', __('New password'))
 @section('bodyClass', 'auth-background')
-@section('page-header', '')
 @section('sidebar', '')
 @section('mainClass', '')
 

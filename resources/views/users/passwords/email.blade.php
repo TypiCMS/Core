@@ -2,7 +2,6 @@
 
 @section('title', __('Reset Password'))
 @section('bodyClass', 'auth-background')
-@section('page-header', '')
 @section('sidebar', '')
 @section('mainClass', '')
 

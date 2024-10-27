@@ -2,7 +2,6 @@
 
 @section('title', __('Register'))
 @section('bodyClass', 'auth-background')
-@section('page-header', '')
 @section('sidebar', '')
 @section('mainClass', '')
 
