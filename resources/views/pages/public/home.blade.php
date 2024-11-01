@@ -7,13 +7,13 @@
 @section('page')
     <div class="page-body">
         <div class="page-body-container">
-            @empty(!$page->image)
+            @if (!empty($page->image))
                 <img class="page-image" src="{{ $page->present()->image(2000) }}" width="{{ $page->image->width }}" height="{{ $page->image->height }}" alt="" />
-            @endempty
+            @endif
 
-            @empty(!$page->body)
+            @if (!empty($page->body))
                 <div class="rich-content">{!! $page->present()->body !!}</div>
-            @endempty
+            @endif
 
             @include('files::public._document-list', ['model' => $page])
             @include('files::public._image-list', ['model' => $page])
