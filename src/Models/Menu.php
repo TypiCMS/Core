@@ -68,7 +68,7 @@ class Menu extends Base
     }
 
     /**
-     * Set the href to the menulink’s URL or the URL of the linked page.
+     * Set the href to the menulink’s website or the URL of the related page.
      */
     public function setHref(Menulink $menulink): string
     {
@@ -83,7 +83,7 @@ class Menu extends Base
             return $menulink->page->url();
         }
 
-        return '/';
+        return url('/');
     }
 
     /**
