@@ -72,15 +72,17 @@ class Menu extends Base
      */
     public function setHref(Menulink $menulink): string
     {
-        if ($menulink->website !== null) {
+        if (!empty($menulink->website)) {
             return $menulink->website;
         }
+
         if ($menulink->page) {
-            if ($menulink->section !== null) {
-                return $menulink->page->url() . '#' . $menulink->section->slug . '-' . $menulink->section->id;
+            $url = $menulink->page->url();
+            if (!empty($menulink->section)) {
+                return $url . '#' . $menulink->section->slug . '-' . $menulink->section->id;
             }
 
-            return $menulink->page->url();
+            return $url;
         }
 
         return url('/');
