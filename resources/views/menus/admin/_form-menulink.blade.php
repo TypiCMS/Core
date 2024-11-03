@@ -28,7 +28,7 @@
         <div class="col-sm-6">
             {!! BootForm::select(__('Page'), 'page_id', Pages::allForSelect()) !!}
             {!! BootForm::select(__('Section'), 'section_id', ['' => '']) !!}
-            {!! TranslatableBootForm::text(__('Url'), 'url')->placeholder('http://') !!}
+            {!! TranslatableBootForm::text(__('Website'), 'website')->type('url')->placeholder('https://') !!}
             {!! BootForm::select(__('Target'), 'target', ['' => __('Active tab'), '_blank' => __('New tab')]) !!}
             {!! BootForm::text(__('Class'), 'class') !!}
         </div>

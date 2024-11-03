@@ -24,7 +24,7 @@ class Menulink extends Base
 
     public array $translatable = [
         'title',
-        'url',
+        'website',
         'description',
         'status',
     ];
