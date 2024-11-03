@@ -77,7 +77,7 @@ class Menu extends Base
         }
 
         if ($menulink->page) {
-            $url = $menulink->page->url();
+            $url = $menulink->page->path();
             if (!empty($menulink->section)) {
                 return $url . '#' . $menulink->section->slug . '-' . $menulink->section->id;
             }
@@ -85,7 +85,7 @@ class Menu extends Base
             return $url;
         }
 
-        return url('/');
+        return '/';
     }
 
     /**
