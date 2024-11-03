@@ -2,6 +2,4 @@
 
 namespace TypiCMS\Modules\Core\Presenters;
 
-class HistoryPresenter extends Presenter
-{
-}
+class HistoryPresenter extends Presenter {}
