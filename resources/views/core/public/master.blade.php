@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ config('app.locale') }}">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="utf-8" />
@@ -24,26 +24,27 @@
 </head>
 
 <body class="body-{{ $lang }} @yield('bodyClass') @if ($navbar) has-navbar @endif" id="top">
-    @section('skip-links')
-        <div class="skip-to-content">
-            <a href="#main" class="skip-to-content-link">@lang('Skip to content')</a>
-        </div>
-    @show
 
-    @include('core::_navbar')
+@section('skip-links')
+    <div class="skip-to-content">
+        <a href="#main" class="skip-to-content-link">@lang('Skip to content')</a>
+    </div>
+@show
 
-    @auth
-        @if (auth()->user()->isImpersonating())
-            <a class="stop-impersonation-button" href="{{ route($lang . '::stop-impersonation') }}">
-                @lang('Stop impersonation')
-            </a>
-        @endif
-    @endauth
+@include('core::_navbar')
 
-    <div class="site-container">
-        @section('header')
-            <header class="header" id="header">
-                <div class="header-container">
+@auth
+    @if (auth()->user()->isImpersonating())
+        <a class="stop-impersonation-button" href="{{ route($lang . '::stop-impersonation') }}">
+            @lang('Stop impersonation')
+        </a>
+    @endif
+@endauth
+
+<div class="site-container">
+    @section('header')
+        <header class="header" id="header">
+            <div class="header-container">
                 @section('header-title')
                     <div class="header-title">@include('core::public._header-title')</div>
                 @show

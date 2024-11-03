@@ -1,7 +1,12 @@
 @php
     $contentLocale = config('typicms.content_locale');
-    if (isset($model) and $model->id) {
-        $url = isLocaleEnabled($contentLocale) ? url($model->uri($contentLocale)) : url($model->uri());
+    $locale = isLocaleEnabled($contentLocale) ? $contentLocale : app()->getLocale();
+    if (isset($model) && $model->id) {
+        try {
+            $url = $model->url($locale);
+        } catch (Exception $e) {
+            $url = url('/');
+        }
     } elseif (($module = Request::segment(2)) and Route::has($contentLocale . '::index-' . $module)) {
         $url = route($contentLocale . '::index-' . $module);
     } else {

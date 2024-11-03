@@ -1,5 +1,5 @@
-<li class="page-list-item {{ Request::is($child->uri()) ? 'active' : '' }}" id="page_{{ $child->id }}">
-    <a class="page-list-item-link" href="{{ url($child->uri()) }}">
+<li class="page-list-item {{ Request::is($child->url()) ? 'active' : '' }}" id="page_{{ $child->id }}">
+    <a class="page-list-item-link" href="{{ $child->url() }}">
         {{ $child->title }}
     </a>
     @if ($child->items)

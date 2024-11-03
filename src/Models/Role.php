@@ -155,9 +155,4 @@ class Role extends Base implements RoleContract
 
         return $this->permissions->contains('id', $permission->id);
     }
-
-    public function uri($locale = null): string
-    {
-        return url('/');
-    }
 }

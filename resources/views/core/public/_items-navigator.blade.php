@@ -1,5 +1,5 @@
 <div class="items-navigator">
-    <a class="items-navigator-back" href="{{ url($page->uri($lang)) }}">
+    <a class="items-navigator-back" href="{{ $page->url($lang) }}">
         ←
         @lang("Back to {$model->getTable()} list")
     </a>

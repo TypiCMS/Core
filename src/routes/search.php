@@ -10,8 +10,8 @@ use TypiCMS\Modules\Core\Http\Controllers\SearchPublicController;
 if ($page = getPageLinkedToModule('search')) {
     $middleware = $page->private ? ['public', 'auth'] : ['public'];
     foreach (locales() as $lang) {
-        if ($page->isPublished($lang) && $uri = $page->uri($lang)) {
-            Route::middleware($middleware)->prefix($uri)->name($lang . '::')->group(function (Router $router) {
+        if ($page->isPublished($lang) && $path = $page->path($lang)) {
+            Route::middleware($middleware)->prefix($path)->name($lang . '::')->group(function (Router $router) {
                 $router->get('/', [SearchPublicController::class, 'search'])->name('search');
             });
         }

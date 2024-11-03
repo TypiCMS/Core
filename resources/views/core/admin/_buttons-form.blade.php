@@ -7,7 +7,7 @@
     </button>
     @if ($model->getTable() === 'pages' || Route::has(config('typicms.content_locale') . '::' . Str::singular($model->getTable())))
         @foreach (locales() as $locale)
-            <a class="btn btn-sm btn-light btn-preview me-2" href="{{ $model->previewUri($locale) }}?preview=true" data-language="{{ $locale }}">
+            <a class="btn btn-sm btn-light btn-preview me-2" href="{{ $model->previewUrl($locale) }}?preview=true" data-language="{{ $locale }}">
                 @lang('Preview')
             </a>
         @endforeach

@@ -14,23 +14,10 @@ abstract class Base extends Model
 {
     use Cachable;
 
-    public function previewUri($locale = null): string
+    public function previewUrl($locale = null): string
     {
-        $uri = '/';
         if ($this->id) {
-            $uri = $this->uri($locale);
-        }
-
-        return url($uri);
-    }
-
-    public function uri($locale = null): string
-    {
-        $locale = $locale ?: config('app.locale');
-        $route = $locale . '::' . Str::singular($this->getTable());
-        $slug = !empty($this->slug) ? $this->translate('slug', $locale) : null;
-        if (Route::has($route) && !empty($slug)) {
-            return route($route, $slug);
+            return $this->url($locale);
         }
 
         return url('/');
@@ -50,7 +37,7 @@ abstract class Base extends Model
         }
         $field = 'status';
         if (in_array($field, (array) $this->translatable)) {
-            $field .= '->' . config('app.locale');
+            $field .= '->' . app()->getLocale();
         }
 
         return $query->where($field, '1');
@@ -60,7 +47,7 @@ abstract class Base extends Model
     {
         $field = 'slug';
         if (in_array($field, (array) $this->translatable)) {
-            $field .= '->' . config('app.locale');
+            $field .= '->' . app()->getLocale();
         }
 
         return $query->where($field, $slug);
@@ -79,7 +66,7 @@ abstract class Base extends Model
 
     public function scopeSelectFields($query, string $fields): Builder
     {
-        $locale = request('locale', config('app.locale'));
+        $locale = request('locale', app()->getLocale());
         $fields = explode(',', $fields);
         foreach ($fields as $field) {
             if (isset($this->translatable) && $this->isTranslatableAttribute($field)) {

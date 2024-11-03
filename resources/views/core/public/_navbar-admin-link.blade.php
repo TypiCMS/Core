@@ -10,7 +10,7 @@
     }
 @endphp
 
-<a class="nav-link" href="{{ $url }}?locale={{ config('app.locale') }}">
+<a class="nav-link" href="{{ $url }}?locale={{ app()->getLocale() }}">
     <span class="bi bi-pencil-fill me-2"></span>
     <span class="d-none d-lg-inline">{{ __('Back-office', [], config('typicms.navbar_locale')) }}</span>
 </a>

@@ -28,7 +28,7 @@ class SitemapPublicController extends Controller
                 $pages = Page::published()->where('private', 0)->get();
 
                 foreach ($pages as $page) {
-                    $url = url($page->uri($locale));
+                    $url = $page->url($locale);
                     $sitemap->add($url, $page->updated_at);
 
                     if (!$module = ucfirst($page->module)) {
@@ -44,7 +44,7 @@ class SitemapPublicController extends Controller
                     }
 
                     foreach ($module::published()->get() as $item) {
-                        $url = url($item->uri($locale));
+                        $url = $item->url($locale);
                         $sitemap->add($url, $item->updated_at);
                     }
                 }

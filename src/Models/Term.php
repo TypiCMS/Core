@@ -39,11 +39,6 @@ class Term extends Base implements Sortable
         return static::query()->where('taxonomy_id', $this->taxonomy_id);
     }
 
-    public function uri($locale = null): string
-    {
-        return url('/');
-    }
-
     public function editUrl(): string
     {
         $route = 'admin::edit-term';

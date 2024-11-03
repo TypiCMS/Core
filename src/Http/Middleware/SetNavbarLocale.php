@@ -14,7 +14,7 @@ class SetNavbarLocale
      */
     public function handle(Request $request, Closure $next)
     {
-        $navbarLocale = config('app.locale');
+        $navbarLocale = app()->getLocale();
         if (auth()->check()) {
             $userLocale = auth()->user()->locale;
             if (in_array($userLocale, locales())) {

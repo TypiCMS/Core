@@ -9,7 +9,7 @@
                     <li>
                         @isset($page)
                             @if ($page->isPublished($locale))
-                                <a class="lang-switcher-item dropdown-item" href="{{ isset($model) && $model->isPublished($locale) ? url($model->uri($locale)) : url($page->uri($locale)) }}">
+                                <a class="lang-switcher-item dropdown-item" href="{{ isset($model) && $model->isPublished($locale) ? $model->url($locale) : $page->url($locale) }}">
                                     {{ $locale }}
                                 </a>
                             @else

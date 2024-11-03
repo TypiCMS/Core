@@ -18,7 +18,7 @@ class PagesPublicController extends BasePublicController
         }
 
         if ($page->redirect && $page->publishedSubpages->count() > 0) {
-            $childUri = $page->publishedSubpages->first()->uri();
+            $childUri = $page->publishedSubpages->first()->url();
 
             return redirect($childUri);
         }
@@ -73,7 +73,7 @@ class PagesPublicController extends BasePublicController
         $homepage = Page::published()->where('is_home', 1)->firstOrFail();
         $locale = getBrowserLocaleOrMainLocale();
 
-        return redirect($homepage->uri($locale));
+        return redirect($homepage->url($locale));
     }
 
     public function langChooser(): View

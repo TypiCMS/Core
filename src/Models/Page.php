@@ -47,9 +47,9 @@ class Page extends Base
         'meta_keywords',
     ];
 
-    public function uri($locale = null): string
+    public function path($locale = null): string
     {
-        $locale = $locale ?: config('app.locale');
+        $locale = $locale ?: app()->getLocale();
         $uri = $this->translate('uri', $locale);
         if (
             mainLocale() !== $locale
@@ -59,6 +59,11 @@ class Page extends Base
         }
 
         return $uri ?: '/';
+    }
+
+    public function url($locale = null): string
+    {
+        return url($this->path($locale));
     }
 
     public function isHome(): bool
@@ -75,7 +80,7 @@ class Page extends Base
     {
         $field = 'uri';
         if (in_array($field, $this->translatable)) {
-            $field .= '->' . config('app.locale');
+            $field .= '->' . app()->getLocale();
         }
 
         return $query->where($field, $uri);
@@ -85,7 +90,7 @@ class Page extends Base
     {
         $field = 'uri';
         if (in_array($field, $this->translatable)) {
-            $field .= '->' . config('app.locale');
+            $field .= '->' . app()->getLocale();
         }
 
         return $query->where($field, '!=', $uri);
@@ -95,7 +100,7 @@ class Page extends Base
     {
         $field = 'uri';
         if (in_array($field, $this->translatable)) {
-            $field .= '->' . config('app.locale');
+            $field .= '->' . app()->getLocale();
         }
 
         return $query->where($field, 'LIKE', $uri);

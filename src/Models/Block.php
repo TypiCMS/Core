@@ -25,7 +25,7 @@ class Block extends Base
     public function render($name = null)
     {
         $args = func_get_args();
-        $args[] = config('app.locale');
+        $args[] = app()->getLocale();
 
         $block = $this->where('name', $name)
             ->published()

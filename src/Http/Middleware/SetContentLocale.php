@@ -21,7 +21,7 @@ class SetContentLocale
         }
 
         // Set content locale.
-        $contentLocale = session('content_locale', config('app.locale'));
+        $contentLocale = session('content_locale', app()->getLocale());
         if (in_array($contentLocale, locales())) {
             config(['typicms.content_locale' => $contentLocale]);
         }

@@ -11,6 +11,6 @@ class LocaleComposer
      */
     public function compose(View $view): void
     {
-        $view->with('lang', config('app.locale'));
+        $view->with('lang', app()->getLocale());
     }
 }

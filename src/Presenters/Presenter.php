@@ -155,7 +155,7 @@ abstract class Presenter extends BasePresenter
         preg_match_all('/{!! ([a-z]+):([0-9]+) !!}/', $text, $matches, PREG_SET_ORDER);
         $patterns = [];
         $replacements = [];
-        $lang = config('app.locale');
+        $lang = app()->getLocale();
         if (is_array($matches)) {
             foreach ($matches as $match) {
                 $patterns[] = $match[0];
@@ -175,7 +175,7 @@ abstract class Presenter extends BasePresenter
                     continue;
                 }
                 if ($module === 'page') {
-                    $replacements[] = url($model->uri($lang));
+                    $replacements[] = $model->url($lang);
                 } else {
                     if (Route::has($lang . '::' . $module)) {
                         $replacements[] = route($lang . '::' . $module, $model->slug);

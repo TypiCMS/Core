@@ -63,7 +63,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->locale;
     }
 
-    public function uri($locale = null): string
+    public function url($locale = null): string
     {
         return '/';
     }

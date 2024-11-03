@@ -72,15 +72,15 @@ class Menu extends Base
      */
     public function setHref(Menulink $menulink): string
     {
-        if ($menulink->url) {
-            return $menulink->url;
+        if ($menulink->website) {
+            return $menulink->website;
         }
         if ($menulink->page) {
             if ($menulink->section !== null) {
-                return $menulink->page->uri() . '#' . $menulink->section->slug . '-' . $menulink->section->id;
+                return $menulink->page->url() . '#' . $menulink->section->slug . '-' . $menulink->section->id;
             }
 
-            return $menulink->page->uri();
+            return $menulink->page->url();
         }
 
         return '/';
@@ -116,7 +116,7 @@ class Menu extends Base
 
     public function image(): BelongsTo
     {
-        return $this->belongsTo(\TypiCMS\Modules\Core\Models\File::class, 'image_id');
+        return $this->belongsTo(File::class, 'image_id');
     }
 
     public function menulinks(): HasMany

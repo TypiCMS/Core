@@ -48,7 +48,7 @@ class Taxonomy extends Base implements Sortable
         return ['' => ''] + $items;
     }
 
-    public function uri($locale = null): string
+    public function url($locale = null): string
     {
         return '/';
     }
