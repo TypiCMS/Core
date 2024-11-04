@@ -1,18 +1,7 @@
 .header {
-    padding-top: 1.125rem;
+    padding-top: 1rem;
     padding-bottom: 1rem;
-    z-index: 999;
-    position: relative;
-    transition: transform 0.3s cubic-bezier(0.43, -0.01, 0.26, 1.04);
     background-color: $light;
-    @include media-breakpoint-up(sm) {
-        padding-top: 1.75rem;
-        padding-bottom: 1.5rem;
-    }
-    @include media-breakpoint-up(lg) {
-        padding-top: 3.25rem;
-        padding-bottom: 2.75rem;
-    }
     &-container {
         @extend .container-xl;
         display: flex;
@@ -27,69 +16,4 @@
             @extend .img-fluid;
         }
     }
-    &-offcanvas {
-        flex-grow: 1;
-        align-items: flex-end;
-        display: flex;
-        justify-content: flex-end;
-        flex-direction: column;
-        @include media-breakpoint-down(lg) {
-            visibility: hidden;
-            transform-origin: top right;
-            transform: scale(0);
-            background: $white;
-            right: 0;
-            position: absolute;
-            top: 0;
-            transition: transform 0.2s ease-in-out;
-            width: 16rem;
-            z-index: 9999;
-            opacity: 0;
-            padding: 4.5rem 1.25rem 1.25rem;
-            box-shadow: -1px 1px 2px rgba(0, 0, 0, 0.1);
-            flex-direction: column;
-            align-items: flex-start;
-            display: flex;
-        }
-
-        &.active {
-            @include media-breakpoint-down(lg) {
-                visibility: visible;
-                opacity: 1;
-                transform: scale(1);
-                .primary-nav-item,
-                .lang-switcher,
-                .btn-offcanvas-close,
-                .header-contact {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-        }
-    }
-}
-.btn-offcanvas {
-    @extend .btn;
-    color: $secondary;
-    margin-top: 1rem;
-    margin-right: 1rem;
-    right: 0;
-    top: 0;
-    position: absolute;
-    z-index: 1000;
-    padding: 0;
-    width: 3rem;
-    height: 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &-close {
-        transition: all 0.2s cubic-bezier(0.43, -0.01, 0.26, 1.04);
-        opacity: 0;
-        transition-delay: 0.2s;
-    }
-}
-
-.nav-up {
-    transform: translateY(-5rem);
 }
