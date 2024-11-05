@@ -16,7 +16,7 @@ class FileFormRequest extends AbstractFormRequest
         ];
 
         if ($this->hasFile('name')) {
-            $rules['name'] = 'mimes:jpeg,gif,png,bmp,tiff,pdf,eps,svg,rtf,txt,md,doc,xls,ppt,docx,xlsx,ppsx,pptx,sldx,mp4,m4a,aac,aiff,mov,avi,mp3,wav,zip|max:' . config('typicms.max_file_upload_size');
+            $rules['name'] = 'mimes:jpeg,gif,png,bmp,tiff,pdf,eps,svg,json,rtf,txt,md,doc,xls,ppt,docx,xlsx,ppsx,pptx,sldx,mp4,m4a,aac,aiff,mov,avi,mp3,wav,zip|max:' . config('typicms.max_file_upload_size');
         }
 
         return $rules;

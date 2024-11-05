@@ -273,6 +273,7 @@ export default {
                         'application/pdf',
                         'application/postscript',
                         'application/zip',
+                        'application/json',
                         'text/plain',
                         'image/svg+xml',
                         'image/tiff',
