@@ -1,4 +1,7 @@
-<li class="page-list-item {{ Request::is($child->url()) ? 'active' : '' }}" id="page_{{ $child->id }}">
+<li @class([
+    'page-list-item',
+    'active' => url()->current() === $child->url(),
+]) id="page_{{ $child->id }}">
     <a class="page-list-item-link" href="{{ $child->url() }}">
         {{ $child->title }}
     </a>
