@@ -119,7 +119,7 @@ abstract class Presenter extends BasePresenter
     public function imgNotFound(): string
     {
         if (!Storage::exists($this->imageNotFound)) {
-            Storage::put($this->imageNotFound, File::get(public_path('img/' . $this->imageNotFound)));
+            Storage::put($this->imageNotFound, File::get(resource_path('images/' . $this->imageNotFound)));
         }
 
         return $this->imageNotFound;
