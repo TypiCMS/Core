@@ -9,7 +9,7 @@ class BlockFormRequest extends AbstractFormRequest
         return [
             'name' => 'required|max:255|alpha_dash|unique:blocks,name,' . $this->block?->id,
             'status.*' => 'boolean',
-            'body.*' => 'nullable',
+            'body.*' => 'nullable|max:10000',
         ];
     }
 }

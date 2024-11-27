@@ -12,9 +12,9 @@ class PageFormRequest extends AbstractFormRequest
             'module' => 'nullable|max:255',
             'template' => 'nullable|max:255',
             'title.*' => 'nullable|max:255',
-            'uri.*' => 'nullable',
+            'uri.*' => 'nullable|max:1000',
             'status.*' => 'nullable',
-            'body.*' => 'nullable',
+            'body.*' => 'nullable|max:10000',
             'meta_title.*' => 'nullable|max:255',
             'meta_description.*' => 'nullable|max:255',
             'meta_keywords.*' => 'nullable|max:255',
@@ -23,8 +23,8 @@ class PageFormRequest extends AbstractFormRequest
             'is_home' => 'boolean',
             'private' => 'boolean',
             'redirect' => 'boolean',
-            'css' => 'nullable',
-            'js' => 'nullable',
+            'css' => 'nullable|max:2000',
+            'js' => 'nullable|max:2000',
         ];
 
         if ($this->is_home) {

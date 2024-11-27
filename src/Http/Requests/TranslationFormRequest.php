@@ -8,7 +8,7 @@ class TranslationFormRequest extends AbstractFormRequest
     {
         return [
             'key' => 'sometimes|required|max:255|unique:translations,key',
-            'translation.*' => 'nullable',
+            'translation.*' => 'nullable|max:2000',
         ];
     }
 }
