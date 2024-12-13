@@ -68,7 +68,7 @@ class Page extends Base
 
     public function isHome(): bool
     {
-        return $this->is_home;
+        return (bool) $this->is_home;
     }
 
     public function isPrivate(): bool
