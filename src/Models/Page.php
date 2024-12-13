@@ -73,7 +73,7 @@ class Page extends Base
 
     public function isPrivate(): bool
     {
-        return $this->private;
+        return (bool) $this->private;
     }
 
     public function scopeWhereUriIs($query, $uri): Builder
