@@ -14,7 +14,7 @@ class PageFormRequest extends AbstractFormRequest
             'title.*' => 'nullable|max:255',
             'uri.*' => 'nullable|max:1000',
             'status.*' => 'nullable',
-            'body.*' => 'nullable|max:10000',
+            'body.*' => 'nullable|max:20000',
             'meta_title.*' => 'nullable|max:255',
             'meta_description.*' => 'nullable|max:255',
             'meta_keywords.*' => 'nullable|max:255',
