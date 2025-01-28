@@ -1,7 +1,7 @@
 @php
     $contentLocale = config('typicms.content_locale');
-    $locale = isLocaleEnabled($contentLocale) ? $contentLocale : app()->getLocale();
-    if (isset($model) && $model->id) {
+    if (isset($model) && $model->id && $contentLocale) {
+        $locale = isLocaleEnabled($contentLocale) ? $contentLocale : app()->getLocale();
         try {
             $url = $model->url($locale);
         } catch (Exception $e) {
