@@ -5,7 +5,7 @@
 @section('page')
     <div class="page-body">
         <div class="page-body-container">
-            @if (!$errors->has('search'))
+            @if (!$errors->has('query'))
                 <div class="search-results">
                     <h1 class="search-results-title">
                         @lang('Search results for “:query”', ['query' => e(request('query'))])
@@ -34,7 +34,7 @@
                     @endif
                 </div>
             @else
-                <p class="search-results-no-results text-center">{{ $errors->first('search') }}</p>
+                <p class="search-results-no-results text-center">{{ $errors->first('query') }}</p>
             @endif
         </div>
     </div>
