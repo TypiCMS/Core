@@ -15,7 +15,7 @@ class PagesApiController extends BaseApiController
         $userPreferences = $request->user()->preferences;
 
         $data = QueryBuilder::for(Page::class)
-            ->selectFields($request->input('fields.pages'))
+            ->selectFields()
             ->orderBy('position')
             ->get()
             ->map(function ($item) use ($userPreferences) {

@@ -16,7 +16,7 @@ class MenulinksApiController extends BaseApiController
         $userPreferences = $request->user()->preferences;
 
         $data = QueryBuilder::for(Menulink::class)
-            ->selectFields($request->input('fields.menulinks'))
+            ->selectFields()
             ->where('menu_id', $menu->id)
             ->orderBy('position')
             ->get()

@@ -64,10 +64,10 @@ abstract class Base extends Model
         return $query;
     }
 
-    public function scopeSelectFields($query, string $fields): Builder
+    public function scopeSelectFields($query): Builder
     {
         $locale = request('locale', app()->getLocale());
-        $fields = explode(',', $fields);
+        $fields = explode(',', request()->input('fields.' . $this->getTable()));
         foreach ($fields as $field) {
             if (isset($this->translatable) && $this->isTranslatableAttribute($field)) {
                 if ($field === 'status') {

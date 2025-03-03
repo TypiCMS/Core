@@ -15,7 +15,7 @@ class TagsApiController extends BaseApiController
     public function index(Request $request): LengthAwarePaginator
     {
         $data = QueryBuilder::for(Tag::class)
-            ->selectFields($request->input('fields.tags'))
+            ->selectFields()
             ->allowedSorts(['tag', 'uses'])
             ->allowedFilters([
                 AllowedFilter::custom('tag', new FilterOr()),

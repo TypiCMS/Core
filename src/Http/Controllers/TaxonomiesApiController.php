@@ -14,7 +14,7 @@ class TaxonomiesApiController extends BaseApiController
     public function index(Request $request): LengthAwarePaginator
     {
         $data = QueryBuilder::for(Taxonomy::class)
-            ->selectFields($request->input('fields.taxonomies'))
+            ->selectFields()
             ->allowedSorts(['title_translated', 'validation_rule', 'result_string_translated', 'position', 'name'])
             ->allowedFilters([
                 AllowedFilter::custom('title,name,validation_rule,result_string', new FilterOr()),

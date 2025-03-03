@@ -15,7 +15,7 @@ class TermsApiController extends BaseApiController
     public function index(Taxonomy $taxonomy, Request $request): LengthAwarePaginator
     {
         $data = QueryBuilder::for(Term::class)
-            ->selectFields($request->input('fields.terms'))
+            ->selectFields()
             ->where('taxonomy_id', $taxonomy->id)
             ->allowedSorts(['title_translated', 'position'])
             ->allowedFilters([
