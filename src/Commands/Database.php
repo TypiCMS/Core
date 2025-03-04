@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Console\Input\InputArgument;
 
 use function Laravel\Prompts\error;
@@ -110,7 +109,7 @@ class Database extends Command
         DB::connection()->setDatabaseName($dbName);
 
         // Migrate DB
-        if (count(Schema::getTables()) !== 0) {
+        if (count(DB::select('SHOW TABLES')) !== 0) {
             error('The database ' . $dbName . ' is not empty, no migration and seed were done.');
         } else {
             $this->callSilently('migrate');
