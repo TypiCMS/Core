@@ -93,7 +93,7 @@ class Create extends Command
         $this->addTranslations();
         $this->deleteDirectories();
         info('<info>The module</info> <comment>' . $this->module . '</comment> <info>was created in</info> <comment>/Modules</comment><info>, customize it!</info>');
-        info('<info>Add</info> <comment>TypiCMS\Modules\\' . $this->module . '\Providers\ModuleServiceProvider::class,</comment> <info>to the providers array in</info> <comment>config/app.php</comment><info>.</info>');
+        info('<info>Add</info> <comment>TypiCMS\Modules\\' . $this->module . '\Providers\ModuleServiceProvider::class</comment> <info>in</info> <comment>bootstrap/providers.php</comment><info>.</info>');
         info('<info>Run the database migration with the command</info> <comment>php artisan migrate</comment><info>.</info>');
         info('<info>Run</info> <comment>npm run dev</comment> <info>to finish.</info>');
     }
