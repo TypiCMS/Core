@@ -29,6 +29,8 @@
             @endif
 
             {!! BootForm::text(__('Name'), 'name')->autocomplete('off') !!}
+
+            {!! BootForm::file(__('Replace file'), 'name') !!}
         </div>
 
         <div class="col-lg-6">
