@@ -53,4 +53,21 @@ class FileObserver
             }
         }
     }
+
+    /**
+     * On update, update file information & deletes the old file from storage.
+     *
+     * @param Model $model eloquent
+     *
+     * @return mixed false or void
+     */
+    public function updating(Model $model)
+    {
+        if (request()->hasFile('name')) {
+            Storage::delete(request()->path);
+            $file = $this->fileUploader->handle(request()->file('name'));
+            $model->name = $file['filename'];
+            $model->fill(Arr::except($file, 'filename'));
+        }
+    }
 }
