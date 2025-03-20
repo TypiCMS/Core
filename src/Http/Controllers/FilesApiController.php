@@ -2,11 +2,15 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Bkwld\Croppa\Facades\Croppa;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use stdClass;
 use TypiCMS\Modules\Core\Http\Requests\FileFormRequest;
 use TypiCMS\Modules\Core\Models\File;
+use TypiCMS\Modules\Core\Services\FileUploader;
 
 class FilesApiController extends BaseApiController
 {
@@ -29,7 +33,15 @@ class FilesApiController extends BaseApiController
 
     public function store(FileFormRequest $request): JsonResponse
     {
-        $model = File::create($request->validated());
+        $model = new File();
+        $model->fill(Arr::except($request->validated(), 'name'));
+        if ($request->hasFile('name')) {
+            $file = (new FileUploader())->handle($request->file('name'));
+            $model->name = $file['filename'];
+            $model->fill(Arr::except($file, 'filename'));
+        }
+        $model->save();
+
         $model->load('children');
 
         return response()->json(compact('model'));
@@ -51,6 +63,11 @@ class FilesApiController extends BaseApiController
             return response()->json(['message' => __('A non-empty folder cannot be deleted.')], 403);
         }
         $file->delete();
+        try {
+            Croppa::delete('storage/' . $file->getOriginal('path'));
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
     }
 
     private function getPath($folderId): array

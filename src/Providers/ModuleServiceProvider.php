@@ -45,8 +45,7 @@ use TypiCMS\Modules\Core\Models\Tag;
 use TypiCMS\Modules\Core\Models\Taxonomy;
 use TypiCMS\Modules\Core\Models\Term;
 use TypiCMS\Modules\Core\Models\User;
-use TypiCMS\Modules\Core\Observers\FileObserver;
-use TypiCMS\Modules\Core\Services\FileUploader;
+use TypiCMS\Modules\Core\Services\TypiCMS;
 
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -236,13 +235,6 @@ class ModuleServiceProvider extends ServiceProvider
         View::composer('tags::public.*', function ($view) {
             $view->page = getPageLinkedToModule('tags');
         });
-
-        /*
-        |--------------------------------------------------------------------------
-        | Observers.
-        |--------------------------------------------------------------------------
-        */
-        File::observe(new FileObserver(new FileUploader()));
 
         /*
         |--------------------------------------------------------------------------
