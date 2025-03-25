@@ -30,7 +30,9 @@
 
             {!! BootForm::text(__('Name'), 'name')->autocomplete('off') !!}
 
-            {!! BootForm::file(__('Replace file'), 'file') !!}
+            @if ($model->type !== 'f')
+                {!! BootForm::file(__('Replace file'), 'file') !!}
+            @endif
         </div>
 
         <div class="col-lg-6">

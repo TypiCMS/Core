@@ -19,7 +19,11 @@ class FilesApiController extends BaseApiController
         $folderId = $request->folder_id;
 
         $data = [
-            'models' => File::with('children')->where('folder_id', $folderId)->get(),
+            'models' => File::with('children')
+                ->where('folder_id', $folderId)
+                ->orderByRaw('type="f" desc')
+                ->orderBy('name')
+                ->get(),
             'path' => $this->getPath($folderId),
         ];
 
@@ -33,12 +37,15 @@ class FilesApiController extends BaseApiController
 
     public function store(FileFormRequest $request): JsonResponse
     {
+        $data = $request->validated();
         $model = new File();
-        $model->fill(Arr::except($request->validated(), 'name'));
+        $model->fill(Arr::except($data, 'name'));
         if ($request->hasFile('name')) {
             $file = (new FileUploader())->handle($request->file('name'));
             $model->name = $file['filename'];
             $model->fill(Arr::except($file, 'filename'));
+        } else {
+            $model->name = $data['name'];
         }
         $model->save();
 
