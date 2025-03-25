@@ -19,7 +19,11 @@ class FilesApiController extends BaseApiController
         $folderId = $request->folder_id;
 
         $data = [
-            'models' => File::with('children')->where('folder_id', $folderId)->get(),
+            'models' => File::with('children')
+                ->where('folder_id', $folderId)
+                ->orderByRaw('type="f" desc')
+                ->orderBy('name')
+                ->get(),
             'path' => $this->getPath($folderId),
         ];
 

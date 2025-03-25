@@ -329,10 +329,7 @@ export default {
                                 count: successes.length,
                             }),
                         );
-                        successes.forEach((success) => {
-                            this.data.models.push(success.response.body.model);
-                            this.data.models.sort((a, b) => a.id - b.id);
-                        });
+                        this.fetchData();
                     }
                 });
         },
@@ -475,7 +472,7 @@ export default {
                 if (!response.ok) {
                     throw new Error(responseData.message);
                 }
-                this.data.models.push(responseData.model);
+                this.fetchData();
             } catch (error) {
                 alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
             }
