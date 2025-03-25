@@ -37,12 +37,15 @@ class FilesApiController extends BaseApiController
 
     public function store(FileFormRequest $request): JsonResponse
     {
+        $data = $request->validated();
         $model = new File();
-        $model->fill(Arr::except($request->validated(), 'name'));
+        $model->fill(Arr::except($data, 'name'));
         if ($request->hasFile('name')) {
             $file = (new FileUploader())->handle($request->file('name'));
             $model->name = $file['filename'];
             $model->fill(Arr::except($file, 'filename'));
+        } else {
+            $model->name = $data['name'];
         }
         $model->save();
 
