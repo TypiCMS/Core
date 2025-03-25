@@ -1,19 +1,18 @@
-.sl-vue-tree {
+.sl-vue-tree-next {
     position: relative;
     cursor: default;
     user-select: none;
 }
 
-.sl-vue-tree-root > .sl-vue-tree-nodes-list {
+.sl-vue-tree-next-root > .sl-vue-tree-next-nodes-list {
     position: relative;
-    padding-bottom: 4px;
 }
 
-.sl-vue-tree-selected > .sl-vue-tree-node-item {
+.sl-vue-tree-next-selected > .sl-vue-tree-next-node-item {
     background-color: $light;
 }
 
-.sl-vue-tree-node-item {
+.sl-vue-tree-next-node-item {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -22,28 +21,29 @@
     border-top: 1px solid #ddd;
 }
 
-.sl-vue-tree-node-item.sl-vue-tree-cursor-inside {
+.sl-vue-tree-next-node-item.sl-vue-tree-next-cursor-inside {
     background-color: $gray-300;
     .title {
         cursor: default !important;
     }
 }
-.sl-vue-tree-node.sl-vue-tree-selected .sl-vue-tree-node-item.sl-vue-tree-cursor-inside {
+.sl-vue-tree-next-node.sl-vue-tree-next-selected .sl-vue-tree-next-node-item.sl-vue-tree-next-cursor-inside {
     background-color: $light;
 }
 
-.sl-vue-tree-cursor {
+.sl-vue-tree-next-cursor {
     position: absolute;
-    background-color: $gray-300;
+    background-color: $gray-400;
     height: 3px;
     width: 100%;
+    z-index: 9999;
     &:after {
         position: absolute;
         content: ' ';
         display: block;
-        border: 12px solid $gray-300;
+        border: 8px solid $gray-400;
         left: 0;
-        top: -11px;
+        top: -7px;
         width: 0;
         height: 0;
         border-top-color: transparent;
@@ -52,13 +52,13 @@
     }
 }
 
-.sl-vue-tree-gap {
+.sl-vue-tree-next-gap {
     width: 25px;
     min-height: 1px;
     flex-shrink: 0;
 }
 
-.sl-vue-tree-toggle {
+.sl-vue-tree-next-toggle {
     position: absolute;
     cursor: pointer;
     left: -15px;
@@ -66,11 +66,11 @@
     color: $gray-600;
 }
 
-.sl-vue-tree-sidebar {
+.sl-vue-tree-next-sidebar {
     margin-left: auto;
 }
 
-.sl-vue-tree-drag-info {
+.sl-vue-tree-next-drag-info {
     position: absolute;
     background-color: $gray-700;
     opacity: 0.5;
@@ -80,7 +80,7 @@
     color: #fff;
 }
 
-.sl-vue-tree-title {
+.sl-vue-tree-next-title {
     display: flex;
     padding: 4px 0;
     align-items: center;

@@ -207,7 +207,7 @@ export default {
             return id;
         },
         fieldLabel: function () {
-            let label = this.$i18n.t(this.title);
+            let label = this.$t(this.title);
             if (this.locale !== null) {
                 label += ' (' + this.locale + ')';
             }
@@ -215,7 +215,7 @@ export default {
         },
     },
     mounted() {
-        this.$root.$on('fileAdded', (file) => {
+        this.emitter.on('fileAdded', (file) => {
             if (this.choosingFile === true) {
                 this.$emit('input', file);
             }
@@ -236,7 +236,7 @@ export default {
                 overlay: true,
                 single: true,
             };
-            this.$root.$emit('openFilepicker', options);
+            this.emitter.emit('openFilepicker', options);
         },
     },
 };

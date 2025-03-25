@@ -55,7 +55,7 @@ export default {
                 if (this.sortArray.indexOf('-' + this.column) !== -1) {
                     sort = [this.column];
                 }
-                this.$parent.$emit('sort', sort);
+                this.emitter.emit('sort', sort);
             }
         },
     },

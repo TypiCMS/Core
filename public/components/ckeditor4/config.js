@@ -76,22 +76,16 @@ CKEDITOR.on('dialogDefinition', function (event) {
             browseButton.onClick = function (dialog, i) {
                 editor._.filebrowserSe = this;
 
-                new Vue({
-                    data: {
-                        options: {
-                            modal: true,
-                            modalIsInFront: true,
-                            dropzone: false,
-                            multiple: false,
-                            single: true,
-                            overlay: false,
-                            open: true,
-                        },
-                    },
-                    created() {
-                        window.EventBus.$emit('openFilepickerForCKEditor', this.options);
-                    },
-                });
+                const options = {
+                    modal: true,
+                    modalIsInFront: true,
+                    dropzone: false,
+                    multiple: false,
+                    single: true,
+                    overlay: false,
+                    open: true,
+                };
+                emitter.emit('openFilepickerForCKEditor', options);
 
                 const filepicker = document.getElementById('filepicker');
                 filepicker.dataset.CKEditorCleanUpFuncNum = cleanUpFuncRef;

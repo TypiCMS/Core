@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <small v-if="!loading" class="text-muted align-self-center">
-                    {{ $tc('# ' + title, data.total, { count: data.total }) }}
+                    {{ $t('# ' + title, data.total, { count: data.total }) }}
                 </small>
                 <div class="d-flex ms-auto">
                     <div v-if="searchable.length > 0" class="filters form-inline">
@@ -82,12 +82,12 @@
                 <table class="table item-list-table">
                     <thead>
                         <tr>
-                            <slot :sort-array="sortArray" name="columns"></slot>
+                            <slot name="columns" :sort-array="sortArray"></slot>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="model in filteredItems">
-                            <slot :checked-models="checkedItems" :loading="loading" :model="model" name="table-row"></slot>
+                            <slot name="table-row" :checked-models="checkedItems" :loading="loading" :model="model"></slot>
                         </tr>
                     </tbody>
                 </table>
@@ -209,9 +209,15 @@ export default {
         this.fetchData();
     },
     mounted() {
-        this.$on('sort', this.sort);
-        this.$on('toggle-status', this.toggleStatus);
-        this.$on('update-position', this.updatePosition);
+        this.emitter.on('sort', (model) => {
+            this.sort(model);
+        });
+        this.emitter.on('toggleStatus', (model) => {
+            this.toggleStatus(model);
+        });
+        this.emitter.on('updatePosition', (model) => {
+            this.updatePosition(model);
+        });
     },
     computed: {
         searchQuery() {
@@ -296,6 +302,9 @@ export default {
         },
     },
     methods: {
+        alert(value) {
+            alert('coucou');
+        },
         async fetchData() {
             this.startLoading();
             try {
@@ -306,7 +315,7 @@ export default {
                 }
                 this.data = await response.json();
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('An error occurred with the data fetch.'));
+                alertify.error(error.message || this.$t('An error occurred with the data fetch.'));
             }
             this.stopLoading();
         },
@@ -385,7 +394,7 @@ export default {
 
             if (this.checkedItems.length > deleteLimit) {
                 alertify.error(
-                    this.$i18n.t('Impossible to delete more than # items in one go.', {
+                    this.$t('Impossible to delete more than # items in one go.', {
                         deleteLimit,
                     }),
                 );
@@ -393,7 +402,7 @@ export default {
             }
             if (
                 !window.confirm(
-                    this.$i18n.tc('Are you sure you want to delete # items?', this.numberOfCheckedItems, {
+                    this.$t('Are you sure you want to delete # items?', this.numberOfCheckedItems, {
                         count: this.numberOfCheckedItems,
                     }),
                 )
@@ -410,7 +419,7 @@ export default {
                         throw new Error(responseData.message);
                     }
                 } catch (error) {
-                    alertify.error(this.$i18n.tc(error.message) || this.$i18n.t('Sorry, an error occurred.'));
+                    alertify.error(this.$t(error.message) || this.$t('Sorry, an error occurred.'));
                 }
             });
 
@@ -418,7 +427,7 @@ export default {
             let successes = responses.filter((response) => response && response.status === 200);
             if (successes.length > 0) {
                 alertify.success(
-                    this.$i18n.tc('# items deleted', successes.length, {
+                    this.$t('# items deleted', successes.length, {
                         count: successes.length,
                     }),
                 );
@@ -430,7 +439,7 @@ export default {
         publish() {
             if (
                 !window.confirm(
-                    this.$i18n.tc('Are you sure you want to publish # items?', this.checkedItems.length, {
+                    this.$t('Are you sure you want to publish # items?', this.checkedItems.length, {
                         count: this.checkedItems.length,
                     }),
                 )
@@ -442,7 +451,7 @@ export default {
         unpublish() {
             if (
                 !window.confirm(
-                    this.$i18n.tc('Are you sure you want to unpublish # items?', this.checkedItems.length, {
+                    this.$t('Are you sure you want to unpublish # items?', this.checkedItems.length, {
                         count: this.checkedItems.length,
                     }),
                 )
@@ -478,7 +487,7 @@ export default {
                         throw new Error(responseData.message);
                     }
                 } catch (error) {
-                    alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                    alertify.error(error.message || this.$t('Sorry, an error occurred.'));
                 }
             });
 
@@ -486,7 +495,7 @@ export default {
             let successes = responses.filter((response) => response && response.status === 200);
             if (successes.length > 0) {
                 alertify.success(
-                    this.$i18n.tc('# items ' + label, successes.length, {
+                    this.$t('# items ' + label, successes.length, {
                         count: successes.length,
                     }),
                 );
@@ -523,9 +532,9 @@ export default {
                     const responseData = await response.json();
                     throw new Error(responseData.message);
                 }
-                alertify.success(this.$i18n.t('Item is ' + label + '.'));
+                alertify.success(this.$t('Item is ' + label + '.'));
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.message || this.$t('Sorry, an error occurred.'));
             }
         },
         async updatePosition(model) {
@@ -542,7 +551,7 @@ export default {
                     throw new Error(responseData.message);
                 }
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.message || this.$t('Sorry, an error occurred.'));
             }
         },
         sort(object) {

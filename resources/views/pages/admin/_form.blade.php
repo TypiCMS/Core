@@ -48,14 +48,14 @@
             @can('read page_sections')
                 @if ($model->id)
                     <item-list url-base="/api/pages/{{ $model->id }}/sections" fields="id,image_id,page_id,position,status,title" table="page_sections" title="sections" include="image" :sub-list="true" :searchable="['title']" :sorting="['position']">
-                        <template slot="add-button" v-if="$can('create page_sections')">
+                        <template #add-button v-if="$can('create page_sections')">
                             @include('core::admin._button-create', [
                                 'url' => route('admin::create-page_section', $model->id),
                                 'module' => 'page_sections',
                             ])
                         </template>
 
-                        <template slot="columns" slot-scope="{ sortArray }">
+                        <template #columns="{ sortArray }">
                             <item-list-column-header name="checkbox" v-if="$can('update page_sections')||$can('delete page_sections')"></item-list-column-header>
                             <item-list-column-header name="edit" v-if="$can('update page_sections')"></item-list-column-header>
                             <item-list-column-header name="status_translated" sortable :sort-array="sortArray" :label="$t('Status')"></item-list-column-header>
@@ -64,7 +64,7 @@
                             <item-list-column-header name="title_translated" sortable :sort-array="sortArray" :label="$t('Title')"></item-list-column-header>
                         </template>
 
-                        <template slot="table-row" slot-scope="{ model, checkedModels, loading }">
+                        <template #table-row="{ model, checkedModels, loading }">
                             <td class="checkbox" v-if="$can('update page_sections')||$can('delete page_sections')">
                                 <item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox>
                             </td>

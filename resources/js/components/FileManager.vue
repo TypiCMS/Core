@@ -31,7 +31,7 @@
                             <div class="dropdown-divider"></div>
                             <button class="dropdown-item" disabled="disabled" type="button">
                                 {{
-                                    $tc('# items selected', selectedItems.length, {
+                                    $t('# items selected', selectedItems.length, {
                                         count: selectedItems.length,
                                     })
                                 }}
@@ -231,7 +231,7 @@ export default {
         if (sessionStorage.getItem('view')) {
             this.view = JSON.parse(sessionStorage.getItem('view'));
         }
-        window.EventBus.$on('openFilepickerForCKEditor', (options) => {
+        this.emitter.on('openFilepickerForCKEditor', (options) => {
             document.body.classList.add('noscroll');
             this.options = options;
             window.ckEditorDialogBlured = true;
@@ -239,7 +239,7 @@ export default {
                 document.querySelector('.filemanager-btn-close').focus();
             });
         });
-        this.$root.$on('openFilepicker', (options) => {
+        this.emitter.on('openFilepicker', (options) => {
             document.body.classList.add('noscroll');
             this.options = options;
         });
@@ -316,7 +316,7 @@ export default {
                     const fails = result.failed;
                     if (fails.length > 0) {
                         alertify.error(
-                            this.$i18n.tc('# files could not be uploaded.', fails.length, {
+                            this.$t('# files could not be uploaded.', fails.length, {
                                 count: fails.length,
                             }),
                         );
@@ -325,14 +325,11 @@ export default {
                     const successes = result.successful;
                     if (successes.length > 0) {
                         alertify.success(
-                            this.$i18n.tc('# files uploaded.', successes.length, {
+                            this.$t('# files uploaded.', successes.length, {
                                 count: successes.length,
                             }),
                         );
-                        successes.forEach((success) => {
-                            this.data.models.push(success.response.body.model);
-                            this.data.models.sort((a, b) => a.id - b.id);
-                        });
+                        this.fetchData();
                     }
                 });
         },
@@ -364,7 +361,7 @@ export default {
         allChecked() {
             return this.filteredItems.length > 0 && this.filteredItems.length === this.selectedItems.length;
         },
-        numberOfselectedItems() {
+        numberOfSelectedItems() {
             return this.selectedItems.length;
         },
         selectedFiles() {
@@ -382,7 +379,7 @@ export default {
                 }
                 this.data = await response.json();
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('Sorry, a network error occurred.'));
+                alertify.error(error.message || this.$t('Sorry, a network error occurred.'));
             }
             this.stopLoading();
         },
@@ -451,13 +448,13 @@ export default {
                 }
                 await this.fetchData();
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.message || this.$t('Sorry, an error occurred.'));
             }
 
             this.checkNone();
         },
         async newFolder(folderId) {
-            let name = window.prompt(this.$i18n.t('Enter a name for the new folder.'));
+            let name = window.prompt(this.$t('Enter a name for the new folder.'));
             if (!name) {
                 return;
             }
@@ -475,9 +472,9 @@ export default {
                 if (!response.ok) {
                     throw new Error(responseData.message);
                 }
-                this.data.models.push(responseData.model);
+                this.fetchData();
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.message || this.$t('Sorry, an error occurred.'));
             }
         },
         check(item, $event) {
@@ -561,25 +558,25 @@ export default {
                 }
                 if (responseData.number < number) {
                     alertify.error(
-                        this.$i18n.tc('# files could not be moved.', number - responseData.number, {
+                        this.$t('# files could not be moved.', number - responseData.number, {
                             count: number - responseData.number,
                         }),
                     );
                 }
                 if (responseData.number > 0) {
                     alertify.success(
-                        this.$i18n.tc('# files moved.', responseData.number, {
+                        this.$t('# files moved.', responseData.number, {
                             count: responseData.number,
                         }),
                     );
                 }
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.message || this.$t('Sorry, an error occurred.'));
             }
             this.stopLoading();
         },
         addSingleFile(item) {
-            this.$root.$emit('fileAdded', item);
+            this.emitter.emit('fileAdded', item);
             const filepicker = document.getElementById('filepicker');
             const CKEditorCleanUpFuncNum = filepicker.dataset.CKEditorCleanUpFuncNum,
                 CKEditorFuncNum = filepicker.dataset.CKEditorFuncNum;
@@ -601,7 +598,7 @@ export default {
                 files.push(file);
             });
 
-            this.$root.$emit('filesAdded', this.selectedFiles);
+            this.emitter.emit('filesAdded', this.selectedFiles);
             this.closeModal();
             this.checkNone();
         },
@@ -642,7 +639,7 @@ export default {
 
             if (this.selectedItems.length > deleteLimit) {
                 alertify.error(
-                    this.$i18n.t('Impossible to delete more than # items in one go.', {
+                    this.$t('Impossible to delete more than # items in one go.', {
                         deleteLimit,
                     }),
                 );
@@ -650,7 +647,7 @@ export default {
             }
             if (
                 !window.confirm(
-                    this.$i18n.tc('Are you sure you want to delete # items?', this.selectedItems.length, {
+                    this.$t('Are you sure you want to delete # items?', this.selectedItems.length, {
                         count: this.selectedItems.length,
                     }),
                 )
@@ -668,7 +665,7 @@ export default {
                     }
                     return response;
                 } catch (error) {
-                    alertify.error(this.$i18n.tc(error.message) || this.$i18n.t('Sorry, an error occurred.'));
+                    alertify.error(this.$t(error.message) || this.$t('Sorry, an error occurred.'));
                 }
             });
 
@@ -676,7 +673,7 @@ export default {
             let successes = responses.filter((response) => response && response.ok);
             if (successes.length > 0) {
                 alertify.success(
-                    this.$i18n.tc('# files deleted.', successes.length, {
+                    this.$t('# files deleted.', successes.length, {
                         count: successes.length,
                     }),
                 );

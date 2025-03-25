@@ -75,7 +75,7 @@ export default {
         },
     },
     mounted() {
-        this.$root.$on('fileAdded', (file) => {
+        this.emitter.on('fileAdded', (file) => {
             if (this.choosingFile === true) {
                 this.file = file;
             }
@@ -101,7 +101,7 @@ export default {
                 overlay: true,
                 single: true,
             };
-            this.$root.$emit('openFilepicker', options);
+            this.emitter.emit('openFilepicker', options);
         },
     },
 };

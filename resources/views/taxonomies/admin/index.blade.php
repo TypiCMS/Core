@@ -4,11 +4,11 @@
 
 @section('content')
     <item-list url-base="/api/taxonomies" fields="id,title,name,validation_rule,position,result_string,modules" table="taxonomies" title="taxonomies" :publishable="false" :exportable="false" :searchable="['title,name,validation_rule,result_string']" :sorting="['position']">
-        <template slot="add-button" v-if="$can('create taxonomies')">
+        <template #add-button v-if="$can('create taxonomies')">
             @include('core::admin._button-create', ['module' => 'taxonomies'])
         </template>
 
-        <template slot="columns" slot-scope="{ sortArray }">
+        <template #columns="{ sortArray }">
             <item-list-column-header name="checkbox" v-if="$can('update taxonomies')||$can('delete taxonomies')"></item-list-column-header>
             <item-list-column-header name="edit" v-if="$can('update taxonomies')"></item-list-column-header>
             <item-list-column-header name="edit" v-if="$can('update terms')"></item-list-column-header>
@@ -20,7 +20,7 @@
             <item-list-column-header name="modules" :label="$t('Modules')"></item-list-column-header>
         </template>
 
-        <template slot="table-row" slot-scope="{ model, checkedModels, loading }">
+        <template #table-row="{ model, checkedModels, loading }">
             <td class="checkbox" v-if="$can('update taxonomies')||$can('delete taxonomies')">
                 <item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox>
             </td>

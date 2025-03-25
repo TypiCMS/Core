@@ -18,7 +18,7 @@
                 <tbody>
                     <tr v-for="model in filteredItems">
                         <td>
-                            <small class="text-muted text-nowrap">{{ model.created_at | datetime }}</small>
+                            <small class="text-muted text-nowrap">{{ formatDateTime(model.created_at) }}</small>
                         </td>
                         <td>
                             <a v-if="model.href" :href="model.href + '?locale=' + model.locale">{{ model.title }}</a>
@@ -117,7 +117,9 @@ export default {
         };
     },
     mounted() {
-        this.$on('sort', this.sort);
+        this.emitter.on('sort', (object) => {
+            this.sort(object);
+        });
     },
     computed: {
         searchQuery() {
@@ -164,7 +166,7 @@ export default {
                 this.data = await response.json();
                 this.loading = false;
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('An error occurred with the data fetch.'));
+                alertify.error(error.message || this.$t('An error occurred with the data fetch.'));
             }
         },
         onSearchStringChanged() {
@@ -183,7 +185,7 @@ export default {
             this.fetchData();
         },
         async clearHistory() {
-            if (!window.confirm(this.$i18n.t('Do you want to clear history?'))) {
+            if (!window.confirm(this.$t('Do you want to clear history?'))) {
                 return false;
             }
             this.loading = true;
@@ -195,7 +197,7 @@ export default {
                 this.data.data = [];
                 this.loading = false;
             } catch (error) {
-                alertify.error(this.$i18n.tc(error.message) || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(this.$t(error.message) || this.$t('Sorry, an error occurred.'));
             }
         },
         sort(object) {

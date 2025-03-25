@@ -28,8 +28,8 @@
             </div>
         </div>
         <div class="item-list-content content">
-            <sl-vue-tree ref="slVueTree" v-model="models" :allowMultiselect="false" @drop="drop" @toggle="toggle">
-                <template slot="title" slot-scope="{ node }">
+            <sl-vue-tree-next ref="slVueTree" v-model="models" :allowMultiselect="false" @drop="drop" @toggle="toggle">
+                <template #title="{ node }">
                     <button v-if="$can('delete ' + table)" class="btn btn-xs btn-link" type="button" @click="deleteFromNested(node)">
                         <i class="bi bi-x-lg fs-6 text-danger"></i>
                     </button>
@@ -52,24 +52,25 @@
                     </a>
                 </template>
 
-                <template slot="toggle" slot-scope="{ node }">
+                <template #toggle="{ node }">
                     <small v-if="node.children.length > 0 && node.isExpanded" class="bi bi-caret-down-fill"></small>
                     <small v-if="node.children.length > 0 && !node.isExpanded" class="bi bi-caret-right-fill"></small>
+                    <small v-else />
                 </template>
-            </sl-vue-tree>
+            </sl-vue-tree-next>
         </div>
     </div>
 </template>
 
 <script>
-import SlVueTree from 'sl-vue-tree';
+import { SlVueTreeNext } from 'sl-vue-tree-next';
 import ItemListSelector from './ItemListSelector.vue';
 import ItemListActions from './ItemListActions.vue';
 import fetcher from '../admin/fetcher';
 
 export default {
     components: {
-        SlVueTree,
+        SlVueTreeNext,
         ItemListSelector,
         ItemListActions,
     },
@@ -136,7 +137,7 @@ export default {
                 this.models = await response.json();
                 this.stopLoading();
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('An error occurred with the data fetch.'));
+                alertify.error(error.message || this.$t('An error occurred with the data fetch.'));
             }
         },
         startLoading() {
@@ -168,7 +169,7 @@ export default {
             let title = model.title_translated;
             if (
                 !window.confirm(
-                    this.$i18n.t('Are you sure you want to delete “{title}”?', {
+                    this.$t('Are you sure you want to delete “{title}”?', {
                         title,
                     }),
                 )
@@ -184,10 +185,10 @@ export default {
                     throw new Error(responseData.message);
                 }
                 this.$refs.slVueTree.remove([node.path]);
-                alertify.success(this.$i18n.t('Item successfully deleted.'));
+                alertify.success(this.$t('Item successfully deleted.'));
             } catch (error) {
                 console.log(error);
-                alertify.error(this.$i18n.t(error.message) || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(this.$t(error.message) || this.$t('Sorry, an error occurred.'));
             }
         },
 
@@ -234,7 +235,7 @@ export default {
                     throw new Error(responseData.message);
                 }
             } catch (error) {
-                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.message || this.$t('Sorry, an error occurred.'));
             }
         },
         async toggle(node) {
@@ -280,10 +281,10 @@ export default {
                     const responseData = await response.json();
                     throw new Error(responseData.message);
                 }
-                alertify.success(this.$i18n.t('Item is ' + label + '.'));
+                alertify.success(this.$t('Item is ' + label + '.'));
             } catch (error) {
                 this.$refs.slVueTree.updateNode(node.path, originalNode);
-                alertify.error(error.message || this.$i18n.t('Sorry, an error occurred.'));
+                alertify.error(error.message || this.$t('Sorry, an error occurred.'));
             }
         },
     },

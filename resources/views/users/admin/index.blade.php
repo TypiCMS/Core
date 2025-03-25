@@ -4,11 +4,11 @@
 
 @section('content')
     <item-list url-base="/api/users" fields="id,first_name,last_name,email,activated,superuser,roles.name" table="users" title="users" include="roles" :translatable="false" :publishable="false" :exportable="true" :searchable="['first_name,last_name,email']" :sorting="['first_name']">
-        <template slot="add-button" v-if="$can('create users')">
+        <template #add-button v-if="$can('create users')">
             @include('core::admin._button-create', ['module' => 'users'])
         </template>
 
-        <template slot="columns" slot-scope="{ sortArray }">
+        <template #columns="{ sortArray }">
             <item-list-column-header name="checkbox" v-if="$can('update users')||$can('delete users')"></item-list-column-header>
             <item-list-column-header name="edit" v-if="$can('update users')"></item-list-column-header>
             <item-list-column-header name="impersonate" v-if="$can('impersonate users')"></item-list-column-header>
@@ -19,7 +19,7 @@
             <item-list-column-header name="role_names" :label="$t('Roles')"></item-list-column-header>
         </template>
 
-        <template slot="table-row" slot-scope="{ model, checkedModels, loading }">
+        <template #table-row="{ model, checkedModels, loading }">
             <td class="checkbox" v-if="$can('update users')||$can('delete users')">
                 <item-list-checkbox :model="model" :checked-models-prop="checkedModels" :loading="loading"></item-list-checkbox>
             </td>

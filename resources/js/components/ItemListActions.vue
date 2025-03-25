@@ -27,7 +27,7 @@
             <div class="divider" role="separator"></div>
             <button class="dropdown-item" disabled type="button">
                 <small>{{
-                    $tc('# items selected', numberOfCheckedModels, {
+                    $t('# items selected', numberOfCheckedModels, {
                         count: numberOfCheckedModels,
                     })
                 }}</small>

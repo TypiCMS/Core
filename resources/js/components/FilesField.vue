@@ -11,26 +11,28 @@
             </p>
         </div>
 
-        <draggable v-model="files" class="filemanager-list" group="files" @end="drag = false" @start="drag = true">
-            <div v-for="file in files" :id="'item_' + file.id" :key="file.id" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
-                <div class="filemanager-item-wrapper">
-                    <button class="filemanager-item-removable-button" type="button" @click="remove(file)">
-                        <i class="bi bi-x fs-5"></i>
-                    </button>
-                    <div v-if="file.type === 'i'" class="filemanager-item-icon">
-                        <div class="filemanager-item-image-wrapper">
-                            <img :alt="file.alt_attribute[contentLocale]" :src="file.thumb_sm" class="filemanager-item-image" />
+        <draggable v-model="files" class="filemanager-list" group="files" @start="drag = true" @end="drag = false" item-key="id">
+            <template #item="{ element }">
+                <div class="filemanager-item filemanager-item-with-name filemanager-item-removable">
+                    <div class="filemanager-item-wrapper">
+                        <button class="filemanager-item-removable-button" type="button" @click="remove(file)">
+                            <i class="bi bi-x fs-5"></i>
+                        </button>
+                        <div v-if="element.type === 'i'" class="filemanager-item-icon">
+                            <div class="filemanager-item-image-wrapper">
+                                <img :alt="element.alt_attribute[contentLocale]" :src="element.thumb_sm" class="filemanager-item-image" />
+                            </div>
                         </div>
+                        <div v-else :class="'filemanager-item-icon-' + element.type" class="filemanager-item-icon">
+                            <i v-if="element.type === 'a'" class="bi bi-file-earmark-music"></i>
+                            <i v-if="element.type === 'v'" class="bi bi-file-earmark-play"></i>
+                            <i v-if="element.type === 'd'" class="bi bi-file-earmark"></i>
+                            <i v-if="element.type === 'f'" class="bi bi-folder"></i>
+                        </div>
+                        <div class="filemanager-item-name">{{ element.name }}</div>
                     </div>
-                    <div v-else :class="'filemanager-item-icon-' + file.type" class="filemanager-item-icon">
-                        <i v-if="file.type === 'a'" class="bi bi-file-earmark-music"></i>
-                        <i v-if="file.type === 'v'" class="bi bi-file-earmark-play"></i>
-                        <i v-if="file.type === 'd'" class="bi bi-file-earmark"></i>
-                        <i v-if="file.type === 'f'" class="bi bi-folder"></i>
-                    </div>
-                    <div class="filemanager-item-name">{{ file.name }}</div>
                 </div>
-            </div>
+            </template>
         </draggable>
     </div>
 </template>
@@ -59,7 +61,7 @@ export default {
         };
     },
     mounted() {
-        this.$root.$on('filesAdded', (files) => {
+        this.emitter.on('filesAdded', (files) => {
             for (let i = files.length - 1; i >= 0; i--) {
                 if (this.files.find(({ id }) => id === files[i].id) === undefined) {
                     this.files.push(files[i]);
@@ -86,7 +88,7 @@ export default {
                 overlay: true,
                 single: false,
             };
-            this.$root.$emit('openFilepicker', options);
+            this.emitter.emit('openFilepicker', options);
         },
         remove(file) {
             let index = this.files.indexOf(file);
