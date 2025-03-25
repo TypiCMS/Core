@@ -361,7 +361,7 @@ export default {
         allChecked() {
             return this.filteredItems.length > 0 && this.filteredItems.length === this.selectedItems.length;
         },
-        numberOfselectedItems() {
+        numberOfSelectedItems() {
             return this.selectedItems.length;
         },
         selectedFiles() {
