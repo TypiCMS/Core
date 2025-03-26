@@ -36,20 +36,6 @@
     background-color: $gray-400;
     height: 3px;
     width: 100%;
-    z-index: 9999;
-    &:after {
-        position: absolute;
-        content: ' ';
-        display: block;
-        border: 8px solid $gray-400;
-        left: 0;
-        top: -7px;
-        width: 0;
-        height: 0;
-        border-top-color: transparent;
-        border-right-color: transparent;
-        border-bottom-color: transparent;
-    }
 }
 
 .sl-vue-tree-next-gap {
