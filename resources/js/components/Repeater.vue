@@ -3,38 +3,40 @@
         <input v-if="items.length === 0" :name="name" type="hidden" />
         <label class="form-label">{{ $t(title) }}</label>
 
-        <draggable v-if="items.length > 0" v-model="items" :group="'items_' + name" class="d-flex flex-column gap-3 mb-3" handle=".handle" @change="errors = []">
-            <div v-for="(item, index) in items" :key="index" class="d-flex gap-2 card item">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <i class="bi bi-arrows-move handle"></i>
-                    <button class="btn btn-danger btn-sm" @click.prevent="remove(item)">{{ $t('Delete') }}</button>
-                </div>
-                <div class="card-body d-flex flex-row gap-2 justify-content-between flex-wrap">
-                    <div v-for="field in fields" :class="[{ 'flex-grow-1': field.type !== 'hidden' }, field.class]">
-                        <template v-if="field.translatable">
+        <draggable v-if="items.length > 0" v-model="items" :group="'items_' + name" class="d-flex flex-column gap-3 mb-3" handle=".handle" @change="errors = []" item-key="index">
+            <template #item="{ element, index }">
+                <div class="d-flex gap-2 card item">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <i class="bi bi-arrows-move handle"></i>
+                        <button class="btn btn-danger btn-sm" @click.prevent="remove(element)">{{ $t('Delete') }}</button>
+                    </div>
+                    <div class="card-body d-flex flex-row gap-2 justify-content-between flex-wrap">
+                        <div v-for="field in fields" :class="[{ 'flex-grow-1': field.type !== 'hidden' }, field.class]">
+                            <template v-if="field.translatable">
+                                <repeater-field
+                                    v-for="locale in locales"
+                                    :key="'item_' + name + '_' + index + '_' + field.name + '_' + locale.short"
+                                    v-model="element[field.name][locale.short]"
+                                    :errors="getError(index, field.name, locale.short)"
+                                    :field="field"
+                                    :field-name="name"
+                                    :index="index"
+                                    :locale="locale.short"
+                                ></repeater-field>
+                            </template>
                             <repeater-field
-                                v-for="locale in locales"
-                                :key="'item_' + name + '_' + index + '_' + field.name + '_' + locale.short"
-                                v-model="item[field.name][locale.short]"
-                                :errors="getError(index, field.name, locale.short)"
+                                v-else
+                                :key="'item_' + name + '_' + index + '_' + field.name"
+                                v-model="element[field.name]"
+                                :errors="getError(index, field.name, null)"
                                 :field="field"
                                 :field-name="name"
                                 :index="index"
-                                :locale="locale.short"
                             ></repeater-field>
-                        </template>
-                        <repeater-field
-                            v-else
-                            :key="'item_' + name + '_' + index + '_' + field.name"
-                            v-model="item[field.name]"
-                            :errors="getError(index, field.name, null)"
-                            :field="field"
-                            :field-name="name"
-                            :index="index"
-                        ></repeater-field>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </template>
         </draggable>
         <div>
             <button :disabled="maxItems !== null && items.length >= maxItems" class="btn btn-secondary btn-sm" @click.prevent="add">

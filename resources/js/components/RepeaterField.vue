@@ -1,6 +1,6 @@
 <template>
     <div>
-        <input v-if="type === 'hidden'" :id="fieldId" :name="fieldNameComplete" :type="type" :value="value" />
+        <input v-if="type === 'hidden'" :id="fieldId" :name="fieldNameComplete" :type="type" :value="modelValue" />
         <div
             v-if="['text', 'url', 'tel', 'email', 'date', 'month', 'week', 'time', 'datetime-local', 'number', 'range', 'color'].includes(type)"
             :class="{ 'form-group-translation': locale !== null }"
@@ -18,7 +18,7 @@
                 :required="required"
                 :step="step"
                 :type="type"
-                :value="value"
+                :value="modelValue"
                 :readonly="readonly"
                 :disabled="disabled"
                 class="form-control"
@@ -36,7 +36,7 @@
                 :placeholder="placeholder"
                 :required="required"
                 :rows="rows"
-                :value="value"
+                :value="modelValue"
                 :readonly="readonly"
                 :disabled="disabled"
                 class="form-control"
@@ -52,7 +52,7 @@
                 :data-language="locale"
                 :name="fieldNameComplete"
                 :required="required"
-                :value="value"
+                :value="modelValue"
                 :disabled="disabled"
                 class="form-select"
                 @change="$emit('input', $event.target.value)"
@@ -68,7 +68,7 @@
                 <input :name="fieldNameComplete" type="hidden" value="0" />
                 <input
                     :id="fieldId"
-                    :checked="+value === 1"
+                    :checked="+modelValue === 1"
                     :class="{ 'is-invalid': errors.length > 0 }"
                     :data-language="locale"
                     :name="fieldNameComplete"
@@ -89,7 +89,7 @@
                 <label :for="fieldId + '_' + radioButtonValue" class="form-check-label">{{ $t(label) }}</label>
                 <input
                     :id="fieldId + '_' + radioButtonValue"
-                    :checked="value === radioButtonValue"
+                    :checked="modelValue === radioButtonValue"
                     :class="{ 'is-invalid': errors.length > 0 }"
                     :data-language="locale"
                     :name="fieldNameComplete"
@@ -105,36 +105,36 @@
         </div>
         <div v-if="['image', 'document'].includes(type)" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
             <p class="form-label">{{ fieldLabel }}</p>
-            <input v-if="value === null" :name="fieldNameComplete" :value="null" type="hidden" />
-            <input v-if="value !== null" :name="fieldNameComplete + '[id]'" :value="value.id" type="hidden" />
-            <input v-if="value !== null" :name="fieldNameComplete + '[path]'" :value="value.path" type="hidden" />
-            <input v-if="value !== null" :name="fieldNameComplete + '[extension]'" :value="value.extension" type="hidden" />
-            <input v-if="value !== null" :name="fieldNameComplete + '[width]'" :value="value.width" type="hidden" />
-            <input v-if="value !== null" :name="fieldNameComplete + '[height]'" :value="value.height" type="hidden" />
-            <input v-if="value !== null" :name="fieldNameComplete + '[type]'" :value="value.type" type="hidden" />
-            <input v-if="value !== null" :name="fieldNameComplete + '[name]'" :value="value.name" type="hidden" />
-            <input v-if="value !== null" :name="fieldNameComplete + '[thumb_sm]'" :value="value.thumb_sm" type="hidden" />
+            <input v-if="modelValue === null" :name="fieldNameComplete" :value="null" type="hidden" />
+            <input v-if="modelValue !== null" :name="fieldNameComplete + '[id]'" :value="modelValue.id" type="hidden" />
+            <input v-if="modelValue !== null" :name="fieldNameComplete + '[path]'" :value="modelValue.path" type="hidden" />
+            <input v-if="modelValue !== null" :name="fieldNameComplete + '[extension]'" :value="modelValue.extension" type="hidden" />
+            <input v-if="modelValue !== null" :name="fieldNameComplete + '[width]'" :value="modelValue.width" type="hidden" />
+            <input v-if="modelValue !== null" :name="fieldNameComplete + '[height]'" :value="modelValue.height" type="hidden" />
+            <input v-if="modelValue !== null" :name="fieldNameComplete + '[type]'" :value="modelValue.type" type="hidden" />
+            <input v-if="modelValue !== null" :name="fieldNameComplete + '[name]'" :value="modelValue.name" type="hidden" />
+            <input v-if="modelValue !== null" :name="fieldNameComplete + '[thumb_sm]'" :value="modelValue.thumb_sm" type="hidden" />
             <div :data-language="locale">
-                <div v-if="value !== null" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
+                <div v-if="modelValue !== null" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
                     <div class="filemanager-item-wrapper">
                         <button class="filemanager-item-removable-button" type="button" @click="remove">
                             <i class="bi bi-x fs-5"></i>
                         </button>
-                        <div v-if="value.type === 'i'" class="filemanager-item-icon">
+                        <div v-if="modelValue.type === 'i'" class="filemanager-item-icon">
                             <div class="filemanager-item-image-wrapper">
-                                <img :alt="value.alt" :src="value.thumb_sm" class="filemanager-item-image" />
+                                <img :alt="modelValue.alt" :src="modelValue.thumb_sm" class="filemanager-item-image" />
                             </div>
                         </div>
-                        <div v-else :class="'filemanager-item-icon-' + value.type" class="filemanager-item-icon">
-                            <i v-if="value.type === 'a'" class="bi bi-file-earmark-music"></i>
-                            <i v-if="value.type === 'v'" class="bi bi-file-earmark-play"></i>
-                            <i v-if="value.type === 'd'" class="bi bi-file-earmark"></i>
-                            <i v-if="value.type === 'f'" class="bi bi-folder"></i>
+                        <div v-else :class="'filemanager-item-icon-' + modelValue.type" class="filemanager-item-icon">
+                            <i v-if="modelValue.type === 'a'" class="bi bi-file-earmark-music"></i>
+                            <i v-if="modelValue.type === 'v'" class="bi bi-file-earmark-play"></i>
+                            <i v-if="modelValue.type === 'd'" class="bi bi-file-earmark"></i>
+                            <i v-if="modelValue.type === 'f'" class="bi bi-folder"></i>
                         </div>
-                        <div class="filemanager-item-name">{{ value.name }}</div>
+                        <div class="filemanager-item-name">{{ modelValue.name }}</div>
                     </div>
                 </div>
-                <div v-if="value === null" class="mb-3">
+                <div v-if="modelValue === null" class="mb-3">
                     <button class="filemanager-field-btn-add" type="button" @click="openFilepicker" :disabled="disabled">
                         <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
                         {{ $t('Add') }}
@@ -162,7 +162,7 @@ export default {
         index: {
             type: Number,
         },
-        value: {
+        modelValue: {
             required: true,
         },
         locale: {
