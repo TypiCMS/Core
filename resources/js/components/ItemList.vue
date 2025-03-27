@@ -302,9 +302,6 @@ export default {
         },
     },
     methods: {
-        alert(value) {
-            alert('coucou');
-        },
         async fetchData() {
             this.startLoading();
             try {
