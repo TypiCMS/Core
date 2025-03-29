@@ -10,6 +10,7 @@
     "# files moved.": "No files moved.|1 file moved.|{count} files moved.",
     "# files uploaded.": "No files uploaded.|1 file uploaded.|{count} files uploaded.",
     "# items deleted": "1 item deleted|{count} items deleted",
+    "# items duplicated": "1 item duplicated|{count} items duplicated",
     "# items published": "1 item published|{count} items published",
     "# items selected": "No items selected|1 item selected|{count} items selected",
     "# items unpublished": "1 item unpublished|{count} items unpublished",
