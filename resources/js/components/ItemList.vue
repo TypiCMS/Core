@@ -79,7 +79,7 @@
 
         <div class="item-list-content content">
             <div v-if="filteredItems.length" class="table-responsive">
-                <table class="table item-list-table">
+                <table class="item-list-table table">
                     <thead>
                         <tr>
                             <slot name="columns" :sort-array="sortArray"></slot>
@@ -99,12 +99,12 @@
 </template>
 
 <script>
-import ItemListSelector from './ItemListSelector.vue';
-import ItemListActions from './ItemListActions.vue';
-import ItemListPerPage from './ItemListPerPage.vue';
-import ItemListStatusButton from './ItemListStatusButton.vue';
-import ItemListPagination from './ItemListPagination.vue';
 import fetcher from '../admin/fetcher';
+import ItemListActions from './ItemListActions.vue';
+import ItemListPagination from './ItemListPagination.vue';
+import ItemListPerPage from './ItemListPerPage.vue';
+import ItemListSelector from './ItemListSelector.vue';
+import ItemListStatusButton from './ItemListStatusButton.vue';
 
 export default {
     components: {
@@ -408,29 +408,26 @@ export default {
             }
 
             this.startLoading();
-            const deletePromises = this.checkedItems.map(async (model) => {
-                try {
-                    const response = await fetcher(this.urlBase + '/' + model.id, { method: 'DELETE' });
-                    if (!response.ok) {
-                        const responseData = await response.json();
-                        throw new Error(responseData.message);
-                    }
-                } catch (error) {
-                    alertify.error(this.$t(error.message) || this.$t('Sorry, an error occurred.'));
+
+            await Promise.all(
+                this.checkedItems.map((model) => {
+                    return fetcher(this.urlBase + '/' + model.id, { method: 'DELETE' }).then((response) => response);
+                }),
+            ).then((responses) => {
+                const successes = responses.filter((response) => response && response.status === 200);
+                if (successes.length > 0) {
+                    alertify.success(
+                        this.$t('# items deleted', successes.length, {
+                            count: successes.length,
+                        }),
+                    );
+                }
+                if (successes.length < this.checkedItems.length) {
+                    alertify.error(this.$t('Some items could not be deleted.'));
                 }
             });
 
-            const responses = await Promise.all(deletePromises);
-            let successes = responses.filter((response) => response && response.status === 200);
-            if (successes.length > 0) {
-                alertify.success(
-                    this.$t('# items deleted', successes.length, {
-                        count: successes.length,
-                    }),
-                );
-            }
             this.checkNone();
-            this.stopLoading();
             await this.fetchData();
         },
         publish() {
@@ -471,38 +468,35 @@ export default {
                 data.status = status;
             }
 
-            this.startLoading();
-
-            const updatePromises = this.checkedItems.map(async (model) => {
-                try {
-                    const response = await fetcher(this.urlBase + '/' + model.id, {
-                        method: 'PATCH',
-                        body: JSON.stringify(data),
-                    });
-                    if (!response.ok) {
-                        const responseData = await response.json();
-                        throw new Error(responseData.message);
-                    }
-                } catch (error) {
-                    alertify.error(error.message || this.$t('Sorry, an error occurred.'));
-                }
-            });
-
-            const responses = await Promise.all(updatePromises);
-            let successes = responses.filter((response) => response && response.status === 200);
-            if (successes.length > 0) {
-                alertify.success(
-                    this.$t('# items ' + label, successes.length, {
-                        count: successes.length,
-                    }),
-                );
-            }
             for (let i = this.checkedItems.length - 1; i >= 0; i--) {
                 let index = this.data.data.indexOf(this.checkedItems[i]);
                 this.data.data[index][statusVar] = status;
             }
+            this.startLoading();
+
+            await Promise.all(
+                this.checkedItems.map((model) => {
+                    return fetcher(this.urlBase + '/' + model.id, {
+                        method: 'PATCH',
+                        body: JSON.stringify(data),
+                    }).then((response) => response);
+                }),
+            ).then((responses) => {
+                const successes = responses.filter((response) => response && response.status === 200);
+                if (successes.length > 0) {
+                    alertify.success(
+                        this.$t('# items ' + label, successes.length, {
+                            count: successes.length,
+                        }),
+                    );
+                }
+                if (successes.length < this.checkedItems.length) {
+                    alertify.error(this.$t('Some items could not be updated.'));
+                }
+            });
+
             this.checkNone();
-            this.stopLoading();
+            await this.fetchData();
         },
         async toggleStatus(model) {
             let translatable = typeof model.status_translated !== 'undefined' ? this.translatable : false,

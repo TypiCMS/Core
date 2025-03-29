@@ -378,6 +378,8 @@
     "Slides": "Slides",
     "slides": "slide|slides",
     "Slug": "Slug",
+    "Some items could not be deleted.": "No se han podido eliminar algunos elementos.",
+    "Some items could not be updated.": "Algunos elementos no han podido modificarse.",
     "Sorry, an error occurred.": "Disculpe, ocurrió un error.",
     "Sorry, the page you are looking for could not be found.": "Lo sentimos, la página que está buscando no se pudo encontrar.",
     "Sorry, we are doing some maintenance. Please check back soon.": "Lo sentimos, estamos haciendo un poco de mantenimiento. Por favor, vuelva pronto.",
