@@ -57,6 +57,7 @@
     "and get access to all the content of our website.": "en toegang tot alle inhoud van onze site.",
     "Are you sure you want to delete # items?": "Wilt u {count} item verwijderen?|Wilt u {count} item verwijderen?",
     "Are you sure you want to delete “{title}”?": "Weet je zeker dat je “{title}” wilt verwijderen?",
+    "Are you sure you want to duplicate # items?": "Wilt u {count} item dupliceren?|Wilt u {count} item dupliceren?",
     "Are you sure you want to publish # items?": "Wilt u 1 item publiceren?|Wilt u {count} items publiceren?",
     "Are you sure you want to unpublish # items?": "Wilt u 1 item ongepubliceerd laten staan?|Wilt u {count} items ongepubliceerd laten staan?",
     "Authenticate to view website": "Inloggen om de site te bekijken",

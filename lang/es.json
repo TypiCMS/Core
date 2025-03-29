@@ -57,6 +57,7 @@
     "and get access to all the content of our website.": "y acceder a todo el contenido de nuestro sitio web.",
     "Are you sure you want to delete # items?": "¿Seguro que quieres eliminar {count} elemento?|¿Seguro que quieres eliminar {count} elementos?",
     "Are you sure you want to delete “{title}”?": "¿Estás seguro de que quieres eliminar «{title}»?",
+    "Are you sure you want to duplicate # items?": "¿Seguro que quieres duplicar {count} elemento?|¿Seguro que quieres duplicar {count} elementos?",
     "Are you sure you want to publish # items?": "¿Seguro que quieres publicar 1 elemento?|¿Seguro que quieres publicar {count} elementos?",
     "Are you sure you want to unpublish # items?": "¿Seguro que quieres anular la publicación de 1 elemento?|¿Seguro que quieres anular la publicación de {count} elementos?",
     "Authenticate to view website": "Autenticarse para ver la web",
