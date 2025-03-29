@@ -2,17 +2,17 @@
     <div :class="{ 'sub-list': subList }" class="item-list-tree">
         <div class="item-list-header header">
             <h1 v-if="!subList" class="item-list-title header-title">
-                {{ $t(title) }}
+                {{ t(title) }}
             </h1>
             <h2 v-else class="item-list-subtitle">
-                {{ $t(title) }}
+                {{ t(title) }}
             </h2>
             <div class="btn-toolbar item-list-toolbar header-toolbar">
                 <slot name="buttons"></slot>
                 <slot name="add-button"></slot>
                 <div class="d-flex align-items-center ms-2">
                     <div v-if="loading" class="spinner-border spinner-border-sm text-dark" role="status">
-                        <span class="visually-hidden">{{ $t('Loading…') }}</span>
+                        <span class="visually-hidden">{{ t('Loading…') }}</span>
                     </div>
                 </div>
                 <div v-if="translatable && locales.length > 1" class="btn-group btn-group-sm ms-auto">
@@ -34,8 +34,8 @@
                         <i class="bi bi-x-lg fs-6 text-danger"></i>
                     </button>
 
-                    <a v-if="$can('update ' + table)" :href="table + '/' + node.data.id + '/edit'" class="btn btn-light btn-xs ms-1 me-2">
-                        {{ $t('Edit') }}
+                    <a v-if="$can('update ' + table)" :href="table + '/' + node.data.id + '/edit'" class="btn btn-light btn-xs me-2 ms-1">
+                        {{ t('Edit') }}
                     </a>
 
                     <button class="btn-status me-2" type="button" @click="toggleStatus(node)">
@@ -47,8 +47,8 @@
                     <div class="title" v-html="translatable ? node.data.title_translated : node.data.title"></div>
                     <i v-if="node.data.redirect" class="bi bi-arrow-down-right-square text-secondary"></i>
 
-                    <a v-if="node.data.module" :href="'/admin/' + node.data.module" class="btn btn-xs btn-secondary py-0 px-1 fw-bold">
-                        {{ $t(node.data.module.charAt(0).toUpperCase() + node.data.module.slice(1)) }}
+                    <a v-if="node.data.module" :href="'/admin/' + node.data.module" class="btn btn-xs btn-secondary fw-bold px-1 py-0">
+                        {{ t(node.data.module.charAt(0).toUpperCase() + node.data.module.slice(1)) }}
                     </a>
                 </template>
 
@@ -62,231 +62,225 @@
     </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import alertify from 'alertify.js';
 import { SlVueTreeNext } from 'sl-vue-tree-next';
-import ItemListSelector from './ItemListSelector.vue';
-import ItemListActions from './ItemListActions.vue';
+import { computed, ref, useTemplateRef } from 'vue';
 import fetcher from '../admin/fetcher';
+import { useI18n } from 'vue-i18n';
 
-export default {
-    components: {
-        SlVueTreeNext,
-        ItemListSelector,
-        ItemListActions,
-    },
-    props: {
-        title: {
-            type: String,
-            required: true,
-        },
-        urlBase: {
-            type: String,
-            required: true,
-        },
-        table: {
-            type: String,
-            required: true,
-        },
-        fields: {
-            type: String,
-        },
-        translatable: {
-            type: Boolean,
-            default: true,
-        },
-        subList: {
-            type: Boolean,
-            default: false,
-        },
-    },
-    data() {
-        return {
-            loadingTimeout: null,
-            locales: window.TypiCMS.locales,
-            contentLocale: window.TypiCMS.locale,
-            loading: false,
-            models: [],
-        };
-    },
-    created() {
-        this.fetchData();
-    },
-    computed: {
-        url() {
-            let query = ['fields[' + this.table + ']=' + this.fields];
+const { t } = useI18n();
 
-            if (this.translatable) {
-                query.push('locale=' + this.contentLocale);
-            }
-
-            return this.urlBase + '?' + query.join('&');
-        },
-        filteredItems() {
-            return this.models;
-        },
+const props = defineProps({
+    title: {
+        type: String,
+        required: true,
     },
-    methods: {
-        async fetchData() {
-            this.startLoading();
-            try {
-                const response = await fetcher(this.url);
-                if (!response.ok) {
-                    const responseData = await response.json();
-                    throw new Error(responseData.message);
-                }
-                this.models = await response.json();
-                this.stopLoading();
-            } catch (error) {
-                alertify.error(error.message || this.$t('An error occurred with the data fetch.'));
-            }
-        },
-        startLoading() {
-            this.loadingTimeout = setTimeout(() => {
-                this.loading = true;
-            }, 300);
-        },
-        stopLoading() {
-            clearTimeout(this.loadingTimeout);
-            this.loading = false;
-        },
-        async switchLocale(locale) {
-            this.startLoading();
-            this.contentLocale = locale;
-            try {
-                const response = await fetcher('/admin/_locale/' + locale);
-                if (!response.ok) {
-                    const responseData = await response.json();
-                    throw new Error(responseData.message);
-                }
-                this.stopLoading();
-                await this.fetchData();
-            } catch (error) {
-                alertify.error(error.message);
-            }
-        },
-        async deleteFromNested(node) {
-            let model = node.data;
-            let title = model.title_translated;
-            if (
-                !window.confirm(
-                    this.$t('Are you sure you want to delete “{title}”?', {
-                        title,
-                    }),
-                )
-            ) {
-                return false;
-            }
-            try {
-                const response = await fetcher(this.urlBase + '/' + model.id, {
-                    method: 'DELETE',
-                });
-                if (!response.ok) {
-                    const responseData = await response.json();
-                    throw new Error(responseData.message);
-                }
-                this.$refs.slVueTree.remove([node.path]);
-                alertify.success(this.$t('Item successfully deleted.'));
-            } catch (error) {
-                console.log(error);
-                alertify.error(this.$t(error.message) || this.$t('Sorry, an error occurred.'));
-            }
-        },
+    urlBase: {
+        type: String,
+        required: true,
+    },
+    table: {
+        type: String,
+        required: true,
+    },
+    fields: {
+        type: String,
+    },
+    translatable: {
+        type: Boolean,
+        default: true,
+    },
+    subList: {
+        type: Boolean,
+        default: false,
+    },
+});
 
-        async drop(draggingNodes, position) {
-            let list = [];
-            let draggedNode = draggingNodes[0];
-            let parentId = position.node.data.parent_id;
-            if (position.placement === 'inside') {
-                parentId = position.node.data.id;
-            }
+const loadingTimeout = ref(null);
+const locales = ref(window.TypiCMS.locales);
+const contentLocale = ref(window.TypiCMS.locale);
+const loading = ref(false);
+const models = ref([]);
+const slVueTree = useTemplateRef('slVueTree');
 
-            this.$refs.slVueTree.traverse((node, nodeModel, path) => {
-                if (node.data.id === draggedNode.data.id) {
-                    node.data.parent_id = parentId;
-                }
-                if (parentId !== null) {
-                    if (node.data.id === parentId) {
-                        list = node.children.map((item) => {
-                            item.data.parent_id = parentId;
-                            if (node.data.private) {
-                                item.data.private = true;
-                            }
-                            return item.data;
-                        });
+const url = computed(() => {
+    const query = ['fields[' + props.table + ']=' + props.fields];
+
+    if (props.translatable) {
+        query.push('locale=' + contentLocale.value);
+    }
+
+    return props.urlBase + '?' + query.join('&');
+});
+
+fetchData();
+
+async function fetchData() {
+    startLoading();
+    try {
+        const response = await fetcher(url.value);
+        if (!response.ok) {
+            const responseData = await response.json();
+            throw new Error(responseData.message);
+        }
+        models.value = await response.json();
+        stopLoading();
+    } catch (error) {
+        alertify.error(error.message || t('An error occurred with the data fetch.'));
+    }
+}
+
+function startLoading() {
+    loadingTimeout.value = setTimeout(() => {
+        loading.value = true;
+    }, 300);
+}
+
+function stopLoading() {
+    clearTimeout(loadingTimeout.value);
+    loading.value = false;
+}
+
+async function switchLocale(locale) {
+    startLoading();
+    contentLocale.value = locale;
+    try {
+        const response = await fetcher('/admin/_locale/' + locale);
+        if (!response.ok) {
+            const responseData = await response.json();
+            throw new Error(responseData.message);
+        }
+        stopLoading();
+        await fetchData();
+    } catch (error) {
+        alertify.error(error.message);
+    }
+}
+
+async function deleteFromNested(node) {
+    const model = node.data;
+    const title = model.title_translated;
+    if (
+        !window.confirm(
+            t('Are you sure you want to delete “{title}”?', {
+                title,
+            }),
+        )
+    ) {
+        return false;
+    }
+    try {
+        const response = await fetcher(props.urlBase + '/' + model.id, {
+            method: 'DELETE',
+        });
+        if (!response.ok) {
+            const responseData = await response.json();
+            throw new Error(responseData.message);
+        }
+        slVueTree.value.remove([node.path]);
+        alertify.success(t('Item successfully deleted.'));
+    } catch (error) {
+        console.log(error);
+        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
+    }
+}
+
+async function drop(draggingNodes, position) {
+    let list = [];
+    const draggedNode = draggingNodes[0];
+    let parentId = position.node.data.parent_id;
+    if (position.placement === 'inside') {
+        parentId = position.node.data.id;
+    }
+
+    slVueTree.value.traverse((node) => {
+        if (node.data.id === draggedNode.data.id) {
+            node.data.parent_id = parentId;
+        }
+        if (parentId !== null) {
+            if (node.data.id === parentId) {
+                list = node.children.map((item) => {
+                    item.data.parent_id = parentId;
+                    if (node.data.private) {
+                        item.data.private = true;
                     }
-                } else {
-                    if (node.data.parent_id === null) {
-                        list.push(node.data);
-                    }
-                }
-            });
-
-            let data = {
-                moved: draggedNode.data.id,
-                item: list,
-            };
-            try {
-                const response = await fetcher(this.urlBase + '/sort', {
-                    method: 'POST',
-                    body: JSON.stringify(data),
+                    return item.data;
                 });
-                if (!response.ok) {
-                    const responseData = await response.json();
-                    throw new Error(responseData.message);
-                }
-            } catch (error) {
-                alertify.error(error.message || this.$t('Sorry, an error occurred.'));
             }
-        },
-        async toggle(node) {
-            let data = {};
-            data[this.title + '_' + node.data.id + '_collapsed'] = node.isExpanded;
-            try {
-                const response = await fetcher('/api/users/current/update-preferences', {
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                });
-                if (!response.ok) {
-                    const responseData = await response.json();
-                    throw new Error(responseData.message);
-                }
-            } catch (error) {
-                alertify.error("User preference couldn't be set.");
+        } else {
+            if (node.data.parent_id === null) {
+                list.push(node.data);
             }
-        },
-        async toggleStatus(node) {
-            let originalNode = JSON.parse(JSON.stringify(node)),
-                status = this.translatable ? parseInt(node.data.status_translated) : parseInt(node.data.status) || 0,
-                newStatus = Math.abs(status - 1),
-                data = {
-                    status: {},
-                },
-                label = newStatus === 1 ? 'published' : 'unpublished';
+        }
+    });
 
-            if (this.translatable) {
-                data.status[this.contentLocale] = newStatus;
-                node.data.status_translated = newStatus;
-            } else {
-                data.status = newStatus;
-                node.data.status = newStatus;
-            }
+    const data = {
+        moved: draggedNode.data.id,
+        item: list,
+    };
+    try {
+        const response = await fetcher(props.urlBase + '/sort', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+        if (!response.ok) {
+            const responseData = await response.json();
+            throw new Error(responseData.message);
+        }
+    } catch (error) {
+        alertify.error(error.message || t('Sorry, an error occurred.'));
+    }
+}
 
-            this.$refs.slVueTree.updateNode(node.path, node);
-            try {
-                const response = await fetcher(this.urlBase + '/' + node.data.id, {
-                    method: 'PATCH',
-                    body: JSON.stringify(data),
-                });
-                if (!response.ok) {
-                    const responseData = await response.json();
-                    throw new Error(responseData.message);
-                }
-                alertify.success(this.$t('Item is ' + label + '.'));
-            } catch (error) {
-                this.$refs.slVueTree.updateNode(node.path, originalNode);
-                alertify.error(error.message || this.$t('Sorry, an error occurred.'));
-            }
+async function toggle(node) {
+    const data = {};
+    data[props.title + '_' + node.data.id + '_collapsed'] = node.isExpanded;
+    try {
+        const response = await fetcher('/api/users/current/update-preferences', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+        if (!response.ok) {
+            const responseData = await response.json();
+            throw new Error(responseData.message);
+        }
+    } catch (error) {
+        alertify.error("User preference couldn't be set.");
+    }
+}
+
+async function toggleStatus(node) {
+    const originalNode = JSON.parse(JSON.stringify(node)),
+        status = props.translatable ? parseInt(node.data.status_translated) : parseInt(node.data.status) || 0,
+        newStatus = Math.abs(status - 1),
+        data = {
+            status: {},
         },
-    },
-};
+        label = newStatus === 1 ? 'published' : 'unpublished';
+
+    if (props.translatable) {
+        data.status[contentLocale.value] = newStatus;
+        node.data.status_translated = newStatus;
+    } else {
+        data.status = newStatus;
+        node.data.status = newStatus;
+    }
+
+    slVueTree.value.updateNode(node.path, node);
+    try {
+        const response = await fetcher(props.urlBase + '/' + node.data.id, {
+            method: 'PATCH',
+            body: JSON.stringify(data),
+        });
+        if (!response.ok) {
+            const responseData = await response.json();
+            throw new Error(responseData.message);
+        }
+        alertify.success(t('Item is ' + label + '.'));
+    } catch (error) {
+        slVueTree.value.updateNode(node.path, originalNode);
+        alertify.error(error.message || t('Sorry, an error occurred.'));
+    }
+}
 </script>
