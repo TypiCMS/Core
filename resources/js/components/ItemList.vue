@@ -496,6 +496,7 @@ export default {
                 }
             });
 
+            this.stopLoading();
             this.checkNone();
             await this.fetchData();
         },
