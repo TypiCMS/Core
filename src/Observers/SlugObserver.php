@@ -13,16 +13,13 @@ class SlugObserver
         $slugs = $model->getTranslations('slug');
 
         foreach ($titles as $locale => $title) {
-            $slug = $slugs[$locale] ?: Str::slug($title);
-
-            // slug = null if empty string
-            $model->setTranslation('slug', $locale, $slug ?: null);
+            $slug = $slugs[$locale] ?? Str::slug($title);
 
             if ($slug) {
                 $i = 0;
                 // Check slug is unique
                 while ($this->slugExists($model, $locale)) {
-                    ++$i;
+                    $i++;
                     // increment slug if exists
                     $model->setTranslation('slug', $locale, $slug . '-' . $i);
                 }
