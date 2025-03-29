@@ -21,6 +21,10 @@
                 <span class="text-muted">({{ locale }})</span>
             </button>
             <div v-if="publishable" class="dropdown-divider"></div>
+            <button v-if="duplicable" class="dropdown-item" type="button" @click="$emit('duplicate')">
+                {{ $t('Duplicate') }}
+            </button>
+            <div v-if="duplicable" class="dropdown-divider"></div>
             <button v-if="deletable" class="dropdown-item" type="button" @click="$emit('destroy')">
                 {{ $t('Delete') }}
             </button>
@@ -36,30 +40,31 @@
     </div>
 </template>
 
-<script>
-export default {
-    props: {
-        publishable: {
-            type: Boolean,
-            default: true,
-        },
-        deletable: {
-            type: Boolean,
-            default: true,
-        },
-        numberOfCheckedModels: {
-            type: Number,
-            required: true,
-        },
-        loading: {
-            type: Boolean,
-            required: true,
-        },
+<script setup lang="ts">
+import { ref } from 'vue';
+
+defineProps({
+    publishable: {
+        type: Boolean,
+        default: true,
     },
-    data() {
-        return {
-            locale: TypiCMS.content_locale,
-        };
+    deletable: {
+        type: Boolean,
+        default: true,
     },
-};
+    duplicable: {
+        type: Boolean,
+        default: false,
+    },
+    numberOfCheckedModels: {
+        type: Number,
+        required: true,
+    },
+    loading: {
+        type: Boolean,
+        required: true,
+    },
+});
+
+const locale = ref(TypiCMS.content_locale);
 </script>

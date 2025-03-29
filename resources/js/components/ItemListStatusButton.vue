@@ -4,22 +4,21 @@
     </button>
 </template>
 
-<script>
-export default {
-    props: {
-        model: {
-            type: Object,
-            required: true,
-        },
+<script setup lang="ts">
+import { computed } from 'vue';
+
+const props = defineProps({
+    model: {
+        type: Object,
+        required: true,
     },
-    computed: {
-        statusOn() {
-            if (typeof this.model.status_translated === 'undefined') {
-                return parseInt(this.model.status) === 1;
-            } else {
-                return this.model.status_translated === 1;
-            }
-        },
-    },
-};
+});
+
+const statusOn = computed(() => {
+    if (typeof props.model.status_translated === 'undefined') {
+        return parseInt(props.model.status) === 1;
+    } else {
+        return props.model.status_translated === 1;
+    }
+});
 </script>

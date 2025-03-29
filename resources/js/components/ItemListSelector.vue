@@ -37,25 +37,23 @@
         </div>
     </div>
 </template>
-<script>
-export default {
-    props: {
-        publishable: {
-            type: Boolean,
-            default: true,
-        },
-        filteredModels: {
-            type: Array,
-            required: true,
-        },
-        allChecked: {
-            type: Boolean,
-            required: true,
-        },
-        loading: {
-            type: Boolean,
-            required: true,
-        },
+<script setup lang="ts">
+defineProps({
+    publishable: {
+        type: Boolean,
+        default: true,
     },
-};
+    filteredModels: {
+        type: Array,
+        required: true,
+    },
+    allChecked: {
+        type: Boolean,
+        required: true,
+    },
+    loading: {
+        type: Boolean,
+        required: true,
+    },
+});
 </script>

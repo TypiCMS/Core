@@ -4,60 +4,59 @@
     </th>
 </template>
 
-<script>
-export default {
-    props: {
-        name: {
-            type: String,
-            required: true,
-        },
-        label: {
-            type: String,
-            default: '',
-        },
-        sortable: {
-            type: Boolean,
-            default: false,
-        },
-        sortArray: {
-            type: Array,
-            default: () => {
-                return [];
-            },
+<script setup lang="ts">
+import { computed } from 'vue';
+
+const props = defineProps({
+    name: {
+        type: String,
+        required: true,
+    },
+    label: {
+        type: String,
+        default: '',
+    },
+    sortable: {
+        type: Boolean,
+        default: false,
+    },
+    sortArray: {
+        type: Array,
+        default: () => {
+            return [];
         },
     },
-    computed: {
-        column() {
-            return this.name;
-        },
-        classes() {
-            let classes = [];
-            classes.push(this.name);
-            if (this.sortable) {
-                classes.push('th-sort');
-            }
-            if (this.sortArray.indexOf(this.column) !== -1) {
-                classes.push('th-sort-asc');
-            }
-            if (this.sortArray.indexOf('-' + this.column) !== -1) {
-                classes.push('th-sort-desc');
-            }
-            return classes.join(' ');
-        },
-    },
-    methods: {
-        sort() {
-            if (this.sortable) {
-                let sort = [this.column];
-                if (this.sortArray.indexOf(this.column) !== -1) {
-                    sort = ['-' + this.column];
-                }
-                if (this.sortArray.indexOf('-' + this.column) !== -1) {
-                    sort = [this.column];
-                }
-                this.emitter.emit('sort', sort);
-            }
-        },
-    },
-};
+});
+
+const column = computed(() => {
+    return props.name;
+});
+
+const classes = computed(() => {
+    const classes = [];
+    classes.push(props.name);
+    if (props.sortable) {
+        classes.push('th-sort');
+    }
+    if (props.sortArray.indexOf(column.value) !== -1) {
+        classes.push('th-sort-asc');
+    }
+    if (props.sortArray.indexOf('-' + column.value) !== -1) {
+        classes.push('th-sort-desc');
+    }
+    return classes.join(' ');
+});
+
+function sort() {
+    if (props.sortable) {
+        let sort = [column.value];
+        if (props.sortArray.indexOf(column.value) !== -1) {
+            sort = ['-' + column.value];
+        }
+        if (props.sortArray.indexOf('-' + column.value) !== -1) {
+            sort = [column.value];
+        }
+        emitter.emit('sort', sort);
+    }
+}
 </script>
