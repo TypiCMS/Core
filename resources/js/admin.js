@@ -16,9 +16,9 @@ import { createApp } from 'vue/dist/vue.esm-bundler';
  * i18n
  */
 import { createI18n } from 'vue-i18n';
-import fr from '../../lang/fr.json';
 import en from '../../lang/en.json';
 import es from '../../lang/es.json';
+import fr from '../../lang/fr.json';
 
 const messages = { fr, en, es };
 const i18n = new createI18n({
@@ -28,23 +28,16 @@ const i18n = new createI18n({
 });
 
 /**
- * Mixins
- */
-import Permissions from './mixins/Permissions.js';
-import Date from './mixins/Date.js';
-import DateTime from './mixins/Datetime.js';
-
-/**
  * Lists
  */
-import ItemListColumnHeader from './components/ItemListColumnHeader.vue';
 import ItemList from './components/ItemList.vue';
-import ItemListTree from './components/ItemListTree.vue';
-import ItemListStatusButton from './components/ItemListStatusButton.vue';
-import ItemListEditButton from './components/ItemListEditButton.vue';
-import ItemListShowButton from './components/ItemListShowButton.vue';
 import ItemListCheckbox from './components/ItemListCheckbox.vue';
+import ItemListColumnHeader from './components/ItemListColumnHeader.vue';
+import ItemListEditButton from './components/ItemListEditButton.vue';
 import ItemListPositionInput from './components/ItemListPositionInput.vue';
+import ItemListShowButton from './components/ItemListShowButton.vue';
+import ItemListStatusButton from './components/ItemListStatusButton.vue';
+import ItemListTree from './components/ItemListTree.vue';
 
 /**
  * History
@@ -54,8 +47,8 @@ import History from './components/History.vue';
 /**
  * Files
  */
-import FileManager from './components/FileManager.vue';
 import FileField from './components/FileField.vue';
+import FileManager from './components/FileManager.vue';
 import FilesField from './components/FilesField.vue';
 
 /**
@@ -66,24 +59,31 @@ import mitt from 'mitt';
 const emitter = mitt();
 window.emitter = emitter;
 
-const app = createApp();
-app.component('ItemListColumnHeader', ItemListColumnHeader);
-app.component('ItemList', ItemList);
-app.component('ItemListTree', ItemListTree);
-app.component('ItemListStatusButton', ItemListStatusButton);
-app.component('ItemListEditButton', ItemListEditButton);
-app.component('ItemListShowButton', ItemListShowButton);
-app.component('ItemListCheckbox', ItemListCheckbox);
-app.component('ItemListPositionInput', ItemListPositionInput);
-app.component('History', History);
-app.component('FileManager', FileManager);
-app.component('FileField', FileField);
-app.component('FilesField', FilesField);
-app.mixin(Permissions);
-app.mixin(DateTime);
-app.mixin(Date);
-app.use(i18n);
+/**
+ * Helpers
+ */
+import useHelpers from './composables/useHelpers.ts';
+const { formatDate, formatDateTime, $can } = useHelpers();
+
+const app = createApp()
+    .component('ItemListColumnHeader', ItemListColumnHeader)
+    .component('ItemList', ItemList)
+    .component('ItemListTree', ItemListTree)
+    .component('ItemListStatusButton', ItemListStatusButton)
+    .component('ItemListEditButton', ItemListEditButton)
+    .component('ItemListShowButton', ItemListShowButton)
+    .component('ItemListCheckbox', ItemListCheckbox)
+    .component('ItemListPositionInput', ItemListPositionInput)
+    .component('History', History)
+    .component('FileManager', FileManager)
+    .component('FileField', FileField)
+    .component('FilesField', FilesField)
+    .component('Repeater', Repeater)
+    .use(i18n);
 app.config.globalProperties.emitter = emitter;
+app.config.globalProperties.formatDate = formatDate;
+app.config.globalProperties.formatDateTime = formatDateTime;
+app.config.globalProperties.$can = $can;
 app.mount('#app');
 
 /**
