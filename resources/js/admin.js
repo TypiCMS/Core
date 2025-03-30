@@ -78,7 +78,6 @@ const app = createApp()
     .component('FileManager', FileManager)
     .component('FileField', FileField)
     .component('FilesField', FilesField)
-    .component('Repeater', Repeater)
     .use(i18n);
 app.config.globalProperties.emitter = emitter;
 app.config.globalProperties.formatDate = formatDate;
