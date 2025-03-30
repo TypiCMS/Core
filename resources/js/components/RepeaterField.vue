@@ -57,7 +57,7 @@
                 class="form-select"
                 @change="$emit('input', $event.target.value)"
             >
-                <option v-for="(label, value) in items" :value="value">{{ label }}</option>
+                <option v-for="(label, value) in items" :value="value" :key="value">{{ label }}</option>
             </select>
             <div v-if="errors.length > 0" class="invalid-feedback">{{ errors[0] }}</div>
         </div>
@@ -85,8 +85,8 @@
         <div v-if="type === 'radio'" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
             <p class="form-label">{{ fieldLabel }}</p>
             <input :name="fieldNameComplete" type="hidden" value="" />
-            <div v-for="(label, radioButtonValue) in items" class="form-check">
-                <label :for="fieldId + '_' + radioButtonValue" class="form-check-label">{{ $t(label) }}</label>
+            <div v-for="(label, radioButtonValue) in items" class="form-check" :key="radioButtonValue">
+                <label :for="fieldId + '_' + radioButtonValue" class="form-check-label">{{ t(label) }}</label>
                 <input
                     :id="fieldId + '_' + radioButtonValue"
                     :checked="modelValue === radioButtonValue"
@@ -135,9 +135,9 @@
                     </div>
                 </div>
                 <div v-if="modelValue === null" class="mb-3">
-                    <button class="filemanager-field-btn-add" type="button" @click="openFilepicker" :disabled="disabled">
+                    <button class="filemanager-field-btn-add" type="button" @click="openFilePicker" :disabled="disabled">
                         <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
-                        {{ $t('Add') }}
+                        {{ t('Add') }}
                     </button>
                 </div>
             </div>
@@ -145,99 +145,92 @@
     </div>
 </template>
 
-<script>
-import FileManager from './FileManager.vue';
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-export default {
-    components: { FileManager },
-    props: {
-        field: {
-            type: Object,
-            required: true,
-        },
-        fieldName: {
-            type: String,
-            required: true,
-        },
-        index: {
-            type: Number,
-        },
-        modelValue: {
-            required: true,
-        },
-        locale: {
-            type: String,
-            default: null,
-        },
-        errors: {
-            type: Array,
-            required: true,
-        },
+const { t } = useI18n();
+
+const props = defineProps({
+    field: {
+        type: Object,
+        required: true,
     },
-    data() {
-        return {
-            name: this.field.name,
-            title: this.field.title,
-            type: this.field.type,
-            rows: this.field.rows,
-            min: this.field.min,
-            max: this.field.max,
-            step: this.field.step,
-            items: this.field.items,
-            required: this.field.required,
-            disabled: this.field.disabled,
-            readonly: this.field.readonly,
-            placeholder: this.field.placeholder,
-            choosingFile: false,
-        };
+    fieldName: {
+        type: String,
+        required: true,
     },
-    computed: {
-        fieldNameComplete: function () {
-            let fieldName = this.fieldName + '[' + this.index + '][' + this.name + ']';
-            if (this.locale !== null) {
-                fieldName += '[' + this.locale + ']';
-            }
-            return fieldName;
-        },
-        fieldId: function () {
-            let id = this.fieldName + '_' + this.index + '_' + this.name;
-            if (this.locale !== null) {
-                id += '_' + this.locale;
-            }
-            return id;
-        },
-        fieldLabel: function () {
-            let label = this.$t(this.title);
-            if (this.locale !== null) {
-                label += ' (' + this.locale + ')';
-            }
-            return label;
-        },
+    index: {
+        type: Number,
     },
-    mounted() {
-        this.emitter.on('fileAdded', (file) => {
-            if (this.choosingFile === true) {
-                this.$emit('input', file);
-            }
-            this.choosingFile = false;
-        });
+    modelValue: {
+        required: true,
     },
-    methods: {
-        remove() {
-            this.$emit('input', null);
-        },
-        openFilepicker() {
-            this.choosingFile = true;
-            let options = {
-                modal: true,
-                modalIsInFront: true,
-                multiple: false,
-                open: true,
-                overlay: true,
-                single: true,
-            };
-            this.emitter.emit('openFilepicker', options);
-        },
+    locale: {
+        type: String,
+        default: null,
     },
-};
+    errors: {
+        type: Array,
+        required: true,
+    },
+});
+const name = ref(props.field.name);
+const title = ref(props.field.title);
+const type = ref(props.field.type);
+const rows = ref(props.field.rows);
+const min = ref(props.field.min);
+const max = ref(props.field.max);
+const step = ref(props.field.step);
+const items = ref(props.field.items);
+const required = ref(props.field.required);
+const disabled = ref(props.field.disabled);
+const readonly = ref(props.field.readonly);
+const placeholder = ref(props.field.placeholder);
+const choosingFile = ref(props);
+const fieldNameComplete = computed(() => {
+    let fieldName = props.fieldName + '[' + props.index + '][' + name.value + ']';
+    if (props.locale !== null) {
+        fieldName += '[' + props.locale + ']';
+    }
+    return fieldName;
+});
+const fieldId = computed(() => {
+    let id = props.fieldName + '_' + props.index + '_' + name.value;
+    if (props.locale !== null) {
+        id += '_' + props.locale;
+    }
+    return id;
+});
+const fieldLabel = computed(() => {
+    let label = t(title.value);
+    if (props.locale !== null) {
+        label += ' (' + props.locale + ')';
+    }
+    return label;
+});
+
+emitter.on('fileAdded', (file) => {
+    if (choosingFile.value === true) {
+        $emit('input', file);
+    }
+    choosingFile.value = false;
+});
+
+function remove() {
+    $emit('input', null);
+}
+
+function openFilePicker() {
+    choosingFile.value = true;
+    const options = {
+        modal: true,
+        modalIsInFront: true,
+        multiple: false,
+        open: true,
+        overlay: true,
+        single: true,
+    };
+    emitter.emit('openFilePicker', options);
+}
 </script>
