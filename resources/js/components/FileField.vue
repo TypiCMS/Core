@@ -1,14 +1,14 @@
 <template>
     <div>
         <p class="form-label mb-2">
-            <span v-if="label">{{ $t(label) }}</span>
+            <span v-if="label">{{ t(label) }}</span>
             <span v-else>
-                {{ type === 'document' ? $t('Document') : $t('Image') }}
+                {{ type === 'document' ? t('Document') : t('Image') }}
             </span>
         </p>
         <input :id="field" v-model="fileId" :name="field" :rel="field" type="hidden" />
         <div>
-            <div v-if="file !== null" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
+            <div v-if="file" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
                 <div class="filemanager-item-wrapper">
                     <button class="filemanager-item-removable-button" type="button" @click="remove">
                         <i class="bi bi-x fs-5"></i>
@@ -29,80 +29,81 @@
             </div>
         </div>
         <div v-if="file === null" class="mb-3">
-            <button class="filemanager-field-btn-add" type="button" @click="openFilepicker">
+            <button class="filemanager-field-btn-add" type="button" @click="openFilePicker">
                 <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
-                {{ $t('Add') }}
+                {{ t('Add') }}
             </button>
         </div>
     </div>
 </template>
 
-<script>
-export default {
-    props: {
-        field: {
-            type: String,
-            required: true,
-        },
-        label: {
-            type: String,
-        },
-        type: {
-            type: String,
-            required: true,
-            validator: function (value) {
-                // The value must match one of these strings
-                return ['image', 'document'].indexOf(value) !== -1;
-            },
-        },
-        initFile: {
-            type: Object,
-            default: null,
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
+const props = defineProps({
+    field: {
+        type: String,
+        required: true,
+    },
+    label: {
+        type: String,
+    },
+    type: {
+        type: String,
+        required: true,
+        validator(value) {
+            // The value must match one of these strings
+            return ['image', 'document'].indexOf(value) !== -1;
         },
     },
-    data() {
-        return {
-            file: this.initFile,
-            choosingFile: false,
-        };
+    initFile: {
+        type: Object,
+        default: null,
     },
-    computed: {
-        fileId() {
-            if (this.file !== null) {
-                return this.file.id;
-            }
-            return null;
-        },
+});
+
+const file = ref(props.initFile);
+const choosingFile = ref(false);
+
+const fileId = computed(() => {
+    if (file.value) {
+        return file.value.id;
+    }
+    return null;
+});
+
+emitter.on('fileAdded', (addedFile) => {
+    if (choosingFile.value === true) {
+        file.value = addedFile;
+    }
+    choosingFile.value = false;
+});
+
+watch(
+    file,
+    (newValue) => {
+        file.value = newValue;
     },
-    mounted() {
-        this.emitter.on('fileAdded', (file) => {
-            if (this.choosingFile === true) {
-                this.file = file;
-            }
-            this.choosingFile = false;
-        });
-    },
-    watch: {
-        initFile: function (newVal) {
-            this.file = newVal;
-        },
-    },
-    methods: {
-        remove() {
-            this.file = null;
-        },
-        openFilepicker() {
-            this.choosingFile = true;
-            let options = {
-                modal: true,
-                modalIsInFront: true,
-                multiple: false,
-                open: true,
-                overlay: true,
-                single: true,
-            };
-            this.emitter.emit('openFilepicker', options);
-        },
-    },
-};
+    { immediate: true },
+);
+
+function remove() {
+    file.value = null;
+}
+
+function openFilePicker() {
+    choosingFile.value = true;
+    const options = {
+        modal: true,
+        modalIsInFront: true,
+        multiple: false,
+        open: true,
+        overlay: true,
+        single: true,
+    };
+    emitter.emit('openFilePicker', options);
+}
 </script>
