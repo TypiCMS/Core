@@ -10,7 +10,7 @@ import Offcanvas from 'bootstrap/js/dist/offcanvas';
 /**
  * Vue
  */
-import { createApp } from 'vue/dist/vue.esm-bundler';
+import { createApp } from 'vue';
 
 /**
  * i18n
