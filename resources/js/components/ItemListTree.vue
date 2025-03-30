@@ -66,8 +66,8 @@
 import alertify from 'alertify.js';
 import { SlVueTreeNext } from 'sl-vue-tree-next';
 import { computed, ref, useTemplateRef } from 'vue';
-import fetcher from '../admin/fetcher';
 import { useI18n } from 'vue-i18n';
+import fetcher from '../admin/fetcher';
 
 const { t } = useI18n();
 
@@ -245,7 +245,7 @@ async function toggle(node) {
             const responseData = await response.json();
             throw new Error(responseData.message);
         }
-    } catch (error) {
+    } catch {
         alertify.error("User preference couldn't be set.");
     }
 }
@@ -267,7 +267,7 @@ async function toggleStatus(node) {
         node.data.status = newStatus;
     }
 
-    slVueTree.value.updateNode(node.path, node);
+    slVueTree.value.updateNode({ path: node.path, patch: node });
     try {
         const response = await fetcher(props.urlBase + '/' + node.data.id, {
             method: 'PATCH',
@@ -279,7 +279,7 @@ async function toggleStatus(node) {
         }
         alertify.success(t('Item is ' + label + '.'));
     } catch (error) {
-        slVueTree.value.updateNode(node.path, originalNode);
+        slVueTree.value.updateNode({ path: node.path, patch: originalNode });
         alertify.error(error.message || t('Sorry, an error occurred.'));
     }
 }
