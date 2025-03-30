@@ -1,17 +1,17 @@
 <template>
     <div class="mb-3">
         <input v-if="items.length === 0" :name="name" type="hidden" />
-        <label class="form-label">{{ $t(title) }}</label>
+        <label class="form-label">{{ t(title) }}</label>
 
-        <draggable v-if="items.length > 0" v-model="items" :group="'items_' + name" class="d-flex flex-column gap-3 mb-3" handle=".handle" @change="errors = []" item-key="index">
+        <draggable v-if="items.length > 0" v-model="items" :group="'items_' + name" class="d-flex flex-column mb-3 gap-3" handle=".handle" @change="errors = []" item-key="index">
             <template #item="{ element, index }">
-                <div class="d-flex gap-2 card item">
+                <div class="d-flex card item gap-2">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <i class="bi bi-arrows-move handle"></i>
-                        <button class="btn btn-danger btn-sm" @click.prevent="remove(element)">{{ $t('Delete') }}</button>
+                        <button class="btn btn-danger btn-sm" @click.prevent="remove(element)">{{ t('Delete') }}</button>
                     </div>
-                    <div class="card-body d-flex flex-row gap-2 justify-content-between flex-wrap">
-                        <div v-for="field in fields" :class="[{ 'flex-grow-1': field.type !== 'hidden' }, field.class]">
+                    <div class="card-body d-flex justify-content-between flex-row flex-wrap gap-2">
+                        <div v-for="field in fields" :class="[{ 'flex-grow-1': field.type !== 'hidden' }, field.class]" :key="field.name">
                             <template v-if="field.translatable">
                                 <repeater-field
                                     v-for="locale in locales"
@@ -41,88 +41,85 @@
         <div>
             <button :disabled="maxItems !== null && items.length >= maxItems" class="btn btn-secondary btn-sm" @click.prevent="add">
                 <span class="bi bi-plus-circle-fill text-white-50 me-1"></span>
-                {{ $t('Add') }}
+                {{ t('Add') }}
             </button>
         </div>
     </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { ref } from 'vue';
 import draggable from 'vuedraggable';
 import RepeaterField from './RepeaterField.vue';
+import { useI18n } from 'vue-i18n';
 
-export default {
-    components: {
-        RepeaterField,
-        draggable,
+const { t } = useI18n();
+
+const props = defineProps({
+    initItems: {
+        type: Array,
     },
-    props: {
-        initItems: {
-            type: Array,
-        },
-        config: {
-            type: Object,
-            required: true,
-        },
-        initErrors: {
-            type: Array,
-            required: true,
-        },
+    config: {
+        type: Object,
+        required: true,
     },
-    data() {
-        return {
-            locales: window.TypiCMS.locales,
-            items: this.initItems || [],
-            title: this.config.title,
-            name: this.config.name,
-            maxItems: this.config.max_items || null,
-            fields: this.config.fields,
-            errors: this.initErrors,
-        };
+    initErrors: {
+        type: Array,
+        required: true,
     },
-    methods: {
-        add() {
-            if (this.maxItems === null || this.items.length < this.maxItems) {
-                this.items.push(this.emptyItem());
-            }
-        },
-        emptyItem() {
-            let item = {};
-            this.fields.forEach((field) => {
-                if (field.translatable) {
-                    item[field.name] = {};
-                    this.locales.forEach((locale) => {
-                        item[field.name][locale.short] = field.default !== undefined ? field.default : null;
-                    });
-                } else {
-                    item[field.name] = field.default !== undefined ? field.default : null;
-                }
+});
+
+const locales = ref(window.TypiCMS.locales);
+const items = ref(props.initItems || []);
+const title = ref(props.config.title);
+const name = ref(props.config.name);
+const maxItems = ref(props.config.max_items || null);
+const fields = ref(props.config.fields);
+const errors = ref(props.initErrors);
+
+function add() {
+    if (maxItems.value === null || items.value.length < maxItems.value) {
+        items.value.push(emptyItem());
+    }
+}
+
+function emptyItem() {
+    const item = {};
+    fields.value.forEach((field) => {
+        if (field.translatable) {
+            item[field.name] = {};
+            locales.value.forEach((locale) => {
+                item[field.name][locale.short] = field.default !== undefined ? field.default : null;
             });
+        } else {
+            item[field.name] = field.default !== undefined ? field.default : null;
+        }
+    });
 
-            return item;
-        },
-        getError(index, fieldName, locale) {
-            if (this.errors.length === 0) {
-                return [];
-            }
-            if (locale !== null) {
-                if (this.errors[index] === undefined) {
-                    return [];
-                }
-                if (this.errors[index][fieldName] === undefined) {
-                    return [];
-                }
-                return this.errors[index][fieldName][locale] ?? [];
-            }
-            if (this.errors[index] === undefined) {
-                return [];
-            }
-            return this.errors[index][fieldName] ?? [];
-        },
-        remove(item) {
-            const index = this.items.indexOf(item);
-            this.items.splice(index, 1);
-        },
-    },
-};
+    return item;
+}
+
+function getError(index, fieldName, locale) {
+    if (errors.value.length === 0) {
+        return [];
+    }
+    if (locale !== null) {
+        if (errors.value[index] === undefined) {
+            return [];
+        }
+        if (errors.value[index][fieldName] === undefined) {
+            return [];
+        }
+        return errors.value[index][fieldName][locale] ?? [];
+    }
+    if (errors.value[index] === undefined) {
+        return [];
+    }
+    return errors.value[index][fieldName] ?? [];
+}
+
+function remove(item) {
+    const index = items.value.indexOf(item);
+    items.value.splice(index, 1);
+}
 </script>
