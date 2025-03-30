@@ -1,14 +1,14 @@
 <template>
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            {{ $t('Latest changes') }}
+            {{ t('Latest changes') }}
             <button v-if="filteredItems.length > 0 && clearButton" id="clear-history" class="btn-clear-history" @click="clearHistory">
-                {{ $t('Clear') }}
+                {{ t('Clear') }}
             </button>
         </div>
 
         <div v-if="filteredItems.length" class="history table-responsive">
-            <table class="history-table table table-main mb-0">
+            <table class="history-table table-main mb-0 table">
                 <thead>
                     <tr>
                         <slot :sort-array="sortArray" name="columns"></slot>
@@ -16,7 +16,7 @@
                 </thead>
 
                 <tbody>
-                    <tr v-for="model in filteredItems">
+                    <tr v-for="model in filteredItems" :key="model.id">
                         <td>
                             <small class="text-muted text-nowrap">{{ formatDateTime(model.created_at) }}</small>
                         </td>
@@ -44,10 +44,10 @@
 
         <div v-else class="card-body">
             <div v-if="loading">
-                <span class="text-muted">{{ $t('Loading…') }}</span>
+                <span class="text-muted">{{ t('Loading…') }}</span>
             </div>
             <div v-else>
-                <span class="text-muted">{{ searchString !== '' ? $t('Nothing found.') : $t('History is empty.') }}</span>
+                <span class="text-muted">{{ searchString !== '' ? t('Nothing found.') : t('History is empty.') }}</span>
             </div>
         </div>
         <div v-if="filteredItems.length > 0 && data.total > data.per_page" class="card-footer">
@@ -56,155 +56,139 @@
     </div>
 </template>
 
-<script>
-import ItemListPagination from './ItemListPagination.vue';
+<script setup lang="ts">
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import fetcher from '../admin/fetcher';
+import ItemListPagination from './ItemListPagination.vue';
 
-export default {
-    components: {
-        ItemListPagination,
-    },
-    props: {
-        clearButton: {
-            type: Boolean,
-            default: false,
-        },
-        pagination: {
-            type: Boolean,
-            default: true,
-        },
-        sorting: {
-            type: Array,
-            default: () => ['-created_at'],
-        },
-        searchable: {
-            type: Array,
-            default: () => [],
-        },
-        fields: {
-            type: String,
-            default: '',
-        },
-        include: {
-            type: String,
-            default: '',
-        },
-        appends: {
-            type: String,
-            default: '',
-        },
-    },
-    data() {
-        return {
-            urlBase: '/api/history',
-            searchString: null,
-            sortArray: this.sorting,
-            searchableArray: this.searchable,
-            loading: false,
-            total: 0,
-            last_page: null,
-            data: {
-                current_page: 1,
-                data: [],
-                from: 1,
-                last_page: 1,
-                next_page_url: null,
-                per_page: 100,
-                prev_page_url: null,
-                to: 1,
-                total: 0,
-            },
-        };
-    },
-    mounted() {
-        this.emitter.on('sort', (object) => {
-            this.sort(object);
-        });
-    },
-    computed: {
-        searchQuery() {
-            if (this.searchString === null) {
-                return '';
-            }
-            return this.searchableArray.map((item) => 'filter[' + item + ']=' + this.searchString).join('&');
-        },
-        url() {
-            let query = ['sort=' + this.sortArray.join(','), 'fields[history]=' + this.fields];
+const { t } = useI18n();
 
-            if (this.include !== '') {
-                query.push('include=' + this.include);
-            }
-            if (this.appends !== '') {
-                query.push('append=' + this.appends);
-            }
-            if (this.translatable) {
-                query.push('locale=' + this.currentLocale);
-            }
-            if (this.pagination) {
-                query.push('page=' + this.data.current_page);
-                query.push('per_page=' + this.data.per_page);
-            }
-            query.push(this.searchQuery);
+const props = defineProps({
+    clearButton: {
+        type: Boolean,
+        default: false,
+    },
+    pagination: {
+        type: Boolean,
+        default: true,
+    },
+    sorting: {
+        type: Array,
+        default: () => ['-created_at'],
+    },
+    searchable: {
+        type: Array,
+        default: () => [],
+    },
+    fields: {
+        type: String,
+        default: '',
+    },
+    include: {
+        type: String,
+        default: '',
+    },
+    appends: {
+        type: String,
+        default: '',
+    },
+});
 
-            return this.urlBase + '?' + query.join('&');
-        },
-        filteredItems() {
-            return this.data.data;
-        },
-    },
-    created() {
-        this.fetchData();
-    },
-    methods: {
-        async fetchData() {
-            this.loading = true;
-            try {
-                const response = await fetcher(this.url);
-                if (!response.ok) {
-                    throw new Error(response.statusText);
-                }
-                this.data = await response.json();
-                this.loading = false;
-            } catch (error) {
-                alertify.error(error.message || this.$t('An error occurred with the data fetch.'));
-            }
-        },
-        onSearchStringChanged() {
-            clearTimeout(this.fetchTimeout);
-            this.fetchTimeout = setTimeout(() => {
-                this.fetchData();
-            }, 200);
-        },
-        search(string) {
-            this.data.current_page = 1;
-            this.searchString = string;
-            this.fetchData();
-        },
-        changePage(page = 1) {
-            this.data.current_page = page;
-            this.fetchData();
-        },
-        async clearHistory() {
-            if (!window.confirm(this.$t('Do you want to clear history?'))) {
-                return false;
-            }
-            this.loading = true;
-            try {
-                const response = await fetcher(this.url, { method: 'DELETE' });
-                if (!response.ok) {
-                    throw new Error(response.statusText);
-                }
-                this.data.data = [];
-                this.loading = false;
-            } catch (error) {
-                alertify.error(this.$t(error.message) || this.$t('Sorry, an error occurred.'));
-            }
-        },
-        sort(object) {
-            this.data.current_page = 1;
-            this.sortArray = object;
-            this.fetchData();
-        },
-    },
-};
+const urlBase = ref('/api/history');
+const searchString = ref(null);
+const sortArray = ref(props.sorting);
+const searchableArray = ref(props.searchable);
+const loading = ref(false);
+const contentLocale = ref(window.TypiCMS.content_locale);
+const data = ref({
+    current_page: 1,
+    data: [],
+    from: 1,
+    last_page: 1,
+    next_page_url: null,
+    per_page: 100,
+    prev_page_url: null,
+    to: 1,
+    total: 0,
+});
+
+emitter.on('sort', (object) => {
+    sort(object);
+});
+
+const searchQuery = computed(() => {
+    if (searchString.value === null) {
+        return '';
+    }
+    return searchableArray.value.map((item) => 'filter[' + item + ']=' + searchString.value).join('&');
+});
+
+const url = computed(() => {
+    const query = ['sort=' + sortArray.value.join(','), 'fields[history]=' + props.fields];
+
+    if (props.include !== '') {
+        query.push('include=' + props.include);
+    }
+    if (props.appends !== '') {
+        query.push('append=' + props.appends);
+    }
+    if (props.translatable) {
+        query.push('locale=' + contentLocale.value);
+    }
+    if (props.pagination) {
+        query.push('page=' + data.value.current_page);
+        query.push('per_page=' + data.value.per_page);
+    }
+    query.push(searchQuery.value);
+    return urlBase.value + '?' + query.join('&');
+});
+
+const filteredItems = computed(() => {
+    return data.value.data;
+});
+
+fetchData();
+
+async function fetchData() {
+    loading.value = true;
+    try {
+        const response = await fetcher(url.value);
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        data.value = await response.json();
+        loading.value = false;
+    } catch (error) {
+        alertify.error(error.message || t('An error occurred with the data fetch.'));
+    }
+}
+
+function changePage(page = 1) {
+    data.value.current_page = page;
+    fetchData();
+}
+
+async function clearHistory() {
+    if (!window.confirm(t('Do you want to clear history?'))) {
+        return false;
+    }
+    loading.value = true;
+    try {
+        const response = await fetcher(url.value, { method: 'DELETE' });
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        data.value.data = [];
+        loading.value = false;
+    } catch (error) {
+        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
+    }
+}
+
+function sort(object) {
+    data.value.current_page = 1;
+    sortArray.value = object;
+    fetchData();
+}
 </script>
