@@ -2,11 +2,11 @@
     <div>
         <input :value="fileIds.join()" name="file_ids" type="hidden" />
         <div class="mb-3">
-            <p class="form-label mb-2">{{ $t(label) }}</p>
+            <p class="form-label mb-2">{{ t(label) }}</p>
             <p>
-                <button class="filemanager-field-btn-add" type="button" @click="openFilepicker">
+                <button class="filemanager-field-btn-add" type="button" @click="openFilePicker">
                     <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
-                    {{ $t('Add files') }}
+                    {{ t('Add files') }}
                 </button>
             </p>
         </div>
@@ -15,7 +15,7 @@
             <template #item="{ element }">
                 <div class="filemanager-item filemanager-item-with-name filemanager-item-removable">
                     <div class="filemanager-item-wrapper">
-                        <button class="filemanager-item-removable-button" type="button" @click="remove(file)">
+                        <button class="filemanager-item-removable-button" type="button" @click="remove(element)">
                             <i class="bi bi-x fs-5"></i>
                         </button>
                         <div v-if="element.type === 'i'" class="filemanager-item-icon">
@@ -37,63 +37,48 @@
     </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import draggable from 'vuedraggable';
+const { t } = useI18n();
 
-export default {
-    components: {
-        draggable,
+const props = defineProps({
+    label: {
+        type: String,
+        default: 'Files',
     },
-    props: {
-        label: {
-            type: String,
-            default: 'Files',
-        },
-        initFiles: {
-            type: Array,
-            required: true,
-        },
+    initFiles: {
+        type: Array,
+        required: true,
     },
-    data() {
-        return {
-            contentLocale: window.TypiCMS.content_locale,
-            files: this.initFiles,
-        };
-    },
-    mounted() {
-        this.emitter.on('filesAdded', (files) => {
-            for (let i = files.length - 1; i >= 0; i--) {
-                if (this.files.find(({ id }) => id === files[i].id) === undefined) {
-                    this.files.push(files[i]);
-                }
-            }
-        });
-    },
-    computed: {
-        fileIds() {
-            let fileIds = [];
-            for (let i = 0; i < this.files.length; i++) {
-                fileIds.push(this.files[i].id);
-            }
-            return fileIds;
-        },
-    },
-    methods: {
-        openFilepicker() {
-            let options = {
-                modal: true,
-                modalIsInFront: true,
-                multiple: true,
-                open: true,
-                overlay: true,
-                single: false,
-            };
-            this.emitter.emit('openFilepicker', options);
-        },
-        remove(file) {
-            let index = this.files.indexOf(file);
-            this.files.splice(index, 1);
-        },
-    },
-};
+});
+
+const contentLocale = ref(window.TypiCMS.content_locale);
+const files = ref(props.initFiles);
+
+emitter.on('filesAdded', (addedFiles) => {
+    addedFiles.forEach((addedFile) => {
+        if (!files.value.find(({ id }) => id === addedFile.id)) {
+            files.value.push(addedFile);
+        }
+    });
+});
+
+const fileIds = computed(() => files.value.map((file) => file.id));
+
+function openFilePicker() {
+    const options = {
+        modal: true,
+        modalIsInFront: true,
+        multiple: true,
+        open: true,
+        overlay: true,
+        single: false,
+    };
+    emitter.emit('openFilePicker', options);
+}
+function remove(file) {
+    files.value = files.value.filter((f) => f !== file);
+}
 </script>
