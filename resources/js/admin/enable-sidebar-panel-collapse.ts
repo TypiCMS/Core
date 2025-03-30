@@ -14,7 +14,7 @@ export default (): void => {
                 throw new Error('Failed to update preferences. Network response was not ok.');
             }
         } catch (error) {
-            alertify.error("User preference couldn't be set.");
+            alertify.error(t('User preferences couldn’t be set.'));
             console.error('There was a problem with the fetch operation:', error);
         }
     }

@@ -127,7 +127,7 @@ async function fetchData() {
         models.value = await response.json();
         stopLoading();
     } catch (error) {
-        alertify.error(error.message || t('An error occurred with the data fetch.'));
+        alertify.error(t(error.message) || t('An error occurred with the data fetch.'));
     }
 }
 
@@ -154,7 +154,7 @@ async function switchLocale(locale) {
         stopLoading();
         await fetchData();
     } catch (error) {
-        alertify.error(error.message);
+        alertify.error(t(error.message));
     }
 }
 
@@ -229,7 +229,7 @@ async function drop(draggingNodes, position) {
             throw new Error(responseData.message);
         }
     } catch (error) {
-        alertify.error(error.message || t('Sorry, an error occurred.'));
+        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
     }
 }
 
@@ -246,7 +246,7 @@ async function toggle(node) {
             throw new Error(responseData.message);
         }
     } catch {
-        alertify.error("User preference couldn't be set.");
+        alertify.error(t('User preferences couldn’t be set.'));
     }
 }
 
@@ -280,7 +280,7 @@ async function toggleStatus(node) {
         alertify.success(t('Item is ' + label + '.'));
     } catch (error) {
         slVueTree.value.updateNode({ path: node.path, patch: originalNode });
-        alertify.error(error.message || t('Sorry, an error occurred.'));
+        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
     }
 }
 </script>

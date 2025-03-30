@@ -313,7 +313,7 @@ async function fetchData() {
         }
         data.value = await response.json();
     } catch (error) {
-        alertify.error(error.message || t('An error occurred with the data fetch.'));
+        alertify.error(t(error.message) || t('An error occurred with the data fetch.'));
     }
     stopLoading();
 }
@@ -350,7 +350,7 @@ async function switchLocale(locale) {
         await fetchData();
     } catch (error) {
         stopLoading();
-        alertify.error(error.message);
+        alertify.error(t(error.message));
     }
 }
 
@@ -574,7 +574,7 @@ async function toggleStatus(model) {
         }
         alertify.success(t('Item is ' + label + '.'));
     } catch (error) {
-        alertify.error(error.message || t('Sorry, an error occurred.'));
+        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
     }
 }
 
@@ -592,7 +592,7 @@ async function updatePosition(model) {
             throw new Error(responseData.message);
         }
     } catch (error) {
-        alertify.error(error.message || t('Sorry, an error occurred.'));
+        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
     }
 }
 
