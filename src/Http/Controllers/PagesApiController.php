@@ -31,7 +31,7 @@ class PagesApiController extends BaseApiController
         return $data;
     }
 
-    public function linksForEditor(Request $request)
+    public function linksForEditor(Request $request): array
     {
         $data = Page::order()
             ->select(['id', 'parent_id', 'title'])
@@ -47,7 +47,7 @@ class PagesApiController extends BaseApiController
         return $pages;
     }
 
-    protected function updatePartial(Page $page, Request $request)
+    protected function updatePartial(Page $page, Request $request): void
     {
         foreach ($request->only('status') as $key => $content) {
             if ($page->isTranslatableAttribute($key)) {
@@ -62,7 +62,7 @@ class PagesApiController extends BaseApiController
         $page->save();
     }
 
-    public function sort(Request $request)
+    public function sort(Request $request): void
     {
         $data = $request->only('moved', 'item');
         foreach ($data['item'] as $position => $item) {
