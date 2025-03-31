@@ -2,7 +2,7 @@
     <input :id="model.id" v-model="checkedModels" :disabled="loading" :value="model" class="form-check-input" type="checkbox" @click="check" />
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue';
 
 const props = defineProps({

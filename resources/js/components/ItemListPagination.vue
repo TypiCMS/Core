@@ -30,7 +30,7 @@
     </nav>
 </template>
 
-<script setup lang="ts">
+<script setup>
 const props = defineProps({
     data: {
         type: Object,

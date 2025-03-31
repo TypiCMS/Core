@@ -47,7 +47,7 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue';
 import draggable from 'vuedraggable';
 import RepeaterField from './RepeaterField.vue';

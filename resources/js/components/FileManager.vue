@@ -146,7 +146,7 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import Uppy from '@uppy/core';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';

@@ -62,7 +62,7 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import alertify from 'alertify.js';
 import { SlVueTreeNext } from 'sl-vue-tree-next';
 import { computed, ref, useTemplateRef } from 'vue';

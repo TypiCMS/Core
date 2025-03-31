@@ -37,7 +37,7 @@
         </div>
     </div>
 </template>
-<script setup lang="ts">
+<script setup>
 defineProps({
     publishable: {
         type: Boolean,
