@@ -38,7 +38,7 @@
                 <item-list-per-page
                     v-if="data.total > perPage && pagination && $can('read ' + table)"
                     :loading="loading"
-                    :per-page="parseInt(data.per_page)"
+                    :per-page="data.per_page"
                     class="me-2"
                     @change-per-page="changeNumberOfItemsPerPage"
                 ></item-list-per-page>
