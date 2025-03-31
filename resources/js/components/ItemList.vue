@@ -303,7 +303,6 @@ const numberOfCheckedModels = computed(() => {
 });
 
 async function fetchData() {
-    console.log('Fetching data from', url.value);
     startLoading();
     try {
         const response = await fetcher(url.value);
