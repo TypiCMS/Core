@@ -17,6 +17,15 @@
 
     &-body {
         @extend .typicms-modal-body;
+        .uppy-Dashboard--modal {
+            z-index: 1025 !important;
+            .uppy-Dashboard-overlay {
+                z-index: 1026 !important;
+            }
+            .uppy-Dashboard-inner {
+                z-index: 1027 !important;
+            }
+        }
     }
 
     &-footer {
