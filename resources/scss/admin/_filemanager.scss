@@ -48,27 +48,7 @@
         align-items: center;
     }
 
-    &-title {
-        &-clickable {
-            cursor: pointer;
-            color: $gray-600;
-            &:hover,
-            &:focus {
-                color: $gray-900;
-            }
-        }
-        div {
-            display: inline-block;
-            &:not(:last-child):after {
-                display: inline-block;
-                content: '/';
-                color: $gray-700;
-                margin: 0 5px;
-            }
-        }
-    }
     &-list {
-        @include clearfix;
         margin-left: -10px;
         margin-right: -10px;
         display: flex;
