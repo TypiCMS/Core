@@ -73,6 +73,8 @@
         margin-right: -10px;
         display: flex;
         flex-wrap: wrap;
+        user-select: none;
+        -webkit-user-select: none;
     }
 
     &-item {
