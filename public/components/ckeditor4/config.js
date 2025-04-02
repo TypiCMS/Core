@@ -85,7 +85,7 @@ CKEDITOR.on('dialogDefinition', function (event) {
                     overlay: false,
                     open: true,
                 };
-                emitter.emit('openFilepickerForCKEditor', options);
+                emitter.emit('openFilePickerForCKEditor', options);
 
                 const filepicker = document.getElementById('filepicker');
                 filepicker.dataset.CKEditorCleanUpFuncNum = cleanUpFuncRef;
