@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Models;
 
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -30,7 +31,8 @@ abstract class Base extends Model
         return (bool) $this->translate('status', $locale);
     }
 
-    public function scopePublished(Builder $query): Builder
+    #[Scope]
+    public function published(Builder $query): Builder
     {
         if (auth('web')->check() && auth('web')->user()->can('see unpublished items') && request('preview')) {
             return $query;
@@ -43,7 +45,8 @@ abstract class Base extends Model
         return $query->where($field, '1');
     }
 
-    public function scopeWhereSlugIs($query, $slug): Builder
+    #[Scope]
+    public function whereSlugIs($query, $slug): Builder
     {
         $field = 'slug';
         if (in_array($field, (array) $this->translatable)) {
@@ -53,7 +56,8 @@ abstract class Base extends Model
         return $query->where($field, $slug);
     }
 
-    public function scopeOrder(Builder $query): Builder
+    #[Scope]
+    public function order(Builder $query): Builder
     {
         if ($order = config('typicms.modules.' . $this->getTable() . '.order')) {
             foreach ($order as $field => $direction) {
@@ -64,7 +68,8 @@ abstract class Base extends Model
         return $query;
     }
 
-    public function scopeSelectFields($query): Builder
+    #[Scope]
+    public function selectFields($query): Builder
     {
         $locale = request('locale', app()->getLocale());
         $fields = explode(',', request()->input('fields.' . $this->getTable()));
