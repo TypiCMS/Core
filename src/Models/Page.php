@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -76,7 +77,8 @@ class Page extends Base
         return (bool) $this->private;
     }
 
-    public function scopeWhereUriIs($query, $uri): Builder
+    #[Scope]
+    public function whereUriIs($query, $uri): Builder
     {
         $field = 'uri';
         if (in_array($field, $this->translatable)) {
@@ -86,7 +88,8 @@ class Page extends Base
         return $query->where($field, $uri);
     }
 
-    public function scopeWhereUriIsNot($query, $uri): Builder
+    #[Scope]
+    public function whereUriIsNot($query, $uri): Builder
     {
         $field = 'uri';
         if (in_array($field, $this->translatable)) {
@@ -96,7 +99,8 @@ class Page extends Base
         return $query->where($field, '!=', $uri);
     }
 
-    public function scopeWhereUriIsLike($query, $uri): Builder
+    #[Scope]
+    public function whereUriIsLike($query, $uri): Builder
     {
         $field = 'uri';
         if (in_array($field, $this->translatable)) {

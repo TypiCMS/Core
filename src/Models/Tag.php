@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Route;
 use Laracasts\Presenter\PresentableTrait;
@@ -17,7 +18,8 @@ class Tag extends Base
 
     protected $guarded = [];
 
-    public function scopePublished(Builder $query): Builder
+    #[Scope]
+    public function published(Builder $query): Builder
     {
         return $query;
     }
