@@ -4,6 +4,4 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 
-abstract class BaseApiController extends Controller
-{
-}
+abstract class BaseApiController extends Controller {}

@@ -25,7 +25,7 @@ use TypiCMS\Modules\Core\Notifications\VerifyEmail;
 use TypiCMS\Modules\Core\Presenters\UsersPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, MustVerifyEmailContract, HasLocalePreference
+class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, HasLocalePreference, MustVerifyEmailContract
 {
     use Authenticatable;
     use Authorizable;

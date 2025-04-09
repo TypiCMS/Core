@@ -12,8 +12,8 @@ class MixedLoader extends FileLoader
     /**
      * Load the messages for the given locale.
      *
-     * @param string      $locale
-     * @param string      $group
+     * @param string $locale
+     * @param string $group
      * @param null|string $namespace
      */
     public function load($locale, $group, $namespace = null): array
@@ -35,7 +35,7 @@ class MixedLoader extends FileLoader
     /**
      * Load the messages from the database.
      */
-    public function loadFromDatabase(string $locale, string $group, string $namespace = null): array
+    public function loadFromDatabase(string $locale, string $group, ?string $namespace = null): array
     {
         try {
             return Translation::select(DB::raw("JSON_UNQUOTE(JSON_EXTRACT(`translation`, '$." . $locale . "')) AS translated"), 'key')

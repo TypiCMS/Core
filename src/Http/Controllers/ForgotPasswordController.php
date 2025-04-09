@@ -2,8 +2,8 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Routing\Controller;
 use Illuminate\View\View;
 
 class ForgotPasswordController extends Controller

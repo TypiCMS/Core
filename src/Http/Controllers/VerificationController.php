@@ -2,10 +2,10 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Illuminate\Routing\Controller;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use TypiCMS\Modules\Core\Models\User;
 
 class VerificationController extends Controller

@@ -2,10 +2,10 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Illuminate\Routing\Controller;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\View\View;

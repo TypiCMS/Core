@@ -2,6 +2,4 @@
 
 namespace TypiCMS\Modules\Core\Presenters;
 
-class TermPresenter extends Presenter
-{
-}
+class TermPresenter extends Presenter {}

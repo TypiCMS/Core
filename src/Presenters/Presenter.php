@@ -26,7 +26,6 @@ abstract class Presenter extends BasePresenter
      * Allow for property-style retrieval.
      *
      * @param mixed $property
-     *
      * @return mixed
      */
     public function __get($property)
