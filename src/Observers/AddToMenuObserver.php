@@ -31,7 +31,7 @@ class AddToMenuObserver
 
     private function getPositionFormMenu($id)
     {
-        $position = Menulink::where('menu_id', $id)->max('position');
+        $position = Menulink::query()->where('menu_id', $id)->max('position');
 
         return $position + 1;
     }

@@ -16,7 +16,7 @@ class SlugMonolingualObserver
             $i = 0;
             // Check slug is unique
             while ($this->slugExists($model)) {
-                ++$i;
+                $i++;
                 // increment slug if exists
                 $model->slug = $slug . '-' . $i;
             }
@@ -25,7 +25,7 @@ class SlugMonolingualObserver
 
     private function slugExists(Model $model): bool
     {
-        $query = $model::where('slug', $model->slug);
+        $query = $model::query()->where('slug', $model->slug);
         if ($model->id) {
             $query->where('id', '!=', $model->id);
         }

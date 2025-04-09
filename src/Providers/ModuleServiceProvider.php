@@ -311,7 +311,8 @@ class ModuleServiceProvider extends ServiceProvider
         */
         $this->app->singleton('typicms.routes', function () {
             try {
-                return Page::with('images', 'documents')
+                return Page::query()
+                    ->with('images', 'documents')
                     ->whereNotNull('module')
                     ->get();
             } catch (Exception $e) {

@@ -19,7 +19,8 @@ class FilesApiController extends BaseApiController
         $folderId = $request->folder_id;
 
         $data = [
-            'models' => File::with('children')
+            'models' => File::query()
+                ->with('children')
                 ->where('folder_id', $folderId)
                 ->orderByRaw('type="f" desc')
                 ->orderBy('name')
@@ -58,7 +59,7 @@ class FilesApiController extends BaseApiController
     {
         $idsArray = explode(',', $ids);
         foreach ($idsArray as $id) {
-            File::where('id', $id)->update(['folder_id' => $request->folder_id]);
+            File::query()->where('id', $id)->update(['folder_id' => $request->folder_id]);
         }
 
         return response()->json(['number' => count($idsArray)]);

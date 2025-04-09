@@ -50,7 +50,7 @@ trait HasTags
         $tagIds = [];
 
         if ($tags) {
-            $foundTags = Tag::whereIn('tag', $tags)->get();
+            $foundTags = Tag::query()->whereIn('tag', $tags)->get();
 
             $returnTags = [];
 

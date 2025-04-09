@@ -2,9 +2,9 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\View\View;
 use TypiCMS\Modules\Core\Models\User;
 
@@ -53,7 +53,7 @@ class LoginController extends Controller
     {
         $credentials = $this->credentials($request);
 
-        $user = User::where('email', $credentials['email'])->first();
+        $user = User::query()->where('email', $credentials['email'])->first();
         if (!$user) {
             $error = __('This user was not found.');
         } elseif (!$user->activated) {

@@ -30,7 +30,7 @@ trait HasTerms
 
     public function getTaxonomies(): Collection
     {
-        return Taxonomy::whereJsonContains('modules', $this->getTable())
+        return Taxonomy::query()->whereJsonContains('modules', $this->getTable())
             ->order()
             ->get();
     }

@@ -2,10 +2,10 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Illuminate\Routing\Controller;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use TypiCMS\Modules\Core\Http\Requests\UserRegistrationFormRequest;
@@ -56,7 +56,7 @@ class RegisterController extends Controller
     {
         $data = $request->validated();
 
-        if (User::where('email', $data['email'])->exists()) {
+        if (User::query()->where('email', $data['email'])->exists()) {
             return redirect()
                 ->route(app()->getLocale() . '::login')
                 ->withStatus(__('An account already exists for this email address. Log in or request a new password.'));

@@ -31,7 +31,7 @@ class UsersAdminController extends BaseAdminController
     {
         $model = new User();
         $model->checked_roles = [];
-        $roles = Role::get();
+        $roles = Role::query()->get();
 
         return view('users::admin.create')
             ->with(compact('model', 'roles'));
@@ -40,7 +40,7 @@ class UsersAdminController extends BaseAdminController
     public function edit(User $user): View
     {
         $user->checked_roles = $user->roles()->pluck('id')->all();
-        $roles = Role::get();
+        $roles = Role::query()->get();
 
         return view('users::admin.edit')
             ->with(['model' => $user, 'roles' => $roles]);
