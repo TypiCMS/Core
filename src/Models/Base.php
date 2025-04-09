@@ -32,44 +32,41 @@ abstract class Base extends Model
     }
 
     #[Scope]
-    public function published(Builder $query): Builder
+    protected function published(Builder $query): void
     {
-        if (auth('web')->check() && auth('web')->user()->can('see unpublished items') && request('preview')) {
-            return $query;
-        }
-        $field = 'status';
-        if (in_array($field, (array) $this->translatable)) {
-            $field .= '->' . app()->getLocale();
-        }
+        if (!auth('web')->check() || (auth('web')->user()->can('see unpublished items') && request('preview'))) {
+            $field = 'status';
+            if (in_array($field, (array) $this->translatable)) {
+                $field .= '->' . app()->getLocale();
+            }
 
-        return $query->where($field, '1');
+            $query->where($field, '1');
+        }
     }
 
     #[Scope]
-    public function whereSlugIs($query, $slug): Builder
+    protected function whereSlugIs(Builder $query, $slug): void
     {
         $field = 'slug';
         if (in_array($field, (array) $this->translatable)) {
             $field .= '->' . app()->getLocale();
         }
 
-        return $query->where($field, $slug);
+        $query->where($field, $slug);
     }
 
     #[Scope]
-    public function order(Builder $query): Builder
+    protected function order(Builder $query): void
     {
         if ($order = config('typicms.modules.' . $this->getTable() . '.order')) {
             foreach ($order as $field => $direction) {
                 $query->orderBy($field, $direction);
             }
         }
-
-        return $query;
     }
 
     #[Scope]
-    public function selectFields($query): Builder
+    protected function selectFields(Builder $query): void
     {
         $locale = request('locale', app()->getLocale());
         $fields = explode(',', request()->input('fields.' . $this->getTable()));
@@ -128,8 +125,6 @@ abstract class Base extends Model
                 $query->addSelect($field);
             }
         }
-
-        return $query;
     }
 
     protected function status(): Attribute

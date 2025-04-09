@@ -19,10 +19,7 @@ class Tag extends Base
     protected $guarded = [];
 
     #[Scope]
-    public function published(Builder $query): Builder
-    {
-        return $query;
-    }
+    protected function published(Builder $query): void {}
 
     public function url($locale = null): string
     {

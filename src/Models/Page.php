@@ -78,41 +78,42 @@ class Page extends Base
     }
 
     #[Scope]
-    public function whereUriIs($query, $uri): Builder
+    protected function whereUriIs(Builder $query, string $uri): void
     {
         $field = 'uri';
         if (in_array($field, $this->translatable)) {
             $field .= '->' . app()->getLocale();
         }
 
-        return $query->where($field, $uri);
+        $query->where($field, $uri);
     }
 
     #[Scope]
-    public function whereUriIsNot($query, $uri): Builder
+    protected function whereUriIsNot(Builder $query, string $uri): void
     {
         $field = 'uri';
         if (in_array($field, $this->translatable)) {
             $field .= '->' . app()->getLocale();
         }
 
-        return $query->where($field, '!=', $uri);
+        $query->where($field, '!=', $uri);
     }
 
     #[Scope]
-    public function whereUriIsLike($query, $uri): Builder
+    protected function whereUriIsLike(Builder $query, string $uri): void
     {
         $field = 'uri';
         if (in_array($field, $this->translatable)) {
             $field .= '->' . app()->getLocale();
         }
 
-        return $query->where($field, 'LIKE', $uri);
+        $query->where($field, 'LIKE', $uri);
     }
 
     public function allForSelect(): array
     {
-        $pages = $this->order()
+        $pages = self::query()
+            ->order()
             ->get()
             ->nest()
             ->listsFlattened();
@@ -130,7 +131,8 @@ class Page extends Base
             }
         }
 
-        return $this->whereUriIsNot($uri)
+        return self::query()
+            ->whereUriIsNot($uri)
             ->published()
             ->orderBy('position')
             ->whereUriIsLike($uri . '%')
