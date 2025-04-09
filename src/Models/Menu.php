@@ -32,7 +32,8 @@ class Menu extends Base
     public function getMenu($name): ?self
     {
         try {
-            $menu = $this->published()
+            $menu = self::query()
+                ->published()
                 ->with([
                     'menulinks' => function ($query) {
                         $query->with([

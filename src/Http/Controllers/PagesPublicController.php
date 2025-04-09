@@ -36,7 +36,7 @@ class PagesPublicController extends BasePublicController
 
     private function findPageByUri(?string $uri): Page
     {
-        $query = Page::published()
+        $query = Page::query()->published()
             ->with([
                 'image',
                 'images',
@@ -70,7 +70,7 @@ class PagesPublicController extends BasePublicController
 
     public function redirectToHomepage(): RedirectResponse
     {
-        $homepage = Page::published()->where('is_home', 1)->firstOrFail();
+        $homepage = Page::query()->published()->where('is_home', 1)->firstOrFail();
         $locale = getBrowserLocaleOrMainLocale();
 
         return redirect($homepage->url($locale));
@@ -78,7 +78,7 @@ class PagesPublicController extends BasePublicController
 
     public function langChooser(): View
     {
-        $homepage = Page::published()->where('is_home', 1)->first();
+        $homepage = Page::query()->published()->where('is_home', 1)->first();
         if (!$homepage) {
             app('log')->error('No homepage found.');
             abort(404);
