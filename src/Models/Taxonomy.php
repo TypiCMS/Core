@@ -40,7 +40,8 @@ class Taxonomy extends Base implements Sortable
 
     public function allForSelect(): array
     {
-        $items = $this->order()
+        $items = self::query()
+            ->order()
             ->get()
             ->pluck('title', 'id')
             ->all();
