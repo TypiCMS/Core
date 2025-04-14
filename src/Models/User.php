@@ -45,12 +45,18 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'remember_token',
     ];
 
-    protected $casts = [
-        'preferences' => 'array',
-        'superuser' => 'boolean',
-        'activated' => 'boolean',
-        'privacy_policy_accepted' => 'boolean',
-    ];
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'preferences' => 'array',
+            'superuser' => 'boolean',
+            'activated' => 'boolean',
+            'privacy_policy_accepted' => 'boolean',
+        ];
+    }
 
     protected function getDefaultGuardName(): string
     {

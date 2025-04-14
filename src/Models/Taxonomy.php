@@ -34,9 +34,15 @@ class Taxonomy extends Base implements Sortable
         'order_column_name' => 'position',
     ];
 
-    public $casts = [
-        'modules' => 'array',
-    ];
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'modules' => 'array',
+        ];
+    }
 
     public function allForSelect(): array
     {

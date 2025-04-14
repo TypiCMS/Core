@@ -20,10 +20,16 @@ class History extends Base
 
     protected $appends = ['href'];
 
-    protected $casts = [
-        'old' => 'object',
-        'new' => 'object',
-    ];
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'old' => 'object',
+            'new' => 'object',
+        ];
+    }
 
     public string $order = 'id';
 

@@ -31,11 +31,17 @@ class Page extends Base
 
     protected $guarded = [];
 
-    protected $casts = [
-        'is_home' => 'boolean',
-        'private' => 'boolean',
-        'redirect' => 'boolean',
-    ];
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_home' => 'boolean',
+            'private' => 'boolean',
+            'redirect' => 'boolean',
+        ];
+    }
 
     public array $translatable = [
         'title',
