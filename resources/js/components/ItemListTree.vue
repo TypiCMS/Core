@@ -99,7 +99,7 @@ const props = defineProps({
 
 const loadingTimeout = ref(null);
 const locales = ref(window.TypiCMS.locales);
-const contentLocale = ref(window.TypiCMS.locale);
+const contentLocale = ref(window.TypiCMS.content_locale);
 const loading = ref(false);
 const models = ref([]);
 const slVueTree = useTemplateRef('slVueTree');
