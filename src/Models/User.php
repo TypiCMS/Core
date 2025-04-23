@@ -122,7 +122,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             }
         }
 
-        return new Attribute(
+        return Attribute::make(
             get: fn () => $permissions,
         );
     }
