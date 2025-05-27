@@ -28,6 +28,9 @@ class SearchPublicController extends BasePublicController
         $words = array_filter(explode(' ', $data['query']));
 
         foreach ($config as $key => $data) {
+            if (!is_array($data)) {
+                continue;
+            }
             $model = app($data['model']);
             $columns = $data['columns'];
             $query = $model->where(function (Builder $query) use ($words, $columns, $model, $key) {
