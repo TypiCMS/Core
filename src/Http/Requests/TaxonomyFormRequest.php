@@ -4,7 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Requests;
 
 class TaxonomyFormRequest extends AbstractFormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => 'required|max:255|alpha_dash|unique:taxonomies,name,' . $this->taxonomy?->id,

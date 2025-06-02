@@ -4,7 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Requests;
 
 class TermFormRequest extends AbstractFormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
             'title.*' => 'nullable|max:255',

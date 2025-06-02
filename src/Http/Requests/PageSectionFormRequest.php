@@ -4,7 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Requests;
 
 class PageSectionFormRequest extends AbstractFormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
             'page_id' => 'required|integer',

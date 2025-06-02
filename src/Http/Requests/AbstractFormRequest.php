@@ -7,24 +7,19 @@ use Illuminate\Support\Str;
 
 abstract class AbstractFormRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'slug.*.required_if' => __('The slug is required if published.'),
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'title.*' => Str::lower(__('Title')),

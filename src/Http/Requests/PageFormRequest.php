@@ -4,7 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Requests;
 
 class PageFormRequest extends AbstractFormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         $rules = [
             'image_id' => 'nullable|integer',

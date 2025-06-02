@@ -4,7 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Requests;
 
 class FileFormRequest extends AbstractFormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         $fileRule = 'mimes:jpeg,gif,png,bmp,tiff,pdf,eps,svg,json,rtf,txt,md,doc,xls,ppt,docx,xlsx,ppsx,pptx,sldx,mp4,m4a,aac,aiff,mov,avi,mp3,wav,zip|max:' . config('typicms.max_file_upload_size');
         $rules = [
