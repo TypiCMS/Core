@@ -10,6 +10,7 @@
         @include('users::_auth-header')
 
         {!! BootForm::open()->addClass('auth-form') !!}
+        {!! BootForm::hidden('locale')->value(app()->getLocale()) !!}
 
         <h1 class="auth-title">{{ __('Register') }}</h1>
 

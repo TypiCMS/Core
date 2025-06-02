@@ -11,6 +11,7 @@ class UserRegistrationFormRequest extends AbstractFormRequest
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'password' => 'required|min:8|max:255|confirmed',
+            'locale' => 'nullable|min:2|max:5',
             'my_name' => 'honeypot',
             'my_time' => 'required|honeytime:5',
         ];
