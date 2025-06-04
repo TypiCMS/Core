@@ -23,7 +23,7 @@ class AddToMenuObserver
                 $data['title'][$locale] = $model->translate('title', $locale);
                 $data['status'][$locale] = 0;
                 $data['description'][$locale] = null;
-                $data['url'][$locale] = '';
+                $data['website'][$locale] = '';
             }
             Menulink::create($data);
         }
