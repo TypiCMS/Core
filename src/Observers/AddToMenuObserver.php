@@ -12,7 +12,7 @@ class AddToMenuObserver
      */
     public function created(Page $model)
     {
-        if ($menu_id = request('add_to_menu')) {
+        if ($menu_id = request()->integer('add_to_menu')) {
             $position = $this->getPositionFormMenu($menu_id);
             $data = [
                 'menu_id' => $menu_id,

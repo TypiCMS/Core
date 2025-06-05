@@ -100,7 +100,7 @@
 @vite('resources/js/public.js')
 
 @can('see unpublished items')
-    @if (request('preview'))
+    @if (request()->boolean('preview'))
         <script src="{{ asset('js/previewmode.js') }}"></script>
     @endif
 @endcan

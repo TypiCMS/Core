@@ -13,7 +13,7 @@ trait HasTags
     {
         static::saved(function (Model $model) {
             if (request()->has('tags')) {
-                $tags = $model->processTags(request('tags'));
+                $tags = $model->processTags(request()->string('tags'));
                 $model->syncTags($model, $tags);
             }
         });

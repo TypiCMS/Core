@@ -13,7 +13,7 @@ class MenulinksAdminController extends BaseAdminController
 {
     public function index(): JsonResponse
     {
-        $id = request('menu_id');
+        $id = request()->integer('menu_id');
         $models = $this->model->where('menu_id', $id)->orderBy('position')->findAll()->nest();
 
         return response()->json($models, 200);

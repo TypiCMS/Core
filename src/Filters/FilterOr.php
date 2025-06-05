@@ -20,7 +20,7 @@ class FilterOr implements Filter
             foreach ($columns as $column) {
                 if (in_array($column, (array) $query->getModel()->translatable)) {
                     $query->orWhereRaw(
-                        'JSON_UNQUOTE(JSON_EXTRACT(`' . $column . '`, \'$.' . request('locale') . '\')) LIKE \'%' . $value . '%\' COLLATE ' . (DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci')
+                        'JSON_UNQUOTE(JSON_EXTRACT(`' . $column . '`, \'$.' . request()->string('locale') . '\')) LIKE \'%' . $value . '%\' COLLATE ' . (DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci')
                     );
                 } else {
                     $query->orWhere($column, 'like', '%' . $value . '%');

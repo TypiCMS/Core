@@ -15,7 +15,7 @@ trait HasTerms
     {
         static::saved(function (Model $model) {
             if (request()->has('terms')) {
-                $data = array_filter(Arr::flatten((array) request('terms')));
+                $data = array_filter(Arr::flatten(request()->array('terms')));
                 $model->terms()->sync($data);
             }
         });

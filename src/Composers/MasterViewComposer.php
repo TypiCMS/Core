@@ -11,7 +11,7 @@ class MasterViewComposer
         $view->with('websiteTitle', websiteTitle());
         $navbar = false;
         $user = auth('web')->user();
-        if ($user && $user->can('see navbar') && !request('preview')) {
+        if ($user && $user->can('see navbar') && !request()->string('preview')) {
             $navbar = true;
         }
         $view->with('navbar', $navbar);
