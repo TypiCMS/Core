@@ -19,7 +19,7 @@ class ApiController extends BaseApiController
             ->allowedFilters([
                 AllowedFilter::custom('name,body', new FilterOr()),
             ])
-            ->paginate($request->input('per_page'));
+            ->paginate($request->integer('per_page'));
 
         $data->setCollection(
             collect($data->items())

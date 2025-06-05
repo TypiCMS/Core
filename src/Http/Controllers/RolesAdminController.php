@@ -34,7 +34,7 @@ class RolesAdminController extends BaseAdminController
 
     public function store(RolesFormRequest $request): RedirectResponse
     {
-        $checkedPermissions = $request->input('checked_permissions', []);
+        $checkedPermissions = $request->array('checked_permissions');
         $data = $request->except(['exit', 'checked_permissions']);
 
         $this->storeNewPermissions($checkedPermissions);
@@ -47,7 +47,7 @@ class RolesAdminController extends BaseAdminController
 
     public function update(Role $role, RolesFormRequest $request): RedirectResponse
     {
-        $checkedPermissions = $request->input('checked_permissions', []);
+        $checkedPermissions = $request->array('checked_permissions');
         $data = $request->except(['exit', 'checked_permissions']);
         $role->update($data);
 
@@ -58,7 +58,7 @@ class RolesAdminController extends BaseAdminController
         return $this->redirect($request, $role);
     }
 
-    private function storeNewPermissions($permissions)
+    private function storeNewPermissions(array $permissions): void
     {
         foreach ($permissions as $name) {
             Permission::firstOrCreate(['name' => $name]);

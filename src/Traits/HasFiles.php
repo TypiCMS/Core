@@ -12,14 +12,14 @@ trait HasFiles
     {
         static::saved(function (Model $model) {
             if (request()->has('file_ids')) {
-                $model->syncIds(request()->input('file_ids'));
+                $model->syncIds(request()->string('file_ids'));
             }
         });
     }
 
-    public function syncIds(?string $ids): void
+    public function syncIds(string $ids): void
     {
-        $idsArray = $ids !== null ? explode(',', $ids) : [];
+        $idsArray = array_filter(array_map('trim', explode(',', $ids)));
         $data = [];
         $position = 1;
         foreach ($idsArray as $id) {
