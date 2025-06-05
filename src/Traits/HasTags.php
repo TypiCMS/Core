@@ -29,19 +29,9 @@ trait HasTags
     /**
      * Convert string of tags to array.
      */
-    protected function processTags(?string $tags): array
+    protected function processTags(string $tags): array
     {
-        if (!$tags) {
-            return [];
-        }
-
-        $tags = explode(',', $tags);
-
-        foreach ($tags as $key => $tag) {
-            $tags[$key] = trim($tag);
-        }
-
-        return $tags;
+        return array_filter(array_map('trim', explode(',', $tags)));
     }
 
     protected function syncTags(Model $model, array $tags): void
