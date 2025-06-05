@@ -69,7 +69,7 @@ abstract class Base extends Model
     protected function selectFields(Builder $query): void
     {
         $locale = request('locale', app()->getLocale());
-        $fields = explode(',', request()->input('fields.' . $this->getTable()));
+        $fields = explode(',', request()->string('fields.' . $this->getTable()));
         foreach ($fields as $field) {
             if (isset($this->translatable) && $this->isTranslatableAttribute($field)) {
                 if ($field === 'status') {
