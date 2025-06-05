@@ -11,7 +11,7 @@ use TypiCMS\Modules\Core\Models\Term;
 
 trait HasTerms
 {
-    public static function bootHasTerms()
+    public static function bootHasTerms(): void
     {
         static::saved(function (Model $model) {
             if (request()->has('terms')) {

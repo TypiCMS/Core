@@ -8,7 +8,7 @@ use TypiCMS\Modules\Core\Models\File;
 
 trait HasFiles
 {
-    public static function bootHasFiles()
+    public static function bootHasFiles(): void
     {
         static::saved(function (Model $model) {
             if (request()->has('file_ids')) {

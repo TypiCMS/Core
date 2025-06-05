@@ -9,10 +9,7 @@ use TypiCMS\Modules\Core\Models\History;
 
 trait Historable
 {
-    /**
-     * boot method.
-     */
-    public static function bootHistorable()
+    public static function bootHistorable(): void
     {
         static::created(function (Model $model) {
             $model->writeHistory('created', Str::limit($model->present()->title, 200, '…'), [], $model->toArray());

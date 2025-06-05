@@ -9,7 +9,7 @@ use TypiCMS\Modules\Core\Models\Tag;
 
 trait HasTags
 {
-    public static function bootHasTags()
+    public static function bootHasTags(): void
     {
         static::saved(function (Model $model) {
             if (request()->has('tags')) {
@@ -44,7 +44,7 @@ trait HasTags
         return $tags;
     }
 
-    protected function syncTags(Model $model, array $tags)
+    protected function syncTags(Model $model, array $tags): void
     {
         // Create or add tags
         $tagIds = [];
