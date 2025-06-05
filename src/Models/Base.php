@@ -34,7 +34,7 @@ abstract class Base extends Model
     #[Scope]
     protected function published(Builder $query): void
     {
-        if (!auth('web')->check() || (auth('web')->user()->can('see unpublished items') && request('preview'))) {
+        if (!auth('web')->check() || (auth('web')->user()->can('see unpublished items') && !request()->boolean('preview'))) {
             $field = 'status';
             if (in_array($field, (array) $this->translatable)) {
                 $field .= '->' . app()->getLocale();
