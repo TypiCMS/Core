@@ -31,6 +31,8 @@
 </template>
 
 <script setup>
+const emit = defineEmits(['paginationChangePage']);
+
 const props = defineProps({
     data: {
         type: Object,
@@ -59,7 +61,7 @@ function selectPage(page) {
         return;
     }
 
-    $emit('pagination-change-page', page);
+    emit('paginationChangePage', page);
 }
 
 function getPages() {
