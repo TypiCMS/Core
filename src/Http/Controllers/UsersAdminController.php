@@ -41,9 +41,10 @@ class UsersAdminController extends BaseAdminController
     {
         $user->checked_roles = $user->roles()->pluck('id')->all();
         $roles = Role::query()->get();
+        $passkeys = $user->passkeys()->get(['id', 'name', 'last_used_at']);
 
         return view('users::admin.edit')
-            ->with(['model' => $user, 'roles' => $roles]);
+            ->with(['model' => $user, 'roles' => $roles, 'passkeys' => $passkeys]);
     }
 
     public function store(UsersFormRequest $request): RedirectResponse

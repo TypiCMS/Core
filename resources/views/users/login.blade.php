@@ -9,28 +9,32 @@
     <div id="login" class="container-login auth auth-sm">
         @include('users::_auth-header')
 
-        {!! BootForm::open()->addClass('auth-form') !!}
+        @if(!request()->boolean('password'))
+            <x-authenticate-passkey />
+        @else
+            {!! BootForm::open()->addClass('auth-form') !!}
 
-        <h1 class="auth-title">{{ __('Login') }}</h1>
+            <h1 class="auth-title">{{ __('Login') }}</h1>
 
-        @include('users::_status')
+            @include('users::_status')
 
-        {!! BootForm::email(__('Email'), 'email')->addClass('form-control-lg')->autofocus(true)->required()->autocomplete('username') !!}
-        {!! BootForm::password(__('Password'), 'password')->addClass('form-control-lg')->required()->autocomplete('current-password') !!}
+            {!! BootForm::email(__('Email'), 'email')->addClass('form-control-lg')->autofocus(true)->required()->autocomplete('username') !!}
+            {!! BootForm::password(__('Password'), 'password')->addClass('form-control-lg')->required()->autocomplete('current-password') !!}
 
-        <div class="mb-3">
-            {!! BootForm::checkbox(__('Remember Me'), 'remember') !!}
-        </div>
+            <div class="mb-3">
+                {!! BootForm::checkbox(__('Remember Me'), 'remember') !!}
+            </div>
 
-        <div class="mb-3 d-grid">
-            {!! BootForm::submit(__('Login'), 'btn-primary')->addClass('btn-lg') !!}
-        </div>
+            <div class="mb-3 d-grid">
+                {!! BootForm::submit(__('Login'), 'btn-primary')->addClass('btn-lg') !!}
+            </div>
 
-        <a class="form-text mt-0 d-block" href="{{ route(app()->getLocale() . '::password.request') }}">
-            {{ __('Forgot Your Password?') }}
-        </a>
+            <a class="form-text mt-0 d-block" href="{{ route(app()->getLocale() . '::password.request') }}">
+                {{ __('Forgot Your Password?') }}
+            </a>
 
-        {!! BootForm::close() !!}
+            {!! BootForm::close() !!}
+        @endif
 
         @if (config('typicms.register'))
             <p class="alert alert-warning alert-not-a-member">

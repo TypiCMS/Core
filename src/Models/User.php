@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Laracasts\Presenter\PresentableTrait;
+use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
+use Spatie\LaravelPasskeys\Models\Concerns\InteractsWithPasskeys;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
 use TypiCMS\Modules\Core\Notifications\ResetPassword;
@@ -25,13 +27,14 @@ use TypiCMS\Modules\Core\Notifications\VerifyEmail;
 use TypiCMS\Modules\Core\Presenters\UsersPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, HasLocalePreference, MustVerifyEmailContract
+class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, HasLocalePreference, HasPasskeys, MustVerifyEmailContract
 {
     use Authenticatable;
     use Authorizable;
     use CanResetPassword;
     use HasRoles;
     use Historable;
+    use InteractsWithPasskeys;
     use MustVerifyEmail;
     use Notifiable;
     use PresentableTrait;
@@ -62,6 +65,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         // https://github.com/spatie/laravel-permission/issues/1156#issue-466659658
         return 'web';
+    }
+
+    public function getPasskeyDisplayName(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
     }
 
     public function preferredLocale()

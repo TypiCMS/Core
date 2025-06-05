@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use TypiCMS\Modules\Core\Http\Controllers\ForgotPasswordController;
 use TypiCMS\Modules\Core\Http\Controllers\ImpersonateController;
 use TypiCMS\Modules\Core\Http\Controllers\LoginController;
+use TypiCMS\Modules\Core\Http\Controllers\PasskeysApiController;
 use TypiCMS\Modules\Core\Http\Controllers\RegisterController;
 use TypiCMS\Modules\Core\Http\Controllers\ResetPasswordController;
 use TypiCMS\Modules\Core\Http\Controllers\UsersAdminController;
@@ -43,6 +44,10 @@ foreach (locales() as $lang) {
     });
 }
 
+Route::middleware('web')->group(function (Router $router) {
+    Route::passkeys();
+});
+
 Route::redirect('/.well-known/change-password', '/' . app()->getLocale() . '/password/reset');
 
 /*
@@ -65,4 +70,8 @@ Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $r
     $router->get('users', [UsersApiController::class, 'index'])->middleware('can:read users');
     $router->post('users/current/update-preferences', [UsersApiController::class, 'updatePreferences'])->middleware('can:update users');
     $router->delete('users/{user}', [UsersApiController::class, 'destroy'])->middleware('can:delete users');
+    // Passkeys API routes
+    $router->delete('passkeys/{passkey}', [PasskeysApiController::class, 'destroy'])->middleware('can:update users');
+    $router->post('passkeys', [PasskeysApiController::class, 'store'])->middleware('can:update users');
+    $router->get('passkeys/generate-options', [PasskeysApiController::class, 'generatePasskeyOptions'])->middleware('can:update users');
 });
