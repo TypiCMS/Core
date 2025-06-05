@@ -12,7 +12,7 @@
                 v-for="page in getPages()"
                 :class="{
                     disabled: page === '…',
-                    active: page == data.current_page && page !== '…',
+                    active: page === data.current_page && page !== '…',
                 }"
                 :key="page"
             >
