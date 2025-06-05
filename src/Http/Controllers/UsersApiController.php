@@ -28,7 +28,7 @@ class UsersApiController extends BaseApiController
             ->allowedFilters([
                 AllowedFilter::custom('first_name,last_name,email', new FilterOr()),
             ])
-            ->paginate($request->input('per_page'));
+            ->paginate($request->integer('per_page'));
 
         return $data;
     }

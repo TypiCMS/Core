@@ -49,10 +49,10 @@ class UsersAdminController extends BaseAdminController
     public function store(UsersFormRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $data['password'] = Hash::make($request->input('password'));
+        $data['password'] = Hash::make($request->string('password'));
         $data['email_verified_at'] = Carbon::now();
         $user = User::create($data);
-        $user->roles()->sync($request->input('checked_roles', []));
+        $user->roles()->sync($request->array('checked_roles'));
 
         return $this->redirect($request, $user);
     }
@@ -61,12 +61,12 @@ class UsersAdminController extends BaseAdminController
     {
         $data = $request->validated();
         if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->input('password'));
+            $data['password'] = Hash::make($request->string('password'));
         } else {
             unset($data['password']);
         }
         $user->update($data);
-        $user->roles()->sync($request->input('checked_roles', []));
+        $user->roles()->sync($request->array('checked_roles'));
         (new Role())->flushCache();
 
         return $this->redirect($request, $user);

@@ -22,7 +22,7 @@ class PageSectionsApiController extends BaseApiController
             ])
             ->allowedIncludes(['image'])
             ->where('page_id', $page->id)
-            ->paginate($request->input('per_page'));
+            ->paginate($request->integer('per_page'));
 
         return $data;
     }

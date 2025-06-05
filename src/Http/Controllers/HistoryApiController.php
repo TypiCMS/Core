@@ -30,7 +30,7 @@ class HistoryApiController extends BaseApiController
             ->allowedFilters([
                 AllowedFilter::custom('title,historable_type,action,user_name', new FilterOr()),
             ])
-            ->paginate($request->input('per_page'));
+            ->paginate($request->integer('per_page'));
 
         return $data;
     }

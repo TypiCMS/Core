@@ -23,7 +23,7 @@ class TagsApiController extends BaseApiController
             ->addSelect([
                 'uses' => DB::table('taggables')->selectRaw('COUNT(*)')->whereColumn('tags.id', 'taggables.tag_id'),
             ])
-            ->paginate($request->input('per_page'));
+            ->paginate($request->integer('per_page'));
 
         return $data;
     }

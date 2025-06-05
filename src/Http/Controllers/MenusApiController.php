@@ -20,7 +20,7 @@ class MenusApiController extends BaseApiController
                 AllowedFilter::custom('name', new FilterOr()),
             ])
             ->allowedIncludes(['image'])
-            ->paginate($request->input('per_page'));
+            ->paginate($request->integer('per_page'));
 
         return $data;
     }

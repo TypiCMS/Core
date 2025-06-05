@@ -21,7 +21,7 @@ class TermsApiController extends BaseApiController
             ->allowedFilters([
                 AllowedFilter::custom('title', new FilterOr()),
             ])
-            ->paginate($request->input('per_page'));
+            ->paginate($request->integer('per_page'));
 
         return $data;
     }

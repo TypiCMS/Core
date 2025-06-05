@@ -18,7 +18,7 @@ class RolesApiController extends BaseApiController
             ->allowedFilters([
                 AllowedFilter::custom('name', new FilterOr()),
             ])
-            ->paginate($request->input('per_page'));
+            ->paginate($request->integer('per_page'));
 
         return $data;
     }
