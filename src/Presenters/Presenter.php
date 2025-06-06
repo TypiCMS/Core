@@ -155,32 +155,30 @@ abstract class Presenter extends BasePresenter
         $patterns = [];
         $replacements = [];
         $lang = app()->getLocale();
-        if (is_array($matches)) {
-            foreach ($matches as $match) {
-                $patterns[] = $match[0];
-                $module = $match[1];
-                if (in_array($module, ['page', 'tag', 'user', 'term', 'taxonomy'])) {
-                    $classname = 'TypiCMS\Modules\Core\Models\\' . ucfirst($module);
+        foreach ($matches as $match) {
+            $patterns[] = $match[0];
+            $module = $match[1];
+            if (in_array($module, ['page', 'tag', 'user', 'term', 'taxonomy'])) {
+                $classname = 'TypiCMS\Modules\Core\Models\\' . ucfirst($module);
+            } else {
+                $classname = 'TypiCMS\Modules\\' . ucfirst(Str::plural($module)) . '\Models\\' . ucfirst($module);
+            }
+            $model = null;
+            if (class_exists($classname)) {
+                $model = app($classname)
+                    ->published()
+                    ->find($match[2]);
+            }
+            if ($model === null) {
+                continue;
+            }
+            if ($module === 'page') {
+                $replacements[] = $model->url($lang);
+            } else {
+                if (Route::has($lang . '::' . $module)) {
+                    $replacements[] = route($lang . '::' . $module, $model->slug);
                 } else {
-                    $classname = 'TypiCMS\Modules\\' . ucfirst(Str::plural($module)) . '\Models\\' . ucfirst($module);
-                }
-                $model = null;
-                if (class_exists($classname)) {
-                    $model = app($classname)
-                        ->published()
-                        ->find($match[2]);
-                }
-                if ($model === null) {
-                    continue;
-                }
-                if ($module === 'page') {
-                    $replacements[] = $model->url($lang);
-                } else {
-                    if (Route::has($lang . '::' . $module)) {
-                        $replacements[] = route($lang . '::' . $module, $model->slug);
-                    } else {
-                        $replacements[] = '';
-                    }
+                    $replacements[] = '';
                 }
             }
         }
