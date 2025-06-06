@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
@@ -10,10 +11,22 @@ use Laracasts\Presenter\PresentableTrait;
 use TypiCMS\Modules\Core\Presenters\HistoryPresenter;
 
 /**
- * @property-read int $id
- * @property-read string $href
- * @property-read Carbon $created_at
- * @property-read Carbon $updated_at
+ * @property int $id
+ * @property int $historable_id
+ * @property string $historable_type
+ * @property int|null $user_id
+ * @property string|null $title
+ * @property string|null $locale
+ * @property string $historable_table
+ * @property string $action
+ * @property object $old
+ * @property object $new
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Model|\Eloquent $historable
+ * @property-read mixed $href
+ * @property-write mixed $status
+ * @property-read User|null $user
  */
 class History extends Base
 {

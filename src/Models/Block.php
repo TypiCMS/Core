@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\Translatable\HasTranslations;
@@ -9,9 +10,15 @@ use TypiCMS\Modules\Core\Presenters\BlockPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
 /**
- * @property-read int $id
- * @property-read Carbon $created_at
- * @property-read Carbon $updated_at
+ * @property int $id
+ * @property string $name
+ * @property array<array-key, mixed> $status
+ * @property array<array-key, mixed> $body
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, History> $history
+ * @property-read int|null $history_count
+ * @property-read mixed $translations
  */
 class Block extends Base
 {

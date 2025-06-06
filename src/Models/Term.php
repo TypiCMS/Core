@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
@@ -15,10 +16,18 @@ use TypiCMS\Modules\Core\Presenters\TermPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
 /**
- * @property-read int $id
+ * @property int $id
+ * @property int $position
  * @property int $taxonomy_id
- * @property-read Carbon $created_at
- * @property-read Carbon $updated_at
+ * @property array<array-key, mixed> $title
+ * @property array<array-key, mixed> $slug
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, History> $history
+ * @property-read int|null $history_count
+ * @property-write mixed $status
+ * @property-read Taxonomy $taxonomy
+ * @property-read mixed $translations
  */
 #[ObservedBy(SlugObserver::class)]
 class Term extends Base implements Sortable

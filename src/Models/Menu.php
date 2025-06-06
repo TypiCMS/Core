@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Exception;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
@@ -15,10 +16,20 @@ use TypiCMS\Modules\Core\Traits\Historable;
 use TypiCMS\NestableCollection;
 
 /**
- * @property-read int $id
- * @property-read string $thumb
- * @property-read Carbon $created_at
- * @property-read Carbon $updated_at
+ * @property int $id
+ * @property int|null $image_id
+ * @property string $name
+ * @property string|null $class
+ * @property array<array-key, mixed> $status
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, History> $history
+ * @property-read int|null $history_count
+ * @property-read File|null $image
+ * @property-read NestableCollection<int, Menulink> $menulinks
+ * @property-read int|null $menulinks_count
+ * @property-read mixed $thumb
+ * @property-read mixed $translations
  */
 class Menu extends Base
 {
@@ -124,11 +135,13 @@ class Menu extends Base
         );
     }
 
+    /** @return BelongsTo<File, $this> */
     public function image(): BelongsTo
     {
         return $this->belongsTo(File::class, 'image_id');
     }
 
+    /** @return HasMany<Menulink, $this> */
     public function menulinks(): HasMany
     {
         return $this->hasMany(Menulink::class)->orderBy('position', 'asc');

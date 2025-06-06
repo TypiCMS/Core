@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Laracasts\Presenter\PresentableTrait;
@@ -11,9 +12,14 @@ use TypiCMS\Modules\Core\Presenters\TagsModulePresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
 /**
- * @property-read int $id
- * @property-read Carbon $created_at
- * @property-read Carbon $updated_at
+ * @property int $id
+ * @property string $tag
+ * @property string $slug
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, History> $history
+ * @property-read int|null $history_count
+ * @property-write mixed $status
  */
 class Tag extends Base
 {

@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Core\Models;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
@@ -20,22 +21,43 @@ use TypiCMS\NestableCollection;
 use TypiCMS\NestableTrait;
 
 /**
- * @property-read int $id
- * @property int $image_id
- * @property int $og_image_id
- * @property int $parent_id
+ * @property int $id
+ * @property int|null $og_image_id
+ * @property int|null $image_id
+ * @property int|null $parent_id
  * @property int $position
- * @property string $uri
- * @property string $title
- * @property string $slug
- * @property string $status
  * @property bool $private
  * @property bool $is_home
  * @property bool $redirect
- * @property string $module
- * @property string $template
- * @property-read Carbon $created_at
- * @property-read Carbon $updated_at
+ * @property array<array-key, mixed> $title
+ * @property array<array-key, mixed> $slug
+ * @property array<array-key, mixed> $uri
+ * @property array<array-key, mixed> $body
+ * @property array<array-key, mixed> $status
+ * @property array<array-key, mixed> $meta_title
+ * @property array<array-key, mixed> $meta_description
+ * @property array<array-key, mixed> $meta_keywords
+ * @property string|null $css
+ * @property string|null $js
+ * @property string|null $module
+ * @property string|null $template
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, File> $audios
+ * @property-read Collection<int, File> $documents
+ * @property-read Collection<int, File> $files
+ * @property-read Collection<int, History> $history
+ * @property-read File|null $image
+ * @property-read Collection<int, File> $images
+ * @property-read NestableCollection<int, Menulink> $menulinks
+ * @property-read File|null $ogImage
+ * @property-read Page|null $parent
+ * @property-read Collection<int, PageSection> $publishedSections
+ * @property-read NestableCollection<int, Page> $publishedSubpages
+ * @property-read Collection<int, PageSection> $sections
+ * @property-read NestableCollection<int, Page> $subpages
+ * @property-read mixed $translations
+ * @property-read Collection<int, File> $videos
  */
 #[ObservedBy([AddToMenuObserver::class, HomePageObserver::class, UriObserver::class])]
 class Page extends Base
@@ -166,41 +188,49 @@ class Page extends Base
             ->nest();
     }
 
+    /** @return HasMany<PageSection, $this> */
     public function sections(): HasMany
     {
         return $this->hasMany(PageSection::class)->order();
     }
 
+    /** @return HasMany<PageSection, $this> */
     public function publishedSections(): HasMany
     {
         return $this->sections()->published();
     }
 
+    /** @return HasMany<Menulink, $this> */
     public function menulinks(): HasMany
     {
         return $this->hasMany(Menulink::class);
     }
 
+    /** @return HasMany<Page, $this> */
     public function subpages(): HasMany
     {
         return $this->hasMany(self::class, 'parent_id')->order();
     }
 
+    /** @return HasMany<Page, $this> */
     public function publishedSubpages(): HasMany
     {
         return $this->subpages()->published();
     }
 
+    /** @return BelongsTo<Page, $this> */
     public function parent(): BelongsTo
     {
         return $this->belongsTo(self::class, 'parent_id');
     }
 
+    /** @return BelongsTo<File, $this> */
     public function image(): BelongsTo
     {
         return $this->belongsTo(File::class, 'image_id');
     }
 
+    /** @return BelongsTo<File, $this> */
     public function ogImage(): BelongsTo
     {
         return $this->belongsTo(File::class, 'og_image_id');

@@ -28,6 +28,7 @@ trait HasFiles
         $this->files()->sync($data);
     }
 
+    /** @return MorphToMany<File, $this> */
     public function images(): MorphToMany
     {
         return $this->files()->where('type', 'i');

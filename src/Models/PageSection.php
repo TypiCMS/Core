@@ -15,12 +15,17 @@ use TypiCMS\Modules\Core\Traits\HasFiles;
 use TypiCMS\Modules\Core\Traits\Historable;
 
 /**
- * @property-read int $id
+ * @property int $id
  * @property int $page_id
+ * @property int|null $image_id
  * @property int $position
- * @property-read string $thumb
- * @property-read Carbon $created_at
- * @property-read Carbon $updated_at
+ * @property string|null $template
+ * @property array<array-key, mixed> $status
+ * @property array<array-key, mixed> $title
+ * @property array<array-key, mixed> $slug
+ * @property array<array-key, mixed> $body
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 class PageSection extends Base implements Sortable
 {
@@ -86,11 +91,13 @@ class PageSection extends Base implements Sortable
         return route('admin::dashboard');
     }
 
+    /** @return BelongsTo<Page, $this> */
     public function page(): BelongsTo
     {
         return $this->belongsTo(Page::class);
     }
 
+    /** @return BelongsTo<File, $this> */
     public function image(): BelongsTo
     {
         return $this->belongsTo(File::class, 'image_id');

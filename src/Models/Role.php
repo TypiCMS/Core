@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Models;
 
 use BackedEnum;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
@@ -19,9 +20,18 @@ use TypiCMS\Modules\Core\Presenters\RolePresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
 /**
- * @property-read int $id
- * @property-read Carbon $created_at
- * @property-read Carbon $updated_at
+ * @property int $id
+ * @property string $name
+ * @property string $guard_name
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, History> $history
+ * @property-read int|null $history_count
+ * @property-read Collection<int, Permission> $permissions
+ * @property-read int|null $permissions_count
+ * @property-write mixed $status
+ * @property-read Collection<int, User> $users
+ * @property-read int|null $users_count
  */
 class Role extends Base implements RoleContract
 {

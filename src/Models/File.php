@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Exception;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
@@ -14,12 +15,32 @@ use TypiCMS\Modules\Core\Presenters\FilePresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
 /**
- * @property-read int $id
- * @property string $path
- * @property-read string $thumb_sm
- * @property-read string $url
- * @property-read Carbon $created_at
- * @property-read Carbon $updated_at
+ * @property int $id
+ * @property int|null $folder_id
+ * @property string|null $type
+ * @property string|null $name
+ * @property string|null $path
+ * @property string|null $extension
+ * @property string|null $mimetype
+ * @property int|null $width
+ * @property int|null $height
+ * @property int|null $filesize
+ * @property array<array-key, mixed> $title
+ * @property array<array-key, mixed> $description
+ * @property array<array-key, mixed> $alt_attribute
+ * @property int|null $focal_x
+ * @property int|null $focal_y
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, File> $children
+ * @property-read int|null $children_count
+ * @property-read File|null $folder
+ * @property-read Collection<int, History> $history
+ * @property-read int|null $history_count
+ * @property-write mixed $status
+ * @property-read mixed $thumb_sm
+ * @property-read mixed $translations
+ * @property-read mixed $url
  */
 class File extends Base
 {
@@ -60,11 +81,13 @@ class File extends Base
         );
     }
 
+    /** @return BelongsTo<File, $this> */
     public function folder(): BelongsTo
     {
         return $this->belongsTo(self::class, 'folder_id', 'id');
     }
 
+    /** @return HasMany<File, $this> */
     public function children(): HasMany
     {
         return $this->hasMany(self::class, 'folder_id', 'id');
