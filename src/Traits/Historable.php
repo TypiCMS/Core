@@ -50,7 +50,7 @@ trait Historable
     /**
      * Write History row.
      */
-    public function writeHistory(string $action, ?string $title = null, array $old = [], array $new = [])
+    public function writeHistory(string $action, ?string $title = null, array $old = [], array $new = []): void
     {
         History::create([
             'historable_id' => $this->getKey(),
