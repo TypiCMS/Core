@@ -5,9 +5,16 @@ namespace TypiCMS\Modules\Core\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
 use TypiCMS\Modules\Core\Presenters\HistoryPresenter;
 
+/**
+ * @property-read int $id
+ * @property-read string $href
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
+ */
 class History extends Base
 {
     use PresentableTrait;

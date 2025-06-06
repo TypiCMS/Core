@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Models;
 
 use BackedEnum;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\Permission\Contracts\Role as RoleContract;
 use Spatie\Permission\Exceptions\GuardDoesNotMatch;
@@ -17,6 +18,11 @@ use Spatie\Permission\Traits\RefreshesPermissionCache;
 use TypiCMS\Modules\Core\Presenters\RolePresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
+/**
+ * @property-read int $id
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
+ */
 class Role extends Base implements RoleContract
 {
     use HasPermissions;

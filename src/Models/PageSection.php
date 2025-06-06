@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\EloquentSortable\Sortable;
@@ -13,6 +14,14 @@ use TypiCMS\Modules\Core\Presenters\PagePresenter;
 use TypiCMS\Modules\Core\Traits\HasFiles;
 use TypiCMS\Modules\Core\Traits\Historable;
 
+/**
+ * @property-read int $id
+ * @property int $page_id
+ * @property int $position
+ * @property-read string $thumb
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
+ */
 class PageSection extends Base implements Sortable
 {
     use HasFiles;

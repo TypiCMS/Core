@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
@@ -12,6 +13,11 @@ use TypiCMS\Modules\Core\Observers\SlugObserver;
 use TypiCMS\Modules\Core\Presenters\TaxonomyPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
+/**
+ * @property-read int $id
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
+ */
 #[ObservedBy(SlugObserver::class)]
 class Taxonomy extends Base implements Sortable
 {

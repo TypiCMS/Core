@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -25,6 +26,14 @@ use TypiCMS\Modules\Core\Notifications\VerifyEmail;
 use TypiCMS\Modules\Core\Presenters\UsersPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
+/**
+ * @property-read int $id
+ * @property string $locale
+ * @property bool $superuser
+ * @property-read array $all_permissions
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
+ */
 class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, HasLocalePreference, MustVerifyEmailContract
 {
     use Authenticatable;

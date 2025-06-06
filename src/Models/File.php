@@ -6,12 +6,21 @@ use Exception;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\Translatable\HasTranslations;
 use TypiCMS\Modules\Core\Presenters\FilePresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
+/**
+ * @property-read int $id
+ * @property string $path
+ * @property-read string $thumb_sm
+ * @property-read string $url
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
+ */
 class File extends Base
 {
     use HasTranslations;

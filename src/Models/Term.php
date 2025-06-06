@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\EloquentSortable\Sortable;
@@ -13,6 +14,12 @@ use TypiCMS\Modules\Core\Observers\SlugObserver;
 use TypiCMS\Modules\Core\Presenters\TermPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
+/**
+ * @property-read int $id
+ * @property int $taxonomy_id
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
+ */
 #[ObservedBy(SlugObserver::class)]
 class Term extends Base implements Sortable
 {

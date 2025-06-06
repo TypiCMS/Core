@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\Translatable\HasTranslations;
@@ -11,6 +12,12 @@ use TypiCMS\Modules\Core\Presenters\MenulinkPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 use TypiCMS\NestableTrait;
 
+/**
+ * @property-read int $id
+ * @property int $menu_id
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
+ */
 class Menulink extends Base
 {
     use HasTranslations;

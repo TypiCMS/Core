@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\Translatable\HasTranslations;
 use TypiCMS\Modules\Core\Observers\AddToMenuObserver;
@@ -18,6 +19,24 @@ use TypiCMS\Modules\Core\Traits\Historable;
 use TypiCMS\NestableCollection;
 use TypiCMS\NestableTrait;
 
+/**
+ * @property-read int $id
+ * @property int $image_id
+ * @property int $og_image_id
+ * @property int $parent_id
+ * @property int $position
+ * @property string $uri
+ * @property string $title
+ * @property string $slug
+ * @property string $status
+ * @property bool $private
+ * @property bool $is_home
+ * @property bool $redirect
+ * @property string $module
+ * @property string $template
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
+ */
 #[ObservedBy([AddToMenuObserver::class, HomePageObserver::class, UriObserver::class])]
 class Page extends Base
 {
