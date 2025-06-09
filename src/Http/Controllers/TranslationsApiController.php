@@ -13,8 +13,8 @@ class TranslationsApiController extends BaseApiController
 {
     public function index(Request $request): LengthAwarePaginator
     {
-        $data = QueryBuilder::for(Translation::class)
-            ->selectFields()
+        $query = Translation::query()->selectFields();
+        $data = QueryBuilder::for($query)
             ->allowedSorts(['key', 'translation_translated'])
             ->allowedFilters([
                 AllowedFilter::custom('key,translation', new FilterOr()),

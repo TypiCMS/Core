@@ -14,9 +14,9 @@ class PagesApiController extends BaseApiController
     {
         $userPreferences = $request->user()->preferences;
 
-        $data = QueryBuilder::for(Page::class)
-            ->selectFields()
-            ->orderBy('position')
+        $query = Page::query()->selectFields()
+            ->orderBy('position');
+        $data = QueryBuilder::for($query)
             ->get()
             ->map(function ($item) use ($userPreferences) {
                 $item->data = $item->toArray();

@@ -15,10 +15,10 @@ class MenulinksApiController extends BaseApiController
     {
         $userPreferences = $request->user()->preferences;
 
-        $data = QueryBuilder::for(Menulink::class)
-            ->selectFields()
+        $query = Menulink::query()->selectFields()
             ->where('menu_id', $menu->id)
-            ->orderBy('position')
+            ->orderBy('position');
+        $data = QueryBuilder::for($query)
             ->get()
             ->map(function ($item) use ($userPreferences) {
                 $item->data = $item->toArray();

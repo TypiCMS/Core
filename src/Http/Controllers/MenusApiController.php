@@ -13,8 +13,8 @@ class MenusApiController extends BaseApiController
 {
     public function index(Request $request): LengthAwarePaginator
     {
-        $data = QueryBuilder::for(Menu::class)
-            ->selectFields()
+        $query = Menu::query()->selectFields();
+        $data = QueryBuilder::for($query)
             ->allowedSorts(['status_translated', 'name'])
             ->allowedFilters([
                 AllowedFilter::custom('name', new FilterOr()),

@@ -14,8 +14,8 @@ class PageSectionsApiController extends BaseApiController
 {
     public function index(Page $page, Request $request): LengthAwarePaginator
     {
-        $data = QueryBuilder::for(PageSection::class)
-            ->selectFields()
+        $query = PageSection::query()->selectFields();
+        $data = QueryBuilder::for($query)
             ->allowedSorts(['status_translated', 'position', 'title_translated'])
             ->allowedFilters([
                 AllowedFilter::custom('title', new FilterOr()),
