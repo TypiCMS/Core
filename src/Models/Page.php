@@ -29,14 +29,14 @@ use TypiCMS\NestableTrait;
  * @property bool $private
  * @property bool $is_home
  * @property bool $redirect
- * @property array<array-key, mixed> $title
- * @property array<array-key, mixed> $slug
- * @property array<array-key, mixed> $uri
- * @property array<array-key, mixed> $body
- * @property array<array-key, mixed> $status
- * @property array<array-key, mixed> $meta_title
- * @property array<array-key, mixed> $meta_description
- * @property array<array-key, mixed> $meta_keywords
+ * @property string $title
+ * @property string $slug
+ * @property string $uri
+ * @property string $body
+ * @property string $status
+ * @property string $meta_title
+ * @property string $meta_description
+ * @property string $meta_keywords
  * @property string|null $css
  * @property string|null $js
  * @property string|null $module

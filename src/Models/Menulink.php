@@ -24,10 +24,10 @@ use TypiCMS\NestableTrait;
  * @property int $position
  * @property string|null $target
  * @property string|null $class
- * @property array<array-key, mixed> $status
- * @property array<array-key, mixed> $title
- * @property array<array-key, mixed> $website
- * @property array<array-key, mixed> $description
+ * @property string $status
+ * @property string $title
+ * @property string $website
+ * @property string $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Collection<int, History> $history

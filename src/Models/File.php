@@ -25,9 +25,9 @@ use TypiCMS\Modules\Core\Traits\Historable;
  * @property int|null $width
  * @property int|null $height
  * @property int|null $filesize
- * @property array<array-key, mixed> $title
- * @property array<array-key, mixed> $description
- * @property array<array-key, mixed> $alt_attribute
+ * @property string $title
+ * @property string $description
+ * @property string $alt_attribute
  * @property int|null $focal_x
  * @property int|null $focal_y
  * @property Carbon|null $created_at

@@ -18,11 +18,11 @@ use TypiCMS\Modules\Core\Traits\Historable;
  * @property int $id
  * @property int $position
  * @property string $name
- * @property array<array-key, mixed> $title
- * @property array<array-key, mixed> $slug
+ * @property string $title
+ * @property string $slug
  * @property string|null $validation_rule
- * @property array<array-key, mixed> $result_string
- * @property array<array-key, mixed> $modules
+ * @property string $result_string
+ * @property string $modules
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Collection<int, History> $history

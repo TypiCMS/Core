@@ -20,10 +20,10 @@ use TypiCMS\Modules\Core\Traits\Historable;
  * @property int|null $image_id
  * @property int $position
  * @property string|null $template
- * @property array<array-key, mixed> $status
- * @property array<array-key, mixed> $title
- * @property array<array-key, mixed> $slug
- * @property array<array-key, mixed> $body
+ * @property string $status
+ * @property string $title
+ * @property string $slug
+ * @property string $body
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */

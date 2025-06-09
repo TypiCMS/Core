@@ -19,8 +19,8 @@ use TypiCMS\Modules\Core\Traits\Historable;
  * @property int $id
  * @property int $position
  * @property int $taxonomy_id
- * @property array<array-key, mixed> $title
- * @property array<array-key, mixed> $slug
+ * @property string $title
+ * @property string $slug
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Collection<int, History> $history
