@@ -46,7 +46,7 @@ class Term extends Base implements Sortable
         'slug',
     ];
 
-    public $sortable = [
+    public array $sortable = [
         'order_column_name' => 'position',
     ];
 

@@ -2,7 +2,6 @@
 
 namespace TypiCMS\Modules\Core\Observers;
 
-use Illuminate\Database\Eloquent\Model;
 use TypiCMS\Modules\Core\Models\Page;
 
 class UriObserver
@@ -41,13 +40,13 @@ class UriObserver
             $uri = $this->incrementWhileExists($page, $uri, $locale, $page->id);
             $uris[$locale] = $uri;
         }
-        $page->uri = $uris;
+        $page->setTranslations('uri', $uris);
     }
 
     /**
      * On updated, empty child uri.
      */
-    public function updated(Model $page)
+    public function updated(Page $page)
     {
         $this->emptySubpagesUris($page);
     }
@@ -56,7 +55,7 @@ class UriObserver
      * Recursive method for emptying subpages URIs
      * UriObserver will rebuild the URIs.
      */
-    private function emptySubpagesUris(Model $page): void
+    private function emptySubpagesUris(Page $page): void
     {
         foreach ($page->subpages as $subpage) {
             $uris = $subpage->getTranslations('uri');

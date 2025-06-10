@@ -3,7 +3,6 @@
 namespace TypiCMS\Modules\Core\Traits;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Arr;
 use TypiCMS\Modules\Core\Models\Taxonomy;
@@ -13,7 +12,7 @@ trait HasTerms
 {
     public static function bootHasTerms(): void
     {
-        static::saved(function (Model $model) {
+        static::saved(function ($model) {
             if (request()->has('terms')) {
                 $data = array_filter(Arr::flatten(request()->array('terms')));
                 $model->terms()->sync($data);
@@ -30,7 +29,8 @@ trait HasTerms
 
     public function getTaxonomies(): Collection
     {
-        return Taxonomy::query()->whereJsonContains('modules', $this->getTable())
+        return Taxonomy::query()
+            ->whereJsonContains('modules', $this->getTable())
             ->order()
             ->get();
     }

@@ -31,7 +31,7 @@ class FeedController
             $items,
             request()->url(),
             'feed::atom',
-            $feed['description'] ?? '',
+            $feed['description'],
             $feed['language'] ?? 'en-US',
             $feed['image'] ?? '',
             'atom',

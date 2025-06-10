@@ -309,12 +309,13 @@ class ModuleServiceProvider extends ServiceProvider
         | Register TypiCMS routes.
         |--------------------------------------------------------------------------
         */
-        $this->app->singleton('typicms.routes', function () {
+        $this->app->singleton('typicms.routes', function (): array {
             try {
                 return Page::query()
                     ->with('images', 'documents')
                     ->whereNotNull('module')
-                    ->get();
+                    ->get()
+                    ->all();
             } catch (Exception $e) {
                 return [];
             }

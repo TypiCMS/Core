@@ -25,7 +25,10 @@ class SitemapPublicController extends Controller
             foreach (enabledLocales() as $locale) {
                 app()->setLocale($locale);
 
-                $pages = Page::query()->published()->where('private', 0)->get();
+                $pages = Page::query()
+                    ->published()
+                    ->where('private', 0)
+                    ->get();
 
                 foreach ($pages as $page) {
                     $url = $page->url($locale);

@@ -23,7 +23,7 @@ use TypiCMS\Modules\Core\Presenters\HistoryPresenter;
  * @property object $new
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Model|\Eloquent $historable
+ * @property-read Model $historable
  * @property-read mixed $href
  * @property-write mixed $status
  * @property-read User|null $user
@@ -65,15 +65,13 @@ class History extends Base
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return Attribute<string, null>
+     */
     protected function href(): Attribute
     {
-        $href = null;
-        if ($this->historable) {
-            $href = $this->historable->editUrl();
-        }
-
         return Attribute::make(
-            get: fn () => $href,
+            get: fn () => $this->historable->editUrl(),
         );
     }
 }

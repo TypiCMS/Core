@@ -2,7 +2,6 @@
 
 namespace TypiCMS\Modules\Core\Traits;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
 use TypiCMS\Modules\Core\Models\History;
@@ -11,11 +10,11 @@ trait Historable
 {
     public static function bootHistorable(): void
     {
-        static::created(function (Model $model) {
+        static::created(function ($model) {
             $model->writeHistory('created', Str::limit($model->present()->title, 200, '…'), [], $model->toArray());
         });
 
-        static::updated(function (Model $model) {
+        static::updated(function ($model) {
             $action = 'updated';
 
             $new = [];
@@ -42,7 +41,7 @@ trait Historable
             $model->writeHistory($action, Str::limit($model->present()->title, 200, '…'), $old, $new);
         });
 
-        static::deleted(function (Model $model) {
+        static::deleted(function ($model) {
             $model->writeHistory('deleted', Str::limit($model->present()->title, 200, '…'));
         });
     }

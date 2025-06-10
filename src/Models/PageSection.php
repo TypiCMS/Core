@@ -48,7 +48,7 @@ class PageSection extends Base implements Sortable
         'body',
     ];
 
-    public $sortable = [
+    public array $sortable = [
         'order_column_name' => 'position',
     ];
 
@@ -57,6 +57,9 @@ class PageSection extends Base implements Sortable
         return static::query()->where('page_id', $this->page_id);
     }
 
+    /**
+     * @return Attribute<string, null>
+     */
     protected function thumb(): Attribute
     {
         return Attribute::make(

@@ -144,6 +144,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return (bool) $this->superuser;
     }
 
+    /**
+     * @return Attribute<array, null>
+     */
     protected function allPermissions(): Attribute
     {
         $permissions = [];

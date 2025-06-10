@@ -124,8 +124,8 @@ class Publish extends Command
      */
     private function uninstallFromComposer(): void
     {
-        if (is_callable('shell_exec') && !mb_stripos(ini_get('disable_functions'), 'shell_exec')) {
-            $uninstallCommand = 'composer remove typicms/' . $this->module . ' 2> /dev/null';
+        $uninstallCommand = 'composer remove typicms/' . $this->module . ' 2> /dev/null';
+        if (!mb_stripos(ini_get('disable_functions'), 'shell_exec')) {
             spin(
                 fn () => shell_exec($uninstallCommand),
                 'Uninstall ' . $this->module . ' from composer…'

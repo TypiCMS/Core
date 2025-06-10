@@ -18,18 +18,18 @@ class RolesAdminController extends BaseAdminController
     public function create(): View
     {
         $model = new Role();
-        $model->checked_permissions = [];
+        $checkedPermissions = [];
 
         return view('roles::admin.create')
-            ->with(compact('model'));
+            ->with(compact('model', 'checkedPermissions'));
     }
 
-    public function edit(Role $role, $child = null): View
+    public function edit(Role $role): View
     {
-        $role->checked_permissions = $role->permissions()->pluck('name')->all();
+        $checkedPermissions = $role->permissions()->pluck('name')->all();
 
         return view('roles::admin.edit')
-            ->with(['model' => $role]);
+            ->with(['model' => $role, 'checkedPermissions' => $checkedPermissions]);
     }
 
     public function store(RolesFormRequest $request): RedirectResponse

@@ -50,7 +50,7 @@ class Taxonomy extends Base implements Sortable
         'result_string',
     ];
 
-    public $sortable = [
+    public array $sortable = [
         'order_column_name' => 'position',
     ];
 

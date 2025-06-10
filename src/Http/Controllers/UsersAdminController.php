@@ -30,20 +30,20 @@ class UsersAdminController extends BaseAdminController
     public function create(): View
     {
         $model = new User();
-        $model->checked_roles = [];
+        $checkedRoles = [];
         $roles = Role::query()->get();
 
         return view('users::admin.create')
-            ->with(compact('model', 'roles'));
+            ->with(compact('model', 'roles', 'checkedRoles'));
     }
 
     public function edit(User $user): View
     {
-        $user->checked_roles = $user->roles()->pluck('id')->all();
+        $checkedRoles = $user->roles()->pluck('id')->all();
         $roles = Role::query()->get();
 
         return view('users::admin.edit')
-            ->with(['model' => $user, 'roles' => $roles]);
+            ->with(['model' => $user, 'roles' => $roles, 'checkedRoles' => $checkedRoles]);
     }
 
     public function store(UsersFormRequest $request): RedirectResponse
@@ -67,7 +67,6 @@ class UsersAdminController extends BaseAdminController
         }
         $user->update($data);
         $user->roles()->sync($request->array('checked_roles'));
-        (new Role())->flushCache();
 
         return $this->redirect($request, $user);
     }

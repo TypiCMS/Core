@@ -61,7 +61,7 @@ class Install extends Command
         $this->call('typicms:user');
 
         // Composer install
-        if (is_callable('shell_exec') && !mb_stripos(ini_get('disable_functions'), 'shell_exec')) {
+        if (!mb_stripos(ini_get('disable_functions'), 'shell_exec')) {
             spin(
                 function () {
                     shell_exec('chmod 755 $(find storage -type d) 2> /dev/null');

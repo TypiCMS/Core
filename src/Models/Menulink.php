@@ -21,6 +21,9 @@ use TypiCMS\NestableTrait;
  * @property int|null $section_id
  * @property int|null $parent_id
  * @property int|null $image_id
+ * @property array $data
+ * @property bool $isLeaf
+ * @property bool $isExpanded
  * @property int $position
  * @property string|null $target
  * @property string|null $class

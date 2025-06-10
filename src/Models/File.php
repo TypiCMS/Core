@@ -60,6 +60,9 @@ class File extends Base
 
     protected $appends = ['thumb_sm', 'url'];
 
+    /**
+     * @return Attribute<string, null>
+     */
     protected function thumbSm(): Attribute
     {
         return Attribute::make(
@@ -67,6 +70,9 @@ class File extends Base
         );
     }
 
+    /**
+     * @return Attribute<string, null>
+     */
     protected function url(): Attribute
     {
         $url = '';

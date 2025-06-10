@@ -14,21 +14,21 @@ class PagesApiController extends BaseApiController
     {
         $userPreferences = $request->user()->preferences;
 
-        $query = Page::query()->selectFields()
+        $query = Page::query()
+            ->selectFields()
             ->orderBy('position');
-        $data = QueryBuilder::for($query)
-            ->get()
-            ->map(function ($item) use ($userPreferences) {
-                $item->data = $item->toArray();
-                $item->isLeaf = $item->module === null ? false : true;
-                $item->isExpanded = !Arr::get($userPreferences, 'Pages_' . $item->id . '_collapsed', false);
 
-                return $item;
+        return QueryBuilder::for($query)
+            ->get()
+            ->map(function (Page $page) use ($userPreferences) {
+                $page->data = $page->toArray();
+                $page->isLeaf = $page->module === null ? false : true;
+                $page->isExpanded = !Arr::get($userPreferences, 'Pages_' . $page->id . '_collapsed', false);
+
+                return $page;
             })
             ->childrenName('children')
             ->nest();
-
-        return $data;
     }
 
     public function linksForEditor(Request $request): array

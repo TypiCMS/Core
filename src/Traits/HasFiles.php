@@ -2,7 +2,6 @@
 
 namespace TypiCMS\Modules\Core\Traits;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use TypiCMS\Modules\Core\Models\File;
 
@@ -10,7 +9,7 @@ trait HasFiles
 {
     public static function bootHasFiles(): void
     {
-        static::saved(function (Model $model) {
+        static::saved(function ($model) {
             if (request()->has('file_ids')) {
                 $model->syncIds(request()->string('file_ids'));
             }

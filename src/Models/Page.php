@@ -27,6 +27,9 @@ use TypiCMS\NestableTrait;
  * @property int|null $parent_id
  * @property int $position
  * @property bool $private
+ * @property array $data
+ * @property bool $isLeaf
+ * @property bool $isExpanded
  * @property bool $is_home
  * @property bool $redirect
  * @property string $title

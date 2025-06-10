@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
+/**
+ * @property int $id
+ * @property array $translatable
+ *
+ * @method string url(string|null $locale = null)
+ * @method mixed translate(string $field, string|null $locale = null)
+ * @method bool isTranslatableAttribute(string $key)
+ */
 abstract class Base extends Model
 {
     use Cachable;
@@ -164,17 +172,17 @@ abstract class Base extends Model
         return route('admin::dashboard');
     }
 
-    public function next(Model $model, ?int $category_id = null): ?Model
+    public function next($model, ?int $category_id = null): ?Model
     {
         return $this->adjacent(1, $model, $category_id);
     }
 
-    public function prev(Model $model, ?int $category_id = null): ?Model
+    public function prev($model, ?int $category_id = null): ?Model
     {
         return $this->adjacent(-1, $model, $category_id);
     }
 
-    public function adjacent(int $direction, Model $model, ?int $category_id = null): ?Model
+    public function adjacent(int $direction, $model, ?int $category_id = null): ?Model
     {
         $currentModel = $model;
         if ($category_id !== null) {

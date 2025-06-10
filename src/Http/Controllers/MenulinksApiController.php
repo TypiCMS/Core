@@ -15,17 +15,18 @@ class MenulinksApiController extends BaseApiController
     {
         $userPreferences = $request->user()->preferences;
 
-        $query = Menulink::query()->selectFields()
+        $query = Menulink::query()
+            ->selectFields()
             ->where('menu_id', $menu->id)
             ->orderBy('position');
         $data = QueryBuilder::for($query)
             ->get()
-            ->map(function ($item) use ($userPreferences) {
-                $item->data = $item->toArray();
-                $item->isLeaf = $item->module === null ? false : true;
-                $item->isExpanded = !Arr::get($userPreferences, 'Menulinks_' . $item->id . '_collapsed', false);
+            ->map(function (Menulink $menulink) use ($userPreferences) {
+                $menulink->data = $menulink->toArray();
+                $menulink->isLeaf = false;
+                $menulink->isExpanded = !Arr::get($userPreferences, 'Menulinks_' . $menulink->id . '_collapsed', false);
 
-                return $item;
+                return $menulink;
             })
             ->childrenName('children')
             ->nest();

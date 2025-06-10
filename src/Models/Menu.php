@@ -128,6 +128,9 @@ class Menu extends Base
         return implode(' ', $classArray);
     }
 
+    /**
+     * @return Attribute<string, null>
+     */
     protected function thumb(): Attribute
     {
         return Attribute::make(

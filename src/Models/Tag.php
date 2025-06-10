@@ -37,7 +37,7 @@ class Tag extends Base
     {
         $locale = $locale ?: app()->getLocale();
         $route = $locale . '::tag';
-        $slug = $this->translate('slug', $locale) ?: null;
+        $slug = $this->slug ?: null;
 
         return Route::has($route) && $slug ? url(route($route, $slug)) : url('/');
     }
