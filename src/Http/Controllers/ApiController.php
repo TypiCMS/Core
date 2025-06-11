@@ -26,7 +26,9 @@ class ApiController extends BaseApiController
             collect($data->items())
                 ->map(
                     function ($item) {
-                        $item->body_translated = mb_trim(strip_tags(html_entity_decode($item->body_translated)), '"');
+                        if (property_exists($item, 'body_translated')) {
+                            $item->body_translated = mb_trim(strip_tags(html_entity_decode($item->body_translated)), '"');
+                        }
 
                         return $item;
                     }

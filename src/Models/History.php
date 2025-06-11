@@ -40,9 +40,7 @@ class History extends Base
 
     protected $appends = ['href'];
 
-    /**
-     * @return array<string, string>
-     */
+    /** @return array<string, string> */
     protected function casts(): array
     {
         return [
@@ -65,13 +63,13 @@ class History extends Base
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return Attribute<string, null>
-     */
+    /** @return Attribute<string, null> */
     protected function href(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->historable->editUrl(),
+            get: function () {
+                return method_exists($this->historable, 'editUrl') ? $this->historable->editUrl() : '';
+            }
         );
     }
 }
