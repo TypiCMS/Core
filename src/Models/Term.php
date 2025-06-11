@@ -50,11 +50,6 @@ class Term extends Base implements Sortable
         'order_column_name' => 'position',
     ];
 
-    public function buildSortQuery()
-    {
-        return static::query()->where('taxonomy_id', $this->taxonomy_id);
-    }
-
     public function editUrl(): string
     {
         $route = 'admin::edit-term';
