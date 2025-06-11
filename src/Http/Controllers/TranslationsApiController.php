@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -24,8 +25,10 @@ class TranslationsApiController extends BaseApiController
         return $data;
     }
 
-    public function destroy(Translation $translation)
+    public function destroy(Translation $translation): JsonResponse
     {
         $translation->delete();
+
+        return response()->json(status: 204);
     }
 }

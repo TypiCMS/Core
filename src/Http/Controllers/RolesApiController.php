@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -23,8 +24,10 @@ class RolesApiController extends BaseApiController
         return $data;
     }
 
-    public function destroy(Role $role)
+    public function destroy(Role $role): JsonResponse
     {
         $role->delete();
+
+        return response()->json(status: 204);
     }
 }

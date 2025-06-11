@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -35,8 +36,10 @@ class HistoryApiController extends BaseApiController
             ->paginate($request->integer('per_page'));
     }
 
-    public function destroy()
+    public function destroy(): JsonResponse
     {
         History::truncate();
+
+        return response()->json(status: 204);
     }
 }

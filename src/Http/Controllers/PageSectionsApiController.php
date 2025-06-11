@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -42,8 +43,10 @@ class PageSectionsApiController extends BaseApiController
         $section->save();
     }
 
-    public function destroy(Page $page, PageSection $section)
+    public function destroy(Page $page, PageSection $section): JsonResponse
     {
         $section->delete();
+
+        return response()->json(status: 204);
     }
 }

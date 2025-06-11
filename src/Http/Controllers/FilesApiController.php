@@ -65,7 +65,7 @@ class FilesApiController extends BaseApiController
         return response()->json(['number' => count($idsArray)]);
     }
 
-    public function destroy(File $file)
+    public function destroy(File $file): JsonResponse
     {
         if ($file->children->count() > 0) {
             return response()->json(['message' => __('A non-empty folder cannot be deleted.')], 403);
@@ -76,6 +76,8 @@ class FilesApiController extends BaseApiController
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
+
+        return response()->json(status: 204);
     }
 
     private function getPath($folderId): array

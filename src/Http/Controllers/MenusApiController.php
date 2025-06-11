@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -40,8 +41,10 @@ class MenusApiController extends BaseApiController
         $menu->save();
     }
 
-    public function destroy(Menu $menu)
+    public function destroy(Menu $menu): JsonResponse
     {
         $menu->delete();
+
+        return response()->json(status: 204);
     }
 }

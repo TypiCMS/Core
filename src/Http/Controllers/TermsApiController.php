@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -41,8 +42,10 @@ class TermsApiController extends BaseApiController
         $term->save();
     }
 
-    public function destroy(Taxonomy $taxonomy, Term $term)
+    public function destroy(Taxonomy $taxonomy, Term $term): JsonResponse
     {
         $term->delete();
+
+        return response()->json(status: 204);
     }
 }

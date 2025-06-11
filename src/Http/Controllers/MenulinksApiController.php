@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -62,11 +63,13 @@ class MenulinksApiController extends BaseApiController
         }
     }
 
-    public function destroy(Menu $menu, Menulink $menulink)
+    public function destroy(Menu $menu, Menulink $menulink): JsonResponse
     {
         if ($menulink->submenulinks->count() > 0) {
-            return response(['message' => 'This item cannot be deleted because it has children.'], 403);
+            return response()->json(['message' => 'This item cannot be deleted because it has children.'], 403);
         }
         $menulink->delete();
+
+        return response()->json(status: 204);
     }
 }

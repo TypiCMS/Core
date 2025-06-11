@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -78,14 +79,16 @@ class PagesApiController extends BaseApiController
         }
     }
 
-    public function destroy(Page $page)
+    public function destroy(Page $page): JsonResponse
     {
         if ($page->isHome()) {
-            return response(['message' => 'The home page cannot be deleted.'], 403);
+            return response()->json(['message' => 'The home page cannot be deleted.'], 403);
         }
         if ($page->subpages->count() > 0) {
-            return response(['message' => 'This item cannot be deleted because it has children.'], 403);
+            return response()->json(['message' => 'This item cannot be deleted because it has children.'], 403);
         }
         $page->delete();
+
+        return response()->json(status: 204);
     }
 }
