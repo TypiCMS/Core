@@ -70,7 +70,7 @@ class PagesApiController extends BaseApiController
     {
         $data = $request->only('moved', 'item');
         foreach ($data['item'] as $position => $item) {
-            $page = Page::find($item['id']);
+            $page = Page::query()->find($item['id']);
 
             $sortData = [
                 'position' => (int) $position + 1,

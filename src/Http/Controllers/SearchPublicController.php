@@ -4,10 +4,11 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class SearchPublicController extends BasePublicController
 {
-    public function search(Request $request)
+    public function search(Request $request): View
     {
         $results = collect();
         $tabs = [];

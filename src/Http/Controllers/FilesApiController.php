@@ -82,7 +82,7 @@ class FilesApiController extends BaseApiController
 
     private function getPath($folderId): array
     {
-        $folder = File::find($folderId);
+        $folder = File::query()->find($folderId);
         $path = [];
         while ($folder) {
             $path[] = $folder;

@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -29,12 +30,9 @@ class TagsApiController extends BaseApiController
         return $data;
     }
 
-    public function tagsList(Request $request)
+    public function tagsList(): Collection
     {
-        $models = QueryBuilder::for(Tag::class)
-            ->get();
-
-        return $models;
+        return QueryBuilder::for(Tag::class)->get();
     }
 
     public function destroy(Tag $tag): JsonResponse

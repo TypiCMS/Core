@@ -8,10 +8,8 @@ class LocaleController extends BaseAdminController
 {
     /**
      * Change content locale.
-     *
-     * @param mixed $locale
      */
-    public function setContentLocale($locale)
+    public function setContentLocale(string $locale): void
     {
         Session::put('allLocalesInForm', false);
         if ($locale === 'all') {

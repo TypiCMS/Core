@@ -3,6 +3,8 @@
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\View\View;
@@ -49,7 +51,7 @@ class LoginController extends Controller
     /**
      * Get the failed login response instance.
      */
-    protected function sendFailedLoginResponse(Request $request)
+    protected function sendFailedLoginResponse(Request $request): JsonResponse|RedirectResponse
     {
         $credentials = $this->credentials($request);
 

@@ -33,21 +33,25 @@ trait HasFiles
         return $this->files()->where('type', 'i');
     }
 
+    /** @return MorphToMany<File, $this> */
     public function documents(): MorphToMany
     {
         return $this->files()->where('type', 'd');
     }
 
+    /** @return MorphToMany<File, $this> */
     public function videos(): MorphToMany
     {
         return $this->files()->where('type', 'v');
     }
 
+    /** @return MorphToMany<File, $this> */
     public function audios(): MorphToMany
     {
         return $this->files()->where('type', 'a');
     }
 
+    /** @return MorphToMany<File, $this> */
     public function files(): MorphToMany
     {
         return $this->morphToMany(File::class, 'model', 'model_has_files', 'model_id', 'file_id')

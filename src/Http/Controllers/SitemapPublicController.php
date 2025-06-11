@@ -9,7 +9,7 @@ use TypiCMS\Modules\Core\Models\Page;
 
 class SitemapPublicController extends Controller
 {
-    public function generate()
+    public function generate(): string
     {
         // create new sitemap object
         $sitemap = app('sitemap');

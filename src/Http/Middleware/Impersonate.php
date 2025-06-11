@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Impersonate
 {
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next): mixed
     {
         if ($request->session()->has('impersonation')) {
             Auth::onceUsingId($request->session()->get('impersonation'));

@@ -44,7 +44,7 @@ class PagesAdminController extends BaseAdminController
             ->withMessage(__('Item successfully updated.'));
     }
 
-    public function notFound()
+    public function notFound(): never
     {
         abort(404);
     }

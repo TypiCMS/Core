@@ -63,9 +63,7 @@ trait Historable
         ]);
     }
 
-    /**
-     * Model has history.
-     */
+    /** @return MorphMany<History, $this> */
     public function history(): MorphMany
     {
         return $this->morphMany(History::class, 'historable');

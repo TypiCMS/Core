@@ -50,11 +50,11 @@ class MenulinksApiController extends BaseApiController
         $menulink->save();
     }
 
-    public function sort(Menu $menu, Request $request)
+    public function sort(Menu $menu, Request $request): void
     {
         $data = $request->only('moved', 'item');
         foreach ($data['item'] as $position => $item) {
-            $menulink = Menulink::find($item['id']);
+            $menulink = Menulink::query()->find($item['id']);
             $sortData = [
                 'position' => (int) $position + 1,
                 'parent_id' => $item['parent_id'],
