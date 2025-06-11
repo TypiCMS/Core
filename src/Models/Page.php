@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Illuminate\Database\Eloquent\Attributes\CollectedBy;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,7 +19,6 @@ use TypiCMS\Modules\Core\Presenters\PagePresenter;
 use TypiCMS\Modules\Core\Traits\HasFiles;
 use TypiCMS\Modules\Core\Traits\Historable;
 use TypiCMS\NestableCollection;
-use TypiCMS\NestableTrait;
 
 /**
  * @property int $id
@@ -63,12 +63,12 @@ use TypiCMS\NestableTrait;
  * @property-read Collection<int, File> $videos
  */
 #[ObservedBy([AddToMenuObserver::class, HomePageObserver::class, UriObserver::class])]
+#[CollectedBy(NestableCollection::class)]
 class Page extends Base
 {
     use HasFiles;
     use HasTranslations;
     use Historable;
-    use NestableTrait;
     use PresentableTrait;
 
     protected string $presenter = PagePresenter::class;

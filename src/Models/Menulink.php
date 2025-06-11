@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Illuminate\Database\Eloquent\Attributes\CollectedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,7 +13,6 @@ use Spatie\Translatable\HasTranslations;
 use TypiCMS\Modules\Core\Presenters\MenulinkPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 use TypiCMS\NestableCollection;
-use TypiCMS\NestableTrait;
 
 /**
  * @property int $id
@@ -44,11 +44,11 @@ use TypiCMS\NestableTrait;
  * @property-read int|null $submenulinks_count
  * @property-read mixed $translations
  */
+#[CollectedBy(NestableCollection::class)]
 class Menulink extends Base
 {
     use HasTranslations;
     use Historable;
-    use NestableTrait;
     use PresentableTrait;
 
     protected string $presenter = MenulinkPresenter::class;
