@@ -15,34 +15,15 @@ use function Laravel\Prompts\text;
 
 class Database extends Command
 {
-    /**
-     * The console command name.
-     */
     protected $name = 'typicms:database';
 
-    /**
-     * The console command description.
-     */
     protected $description = 'Set database credentials in .env file';
 
-    /**
-     * The filesystem instance.
-     */
-    protected $files;
-
-    /**
-     * Create a new key generator command.
-     */
-    public function __construct(Filesystem $files)
+    public function __construct(protected Filesystem $files)
     {
         parent::__construct();
-
-        $this->files = $files;
     }
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): void
     {
         $contents = $this->getKeyFile();
@@ -121,9 +102,7 @@ class Database extends Command
         $this->files->put('.env', $contents);
     }
 
-    /**
-     * Get the console command arguments.
-     */
+    /** @return array<int, array<int, int|string>> */
     protected function getArguments(): array
     {
         return [
@@ -131,9 +110,6 @@ class Database extends Command
         ];
     }
 
-    /**
-     * Get the key file and return its content.
-     */
     protected function getKeyFile(): string
     {
         return $this->files->exists('.env') ? $this->files->get('.env') : $this->files->get('.env.example');

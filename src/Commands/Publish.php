@@ -18,40 +18,18 @@ use function Laravel\Prompts\spin;
 
 class Publish extends Command
 {
-    /**
-     * The filesystem instance.
-     */
-    protected $files;
-
-    /**
-     * The name of the module, pluralized and ucfirsted.
-     */
     protected string $module;
 
-    /**
-     * The console command signature.
-     */
     protected $signature = 'typicms:publish {module : The module that you want to publish}
             {--force : Overwrite any existing files.}';
 
-    /**
-     * The console command description.
-     */
     protected $description = 'Move a module from the vendor directory to the /Modules directory.';
 
-    /**
-     * Create a new key generator command.
-     */
-    public function __construct(Filesystem $files)
+    public function __construct(protected Filesystem $files)
     {
         parent::__construct();
-
-        $this->files = $files;
     }
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): void
     {
         $this->module = mb_strtolower($this->argument('module'));
