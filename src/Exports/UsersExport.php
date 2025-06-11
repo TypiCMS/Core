@@ -33,23 +33,23 @@ class UsersExport implements FromCollection, ShouldAutoSize, WithColumnFormattin
     }
 
     /** @return array<int, mixed> */
-    public function map(mixed $model): array
+    public function map(mixed $row): array
     {
         return [
-            Date::dateTimeToExcel($model->created_at),
-            Date::dateTimeToExcel($model->updated_at),
-            $model->last_name,
-            $model->first_name,
-            $model->email,
-            $model->phone,
-            $model->street,
-            $model->number,
-            $model->box,
-            $model->postal_code,
-            $model->city,
-            $model->country,
-            $model->locale,
-            $model->privacy_policy_accepted,
+            Date::dateTimeToExcel($row->created_at),
+            Date::dateTimeToExcel($row->updated_at),
+            $row->last_name,
+            $row->first_name,
+            $row->email,
+            $row->phone,
+            $row->street,
+            $row->number,
+            $row->box,
+            $row->postal_code,
+            $row->city,
+            $row->country,
+            $row->locale,
+            $row->privacy_policy_accepted,
         ];
     }
 
