@@ -55,6 +55,7 @@ class Menulink extends Base
 
     protected $guarded = [];
 
+    /** @var array<string> */
     public array $translatable = [
         'title',
         'website',

@@ -43,6 +43,7 @@ class Menu extends Base
 
     protected $appends = ['thumb'];
 
+    /** @var array<string> */
     public array $translatable = [
         'status',
     ];
@@ -128,9 +129,7 @@ class Menu extends Base
         return implode(' ', $classArray);
     }
 
-    /**
-     * @return Attribute<string, null>
-     */
+    /** @return Attribute<string, null> */
     protected function thumb(): Attribute
     {
         return Attribute::make(

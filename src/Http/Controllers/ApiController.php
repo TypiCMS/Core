@@ -38,7 +38,7 @@ class ApiController extends BaseApiController
         return $data;
     }
 
-    protected function updatePartial(Block $block, Request $request)
+    protected function updatePartial(Block $block, Request $request): void
     {
         foreach ($request->only('status') as $key => $content) {
             if ($block->isTranslatableAttribute($key)) {

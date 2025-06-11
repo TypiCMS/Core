@@ -82,9 +82,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'remember_token',
     ];
 
-    /**
-     * @return array<string, string>
-     */
+    /** @return array<string, string> */
     protected function casts(): array
     {
         return [
@@ -106,7 +104,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->locale;
     }
 
-    public function url($locale = null): string
+    public function url(?string $locale = null): string
     {
         return '/';
     }

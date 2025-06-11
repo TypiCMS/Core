@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Requests;
 
 class TranslationFormRequest extends AbstractFormRequest
 {
+    /** @return array<string, string> */
     public function rules(): array
     {
         return [

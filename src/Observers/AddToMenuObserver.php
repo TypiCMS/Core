@@ -10,7 +10,7 @@ class AddToMenuObserver
     /**
      * If a new homepage is defined, cancel previous homepage.
      */
-    public function created(Page $model)
+    public function created(Page $model): void
     {
         if ($menu_id = request()->integer('add_to_menu')) {
             $position = $this->getPositionFormMenu($menu_id);
@@ -29,7 +29,7 @@ class AddToMenuObserver
         }
     }
 
-    private function getPositionFormMenu($id)
+    private function getPositionFormMenu(int $id): int
     {
         $position = Menulink::query()->where('menu_id', $id)->max('position');
 

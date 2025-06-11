@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 
 class SlugMonolingualObserver
 {
-    public function saving($model)
+    public function saving($model): void
     {
         $slug = $model->slug ?: Str::slug($model->title);
         $model->slug = $slug;

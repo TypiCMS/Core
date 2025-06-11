@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use TypiCMS\Modules\Core\Exports\UsersExport;
 use TypiCMS\Modules\Core\Http\Requests\UsersFormRequest;
 use TypiCMS\Modules\Core\Models\Role;
@@ -20,7 +21,7 @@ class UsersAdminController extends BaseAdminController
         return view('users::admin.index');
     }
 
-    public function export(Request $request)
+    public function export(Request $request): BinaryFileResponse
     {
         $filename = date('Y-m-d') . ' ' . config('app.name') . ' users.xlsx';
 

@@ -46,6 +46,7 @@ class Term extends Base implements Sortable
         'slug',
     ];
 
+    /** @var array<string> */
     public array $sortable = [
         'order_column_name' => 'position',
     ];
@@ -70,6 +71,7 @@ class Term extends Base implements Sortable
         return route('admin::dashboard');
     }
 
+    /** @return BelongsTo<Taxonomy, $this> */
     public function taxonomy(): BelongsTo
     {
         return $this->belongsTo(Taxonomy::class);

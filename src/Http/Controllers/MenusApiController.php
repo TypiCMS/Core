@@ -26,7 +26,7 @@ class MenusApiController extends BaseApiController
         return $data;
     }
 
-    protected function updatePartial(Menu $menu, Request $request)
+    protected function updatePartial(Menu $menu, Request $request): void
     {
         foreach ($request->only('status') as $key => $content) {
             if ($menu->isTranslatableAttribute($key)) {

@@ -9,7 +9,7 @@ class UriObserver
     /**
      * On create, update uri.
      */
-    public function creating(Page $page)
+    public function creating(Page $page): void
     {
         $slugs = $page->getTranslations('slug');
         foreach ($slugs as $locale => $slug) {
@@ -21,7 +21,7 @@ class UriObserver
     /**
      * On update, change uri.
      */
-    public function updating(Page $page)
+    public function updating(Page $page): void
     {
         $parentUris = $this->getParentUris($page);
         $uris = [];
@@ -46,7 +46,7 @@ class UriObserver
     /**
      * On updated, empty child uri.
      */
-    public function updated(Page $page)
+    public function updated(Page $page): void
     {
         $this->emptySubpagesUris($page);
     }

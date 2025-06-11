@@ -41,6 +41,7 @@ class PageSection extends Base implements Sortable
 
     protected $appends = ['thumb'];
 
+    /** @var array<string> */
     public array $translatable = [
         'title',
         'slug',
@@ -48,13 +49,12 @@ class PageSection extends Base implements Sortable
         'body',
     ];
 
+    /** @var array<string> */
     public array $sortable = [
         'order_column_name' => 'position',
     ];
 
-    /**
-     * @return Attribute<string, null>
-     */
+    /** @return Attribute<string, null> */
     protected function thumb(): Attribute
     {
         return Attribute::make(
@@ -62,7 +62,7 @@ class PageSection extends Base implements Sortable
         );
     }
 
-    public function url($locale = null): string
+    public function url(?string $locale = null): string
     {
         $locale = $locale ?: app()->getLocale();
 

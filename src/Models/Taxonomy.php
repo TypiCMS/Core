@@ -44,19 +44,19 @@ class Taxonomy extends Base implements Sortable
 
     protected $guarded = [];
 
+    /** @var array<string> */
     public array $translatable = [
         'title',
         'slug',
         'result_string',
     ];
 
+    /** @var array<string> */
     public array $sortable = [
         'order_column_name' => 'position',
     ];
 
-    /**
-     * @return array<string, string>
-     */
+    /** @return array<string, string> */
     protected function casts(): array
     {
         return [
@@ -64,6 +64,7 @@ class Taxonomy extends Base implements Sortable
         ];
     }
 
+    /** @return array<string, string> */
     public function allForSelect(): array
     {
         $items = self::query()
@@ -75,7 +76,7 @@ class Taxonomy extends Base implements Sortable
         return ['' => ''] + $items;
     }
 
-    public function url($locale = null): string
+    public function url(?string $locale = null): string
     {
         return '/';
     }

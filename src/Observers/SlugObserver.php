@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 
 class SlugObserver
 {
-    public function saving($model)
+    public function saving($model): void
     {
         $titles = $model->getTranslations('title');
         $slugs = $model->getTranslations('slug');

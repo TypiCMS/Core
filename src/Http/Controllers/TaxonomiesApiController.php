@@ -25,7 +25,7 @@ class TaxonomiesApiController extends BaseApiController
         return $data;
     }
 
-    protected function updatePartial(Taxonomy $taxonomy, Request $request)
+    protected function updatePartial(Taxonomy $taxonomy, Request $request): void
     {
         foreach ($request->only('position') as $key => $content) {
             if ($taxonomy->isTranslatableAttribute($key)) {

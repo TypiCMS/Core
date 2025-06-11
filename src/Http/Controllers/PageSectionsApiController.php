@@ -28,7 +28,7 @@ class PageSectionsApiController extends BaseApiController
         return $data;
     }
 
-    protected function updatePartial(Page $page, PageSection $section, Request $request)
+    protected function updatePartial(Page $page, PageSection $section, Request $request): void
     {
         foreach ($request->only('status', 'position') as $key => $content) {
             if ($section->isTranslatableAttribute($key)) {

@@ -75,9 +75,7 @@ class Page extends Base
 
     protected $guarded = [];
 
-    /**
-     * @return array<string, string>
-     */
+    /** @return array<string, string> */
     protected function casts(): array
     {
         return [
@@ -87,6 +85,7 @@ class Page extends Base
         ];
     }
 
+    /** @var array<string> */
     public array $translatable = [
         'title',
         'slug',
@@ -112,7 +111,7 @@ class Page extends Base
         return $uri ?: '/';
     }
 
-    public function url($locale = null): string
+    public function url(?string $locale = null): string
     {
         return url($this->path($locale));
     }
@@ -160,6 +159,7 @@ class Page extends Base
         $query->where($field, 'LIKE', $uri);
     }
 
+    /** @return array<string, string> */
     public function allForSelect(): array
     {
         $pages = self::query()

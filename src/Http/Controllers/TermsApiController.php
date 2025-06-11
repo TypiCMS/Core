@@ -27,7 +27,7 @@ class TermsApiController extends BaseApiController
         return $data;
     }
 
-    protected function updatePartial(Taxonomy $taxonomy, Term $term, Request $request)
+    protected function updatePartial(Taxonomy $taxonomy, Term $term, Request $request): void
     {
         foreach ($request->only('position') as $key => $content) {
             if ($term->isTranslatableAttribute($key)) {

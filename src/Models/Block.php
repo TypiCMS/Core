@@ -30,6 +30,7 @@ class Block extends Base
 
     protected $guarded = [];
 
+    /** @var array<string> */
     public array $translatable = [
         'status',
         'body',

@@ -5,7 +5,6 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Spatie\QueryBuilder\QueryBuilder;
 use TypiCMS\Modules\Core\Models\Page;
 use TypiCMS\NestableCollection;
 
@@ -19,7 +18,9 @@ class PagesApiController extends BaseApiController
             ->selectFields()
             ->orderBy('position');
 
-        return QueryBuilder::for($query)
+        $pages = Page::query()
+            ->selectFields()
+            ->orderBy('position')
             ->get()
             ->map(function (Page $page) use ($userPreferences) {
                 $page->data = $page->toArray();
@@ -30,6 +31,8 @@ class PagesApiController extends BaseApiController
             })
             ->childrenName('children')
             ->nest();
+
+        return $pages;
     }
 
     public function linksForEditor(Request $request): array

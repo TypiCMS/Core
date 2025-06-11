@@ -33,7 +33,7 @@ class Tag extends Base
     #[Scope]
     protected function published(Builder $query): void {}
 
-    public function url($locale = null): string
+    public function url(?string $locale = null): string
     {
         $locale = $locale ?: app()->getLocale();
         $route = $locale . '::tag';
