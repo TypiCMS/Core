@@ -13,6 +13,7 @@ use TypiCMS\Modules\Core\Models\PageSection;
 
 class PageSectionsApiController extends BaseApiController
 {
+    /** @return LengthAwarePaginator<int, mixed> */
     public function index(Page $page, Request $request): LengthAwarePaginator
     {
         $query = PageSection::query()->selectFields();

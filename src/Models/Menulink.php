@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Attributes\CollectedBy;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
@@ -21,7 +22,9 @@ use TypiCMS\NestableCollection;
  * @property int|null $section_id
  * @property int|null $parent_id
  * @property int|null $image_id
- * @property array $data
+ * @property array<string, mixed> $data
+ * @property Collection<int, Model> $items
+ * @property string|null $href
  * @property bool $isLeaf
  * @property bool $isExpanded
  * @property int $position

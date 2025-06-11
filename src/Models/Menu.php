@@ -48,7 +48,7 @@ class Menu extends Base
         'status',
     ];
 
-    public function getMenu($name): ?self
+    public function getMenu(string $name): ?self
     {
         try {
             $menu = self::query()
@@ -76,9 +76,9 @@ class Menu extends Base
         }
     }
 
-    public function prepare($items = null): NestableCollection
+    public function prepare(?NestableCollection $items = null): NestableCollection
     {
-        $items->each(function ($item) {
+        $items->each(function (Menulink $item) {
             $item->items = collect();
             $item->href = $this->setHref($item);
             $item->class = $this->setClass($item);
@@ -88,7 +88,7 @@ class Menu extends Base
     }
 
     /**
-     * Set the href to the menulink’s website or the URL of the related page.
+     * Set the href to the menu link’s website or the URL of the related page.
      */
     public function setHref(Menulink $menulink): string
     {
@@ -110,10 +110,8 @@ class Menu extends Base
 
     /**
      * Set the class and add active if needed.
-     *
-     * @param mixed $menulink
      */
-    public function setClass($menulink): string
+    public function setClass(Menulink $menulink): string
     {
         $classArray = preg_split('/ /', (string) $menulink->class, -1, PREG_SPLIT_NO_EMPTY);
         // add active class if current uri is equal to item uri or contains

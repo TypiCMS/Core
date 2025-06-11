@@ -5,7 +5,6 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Spatie\QueryBuilder\QueryBuilder;
 use TypiCMS\Modules\Core\Models\Menu;
 use TypiCMS\Modules\Core\Models\Menulink;
 use TypiCMS\NestableCollection;
@@ -16,11 +15,10 @@ class MenulinksApiController extends BaseApiController
     {
         $userPreferences = $request->user()->preferences;
 
-        $query = Menulink::query()
+        $data = Menulink::query()
             ->selectFields()
             ->where('menu_id', $menu->id)
-            ->orderBy('position');
-        $data = QueryBuilder::for($query)
+            ->orderBy('position')
             ->get()
             ->map(function (Menulink $menulink) use ($userPreferences) {
                 $menulink->data = $menulink->toArray();

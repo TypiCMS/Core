@@ -10,7 +10,7 @@ trait HasTags
 {
     public static function bootHasTags(): void
     {
-        static::saved(function ($model) {
+        static::saved(function (mixed $model) {
             if (request()->has('tags')) {
                 $tags = array_filter(array_map('trim', explode(',', request()->string('tags'))));
 
@@ -52,6 +52,7 @@ trait HasTags
         });
     }
 
+    /** @return MorphToMany<Tag, $this> */
     public function tags(): MorphToMany
     {
         return $this->morphToMany(Tag::class, 'taggable')

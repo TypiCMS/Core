@@ -12,6 +12,7 @@ use TypiCMS\Modules\Core\Models\Role;
 
 class RolesApiController extends BaseApiController
 {
+    /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
     {
         $data = QueryBuilder::for(Role::class)

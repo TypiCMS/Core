@@ -12,6 +12,7 @@ use TypiCMS\Modules\Core\Models\User;
 
 class UsersApiController extends BaseApiController
 {
+    /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
     {
         $data = QueryBuilder::for(User::class)
@@ -49,7 +50,7 @@ class UsersApiController extends BaseApiController
                 'message' => __('The current logged in user cannot be deleted.'),
             ], 403);
         }
-        if (method_exists($user, 'mollieCustomerFields')) {
+        if (method_exists($user, 'hasRunningSubscription')) {
             if ($user->hasRunningSubscription()) {
                 return response()->json([
                     'error' => true,

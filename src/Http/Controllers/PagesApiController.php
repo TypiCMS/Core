@@ -35,10 +35,12 @@ class PagesApiController extends BaseApiController
         return $pages;
     }
 
+    /** @return list<array<int, mixed>> */
     public function linksForEditor(Request $request): array
     {
-        $data = Page::order()
+        $data = Page::query()
             ->select(['id', 'parent_id', 'title'])
+            ->order()
             ->get()
             ->nest()
             ->listsFlattened();

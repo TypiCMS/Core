@@ -81,6 +81,7 @@ class Taxonomy extends Base implements Sortable
         return '/';
     }
 
+    /** @return HasMany<Term, $this> */
     public function terms(): HasMany
     {
         return $this->hasMany(Term::class)->order();

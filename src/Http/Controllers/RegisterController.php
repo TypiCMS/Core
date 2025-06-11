@@ -63,7 +63,7 @@ class RegisterController extends Controller
         }
 
         $data['password'] = Hash::make($data['password']);
-        $user = User::create($data);
+        $user = User::query()->create($data);
 
         event(new Registered($user));
 

@@ -41,6 +41,7 @@ class Term extends Base implements Sortable
 
     protected $guarded = [];
 
+    /** @var array<string> */
     public array $translatable = [
         'title',
         'slug',

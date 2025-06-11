@@ -36,7 +36,7 @@ class Block extends Base
         'body',
     ];
 
-    public function render($name = null): string
+    public function render(?string $name = null): string
     {
         $args = func_get_args();
         $args[] = app()->getLocale();

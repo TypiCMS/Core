@@ -29,7 +29,7 @@ class MenulinksAdminController extends BaseAdminController
 
     public function store(Menu $menu, MenulinkFormRequest $request): RedirectResponse
     {
-        $menulink = Menulink::create($request->validated());
+        $menulink = Menulink::query()->create($request->validated());
 
         return $this->redirect($request, $menulink)
             ->withMessage(__('Item successfully created.'));

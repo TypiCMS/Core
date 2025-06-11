@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
@@ -27,7 +28,7 @@ use TypiCMS\NestableCollection;
  * @property int|null $parent_id
  * @property int $position
  * @property bool $private
- * @property array $data
+ * @property array<string, mixed> $data
  * @property bool $isLeaf
  * @property bool $isExpanded
  * @property bool $is_home
@@ -97,7 +98,7 @@ class Page extends Base
         'meta_keywords',
     ];
 
-    public function path($locale = null): string
+    public function path(?string $locale = null): string
     {
         $locale = $locale ?: app()->getLocale();
         $uri = $this->translate('uri', $locale);
@@ -126,6 +127,7 @@ class Page extends Base
         return (bool) $this->private;
     }
 
+    /** @param Builder<Model> $query */
     #[Scope]
     protected function whereUriIs(Builder $query, string $uri): void
     {
@@ -137,6 +139,7 @@ class Page extends Base
         $query->where($field, $uri);
     }
 
+    /** @param Builder<Model> $query */
     #[Scope]
     protected function whereUriIsNot(Builder $query, string $uri): void
     {
@@ -148,6 +151,7 @@ class Page extends Base
         $query->where($field, '!=', $uri);
     }
 
+    /** @param Builder<Model> $query */
     #[Scope]
     protected function whereUriIsLike(Builder $query, string $uri): void
     {

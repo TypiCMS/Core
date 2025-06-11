@@ -3,12 +3,17 @@
 namespace TypiCMS\Modules\Core\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\Filters\Filter;
 
+/**
+ * @implements Filter<Model>
+ */
 class FilterOr implements Filter
 {
-    public function __invoke(Builder $query, $value, string $property): Builder
+    /** @return Builder<Model> */
+    public function __invoke(Builder $query, mixed $value, string $property): Builder
     {
         if (is_array($value)) {
             $value = implode(',', $value);

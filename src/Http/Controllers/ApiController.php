@@ -12,6 +12,7 @@ use TypiCMS\Modules\Core\Models\Block;
 
 class ApiController extends BaseApiController
 {
+    /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
     {
         $query = Block::query()->selectFields();

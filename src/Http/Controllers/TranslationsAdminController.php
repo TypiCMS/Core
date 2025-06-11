@@ -30,7 +30,7 @@ class TranslationsAdminController extends BaseAdminController
 
     public function store(TranslationFormRequest $request): RedirectResponse
     {
-        $translation = Translation::create($request->validated());
+        $translation = Translation::query()->create($request->validated());
 
         return $this->redirect($request, $translation)
             ->withMessage(__('Item successfully created.'));

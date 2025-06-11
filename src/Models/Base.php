@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 
 /**
  * @property int $id
- * @property array $translatable
+ * @property array<string> $translatable
  *
  * @method string url(string|null $locale = null)
  * @method mixed translate(string $field, string|null $locale = null)
@@ -23,7 +23,7 @@ abstract class Base extends Model
 {
     use Cachable;
 
-    public function previewUrl($locale = null): string
+    public function previewUrl(?string $locale = null): string
     {
         if ($this->id) {
             return $this->url($locale);
@@ -32,13 +32,14 @@ abstract class Base extends Model
         return url('/');
     }
 
-    public function isPublished($locale = null): bool
+    public function isPublished(?string $locale = null): bool
     {
         $locale = $locale ?: app()->getLocale();
 
         return (bool) $this->translate('status', $locale);
     }
 
+    /** @param Builder<Model> $query */
     #[Scope]
     protected function published(Builder $query): void
     {
@@ -52,8 +53,9 @@ abstract class Base extends Model
         }
     }
 
+    /** @param Builder<Model> $query */
     #[Scope]
-    protected function whereSlugIs(Builder $query, $slug): void
+    protected function whereSlugIs(Builder $query, string $slug): void
     {
         $field = 'slug';
         if (in_array($field, (array) $this->translatable)) {
@@ -63,6 +65,7 @@ abstract class Base extends Model
         $query->where($field, $slug);
     }
 
+    /** @param Builder<Model> $query */
     #[Scope]
     protected function order(Builder $query): void
     {
@@ -73,6 +76,7 @@ abstract class Base extends Model
         }
     }
 
+    /** @param Builder<Model> $query */
     #[Scope]
     protected function selectFields(Builder $query): void
     {
@@ -135,6 +139,7 @@ abstract class Base extends Model
         }
     }
 
+    /** @return Attribute<string, null> */
     protected function status(): Attribute
     {
         return Attribute::make(
@@ -172,17 +177,17 @@ abstract class Base extends Model
         return route('admin::dashboard');
     }
 
-    public function next($model, ?int $category_id = null): ?Model
+    public function next(mixed $model, ?int $category_id = null): ?Model
     {
         return $this->adjacent(1, $model, $category_id);
     }
 
-    public function prev($model, ?int $category_id = null): ?Model
+    public function prev(mixed $model, ?int $category_id = null): ?Model
     {
         return $this->adjacent(-1, $model, $category_id);
     }
 
-    public function adjacent(int $direction, $model, ?int $category_id = null): ?Model
+    public function adjacent(int $direction, mixed $model, ?int $category_id = null): ?Model
     {
         $currentModel = $model;
         if ($category_id !== null) {

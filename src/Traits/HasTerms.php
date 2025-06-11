@@ -12,7 +12,7 @@ trait HasTerms
 {
     public static function bootHasTerms(): void
     {
-        static::saved(function ($model) {
+        static::saved(function (mixed $model) {
             if (request()->has('terms')) {
                 $data = array_filter(Arr::flatten(request()->array('terms')));
                 $model->terms()->sync($data);
@@ -20,6 +20,7 @@ trait HasTerms
         });
     }
 
+    /** @return MorphToMany<Term, $this> */
     public function terms(): MorphToMany
     {
         return $this->morphToMany(Term::class, 'model', 'model_has_terms')
@@ -27,6 +28,7 @@ trait HasTerms
             ->withTimestamps();
     }
 
+    /** @return Collection<int, Taxonomy> */
     public function getTaxonomies(): Collection
     {
         return Taxonomy::query()
@@ -35,6 +37,7 @@ trait HasTerms
             ->get();
     }
 
+    /** @return array<string, string> */
     public function getTaxonomyValidationRules(): array
     {
         $taxonomies = $this->getTaxonomies();

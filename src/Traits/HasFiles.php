@@ -9,7 +9,7 @@ trait HasFiles
 {
     public static function bootHasFiles(): void
     {
-        static::saved(function ($model) {
+        static::saved(function (mixed $model) {
             if (request()->has('file_ids')) {
                 $model->syncIds(request()->string('file_ids'));
             }

@@ -49,7 +49,7 @@ use TypiCMS\Modules\Core\Services\TypiCMS;
 
 class ModuleServiceProvider extends ServiceProvider
 {
-    private $migrationCount = 0;
+    private int $migrationCount = 0;
 
     /**
      * Bootstrap the application events.

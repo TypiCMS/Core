@@ -12,6 +12,7 @@ use TypiCMS\Modules\Core\Models\Taxonomy;
 
 class TaxonomiesApiController extends BaseApiController
 {
+    /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
     {
         $query = Taxonomy::query()->selectFields();

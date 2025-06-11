@@ -13,22 +13,14 @@ use Laracasts\Presenter\Presenter as BasePresenter;
 
 abstract class Presenter extends BasePresenter
 {
-    protected $entity;
+    protected string $imageNotFound = 'img-not-found.png';
 
-    protected $imageNotFound = 'img-not-found.png';
-
-    public function __construct($entity)
-    {
-        $this->entity = $entity;
-    }
+    public function __construct(protected $entity) {}
 
     /**
      * Allow for property-style retrieval.
-     *
-     * @param mixed $property
-     * @return mixed
      */
-    public function __get($property)
+    public function __get(mixed $property): mixed
     {
         if (method_exists($this, $property)) {
             return $this->{$property}();

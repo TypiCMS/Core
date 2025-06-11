@@ -53,11 +53,13 @@ class History extends Base
 
     public string $direction = 'desc';
 
+    /** @return MorphTo<Model, $this> */
     public function historable(): MorphTo
     {
         return $this->morphTo();
     }
 
+    /** @return BelongsTo<User, $this> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

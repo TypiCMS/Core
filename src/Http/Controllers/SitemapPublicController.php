@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -25,6 +26,7 @@ class SitemapPublicController extends Controller
             foreach (enabledLocales() as $locale) {
                 app()->setLocale($locale);
 
+                /** @var Collection<int, Page> $pages */
                 $pages = Page::query()
                     ->published()
                     ->where('private', 0)

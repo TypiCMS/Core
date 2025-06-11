@@ -67,9 +67,7 @@ class UriObserver
         }
     }
 
-    /**
-     * Get the URIs of the parent page.
-     */
+    /** @return array<string, string> */
     private function getParentUris(Page $page): array
     {
         if ($page->parent !== null) {

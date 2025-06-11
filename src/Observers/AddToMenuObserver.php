@@ -25,7 +25,7 @@ class AddToMenuObserver
                 $data['description'][$locale] = null;
                 $data['website'][$locale] = '';
             }
-            Menulink::create($data);
+            Menulink::query()->create($data);
         }
     }
 

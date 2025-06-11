@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -14,6 +15,7 @@ use TypiCMS\Modules\Core\Models\Tag;
 
 class TagsApiController extends BaseApiController
 {
+    /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
     {
         $query = Tag::query()->selectFields();
@@ -30,6 +32,7 @@ class TagsApiController extends BaseApiController
         return $data;
     }
 
+    /** @return Collection<int, Model> */
     public function tagsList(): Collection
     {
         return QueryBuilder::for(Tag::class)->get();

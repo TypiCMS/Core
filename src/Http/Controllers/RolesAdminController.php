@@ -39,7 +39,7 @@ class RolesAdminController extends BaseAdminController
 
         $this->storeNewPermissions($checkedPermissions);
 
-        $role = Role::create($data);
+        $role = Role::query()->create($data);
         $role->syncPermissions($checkedPermissions);
 
         return $this->redirect($request, $role);
@@ -58,6 +58,9 @@ class RolesAdminController extends BaseAdminController
         return $this->redirect($request, $role);
     }
 
+    /**
+     * @param array<string> $permissions
+     */
     private function storeNewPermissions(array $permissions): void
     {
         foreach ($permissions as $name) {

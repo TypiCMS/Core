@@ -12,6 +12,7 @@ use TypiCMS\Modules\Core\Models\Menu;
 
 class MenusApiController extends BaseApiController
 {
+    /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
     {
         $query = Menu::query()->selectFields();

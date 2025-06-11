@@ -2,6 +2,8 @@
 
 namespace TypiCMS\Modules\Core\Exports;
 
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -14,9 +16,13 @@ use Spatie\QueryBuilder\QueryBuilder;
 use TypiCMS\Modules\Core\Filters\FilterOr;
 use TypiCMS\Modules\Core\Models\User;
 
+/**
+ * @implements WithMapping<mixed>
+ */
 class UsersExport implements FromCollection, ShouldAutoSize, WithColumnFormatting, WithHeadings, WithMapping
 {
-    public function collection()
+    /** @return Collection<int, Model> */
+    public function collection(): Collection
     {
         return QueryBuilder::for(User::class)
             ->allowedSorts(['first_name', 'last_name', 'email', 'subscription_plan', 'subscription_ends_at', 'last_payment_at', 'superuser'])
@@ -26,7 +32,8 @@ class UsersExport implements FromCollection, ShouldAutoSize, WithColumnFormattin
             ->get();
     }
 
-    public function map($model): array
+    /** @return array<int, mixed> */
+    public function map(mixed $model): array
     {
         return [
             Date::dateTimeToExcel($model->created_at),
@@ -46,6 +53,7 @@ class UsersExport implements FromCollection, ShouldAutoSize, WithColumnFormattin
         ];
     }
 
+    /** @return string[] */
     public function headings(): array
     {
         return [
@@ -66,6 +74,7 @@ class UsersExport implements FromCollection, ShouldAutoSize, WithColumnFormattin
         ];
     }
 
+    /** @return array<string, string> */
     public function columnFormats(): array
     {
         return [

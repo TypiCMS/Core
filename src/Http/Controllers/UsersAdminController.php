@@ -52,7 +52,7 @@ class UsersAdminController extends BaseAdminController
         $data = $request->validated();
         $data['password'] = Hash::make($request->string('password'));
         $data['email_verified_at'] = Carbon::now();
-        $user = User::create($data);
+        $user = User::query()->create($data);
         $user->roles()->sync($request->array('checked_roles'));
 
         return $this->redirect($request, $user);
