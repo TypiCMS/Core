@@ -2,15 +2,12 @@
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
-use TypiCMS\Modules\Core\Http\Controllers\ForgotPasswordController;
 use TypiCMS\Modules\Core\Http\Controllers\ImpersonateController;
 use TypiCMS\Modules\Core\Http\Controllers\LoginController;
 use TypiCMS\Modules\Core\Http\Controllers\PasskeysApiController;
 use TypiCMS\Modules\Core\Http\Controllers\RegisterController;
-use TypiCMS\Modules\Core\Http\Controllers\ResetPasswordController;
 use TypiCMS\Modules\Core\Http\Controllers\UsersAdminController;
 use TypiCMS\Modules\Core\Http\Controllers\UsersApiController;
-use TypiCMS\Modules\Core\Http\Controllers\VerificationController;
 use TypiCMS\Modules\Core\Http\Middleware\JavaScriptData;
 
 /*
@@ -22,21 +19,10 @@ foreach (locales() as $lang) {
             // Registration
             $router->get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
             $router->post('register', [RegisterController::class, 'register'])->name('register-action');
-            // Verify
-            $router->get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
-            $router->get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
-            $router->get('email/verified', [VerificationController::class, 'verified'])->name('verification.verified');
-            $router->get('email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
         }
         // Login
         $router->get('login', [LoginController::class, 'showLoginForm'])->name('login');
         $router->post('login', [LoginController::class, 'login'])->name('login-action');
-        // Request new password
-        $router->get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-        $router->post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-        // Set new password
-        $router->get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-        $router->post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.reset-action');
         // Logout
         $router->post('logout', [LoginController::class, 'logout'])->name('logout');
         // Impersonate
@@ -47,8 +33,6 @@ foreach (locales() as $lang) {
 Route::middleware('web')->group(function (Router $router) {
     Route::passkeys();
 });
-
-Route::redirect('/.well-known/change-password', '/' . app()->getLocale() . '/password/reset');
 
 /*
  * Admin routes

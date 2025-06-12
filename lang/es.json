@@ -1,5 +1,9 @@
 {
     "# blocks": "Ningún bloque|1 bloque|{count} bloques",
+    "Use your passkey to confirm it’s really you.": "Utilice su clave de acceso para confirmar su identidad.",
+    "Authenticate": "Autentificarse",
+    "Log in with a password.": "Identifíquese con una contraseña.",
+    "Could not login using the given passkey": "No se puede iniciar sesión con la clave de acceso proporcionada.",
     "# categories": "Ningún categoría|1 categoría|{count} categorías",
     "# contacts": "Ningún contacto|1 contacto|{count} contactos",
     "# discussions": "Ningún conversación|1 conversación|{count} conversaciones",
@@ -64,7 +68,7 @@
     "All rights reserved.": "Todos los derechos reservados.",
     "Already Reported": "Ya Reportado",
     "Alt attribute": "Alt attribute",
-    "An account already exists for this email address. Log in or request a new password.": "Ya existe una cuenta para esta dirección de correo electrónico. Inicie sesión o solicite una nueva contraseña.",
+    "An account already exists for this email address.": "Ya existe una cuenta para esta dirección de correo electrónico.",
     "An error occurred with the data fetch.": "Se produjo un error durante la carga de datos.",
     "and get access to all the content of our website.": "y acceder a todo el contenido de nuestro sitio web.",
     "Archive": "Archivar",
@@ -644,7 +648,5 @@
     "You are logged in!": "¡Usted está conectado!",
     "You are receiving this email because we received a password reset request for your account.": "Ha recibido este mensaje porque se solicitó un restablecimiento de contraseña para su cuenta.",
     "Your account has been activated, you can now log in": "Su cuenta ha sido activada, ahora puede iniciar sesión.",
-    "Your account has been created, check your email for the verification link.": "Su cuenta ha sido creada, revise su correo electrónico para el enlace de verificación.",
-    "Your account has been created, now you need to verify it.": "Tu cuenta ha sido creada, ahora necesita verificarla.",
-    "Your email address has been verified.": "Su dirección de correo electrónico ha sido verificada."
+    "Your account has been created, check your email for the one time login code.": "Su cuenta ha sido creada, compruebe su correo electrónico para el código de inicio de sesión de un solo uso."
 }

@@ -4,8 +4,6 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -51,8 +49,6 @@ class UsersAdminController extends BaseAdminController
     public function store(UsersFormRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $data['password'] = Hash::make($request->string('password'));
-        $data['email_verified_at'] = Carbon::now();
         $user = User::query()->create($data);
         $user->roles()->sync($request->array('checked_roles'));
 
@@ -62,11 +58,6 @@ class UsersAdminController extends BaseAdminController
     public function update(User $user, UsersFormRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->string('password'));
-        } else {
-            unset($data['password']);
-        }
         $user->update($data);
         $user->roles()->sync($request->array('checked_roles'));
 

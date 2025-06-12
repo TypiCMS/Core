@@ -3,12 +3,8 @@
 namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Auth\MustVerifyEmail;
-use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
@@ -26,15 +22,12 @@ use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Models\Concerns\InteractsWithPasskeys;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
-use TypiCMS\Modules\Core\Notifications\ResetPassword;
-use TypiCMS\Modules\Core\Notifications\VerifyEmail;
 use TypiCMS\Modules\Core\Presenters\UsersPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
 /**
  * @property int $id
  * @property string $email
- * @property string $password
  * @property bool $activated
  * @property bool $superuser
  * @property bool $privacy_policy_accepted
@@ -50,8 +43,6 @@ use TypiCMS\Modules\Core\Traits\Historable;
  * @property string|null $country
  * @property array<array-key, mixed>|null $preferences
  * @property string $api_token
- * @property string|null $email_verified_at
- * @property string|null $remember_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read mixed $all_permissions
@@ -64,26 +55,19 @@ use TypiCMS\Modules\Core\Traits\Historable;
  * @property-read Collection<int, Role> $roles
  * @property-read int|null $roles_count
  */
-class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, HasLocalePreference, HasPasskeys, MustVerifyEmailContract
+class User extends Model implements AuthenticatableContract, AuthorizableContract, HasLocalePreference, HasPasskeys
 {
     use Authenticatable;
     use Authorizable;
-    use CanResetPassword;
     use HasRoles;
     use Historable;
     use InteractsWithPasskeys;
-    use MustVerifyEmail;
     use Notifiable;
     use PresentableTrait;
 
     protected string $presenter = UsersPresenter::class;
 
     protected $guarded = ['my_name', 'my_time'];
-
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
 
     /** @return array<string, string> */
     protected function casts(): array
@@ -169,16 +153,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return Attribute::make(
             get: fn () => $permissions,
         );
-    }
-
-    public function sendPasswordResetNotification($token): void
-    {
-        $this->notify(new ResetPassword($token));
-    }
-
-    public function sendEmailVerificationNotification(): void
-    {
-        $this->notify(new VerifyEmail());
     }
 
     public function isImpersonating(): bool

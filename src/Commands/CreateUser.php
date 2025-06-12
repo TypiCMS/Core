@@ -4,13 +4,10 @@ namespace TypiCMS\Modules\Core\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Hash;
 use TypiCMS\Modules\Core\Models\User;
 
 use function Laravel\Prompts\error;
 use function Laravel\Prompts\info;
-use function Laravel\Prompts\password;
 use function Laravel\Prompts\text;
 
 class CreateUser extends Command
@@ -39,14 +36,6 @@ class CreateUser extends Command
                 default => null
             }
         );
-        $password = password(
-            label: 'Enter a password',
-            required: 'The password is required.',
-            validate: fn (string $value) => match (true) {
-                mb_strlen($value) < 8 => 'The password must be at least 8 characters.',
-                default => null
-            }
-        );
 
         $data = [
             'first_name' => $firstname,
@@ -54,8 +43,6 @@ class CreateUser extends Command
             'email' => $email,
             'superuser' => 1,
             'activated' => 1,
-            'password' => Hash::make($password),
-            'email_verified_at' => Carbon::now(),
         ];
 
         try {

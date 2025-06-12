@@ -19,19 +19,10 @@
             @include('users::_status')
 
             {!! BootForm::email(__('Email'), 'email')->addClass('form-control-lg')->autofocus(true)->required()->autocomplete('username') !!}
-            {!! BootForm::password(__('Password'), 'password')->addClass('form-control-lg')->required()->autocomplete('current-password') !!}
-
-            <div class="mb-3">
-                {!! BootForm::checkbox(__('Remember Me'), 'remember') !!}
-            </div>
-
+        
             <div class="mb-3 d-grid">
                 {!! BootForm::submit(__('Login'), 'btn-primary')->addClass('btn-lg') !!}
             </div>
-
-            <a class="form-text mt-0 d-block" href="{{ route(app()->getLocale() . '::password.request') }}">
-                {{ __('Forgot Your Password?') }}
-            </a>
 
             {!! BootForm::close() !!}
         @endif

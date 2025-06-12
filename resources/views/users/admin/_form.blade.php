@@ -29,15 +29,6 @@
     </div>
 
     <div class="row gx-3">
-        <div class="col-sm-6">
-            {!! BootForm::password(__('Password'), 'password') !!}
-        </div>
-        <div class="col-sm-6">
-            {!! BootForm::password(__('Password confirmation'), 'password_confirmation') !!}
-        </div>
-    </div>
-
-    <div class="row gx-3">
         <div class="col">
             {!! BootForm::text(__('Street'), 'street') !!}
         </div>

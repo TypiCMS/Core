@@ -27,14 +27,6 @@
                 {!! BootForm::text(__('Last name'), 'last_name')->addClass('form-control-lg')->required() !!}
             </div>
         </div>
-        <div class="row gx-3">
-            <div class="col-sm-6">
-                {!! BootForm::password(__('Password'), 'password')->addClass('form-control-lg')->required()->autocomplete('new-password') !!}
-            </div>
-            <div class="col-sm-6">
-                {!! BootForm::password(__('Password confirmation'), 'password_confirmation')->addClass('form-control-lg')->required()->autocomplete('new-password') !!}
-            </div>
-        </div>
 
         <div class="mb-3 mt-3 d-grid">
             {!! BootForm::submit(__('Register'), 'btn-primary')->addClass('btn-lg') !!}

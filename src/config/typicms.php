@@ -99,8 +99,8 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | The following IP’s can visit the website without login when
-    | the website is protected by a login and a password.
+    | The following IP’s can visit the website without
+    | login when the website is protected.
     |--------------------------------------------------------------------------
     */
     'authorized_ips' => [
