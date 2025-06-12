@@ -23,7 +23,8 @@ class FilterOr implements Filter
 
         return $query->where(function (Builder $query) use ($columns, $value) {
             foreach ($columns as $column) {
-                if (in_array($column, (array) $query->getModel()->translatable)) {
+                $model = $query->getModel();
+                if (property_exists($model, 'translatable') && in_array($column, (array) $model->translatable)) {
                     $query->orWhereRaw(
                         'JSON_UNQUOTE(JSON_EXTRACT(`' . $column . '`, \'$.' . request()->string('locale') . '\')) LIKE \'%' . $value . '%\' COLLATE ' . (DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci')
                     );
