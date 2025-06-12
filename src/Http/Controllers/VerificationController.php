@@ -4,8 +4,10 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\View\View;
 use TypiCMS\Modules\Core\Models\User;
 
 class VerificationController extends Controller
@@ -26,7 +28,7 @@ class VerificationController extends Controller
     /**
      * Where to redirect users after verification.
      */
-    public function redirectTo()
+    public function redirectTo(): string
     {
         return route(app()->getLocale() . '::verification.verified');
     }
@@ -44,7 +46,7 @@ class VerificationController extends Controller
     /**
      * Show the email verification notice.
      */
-    public function show(Request $request)
+    public function show(Request $request): RedirectResponse|View
     {
         return $request->user()->hasVerifiedEmail()
                         ? redirect($this->redirectPath())
@@ -54,9 +56,9 @@ class VerificationController extends Controller
     /**
      * Mark the authenticated user's email address as verified.
      */
-    public function verify(Request $request)
+    public function verify(Request $request): RedirectResponse
     {
-        if ($user = User::find($request->route('id'))) {
+        if ($user = User::query()->find($request->route('id'))) {
             $user->markEmailAsVerified();
             event(new Verified($user));
         }
@@ -64,7 +66,7 @@ class VerificationController extends Controller
         return redirect($this->redirectPath())->with('verified', true);
     }
 
-    public function verified()
+    public function verified(): RedirectResponse|View
     {
         if (session('verified')) {
             return view('users::verified');

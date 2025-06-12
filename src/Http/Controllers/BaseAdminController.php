@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 abstract class BaseAdminController extends Controller
@@ -12,7 +13,7 @@ abstract class BaseAdminController extends Controller
         $this->middleware('verified:' . app()->getLocale() . '::verification.notice');
     }
 
-    protected function redirect($request, $model): RedirectResponse
+    protected function redirect(Request $request, mixed $model): RedirectResponse
     {
         if (is_array($model)) {
             $model = end($model);

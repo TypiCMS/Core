@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class SettingsSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         DB::table('settings')->truncate();
 

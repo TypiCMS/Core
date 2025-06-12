@@ -37,7 +37,7 @@ class TermsAdminController extends BaseAdminController
     {
         $data = $request->validated();
         $data['taxonomy_id'] = $taxonomy->id;
-        $term = Term::create($data);
+        $term = Term::query()->create($data);
 
         return $this->redirect($request, $term);
     }

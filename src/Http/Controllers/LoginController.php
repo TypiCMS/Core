@@ -3,6 +3,8 @@
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\View\View;
@@ -10,46 +12,21 @@ use TypiCMS\Modules\Core\Models\User;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
     use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/';
+    protected string $redirectTo = '/';
 
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
 
-    /**
-     * Show the application's login form.
-     */
     public function showLoginForm(): View
     {
         return view('users::login');
     }
 
-    /**
-     * Get the failed login response instance.
-     */
-    protected function sendFailedLoginResponse(Request $request)
+    protected function sendFailedLoginResponse(Request $request): JsonResponse|RedirectResponse
     {
         $credentials = $this->credentials($request);
 
@@ -73,9 +50,7 @@ class LoginController extends Controller
             ->withErrors($errors);
     }
 
-    /**
-     * Get the needed authorization credentials from the request.
-     */
+    /** @return array<string, string|int> */
     protected function credentials(Request $request): array
     {
         $credentials = $request->only($this->username(), 'password');

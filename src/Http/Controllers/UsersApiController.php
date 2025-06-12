@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -11,6 +12,7 @@ use TypiCMS\Modules\Core\Models\User;
 
 class UsersApiController extends BaseApiController
 {
+    /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
     {
         $data = QueryBuilder::for(User::class)
@@ -40,7 +42,7 @@ class UsersApiController extends BaseApiController
         $user->save();
     }
 
-    public function destroy(User $user)
+    public function destroy(User $user): JsonResponse
     {
         if (auth()->user()->id === $user->id) {
             return response()->json([
@@ -48,7 +50,7 @@ class UsersApiController extends BaseApiController
                 'message' => __('The current logged in user cannot be deleted.'),
             ], 403);
         }
-        if (method_exists($user, 'mollieCustomerFields')) {
+        if (method_exists($user, 'hasRunningSubscription')) {
             if ($user->hasRunningSubscription()) {
                 return response()->json([
                     'error' => true,
@@ -57,5 +59,7 @@ class UsersApiController extends BaseApiController
             }
         }
         $user->delete();
+
+        return response()->json(status: 204);
     }
 }

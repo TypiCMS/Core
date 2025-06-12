@@ -16,19 +16,9 @@ use function Laravel\Prompts\info;
 
 class Create extends Command
 {
-    /**
-     * The filesystem instance.
-     */
-    protected $files;
+    protected string $module;
 
-    /**
-     * The name of the module, pluralized and ucfirsted.
-     */
-    protected $module;
-
-    /**
-     * The search array.
-     */
+    /** @var array<string> */
     protected array $search = [
         'things',
         'thing',
@@ -36,35 +26,19 @@ class Create extends Command
         'Thing',
     ];
 
-    /**
-     * The replace array.
-     */
-    protected $replace;
+    /** @var array<string> */
+    protected array $replace;
 
-    /**
-     * The console command signature.
-     */
     protected $signature = 'typicms:create {module : The module that you want to create}
             {--force : Overwrite any existing files.}';
 
-    /**
-     * The console command description.
-     */
     protected $description = 'Create a module in the /Modules directory.';
 
-    /**
-     * Create a new key generator command.
-     */
-    public function __construct(Filesystem $files)
+    public function __construct(protected Filesystem $files)
     {
         parent::__construct();
-
-        $this->files = $files;
     }
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): void
     {
         if (!preg_match('/^[a-z]+$/i', $this->argument('module'))) {

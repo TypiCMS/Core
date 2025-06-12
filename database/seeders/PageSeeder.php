@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class PageSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $pages = [
             [

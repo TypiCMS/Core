@@ -14,19 +14,10 @@ use function Laravel\Prompts\text;
 
 class Install extends Command
 {
-    /**
-     * The console command name.
-     */
     protected $name = 'typicms:install';
 
-    /**
-     * The console command description.
-     */
     protected $description = 'Installation of TypiCMS: Laravel setup, installation of composer and npm packages';
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): void
     {
         intro('Welcome to TypiCMS');
@@ -61,7 +52,7 @@ class Install extends Command
         $this->call('typicms:user');
 
         // Composer install
-        if (is_callable('shell_exec') && !mb_stripos(ini_get('disable_functions'), 'shell_exec')) {
+        if (!mb_stripos(ini_get('disable_functions'), 'shell_exec')) {
             spin(
                 function () {
                     shell_exec('chmod 755 $(find storage -type d) 2> /dev/null');
@@ -88,9 +79,6 @@ class Install extends Command
         outro('Done. Enjoy TypiCMS!');
     }
 
-    /**
-     * Guess database name from app folder.
-     */
     public function guessDatabaseName(): string
     {
         try {

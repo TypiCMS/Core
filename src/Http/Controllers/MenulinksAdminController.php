@@ -2,7 +2,6 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use TypiCMS\Modules\Core\Http\Requests\MenulinkFormRequest;
@@ -11,14 +10,6 @@ use TypiCMS\Modules\Core\Models\Menulink;
 
 class MenulinksAdminController extends BaseAdminController
 {
-    public function index(): JsonResponse
-    {
-        $id = request()->integer('menu_id');
-        $models = $this->model->where('menu_id', $id)->orderBy('position')->findAll()->nest();
-
-        return response()->json($models, 200);
-    }
-
     public function create(Menu $menu): View
     {
         $model = new Menulink();
@@ -38,7 +29,7 @@ class MenulinksAdminController extends BaseAdminController
 
     public function store(Menu $menu, MenulinkFormRequest $request): RedirectResponse
     {
-        $menulink = Menulink::create($request->validated());
+        $menulink = Menulink::query()->create($request->validated());
 
         return $this->redirect($request, $menulink)
             ->withMessage(__('Item successfully created.'));

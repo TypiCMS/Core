@@ -6,7 +6,7 @@ use Spatie\Feed\Feed;
 
 class FeedController
 {
-    public function __invoke(string $module)
+    public function __invoke(string $module): Feed
     {
         abort_unless(config('typicms.modules.' . $module . '.has_feed', false), 404);
 
@@ -31,7 +31,7 @@ class FeedController
             $items,
             request()->url(),
             'feed::atom',
-            $feed['description'] ?? '',
+            $feed['description'],
             $feed['language'] ?? 'en-US',
             $feed['image'] ?? '',
             'atom',

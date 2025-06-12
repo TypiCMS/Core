@@ -49,7 +49,7 @@ use TypiCMS\Modules\Core\Services\TypiCMS;
 
 class ModuleServiceProvider extends ServiceProvider
 {
-    private $migrationCount = 0;
+    private int $migrationCount = 0;
 
     /**
      * Bootstrap the application events.
@@ -309,12 +309,13 @@ class ModuleServiceProvider extends ServiceProvider
         | Register TypiCMS routes.
         |--------------------------------------------------------------------------
         */
-        $this->app->singleton('typicms.routes', function () {
+        $this->app->singleton('typicms.routes', function (): array {
             try {
                 return Page::query()
                     ->with('images', 'documents')
                     ->whereNotNull('module')
-                    ->get();
+                    ->get()
+                    ->all();
             } catch (Exception $e) {
                 return [];
             }

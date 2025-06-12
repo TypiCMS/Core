@@ -11,9 +11,13 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -27,6 +31,39 @@ use TypiCMS\Modules\Core\Notifications\VerifyEmail;
 use TypiCMS\Modules\Core\Presenters\UsersPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
+/**
+ * @property int $id
+ * @property string $email
+ * @property string $password
+ * @property bool $activated
+ * @property bool $superuser
+ * @property bool $privacy_policy_accepted
+ * @property string|null $first_name
+ * @property string|null $last_name
+ * @property string|null $phone
+ * @property string|null $locale
+ * @property string|null $street
+ * @property string|null $number
+ * @property string|null $box
+ * @property string|null $postal_code
+ * @property string|null $city
+ * @property string|null $country
+ * @property array<array-key, mixed>|null $preferences
+ * @property string $api_token
+ * @property string|null $email_verified_at
+ * @property string|null $remember_token
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read mixed $all_permissions
+ * @property-read Collection<int, History> $history
+ * @property-read int|null $history_count
+ * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
+ * @property-read Collection<int, Permission> $permissions
+ * @property-read int|null $permissions_count
+ * @property-read Collection<int, Role> $roles
+ * @property-read int|null $roles_count
+ */
 class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, HasLocalePreference, HasPasskeys, MustVerifyEmailContract
 {
     use Authenticatable;
@@ -48,9 +85,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'remember_token',
     ];
 
-    /**
-     * @return array<string, string>
-     */
+    /** @return array<string, string> */
     protected function casts(): array
     {
         return [
@@ -77,7 +112,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->locale;
     }
 
-    public function url($locale = null): string
+    public function url(?string $locale = null): string
     {
         return '/';
     }
@@ -115,6 +150,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return (bool) $this->superuser;
     }
 
+    /** @return Attribute<string[], null> */
     protected function allPermissions(): Attribute
     {
         $permissions = [];

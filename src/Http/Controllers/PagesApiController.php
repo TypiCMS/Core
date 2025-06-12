@@ -2,9 +2,10 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Spatie\QueryBuilder\QueryBuilder;
 use TypiCMS\Modules\Core\Models\Page;
 use TypiCMS\NestableCollection;
 
@@ -14,27 +15,34 @@ class PagesApiController extends BaseApiController
     {
         $userPreferences = $request->user()->preferences;
 
-        $data = QueryBuilder::for(Page::class)
+        $query = Page::query()
+            ->selectFields()
+            ->orderBy('position');
+
+        $pages = Page::query()
             ->selectFields()
             ->orderBy('position')
             ->get()
-            ->map(function ($item) use ($userPreferences) {
-                $item->data = $item->toArray();
-                $item->isLeaf = $item->module === null ? false : true;
-                $item->isExpanded = !Arr::get($userPreferences, 'Pages_' . $item->id . '_collapsed', false);
+            ->map(function (Model $page) use ($userPreferences) {
+                /** @var Page $page */
+                $page->data = $page->toArray();
+                $page->isLeaf = $page->module === null ? false : true;
+                $page->isExpanded = !Arr::get($userPreferences, 'Pages_' . $page->id . '_collapsed', false);
 
-                return $item;
+                return $page;
             })
             ->childrenName('children')
             ->nest();
 
-        return $data;
+        return $pages;
     }
 
+    /** @return list<array<int, mixed>> */
     public function linksForEditor(Request $request): array
     {
-        $data = Page::order()
+        $data = Page::query()
             ->select(['id', 'parent_id', 'title'])
+            ->order()
             ->get()
             ->nest()
             ->listsFlattened();
@@ -66,7 +74,7 @@ class PagesApiController extends BaseApiController
     {
         $data = $request->only('moved', 'item');
         foreach ($data['item'] as $position => $item) {
-            $page = Page::find($item['id']);
+            $page = Page::query()->find($item['id']);
 
             $sortData = [
                 'position' => (int) $position + 1,
@@ -78,14 +86,16 @@ class PagesApiController extends BaseApiController
         }
     }
 
-    public function destroy(Page $page)
+    public function destroy(Page $page): JsonResponse
     {
         if ($page->isHome()) {
-            return response(['message' => 'The home page cannot be deleted.'], 403);
+            return response()->json(['message' => 'The home page cannot be deleted.'], 403);
         }
         if ($page->subpages->count() > 0) {
-            return response(['message' => 'This item cannot be deleted because it has children.'], 403);
+            return response()->json(['message' => 'This item cannot be deleted because it has children.'], 403);
         }
         $page->delete();
+
+        return response()->json(status: 204);
     }
 }

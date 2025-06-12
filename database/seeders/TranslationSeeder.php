@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class TranslationSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $translations = [
             ['id' => 1, 'translation' => '{"fr":"En savoir plus","en":"More","nl":"Meer"}', 'key' => 'More', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],

@@ -15,19 +15,10 @@ use function Laravel\Prompts\text;
 
 class CreateUser extends Command
 {
-    /**
-     * The console command name.
-     */
     protected $name = 'typicms:user';
 
-    /**
-     * The console command description.
-     */
     protected $description = 'Creation of a superuser.';
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): void
     {
         info('Creating a Super User…');
@@ -68,7 +59,7 @@ class CreateUser extends Command
         ];
 
         try {
-            User::create($data);
+            User::query()->create($data);
             info('Superuser created.');
         } catch (Exception $e) {
             error('The user could not be created.');

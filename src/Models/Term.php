@@ -3,7 +3,9 @@
 namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\EloquentSortable\Sortable;
@@ -13,6 +15,20 @@ use TypiCMS\Modules\Core\Observers\SlugObserver;
 use TypiCMS\Modules\Core\Presenters\TermPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
+/**
+ * @property int $id
+ * @property int $position
+ * @property int $taxonomy_id
+ * @property string $title
+ * @property string $slug
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, History> $history
+ * @property-read int|null $history_count
+ * @property-write mixed $status
+ * @property-read Taxonomy $taxonomy
+ * @property-read mixed $translations
+ */
 #[ObservedBy(SlugObserver::class)]
 class Term extends Base implements Sortable
 {
@@ -25,19 +41,16 @@ class Term extends Base implements Sortable
 
     protected $guarded = [];
 
+    /** @var array<string> */
     public array $translatable = [
         'title',
         'slug',
     ];
 
-    public $sortable = [
+    /** @var array<string> */
+    public array $sortable = [
         'order_column_name' => 'position',
     ];
-
-    public function buildSortQuery()
-    {
-        return static::query()->where('taxonomy_id', $this->taxonomy_id);
-    }
 
     public function editUrl(): string
     {
@@ -59,6 +72,7 @@ class Term extends Base implements Sortable
         return route('admin::dashboard');
     }
 
+    /** @return BelongsTo<Taxonomy, $this> */
     public function taxonomy(): BelongsTo
     {
         return $this->belongsTo(Taxonomy::class);

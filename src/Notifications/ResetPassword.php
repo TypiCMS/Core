@@ -7,41 +7,15 @@ use Illuminate\Notifications\Notification;
 
 class ResetPassword extends Notification
 {
-    /**
-     * The password reset token.
-     *
-     * @var string
-     */
-    public $token;
+    public function __construct(public readonly string $token) {}
 
-    /**
-     * Create a notification instance.
-     *
-     * @param string $token
-     */
-    public function __construct($token)
-    {
-        $this->token = $token;
-    }
-
-    /**
-     * Get the notification's channels.
-     *
-     * @param mixed $notifiable
-     * @return array|string
-     */
-    public function via($notifiable)
+    /** @return string[] */
+    public function via(): array
     {
         return ['mail'];
     }
 
-    /**
-     * Build the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return MailMessage
-     */
-    public function toMail($notifiable)
+    public function toMail(): MailMessage
     {
         return (new MailMessage())
             ->line(__('You are receiving this email because we received a password reset request for your account.'))
