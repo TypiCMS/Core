@@ -15,6 +15,7 @@ class MixedLoader extends FileLoader
      * @param string $locale
      * @param string $group
      * @param null|string $namespace
+     * @return array<string, string>
      */
     public function load($locale, $group, $namespace = null): array
     {

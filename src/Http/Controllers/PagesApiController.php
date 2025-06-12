@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -22,7 +23,8 @@ class PagesApiController extends BaseApiController
             ->selectFields()
             ->orderBy('position')
             ->get()
-            ->map(function (Page $page) use ($userPreferences) {
+            ->map(function (Model $page) use ($userPreferences) {
+                /** @var Page $page */
                 $page->data = $page->toArray();
                 $page->isLeaf = $page->module === null ? false : true;
                 $page->isExpanded = !Arr::get($userPreferences, 'Pages_' . $page->id . '_collapsed', false);

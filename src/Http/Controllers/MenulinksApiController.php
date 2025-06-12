@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -20,7 +21,8 @@ class MenulinksApiController extends BaseApiController
             ->where('menu_id', $menu->id)
             ->orderBy('position')
             ->get()
-            ->map(function (Menulink $menulink) use ($userPreferences) {
+            ->map(function (Model $menulink) use ($userPreferences) {
+                /** @var Menulink $menulink */
                 $menulink->data = $menulink->toArray();
                 $menulink->isLeaf = false;
                 $menulink->isExpanded = !Arr::get($userPreferences, 'Menulinks_' . $menulink->id . '_collapsed', false);

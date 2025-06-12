@@ -92,6 +92,8 @@ abstract class Presenter extends BasePresenter
 
     /**
      * Return URL of a resized or cropped image.
+     *
+     * @param array<string|int, string|array<string>> $options
      */
     public function image(?int $width = null, ?int $height = null, array $options = [], string $relationName = 'image'): string
     {

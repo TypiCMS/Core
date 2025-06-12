@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Core\Models;
 use Exception;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
@@ -78,7 +79,8 @@ class Menu extends Base
 
     public function prepare(?NestableCollection $items = null): NestableCollection
     {
-        $items->each(function (Menulink $item) {
+        $items->each(function (Model $item, int $key) {
+            /** @var Menulink $item */
             $item->items = collect();
             $item->href = $this->setHref($item);
             $item->class = $this->setClass($item);
