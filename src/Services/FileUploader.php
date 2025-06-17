@@ -24,11 +24,17 @@ class FileUploader
 
         $filenameWithoutExtension = Str::slug($filenameWithoutExtension ?: pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
         if ($filenameWithoutExtension === '') {
-            $filenameWithoutExtension = Str::slug(Str::random(16));
+            $filenameWithoutExtension = Str::slug(Str::random());
         }
 
-        $filename = "{$filenameWithoutExtension}.{$extension}";
+        $filename = "$filenameWithoutExtension.$extension";
+
         [$width, $height] = getimagesize($file);
+        if ($extension === 'svg') {
+            preg_match("#viewbox=[\"']\d* \d* (\d*) (\d*)#i", $file->getContent(), $d);
+            $width = (float) $d[1];
+            $height = (float) $d[2];
+        }
 
         $filecounter = 1;
         while (Storage::disk($disk)->exists($path . '/' . $filename)) {
