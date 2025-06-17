@@ -178,13 +178,17 @@ abstract class Base extends Model
     {
         $currentModel = $model;
         if ($category_id !== null) {
-            $models = $this->published()
+            $models = self::query()
+                ->published()
                 ->with('category')
                 ->order()
                 ->where('category_id', $category_id)
                 ->get(['id', 'category_id', 'slug']);
         } else {
-            $models = $this->published()->order()->get(['id', 'slug']);
+            $models = self::query()
+                ->published()
+                ->order()
+                ->get(['id', 'slug']);
         }
         foreach ($models as $key => $model) {
             if ($currentModel->id === $model->id) {
