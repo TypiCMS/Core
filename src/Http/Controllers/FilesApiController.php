@@ -17,7 +17,10 @@ class FilesApiController extends BaseApiController
     /** @return array<string, mixed> */
     public function index(Request $request): array
     {
-        $folderId = $request->integer('folder_id');
+        $folderId = null;
+        if ($request->has('folder_id')) {
+            $folderId = $request->integer('folder_id');
+        }
 
         $data = [
             'models' => File::query()
