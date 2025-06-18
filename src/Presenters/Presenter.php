@@ -145,12 +145,17 @@ abstract class Presenter extends BasePresenter
         return strip_tags($this->entity->title);
     }
 
-    /**
-     * Return body content with dynamic links.
-     */
     public function body(): string
     {
-        $text = $this->entity->body;
+        return $this->dynamicLinks();
+    }
+
+    /**
+     * Return content with dynamic links.
+     */
+    public function dynamicLinks(string $property = 'body'): string
+    {
+        $text = $this->entity->$property;
         preg_match_all('/{!! ([a-z]+):([0-9]+) !!}/', $text, $matches, PREG_SET_ORDER);
         $patterns = [];
         $replacements = [];
