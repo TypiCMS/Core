@@ -1,5 +1,5 @@
 @php
-    $contentLocale = config('typicms.content_locale');
+    $contentLocale = (string) config('typicms.content_locale');
     if (isset($model) && $model->id && $contentLocale) {
         $locale = isLocaleEnabled($contentLocale) ? $contentLocale : app()->getLocale();
         try {
