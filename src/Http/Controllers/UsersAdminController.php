@@ -4,9 +4,10 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use TypiCMS\Modules\Core\Exports\UsersExport;
 use TypiCMS\Modules\Core\Http\Requests\UsersFormRequest;
 use TypiCMS\Modules\Core\Models\Role;
@@ -19,7 +20,7 @@ class UsersAdminController extends BaseAdminController
         return view('users::admin.index');
     }
 
-    public function export(Request $request): BinaryFileResponse
+    public function export(Request $request)
     {
         $filename = date('Y-m-d') . ' ' . config('app.name') . ' users.xlsx';
 
@@ -29,27 +30,28 @@ class UsersAdminController extends BaseAdminController
     public function create(): View
     {
         $model = new User();
-        $checkedRoles = [];
+        $model->checked_roles = [];
         $roles = Role::query()->get();
 
         return view('users::admin.create')
-            ->with(compact('model', 'roles', 'checkedRoles'));
+            ->with(compact('model', 'roles'));
     }
 
     public function edit(User $user): View
     {
-        $checkedRoles = $user->roles()->pluck('id')->all();
+        $user->checked_roles = $user->roles()->pluck('id')->all();
         $roles = Role::query()->get();
-        $passkeys = $user->passkeys()->get(['id', 'name', 'last_used_at']);
 
         return view('users::admin.edit')
-            ->with(['model' => $user, 'roles' => $roles, 'checkedRoles' => $checkedRoles, 'passkeys' => $passkeys]);
+            ->with(['model' => $user, 'roles' => $roles]);
     }
 
     public function store(UsersFormRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $user = User::query()->create($data);
+        $data['password'] = Hash::make($request->string('password'));
+        $data['email_verified_at'] = Carbon::now();
+        $user = User::create($data);
         $user->roles()->sync($request->array('checked_roles'));
 
         return $this->redirect($request, $user);
@@ -58,8 +60,14 @@ class UsersAdminController extends BaseAdminController
     public function update(User $user, UsersFormRequest $request): RedirectResponse
     {
         $data = $request->validated();
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->string('password'));
+        } else {
+            unset($data['password']);
+        }
         $user->update($data);
         $user->roles()->sync($request->array('checked_roles'));
+        (new Role())->flushCache();
 
         return $this->redirect($request, $user);
     }

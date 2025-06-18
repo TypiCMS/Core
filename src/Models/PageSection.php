@@ -4,7 +4,6 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\EloquentSortable\Sortable;
@@ -14,19 +13,6 @@ use TypiCMS\Modules\Core\Presenters\PagePresenter;
 use TypiCMS\Modules\Core\Traits\HasFiles;
 use TypiCMS\Modules\Core\Traits\Historable;
 
-/**
- * @property int $id
- * @property int $page_id
- * @property int|null $image_id
- * @property int $position
- * @property string|null $template
- * @property string $status
- * @property string $title
- * @property string $slug
- * @property string $body
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- */
 class PageSection extends Base implements Sortable
 {
     use HasFiles;
@@ -41,7 +27,6 @@ class PageSection extends Base implements Sortable
 
     protected $appends = ['thumb'];
 
-    /** @var array<string> */
     public array $translatable = [
         'title',
         'slug',
@@ -49,12 +34,15 @@ class PageSection extends Base implements Sortable
         'body',
     ];
 
-    /** @var array<string> */
-    public array $sortable = [
+    public $sortable = [
         'order_column_name' => 'position',
     ];
 
-    /** @return Attribute<string, null> */
+    public function buildSortQuery()
+    {
+        return static::query()->where('page_id', $this->page_id);
+    }
+
     protected function thumb(): Attribute
     {
         return Attribute::make(
@@ -62,7 +50,7 @@ class PageSection extends Base implements Sortable
         );
     }
 
-    public function url(?string $locale = null): string
+    public function url($locale = null): string
     {
         $locale = $locale ?: app()->getLocale();
 
@@ -89,13 +77,11 @@ class PageSection extends Base implements Sortable
         return route('admin::dashboard');
     }
 
-    /** @return BelongsTo<Page, $this> */
     public function page(): BelongsTo
     {
         return $this->belongsTo(Page::class);
     }
 
-    /** @return BelongsTo<File, $this> */
     public function image(): BelongsTo
     {
         return $this->belongsTo(File::class, 'image_id');

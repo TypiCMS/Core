@@ -30,7 +30,7 @@ class PagesAdminController extends BaseAdminController
 
     public function store(PageFormRequest $request): RedirectResponse
     {
-        $page = Page::query()->create($request->validated());
+        $page = Page::create($request->validated());
 
         return $this->redirect($request, $page)
             ->withMessage(__('Item successfully created.'));
@@ -44,7 +44,7 @@ class PagesAdminController extends BaseAdminController
             ->withMessage(__('Item successfully updated.'));
     }
 
-    public function notFound(): never
+    public function notFound()
     {
         abort(404);
     }

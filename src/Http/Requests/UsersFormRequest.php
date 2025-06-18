@@ -4,13 +4,13 @@ namespace TypiCMS\Modules\Core\Http\Requests;
 
 class UsersFormRequest extends AbstractFormRequest
 {
-    /** @return array<string, string> */
     public function rules(): array
     {
         return [
             'email' => 'required|email:rfc,dns|max:255|unique:users,email,' . $this->user?->id,
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
+            'password' => 'nullable|min:8|max:255|confirmed',
             'street' => 'nullable|max:255',
             'number' => 'nullable|max:255',
             'box' => 'nullable|max:255',

@@ -2,7 +2,6 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -12,7 +11,6 @@ use TypiCMS\Modules\Core\Models\Role;
 
 class RolesApiController extends BaseApiController
 {
-    /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
     {
         $data = QueryBuilder::for(Role::class)
@@ -25,10 +23,8 @@ class RolesApiController extends BaseApiController
         return $data;
     }
 
-    public function destroy(Role $role): JsonResponse
+    public function destroy(Role $role)
     {
         $role->delete();
-
-        return response()->json(status: 204);
     }
 }

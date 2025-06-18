@@ -4,17 +4,8 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Eloquent;
 use Exception;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 
-/**
- * @property int $id
- * @property string $group_name
- * @property string $key_name
- * @property string|null $value
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- */
 class Setting extends Eloquent
 {
     protected $fillable = [
@@ -23,7 +14,6 @@ class Setting extends Eloquent
         'value',
     ];
 
-    /** @return array<string, string|array<string>> */
     public function allToArray(): array
     {
         $config = [];

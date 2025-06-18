@@ -419,7 +419,7 @@ async function destroy() {
             return fetcher(props.urlBase + '/' + model.id, { method: 'DELETE' }).then((response) => response);
         }),
     ).then((responses) => {
-        const successes = responses.filter((response) => response && response.status === 204);
+        const successes = responses.filter((response) => response && response.status === 200);
         if (successes.length > 0) {
             alertify.success(
                 t('# items deleted', successes.length, {

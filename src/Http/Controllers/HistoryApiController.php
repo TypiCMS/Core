@@ -2,7 +2,6 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -13,13 +12,9 @@ use TypiCMS\Modules\Core\Models\User;
 
 class HistoryApiController extends BaseApiController
 {
-    /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
     {
-        $query = History::query()
-            ->selectSub(User::query()->selectRaw('CONCAT(`first_name`, " ", `last_name`)')->whereColumn('user_id', 'users.id'), 'user_name');
-
-        return QueryBuilder::for($query)
+        $data = QueryBuilder::for(History::class)
             ->allowedFields([
                 'history.id',
                 'history.created_at',
@@ -30,17 +25,18 @@ class HistoryApiController extends BaseApiController
                 'history.action',
                 'history.user_id',
             ])
+            ->selectSub(User::selectRaw('CONCAT(`first_name`, " ", `last_name`)')->whereColumn('user_id', 'users.id'), 'user_name')
             ->allowedSorts(['created_at', 'title', 'historable_type', 'action', 'user_name'])
             ->allowedFilters([
                 AllowedFilter::custom('title,historable_type,action,user_name', new FilterOr()),
             ])
             ->paginate($request->integer('per_page'));
+
+        return $data;
     }
 
-    public function destroy(): JsonResponse
+    public function destroy()
     {
         History::truncate();
-
-        return response()->json(status: 204);
     }
 }

@@ -28,7 +28,7 @@ class JavaScriptData
             ];
         }
         if (auth()->check()) {
-            $data['permissions'] = $request->user()->all_permissions;
+            $data['permissions'] = $request->user()->allPermissions;
         }
         $data['public_css_file'] = Vite::asset('resources/scss/public.scss');
 

@@ -18,18 +18,18 @@ class RolesAdminController extends BaseAdminController
     public function create(): View
     {
         $model = new Role();
-        $checkedPermissions = [];
+        $model->checked_permissions = [];
 
         return view('roles::admin.create')
-            ->with(compact('model', 'checkedPermissions'));
+            ->with(compact('model'));
     }
 
-    public function edit(Role $role): View
+    public function edit(Role $role, $child = null): View
     {
-        $checkedPermissions = $role->permissions()->pluck('name')->all();
+        $role->checked_permissions = $role->permissions()->pluck('name')->all();
 
         return view('roles::admin.edit')
-            ->with(['model' => $role, 'checkedPermissions' => $checkedPermissions]);
+            ->with(['model' => $role]);
     }
 
     public function store(RolesFormRequest $request): RedirectResponse
@@ -39,7 +39,7 @@ class RolesAdminController extends BaseAdminController
 
         $this->storeNewPermissions($checkedPermissions);
 
-        $role = Role::query()->create($data);
+        $role = Role::create($data);
         $role->syncPermissions($checkedPermissions);
 
         return $this->redirect($request, $role);
@@ -58,9 +58,6 @@ class RolesAdminController extends BaseAdminController
         return $this->redirect($request, $role);
     }
 
-    /**
-     * @param array<string> $permissions
-     */
     private function storeNewPermissions(array $permissions): void
     {
         foreach ($permissions as $name) {

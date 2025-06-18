@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class RoleSeeder extends Seeder
 {
-    public function run(): void
+    public function run()
     {
         $roles = [
             ['id' => 1, 'name' => 'administrator', 'guard_name' => 'web', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],

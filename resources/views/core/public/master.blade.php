@@ -66,11 +66,9 @@
         </header>
     @show
 
-    @auth
-        @if (auth()->user()->passkeys->isEmpty())
-            <div class="alert alert-success">@lang('Please create a passkey.')</div>
-        @endif
-    @endauth
+    @if (session('verified'))
+        <div class="alert alert-success">@lang('Your email address has been verified.')</div>
+    @endif
 
     <main class="main" id="main">
         @yield('content')

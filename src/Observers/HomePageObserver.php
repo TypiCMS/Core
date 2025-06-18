@@ -9,7 +9,7 @@ class HomePageObserver
     /**
      * If a new homepage is defined, cancel previous homepage.
      */
-    public function saving(Page $page): void
+    public function saving(Page $page)
     {
         if ((bool) $page->is_home) {
             $query = Page::query()->where('is_home', 1);
@@ -23,9 +23,9 @@ class HomePageObserver
     /**
      * If there is no homepage, set the first page as homepage.
      */
-    public function saved(Page $page): void
+    public function saved(Page $page)
     {
-        if (!$page->is_home) {
+        if ((bool) !$page->is_home) {
             if (Page::query()->where('is_home', 1)->count() === 0) {
                 Page::query()->whereNull('parent_id')->orderBy('position')->take(1)->update(['is_home' => 1]);
             }

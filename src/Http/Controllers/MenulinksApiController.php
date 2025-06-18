@@ -2,10 +2,9 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Spatie\QueryBuilder\QueryBuilder;
 use TypiCMS\Modules\Core\Models\Menu;
 use TypiCMS\Modules\Core\Models\Menulink;
 use TypiCMS\NestableCollection;
@@ -16,18 +15,17 @@ class MenulinksApiController extends BaseApiController
     {
         $userPreferences = $request->user()->preferences;
 
-        $data = Menulink::query()
+        $data = QueryBuilder::for(Menulink::class)
             ->selectFields()
             ->where('menu_id', $menu->id)
             ->orderBy('position')
             ->get()
-            ->map(function (Model $menulink) use ($userPreferences) {
-                /** @var Menulink $menulink */
-                $menulink->data = $menulink->toArray();
-                $menulink->isLeaf = false;
-                $menulink->isExpanded = !Arr::get($userPreferences, 'Menulinks_' . $menulink->id . '_collapsed', false);
+            ->map(function ($item) use ($userPreferences) {
+                $item->data = $item->toArray();
+                $item->isLeaf = $item->module === null ? false : true;
+                $item->isExpanded = !Arr::get($userPreferences, 'Menulinks_' . $item->id . '_collapsed', false);
 
-                return $menulink;
+                return $item;
             })
             ->childrenName('children')
             ->nest();
@@ -35,7 +33,7 @@ class MenulinksApiController extends BaseApiController
         return $data;
     }
 
-    protected function updatePartial(Menu $menu, Menulink $menulink, Request $request): void
+    protected function updatePartial(Menu $menu, Menulink $menulink, Request $request)
     {
         foreach ($request->only('status') as $key => $content) {
             if ($menulink->isTranslatableAttribute($key)) {
@@ -50,11 +48,11 @@ class MenulinksApiController extends BaseApiController
         $menulink->save();
     }
 
-    public function sort(Menu $menu, Request $request): void
+    public function sort(Menu $menu, Request $request)
     {
         $data = $request->only('moved', 'item');
         foreach ($data['item'] as $position => $item) {
-            $menulink = Menulink::query()->find($item['id']);
+            $menulink = Menulink::find($item['id']);
             $sortData = [
                 'position' => (int) $position + 1,
                 'parent_id' => $item['parent_id'],
@@ -63,13 +61,11 @@ class MenulinksApiController extends BaseApiController
         }
     }
 
-    public function destroy(Menu $menu, Menulink $menulink): JsonResponse
+    public function destroy(Menu $menu, Menulink $menulink)
     {
         if ($menulink->submenulinks->count() > 0) {
-            return response()->json(['message' => 'This item cannot be deleted because it has children.'], 403);
+            return response(['message' => 'This item cannot be deleted because it has children.'], 403);
         }
         $menulink->delete();
-
-        return response()->json(status: 204);
     }
 }

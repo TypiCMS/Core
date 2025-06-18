@@ -4,7 +4,6 @@ namespace TypiCMS\Modules\Core\Http\Requests;
 
 class BlockFormRequest extends AbstractFormRequest
 {
-    /** @return array<string, string> */
     public function rules(): array
     {
         return [

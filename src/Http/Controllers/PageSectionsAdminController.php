@@ -29,7 +29,7 @@ class PageSectionsAdminController extends BaseAdminController
 
     public function store(Page $page, PageSectionFormRequest $request): RedirectResponse
     {
-        $section = PageSection::query()->create($request->validated());
+        $section = PageSection::create($request->validated());
 
         return $this->redirect($request, $section)
             ->withMessage(__('Item successfully created.'));

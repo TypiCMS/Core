@@ -4,7 +4,7 @@
 
 @section('content')
     {!! BootForm::open()->put()->action(route('admin::update-user', $model->id))->multipart()->role('form') !!}
-    {!! BootForm::bind($model->toArray() + ['checked_roles' => $checkedRoles]) !!}
+    {!! BootForm::bind($model) !!}
     @include('users::admin._form')
     {!! BootForm::close() !!}
 @endsection

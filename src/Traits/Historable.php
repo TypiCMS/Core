@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Traits;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
 use TypiCMS\Modules\Core\Models\History;
@@ -10,11 +11,11 @@ trait Historable
 {
     public static function bootHistorable(): void
     {
-        static::created(function (mixed $model) {
+        static::created(function (Model $model) {
             $model->writeHistory('created', Str::limit($model->present()->title, 200, '…'), [], $model->toArray());
         });
 
-        static::updated(function (mixed $model) {
+        static::updated(function (Model $model) {
             $action = 'updated';
 
             $new = [];
@@ -41,20 +42,17 @@ trait Historable
             $model->writeHistory($action, Str::limit($model->present()->title, 200, '…'), $old, $new);
         });
 
-        static::deleted(function (mixed $model) {
+        static::deleted(function (Model $model) {
             $model->writeHistory('deleted', Str::limit($model->present()->title, 200, '…'));
         });
     }
 
     /**
      * Write History row.
-     *
-     * @param array<string, mixed> $old
-     * @param array<string, mixed> $new
      */
-    public function writeHistory(string $action, ?string $title = null, array $old = [], array $new = []): void
+    public function writeHistory(string $action, ?string $title = null, array $old = [], array $new = [])
     {
-        History::query()->create([
+        History::create([
             'historable_id' => $this->getKey(),
             'historable_type' => get_class($this),
             'user_id' => auth()->id(),
@@ -66,7 +64,9 @@ trait Historable
         ]);
     }
 
-    /** @return MorphMany<History, $this> */
+    /**
+     * Model has history.
+     */
     public function history(): MorphMany
     {
         return $this->morphMany(History::class, 'historable');

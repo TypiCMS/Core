@@ -13,14 +13,22 @@ use Laracasts\Presenter\Presenter as BasePresenter;
 
 abstract class Presenter extends BasePresenter
 {
-    protected string $imageNotFound = 'img-not-found.png';
+    protected $entity;
 
-    public function __construct(protected $entity) {}
+    protected $imageNotFound = 'img-not-found.png';
+
+    public function __construct($entity)
+    {
+        $this->entity = $entity;
+    }
 
     /**
      * Allow for property-style retrieval.
+     *
+     * @param mixed $property
+     * @return mixed
      */
-    public function __get(mixed $property): mixed
+    public function __get($property)
     {
         if (method_exists($this, $property)) {
             return $this->{$property}();
@@ -92,8 +100,6 @@ abstract class Presenter extends BasePresenter
 
     /**
      * Return URL of a resized or cropped image.
-     *
-     * @param array<string|int, string|array<string>> $options
      */
     public function image(?int $width = null, ?int $height = null, array $options = [], string $relationName = 'image'): string
     {
@@ -154,30 +160,32 @@ abstract class Presenter extends BasePresenter
         $patterns = [];
         $replacements = [];
         $lang = app()->getLocale();
-        foreach ($matches as $match) {
-            $patterns[] = $match[0];
-            $module = $match[1];
-            if (in_array($module, ['page', 'tag', 'user', 'term', 'taxonomy'])) {
-                $classname = 'TypiCMS\Modules\Core\Models\\' . ucfirst($module);
-            } else {
-                $classname = 'TypiCMS\Modules\\' . ucfirst(Str::plural($module)) . '\Models\\' . ucfirst($module);
-            }
-            $model = null;
-            if (class_exists($classname)) {
-                $model = app($classname)
-                    ->published()
-                    ->find($match[2]);
-            }
-            if ($model === null) {
-                continue;
-            }
-            if ($module === 'page') {
-                $replacements[] = $model->url($lang);
-            } else {
-                if (Route::has($lang . '::' . $module)) {
-                    $replacements[] = route($lang . '::' . $module, $model->slug);
+        if (is_array($matches)) {
+            foreach ($matches as $match) {
+                $patterns[] = $match[0];
+                $module = $match[1];
+                if (in_array($module, ['page', 'tag', 'user', 'term', 'taxonomy'])) {
+                    $classname = 'TypiCMS\Modules\Core\Models\\' . ucfirst($module);
                 } else {
-                    $replacements[] = '';
+                    $classname = 'TypiCMS\Modules\\' . ucfirst(Str::plural($module)) . '\Models\\' . ucfirst($module);
+                }
+                $model = null;
+                if (class_exists($classname)) {
+                    $model = app($classname)
+                        ->published()
+                        ->find($match[2]);
+                }
+                if ($model === null) {
+                    continue;
+                }
+                if ($module === 'page') {
+                    $replacements[] = $model->url($lang);
+                } else {
+                    if (Route::has($lang . '::' . $module)) {
+                        $replacements[] = route($lang . '::' . $module, $model->slug);
+                    } else {
+                        $replacements[] = '';
+                    }
                 }
             }
         }

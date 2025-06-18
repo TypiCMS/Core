@@ -30,7 +30,7 @@ class TagsAdminController extends BaseAdminController
 
     public function store(TagsFormRequest $request): RedirectResponse
     {
-        $tag = Tag::query()->create($request->validated());
+        $tag = Tag::create($request->validated());
 
         return $this->redirect($request, $tag)
             ->withMessage(__('Item successfully created.'));

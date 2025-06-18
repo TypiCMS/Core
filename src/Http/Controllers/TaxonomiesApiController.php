@@ -2,7 +2,6 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -12,11 +11,10 @@ use TypiCMS\Modules\Core\Models\Taxonomy;
 
 class TaxonomiesApiController extends BaseApiController
 {
-    /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
     {
-        $query = Taxonomy::query()->selectFields();
-        $data = QueryBuilder::for($query)
+        $data = QueryBuilder::for(Taxonomy::class)
+            ->selectFields()
             ->allowedSorts(['title_translated', 'validation_rule', 'result_string_translated', 'position', 'name'])
             ->allowedFilters([
                 AllowedFilter::custom('title,name,validation_rule,result_string', new FilterOr()),
@@ -26,7 +24,7 @@ class TaxonomiesApiController extends BaseApiController
         return $data;
     }
 
-    protected function updatePartial(Taxonomy $taxonomy, Request $request): void
+    protected function updatePartial(Taxonomy $taxonomy, Request $request)
     {
         foreach ($request->only('position') as $key => $content) {
             if ($taxonomy->isTranslatableAttribute($key)) {
@@ -41,13 +39,11 @@ class TaxonomiesApiController extends BaseApiController
         $taxonomy->save();
     }
 
-    public function destroy(Taxonomy $taxonomy): JsonResponse
+    public function destroy(Taxonomy $taxonomy)
     {
         if ($taxonomy->terms->count() > 0) {
-            return response()->json(['message' => __('This taxonomy cannot be deleted as it contains terms.')], 403);
+            return response(['message' => __('This taxonomy cannot be deleted as it contains terms.')], 403);
         }
         $taxonomy->delete();
-
-        return response()->json(status: 204);
     }
 }

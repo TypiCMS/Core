@@ -2,7 +2,6 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -10,7 +9,7 @@ use TypiCMS\Modules\Core\Models\Page;
 
 class SitemapPublicController extends Controller
 {
-    public function generate(): string
+    public function generate()
     {
         // create new sitemap object
         $sitemap = app('sitemap');
@@ -26,11 +25,7 @@ class SitemapPublicController extends Controller
             foreach (enabledLocales() as $locale) {
                 app()->setLocale($locale);
 
-                /** @var Collection<int, Page> $pages */
-                $pages = Page::query()
-                    ->published()
-                    ->where('private', 0)
-                    ->get();
+                $pages = Page::query()->published()->where('private', 0)->get();
 
                 foreach ($pages as $page) {
                     $url = $page->url($locale);

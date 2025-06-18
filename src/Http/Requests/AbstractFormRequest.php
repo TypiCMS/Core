@@ -12,7 +12,6 @@ abstract class AbstractFormRequest extends FormRequest
         return true;
     }
 
-    /** @return array<string, string> */
     public function messages(): array
     {
         return [
@@ -20,7 +19,6 @@ abstract class AbstractFormRequest extends FormRequest
         ];
     }
 
-    /** @return array<string, string> */
     public function attributes(): array
     {
         return [

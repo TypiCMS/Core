@@ -12,7 +12,7 @@
                 v-for="page in getPages()"
                 :class="{
                     disabled: page === '…',
-                    active: page === data.current_page && page !== '…',
+                    active: page == data.current_page && page !== '…',
                 }"
                 :key="page"
             >
@@ -31,8 +31,6 @@
 </template>
 
 <script setup>
-const emit = defineEmits(['paginationChangePage']);
-
 const props = defineProps({
     data: {
         type: Object,
@@ -61,7 +59,7 @@ function selectPage(page) {
         return;
     }
 
-    emit('paginationChangePage', page);
+    $emit('pagination-change-page', page);
 }
 
 function getPages() {

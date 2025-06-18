@@ -16,7 +16,7 @@ class TagsPublicController extends BasePublicController
             ->with(compact('models'));
     }
 
-    public function show(string $slug): View
+    public function show($slug): View
     {
         $model = Tag::query()->where('slug', $slug)->firstOrFail();
 

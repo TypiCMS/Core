@@ -49,7 +49,7 @@ use TypiCMS\Modules\Core\Services\TypiCMS;
 
 class ModuleServiceProvider extends ServiceProvider
 {
-    private int $migrationCount = 0;
+    private $migrationCount = 0;
 
     /**
      * Bootstrap the application events.
@@ -203,6 +203,7 @@ class ModuleServiceProvider extends ServiceProvider
             __DIR__ . '/../../database/migrations/create_settings_table.php.stub' => $this->getMigrationFileName('create_settings_table'),
             __DIR__ . '/../../database/migrations/create_history_table.php.stub' => $this->getMigrationFileName('create_history_table'),
             __DIR__ . '/../../database/migrations/create_users_table.php.stub' => $this->getMigrationFileName('create_users_table'),
+            __DIR__ . '/../../database/migrations/create_password_reset_tokens_table.php.stub' => $this->getMigrationFileName('create_password_reset_tokens_table'),
             __DIR__ . '/../../database/migrations/create_model_has_files_table.php.stub' => $this->getMigrationFileName('create_model_has_files_table'),
             __DIR__ . '/../../database/migrations/create_menus_tables.php.stub' => $this->getMigrationFileName('create_menus_tables'),
             __DIR__ . '/../../database/migrations/create_tags_table.php.stub' => $this->getMigrationFileName('create_tags_table'),
@@ -308,13 +309,12 @@ class ModuleServiceProvider extends ServiceProvider
         | Register TypiCMS routes.
         |--------------------------------------------------------------------------
         */
-        $this->app->singleton('typicms.routes', function (): array {
+        $this->app->singleton('typicms.routes', function () {
             try {
                 return Page::query()
                     ->with('images', 'documents')
                     ->whereNotNull('module')
-                    ->get()
-                    ->all();
+                    ->get();
             } catch (Exception $e) {
                 return [];
             }

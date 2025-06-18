@@ -10,7 +10,7 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    public function run(): void
+    public function run()
     {
         Model::unguard();
         $this->call(SettingsSeeder::class);

@@ -2,11 +2,12 @@
 
 namespace TypiCMS\Modules\Core\Observers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class SlugObserver
 {
-    public function saving(mixed $model): void
+    public function saving(Model $model)
     {
         $titles = $model->getTranslations('title');
         $slugs = $model->getTranslations('slug');
@@ -29,7 +30,7 @@ class SlugObserver
     /**
      * Search for item with same slug.
      */
-    private function slugExists(mixed $model, string $locale): bool
+    private function slugExists(Model $model, string $locale): bool
     {
         $query = $model::query()->where('slug->' . $locale, $model->getTranslation('slug', $locale));
         if ($model->id) {

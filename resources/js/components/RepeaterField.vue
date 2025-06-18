@@ -57,7 +57,7 @@
                 class="form-select"
                 @change="$emit('input', $event.target.value)"
             >
-                <option v-for="(label, value) in items" :value="value" :key="value">{{ t(label) }}</option>
+                <option v-for="(label, value) in items" :value="value" :key="value">{{ label }}</option>
             </select>
             <div v-if="errors.length > 0" class="invalid-feedback">{{ errors[0] }}</div>
         </div>

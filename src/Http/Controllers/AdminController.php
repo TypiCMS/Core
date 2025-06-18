@@ -30,7 +30,7 @@ class AdminController extends BaseAdminController
 
     public function store(BlockFormRequest $request): RedirectResponse
     {
-        $block = Block::query()->create($request->validated());
+        $block = Block::create($request->validated());
 
         return $this->redirect($request, $block)
             ->withMessage(__('Item successfully created.'));

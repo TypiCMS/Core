@@ -4,7 +4,6 @@ namespace TypiCMS\Modules\Core\Http\Requests;
 
 class PageFormRequest extends AbstractFormRequest
 {
-    /** @return array<string, string> */
     public function rules(): array
     {
         $rules = [

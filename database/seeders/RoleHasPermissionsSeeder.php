@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class RoleHasPermissionsSeeder extends Seeder
 {
-    public function run(): void
+    public function run()
     {
         $roleHasPermissions = [
             ['permission_id' => 1, 'role_id' => 1],

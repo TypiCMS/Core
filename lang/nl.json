@@ -1,9 +1,5 @@
 {
     "# blocks": "Geen inhoudsblok|1 inhoudsblok|{count} inhoudsblokken",
-    "Use your passkey to confirm it’s really you.": "Gebruik je sleutel om te bevestigen dat jij het bent.",
-    "Authenticate": "Authenticeren",
-    "Log in with a password.": "Log in met een wachtwoord.",
-    "Could not login using the given passkey": "Kon niet inloggen met de opgegeven sleutel",
     "# categories": "Geen categorie|1 categorie|{count} categorieën",
     "# contacts": "Geen contact|1 contact|{count} contacten",
     "# discussions": "Geen discussie|1 discussie|{count} discussies",
@@ -68,7 +64,7 @@
     "All rights reserved.": "Alle rechten voorbehouden.",
     "Already Reported": "Al gemeld",
     "Alt attribute": "Alternatieve tekst",
-    "An account already exists for this email address.": "Er bestaat al een account voor dit e-mailadres.",
+    "An account already exists for this email address. Log in or request a new password.": "Er bestaat al een account voor dit e-mailadres. Log in of vraag een nieuw wachtwoord aan.",
     "An error occurred with the data fetch.": "Er is een fout opgetreden tijdens het laden van de gegevens.",
     "and get access to all the content of our website.": "en toegang tot alle inhoud van onze site.",
     "Archive": "Archiveren",
@@ -509,6 +505,7 @@
     "Settings": "Instellingen",
     "Share on Facebook": "Deel op Facebook",
     "Share on LinkedIn": "Deel op LinkedIn",
+    "Share on Twitter": "Deel op Twitter",
     "Share via mail": "Deel via mail",
     "Share via WhatsApp": "Deel via WhatsApp",
     "Show": "Toon",
@@ -646,5 +643,7 @@
     "You are logged in!": "Je bent ingelogd!",
     "You are receiving this email because we received a password reset request for your account.": "Je ontvangt deze e-mail omdat we een wachtwoordherstel verzoek hebben ontvangen voor je account.",
     "Your account has been activated, you can now log in": "Uw account is geactiveerd, u kunt inloggen.",
-    "Your account has been created, check your email for the one time login code.": "Uw account is aangemaakt, er is een eenmalige inlogcode naar u toegestuurd."
+    "Your account has been created, check your email for the verification link.": "Uw account is aangemaakt, er is een verificatielink naar u toegestuurd.",
+    "Your account has been created, now you need to verify it.": "Uw account is aangemaakt, u moet het nu verifiëren.",
+    "Your email address has been verified.": "Uw e-mailadres is geverifieerd."
 }

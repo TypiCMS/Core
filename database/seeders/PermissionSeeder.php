@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class PermissionSeeder extends Seeder
 {
-    public function run(): void
+    public function run()
     {
         $permissions = [
             ['id' => 1, 'name' => 'change locale', 'guard_name' => 'web'],

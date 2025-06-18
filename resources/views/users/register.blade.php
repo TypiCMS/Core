@@ -9,7 +9,7 @@
     <div id="register" class="container-register auth">
         @include('users::_auth-header')
 
-        {!! BootForm::open()->addClass('auth-form')->id('registration-form') !!}
+        {!! BootForm::open()->addClass('auth-form') !!}
         {!! BootForm::hidden('locale')->value(app()->getLocale()) !!}
 
         <h1 class="auth-title">{{ __('Register') }}</h1>
@@ -27,6 +27,14 @@
                 {!! BootForm::text(__('Last name'), 'last_name')->addClass('form-control-lg')->required() !!}
             </div>
         </div>
+        <div class="row gx-3">
+            <div class="col-sm-6">
+                {!! BootForm::password(__('Password'), 'password')->addClass('form-control-lg')->required()->autocomplete('new-password') !!}
+            </div>
+            <div class="col-sm-6">
+                {!! BootForm::password(__('Password confirmation'), 'password_confirmation')->addClass('form-control-lg')->required()->autocomplete('new-password') !!}
+            </div>
+        </div>
 
         <div class="mb-3 mt-3 d-grid">
             {!! BootForm::submit(__('Register'), 'btn-primary')->addClass('btn-lg') !!}
@@ -35,18 +43,3 @@
         {!! BootForm::close() !!}
     </div>
 @endsection
-@push('js')
-    <script type="module">
-        document.addEventListener('DOMContentLoaded', function() {
-            let form = document.getElementById('registration-form');
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-                fetch(form.action, {
-                        method: 'POST',
-                        body: new FormData(form)
-                    }
-                );
-            });
-        });
-    </script>
-@endpush

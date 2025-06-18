@@ -2,9 +2,6 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -15,11 +12,10 @@ use TypiCMS\Modules\Core\Models\Tag;
 
 class TagsApiController extends BaseApiController
 {
-    /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
     {
-        $query = Tag::query()->selectFields();
-        $data = QueryBuilder::for($query)
+        $data = QueryBuilder::for(Tag::class)
+            ->selectFields()
             ->allowedSorts(['tag', 'uses'])
             ->allowedFilters([
                 AllowedFilter::custom('tag', new FilterOr()),
@@ -32,16 +28,16 @@ class TagsApiController extends BaseApiController
         return $data;
     }
 
-    /** @return Collection<int, Model> */
-    public function tagsList(): Collection
+    public function tagsList(Request $request)
     {
-        return QueryBuilder::for(Tag::class)->get();
+        $models = QueryBuilder::for(Tag::class)
+            ->get();
+
+        return $models;
     }
 
-    public function destroy(Tag $tag): JsonResponse
+    public function destroy(Tag $tag)
     {
         $tag->delete();
-
-        return response()->json(status: 204);
     }
 }
