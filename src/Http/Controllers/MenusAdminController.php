@@ -30,7 +30,7 @@ class MenusAdminController extends BaseAdminController
 
     public function store(MenuFormRequest $request): RedirectResponse
     {
-        $menu = Menu::create($request->validated());
+        $menu = Menu::query()->create($request->validated());
 
         return $this->redirect($request, $menu)
             ->withMessage(__('Item successfully created.'));

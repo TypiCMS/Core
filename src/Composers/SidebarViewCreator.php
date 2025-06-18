@@ -5,21 +5,12 @@ namespace TypiCMS\Modules\Core\Composers;
 use Illuminate\View\View;
 use Maatwebsite\Sidebar\SidebarManager;
 
-class SidebarViewCreator
+readonly class SidebarViewCreator
 {
-    /**
-     * @var SidebarManager
-     */
-    private $manager;
+    public function __construct(private SidebarManager $manager) {}
 
-    public function __construct(SidebarManager $manager)
+    public function create(View $view): void
     {
-        $this->manager = $manager;
-    }
-
-    public function create(View $view)
-    {
-        $view->prefix = 'admin';
-        $view->sidebar = $this->manager->build();
+        $view->with('sidebar', $this->manager->build());
     }
 }

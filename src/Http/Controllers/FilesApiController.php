@@ -14,6 +14,7 @@ use TypiCMS\Modules\Core\Services\FileUploader;
 
 class FilesApiController extends BaseApiController
 {
+    /** @return array<string, mixed> */
     public function index(Request $request): array
     {
         $folderId = null;
@@ -58,7 +59,7 @@ class FilesApiController extends BaseApiController
         return response()->json(compact('model'));
     }
 
-    protected function move($ids, Request $request): JsonResponse
+    protected function move(string $ids, Request $request): JsonResponse
     {
         $idsArray = explode(',', $ids);
         foreach ($idsArray as $id) {
@@ -68,7 +69,7 @@ class FilesApiController extends BaseApiController
         return response()->json(['number' => count($idsArray)]);
     }
 
-    public function destroy(File $file)
+    public function destroy(File $file): JsonResponse
     {
         if ($file->children->count() > 0) {
             return response()->json(['message' => __('A non-empty folder cannot be deleted.')], 403);
@@ -79,11 +80,14 @@ class FilesApiController extends BaseApiController
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
+
+        return response()->json(status: 204);
     }
 
-    private function getPath($folderId): array
+    /** @return array<File|stdClass> */
+    private function getPath(int $folderId): array
     {
-        $folder = File::find($folderId);
+        $folder = File::query()->find($folderId);
         $path = [];
         while ($folder) {
             $path[] = $folder;
@@ -96,8 +100,7 @@ class FilesApiController extends BaseApiController
         $firstItem->id = '';
 
         $path[] = $firstItem;
-        $path = array_reverse($path);
 
-        return $path;
+        return array_reverse($path);
     }
 }

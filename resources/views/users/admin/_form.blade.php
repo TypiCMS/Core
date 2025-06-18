@@ -8,6 +8,8 @@
 <div class="content">
     @include('core::admin._form-errors')
 
+    <user-passkeys :passkeys="{{ json_encode($passkeys) }}"></user-passkeys>
+
     <div class="row gx-3">
         <div class="col-sm-6">
             {!! BootForm::text(__('First name'), 'first_name')->required()->autocomplete('off') !!}
@@ -23,15 +25,6 @@
         </div>
         <div class="col">
             {!! BootForm::text(__('Phone'), 'phone')->autocomplete('off') !!}
-        </div>
-    </div>
-
-    <div class="row gx-3">
-        <div class="col-sm-6">
-            {!! BootForm::password(__('Password'), 'password') !!}
-        </div>
-        <div class="col-sm-6">
-            {!! BootForm::password(__('Password confirmation'), 'password_confirmation') !!}
         </div>
     </div>
 

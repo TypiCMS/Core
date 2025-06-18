@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -12,11 +13,12 @@ use TypiCMS\Modules\Core\Models\Term;
 
 class TermsApiController extends BaseApiController
 {
+    /** @return LengthAwarePaginator<int, mixed> */
     public function index(Taxonomy $taxonomy, Request $request): LengthAwarePaginator
     {
-        $data = QueryBuilder::for(Term::class)
-            ->selectFields()
-            ->where('taxonomy_id', $taxonomy->id)
+        $query = Term::query()->selectFields()
+            ->where('taxonomy_id', $taxonomy->id);
+        $data = QueryBuilder::for($query)
             ->allowedSorts(['title_translated', 'position'])
             ->allowedFilters([
                 AllowedFilter::custom('title', new FilterOr()),
@@ -26,7 +28,7 @@ class TermsApiController extends BaseApiController
         return $data;
     }
 
-    protected function updatePartial(Taxonomy $taxonomy, Term $term, Request $request)
+    protected function updatePartial(Taxonomy $taxonomy, Term $term, Request $request): void
     {
         foreach ($request->only('position') as $key => $content) {
             if ($term->isTranslatableAttribute($key)) {
@@ -41,8 +43,10 @@ class TermsApiController extends BaseApiController
         $term->save();
     }
 
-    public function destroy(Taxonomy $taxonomy, Term $term)
+    public function destroy(Taxonomy $taxonomy, Term $term): JsonResponse
     {
         $term->delete();
+
+        return response()->json(status: 204);
     }
 }

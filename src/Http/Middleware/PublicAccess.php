@@ -23,7 +23,6 @@ class PublicAccess
             && config('typicms.auth_public')
             && !Auth::check()
             && !Route::is('*::login*')
-            && !Route::is('*::password*')
         ) {
             if ($request->ajax()) {
                 return Response::make('Unauthorized', 401);

@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Requests;
 
 class MenuFormRequest extends AbstractFormRequest
 {
+    /** @return array<string, string> */
     public function rules(): array
     {
         return [

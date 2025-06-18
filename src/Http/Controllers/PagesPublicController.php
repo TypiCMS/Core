@@ -18,9 +18,10 @@ class PagesPublicController extends BasePublicController
         }
 
         if ($page->redirect && $page->publishedSubpages->count() > 0) {
-            $childUri = $page->publishedSubpages->first()->url();
-
-            return redirect($childUri);
+            $child = $page->publishedSubpages->first();
+            if ($child instanceof Page) {
+                return redirect()->to($child->url());
+            }
         }
 
         $templateDir = 'pages::' . config('typicms.template_dir', 'public') . '.';

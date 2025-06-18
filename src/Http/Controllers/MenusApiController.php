@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -11,10 +12,11 @@ use TypiCMS\Modules\Core\Models\Menu;
 
 class MenusApiController extends BaseApiController
 {
+    /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
     {
-        $data = QueryBuilder::for(Menu::class)
-            ->selectFields()
+        $query = Menu::query()->selectFields();
+        $data = QueryBuilder::for($query)
             ->allowedSorts(['status_translated', 'name'])
             ->allowedFilters([
                 AllowedFilter::custom('name', new FilterOr()),
@@ -25,7 +27,7 @@ class MenusApiController extends BaseApiController
         return $data;
     }
 
-    protected function updatePartial(Menu $menu, Request $request)
+    protected function updatePartial(Menu $menu, Request $request): void
     {
         foreach ($request->only('status') as $key => $content) {
             if ($menu->isTranslatableAttribute($key)) {
@@ -40,8 +42,10 @@ class MenusApiController extends BaseApiController
         $menu->save();
     }
 
-    public function destroy(Menu $menu)
+    public function destroy(Menu $menu): JsonResponse
     {
         $menu->delete();
+
+        return response()->json(status: 204);
     }
 }

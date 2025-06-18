@@ -12,7 +12,7 @@ class SidebarViewComposer
     public function compose(View $view): void
     {
         if (Gate::allows('see dashboard')) {
-            $view->sidebar->group('dashboard', function (SidebarGroup $group) {
+            $view->offsetGet('sidebar')->group('dashboard', function (SidebarGroup $group) {
                 $group->id = 'dashboard';
                 $group->weight = 10;
                 $group->hideHeading();
@@ -25,7 +25,7 @@ class SidebarViewComposer
             });
         }
         if (Gate::allows('read pages')) {
-            $view->sidebar->group(__('Content'), function (SidebarGroup $group) {
+            $view->offsetGet('sidebar')->group(__('Content'), function (SidebarGroup $group) {
                 $group->id = 'content';
                 $group->weight = 30;
                 $group->addItem(__('Pages'), function (SidebarItem $item) {
@@ -38,7 +38,7 @@ class SidebarViewComposer
             });
         }
         if (Gate::allows('read menus')) {
-            $view->sidebar->group(__('Content'), function (SidebarGroup $group) {
+            $view->offsetGet('sidebar')->group(__('Content'), function (SidebarGroup $group) {
                 $group->id = 'content';
                 $group->weight = 30;
                 $group->addItem(__('Menus'), function (SidebarItem $item) {
@@ -51,7 +51,7 @@ class SidebarViewComposer
             });
         }
         if (Gate::allows('read blocks')) {
-            $view->sidebar->group(__('Content'), function (SidebarGroup $group) {
+            $view->offsetGet('sidebar')->group(__('Content'), function (SidebarGroup $group) {
                 $group->id = 'content';
                 $group->weight = 30;
                 $group->addItem(__('Content blocks'), function (SidebarItem $item) {
@@ -64,7 +64,7 @@ class SidebarViewComposer
             });
         }
         if (Gate::allows('read tags')) {
-            $view->sidebar->group(__('Content'), function (SidebarGroup $group) {
+            $view->offsetGet('sidebar')->group(__('Content'), function (SidebarGroup $group) {
                 $group->id = 'content';
                 $group->weight = 30;
                 $group->addItem(__('Tags'), function (SidebarItem $item) {
@@ -77,7 +77,7 @@ class SidebarViewComposer
             });
         }
         if (Gate::allows('read taxonomies')) {
-            $view->sidebar->group(__('Content'), function (SidebarGroup $group) {
+            $view->offsetGet('sidebar')->group(__('Content'), function (SidebarGroup $group) {
                 $group->id = 'content';
                 $group->weight = 30;
                 $group->addItem(__('Taxonomies'), function (SidebarItem $item) {
@@ -90,7 +90,7 @@ class SidebarViewComposer
             });
         }
         if (Gate::allows('read translations')) {
-            $view->sidebar->group(__('Content'), function (SidebarGroup $group) {
+            $view->offsetGet('sidebar')->group(__('Content'), function (SidebarGroup $group) {
                 $group->id = 'content';
                 $group->weight = 30;
                 $group->addItem(__('Translations'), function (SidebarItem $item) {
@@ -103,7 +103,7 @@ class SidebarViewComposer
             });
         }
         if (Gate::allows('read users')) {
-            $view->sidebar->group(__('Users and roles'), function (SidebarGroup $group) {
+            $view->offsetGet('sidebar')->group(__('Users and roles'), function (SidebarGroup $group) {
                 $group->id = 'users';
                 $group->weight = 50;
                 $group->addItem(__('Users'), function (SidebarItem $item) {
@@ -116,7 +116,7 @@ class SidebarViewComposer
             });
         }
         if (Gate::allows('read roles')) {
-            $view->sidebar->group(__('Users and roles'), function (SidebarGroup $group) {
+            $view->offsetGet('sidebar')->group(__('Users and roles'), function (SidebarGroup $group) {
                 $group->id = 'users';
                 $group->weight = 50;
                 $group->addItem(__('Roles'), function (SidebarItem $item) {
@@ -129,7 +129,7 @@ class SidebarViewComposer
             });
         }
         if (Gate::allows('read files')) {
-            $view->sidebar->group(__('Media'), function (SidebarGroup $group) {
+            $view->offsetGet('sidebar')->group(__('Media'), function (SidebarGroup $group) {
                 $group->id = 'media';
                 $group->weight = 40;
                 $group->addItem(__('Files'), function (SidebarItem $item) {

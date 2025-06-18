@@ -2,13 +2,13 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class SearchPublicController extends BasePublicController
 {
-    public function search(Request $request)
+    public function search(Request $request): View
     {
         $results = collect();
         $tabs = [];
@@ -33,43 +33,45 @@ class SearchPublicController extends BasePublicController
             }
             $model = app($data['model']);
             $columns = $data['columns'];
-            $query = $model->where(function (Builder $query) use ($words, $columns, $model, $key) {
-                foreach ($columns as $column) {
-                    $query->orWhere(function ($query) use ($words, $column, $model) {
-                        foreach ($words as $word) {
-                            $word = addslashes($word);
-                            if (in_array($column, (array) $model->translatable)) {
-                                $query->published()->whereRaw(
-                                    'JSON_UNQUOTE(JSON_EXTRACT(`' . $column . '`, \'$.' . app()->getLocale() . '\')) LIKE \'%' . $word . '%\' COLLATE utf8mb4_unicode_ci'
-                                );
-                            } else {
-                                $query->published()->whereRaw(
-                                    '`' . $column . '` LIKE \'%' . $word . '%\' COLLATE utf8mb4_unicode_ci'
-                                );
-                            }
-                        }
-                    });
-                    if ($key === 'pages') { // search in page sections
+            $query = $model
+                ->query()
+                ->where(function ($query) use ($words, $columns, $model, $key) {
+                    foreach ($columns as $column) {
                         $query->orWhere(function ($query) use ($words, $column, $model) {
-                            $query->published();
-                            $query->whereHas('sections', function (Builder $query) use ($words, $column, $model) {
-                                foreach ($words as $word) {
-                                    $word = addslashes($word);
-                                    if (in_array($column, (array) $model->translatable)) {
-                                        $query->published()->whereRaw(
-                                            'JSON_UNQUOTE(JSON_EXTRACT(`' . $column . '`, \'$.' . app()->getLocale() . '\')) LIKE \'%' . $word . '%\' COLLATE utf8mb4_unicode_ci'
-                                        );
-                                    } else {
-                                        $query->published()->whereRaw(
-                                            '`' . $column . '` LIKE \'%' . $word . '%\' COLLATE utf8mb4_unicode_ci'
-                                        );
-                                    }
+                            foreach ($words as $word) {
+                                $word = addslashes($word);
+                                if (in_array($column, (array) $model->translatable)) {
+                                    $query->published()->whereRaw(
+                                        'JSON_UNQUOTE(JSON_EXTRACT(`' . $column . '`, \'$.' . app()->getLocale() . '\')) LIKE \'%' . $word . '%\' COLLATE utf8mb4_unicode_ci'
+                                    );
+                                } else {
+                                    $query->published()->whereRaw(
+                                        '`' . $column . '` LIKE \'%' . $word . '%\' COLLATE utf8mb4_unicode_ci'
+                                    );
                                 }
-                            });
+                            }
                         });
+                        if ($key === 'pages') { // search in page sections
+                            $query->orWhere(function ($query) use ($words, $column, $model) {
+                                $query->published();
+                                $query->whereHas('sections', function ($query) use ($words, $column, $model) {
+                                    foreach ($words as $word) {
+                                        $word = addslashes($word);
+                                        if (in_array($column, (array) $model->translatable)) {
+                                            $query->published()->whereRaw(
+                                                'JSON_UNQUOTE(JSON_EXTRACT(`' . $column . '`, \'$.' . app()->getLocale() . '\')) LIKE \'%' . $word . '%\' COLLATE utf8mb4_unicode_ci'
+                                            );
+                                        } else {
+                                            $query->published()->whereRaw(
+                                                '`' . $column . '` LIKE \'%' . $word . '%\' COLLATE utf8mb4_unicode_ci'
+                                            );
+                                        }
+                                    }
+                                });
+                            });
+                        }
                     }
-                }
-            });
+                });
             $items = $query->order()->get();
             $numberOfItems = $items->count();
             if ($numberOfItems) {

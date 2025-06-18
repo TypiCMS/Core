@@ -2,12 +2,11 @@
 
 namespace TypiCMS\Modules\Core\Observers;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class SlugMonolingualObserver
 {
-    public function saving(Model $model)
+    public function saving(mixed $model): void
     {
         $slug = $model->slug ?: Str::slug($model->title);
         $model->slug = $slug;
@@ -23,7 +22,7 @@ class SlugMonolingualObserver
         }
     }
 
-    private function slugExists(Model $model): bool
+    private function slugExists(mixed $model): bool
     {
         $query = $model::query()->where('slug', $model->slug);
         if ($model->id) {

@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 
 class FileUploader
 {
+    /** @return array<string, mixed> */
     public function handle(UploadedFile $file, string $path = 'files', ?string $disk = null, ?string $filenameWithoutExtension = null): array
     {
         if ($disk === null) {

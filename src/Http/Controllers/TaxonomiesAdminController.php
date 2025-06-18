@@ -38,7 +38,7 @@ class TaxonomiesAdminController extends BaseAdminController
 
     public function store(TaxonomyFormRequest $request): RedirectResponse
     {
-        $taxonomy = Taxonomy::create($request->validated());
+        $taxonomy = Taxonomy::query()->create($request->validated());
 
         return $this->redirect($request, $taxonomy)
             ->withMessage(__('Item successfully created.'));

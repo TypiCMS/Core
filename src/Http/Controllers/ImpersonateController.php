@@ -2,15 +2,16 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use TypiCMS\Modules\Core\Models\User;
 
 class ImpersonateController extends Controller
 {
-    public function start($id)
+    public function start(int $id): RedirectResponse
     {
-        $user = User::find($id);
+        $user = User::query()->find($id);
 
         // Guard against administrator impersonate
         if (auth()->user()->can('impersonate users') && !$user->isSuperUser()) {
@@ -22,7 +23,7 @@ class ImpersonateController extends Controller
         return redirect(homeUrl());
     }
 
-    public function stopImpersonation()
+    public function stopImpersonation(): RedirectResponse
     {
         Session::forget('impersonation');
 

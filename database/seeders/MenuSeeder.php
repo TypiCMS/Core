@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class MenuSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $menus = [
             ['id' => 1, 'image_id' => null, 'name' => 'primary', 'class' => null, 'status' => '{"fr":"1","en":"1","nl":"1"}', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
