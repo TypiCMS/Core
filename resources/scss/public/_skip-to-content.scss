@@ -6,13 +6,15 @@
     top: 0;
     z-index: 1000;
     &-link {
-        @include visually-hidden-focusable;
-        &:active,
-        &:focus {
-            background-color: $black;
-            color: $white;
-            padding: 0.25rem 1rem;
-            text-decoration: none;
+        @extend .visually-hidden-focusable;
+        border-bottom-left-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+        background-color: $primary;
+        color: $white;
+        padding: 0.25rem 1rem;
+        text-decoration: none;
+        &:focus-visible {
+            @extend .focus-ring;
         }
     }
 }
