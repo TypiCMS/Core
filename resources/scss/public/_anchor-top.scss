@@ -1,24 +1,30 @@
 .anchor-top {
-    @extend .btn;
-    @extend .btn-secondary;
+    @include transition($transition-fade);
+    position: fixed;
+    opacity: 1;
     width: 40px;
     height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
     bottom: 40px;
     right: 15px;
-    opacity: 1;
     z-index: 1;
-    transition: opacity 0.5s;
-    &.disabled {
-        opacity: 0;
-    }
     @include media-breakpoint-up(sm) {
         width: 50px;
         height: 50px;
-        bottom: 30px;
+        bottom: 20px;
         right: 30px;
+    }
+    &.disabled {
+        opacity: 0;
+    }
+    &-button {
+        @extend .btn-iris-outline-primary;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:after {
+            display: none;
+        }
     }
 }

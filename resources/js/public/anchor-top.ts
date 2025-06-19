@@ -1,6 +1,6 @@
 export default (): void => {
     window.addEventListener('scroll', (): void => {
-        const anchorTop: HTMLAnchorElement = document.getElementById('anchor-top') as HTMLAnchorElement;
+        const anchorTop: HTMLDivElement = document.getElementById('anchor-top') as HTMLDivElement;
         if (window.scrollY > 300) {
             anchorTop.classList.remove('disabled');
         } else {

@@ -86,9 +86,12 @@
         </footer>
     @show
 
-    <a href="#top" class="anchor-top disabled" id="anchor-top" aria-label="@lang('Back to top')">
-        <span class="bi bi-arrow-up"></span>
-    </a>
+    <div class="anchor-top disabled" id="anchor-top" role="complementary">
+        <a class="anchor-top-button" href="#top" aria-label="@lang('Back to top')">
+            <span class="bi bi-arrow-up"></span>
+        </a>
+    </div>
+
 </div>
 
 @vite('resources/js/public.js')
