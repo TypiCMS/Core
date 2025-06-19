@@ -70,6 +70,10 @@ class History extends Base
     {
         return Attribute::make(
             get: function () {
+                if (!$this->historable) {
+                    return null;
+                }
+
                 return method_exists($this->historable, 'editUrl') ? $this->historable->editUrl() : '';
             }
         );
