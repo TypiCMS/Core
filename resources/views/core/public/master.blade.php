@@ -53,7 +53,7 @@
                         Menu
                     </button>
                     <div class="navigation collapse fade" id="navigation-container" data-bs-parent="#navigation">
-                        <nav class="primary-nav">
+                        <nav class="primary-nav" aria-label="@lang('Primary navigation')">
                             @menu('primary')
                         </nav>
                         @include('search::public._form')
