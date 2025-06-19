@@ -65,13 +65,7 @@
             </div>
         </header>
     @show
-
-    @auth
-        @if (auth()->user()->passkeys->isEmpty())
-            <div class="alert alert-success">@lang('Please create a passkey.')</div>
-        @endif
-    @endauth
-
+    
     <main class="main" id="main">
         @yield('content')
     </main>
