@@ -2,8 +2,8 @@
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
+use TypiCMS\Modules\Core\Http\Controllers\AuthController;
 use TypiCMS\Modules\Core\Http\Controllers\ImpersonateController;
-use TypiCMS\Modules\Core\Http\Controllers\LoginController;
 use TypiCMS\Modules\Core\Http\Controllers\PasskeysApiController;
 use TypiCMS\Modules\Core\Http\Controllers\RegisterController;
 use TypiCMS\Modules\Core\Http\Controllers\UsersAdminController;
@@ -21,10 +21,12 @@ foreach (locales() as $lang) {
             $router->post('register', [RegisterController::class, 'register'])->name('register-action');
         }
         // Login
-        $router->get('login', [LoginController::class, 'showLoginForm'])->name('login');
-        $router->post('login', [LoginController::class, 'login'])->name('login-action');
+        $router->get('login', [AuthController::class, 'showLoginForm'])->name('login');
+        $router->post('login', [AuthController::class, 'sendCode'])->name('login-action');
+        $router->get('one-time-password', [AuthController::class, 'showLoginCodeForm'])->name('login-code');
+        $router->post('login/password', [AuthController::class, 'submitOneTimePassword'])->name('submit-one-time-password');
         // Logout
-        $router->post('logout', [LoginController::class, 'logout'])->name('logout');
+        $router->post('logout', [AuthController::class, 'logout'])->name('logout');
         // Impersonate
         $router->get('stop-impersonation', [ImpersonateController::class, 'stopImpersonation'])->name('stop-impersonation');
     });

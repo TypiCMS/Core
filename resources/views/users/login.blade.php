@@ -19,9 +19,9 @@
             @include('users::_status')
 
             {!! BootForm::email(__('Email'), 'email')->addClass('form-control-lg')->autofocus(true)->required()->autocomplete('username') !!}
-        
+
             <div class="mb-3 d-grid">
-                {!! BootForm::submit(__('Login'), 'btn-primary')->addClass('btn-lg') !!}
+                {!! BootForm::submit(__('Send'), 'btn-primary')->addClass('btn-lg') !!}
             </div>
 
             {!! BootForm::close() !!}

@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Models\Concerns\InteractsWithPasskeys;
+use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
 use TypiCMS\Modules\Core\Presenters\UsersPresenter;
@@ -59,6 +60,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable;
     use Authorizable;
+    use HasOneTimePasswords;
     use HasRoles;
     use Historable;
     use InteractsWithPasskeys;
