@@ -65,7 +65,7 @@
             </div>
         </header>
     @show
-    
+
     <main class="main" id="main">
         @yield('content')
     </main>
