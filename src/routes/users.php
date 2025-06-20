@@ -20,11 +20,15 @@ foreach (locales() as $lang) {
             $router->get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
             $router->post('register', [RegisterController::class, 'register'])->name('register-action');
         }
-        // Login
-        $router->get('login', [AuthController::class, 'showLoginForm'])->name('login');
-        $router->post('login', [AuthController::class, 'sendCode'])->name('login-action');
-        $router->get('one-time-password', [AuthController::class, 'showLoginCodeForm'])->name('login-code');
-        $router->post('login/password', [AuthController::class, 'submitOneTimePassword'])->name('submit-one-time-password');
+        // Login with a passkey
+        $router->get('login', [AuthController::class, 'showPasskeyLoginForm'])->name('login');
+        // Login with one-time password
+        $router->get('otp-login', [AuthController::class, 'showOneTimePasswordLoginForm'])->name('otp-login');
+        $router->post('otp-login', [AuthController::class, 'submitOneTimePasswordLoginForm'])->name('send-one-time-password');
+        $router->get('otp-login-code', [AuthController::class, 'showOneTimePasswordForm'])->name('login-code');
+        $router->post('otp-login-code', [AuthController::class, 'submitOneTimePassword'])->name('submit-one-time-password');
+        // Require passkey creation
+        $router->get('create-passkey', [AuthController::class, 'showPasskeyCreationForm'])->name('create-passkey');
         // Logout
         $router->post('logout', [AuthController::class, 'logout'])->name('logout');
         // Impersonate

@@ -143,6 +143,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | User registration
+    |   - allowed: true to allow registration, false to disable it.
+    |   - role: the role assigned to new users.
+    |   - activated: true to activate the user account immediately,
+    |     false to require activation by an administrator.
+    |--------------------------------------------------------------------------
+    */
+    'registration' => [
+        'allowed' => env('TYPICMS_REGISTRATION_ALLOWED', true),
+        'role' => env('TYPICMS_REGISTRATION_ROLE', 'administrator'),
+        'activated' => env('TYPICMS_REGISTRATION_ACTIVATED', true),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Send the x-powered-by: TypiCMS Header.
     |--------------------------------------------------------------------------
     */

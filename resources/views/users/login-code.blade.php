@@ -7,13 +7,13 @@
 
 @section('content')
     <div id="login" class="container-login auth auth-sm">
-        @include('users::_auth-header')
+        <x-users::auth-header />
 
         {!! BootForm::open()->action(route(app()->getLocale() . '::submit-one-time-password'))->addClass('auth-form') !!}
 
         <h1 class="auth-title">{{ __('Enter your one-time password') }}</h1>
 
-        @include('users::_status')
+        <x-users::status />
 
         {!! BootForm::text(__('One time password'), 'one_time_password')->addClass('form-control-lg')->autofocus(true)->required()->autocomplete('one-time-code') !!}
 
@@ -23,11 +23,6 @@
 
         {!! BootForm::close() !!}
 
-        <p class="auth-back-to-website">
-            <a class="auth-back-to-website-link" href="{{ homeUrl() }}">
-                <i class="bi bi-arrow-left me-1"></i>
-                {{ __('Back to the website') }}
-            </a>
-        </p>
+        <x-users::back-to-website-link />
     </div>
 @endsection

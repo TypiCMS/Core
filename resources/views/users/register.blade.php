@@ -7,14 +7,14 @@
 
 @section('content')
     <div id="register" class="container-register auth">
-        @include('users::_auth-header')
+        <x-users::auth-header />
 
         {!! BootForm::open()->addClass('auth-form')->id('registration-form') !!}
         {!! BootForm::hidden('locale')->value(app()->getLocale()) !!}
 
         <h1 class="auth-title">{{ __('Register') }}</h1>
 
-        @include('users::_status')
+        <x-users::status />
 
         {!! Honeypot::generate('my_name', 'my_time') !!}
 
@@ -35,18 +35,3 @@
         {!! BootForm::close() !!}
     </div>
 @endsection
-@push('js')
-    <script type="module">
-        document.addEventListener('DOMContentLoaded', function() {
-            let form = document.getElementById('registration-form');
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-                fetch(form.action, {
-                        method: 'POST',
-                        body: new FormData(form)
-                    }
-                );
-            });
-        });
-    </script>
-@endpush

@@ -21,20 +21,34 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'logout']);
+        $this->middleware('guest')->except(['logout', 'showPasskeyCreationForm']);
     }
 
-    public function showLoginForm(): View
+    public function showPasskeyLoginForm(): View
     {
         return view('users::login');
     }
 
-    public function showLoginCodeForm(): View
+    public function showOneTimePasswordLoginForm(): View
+    {
+        return view('users::login-otp');
+    }
+
+    public function showOneTimePasswordForm(): View
     {
         return view('users::login-code');
     }
 
-    protected function sendCode(Request $request): RedirectResponse
+    public function showPasskeyCreationForm()
+    {
+        if (auth()->check() && auth()->user()->passkeys->isNotEmpty()) {
+            return redirect()->route('admin::dashboard');
+        }
+
+        return view('users::create-passkey');
+    }
+
+    protected function submitOneTimePasswordLoginForm(Request $request): RedirectResponse
     {
         Validator::make($request->all(), [
             'email' => 'required|email:rfc,dns|exists:users,email',
@@ -62,7 +76,7 @@ class AuthController extends Controller
     {
         if (session()->missing('email')) {
             return redirect()
-                ->route(app()->getLocale() . '::login', ['password' => true])
+                ->route(app()->getLocale() . '::otp-login')
                 ->with('status', __('Please enter your email address first.'));
         }
         $this->email = session('email');
@@ -74,6 +88,10 @@ class AuthController extends Controller
         ])->validate();
 
         auth()->login($user);
+
+        if ($user->passkeys->isEmpty()) {
+            return redirect()->route(app()->getLocale() . '::create-passkey');
+        }
 
         return redirect()->route('admin::dashboard');
     }

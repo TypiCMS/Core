@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\View\View;
 use TypiCMS\Modules\Core\Http\Requests\UserRegistrationFormRequest;
+use TypiCMS\Modules\Core\Models\Role;
 use TypiCMS\Modules\Core\Models\User;
 
 class RegisterController extends Controller
@@ -30,15 +31,28 @@ class RegisterController extends Controller
         if (User::query()->where('email', $data['email'])->exists()) {
             return redirect()
                 ->route(app()->getLocale() . '::login')
-                ->withStatus(__('An account already exists for this email address.'));
+                ->with('status', __('An account already exists for this email address.'));
+        }
+
+        if (config('typicms.registration.activated')) {
+            $data['activated'] = true;
         }
 
         $user = User::query()->create($data);
 
+        $roleName = config('typicms.registration.role');
+        if ($roleName && Role::query()->where('name', $roleName)->exists()) {
+            $user->assignRole($roleName);
+        }
+
+        session(['email' => $user->email]);
+
+        $user->sendOneTimePassword();
+
         event(new Registered($user));
 
         return redirect()
-            ->back()
+            ->route(app()->getLocale() . '::login-code')
             ->with('status', __('Your account has been created, check your email for the one time login code.'));
     }
 }

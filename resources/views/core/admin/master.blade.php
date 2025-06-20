@@ -30,20 +30,6 @@
 
 <script type="module">
     alertify.logPosition('bottom right');
-    @auth
-    @if (auth()->user()->passkeys->isEmpty())
-    @php
-        session(['missing-passkey' => true]);
-    @endphp
-    @else
-    @php
-        session()->forget('missing-passkey');
-    @endphp
-    @endif
-    @endauth
-    @if (session('missing-passkey'))
-    alertify.success('{!!  __('Please create a <a class="alert-link" href="'.route('admin::edit-user', auth()->user()->id).'">passkey</a>.')  !!}');
-    @endif
     @if (session('message'))
     alertify.success('{{ session('message') }}');
     @endif
