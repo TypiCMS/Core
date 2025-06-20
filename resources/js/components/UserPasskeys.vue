@@ -1,33 +1,30 @@
 <template>
     <div>
         <h1>{{ t('Passkeys') }}</h1>
-        <div class="mt-2">
-            <form @submit.prevent="validatePasskeyProperties" class="flex items-center space-x-2">
-                <div class="input-group">
-                    <label for="name" class="block text-sm font-medium text-gray-700">
-                        {{ t('passkeys::passkeys.name') }}
-                    </label>
-                    <input v-model="name" type="text" id="name" autocomplete="off" class="form-control" />
-                    <span v-if="error" class="text-red-500 text-sm">{{ error }}</span>
-                </div>
-
+        <form class="mb-3" @submit.prevent="validatePasskeyProperties">
+            <label for="name" class="form-label">
+                {{ t('Name') }}
+            </label>
+            <div class="input-group" :class="{ 'is-invalid': error }">
+                <input v-model="name" type="text" id="name" autocomplete="off" class="form-control" :class="{ 'is-invalid': error }" />
                 <button type="submit" class="btn btn-outline-secondary btn-slug">
-                    {{ t('passkeys::passkeys.create') }}
+                    {{ t('Create') }}
                 </button>
-            </form>
-        </div>
+            </div>
+            <span class="invalid-feedback" v-if="error">{{ error }}</span>
+        </form>
 
-        <div class="mt-6">
-            <ul class="space-y-4">
+        <div v-if="passkeys.length !== 0">
+            <ul>
                 <li v-for="passkey in passkeys" :key="passkey.id" class="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow-sm">
-                    <div class="text-gray-700">{{ passkey.name }}</div>
-                    <div class="ml-2">
-                        {{ t('passkeys::passkeys.last_used') }}:
-                        {{ passkey.last_used_at ? passkey.last_used_at : t('passkeys::passkeys.not_used_yet') }}
+                    <div>{{ passkey.name }}</div>
+                    <div>
+                        {{ t('Last used') }}:
+                        {{ passkey.last_used_at ? formatDateTime(passkey.last_used_at) : t('Not used yet') }}
                     </div>
                     <div>
-                        <button @click="deletePasskey(passkey.id)" class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-red-600">
-                            {{ t('passkeys::passkeys.delete') }}
+                        <button class="btn btn-link text-danger btn-sm" type="button" @click="deletePasskey(passkey.id)">
+                            {{ t('Delete') }}
                         </button>
                     </div>
                 </li>
@@ -39,6 +36,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import fetcher from '../admin/fetcher';
 
 const { t } = useI18n();
 
@@ -49,26 +47,53 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['create-passkey', 'delete-passkey']);
-
 const name = ref('');
 const error = ref(null);
 
 const validatePasskeyProperties = () => {
     if (!name.value) {
-        error.value = t('passkeys::passkeys.name_required');
+        error.value = t('Name required');
         return;
     }
     error.value = null;
-    emit('create-passkey', name.value);
     name.value = '';
+
+    addPassKey();
 };
 
-const deletePasskey = (id) => {
-    emit('delete-passkey', id);
-};
+async function addPassKey() {
+    const response = await fetcher('/api/passkeys/generate-options');
+    const options = await response.json();
+    const startAuthenticationResponse = await window.startRegistration(options);
+
+    await fetcher('/api/passkeys', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            options: JSON.stringify(options),
+            passkey: JSON.stringify(startAuthenticationResponse),
+        }),
+    });
+}
+
+async function deletePasskey(id) {
+    if (!confirm(t('Are you sure you want to delete this passkey?'))) {
+        return;
+    }
+    try {
+        const response = await fetcher('/api/passkeys/' + id, {
+            method: 'DELETE',
+        });
+        if (!response.ok) {
+            const responseData = await response.json();
+            throw new Error(responseData.message);
+        }
+        alertify.success(t('Item successfully deleted.'));
+    } catch (error) {
+        console.log(error);
+        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
+    }
+}
 </script>
-
-<style scoped>
-/* Ajoutez vos styles ici si nécessaire */
-</style>
