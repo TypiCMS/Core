@@ -53,7 +53,7 @@
                         Menu
                     </button>
                     <div class="navigation collapse fade" id="navigation-container" data-bs-parent="#navigation">
-                        <nav class="primary-nav">
+                        <nav class="primary-nav" aria-label="@lang('Primary navigation')">
                             @menu('primary')
                         </nav>
                         @include('search::public._form')
@@ -77,13 +77,13 @@
     @section('footer')
         <footer class="footer">
             <div class="footer-container">
-                <nav class="social-nav">
+                <nav class="social-nav" aria-label="@lang('Social links')">
                     @menu('social')
                 </nav>
-                <nav class="footer-nav">
+                <nav class="footer-nav" aria-label="@lang('Footer navigation')">
                     @menu('footer')
                 </nav>
-                <nav class="legal-nav">
+                <nav class="legal-nav" aria-label="@lang('Legal links')">
                     @menu('legal')
                 </nav>
             </div>
