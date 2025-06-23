@@ -76,7 +76,13 @@ class Install extends Command
         }
 
         // Done
-        outro('Done. Enjoy TypiCMS!');
+        outro('Done.');
+        info('Next steps:');
+        info('1. Secure your installation with a SSL certificate.');
+        info('2. Set the correct APP_URL in your .env file.');
+        info('3. Configure the Laravel’s email service.');
+        info('4. Access the admin panel at /admin.');
+        outro('Enjoy TypiCMS!');
     }
 
     public function guessDatabaseName(): string
