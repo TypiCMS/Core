@@ -3,6 +3,8 @@
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -39,7 +41,7 @@ class AuthController extends Controller
         return view('users::login-code');
     }
 
-    public function showPasskeyCreationForm()
+    public function showPasskeyCreationForm(): View|RedirectResponse
     {
         if (auth()->check() && auth()->user()->passkeys->isNotEmpty()) {
             return redirect()->route('admin::dashboard');
@@ -129,7 +131,7 @@ class AuthController extends Controller
             : redirect('/');
     }
 
-    protected function guard()
+    protected function guard(): StatefulGuard|Guard
     {
         return Auth::guard();
     }
