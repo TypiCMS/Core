@@ -14,7 +14,7 @@
             <p class="alert alert-info">@lang('Please create an access key for future connections.')</p>
             <x-users::status />
             <div class="mb-3 d-grid">
-                <button class="btn btn-lg btn-primary" type="button">
+                <button class="btn btn-lg btn-primary" type="button" id="create-passkey-button">
                     <i class="bi bi-key-fill me-2"></i>
                     @lang('Create passkey')
                 </button>
@@ -26,7 +26,7 @@
 
 @push('js')
     <script type="module">
-        document.addEventListener('DOMContentLoaded', async function () {
+        document.getElementById('create-passkey-button').addEventListener('click', async function () {
             const apiTokenElement = document.head.querySelector('meta[name="api-token"]');
             const csrfTokenElement = document.head.querySelector('meta[name="csrf-token"]');
             const responseOptions = await fetch('/api/passkeys/generate-options', {
