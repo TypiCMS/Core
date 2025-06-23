@@ -45,7 +45,6 @@ use TypiCMS\Modules\Core\Models\Tag;
 use TypiCMS\Modules\Core\Models\Taxonomy;
 use TypiCMS\Modules\Core\Models\Term;
 use TypiCMS\Modules\Core\Models\User;
-use TypiCMS\Modules\Core\Services\TypiCMS;
 
 class ModuleServiceProvider extends ServiceProvider
 {
