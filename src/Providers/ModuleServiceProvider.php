@@ -203,6 +203,7 @@ class ModuleServiceProvider extends ServiceProvider
             __DIR__ . '/../../database/migrations/create_history_table.php.stub' => $this->getMigrationFileName('create_history_table'),
             __DIR__ . '/../../database/migrations/create_users_table.php.stub' => $this->getMigrationFileName('create_users_table'),
             __DIR__ . '/../../database/migrations/create_one_time_passwords_table.php.stub' => $this->getMigrationFileName('create_one_time_passwords_table'),
+            __DIR__ . '/../../database/migrations/create_passkeys_table.php.stub' => $this->getMigrationFileName('create_passkeys_table'),
             __DIR__ . '/../../database/migrations/create_model_has_files_table.php.stub' => $this->getMigrationFileName('create_model_has_files_table'),
             __DIR__ . '/../../database/migrations/create_menus_tables.php.stub' => $this->getMigrationFileName('create_menus_tables'),
             __DIR__ . '/../../database/migrations/create_tags_table.php.stub' => $this->getMigrationFileName('create_tags_table'),
