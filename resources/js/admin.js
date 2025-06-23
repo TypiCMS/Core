@@ -8,6 +8,16 @@ import Alert from 'bootstrap/js/dist/alert';
 import Offcanvas from 'bootstrap/js/dist/offcanvas';
 
 /**
+ * Passkeys
+ */
+import { browserSupportsWebAuthn, startAuthentication, startRegistration } from '@simplewebauthn/browser';
+import UserPasskeys from './components/UserPasskeys.vue';
+
+window.browserSupportsWebAuthn = browserSupportsWebAuthn;
+window.startAuthentication = startAuthentication;
+window.startRegistration = startRegistration;
+
+/**
  * Vue
  */
 import { createApp } from 'vue';
@@ -78,6 +88,7 @@ const app = createApp()
     .component('FileManager', FileManager)
     .component('FileField', FileField)
     .component('FilesField', FilesField)
+    .component('UserPasskeys', UserPasskeys)
     .use(i18n);
 app.config.globalProperties.emitter = emitter;
 app.config.globalProperties.formatDate = formatDate;
