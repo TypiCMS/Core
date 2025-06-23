@@ -3,25 +3,24 @@
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Spatie\LaravelPasskeys\Actions\GeneratePasskeyRegisterOptionsAction;
 use Spatie\LaravelPasskeys\Actions\StorePasskeyAction;
 use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Support\Config;
 use Throwable;
+use TypiCMS\Modules\Core\Models\User;
 
 class PasskeysApiController extends BaseApiController
 {
-    // public function validatePasskeyProperties(): void
-    // {
-    //     $this->validate();
-    //
-    //     $this->dispatch('passkeyPropertiesValidated', [
-    //         'passkeyOptions' => json_decode($this->generatePasskeyOptions()),
-    //     ]);
-    // }
+    public function getPasskeys(Request $request, User $user): JsonResponse
+    {
+        $passkeys = $user->passkeys()->get(['id', 'name', 'last_used_at']);
+
+        return response()->json($passkeys);
+    }
 
     public function store(Request $request): void
     {
@@ -33,7 +32,7 @@ class PasskeysApiController extends BaseApiController
                 $request->passkey,
                 $request->options ?? $this->previouslyGeneratedPasskeyOptions(),
                 request()->getHost(),
-                ['name' => Str::random(10)]
+                ['name' => $request->string('name')]
             );
         } catch (Throwable $e) {
             throw ValidationException::withMessages([

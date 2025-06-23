@@ -31,9 +31,10 @@ class UsersAdminController extends BaseAdminController
         $model = new User();
         $checkedRoles = [];
         $roles = Role::query()->get();
+        $passkeys = collect();
 
         return view('users::admin.create')
-            ->with(compact('model', 'roles', 'checkedRoles'));
+            ->with(compact('model', 'roles', 'checkedRoles', 'passkeys'));
     }
 
     public function edit(User $user): View

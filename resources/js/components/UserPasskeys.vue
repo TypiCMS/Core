@@ -1,34 +1,37 @@
 <template>
     <div>
-        <h1>{{ t('Passkeys') }}</h1>
-        <form class="mb-3" @submit.prevent="validatePasskeyProperties">
-            <label for="name" class="form-label">
-                {{ t('Name') }}
-            </label>
-            <div class="input-group" :class="{ 'is-invalid': error }">
-                <input v-model="name" type="text" id="name" autocomplete="off" class="form-control" :class="{ 'is-invalid': error }" />
-                <button type="submit" class="btn btn-outline-secondary btn-slug">
-                    {{ t('Create') }}
-                </button>
-            </div>
+        <form class="mb-3" @submit.prevent="addPassKey">
+            <p v-if="passkeys.length !== 0 || loading" class="form-label">
+                {{ t('Passkeys') }}
+            </p>
+            <button v-if="createButton" type="submit" class="btn btn-sm btn-primary">
+                {{ t('Create') }}
+            </button>
             <span class="invalid-feedback" v-if="error">{{ error }}</span>
         </form>
 
-        <div v-if="passkeys.length !== 0">
-            <ul>
-                <li v-for="passkey in passkeys" :key="passkey.id" class="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow-sm">
-                    <div>{{ passkey.name }}</div>
-                    <div>
-                        {{ t('Last used') }}:
-                        {{ passkey.last_used_at ? formatDateTime(passkey.last_used_at) : t('Not used yet') }}
-                    </div>
-                    <div>
-                        <button class="btn btn-link text-danger btn-sm" type="button" @click="deletePasskey(passkey.id)">
-                            {{ t('Delete') }}
-                        </button>
+        <div class="mb-3">
+            <div v-if="loading" class="spinner-border spinner-border-sm text-dark" role="status">
+                <span class="visually-hidden">{{ t('Loading…') }}</span>
+            </div>
+            <ul class="list-unstyled mb-0 d-flex flex-row flex-wrap gap-2" v-if="passkeys.length > 0 && !loading">
+                <li v-for="passkey in passkeys" :key="passkey.id" class="px-3 border d-flex flex-row align-items-center gap-4 bg-light rounded">
+                    <span class="bi bi-key fs-1 text-secondary"></span>
+                    <div class="d-flex flex-column py-3">
+                        <div class="mb-1">{{ t('Name') }}: {{ passkey.name }}</div>
+                        <div class="small mb-2 text-body-tertiary">
+                            {{ t('Last used') }}:
+                            {{ passkey.last_used_at ? formatDateTime(passkey.last_used_at) : t('Not used yet') }}
+                        </div>
+                        <div>
+                            <button class="btn btn-outline-danger btn-xs" type="button" @click="deletePasskey(passkey.id)">
+                                {{ t('Delete') }}
+                            </button>
+                        </div>
                     </div>
                 </li>
             </ul>
+            <p class="alert alert-info d-inline-block" v-if="passkeys.length === 0 && !loading">{{ t('This user has no access keys.') }}</p>
         </div>
     </div>
 </template>
@@ -41,41 +44,63 @@ import fetcher from '../admin/fetcher';
 const { t } = useI18n();
 
 const props = defineProps({
-    passkeys: {
-        type: Array,
+    urlBase: {
+        type: String,
         required: true,
+    },
+    newPasskeyName: {
+        type: String,
+        required: true,
+    },
+    createButton: {
+        type: Boolean,
+        default: false,
     },
 });
 
-const name = ref('');
 const error = ref(null);
+const passkeys = ref([]);
+const loadingTimeout = ref(null);
+const loading = ref(false);
 
-const validatePasskeyProperties = () => {
-    if (!name.value) {
-        error.value = t('Name required');
-        return;
+async function fetchData() {
+    startLoading();
+    try {
+        const response = await fetcher(props.urlBase);
+        if (!response.ok) {
+            const responseData = await response.json();
+            throw new Error(responseData.message);
+        }
+        passkeys.value = await response.json();
+    } catch (error) {
+        alertify.error(t(error.message) || t('An error occurred with the data fetch.'));
     }
-    error.value = null;
-    name.value = '';
-
-    addPassKey();
-};
+    stopLoading();
+}
 
 async function addPassKey() {
     const response = await fetcher('/api/passkeys/generate-options');
     const options = await response.json();
     const startAuthenticationResponse = await window.startRegistration(options);
 
-    await fetcher('/api/passkeys', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            options: JSON.stringify(options),
-            passkey: JSON.stringify(startAuthenticationResponse),
-        }),
-    });
+    try {
+        await fetcher('/api/passkeys', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: props.newPasskeyName,
+                options: JSON.stringify(options),
+                passkey: JSON.stringify(startAuthenticationResponse),
+            }),
+        });
+        alertify.success(t('Item successfully created.'));
+    } catch (error) {
+        console.log(error);
+        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
+    }
+    await fetchData();
 }
 
 async function deletePasskey(id) {
@@ -95,5 +120,19 @@ async function deletePasskey(id) {
         console.log(error);
         alertify.error(t(error.message) || t('Sorry, an error occurred.'));
     }
+    await fetchData();
 }
+
+function startLoading() {
+    loadingTimeout.value = setTimeout(() => {
+        loading.value = true;
+    }, 300);
+}
+
+function stopLoading() {
+    clearTimeout(loadingTimeout.value);
+    loading.value = false;
+}
+
+fetchData();
 </script>

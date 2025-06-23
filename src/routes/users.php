@@ -64,4 +64,5 @@ Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $r
     $router->delete('passkeys/{passkey}', [PasskeysApiController::class, 'destroy'])->middleware('can:update users');
     $router->post('passkeys', [PasskeysApiController::class, 'store'])->middleware('can:update users');
     $router->get('passkeys/generate-options', [PasskeysApiController::class, 'generatePasskeyOptions'])->middleware('can:update users');
+    $router->get('users/{user}/passkeys', [PasskeysApiController::class, 'getPasskeys'])->middleware('can:read users');
 });
