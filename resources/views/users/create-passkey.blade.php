@@ -49,6 +49,7 @@
                     'X-CSRF-TOKEN': csrfTokenElement.content,
                 },
                 body: JSON.stringify({
+                    name: {{ auth()->user()->first_name . '’s passkey' }},
                     options: JSON.stringify(options),
                     passkey: JSON.stringify(startAuthenticationResponse),
                 }),
