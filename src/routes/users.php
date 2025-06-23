@@ -15,7 +15,7 @@ use TypiCMS\Modules\Core\Http\Middleware\JavaScriptData;
  */
 foreach (locales() as $lang) {
     Route::middleware(['public', JavaScriptData::class])->prefix($lang)->name($lang . '::')->group(function (Router $router) {
-        if (config('typicms.register')) {
+        if (config('typicms.registration.allowed')) {
             // Registration
             $router->get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
             $router->post('register', [RegisterController::class, 'register'])->name('register-action');
