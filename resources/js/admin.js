@@ -55,6 +55,11 @@ import ItemListTree from './components/ItemListTree.vue';
 import History from './components/History.vue';
 
 /**
+ * Repeater
+ */
+// import Repeater from './components/Repeater.vue';
+
+/**
  * Files
  */
 import FileField from './components/FileField.vue';
@@ -88,6 +93,7 @@ const app = createApp()
     .component('FileManager', FileManager)
     .component('FileField', FileField)
     .component('FilesField', FilesField)
+    // .component('Repeater', Repeater)
     .component('UserPasskeys', UserPasskeys)
     .use(i18n);
 app.config.globalProperties.emitter = emitter;
