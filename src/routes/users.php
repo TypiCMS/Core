@@ -27,8 +27,10 @@ foreach (locales() as $lang) {
         $router->post('otp-login', [AuthController::class, 'submitOneTimePasswordLoginForm'])->name('send-one-time-password');
         $router->get('otp-login-code', [AuthController::class, 'showOneTimePasswordForm'])->name('login-code');
         $router->post('otp-login-code', [AuthController::class, 'submitOneTimePassword'])->name('submit-one-time-password');
-        // Require passkey creation
-        $router->get('create-passkey', [AuthController::class, 'showPasskeyCreationForm'])->name('create-passkey');
+        $router->middleware('auth')->group(function (Router $router) {
+            // Require passkey creation
+            $router->get('create-passkey', [AuthController::class, 'showPasskeyCreationForm'])->name('create-passkey');
+        });
         // Logout
         $router->post('logout', [AuthController::class, 'logout'])->name('logout');
         // Impersonate
