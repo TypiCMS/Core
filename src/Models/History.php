@@ -70,7 +70,7 @@ class History extends Base
     {
         return Attribute::make(
             get: function () {
-                if (!$this->historable) {
+                if ($this->historable === null) {
                     return null;
                 }
 
