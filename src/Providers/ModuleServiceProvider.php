@@ -235,6 +235,8 @@ class ModuleServiceProvider extends ServiceProvider
             $view->page = getPageLinkedToModule('tags');
         });
 
+        Blade::componentNamespace('TypiCMS\\Modules\\Core\\Http\\Components', 'core');
+
         /*
         |--------------------------------------------------------------------------
         | Aliases.

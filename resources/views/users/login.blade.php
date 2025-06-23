@@ -9,7 +9,7 @@
     <div id="login" class="container-login auth auth-sm">
         <x-users::auth-header />
 
-        <x-authenticate-passkey />
+        <x-core::authenticate-passkey />
 
         <x-users::status />
 
