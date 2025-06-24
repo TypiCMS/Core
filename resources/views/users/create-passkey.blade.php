@@ -11,7 +11,7 @@
         <x-users::auth-header />
         <div class="auth-form">
             <h1 class="auth-title">{{ __('Create a passkey') }}</h1>
-            <p class="alert alert-info">@lang('Please create an access key for future connections.')</p>
+            <p class="alert alert-info">@lang('Please create a passkey for future connections.')</p>
             <x-users::status />
             <div class="mb-3 d-grid">
                 <button class="btn btn-lg btn-primary" type="button" id="create-passkey-button">
