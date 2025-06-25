@@ -54,6 +54,11 @@ class PageSection extends Base implements Sortable
         'order_column_name' => 'position',
     ];
 
+    public function buildSortQuery()
+    {
+        return static::query()->where('page_id', $this->page_id);
+    }
+
     /** @return Attribute<string, null> */
     protected function thumb(): Attribute
     {
