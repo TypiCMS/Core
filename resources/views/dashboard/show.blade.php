@@ -3,14 +3,10 @@
 @section('title', __('Dashboard'))
 
 @section('content')
-    <div class="header">
-        <h1 class="card-title">@lang('Welcome, :name!', ['name' => e(auth()->user()->first_name)])</h1>
-
-        <div class="card-text">
-            {!! $welcomeMessage !!}
-        </div>
+    <div class="header pt-4">
+        <h1 class="card-title mb-3">@lang('Welcome, :name!', ['name' => e(auth()->user()->first_name)])</h1>
+        <div class="card-text">{!! $welcomeMessage !!}</div>
     </div>
-
     <div class="content">
         @can('see history')
             <history fields="history.id,history.created_at,history.title,history.locale,history.historable_id,history.historable_type,history.action,history.user_id" include="historable" :searchable="['title,historable_type,action,user_name']" :sorting="['-created_at']" @can('clear history'):clear-button="true"@endcan>
