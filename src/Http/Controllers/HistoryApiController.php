@@ -16,8 +16,7 @@ class HistoryApiController extends BaseApiController
     /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
     {
-        $query = History::query()
-            ->selectSub(User::query()->selectRaw('CONCAT(`first_name`, " ", `last_name`)')->whereColumn('user_id', 'users.id'), 'user_name');
+        $query = History::query();
 
         return QueryBuilder::for($query)
             ->allowedFields([
@@ -30,6 +29,7 @@ class HistoryApiController extends BaseApiController
                 'history.action',
                 'history.user_id',
             ])
+            ->selectSub(User::selectRaw('CONCAT(`first_name`, " ", `last_name`)')->whereColumn('user_id', 'users.id'), 'user_name')
             ->allowedSorts(['created_at', 'title', 'historable_type', 'action', 'user_name'])
             ->allowedFilters([
                 AllowedFilter::custom('title,historable_type,action,user_name', new FilterOr()),
