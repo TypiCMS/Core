@@ -38,6 +38,7 @@ return new class() extends Migration {
             $table->foreignId('image_id')->nullable()->constrained('files')->nullOnDelete();
             $table->unsignedInteger('position');
             $table->string('template');
+            $table->boolean('hide_title')->default(0);
             $table->json('status')->default(new Expression('(JSON_OBJECT())'));
             $table->json('title')->default(new Expression('(JSON_OBJECT())'));
             $table->json('slug')->default(new Expression('(JSON_OBJECT())'));

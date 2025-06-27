@@ -16,6 +16,7 @@ class PageSectionFormRequest extends AbstractFormRequest
             'status.*' => 'boolean',
             'body.*' => 'nullable|max:20000',
             'template' => 'nullable|max:255',
+            'hide_title' => 'required|boolean',
         ];
     }
 }

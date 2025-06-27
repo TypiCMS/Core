@@ -3,12 +3,16 @@
         <div class="section-default-row">
             @if (empty($section->image))
                 <div class="section-default-content">
-                    <h2 class="section-default-title">{{ $section->title }}</h2>
+                    @if (!$section->hide_title)
+                        <h2 class="section-default-title">{{ $section->title }}</h2>
+                    @endif
                     <div class="section-default-text rich-content">{!! $section->present()->body !!}</div>
                 </div>
             @else
                 <div class="section-default-left">
-                    <h2 class="section-default-title">{{ $section->title }}</h2>
+                    @if (!$section->hide_title)
+                        <h2 class="section-default-title">{{ $section->title }}</h2>
+                    @endif
                     <div class="section-default-text rich-content">{!! $section->present()->body !!}</div>
                 </div>
                 <div class="section-default-right">

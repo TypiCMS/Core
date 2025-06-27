@@ -19,6 +19,7 @@ use TypiCMS\Modules\Core\Traits\Historable;
  * @property int $page_id
  * @property int|null $image_id
  * @property int $position
+ * @property bool $hide_title
  * @property string|null $template
  * @property string $status
  * @property string $title
@@ -38,6 +39,14 @@ class PageSection extends Base implements Sortable
     protected string $presenter = PagePresenter::class;
 
     protected $guarded = [];
+
+    /** @return array<string, string> */
+    protected function casts(): array
+    {
+        return [
+            'hide_title' => 'boolean',
+        ];
+    }
 
     protected $appends = ['thumb'];
 

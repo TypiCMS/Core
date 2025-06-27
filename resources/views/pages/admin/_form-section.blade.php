@@ -25,6 +25,10 @@
         {!! TranslatableBootForm::hidden('status')->value(0) !!}
         {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}
     </div>
+    <div class="mb-3">
+        {!! BootForm::hidden('hide_title')->value(0) !!}
+        {!! BootForm::checkbox(__('No title'), 'hide_title') !!}
+    </div>
     <div class="row">
         <div class="col-md-6">
             {!! BootForm::select(__('Template'), 'template', pageSectionTemplates()) !!}
