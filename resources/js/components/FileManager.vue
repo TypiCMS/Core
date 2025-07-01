@@ -370,15 +370,18 @@ async function fetchData() {
     }
     stopLoading();
 }
+
 function startLoading() {
     loadingTimeout.value = setTimeout(() => {
         loading.value = true;
     }, 300);
 }
+
 function stopLoading() {
     clearTimeout(loadingTimeout.value);
     loading.value = false;
 }
+
 function dragStart(item, event) {
     event.dataTransfer.setData('text', '');
     dragging.value = true;
@@ -387,21 +390,26 @@ function dragStart(item, event) {
         selectedItems.value.push(item);
     }
 }
+
 function dragOver(event) {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
 }
+
 function dragEnd() {
     dragging.value = false;
 }
+
 function dragEnter(event) {
     if (event.target.classList.contains('filemanager-item-folder')) {
         event.target.classList.add('filemanager-item-over');
     }
 }
+
 function dragLeave(event) {
     event.target.classList.remove('filemanager-item-over');
 }
+
 async function drop(targetItem, event) {
     event.target.classList.remove('filemanager-item-over');
     dragging.value = false;
@@ -437,6 +445,7 @@ async function drop(targetItem, event) {
 
     checkNone();
 }
+
 async function newFolder(folderId) {
     const name = window.prompt(t('Enter a name for the new folder.'));
     if (!name) {
@@ -461,6 +470,7 @@ async function newFolder(folderId) {
         alertify.error(error.message || t('Sorry, an error occurred.'));
     }
 }
+
 function check(item, $event) {
     $event.stopPropagation();
     const indexOfLastCheckedItem = data.value.models.indexOf(selectedItems.value[selectedItems.value.length - 1]);
@@ -504,6 +514,7 @@ function check(item, $event) {
         }
     }
 }
+
 async function moveToParentFolder() {
     if (!folder.value.id) {
         return;
@@ -556,6 +567,7 @@ async function moveToParentFolder() {
     }
     stopLoading();
 }
+
 function addSingleFile(item) {
     emitter.emit('fileAdded', item);
     const filepicker = document.getElementById('filepicker');
@@ -567,6 +579,7 @@ function addSingleFile(item) {
     }
     closeModal();
 }
+
 function addSelectedFiles() {
     const files = [];
 
@@ -583,22 +596,26 @@ function addSelectedFiles() {
     closeModal();
     checkNone();
 }
+
 function closeModal() {
     document.body.classList.remove('noscroll');
     options.value.open = false;
     options.value.modalIsInFront = false;
     window.ckEditorDialogBlured = false;
 }
+
 function switchView(viewType) {
     view.value = viewType;
     sessionStorage.setItem('view', JSON.stringify(viewType));
 }
+
 function openFolder(folderToOpen) {
     folder.value = folderToOpen;
     sessionStorage.setItem('folder', JSON.stringify(folder.value));
     fetchData();
     checkNone();
 }
+
 function onDoubleClick(item) {
     if (item.type === 'f') {
         openFolder(item);
@@ -612,9 +629,11 @@ function onDoubleClick(item) {
         }
     }
 }
+
 function checkNone() {
     selectedItems.value = [];
 }
+
 async function deleteSelected() {
     if (selectedItems.value.length > deleteLimit.value) {
         alertify.error(
