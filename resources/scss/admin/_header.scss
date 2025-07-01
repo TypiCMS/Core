@@ -4,6 +4,9 @@
     padding: $spacer $spacer * 2;
     background-color: $light;
     border-bottom: 1px solid $gray-300;
+    position: sticky;
+    top: 56px; // 56px = navbar height.
+    z-index: 10;
     .sub-list & {
         padding-left: 0;
         padding-right: 0;
