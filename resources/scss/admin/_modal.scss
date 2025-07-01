@@ -21,7 +21,6 @@ $height: 75vh;
     &-wrapper {
         height: 100%;
         background-color: #fff;
-        overflow: auto;
         border-radius: 5px;
         display: flex;
         flex-direction: column;
@@ -44,6 +43,7 @@ $height: 75vh;
         height: auto;
         flex-grow: 1;
         padding: 2rem;
+        overflow: auto;
     }
 
     &-btn-close {
