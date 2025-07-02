@@ -68,6 +68,9 @@ blockquote {
 }
 
 .rich-content {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
     img {
         @include img-fluid;
     }
