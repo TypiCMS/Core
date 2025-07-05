@@ -2,12 +2,12 @@
     <div id="filepicker" ref="filepicker" :class="classes" class="filepicker">
         <div class="wrapper">
             <div class="filemanager-header header">
-                <a v-if="path.length > 1" class="btn-back" href="#" @click="openFolder(path[path.length - 2])">
+                <button type="button" v-if="path.length > 1" class="btn-back" @click="openFolder(path[path.length - 2])">
                     <i class="bi bi-arrow-left me-1"></i>
                     <span class="btn-back-label">
                         {{ path[path.length - 2].name }}
                     </span>
-                </a>
+                </button>
                 <h1 v-if="path.length > 0" class="filemanager-title header-title">
                     {{ path[path.length - 1].name }}
                 </h1>
