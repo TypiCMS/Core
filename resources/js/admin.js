@@ -67,6 +67,11 @@ import FileManager from './components/FileManager.vue';
 import FilesField from './components/FilesField.vue';
 
 /**
+ * Tiptap editor
+ */
+import TiptapEditor from './components/tiptap/TiptapEditor.vue';
+
+/**
  * Event bus
  */
 import mitt from 'mitt';
@@ -95,6 +100,7 @@ const app = createApp()
     .component('FilesField', FilesField)
     // .component('Repeater', Repeater)
     .component('UserPasskeys', UserPasskeys)
+    .component('TiptapEditor', TiptapEditor)
     .use(i18n);
 app.config.globalProperties.emitter = emitter;
 app.config.globalProperties.formatDate = formatDate;
