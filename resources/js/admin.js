@@ -64,6 +64,7 @@ import History from './components/History.vue';
  */
 import FileField from './components/FileField.vue';
 import FileManager from './components/FileManager.vue';
+import FileManagerContent from './components/FileManagerContent.vue';
 import FilesField from './components/FilesField.vue';
 
 /**
@@ -96,6 +97,7 @@ const app = createApp()
     .component('ItemListPositionInput', ItemListPositionInput)
     .component('History', History)
     .component('FileManager', FileManager)
+    .component('FileManagerContent', FileManagerContent)
     .component('FileField', FileField)
     .component('FilesField', FilesField)
     // .component('Repeater', Repeater)
