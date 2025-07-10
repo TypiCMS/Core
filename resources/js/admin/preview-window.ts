@@ -6,8 +6,8 @@ export default (): void => {
         `<div id='preview-window' class='modal fade'>
             <div class='modal-dialog modal-xl'>
                 <div class='modal-content'>
-                    <iframe id='preview-content' class='typicms-modal-content'></iframe>
-                    <button id='close-preview' class='modal-btn-close' data-bs-dismiss='modal' aria-label='Close window'>
+                    <iframe class='modal-iframe' id='preview-content'></iframe>
+                    <button class='modal-btn-close' type='button' id='close-preview' data-bs-dismiss='modal' aria-label='Close window'>
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>

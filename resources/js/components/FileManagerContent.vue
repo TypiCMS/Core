@@ -4,18 +4,18 @@
             <button type="button" v-if="path.length > 1" class="btn-back" @click="openFolder(path[path.length - 2])">
                 <i class="bi bi-arrow-left me-1"></i>
                 <span class="btn-back-label">
-                        {{ path[path.length - 2].name }}
-                        </span>
+                    {{ path[path.length - 2].name }}
+                </span>
             </button>
             <h1 v-if="path.length > 0" class="filemanager-title header-title">
                 {{ path[path.length - 1].name }}
             </h1>
             <div class="header-toolbar btn-toolbar">
-                <button class="btn btn-sm btn-light me-2" type="button" @click="newFolder(folder.id)">
+                <button class="btn btn-sm btn-light" type="button" @click="newFolder(folder.id)">
                     <i class="bi bi-folder-fill text-black-50 me-1"></i>
                     {{ t('New folder') }}
                 </button>
-                <div class="btn-group btn-group-sm me-2">
+                <div class="btn-group btn-group-sm">
                     <button id="dropdown-action-button" aria-expanded="true" aria-haspopup="true" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" type="button">
                         {{ t('Action') }}
                     </button>
@@ -37,7 +37,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="btn-group btn-group-sm me-2">
+                <div class="btn-group btn-group-sm">
                     <button :class="{ active: view === 'grid' }" class="btn btn-light" type="button" @click="switchView('grid')">
                         <i class="bi bi-grid-3x2-gap-fill text-black-50 me-1"></i>
                         {{ t('Grid') }}
@@ -47,12 +47,12 @@
                         {{ t('List') }}
                     </button>
                 </div>
-                <div class="d-flex align-items-center ms-2">
+                <div class="d-flex align-items-center">
                     <div v-if="loading" class="spinner-border spinner-border-sm text-dark" role="status">
                         <span class="visually-hidden">{{ t('Loading…') }}</span>
                     </div>
                 </div>
-                <div class="btn-group btn-group-sm me-2 ms-auto">
+                <div class="btn-group btn-group-sm ms-auto">
                     <button
                         v-if="props.multiple"
                         id="add-selected-files-button"
@@ -76,22 +76,22 @@
                     </button>
                 </div>
                 <button v-if="dropzone" id="upload-files-button" class="btn btn-sm btn-light header-btn-add" type="button">
-                    <i class="bi bi-cloud-upload-fill me-1"></i>
+                    <i class="bi bi-cloud-upload-fill text-black-50 me-1"></i>
                     {{ t('Upload files') }}
                 </button>
             </div>
         </div>
 
-        <button type="button" class="filemanager-btn-close" data-bs-dismiss="modal" :aria-label="t('Close window')"><span aria-hidden="true">×</span></button>
+        <button class="filemanager-btn-close" type="button" data-bs-dismiss="modal" :aria-label="t('Close window')"><span aria-hidden="true">×</span></button>
 
         <div class="filemanager-body">
             <Dashboard
                 :plugins="['ImageEditor']"
                 :props="{
-                        inline: false,
-                        trigger: '#upload-files-button',
-                        proudlyDisplayPoweredByUppy: false,
-                    }"
+                    inline: false,
+                    trigger: '#upload-files-button',
+                    proudlyDisplayPoweredByUppy: false,
+                }"
                 :uppy="uppy"
             />
             <div :class="{ 'filemanager-view-list': view === 'list' }" class="filemanager-list" @click="checkNone()">
@@ -100,11 +100,11 @@
                     :key="item.id"
                     :id="'item_' + item.id"
                     :class="{
-                            'filemanager-item-selected': selectedItems.indexOf(item) !== -1,
-                            'filemanager-item-folder': item.type === 'f',
-                            'filemanager-item-file': item.type !== 'f',
-                            'filemanager-item-dragging-source': dragging && selectedItems.indexOf(item) !== -1,
-                        }"
+                        'filemanager-item-selected': selectedItems.indexOf(item) !== -1,
+                        'filemanager-item-folder': item.type === 'f',
+                        'filemanager-item-file': item.type !== 'f',
+                        'filemanager-item-dragging-source': dragging && selectedItems.indexOf(item) !== -1,
+                    }"
                     class="filemanager-item filemanager-item-with-name filemanager-item-editable"
                     draggable="true"
                     @click="check(item, $event)"
@@ -152,14 +152,14 @@ import '@uppy/image-editor/dist/style.min.css';
 import es from '@uppy/locales/lib/es_ES';
 import fr from '@uppy/locales/lib/fr_FR';
 import nl from '@uppy/locales/lib/nl_NL';
-import {Dashboard} from '@uppy/vue';
+import { Dashboard } from '@uppy/vue';
 import XHRUpload from '@uppy/xhr-upload';
-import {computed, ref} from 'vue';
-import {useI18n} from 'vue-i18n';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import fetcher from '../admin/fetcher';
 
-const {t} = useI18n();
-const uppyLocales = {fr, nl, es};
+const { t } = useI18n();
+const uppyLocales = { fr, nl, es };
 
 const props = defineProps({
     dropzone: {
@@ -183,8 +183,8 @@ const selectedItems = ref([]);
 const deleteLimit = ref(100);
 const urlBase = ref('/api/files');
 const maxFilesize = ref(window.TypiCMS.max_file_upload_size);
-const folder = ref({id: ''});
-const data = ref({models: [], path: []});
+const folder = ref({ id: '' });
+const data = ref({ models: [], path: [] });
 
 if (sessionStorage.getItem('view')) {
     view.value = JSON.parse(sessionStorage.getItem('view'));
@@ -234,7 +234,7 @@ const uppy = computed(() => {
                 Authorization: 'Bearer ' + document.head.querySelector('meta[name="api-token"]').content,
             },
         })
-        .use(ImageEditor, {quality: 0.8})
+        .use(ImageEditor, { quality: 0.8 })
         .on('file-added', (file) => {
             uppy.value.setFileMeta(file.id, {
                 folder_id: folder.value.id,
@@ -369,7 +369,7 @@ async function drop(targetItem, event) {
     try {
         const response = await fetcher('/api/files/' + ids.join(), {
             method: 'PATCH',
-            body: JSON.stringify({folder_id: targetItem.id}),
+            body: JSON.stringify({ folder_id: targetItem.id }),
         });
         if (!response.ok) {
             const responseData = await response.json();
@@ -479,7 +479,7 @@ async function moveToParentFolder() {
     try {
         const response = await fetcher('/api/files/' + ids.join(), {
             method: 'PATCH',
-            body: JSON.stringify({folder_id: path.value[path.value.length - 2].id}),
+            body: JSON.stringify({ folder_id: path.value[path.value.length - 2].id }),
         });
         const responseData = await response.json();
         if (!response.ok) {
@@ -582,7 +582,7 @@ async function deleteSelected() {
     startLoading();
     const deletePromises = selectedItems.value.map(async (model) => {
         try {
-            const response = await fetcher(urlBase.value + '/' + model.id, {method: 'DELETE'});
+            const response = await fetcher(urlBase.value + '/' + model.id, { method: 'DELETE' });
             if (!response.ok) {
                 const responseData = await response.json();
                 throw new Error(responseData.message);

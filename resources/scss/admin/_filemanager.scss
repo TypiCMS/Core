@@ -2,13 +2,6 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    .modal & {
-        max-height: 80vh;
-    }
-
-    .modal-content {
-        overflow: hidden;
-    }
 
     &-title {
         font-size: 1.5rem;

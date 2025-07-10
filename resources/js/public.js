@@ -10,7 +10,7 @@ import Alert from 'bootstrap/js/dist/alert';
  */
 
 import Swiper from 'swiper';
-import {Navigation, Pagination, Autoplay, EffectFade, Parallax} from 'swiper/modules';
+import { Navigation, Pagination, Autoplay, EffectFade, Parallax } from 'swiper/modules';
 import enablePhotoSwipeLightbox from './public/photo-swipe-lightbox.ts';
 import enableAnchorTop from './public/anchor-top.ts';
 import enableNavigation from './public/navigation.ts';
