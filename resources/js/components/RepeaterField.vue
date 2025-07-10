@@ -1,11 +1,7 @@
 <template>
     <div>
         <input v-if="type === 'hidden'" :id="fieldId" :name="fieldNameComplete" :type="type" :value="modelValue" />
-        <div
-            v-if="['text', 'url', 'tel', 'email', 'date', 'month', 'week', 'time', 'datetime-local', 'number', 'range', 'color'].includes(type)"
-            :class="{ 'form-group-translation': locale !== null }"
-            class="mb-3"
-        >
+        <div v-if="['text', 'url', 'tel', 'email', 'date', 'month', 'week', 'time', 'datetime-local', 'number', 'range', 'color'].includes(type)" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
             <label :for="fieldId" class="form-label">{{ fieldLabel }}</label>
             <input
                 :id="fieldId"
@@ -46,17 +42,7 @@
         </div>
         <div v-if="type === 'select'" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
             <label :for="fieldId" class="form-label">{{ fieldLabel }}</label>
-            <select
-                :id="fieldId"
-                :class="{ 'is-invalid': errors.length > 0 }"
-                :data-language="locale"
-                :name="fieldNameComplete"
-                :required="required"
-                :value="modelValue"
-                :disabled="disabled"
-                class="form-select"
-                @change="$emit('input', $event.target.value)"
-            >
+            <select :id="fieldId" :class="{ 'is-invalid': errors.length > 0 }" :data-language="locale" :name="fieldNameComplete" :required="required" :value="modelValue" :disabled="disabled" class="form-select" @change="$emit('input', $event.target.value)">
                 <option v-for="(label, value) in items" :value="value" :key="value">{{ t(label) }}</option>
             </select>
             <div v-if="errors.length > 0" class="invalid-feedback">{{ errors[0] }}</div>
@@ -136,7 +122,7 @@
                 </div>
                 <div v-if="modelValue === null" class="mb-3">
                     <button class="filemanager-field-btn-add" type="button" @click="openFilePicker" :disabled="disabled">
-                        <circle-plus-icon class="text-white-50" size="14" />
+                        <circle-plus-icon class="text-white-50" size="18" />
                         {{ t('Add') }}
                     </button>
                 </div>
@@ -224,14 +210,6 @@ function remove() {
 
 function openFilePicker() {
     choosingFile.value = true;
-    const options = {
-        modal: true,
-        modalIsInFront: true,
-        multiple: false,
-        open: true,
-        overlay: true,
-        single: true,
-    };
-    emitter.emit('openFilePicker', options);
+    emitter.emit('openFilePicker', { single: true });
 }
 </script>

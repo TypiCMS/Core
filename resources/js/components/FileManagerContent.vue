@@ -67,12 +67,22 @@
                     <button
                         v-if="props.single"
                         id="add-selected-file-button"
-                        :disabled="selectedFiles.length !== 1"
+                        :disabled="selectedFiles.length !== 1 || (selectedFiles[0].type !== Array.from(props.type)[0] && props.type !== '')"
                         class="btn btn-primary filemanager-btn-add btn-add-single"
                         type="button"
                         @click="addSingleFile(selectedFiles[0])"
                     >
                         {{ t('Add selected file') }}
+                    </button>
+                    <button
+                        v-if="props.selectSingleFile"
+                        id="add-selected-file-button"
+                        :disabled="selectedFiles.length !== 1 || (selectedFiles[0].type !== Array.from(props.type)[0] && props.type !== '')"
+                        class="btn btn-primary filemanager-btn-add btn-add-single"
+                        type="button"
+                        @click="selectSingleFile(selectedFiles[0])"
+                    >
+                        {{ t('Select file') }}
                     </button>
                 </div>
                 <button id="upload-files-button" class="btn btn-sm btn-light header-btn-add" type="button">
@@ -82,8 +92,6 @@
             </div>
             <button v-if="modal" class="filemanager-modal-btn-close btn-close" type="button" data-bs-dismiss="modal" :aria-label="t('Close window')"></button>
         </div>
-
-        <button class="filemanager-btn-close" type="button" data-bs-dismiss="modal" :aria-label="t('Close window')"><span aria-hidden="true">×</span></button>
 
         <div class="filemanager-body">
             <Dashboard
@@ -164,10 +172,6 @@ const { t } = useI18n();
 const uppyLocales = { fr, nl, es };
 
 const props = defineProps({
-    dropzone: {
-        type: Boolean,
-        default: true,
-    },
     multiple: {
         type: Boolean,
         default: false,
@@ -175,6 +179,18 @@ const props = defineProps({
     single: {
         type: Boolean,
         default: false,
+    },
+    selectSingleFile: {
+        type: Boolean,
+        default: false,
+    },
+    modal: {
+        type: Boolean,
+        default: true,
+    },
+    type: {
+        type: String,
+        default: '',
     },
 });
 const loadingTimeout = ref(null);
@@ -512,6 +528,11 @@ function addSingleFile(item) {
     closeModal();
 }
 
+function selectSingleFile(item) {
+    emitter.emit('fileSelected', item);
+    closeModal();
+}
+
 function addSelectedFiles() {
     const files = [];
 
@@ -530,7 +551,7 @@ function addSelectedFiles() {
 }
 
 function closeModal() {
-    emitter.emit('modalShouldClose');
+    emitter.emit('closeModal');
 }
 
 function switchView(viewType) {
@@ -553,8 +574,11 @@ function onDoubleClick(item) {
     if (props.multiple) {
         addSelectedFiles();
     }
-    if (props.single) {
+    if ((props.single && item.type === Array.from(props.type)[0]) || props.type === '') {
         addSingleFile(item);
+    }
+    if ((props.selectSingleFile && item.type === Array.from(props.type)[0]) || props.type === '') {
+        selectSingleFile(item);
     }
 }
 

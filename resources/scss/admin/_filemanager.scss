@@ -3,6 +3,18 @@
     flex-direction: column;
     overflow: hidden;
 
+    &-modal {
+        &-dialog {
+            height: 90vh;
+        }
+        &-content {
+            height: 100%;
+        }
+        &-btn-close {
+            @extend .modal-btn-close;
+        }
+    }
+
     &-title {
         font-size: 1.5rem;
     }
@@ -25,10 +37,6 @@
                 z-index: 1027 !important;
             }
         }
-    }
-
-    &-btn-close {
-        @extend .modal-btn-close;
     }
 
     &-btn-add {
@@ -117,6 +125,7 @@
             &-button {
                 display: none;
                 position: absolute;
+                padding: 0;
                 right: 5px;
                 top: 5px;
                 border-radius: 12px;

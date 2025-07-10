@@ -5,7 +5,7 @@
             <p class="form-label mb-2">{{ t(label) }}</p>
             <p>
                 <button class="filemanager-field-btn-add" type="button" @click="openFilePicker">
-                    <circle-plus-icon class="text-white-50" size="14" />
+                    <circle-plus-icon class="text-white-50" size="18" />
                     {{ t('Add files') }}
                 </button>
             </p>
@@ -70,16 +70,9 @@ emitter.on('filesAdded', (addedFiles) => {
 const fileIds = computed(() => files.value.map((file) => file.id));
 
 function openFilePicker() {
-    const options = {
-        modal: true,
-        modalIsInFront: true,
-        multiple: true,
-        open: true,
-        overlay: true,
-        single: false,
-    };
-    emitter.emit('openFilePicker', options);
+    emitter.emit('openFilePicker', { multiple: true });
 }
+
 function remove(file) {
     files.value = files.value.filter((f) => f !== file);
 }

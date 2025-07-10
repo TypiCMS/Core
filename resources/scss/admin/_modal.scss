@@ -1,35 +1,10 @@
 .modal {
-    &-dialog {
-        height: 90vh;
-    }
-    &-content {
-        height: 100%;
-    }
-    &-iframe {
-        border-radius: $border-radius;
-        height: 100%;
+    &-header {
+        background-color: $light;
     }
     &-btn-close {
-        @extend .btn;
-        @extend .btn-link;
-        color: $gray-700;
-        width: 28px;
-        height: 28px;
-        font-size: 28px;
         position: absolute;
         right: 0.5rem;
         top: 0.5rem;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        background-color: transparent;
-        border: none;
-        line-height: 0;
-        z-index: 9999;
-        &:hover {
-            color: $gray-900;
-        }
     }
 }

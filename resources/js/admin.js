@@ -7,6 +7,7 @@ import Collapse from 'bootstrap/js/dist/collapse';
 import Alert from 'bootstrap/js/dist/alert';
 import Offcanvas from 'bootstrap/js/dist/offcanvas';
 import Modal from 'bootstrap/js/dist/modal';
+import Tooltip from 'bootstrap/js/dist/tooltip';
 
 /**
  * Passkeys

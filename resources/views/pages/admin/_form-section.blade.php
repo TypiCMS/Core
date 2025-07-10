@@ -1,8 +1,3 @@
-@push('js')
-    <script type="module" src="{{ asset('components/ckeditor4/ckeditor.js') }}"></script>
-    <script type="module" src="{{ asset('components/ckeditor4/config-full.js') }}"></script>
-@endpush
-
 <div class="header">
     @include('core::admin._button-back', ['url' => $page->editUrl(), 'title' => $page->title])
     @include('core::admin._title', ['default' => __('New page section')])
@@ -34,5 +29,7 @@
             {!! BootForm::select(__('Template'), 'template', pageSectionTemplates()) !!}
         </div>
     </div>
-    {!! TranslatableBootForm::textarea(__('Body'), 'body')->addClass('ckeditor-full') !!}
+    @foreach(locales() as $locale)
+        <tiptap-editor name="body[{{ $locale }}]" locale="{{ $locale }}" init-content="{{ $model->getTranslation('body', $locale) }}"></tiptap-editor>
+    @endforeach
 </div>

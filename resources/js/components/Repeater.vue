@@ -24,15 +24,7 @@
                                     :locale="locale.short"
                                 ></repeater-field>
                             </template>
-                            <repeater-field
-                                v-else
-                                :key="'item_' + name + '_' + index + '_' + field.name"
-                                v-model="element[field.name]"
-                                :errors="getError(index, field.name, null)"
-                                :field="field"
-                                :field-name="name"
-                                :index="index"
-                            ></repeater-field>
+                            <repeater-field v-else :key="'item_' + name + '_' + index + '_' + field.name" v-model="element[field.name]" :errors="getError(index, field.name, null)" :field="field" :field-name="name" :index="index"></repeater-field>
                         </div>
                     </div>
                 </div>
@@ -40,7 +32,7 @@
         </draggable>
         <div>
             <button :disabled="maxItems !== null && items.length >= maxItems" class="btn btn-secondary btn-sm" @click.prevent="add">
-                <circle-plus-icon class="text-white-50" size="14" />
+                <circle-plus-icon class="text-white-50" size="18" />
                 {{ t('Add') }}
             </button>
         </div>

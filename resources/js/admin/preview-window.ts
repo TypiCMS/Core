@@ -3,19 +3,17 @@ import Modal from 'bootstrap/js/dist/modal';
 export default (): void => {
     document.body.insertAdjacentHTML(
         'beforeend',
-        `<div id='preview-window' class='modal fade'>
-            <div class='modal-dialog modal-xl'>
-                <div class='modal-content'>
-                    <iframe class='modal-iframe' id='preview-content'></iframe>
-                    <button class='modal-btn-close' type='button' id='close-preview' data-bs-dismiss='modal' aria-label='Close window'>
-                        <span aria-hidden="true">×</span>
-                    </button>
+        `<div id='preview-modal' class='modal fade'>
+            <div class='preview-modal-dialog modal-dialog modal-xl modal-dialog-centered'>
+                <div class='preview-modal-content modal-content'>
+                    <iframe class='preview-modal-iframe' id='preview-content'></iframe>
+                    <button class='preview-modal-btn-close btn-close' type='button' id='close-preview' data-bs-dismiss='modal' aria-label='Close window'></button>
                 </div>
             </div>
         </div>`,
     );
 
-    const previewModal = new Modal('#preview-window');
+    const previewModal = new Modal('#preview-modal');
 
     // Open preview window
     document.querySelectorAll('.btn-preview').forEach((button: Element): void => button.addEventListener('click', openPreview));

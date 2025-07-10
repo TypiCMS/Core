@@ -1,20 +1,26 @@
 <template>
-    <div id="filepicker">
-        <div v-if="modal" id="filepicker-modal" class="modal fade" tabindex="-1" aria-labelledby="filepickerLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-dialog-centered">
-                <div class="modal-content">
-                    <file-manager-content :single="options.single" :multiple="options.multiple"></file-manager-content>
+    <div id="filemanager">
+        <div v-if="modal" id="filemanager-modal" class="modal fade" tabindex="-1" aria-labelledby="filemanagerLabel" aria-hidden="true">
+            <div class="filemanager-modal-dialog modal-dialog modal-xl modal-dialog-centered">
+                <div class="filemanager-modal-content modal-content">
+                    <file-manager-content
+                        :single="options.single"
+                        :type="options.type"
+                        :select-single-file="options.selectSingleFile"
+                        :multiple="options.multiple"
+                        :modal="modal"
+                    ></file-manager-content>
                 </div>
             </div>
         </div>
         <div v-else>
-            <file-manager-content :single="options.single" :multiple="options.multiple"></file-manager-content>
+            <file-manager-content :single="options.single" :type="options.type" :select-single-file="options.selectSingleFile" :multiple="options.multiple"></file-manager-content>
         </div>
     </div>
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Modal from 'bootstrap/js/dist/modal';
 import FileManagerContent from './FileManagerContent.vue';
@@ -22,17 +28,10 @@ import FileManagerContent from './FileManagerContent.vue';
 const { t } = useI18n();
 
 const filePickerModal = ref(null);
+const show = defineModel('show', { default: false });
 
 const props = defineProps({
     modal: {
-        type: Boolean,
-        default: true,
-    },
-    modalIsInFront: {
-        type: Boolean,
-        default: false,
-    },
-    dropzone: {
         type: Boolean,
         default: true,
     },
@@ -44,55 +43,56 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-    open: {
-        type: Boolean,
-        default: false,
-    },
-    overlay: {
-        type: Boolean,
-        default: true,
-    },
 });
 
 const options = ref({
-    dropzone: props.dropzone,
     modal: props.modal,
-    modalIsInFront: props.modalIsInFront,
+    preventCloseOnEscape: false,
     multiple: props.multiple,
-    open: props.open,
-    overlay: props.overlay,
     single: props.single,
+    selectSingleFile: false,
+    type: null,
+    emitOnClose: null,
 });
+
+watch(
+    () => show.value,
+    (show) => {
+        if (show) {
+            filePickerModal.value.show();
+        } else {
+            filePickerModal.value.hide();
+        }
+    },
+);
 
 emitter.on('openFilePicker', (opts) => {
     options.value = opts;
-    filePickerModal.value.show();
+    show.value = true;
 });
 
 emitter.on('modalIsBehind', () => {
-    options.value.modalIsInFront = false;
+    options.value.preventCloseOnEscape = true;
 });
 
 emitter.on('modalIsInFront', () => {
-    options.value.modalIsInFront = true;
+    options.value.preventCloseOnEscape = false;
 });
 
-emitter.on('modalShouldClose', () => {
+emitter.on('closeModal', () => {
     closeModal();
 });
 
 document.addEventListener('keydown', (event) => {
     if (event.code === 'Escape') {
-        if (options.value.modalIsInFront) {
+        if (!options.value.preventCloseOnEscape) {
             closeModal();
         }
     }
 });
 
 function closeModal() {
-    filePickerModal.value.hide();
-    options.value.open = false;
-    options.value.modalIsInFront = false;
+    show.value = false;
 }
 
 const classes = computed(() => {
@@ -103,12 +103,17 @@ const classes = computed(() => {
 });
 
 onMounted(() => {
-    filePickerModal.value = new Modal('#filepicker-modal');
+    filePickerModal.value = new Modal('#filemanager-modal');
 
-    const myModal = document.querySelector('#filepicker-modal');
-    myModal.addEventListener('hide.bs.modal', (event) => {
-        if (!options.value.modalIsInFront) {
+    const modal = document.querySelector('#filemanager-modal');
+    modal.addEventListener('hide.bs.modal', (event) => {
+        if (options.value.preventCloseOnEscape) {
             return event.preventDefault();
+        }
+        document.activeElement.blur();
+        show.value = false;
+        if (options.value.emitOnClose) {
+            emitter.emit(options.value.emitOnClose);
         }
     });
 });

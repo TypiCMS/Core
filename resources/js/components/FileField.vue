@@ -2,9 +2,10 @@
     <div>
         <p class="form-label mb-2">
             <span v-if="label">{{ t(label) }}</span>
-            <span v-else>
-                {{ type === 'document' ? t('Document') : t('Image') }}
-            </span>
+            <span v-else-if="type === 'audio'">{{ t('Audio') }}</span>
+            <span v-else-if="type === 'video'">{{ t('Video') }}</span>
+            <span v-else-if="type === 'image'">{{ t('Image') }}</span>
+            <span v-else>{{ t('Document') }}</span>
         </p>
         <input :id="field" v-model="fileId" :name="field" :rel="field" type="hidden" />
         <div>
@@ -30,7 +31,7 @@
         </div>
         <div v-if="file === null" class="mb-3">
             <button class="filemanager-field-btn-add" type="button" @click="openFilePicker">
-                <circle-plus-icon class="text-white-50" size="14" />
+                <circle-plus-icon class="text-white-50" size="18" />
                 {{ t('Add') }}
             </button>
         </div>
@@ -56,8 +57,7 @@ const props = defineProps({
         type: String,
         required: true,
         validator(value) {
-            // The value must match one of these strings
-            return ['image', 'document'].indexOf(value) !== -1;
+            return ['audio', 'video', 'document', 'image'].includes(value);
         },
     },
     initFile: {
@@ -97,14 +97,6 @@ function remove() {
 
 function openFilePicker() {
     choosingFile.value = true;
-    const options = {
-        modal: true,
-        modalIsInFront: true,
-        multiple: false,
-        open: true,
-        overlay: true,
-        single: true,
-    };
-    emitter.emit('openFilePicker', options);
+    emitter.emit('openFilePicker', { single: true, type: props.type });
 }
 </script>
