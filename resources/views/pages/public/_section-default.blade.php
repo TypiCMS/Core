@@ -1,4 +1,4 @@
-<div class="section-default section-{{ $section->id }}" id="{{ $section->slug }}-{{ $section->id }}">
+<div class="section-default section-{{ $section->id }}" id="{{ $section->position }}-{{ $section->slug }}">
     <div class="section-default-container">
         <div class="section-default-row">
             @if (empty($section->image))
