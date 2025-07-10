@@ -10,7 +10,7 @@
             <div class="btn-toolbar item-list-toolbar header-toolbar">
                 <slot name="buttons"></slot>
                 <slot name="add-button"></slot>
-                <div class="d-flex align-items-center ms-2">
+                <div class="d-flex align-items-center">
                     <div v-if="loading" class="spinner-border spinner-border-sm text-dark" role="status">
                         <span class="visually-hidden">{{ t('Loading…') }}</span>
                     </div>
