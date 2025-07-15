@@ -8,8 +8,8 @@
     <p class="text-center">@lang('Use your passkey to confirm it’s really you.')</p>
 
     <div class="mb-3 d-grid">
-        <button class="btn btn-lg btn-primary" onclick="authenticateWithPasskey()">
-            <i class="bi bi-key-fill me-2"></i>
+        <button class="btn btn-lg btn-primary d-flex justify-content-center" onclick="authenticateWithPasskey()">
+            <i class="icon-key-round me-2"></i>
             @lang('Authenticate')
         </button>
     </div>

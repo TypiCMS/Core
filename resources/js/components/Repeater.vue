@@ -7,7 +7,7 @@
             <template #item="{ element, index }">
                 <div class="d-flex card item gap-2">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <i class="bi bi-arrows-move handle"></i>
+                        <move-icon class="handle" />
                         <button class="btn btn-danger btn-sm" @click.prevent="remove(element)">{{ t('Delete') }}</button>
                     </div>
                     <div class="card-body d-flex justify-content-between flex-row flex-wrap gap-2">
@@ -40,7 +40,7 @@
         </draggable>
         <div>
             <button :disabled="maxItems !== null && items.length >= maxItems" class="btn btn-secondary btn-sm" @click.prevent="add">
-                <span class="bi bi-plus-circle-fill text-white-50 me-1"></span>
+                <circle-plus-icon class="text-white-50" size="14" />
                 {{ t('Add') }}
             </button>
         </div>
@@ -52,6 +52,7 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import draggable from 'vuedraggable';
 import RepeaterField from './RepeaterField.vue';
+import { CirclePlusIcon, MoveIcon } from 'lucide-vue-next';
 
 const { t } = useI18n();
 

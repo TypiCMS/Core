@@ -118,7 +118,7 @@
                 <div v-if="modelValue !== null" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
                     <div class="filemanager-item-wrapper">
                         <button class="filemanager-item-removable-button" type="button" @click="remove">
-                            <i class="bi bi-x fs-5"></i>
+                            <x-icon :size="18" stroke-width="2" />
                         </button>
                         <div v-if="modelValue.type === 'i'" class="filemanager-item-icon">
                             <div class="filemanager-item-image-wrapper">
@@ -126,17 +126,17 @@
                             </div>
                         </div>
                         <div v-else :class="'filemanager-item-icon-' + modelValue.type" class="filemanager-item-icon">
-                            <i v-if="modelValue.type === 'a'" class="bi bi-file-earmark-music"></i>
-                            <i v-if="modelValue.type === 'v'" class="bi bi-file-earmark-play"></i>
-                            <i v-if="modelValue.type === 'd'" class="bi bi-file-earmark"></i>
-                            <i v-if="modelValue.type === 'f'" class="bi bi-folder"></i>
+                            <file-music-icon v-if="modelValue.type === 'a'" size="72" stroke-width="1.25" />
+                            <file-video2-icon v-if="modelValue.type === 'v'" size="72" stroke-width="1.25" />
+                            <file-icon v-if="modelValue.type === 'd'" size="72" stroke-width="1.25" />
+                            <folder-icon v-if="modelValue.type === 'f'" size="72" stroke-width="1.25" />
                         </div>
                         <div class="filemanager-item-name">{{ modelValue.name }}</div>
                     </div>
                 </div>
                 <div v-if="modelValue === null" class="mb-3">
                     <button class="filemanager-field-btn-add" type="button" @click="openFilePicker" :disabled="disabled">
-                        <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
+                        <circle-plus-icon class="text-white-50" size="14" />
                         {{ t('Add') }}
                     </button>
                 </div>
@@ -148,6 +148,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { CirclePlusIcon, FolderIcon, FileIcon, FileMusicIcon, FileVideo2Icon, XIcon } from 'lucide-vue-next';
 
 const { t } = useI18n();
 

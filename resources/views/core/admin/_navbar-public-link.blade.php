@@ -15,6 +15,6 @@
 @endphp
 
 <a class="nav-link" href="{{ $url }}">
-    <span class="bi bi-eye-fill me-2"></span>
+    <span class="icon-eye me-2"></span>
     <span class="d-none d-lg-inline">{{ __('View website', [], config('typicms.navbar_locale')) }}</span>
 </a>

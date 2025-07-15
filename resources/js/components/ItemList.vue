@@ -53,7 +53,7 @@
                     <div v-if="searchable.length > 0" class="filters form-inline">
                         <div class="input-group input-group-sm mb-0">
                             <div class="input-group-text">
-                                <i class="bi bi-search"></i>
+                                <search-icon size="14" />
                             </div>
                             <input id="search" v-model="searchString" class="form-control" type="text" @input="onSearchStringChanged" />
                         </div>
@@ -69,7 +69,7 @@
                         </div>
                     </div>
                     <a v-if="exportable" :href="exportUrl" class="btn btn-sm btn-light">
-                        <i class="bi bi-table me-1"></i>
+                        <sheet-icon class="text-black-50" size="14" />
                         Export
                     </a>
                 </div>
@@ -106,6 +106,7 @@ import ItemListActions from './ItemListActions.vue';
 import ItemListPagination from './ItemListPagination.vue';
 import ItemListPerPage from './ItemListPerPage.vue';
 import ItemListSelector from './ItemListSelector.vue';
+import { SheetIcon, SearchIcon } from 'lucide-vue-next';
 
 const { t } = useI18n();
 

@@ -2,7 +2,7 @@
     <div class="filemanager">
         <div class="filemanager-header header">
             <button type="button" v-if="path.length > 1" class="btn-back" @click="openFolder(path[path.length - 2])">
-                <i class="bi bi-arrow-left me-1"></i>
+                <arrow-left-icon size="15" stroke-width="1.75" />
                 <span class="btn-back-label">
                     {{ path[path.length - 2].name }}
                 </span>
@@ -12,7 +12,7 @@
             </h1>
             <div class="header-toolbar btn-toolbar">
                 <button class="btn btn-sm btn-light" type="button" @click="newFolder(folder.id)">
-                    <i class="bi bi-folder-fill text-black-50 me-1"></i>
+                    <folder-plus-icon class="text-black-50" size="16" />
                     {{ t('New folder') }}
                 </button>
                 <div class="btn-group btn-group-sm">
@@ -39,11 +39,11 @@
                 </div>
                 <div class="btn-group btn-group-sm">
                     <button :class="{ active: view === 'grid' }" class="btn btn-light" type="button" @click="switchView('grid')">
-                        <i class="bi bi-grid-3x2-gap-fill text-black-50 me-1"></i>
+                        <layout-grid-icon class="text-black-50" size="16" />
                         {{ t('Grid') }}
                     </button>
                     <button :class="{ active: view === 'list' }" class="btn btn-light" type="button" @click="switchView('list')">
-                        <i class="bi bi-list-ul text-black-50 me-1"></i>
+                        <layout-list-icon class="text-black-50" size="16" />
                         {{ t('List') }}
                     </button>
                 </div>
@@ -75,11 +75,12 @@
                         {{ t('Add selected file') }}
                     </button>
                 </div>
-                <button v-if="dropzone" id="upload-files-button" class="btn btn-sm btn-light header-btn-add" type="button">
-                    <i class="bi bi-cloud-upload-fill text-black-50 me-1"></i>
+                <button id="upload-files-button" class="btn btn-sm btn-light header-btn-add" type="button">
+                    <cloud-upload-icon class="text-black-50" size="16" />
                     {{ t('Upload files') }}
                 </button>
             </div>
+            <button v-if="modal" class="filemanager-modal-btn-close btn-close" type="button" data-bs-dismiss="modal" :aria-label="t('Close window')"></button>
         </div>
 
         <button class="filemanager-btn-close" type="button" data-bs-dismiss="modal" :aria-label="t('Close window')"><span aria-hidden="true">×</span></button>
@@ -123,10 +124,10 @@
                             </div>
                         </div>
                         <div v-else :class="'filemanager-item-icon-' + item.type" class="filemanager-item-icon">
-                            <i v-if="item.type === 'a'" class="bi bi-file-earmark-music"></i>
-                            <i v-if="item.type === 'v'" class="bi bi-file-earmark-play"></i>
-                            <i v-if="item.type === 'd'" class="bi bi-file-earmark"></i>
-                            <i v-if="item.type === 'f'" class="bi bi-folder"></i>
+                            <file-music-icon v-if="item.type === 'a'" size="72" stroke-width="1.25" />
+                            <file-video2-icon v-if="item.type === 'v'" size="72" stroke-width="1.25" />
+                            <file-icon v-if="item.type === 'd'" size="72" stroke-width="1.25" />
+                            <folder-icon v-if="item.type === 'f'" size="72" stroke-width="1.25" />
                         </div>
                         <div class="filemanager-item-name">
                             {{ item.name }}
@@ -157,6 +158,7 @@ import XHRUpload from '@uppy/xhr-upload';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import fetcher from '../admin/fetcher';
+import { ArrowLeftIcon, FolderPlusIcon, LayoutGridIcon, LayoutListIcon, CloudUploadIcon, CirclePlusIcon, FolderIcon, FileIcon, FileMusicIcon, FileVideo2Icon, XIcon } from 'lucide-vue-next';
 
 const { t } = useI18n();
 const uppyLocales = { fr, nl, es };

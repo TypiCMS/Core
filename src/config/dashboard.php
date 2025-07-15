@@ -2,7 +2,7 @@
 
 return [
     'sidebar' => [
-        'icon' => '<i class="bi bi-house-door"></i>',
+        'icon' => '<i class="icon-house"></i>',
         'weight' => 0,
     ],
 ];

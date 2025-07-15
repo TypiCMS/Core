@@ -2,7 +2,7 @@
 
 return [
     'sidebar' => [
-        'icon' => '<i class="bi bi-shield-lock"></i>',
+        'icon' => '<i class="icon-shield-user"></i>',
         'weight' => 150,
     ],
     'permissions' => [

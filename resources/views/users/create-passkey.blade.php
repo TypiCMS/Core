@@ -15,7 +15,7 @@
             <x-users::status />
             <div class="mb-3 d-grid">
                 <button class="btn btn-lg btn-primary" type="button" id="create-passkey-button">
-                    <i class="bi bi-key-fill me-2"></i>
+                    <i class="icon-key-round me-2"></i>
                     @lang('Create passkey')
                 </button>
             </div>

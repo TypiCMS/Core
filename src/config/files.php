@@ -6,7 +6,7 @@ return [
         'position' => 'asc',
     ],
     'sidebar' => [
-        'icon' => '<i class="bi bi-file-earmark-image"></i>',
+        'icon' => '<i class="icon-image"></i>',
         'weight' => 50,
     ],
     'permissions' => [

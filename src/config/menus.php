@@ -5,7 +5,7 @@ return [
         'name' => 'asc',
     ],
     'sidebar' => [
-        'icon' => '<i class="bi bi-menu-app"></i>',
+        'icon' => '<i class="icon-menu"></i>',
         'weight' => 110,
     ],
     'permissions' => [
