@@ -1,5 +1,5 @@
 <div class="header">
-    @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Files')])
+    @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => $model->folder?->name ?? __('Files')])
     @include('core::admin._title', ['default' => __('New file')])
     @component('core::admin._buttons-form', ['model' => $model])
     @endcomponent

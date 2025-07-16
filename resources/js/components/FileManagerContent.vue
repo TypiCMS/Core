@@ -140,9 +140,8 @@
                         <div class="filemanager-item-name">
                             {{ item.name }}
                         </div>
-                        <a :href="'/admin/files/' + item.id + '/edit'" class="filemanager-item-editable-button">
-                            <span class="filemanager-item-editable-button-icon"></span>
-                            <span class="visually-hidden">{{ t('Edit') }}</span>
+                        <a v-if="!modal" :href="'/admin/files/' + item.id + '/edit'" class="filemanager-item-editable-button">
+                            {{ t('Edit') }}
                         </a>
                     </div>
                 </div>
