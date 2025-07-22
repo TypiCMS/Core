@@ -2,7 +2,7 @@
 
 return [
     'sidebar' => [
-        'icon' => '<i class="bi bi-people"></i>',
+        'icon' => '<i class="icon-users"></i>',
         'weight' => 100,
     ],
     'permissions' => [

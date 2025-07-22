@@ -1,24 +1,25 @@
 @import 'admin/variables';
 @import 'admin/bootstrap';
-@import 'bootstrap-icons';
+@import 'admin/lucide.scss';
 @import 'admin/buttons';
 @import 'navbar';
 @import 'auth';
 @import 'alertify';
 @import 'tom-select/dist/scss/tom-select.bootstrap5';
 @import 'admin/sortable-tree';
-@import 'admin/dropzone';
 @import 'admin/history';
 @import 'admin/sidebar';
 @import 'admin/twilight';
 @import 'admin/sortable';
 @import 'admin/filemanager';
 @import 'admin/permissions';
-@import 'admin/modal';
+@import 'admin/preview';
 @import 'admin/header';
 @import 'admin/content';
 @import 'admin/item-list-table';
 @import 'admin/item-list-pagination';
+@import 'admin/tiptap';
+
 html {
     height: 100%;
 }

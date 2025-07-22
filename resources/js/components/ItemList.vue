@@ -15,7 +15,6 @@
                     :filtered-models="filteredItems"
                     :loading="loading"
                     :publishable="publishable"
-                    class="me-2"
                     @check-all="checkAll"
                     @check-none="checkNone"
                     @check-published="checkPublished"
@@ -29,7 +28,6 @@
                     :publishable="publishable"
                     :duplicable="duplicable"
                     :table="table"
-                    class="me-2"
                     @destroy="destroy"
                     @publish="publish"
                     @unpublish="unpublish"
@@ -39,12 +37,11 @@
                     v-if="data.total > perPage && pagination && $can('read ' + table)"
                     :loading="loading"
                     :per-page="data.per_page"
-                    class="me-2"
                     @change-per-page="changeNumberOfItemsPerPage"
                 ></item-list-per-page>
                 <slot name="buttons"></slot>
                 <slot name="add-button"></slot>
-                <div class="d-flex align-items-center ms-2">
+                <div class="d-flex align-items-center">
                     <div v-if="loading" class="spinner-border spinner-border-sm text-dark" role="status">
                         <span class="visually-hidden">{{ t('Loading…') }}</span>
                     </div>
@@ -52,16 +49,16 @@
                 <small v-if="!loading" class="text-muted align-self-center">
                     {{ t('# ' + title, data.total, { count: data.total }) }}
                 </small>
-                <div class="d-flex ms-auto">
+                <div class="d-flex ms-auto gap-2">
                     <div v-if="searchable.length > 0" class="filters form-inline">
                         <div class="input-group input-group-sm mb-0">
                             <div class="input-group-text">
-                                <i class="bi bi-search"></i>
+                                <search-icon size="14" />
                             </div>
                             <input id="search" v-model="searchString" class="form-control" type="text" @input="onSearchStringChanged" />
                         </div>
                     </div>
-                    <div v-if="translatable && locales.length > 1" class="btn-group btn-group-sm ms-2">
+                    <div v-if="translatable && locales.length > 1" class="btn-group btn-group-sm">
                         <button id="dropdownLangSwitcher" aria-expanded="false" aria-haspopup="true" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" type="button">
                             <span id="active-locale">{{ locales.find((item) => item.short === contentLocale).long }}</span>
                         </button>
@@ -71,8 +68,8 @@
                             </button>
                         </div>
                     </div>
-                    <a v-if="exportable" :href="exportUrl" class="btn btn-sm btn-light ms-2">
-                        <i class="bi bi-table me-1"></i>
+                    <a v-if="exportable" :href="exportUrl" class="btn btn-sm btn-light">
+                        <sheet-icon class="text-black-50" size="14" />
                         Export
                     </a>
                 </div>
@@ -109,6 +106,7 @@ import ItemListActions from './ItemListActions.vue';
 import ItemListPagination from './ItemListPagination.vue';
 import ItemListPerPage from './ItemListPerPage.vue';
 import ItemListSelector from './ItemListSelector.vue';
+import { SheetIcon, SearchIcon } from 'lucide-vue-next';
 
 const { t } = useI18n();
 

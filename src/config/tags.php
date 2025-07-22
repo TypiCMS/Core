@@ -7,7 +7,7 @@ return [
         'tag' => 'asc',
     ],
     'sidebar' => [
-        'icon' => '<i class="bi bi-tags"></i>',
+        'icon' => '<i class="icon-tag"></i>',
         'weight' => 130,
     ],
     'permissions' => [

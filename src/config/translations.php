@@ -5,7 +5,7 @@ return [
         'key' => 'asc',
     ],
     'sidebar' => [
-        'icon' => '<i class="bi bi-globe"></i>',
+        'icon' => '<i class="icon-globe"></i>',
         'weight' => 140,
     ],
     'permissions' => [

@@ -20,7 +20,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="bi bi-person-circle me-2"></span>
+                        <span class="icon-circle-user-round me-2"></span>
                         <span class="d-none d-lg-inline">
                             {{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}
                         </span>
@@ -55,7 +55,7 @@
                 @can('read settings')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin::index-settings') }}">
-                            <span class="bi bi-gear-fill me-2"></span>
+                            <span class="icon-settings me-2"></span>
                             <span class="d-none d-lg-inline">
                                 {{ __('Settings', [], config('typicms.navbar_locale')) }}
                             </span>

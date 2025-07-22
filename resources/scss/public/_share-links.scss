@@ -26,16 +26,22 @@
             transform: translateY(-3px);
         }
     }
-    &-linkedin {
-        background-color: #007bb5;
-        &-icon {
-            mask-image: url('../images/linkedin.svg');
-        }
-    }
     &-facebook {
         background-color: #3b5998;
         &-icon {
             mask-image: url('../images/facebook.svg');
+        }
+    }
+    &-x {
+        background-color: #55acee;
+        &-icon {
+            mask-image: url('../images/x.svg');
+        }
+    }
+    &-linkedin {
+        background-color: #007bb5;
+        &-icon {
+            mask-image: url('../images/linkedin.svg');
         }
     }
     &-whatsapp {

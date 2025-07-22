@@ -8,15 +8,15 @@ import Alert from 'bootstrap/js/dist/alert';
 /**
  * Swiper
  */
-
 import Swiper from 'swiper';
-import {Navigation, Pagination, Autoplay, EffectFade, Parallax} from 'swiper/modules';
-import enablePhotoSwipeLightbox from './public/photo-swipe-lightbox.ts';
-import enableAnchorTop from './public/anchor-top.ts';
-import enableNavigation from './public/navigation.ts';
+import { Autoplay, EffectFade, Navigation, Pagination, Parallax } from 'swiper/modules';
 
 Swiper.use([Navigation, Pagination, Autoplay, Parallax, EffectFade]);
 window.Swiper = Swiper;
+
+import enableAnchorTop from './public/anchor-top.ts';
+import enableNavigation from './public/navigation.ts';
+import enablePhotoSwipeLightbox from './public/photo-swipe-lightbox.ts';
 
 enablePhotoSwipeLightbox();
 enableAnchorTop();

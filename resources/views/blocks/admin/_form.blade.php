@@ -1,8 +1,3 @@
-@push('js')
-    <script type="module" src="{{ asset('components/ckeditor4/ckeditor.js') }}"></script>
-    <script type="module" src="{{ asset('components/ckeditor4/config-full.js') }}"></script>
-@endpush
-
 <div class="header">
     @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Blocks')])
     @include('core::admin._title', ['default' => __('New block')])
@@ -25,5 +20,5 @@
         {!! TranslatableBootForm::hidden('status')->value(0) !!}
         {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}
     </div>
-    {!! TranslatableBootForm::textarea(__('Body'), 'body')->addClass('ckeditor-full') !!}
+    <x-core::tiptap-editors :model="$model" name="body" :label="__('Body')" />
 </div>

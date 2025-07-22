@@ -1,11 +1,7 @@
 <template>
     <div>
         <input v-if="type === 'hidden'" :id="fieldId" :name="fieldNameComplete" :type="type" :value="modelValue" />
-        <div
-            v-if="['text', 'url', 'tel', 'email', 'date', 'month', 'week', 'time', 'datetime-local', 'number', 'range', 'color'].includes(type)"
-            :class="{ 'form-group-translation': locale !== null }"
-            class="mb-3"
-        >
+        <div v-if="['text', 'url', 'tel', 'email', 'date', 'month', 'week', 'time', 'datetime-local', 'number', 'range', 'color'].includes(type)" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
             <label :for="fieldId" class="form-label">{{ fieldLabel }}</label>
             <input
                 :id="fieldId"
@@ -46,17 +42,7 @@
         </div>
         <div v-if="type === 'select'" :class="{ 'form-group-translation': locale !== null }" class="mb-3">
             <label :for="fieldId" class="form-label">{{ fieldLabel }}</label>
-            <select
-                :id="fieldId"
-                :class="{ 'is-invalid': errors.length > 0 }"
-                :data-language="locale"
-                :name="fieldNameComplete"
-                :required="required"
-                :value="modelValue"
-                :disabled="disabled"
-                class="form-select"
-                @change="$emit('input', $event.target.value)"
-            >
+            <select :id="fieldId" :class="{ 'is-invalid': errors.length > 0 }" :data-language="locale" :name="fieldNameComplete" :required="required" :value="modelValue" :disabled="disabled" class="form-select" @change="$emit('input', $event.target.value)">
                 <option v-for="(label, value) in items" :value="value" :key="value">{{ t(label) }}</option>
             </select>
             <div v-if="errors.length > 0" class="invalid-feedback">{{ errors[0] }}</div>
@@ -118,7 +104,7 @@
                 <div v-if="modelValue !== null" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
                     <div class="filemanager-item-wrapper">
                         <button class="filemanager-item-removable-button" type="button" @click="remove">
-                            <i class="bi bi-x fs-5"></i>
+                            <x-icon :size="18" stroke-width="2" />
                         </button>
                         <div v-if="modelValue.type === 'i'" class="filemanager-item-icon">
                             <div class="filemanager-item-image-wrapper">
@@ -126,17 +112,17 @@
                             </div>
                         </div>
                         <div v-else :class="'filemanager-item-icon-' + modelValue.type" class="filemanager-item-icon">
-                            <i v-if="modelValue.type === 'a'" class="bi bi-file-earmark-music"></i>
-                            <i v-if="modelValue.type === 'v'" class="bi bi-file-earmark-play"></i>
-                            <i v-if="modelValue.type === 'd'" class="bi bi-file-earmark"></i>
-                            <i v-if="modelValue.type === 'f'" class="bi bi-folder"></i>
+                            <file-music-icon v-if="modelValue.type === 'a'" size="72" stroke-width="1.25" />
+                            <file-video2-icon v-if="modelValue.type === 'v'" size="72" stroke-width="1.25" />
+                            <file-icon v-if="modelValue.type === 'd'" size="72" stroke-width="1.25" />
+                            <folder-icon v-if="modelValue.type === 'f'" size="72" stroke-width="1.25" />
                         </div>
                         <div class="filemanager-item-name">{{ modelValue.name }}</div>
                     </div>
                 </div>
                 <div v-if="modelValue === null" class="mb-3">
                     <button class="filemanager-field-btn-add" type="button" @click="openFilePicker" :disabled="disabled">
-                        <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
+                        <circle-plus-icon class="text-white-50" size="18" />
                         {{ t('Add') }}
                     </button>
                 </div>
@@ -146,8 +132,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { CirclePlusIcon, FolderIcon, FileIcon, FileMusicIcon, FileVideo2Icon, XIcon } from 'lucide-vue-next';
 
 const { t } = useI18n();
 
@@ -223,14 +210,6 @@ function remove() {
 
 function openFilePicker() {
     choosingFile.value = true;
-    const options = {
-        modal: true,
-        modalIsInFront: true,
-        multiple: false,
-        open: true,
-        overlay: true,
-        single: true,
-    };
-    emitter.emit('openFilePicker', options);
+    emitter.emit('openFilePicker', { single: true });
 }
 </script>
