@@ -10,7 +10,7 @@
             <div class="btn-toolbar item-list-toolbar header-toolbar">
                 <slot name="buttons"></slot>
                 <slot name="add-button"></slot>
-                <div class="d-flex align-items-center ms-2">
+                <div class="d-flex align-items-center">
                     <div v-if="loading" class="spinner-border spinner-border-sm text-dark" role="status">
                         <span class="visually-hidden">{{ t('Loading…') }}</span>
                     </div>
@@ -31,7 +31,7 @@
             <sl-vue-tree-next ref="slVueTree" v-model="models" :allowMultiselect="false" @drop="drop" @toggle="toggle">
                 <template #title="{ node }">
                     <button v-if="$can('delete ' + table)" class="btn btn-xs btn-link" type="button" @click="deleteFromNested(node)">
-                        <i class="bi bi-x-lg fs-6 text-danger"></i>
+                        <x-icon class="text-danger" :size="18" stroke-width="2" />
                     </button>
 
                     <a v-if="$can('update ' + table)" :href="table + '/' + node.data.id + '/edit'" class="btn btn-light btn-xs me-2 ms-1">
@@ -42,10 +42,10 @@
                         <span v-if="translatable" :class="node.data.status_translated === 1 ? 'btn-status-icon-on' : 'btn-status-icon-off'" class="btn-status-icon"></span>
                         <span v-else :class="node.data.status === 1 ? 'btn-status-icon-on' : 'btn-status-icon-off'" class="btn-status-icon"></span>
                     </button>
-                    <i v-if="node.data.is_home" class="bi bi-house-door-fill text-secondary"></i>
-                    <i v-if="node.data.private" class="bi bi-lock-fill text-secondary"></i>
+                    <house-icon v-if="node.data.is_home" class="text-secondary" size="16" />
+                    <lock-icon v-if="node.data.private" class="text-secondary" size="16" />
                     <div class="title" v-html="translatable ? node.data.title_translated : node.data.title"></div>
-                    <i v-if="node.data.redirect" class="bi bi-arrow-down-right-square text-secondary"></i>
+                    <corner-right-down-icon v-if="node.data.redirect" class="text-secondary" size="16" />
 
                     <a v-if="node.data.module" :href="'/admin/' + node.data.module" class="btn btn-xs btn-secondary fw-bold px-1 py-0">
                         {{ t(node.data.module.charAt(0).toUpperCase() + node.data.module.slice(1)) }}
@@ -53,8 +53,8 @@
                 </template>
 
                 <template #toggle="{ node }">
-                    <small v-if="node.children.length > 0 && node.isExpanded" class="bi bi-caret-down-fill"></small>
-                    <small v-if="node.children.length > 0 && !node.isExpanded" class="bi bi-caret-right-fill"></small>
+                    <chevron-down-icon v-if="node.children.length > 0 && node.isExpanded" size="16" />
+                    <chevron-right-icon v-if="node.children.length > 0 && !node.isExpanded" size="16" />
                     <small v-else />
                 </template>
             </sl-vue-tree-next>
@@ -68,6 +68,7 @@ import { SlVueTreeNext } from 'sl-vue-tree-next';
 import { computed, ref, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import fetcher from '../admin/fetcher';
+import { XIcon, HouseIcon, CornerRightDownIcon, LockIcon, ChevronDownIcon, ChevronRightIcon } from 'lucide-vue-next';
 
 const { t } = useI18n();
 

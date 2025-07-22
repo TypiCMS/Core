@@ -1,15 +1,19 @@
+import Modal from 'bootstrap/js/dist/modal';
+
 export default (): void => {
     document.body.insertAdjacentHTML(
         'beforeend',
-        `<div id='preview-window' class='typicms-modal'>
-            <div id='preview-window-wrapper' class='typicms-modal-wrapper'>
-                <iframe id='preview-content' class='typicms-modal-content'></iframe>
+        `<div id='preview-modal' class='modal fade'>
+            <div class='preview-modal-dialog modal-dialog modal-xl modal-dialog-centered'>
+                <div class='preview-modal-content modal-content'>
+                    <iframe class='preview-modal-iframe' id='preview-content'></iframe>
+                    <button class='preview-modal-btn-close btn-close' type='button' id='close-preview' data-bs-dismiss='modal' aria-label='Close window'></button>
+                </div>
             </div>
-            <button id='close-preview' class='typicms-modal-btn-close' aria-label='Close window'>
-                <span aria-hidden="true">×</span>
-            </button>
         </div>`,
     );
+
+    const previewModal = new Modal('#preview-modal');
 
     // Open preview window
     document.querySelectorAll('.btn-preview').forEach((button: Element): void => button.addEventListener('click', openPreview));
@@ -19,15 +23,13 @@ export default (): void => {
     document.addEventListener('keydown', (event: KeyboardEvent) => event.code === 'Escape' && closePreview());
 
     function openPreview(event: Event): void {
-        event.preventDefault();
         (document.getElementById('preview-content') as HTMLIFrameElement).src = (event.target as HTMLAnchorElement).href;
-        document.body.classList.add('noscroll'); // add noscroll class to <body>
-        document.getElementById('preview-window')!.classList.add('typicms-modal-open');
+        previewModal.show();
+        event.preventDefault();
     }
 
     function closePreview(): void {
+        previewModal.hide();
         (document.getElementById('preview-content') as HTMLIFrameElement).src = '';
-        document.body.classList.remove('noscroll'); // remove noscroll class from <body>
-        document.getElementById('preview-window')!.classList.remove('typicms-modal-open');
     }
 };

@@ -1,22 +1,32 @@
 .filemanager {
+    display: flex;
+    flex-direction: column;
+
     &-modal {
-        @extend .typicms-modal;
-
-        &-open {
-            @extend .typicms-modal-open;
+        &-dialog {
+            height: 90vh;
         }
-
-        &-no-overlay:after {
-            display: none !important;
+        &-content {
+            height: 100%;
         }
-
-        .wrapper {
-            @extend .typicms-modal-wrapper;
+        &-btn-close {
+            @extend .modal-btn-close;
         }
     }
 
+    .modal & {
+        overflow: hidden;
+    }
+
+    .modal &-header {
+        top: 0 !important;
+        border-top-left-radius: $border-radius;
+        border-top-right-radius: $border-radius;
+    }
+
     &-body {
-        @extend .typicms-modal-body;
+        overflow-y: auto;
+        padding: 2rem;
         .uppy-Dashboard--modal {
             z-index: 1025 !important;
             .uppy-Dashboard-overlay {
@@ -28,16 +38,9 @@
         }
     }
 
-    &-footer {
-        @extend .typicms-modal-footer;
-    }
-
-    &-btn-close {
-        @extend .typicms-modal-btn-close;
-    }
-
     &-btn-add {
-        @extend .typicms-modal-btn-add;
+        @extend .btn;
+        @extend .btn-primary;
     }
 
     &-field-btn-add {
@@ -78,34 +81,15 @@
             }
 
             &-button {
+                @extend .btn;
+                @extend .btn-xs;
+                @extend .rounded-pill;
+                @include button-variant($white, $primary, $primary, $primary, $primary, $white);
                 display: none;
                 position: absolute;
                 right: 5px;
                 top: 5px;
-                font-size: 12px;
-                border-radius: 12px;
-                background-color: $primary;
-                color: $white;
-                height: 24px;
-                width: 24px;
-                align-items: center;
-                justify-content: center;
-                border: #fff 2px solid;
                 pointer-events: auto;
-                &-icon {
-                    background-color: $white;
-                    height: 24px;
-                    width: 24px;
-                    mask-position: center;
-                    mask-repeat: no-repeat;
-                    mask-image: url('data:image/svg+xml,<svg width="0.75em" height="0.75em" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" > <path fill-rule="evenodd" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" /> </svg>');
-                }
-                &:hover,
-                &:focus {
-                    color: #fff;
-                    background-color: darken($primary, 19%);
-                    text-decoration: none;
-                }
             }
         }
 
@@ -121,6 +105,7 @@
             &-button {
                 display: none;
                 position: absolute;
+                padding: 0;
                 right: 5px;
                 top: 5px;
                 border-radius: 12px;

@@ -5,7 +5,7 @@ return [
         'position' => 'asc',
     ],
     'sidebar' => [
-        'icon' => '<i class="bi bi-x-diamond"></i>',
+        'icon' => '<i class="icon-grid-2x2"></i>',
         'weight' => 120,
     ],
     'permissions' => [

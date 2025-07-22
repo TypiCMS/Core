@@ -5,7 +5,7 @@ return [
         'name' => 'asc',
     ],
     'sidebar' => [
-        'icon' => '<i class="bi bi-card-text"></i>',
+        'icon' => '<i class="icon-text-select"></i>',
         'weight' => 100,
     ],
     'permissions' => [

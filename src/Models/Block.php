@@ -36,6 +36,11 @@ class Block extends Base
         'body',
     ];
 
+    /** @var array<string> */
+    public array $tipTapContent = [
+        'body',
+    ];
+
     public function render(?string $name = null): string
     {
         $args = func_get_args();

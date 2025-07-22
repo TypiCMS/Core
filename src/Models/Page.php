@@ -98,6 +98,11 @@ class Page extends Base
         'meta_keywords',
     ];
 
+    /** @var array<string> */
+    public array $tipTapContent = [
+        'body',
+    ];
+
     public function path(?string $locale = null): string
     {
         $locale = $locale ?: app()->getLocale();

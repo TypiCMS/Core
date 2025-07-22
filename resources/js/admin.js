@@ -6,6 +6,8 @@ import Tab from 'bootstrap/js/dist/tab';
 import Collapse from 'bootstrap/js/dist/collapse';
 import Alert from 'bootstrap/js/dist/alert';
 import Offcanvas from 'bootstrap/js/dist/offcanvas';
+import Modal from 'bootstrap/js/dist/modal';
+import Tooltip from 'bootstrap/js/dist/tooltip';
 
 /**
  * Passkeys
@@ -64,7 +66,13 @@ import History from './components/History.vue';
  */
 import FileField from './components/FileField.vue';
 import FileManager from './components/FileManager.vue';
+import FileManagerContent from './components/FileManagerContent.vue';
 import FilesField from './components/FilesField.vue';
+
+/**
+ * Tiptap editor
+ */
+import TiptapEditor from './components/tiptap/TiptapEditor.vue';
 
 /**
  * Event bus
@@ -91,10 +99,12 @@ const app = createApp()
     .component('ItemListPositionInput', ItemListPositionInput)
     .component('History', History)
     .component('FileManager', FileManager)
+    .component('FileManagerContent', FileManagerContent)
     .component('FileField', FileField)
     .component('FilesField', FilesField)
     // .component('Repeater', Repeater)
     .component('UserPasskeys', UserPasskeys)
+    .component('TiptapEditor', TiptapEditor)
     .use(i18n);
 app.config.globalProperties.emitter = emitter;
 app.config.globalProperties.formatDate = formatDate;

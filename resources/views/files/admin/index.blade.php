@@ -3,5 +3,5 @@
 @section('title', __('Files'))
 
 @section('content')
-    <file-manager :modal="false"></file-manager>
+    <file-manager-content :modal="false"></file-manager-content>
 @endsection

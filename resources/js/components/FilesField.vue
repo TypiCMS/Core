@@ -5,7 +5,7 @@
             <p class="form-label mb-2">{{ t(label) }}</p>
             <p>
                 <button class="filemanager-field-btn-add" type="button" @click="openFilePicker">
-                    <i class="bi bi-plus-circle-fill text-white-50 me-1"></i>
+                    <circle-plus-icon class="text-white-50" size="18" />
                     {{ t('Add files') }}
                 </button>
             </p>
@@ -16,7 +16,7 @@
                 <div class="filemanager-item filemanager-item-with-name filemanager-item-removable">
                     <div class="filemanager-item-wrapper">
                         <button class="filemanager-item-removable-button" type="button" @click="remove(element)">
-                            <i class="bi bi-x fs-5"></i>
+                            <x-icon :size="18" stroke-width="2" />
                         </button>
                         <div v-if="element.type === 'i'" class="filemanager-item-icon">
                             <div class="filemanager-item-image-wrapper">
@@ -24,10 +24,10 @@
                             </div>
                         </div>
                         <div v-else :class="'filemanager-item-icon-' + element.type" class="filemanager-item-icon">
-                            <i v-if="element.type === 'a'" class="bi bi-file-earmark-music"></i>
-                            <i v-if="element.type === 'v'" class="bi bi-file-earmark-play"></i>
-                            <i v-if="element.type === 'd'" class="bi bi-file-earmark"></i>
-                            <i v-if="element.type === 'f'" class="bi bi-folder"></i>
+                            <file-music-icon v-if="element.type === 'a'" size="72" stroke-width="1.25" />
+                            <file-video2-icon v-if="element.type === 'v'" size="72" stroke-width="1.25" />
+                            <file-icon v-if="element.type === 'd'" size="72" stroke-width="1.25" />
+                            <folder-icon v-if="element.type === 'f'" size="72" stroke-width="1.25" />
                         </div>
                         <div class="filemanager-item-name">{{ element.name }}</div>
                     </div>
@@ -41,6 +41,8 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import draggable from 'vuedraggable';
+import { CirclePlusIcon, FolderIcon, FileIcon, FileMusicIcon, FileVideo2Icon, XIcon } from 'lucide-vue-next';
+
 const { t } = useI18n();
 
 const props = defineProps({
@@ -68,16 +70,9 @@ emitter.on('filesAdded', (addedFiles) => {
 const fileIds = computed(() => files.value.map((file) => file.id));
 
 function openFilePicker() {
-    const options = {
-        modal: true,
-        modalIsInFront: true,
-        multiple: true,
-        open: true,
-        overlay: true,
-        single: false,
-    };
-    emitter.emit('openFilePicker', options);
+    emitter.emit('openFilePicker', { multiple: true });
 }
+
 function remove(file) {
     files.value = files.value.filter((f) => f !== file);
 }
