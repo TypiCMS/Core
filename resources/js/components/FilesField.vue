@@ -38,10 +38,10 @@
 </template>
 
 <script setup>
+import { CirclePlusIcon, FileIcon, FileMusicIcon, FileVideo2Icon, FolderIcon, XIcon } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import draggable from 'vuedraggable';
-import { CirclePlusIcon, FolderIcon, FileIcon, FileMusicIcon, FileVideo2Icon, XIcon } from 'lucide-vue-next';
 
 const { t } = useI18n();
 

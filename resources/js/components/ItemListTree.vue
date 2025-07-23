@@ -64,11 +64,12 @@
 
 <script setup>
 import alertify from 'alertify.js';
+import { ChevronDownIcon, ChevronRightIcon, CornerRightDownIcon, HouseIcon, LockIcon, XIcon } from 'lucide-vue-next';
 import { SlVueTreeNext } from 'sl-vue-tree-next';
 import { computed, ref, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
+
 import fetcher from '../admin/fetcher';
-import { XIcon, HouseIcon, CornerRightDownIcon, LockIcon, ChevronDownIcon, ChevronRightIcon } from 'lucide-vue-next';
 
 const { t } = useI18n();
 
