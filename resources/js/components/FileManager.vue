@@ -20,9 +20,10 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
 import Modal from 'bootstrap/js/dist/modal';
+import { computed, onMounted, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import FileManagerContent from './FileManagerContent.vue';
 
 const { t } = useI18n();

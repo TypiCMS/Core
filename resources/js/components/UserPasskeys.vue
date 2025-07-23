@@ -37,10 +37,11 @@
 </template>
 
 <script setup>
+import { KeyRoundIcon } from 'lucide-vue-next';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
 import fetcher from '../admin/fetcher';
-import { KeyRoundIcon } from 'lucide-vue-next';
 
 const { t } = useI18n();
 

@@ -164,10 +164,11 @@ import fr from '@uppy/locales/lib/fr_FR';
 import nl from '@uppy/locales/lib/nl_NL';
 import { Dashboard } from '@uppy/vue';
 import XHRUpload from '@uppy/xhr-upload';
+import { ArrowLeftIcon, CloudUploadIcon, FileIcon, FileMusicIcon, FileVideo2Icon, FolderIcon, FolderPlusIcon, LayoutGridIcon, LayoutListIcon } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
 import fetcher from '../admin/fetcher';
-import { ArrowLeftIcon, FolderPlusIcon, LayoutGridIcon, LayoutListIcon, CloudUploadIcon, CirclePlusIcon, FolderIcon, FileIcon, FileMusicIcon, FileVideo2Icon, XIcon } from 'lucide-vue-next';
 
 const { t } = useI18n();
 const uppyLocales = { fr, nl, es };
