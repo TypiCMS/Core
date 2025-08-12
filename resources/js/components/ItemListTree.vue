@@ -1,63 +1,70 @@
 <template>
-    <div :class="{ 'sub-list': subList }" class="item-list-tree">
-        <div class="item-list-header header">
+    <div :class="{ 'sub-list': subList }" class="item-list">
+        <div class="item-list-top">
             <h1 v-if="!subList" class="item-list-title header-title">
-                {{ t(title) }}
+                {{ t(title.charAt(0).toUpperCase() + title.slice(1)) }}
             </h1>
             <h2 v-else class="item-list-subtitle">
-                {{ t(title) }}
+                {{ t(title.charAt(0).toUpperCase() + title.slice(1)) }}
             </h2>
-            <div class="btn-toolbar item-list-toolbar header-toolbar">
-                <slot name="buttons"></slot>
-                <slot name="add-button"></slot>
-                <div class="d-flex align-items-center">
-                    <div v-if="loading" class="spinner-border spinner-border-sm text-dark" role="status">
-                        <span class="visually-hidden">{{ t('Loading…') }}</span>
+            <slot name="top-buttons"></slot>
+        </div>
+        <div :class="{ 'item-list-content': !subList }">
+            <div :class="{ header: !subList }" class="item-list-header">
+                <div class="btn-toolbar item-list-toolbar header-toolbar">
+                    <slot name="buttons"></slot>
+                    <div class="d-flex align-items-center">
+                        <div v-if="loading" class="spinner-border spinner-border-sm text-dark" role="status">
+                            <span class="visually-hidden">{{ t('Loading…') }}</span>
+                        </div>
                     </div>
-                </div>
-                <div v-if="translatable && locales.length > 1" class="btn-group btn-group-sm ms-auto">
-                    <button id="dropdownLangSwitcher" aria-expanded="false" aria-haspopup="true" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" type="button">
-                        <span id="active-locale">{{ locales.find((item) => item.short === contentLocale).long }}</span>
-                    </button>
-                    <div aria-labelledby="dropdownLangSwitcher" class="dropdown-menu dropdown-menu-right">
-                        <button v-for="locale in locales" :key="locale.short" :class="{ active: locale === contentLocale }" class="dropdown-item" type="button" @click="switchLocale(locale.short)">
-                            {{ locale.long }}
+                    <small v-if="!loading && total" class="text-muted align-self-center">
+                        {{ t('# ' + title, total, { count: total }) }}
+                    </small>
+                    <div v-if="translatable && locales.length > 1" class="btn-group btn-group-sm ms-auto">
+                        <button id="dropdownLangSwitcher" aria-expanded="false" aria-haspopup="true" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" type="button">
+                            <span id="active-locale">{{ locales.find((item) => item.short === contentLocale).long }}</span>
                         </button>
+                        <div aria-labelledby="dropdownLangSwitcher" class="dropdown-menu dropdown-menu-right">
+                            <button v-for="locale in locales" :key="locale.short" :class="{ active: locale === contentLocale }" class="dropdown-item" type="button" @click="switchLocale(locale.short)">
+                                {{ locale.long }}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="item-list-content content">
-            <sl-vue-tree-next ref="slVueTree" v-model="models" :allowMultiselect="false" @drop="drop" @toggle="toggle">
-                <template #title="{ node }">
-                    <button v-if="$can('delete ' + table)" class="btn btn-xs btn-link" type="button" @click="deleteFromNested(node)">
-                        <x-icon class="text-danger" :size="18" stroke-width="2" />
-                    </button>
+            <div class="content">
+                <sl-vue-tree-next ref="slVueTree" v-model="models" :allowMultiselect="false" @drop="drop" @toggle="toggle">
+                    <template #title="{ node }">
+                        <button v-if="$can('delete ' + table)" class="btn btn-xs btn-link" type="button" @click="deleteFromNested(node)">
+                            <x-icon class="text-danger" :size="18" stroke-width="2" />
+                        </button>
 
-                    <a v-if="$can('update ' + table)" :href="table + '/' + node.data.id + '/edit'" class="btn btn-light btn-xs me-2 ms-1">
-                        {{ t('Edit') }}
-                    </a>
+                        <a v-if="$can('update ' + table)" :href="table + '/' + node.data.id + '/edit'" class="btn btn-light btn-xs me-2 ms-1">
+                            {{ t('Edit') }}
+                        </a>
 
-                    <button class="btn-status me-2" type="button" @click="toggleStatus(node)">
-                        <span v-if="translatable" :class="node.data.status_translated === 1 ? 'btn-status-icon-on' : 'btn-status-icon-off'" class="btn-status-icon"></span>
-                        <span v-else :class="node.data.status === 1 ? 'btn-status-icon-on' : 'btn-status-icon-off'" class="btn-status-icon"></span>
-                    </button>
-                    <house-icon v-if="node.data.is_home" class="text-secondary" size="16" />
-                    <lock-icon v-if="node.data.private" class="text-secondary" size="16" />
-                    <div class="title" v-html="translatable ? node.data.title_translated : node.data.title"></div>
-                    <corner-right-down-icon v-if="node.data.redirect" class="text-secondary" size="16" />
+                        <button class="btn-status me-2" type="button" @click="toggleStatus(node)">
+                            <span v-if="translatable" :class="node.data.status_translated === 1 ? 'btn-status-icon-on' : 'btn-status-icon-off'" class="btn-status-icon"></span>
+                            <span v-else :class="node.data.status === 1 ? 'btn-status-icon-on' : 'btn-status-icon-off'" class="btn-status-icon"></span>
+                        </button>
+                        <house-icon v-if="node.data.is_home" class="text-secondary" size="16" />
+                        <lock-icon v-if="node.data.private" class="text-secondary" size="16" />
+                        <div class="title" v-html="translatable ? node.data.title_translated : node.data.title"></div>
+                        <corner-right-down-icon v-if="node.data.redirect" class="text-secondary" size="16" />
 
-                    <a v-if="node.data.module" :href="'/admin/' + node.data.module" class="btn btn-xs btn-secondary fw-bold px-1 py-0">
-                        {{ t(node.data.module.charAt(0).toUpperCase() + node.data.module.slice(1)) }}
-                    </a>
-                </template>
+                        <a v-if="node.data.module" :href="'/admin/' + node.data.module" class="btn btn-xs btn-secondary fw-bold px-1 py-0">
+                            {{ t(node.data.module.charAt(0).toUpperCase() + node.data.module.slice(1)) }}
+                        </a>
+                    </template>
 
-                <template #toggle="{ node }">
-                    <chevron-down-icon v-if="node.children.length > 0 && node.isExpanded" size="16" />
-                    <chevron-right-icon v-if="node.children.length > 0 && !node.isExpanded" size="16" />
-                    <small v-else />
-                </template>
-            </sl-vue-tree-next>
+                    <template #toggle="{ node }">
+                        <chevron-down-icon v-if="node.children.length > 0 && node.isExpanded" size="16" />
+                        <chevron-right-icon v-if="node.children.length > 0 && !node.isExpanded" size="16" />
+                        <small v-else />
+                    </template>
+                </sl-vue-tree-next>
+            </div>
         </div>
     </div>
 </template>
@@ -104,6 +111,7 @@ const locales = ref(window.TypiCMS.locales);
 const contentLocale = ref(window.TypiCMS.content_locale);
 const loading = ref(false);
 const models = ref([]);
+const total = ref(null);
 const slVueTree = useTemplateRef('slVueTree');
 
 const url = computed(() => {
@@ -126,7 +134,9 @@ async function fetchData() {
             const responseData = await response.json();
             throw new Error(responseData.message);
         }
-        models.value = await response.json();
+        const data = await response.json();
+        models.value = data.models;
+        total.value = data.total;
         stopLoading();
     } catch (error) {
         alertify.error(t(error.message) || t('An error occurred with the data fetch.'));

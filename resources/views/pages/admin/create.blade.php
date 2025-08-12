@@ -3,7 +3,7 @@
 @section('title', __('New page'))
 
 @section('content')
-    {!! BootForm::open()->action(route('admin::index-pages'))->multipart()->role('form') !!}
+    {!! BootForm::open()->action(route('admin::index-pages'))->addClass('main-content') !!}
     @include('pages::admin._form')
     {!! BootForm::close() !!}
 @endsection

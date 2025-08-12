@@ -11,7 +11,7 @@
             ])
         </template>
 
-        <template #add-button>
+        <template #top-buttons>
             <span v-if="$can('create terms')">
                 @include('core::admin._button-create', ['url' => route('admin::create-term', $taxonomy)])
             </span>

@@ -3,7 +3,7 @@
 @section('title', __('Settings'))
 
 @section('content')
-    {!! BootForm::open()->multipart() !!}
+    {!! BootForm::open()->addClass('main-content') !!}
     {!! BootForm::bind($data) !!}
 
     <div class="header">
@@ -60,7 +60,7 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <h2>@lang('Contact')</h2>
+                <h2 class="my-3">@lang('Contact')</h2>
                 {!! BootForm::text(__('Name'), 'contact_1_name') !!}
                 {!! BootForm::text(__('Phone'), 'contact_1_phone') !!}
                 {!! BootForm::text(__('Address'), 'contact_1_address') !!}

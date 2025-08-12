@@ -33,7 +33,6 @@ class SidebarViewComposer
                     $item->icon = config('typicms.modules.pages.sidebar.icon');
                     $item->weight = config('typicms.modules.pages.sidebar.weight');
                     $item->route('admin::index-pages');
-                    $item->append('admin::create-page');
                 });
             });
         }
@@ -46,7 +45,6 @@ class SidebarViewComposer
                     $item->icon = config('typicms.modules.menus.sidebar.icon');
                     $item->weight = config('typicms.modules.menus.sidebar.weight');
                     $item->route('admin::index-menus');
-                    $item->append('admin::create-menu');
                 });
             });
         }
@@ -59,7 +57,6 @@ class SidebarViewComposer
                     $item->icon = config('typicms.modules.blocks.sidebar.icon');
                     $item->weight = config('typicms.modules.blocks.sidebar.weight');
                     $item->route('admin::index-blocks');
-                    $item->append('admin::create-block');
                 });
             });
         }
@@ -72,7 +69,6 @@ class SidebarViewComposer
                     $item->icon = config('typicms.modules.tags.sidebar.icon');
                     $item->weight = config('typicms.modules.tags.sidebar.weight');
                     $item->route('admin::index-tags');
-                    $item->append('admin::create-tag');
                 });
             });
         }
@@ -85,7 +81,6 @@ class SidebarViewComposer
                     $item->icon = config('typicms.modules.taxonomies.sidebar.icon');
                     $item->weight = config('typicms.modules.taxonomies.sidebar.weight');
                     $item->route('admin::index-taxonomies');
-                    $item->append('admin::create-taxonomy');
                 });
             });
         }
@@ -98,7 +93,6 @@ class SidebarViewComposer
                     $item->icon = config('typicms.modules.translations.sidebar.icon');
                     $item->weight = config('typicms.modules.translations.sidebar.weight');
                     $item->route('admin::index-translations');
-                    $item->append('admin::create-translation');
                 });
             });
         }
@@ -111,7 +105,6 @@ class SidebarViewComposer
                     $item->icon = config('typicms.modules.users.sidebar.icon');
                     $item->weight = config('typicms.modules.users.sidebar.weight');
                     $item->route('admin::index-users');
-                    $item->append('admin::create-user');
                 });
             });
         }
@@ -124,7 +117,6 @@ class SidebarViewComposer
                     $item->icon = config('typicms.modules.roles.sidebar.icon');
                     $item->weight = config('typicms.modules.roles.sidebar.weight');
                     $item->route('admin::index-roles');
-                    $item->append('admin::create-role');
                 });
             });
         }

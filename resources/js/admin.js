@@ -148,13 +148,6 @@ import enableSidebarPanelCollapse from './admin/enable-sidebar-panel-collapse.ts
 enableSidebarPanelCollapse();
 
 /**
- * Enable delete attachment
- */
-import enableDeleteAttachment from './admin/enable-delete-attachment.ts';
-
-enableDeleteAttachment();
-
-/**
  * Enable checkboxes for the roles’ permissions.
  */
 import enableCheckboxesPermissions from './admin/enable-checkboxes-permissions.ts';
@@ -174,3 +167,11 @@ enableTagsField();
 import Slug from './admin/slug.ts';
 
 document.querySelectorAll('[data-slug]').forEach((item) => new Slug(item));
+
+/**
+ * Theme switcher.
+ */
+import themeSwitcher from './admin/theme-switcher.ts';
+
+themeSwitcher();
+

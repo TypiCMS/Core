@@ -4,7 +4,7 @@
 
 @section('content')
     <item-list url-base="/api/menus" fields="id,image_id,name,status" table="menus" title="menus" include="image" :searchable="['name']" :sorting="['name']">
-        <template #add-button v-if="$can('create menus')">
+        <template #top-buttons v-if="$can('create menus')">
             @include('core::admin._button-create', ['module' => 'menus'])
         </template>
 

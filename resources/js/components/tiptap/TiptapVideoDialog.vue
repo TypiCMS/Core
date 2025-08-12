@@ -2,7 +2,7 @@
     <div class="modal fade" :id="props.id" tabindex="-1" :aria-labelledby="props.id + '-label'" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <form class="modal-content" @submit.prevent="save">
-                <div class="modal-header bg-light">
+                <div class="modal-header">
                     <h1 class="modal-title fs-5" :id="props.id + '-label'">{{ t('YouTube Video') }}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="t('Close')"></button>
                 </div>

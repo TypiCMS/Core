@@ -30,7 +30,7 @@
         display: block;
         width: 1rem;
         height: 1rem;
-        background: $gray-500 no-repeat center;
+        background: var(--bs-gray-500) no-repeat center;
         margin-right: 0.5rem;
         mask-repeat: no-repeat;
     }

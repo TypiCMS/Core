@@ -9,31 +9,37 @@
 }
 
 .sl-vue-tree-next-selected > .sl-vue-tree-next-node-item {
-    background-color: $light;
+    background-color: var(--bs-tertiary-bg);
 }
 
-.sl-vue-tree-next-node-item {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    line-height: 28px;
-    border: 1px solid transparent;
-    border-top: 1px solid #ddd;
+.sl-vue-tree-next-node {
+    &-item {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        line-height: 28px;
+        border: 1px solid transparent;
+        border-top-color: var(--bs-border-color);
+    }
+}
+
+.sl-vue-tree-next:first-child > .sl-vue-tree-next-nodes-list > .sl-vue-tree-next-node:first-child > .sl-vue-tree-next-node-item {
+    border-top-color: transparent;
 }
 
 .sl-vue-tree-next-node-item.sl-vue-tree-next-cursor-inside {
-    background-color: $gray-300;
+    background-color: var(--bs-secondary-bg);
     .title {
         cursor: default !important;
     }
 }
 .sl-vue-tree-next-node.sl-vue-tree-next-selected .sl-vue-tree-next-node-item.sl-vue-tree-next-cursor-inside {
-    background-color: $light;
+    background-color: var(--bs-tertiary-bg);
 }
 
 .sl-vue-tree-next-cursor {
     position: absolute;
-    background-color: $gray-400;
+    background-color: var(--bs-border-color);
     height: 3px;
     width: 100%;
 }
@@ -49,7 +55,7 @@
     cursor: pointer;
     left: -15px;
     top: 4px;
-    color: $gray-600;
+    color: var(--bs-tertiary-color);
 }
 
 .sl-vue-tree-next-sidebar {
@@ -58,12 +64,13 @@
 
 .sl-vue-tree-next-drag-info {
     position: absolute;
-    background-color: $gray-700;
+    background-color: var(--bs-body-color);
     opacity: 0.5;
-    margin-left: 20px;
-    margin-bottom: 20px;
-    padding: 5px 10px;
-    color: #fff;
+    border-radius: $border-radius;
+    margin-left: 1.25rem;
+    margin-bottom: 1.25rem;
+    padding: 0.25rem 0.5rem;
+    color: var(--bs-body-bg);
 }
 
 .sl-vue-tree-next-title {

@@ -1,5 +1,5 @@
 @if (config('typicms.registration.allowed'))
-    <p class="alert alert-warning alert-not-a-member">
+    <p class="alert-not-a-member">
         @lang('Not a member?')
         <a class="alert-link" href="{{ route(app()->getLocale() . '::register') }}">
             @lang('Become a member')

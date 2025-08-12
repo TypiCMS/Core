@@ -8,18 +8,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use TypiCMS\Modules\Core\Models\Menu;
 use TypiCMS\Modules\Core\Models\Menulink;
-use TypiCMS\NestableCollection;
 
 class MenulinksApiController extends BaseApiController
 {
-    public function index(Menu $menu, Request $request): NestableCollection
+    public function index(Menu $menu, Request $request): array
     {
         $userPreferences = $request->user()->preferences;
 
-        $data = Menulink::query()
+        $query = Menulink::query()
             ->selectFields()
             ->where('menu_id', $menu->id)
-            ->orderBy('position')
+            ->orderBy('position');
+
+        $total = $query->count();
+
+        $models = $query
             ->get()
             ->map(function (Model $menulink) use ($userPreferences) {
                 /** @var Menulink $menulink */
@@ -32,7 +35,7 @@ class MenulinksApiController extends BaseApiController
             ->childrenName('children')
             ->nest();
 
-        return $data;
+        return compact('models', 'total');
     }
 
     protected function updatePartial(Menu $menu, Menulink $menulink, Request $request): void

@@ -4,7 +4,7 @@
 
 @section('content')
     <item-list url-base="/api/blocks" fields="id,name,body,status,body" table="blocks" title="blocks" :searchable="['name,body']" :sorting="['name']">
-        <template #add-button v-if="$can('create blocks')">
+        <template #top-buttons v-if="$can('create blocks')">
             @include('core::admin._button-create', ['module' => 'blocks'])
         </template>
 
@@ -26,7 +26,7 @@
             <td>
                 <item-list-status-button :model="model"></item-list-status-button>
             </td>
-            <td><span class="badge bg-secondary">@{{ model.name }}</span></td>
+            <td><span class="badge text-bg-secondary">@{{ model.name }}</span></td>
             <td>@{{ model.body_translated }}</td>
         </template>
     </item-list>

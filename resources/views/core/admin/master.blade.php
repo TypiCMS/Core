@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" data-bs-theme="auto">
 
 <head>
     <meta charset="utf-8" />
@@ -14,11 +14,11 @@
 <body class="@can('see navbar') has-navbar @endcan @yield('bodyClass')">
 @include('core::_navbar')
 
-@section('sidebar')
-    @include('core::admin._sidebar')
-@show
 
 <div id="app" class="@section('mainClass') main @show">
+    @section('sidebar')
+        @include('core::admin._sidebar')
+    @show
     @yield('content')
 </div>
 

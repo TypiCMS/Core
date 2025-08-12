@@ -44,7 +44,7 @@
             @can('read page_sections')
                 @if ($model->id)
                     <item-list url-base="/api/pages/{{ $model->id }}/sections" fields="id,image_id,page_id,position,status,title" table="page_sections" title="sections" include="image" :sub-list="true" :searchable="['title']" :sorting="['position']">
-                        <template #add-button v-if="$can('create page_sections')">
+                        <template #top-buttons v-if="$can('create page_sections')">
                             @include('core::admin._button-create', [
                                 'url' => route('admin::create-page_section', $model->id),
                                 'module' => 'page_sections',
@@ -84,7 +84,7 @@
         </div>
 
         <div class="col-lg-4">
-            <div class="bg-light p-4">
+            <div class="right-column">
                 @if ($model->redirect !== 1)
                     <file-manager related-table="{{ $model->getTable() }}" :related-id="{{ $model->id ?? 0 }}"></file-manager>
                     <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>

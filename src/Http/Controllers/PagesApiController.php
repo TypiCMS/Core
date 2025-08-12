@@ -7,11 +7,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use TypiCMS\Modules\Core\Models\Page;
-use TypiCMS\NestableCollection;
 
 class PagesApiController extends BaseApiController
 {
-    public function index(Request $request): NestableCollection
+    public function index(Request $request): array
     {
         $userPreferences = $request->user()->preferences;
 
@@ -19,9 +18,9 @@ class PagesApiController extends BaseApiController
             ->selectFields()
             ->orderBy('position');
 
-        $pages = Page::query()
-            ->selectFields()
-            ->orderBy('position')
+        $total = $query->count();
+
+        $models = $query
             ->get()
             ->map(function (Model $page) use ($userPreferences) {
                 /** @var Page $page */
@@ -34,7 +33,7 @@ class PagesApiController extends BaseApiController
             ->childrenName('children')
             ->nest();
 
-        return $pages;
+        return compact('models', 'total');
     }
 
     /** @return list<array<int, mixed>> */

@@ -24,11 +24,11 @@
     </div>
 
     @if ($model->id)
-        <item-list-tree url-base="/api/menus/{{ $model->id }}/menulinks" fields="id,menu_id,page_id,position,parent_id,status,title,website" table="menulinks" title="Menulinks" v-if="$can('read menulinks')" :sub-list="true">
-            <template #add-button v-if="$can('create menulinks')">
+        <item-list-tree url-base="/api/menus/{{ $model->id }}/menulinks" fields="id,menu_id,page_id,position,parent_id,status,title,website" table="menulinks" title="menulinks" v-if="$can('read menulinks')" :sub-list="true">
+            <template #top-buttons v-if="$can('create menulinks')">
                 @include('core::admin._button-create', [
                     'url' => route('admin::create-menulink', $model->id),
-                    'module' => 'menus',
+                    'module' => 'menulinks',
                 ])
             </template>
         </item-list-tree>

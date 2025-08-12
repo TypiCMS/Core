@@ -4,7 +4,7 @@
 
 @section('content')
     <item-list url-base="/api/users" fields="id,first_name,last_name,email,activated,superuser,roles.name" table="users" title="users" include="roles" :translatable="false" :publishable="false" :exportable="true" :searchable="['first_name,last_name,email']" :sorting="['first_name']">
-        <template #add-button v-if="$can('create users')">
+        <template #top-buttons v-if="$can('create users')">
             @include('core::admin._button-create', ['module' => 'users'])
         </template>
 
@@ -33,15 +33,15 @@
             <td>@{{ model.last_name }}</td>
             <td><a :href="'mailto:' + model.email">@{{ model.email }}</a></td>
             <td>
-                <span class="badge bg-dark" v-if="model.activated">@lang('Yes')</span>
-                <span class="badge bg-secondary" v-else>@lang('No')</span>
+                <span class="badge text-bg-dark" v-if="model.activated">@lang('Yes')</span>
+                <span class="badge text-bg-secondary" v-else>@lang('No')</span>
             </td>
             <td>
                 @if (auth()->user()->isSuperUser())
-                    <span class="badge bg-dark me-1" v-if="model.superuser">Superuser</span>
+                    <span class="badge text-bg-dark me-1" v-if="model.superuser">Superuser</span>
                 @endif
 
-                <span class="badge bg-secondary me-1" v-for="role in model.roles">@{{ role.name }}</span>
+                <span class="badge text-bg-secondary me-1" v-for="role in model.roles">@{{ role.name }}</span>
             </td>
         </template>
     </item-list>

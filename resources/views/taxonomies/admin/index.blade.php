@@ -4,7 +4,7 @@
 
 @section('content')
     <item-list url-base="/api/taxonomies" fields="id,title,name,validation_rule,position,result_string,modules" table="taxonomies" title="taxonomies" :publishable="false" :exportable="false" :searchable="['title,name,validation_rule,result_string']" :sorting="['position']">
-        <template #add-button v-if="$can('create taxonomies')">
+        <template #top-buttons v-if="$can('create taxonomies')">
             @include('core::admin._button-create', ['module' => 'taxonomies'])
         </template>
 
@@ -38,7 +38,7 @@
             <td><small class="text-muted">@{{ model.validation_rule }}</small></td>
             <td>@{{ model.result_string_translated }}</td>
             <td>
-                <span class="badge bg-warning text-body me-1" v-for="module in model.modules">@{{ module }}</span>
+                <span class="badge text-bg-warning me-1" v-for="module in model.modules">@{{ module }}</span>
             </td>
         </template>
     </item-list>
