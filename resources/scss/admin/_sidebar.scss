@@ -1,138 +1,87 @@
-.offcanvas-lg {
+.sidebar {
+    width: $offcanvas-horizontal-width;
+    flex-shrink: 0;
     overflow-y: scroll;
     @include media-breakpoint-up(lg) {
-        position: fixed;
-        height: calc(100% - 56px); // 56px = navbar height.
-        background-color: $gray-700 !important;
+        position: sticky;
+        height: calc(100vh - 56px); // 56px = navbar height.
+        top: 56px; // 56px = navbar height.
     }
 }
 
-.offcanvas-body {
-    padding-top: 1rem !important;
-    padding-left: 0;
-    padding-right: 0;
-    background-color: $gray-700 !important;
+.offcanvas-header {
+    padding-bottom: 0;
 }
 
-.offcanvas-header {
-    flex-shrink: 0;
-    height: 56px !important;
-    background-color: transparent;
+.offcanvas-body {
+    padding: 0;
 }
 
 .sidebar-menu {
     @include list-unstyled();
     width: 100%;
-}
-
-.sidebar {
-    width: $offcanvas-horizontal-width;
+    padding: 1rem 1rem 1rem;
+    ul {
+        @include list-unstyled();
+        margin-bottom: 0;
+    }
 }
 
 .sidebar-panel {
-    margin-bottom: 20px;
+    margin-bottom: 0.75rem;
 }
 
 .sidebar-title {
+    @extend .btn;
+    --bs-btn-active-border-color: transparent;
+    --bs-btn-color: var(--bs-tertiary-color);
+    --bs-btn-hover-color: var(--bs-secondary-color);
+    text-align: left;
     letter-spacing: 1px;
-    display: block;
-    font-size: 12px;
-    padding: 0 20px 10px;
+    display: flex;
+    justify-content: flex-start;
+    font-size: 0.75rem;
+    padding: 0.375rem 0.825rem;
     text-transform: uppercase;
-    color: $gray-600;
-    text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.3);
-
-    &:hover,
-    &:focus {
-        text-decoration: none;
-        color: $gray-600;
-    }
-
-    &:active {
-        color: $gray-500;
+    &:focus-visible {
+        @extend .focus-ring;
     }
 }
 
-.nav-sidebar {
-    padding: 0;
-    &-item {
-        display: flex;
-
-        &-link {
-            display: flex;
-            width: 100%;
-            align-items: center;
-            text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.5);
-            color: $gray-200;
-            padding: 10px 10px 10px 20px;
-            &:hover,
-            &:focus {
-                color: $white;
-                transition: color 0.2s;
-                text-decoration: none;
-            }
-            &-icon {
-                color: $gray-500;
-                margin-right: 10px;
-                flex-shrink: 0;
-            }
-            &:hover &-icon,
-            &:focus &-icon {
-                color: $white;
-                transition: color 0.2s;
-            }
-            &-label {
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
-            }
-            &:active {
-                transition: all 0s;
-                text-shadow: none;
-                color: $gray-500;
-            }
-            &:active &-icon {
-                color: $gray-500;
-                transition: all 0s;
-            }
-        }
-        &-append {
-            color: $gray-200;
-            flex-shrink: 0;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-grow: 0;
-            width: 2.5rem;
-            &:hover,
-            &:focus {
-                color: $white;
-                transition: color 0.2s;
-                text-decoration: none;
-            }
-            &:active {
-                transition: all 0s;
-                text-shadow: none;
-                color: $gray-500;
-            }
-        }
-        &:hover &-link.hasAppend {
-            width: calc(100% - 2.5rem);
-        }
-        &:hover &-append {
-            display: flex;
-        }
+.nav-sidebar-item-link {
+    @extend .btn;
+    --bs-btn-active-border-color: transparent;
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-hover-color: var(--bs-primary);
+    --bs-btn-active-color: var(--bs-primary-text-emphasis);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    &:focus-visible {
+        @extend .focus-ring;
     }
+    &-icon {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+    }
+    &-label {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        font-size: 0.9375rem;
+    }
+    .active & {
+        color: var(--bs-primary);
+    }
+}
 
-    > .active > a,
-    > .active > a:hover,
-    > .active > a:focus {
-        text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.5);
-        color: #fff;
-        background-color: $primary;
-
-        .icon {
-            color: #eee;
-        }
+@include color-mode(dark) {
+    .nav-sidebar-item-link {
+        --bs-btn-hover-color: var(--bs-primary-text-emphasis);
+        --bs-btn-active-color: var(--bs-primary);
+    }
+    .active .nav-sidebar-item-link {
+        color: var(--bs-primary-text-emphasis);
     }
 }

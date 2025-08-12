@@ -1,15 +1,14 @@
 .header {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: $spacer $spacer * 2;
-    background-color: $light;
-    border-bottom: 1px solid $gray-300;
-    position: sticky;
-    top: 56px; // 56px = navbar height.
-    z-index: 10;
+    padding: $spacer;
+    background-color: var(--bs-body-bg);
+    border-bottom: 1px solid var(--bs-border-color);
+    @include media-breakpoint-up(lg) {
+        position: sticky;
+        top: 56px;
+        z-index: 10;
+    }
     &-toolbar {
-        gap: 0.5rem;
+        gap: $spacer * 0.5;
         width: 100%;
     }
     .sub-list & {
@@ -19,27 +18,11 @@
         border-bottom: none;
     }
     &-title {
+        white-space: nowrap;
         margin-bottom: $spacer;
         font-size: 1.5rem;
-    }
-    .btn-back {
-        @extend .btn;
-        @extend .btn-link;
-        padding: 0;
-        color: $gray-500;
-        font-size: 0.9rem;
-        margin-right: 0.7rem;
-        transition: 0.15s color ease-in-out;
-        display: flex;
-        align-items: center;
-        &-icon {
-            width: 0.5rem;
-            height: 0.5rem;
-            margin-right: 0.375rem;
-        }
-        &:hover,
-        &:focus {
-            color: darken($gray-500, 15%);
-        }
+        overflow: hidden;
+        text-overflow: ellipsis;
+        position: relative;
     }
 }

@@ -24,7 +24,15 @@
                                     :locale="locale.short"
                                 ></repeater-field>
                             </template>
-                            <repeater-field v-else :key="'item_' + name + '_' + index + '_' + field.name" v-model="element[field.name]" :errors="getError(index, field.name, null)" :field="field" :field-name="name" :index="index"></repeater-field>
+                            <repeater-field
+                                v-else
+                                :key="'item_' + name + '_' + index + '_' + field.name"
+                                v-model="element[field.name]"
+                                :errors="getError(index, field.name, null)"
+                                :field="field"
+                                :field-name="name"
+                                :index="index"
+                            ></repeater-field>
                         </div>
                     </div>
                 </div>

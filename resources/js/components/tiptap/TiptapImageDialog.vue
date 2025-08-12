@@ -2,7 +2,7 @@
     <div class="modal fade" :id="props.id" tabindex="-1" :aria-labelledby="props.id + '-label'" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <form class="modal-content" @submit.prevent="save">
-                <div class="modal-header bg-light">
+                <div class="modal-header">
                     <h1 class="modal-title fs-5" :id="props.id + '-label'">{{ t('Image') }}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="t('Close')"></button>
                 </div>
@@ -23,14 +23,14 @@
                     <div class="row mb-2 gx-3">
                         <div class="col">
                             <label :for="props.id + '-width'" class="col-form-label">{{ t('Width') }}</label>
-                            <div class="input-group mb-3">
+                            <div class="input-group">
                                 <input class="form-control" :id="props.id + '-width'" type="text" inputmode="numeric" pattern="[0-9]*" v-model="width" @keyup="setHeight" />
                                 <span class="input-group-text">px</span>
                             </div>
                         </div>
                         <div class="col">
                             <label :for="props.id + '-height'" class="col-form-label">{{ t('Height') }}</label>
-                            <div class="input-group mb-3">
+                            <div class="input-group">
                                 <input class="form-control" :id="props.id + '-height'" type="text" inputmode="numeric" pattern="[0-9]*" v-model="height" @keyup="setWidth" />
                                 <span class="input-group-text">px</span>
                             </div>
@@ -112,11 +112,11 @@ emitter.on('openImageDialog' + props.id, () => {
 });
 
 function setHeight() {
-    height.value = Math.round(width.value / ratio.value);
+    height.value = !width.value || !ratio.value ? '' : Math.round(width.value / ratio.value);
 }
 
 function setWidth() {
-    width.value = Math.round(height.value * ratio.value);
+    width.value = !height.value || !ratio.value ? '' : Math.round(height.value * ratio.value);
 }
 
 function browseServer() {

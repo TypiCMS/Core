@@ -43,7 +43,6 @@ import { CirclePlusIcon, FileIcon, FileMusicIcon, FileVideo2Icon, FolderIcon, XI
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-
 const { t } = useI18n();
 
 const props = defineProps({

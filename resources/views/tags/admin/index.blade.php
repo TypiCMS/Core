@@ -4,7 +4,7 @@
 
 @section('content')
     <item-list url-base="/api/tags" fields="id,tag,slug" table="tags" title="tags" :translatable="false" :publishable="false" :searchable="['tag']" :sorting="['tag']">
-        <template #add-button v-if="$can('create tags')">
+        <template #top-buttons v-if="$can('create tags')">
             @include('core::admin._button-create', ['module' => 'tags'])
         </template>
 

@@ -4,9 +4,8 @@
         margin-bottom: 0;
     }
     .page-link {
-        font-size: $font-size-sm;
         min-width: 1.75rem;
-        border-radius: $border-radius-sm;
+        border-radius: $pagination-border-radius;
         height: 1.75rem;
         display: flex;
         align-items: center;

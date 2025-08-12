@@ -5,8 +5,8 @@
     align-items: center;
     gap: 1px;
     flex-wrap: wrap;
-    background-color: $light;
-    border: 1px solid $gray-300;
+    background-color: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
     border-top-left-radius: $border-radius;
     border-top-right-radius: $border-radius;
     border-bottom: none;
@@ -16,7 +16,7 @@
 .tiptap-separator {
     width: 1px;
     height: 20px;
-    background-color: $gray-300;
+    background-color: var(--bs-gray-300);
     margin: 0 5px;
 }
 
@@ -26,13 +26,22 @@
     font-size: $font-size-sm;
     padding: 0.125rem 0.375rem;
     &.is-active {
-        background: $gray-200;
+        background-color: var(--bs-secondary-bg);
     }
     &:focus-visible {
         box-shadow: none;
     }
     .bubble-menu & {
         @include button-variant($white, $white, $body-color, $gray-200, $white, $body-color, $gray-300, $gray-300, $body-color, $white, $white, $gray-500);
+    }
+}
+
+@include color-mode(dark) {
+    .tiptap-button {
+        @include button-variant(transparent, transparent, $body-color-dark, transparent, $secondary, $body-color-dark, $secondary, $secondary, $body-color-dark, transparent, transparent, $secondary);
+    }
+    .bubble-menu .tiptap-button {
+        @include button-variant($body-bg-dark, $secondary, $body-color-dark, $secondary-bg-subtle-dark, $white, $body-color-dark, $secondary, $secondary, $body-color-dark, $white, $white, $secondary);
     }
 }
 
@@ -104,7 +113,7 @@
             margin-bottom: 0.5rem;
         }
         figcaption {
-            color: $gray-600;
+            color: var(--bs-gray-600);
             font-size: $font-size-sm;
         }
     }
@@ -122,17 +131,17 @@
 
     /* Code and preformatted text styles */
     code {
-        background-color: $gray-200;
+        background-color: var(--bs-gray-200);
         border-radius: 0.4rem;
-        color: $body-color;
+        color: var(--bs-body-color);
         font-size: 0.85rem;
         padding: 0.25em 0.3em;
     }
 
     pre {
-        background: $gray-200;
+        background: var(--bs-gray-200);
         border-radius: 0.5rem;
-        color: $body-color;
+        color: var(--bs-body-color);
         font-family: 'JetBrainsMono', monospace;
         margin: 1.5rem 0;
         padding: 0.75rem 1rem;
@@ -175,7 +184,7 @@
         }
 
         th {
-            background-color: $light;
+            background-color: var(--bs-light);
             font-weight: bold;
             text-align: left;
         }
@@ -193,7 +202,7 @@
         }
 
         .column-resize-handle {
-            background-color: $primary;
+            background-color: var(--bs-primary);
             bottom: -2px;
             pointer-events: none;
             position: absolute;

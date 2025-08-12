@@ -148,13 +148,6 @@ import enableSidebarPanelCollapse from './admin/enable-sidebar-panel-collapse.ts
 enableSidebarPanelCollapse();
 
 /**
- * Enable delete attachment
- */
-import enableDeleteAttachment from './admin/enable-delete-attachment.ts';
-
-enableDeleteAttachment();
-
-/**
  * Enable checkboxes for the roles’ permissions.
  */
 import enableCheckboxesPermissions from './admin/enable-checkboxes-permissions.ts';

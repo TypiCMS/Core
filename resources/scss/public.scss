@@ -51,10 +51,10 @@ figure {
 }
 
 blockquote {
-    color: $gray-700;
-    border-left: 5px solid $gray-300;
+    color: var(--bs-gray-700);
+    border-left: 5px solid var(--bs-gray-300);
     padding: 18px 25px 18px 22px;
-    background-color: $gray-100;
+    background-color: var(--bs-gray-100);
     quotes: '\201C' '\201D' '\2018' '\2019';
     &:before {
         color: #ccc;
@@ -65,7 +65,6 @@ blockquote {
         margin-left: -0.5rem;
     }
 }
-
 .rich-content {
     overflow-wrap: break-word;
     word-break: break-word;
@@ -99,5 +98,5 @@ blockquote {
 }
 
 .required_mark {
-    color: $red;
+    color: var(--bs-red);
 }

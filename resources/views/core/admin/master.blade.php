@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" data-bs-theme="auto">
 
 <head>
     <meta charset="utf-8" />
@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta name="api-token" content="{{ auth()->user()->api_token ?? '' }}" />
     <title>[admin] @yield('title') – {{ config('typicms.' . app()->getLocale() . '.website_title') }}</title>
+    <script src="{{ Vite::asset('resources/js/admin/theme-switcher.ts') }}"></script>
     @stack('css')
     @vite('resources/scss/admin.scss')
 </head>
@@ -14,11 +15,11 @@
 <body class="@can('see navbar') has-navbar @endcan @yield('bodyClass')">
 @include('core::_navbar')
 
-@section('sidebar')
-    @include('core::admin._sidebar')
-@show
 
 <div id="app" class="@section('mainClass') main @show">
+    @section('sidebar')
+        @include('core::admin._sidebar')
+    @show
     @yield('content')
 </div>
 

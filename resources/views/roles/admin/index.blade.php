@@ -4,7 +4,7 @@
 
 @section('content')
     <item-list url-base="/api/roles" fields="id,name" table="roles" title="roles" :translatable="false" :publishable="false" :searchable="['name']" :sorting="['name']">
-        <template #add-button v-if="$can('create roles')">
+        <template #top-buttons v-if="$can('create roles')">
             @include('core::admin._button-create', ['module' => 'roles'])
         </template>
 

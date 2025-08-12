@@ -15,7 +15,7 @@
             </div>
             <div class="header-toolbar btn-toolbar">
                 <button class="btn btn-sm btn-light" type="button" @click="newFolder(folder.id)">
-                    <folder-plus-icon class="text-black-50" size="16" />
+                    <folder-plus-icon size="16" />
                     {{ t('New folder') }}
                 </button>
                 <div class="btn-group btn-group-sm">
@@ -42,11 +42,11 @@
                 </div>
                 <div class="btn-group btn-group-sm">
                     <button :class="{ active: view === 'grid' }" class="btn btn-light" type="button" @click="switchView('grid')">
-                        <layout-grid-icon class="text-black-50" size="16" />
+                        <layout-grid-icon size="16" />
                         {{ t('Grid') }}
                     </button>
                     <button :class="{ active: view === 'list' }" class="btn btn-light" type="button" @click="switchView('list')">
-                        <layout-list-icon class="text-black-50" size="16" />
+                        <layout-list-icon size="16" />
                         {{ t('List') }}
                     </button>
                 </div>
@@ -89,7 +89,7 @@
                     </button>
                 </div>
                 <button id="upload-files-button" class="btn btn-sm btn-light header-btn-add" type="button">
-                    <cloud-upload-icon class="text-black-50" size="16" />
+                    <cloud-upload-icon size="16" />
                     {{ t('Upload files') }}
                 </button>
             </div>
@@ -99,6 +99,7 @@
             <Dashboard
                 :plugins="['ImageEditor']"
                 :props="{
+                    theme: 'auto',
                     inline: false,
                     trigger: '#upload-files-button',
                     proudlyDisplayPoweredByUppy: false,

@@ -1,57 +1,62 @@
 <template>
-    <div class="card">
-        <div class="card-header d-flex justify-content-between">
+    <div class="item-list-content">
+        <div class="header item-list-filters py-2">
             {{ t('Latest changes') }}
             <button v-if="filteredItems.length > 0 && clearButton" id="clear-history" class="btn-clear-history" @click="clearHistory">
                 {{ t('Clear') }}
             </button>
         </div>
 
-        <div v-if="filteredItems.length" class="history table-responsive">
-            <table class="history-table table-main mb-0 table">
-                <thead>
-                    <tr>
-                        <slot :sort-array="sortArray" name="columns"></slot>
-                    </tr>
-                </thead>
+        <div class="content">
+            <div v-if="filteredItems.length" class="history table-responsive">
+                <table class="history-table table">
+                    <thead>
+                        <tr>
+                            <slot :sort-array="sortArray" name="columns"></slot>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    <tr v-for="model in filteredItems" :key="model.id">
-                        <td>
-                            <small class="text-muted text-nowrap">{{ formatDateTime(model.created_at) }}</small>
-                        </td>
-                        <td>
-                            <a v-if="model.href" :href="model.href + '?locale=' + model.locale">{{ model.title }}</a>
-                            <span v-if="!model.href">{{ model.title }}</span>
-                            <span v-if="model.locale">({{ model.locale }})</span>
-                        </td>
-                        <td>
-                            {{ model.historable_type.substring(model.historable_type.lastIndexOf('\\') + 1) }}
-                        </td>
-                        <td class="action">
-                            <small class="action-content">
-                                <span :class="'icon-' + model.action" class="icon"></span>
-                                {{ model.action }}
-                            </small>
-                        </td>
-                        <td>
-                            <small class="user-name">{{ model.user_name }}</small>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                    <tbody>
+                        <tr v-for="model in filteredItems" :key="model.id">
+                            <td>
+                                <small class="text-muted text-nowrap">{{ formatDateTime(model.created_at) }}</small>
+                            </td>
+                            <td>
+                                <a v-if="model.href" :href="model.href + '?locale=' + model.locale">{{ model.title }}</a>
+                                <span v-if="!model.href">{{ model.title }}</span>
+                                <span v-if="model.locale">({{ model.locale }})</span>
+                            </td>
+                            <td>
+                                {{ model.historable_type.substring(model.historable_type.lastIndexOf('\\') + 1) }}
+                            </td>
+                            <td class="action">
+                                <small class="action-content">
+                                    <span :class="'icon-' + model.action" class="icon"></span>
+                                    {{ model.action }}
+                                </small>
+                            </td>
+                            <td>
+                                <small class="user-name">{{ model.user_name }}</small>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-        <div v-else class="card-body">
-            <div v-if="loading">
-                <span class="text-muted">{{ t('Loading…') }}</span>
+            <div v-else class="card-body">
+                <div v-if="loading">
+                    <span class="text-muted">{{ t('Loading…') }}</span>
+                </div>
+                <div v-else>
+                    <span class="text-muted">{{ searchString !== '' ? t('Nothing found.') : t('History is empty.') }}</span>
+                </div>
             </div>
-            <div v-else>
-                <span class="text-muted">{{ searchString !== '' ? t('Nothing found.') : t('History is empty.') }}</span>
-            </div>
-        </div>
-        <div v-if="filteredItems.length > 0 && data.total > data.per_page" class="card-footer">
-            <item-list-pagination v-if="pagination" :data="data" class="justify-content-center" @pagination-change-page="changePage"></item-list-pagination>
+            <item-list-pagination
+                v-if="pagination && filteredItems.length > 0 && data.total > data.per_page"
+                :data="data"
+                class="item-list-pagination"
+                @pagination-change-page="changePage"
+            ></item-list-pagination>
         </div>
     </div>
 </template>

@@ -1,6 +1,7 @@
 // @ts-ignore
 import alertify from 'alertify.js';
 import TomSelect from 'tom-select';
+
 import fetcher from './fetcher';
 
 interface Tag {

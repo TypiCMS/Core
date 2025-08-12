@@ -1,8 +1,8 @@
 @if ($navbar)
-    <nav class="typicms-navbar navbar navbar-expand bg-dark justify-content-between sticky-top" data-bs-theme="dark">
+    <nav class="typicms-navbar navbar navbar-expand justify-content-between sticky-top">
         <div class="container-fluid">
             @if (Request::segment(1) === 'admin')
-                <button class="btn btn-dark d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive" aria-label="{{ __('Toggle navigation') }}">
+                <button class="btn btn-link d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
             @endif
@@ -19,38 +19,30 @@
                     @endif
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <button class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="icon-circle-user-round me-2"></span>
                         <span class="d-none d-lg-inline">
                             {{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}
                         </span>
-                    </a>
-                    <div class="dropdown-menu dropdown-user">
-                        <div class="dropdown-user-wrapper">
-                            <div class="img">
-                                <img src="https://www.gravatar.com/avatar/{{ md5(auth()->user()->email) }}?d=mm" class="pull-left" />
-                            </div>
-                            <div class="info">
-                                <div class="mt-1 mb-1">{{ auth()->user()->email }}</div>
-                                @can('update users')
-                                    <div class="mb-3">
-                                        <a href="{{ route('admin::edit-user', Auth::id()) }}">
-                                            {{ __('Profile', [], config('typicms.navbar_locale')) }}
-                                        </a>
-                                    </div>
-                                @endcan
-
-                                <div class="mb-2">
-                                    <form action="{{ route(mainLocale() . '::logout') }}" method="post">
-                                        {{ csrf_field() }}
-                                        <button class="btn btn-light btn-sm" type="submit">
-                                            @lang('Logout', [], config('typicms.navbar_locale'))
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><h6 class="dropdown-header">{{ auth()->user()->email }}</h6></li>
+                        @can('update users')
+                        <li>
+                            <a class="dropdown-item" href="{{ route('admin::edit-user', Auth::id()) }}">
+                                {{ __('Profile', [], config('typicms.navbar_locale')) }}
+                            </a>
+                        </li>
+                        @endcan
+                        <li>
+                            <form action="{{ route(mainLocale() . '::logout') }}" method="post">
+                                {{ csrf_field() }}
+                                <button class="dropdown-item" type="submit">
+                                    @lang('Logout', [], config('typicms.navbar_locale'))
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
                 </li>
                 @can('read settings')
                     <li class="nav-item">
