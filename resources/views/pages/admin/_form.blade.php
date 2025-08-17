@@ -1,12 +1,11 @@
 <div class="header">
-    @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Pages')])
-    @include('core::admin._title', ['default' => __('New page')])
-    @component('core::admin._buttons-form', ['model' => $model])
-    @endcomponent
+    <x-core::back-button :url="$model->indexUrl()" :title="__('Pages')" />
+    <x-core::title :$model :default="__('New page')" />
+    <x-core::form-buttons :$model :locales="locales()" />
 </div>
 
 <div class="content">
-    @include('core::admin._form-errors')
+    <x-core::form-errors />
 
     <div class="row">
         <div class="col-lg-8">
@@ -15,7 +14,7 @@
                     {!! TranslatableBootForm::text(__('Title'), 'title') !!}
                 </div>
                 <div class="col-md-6">
-                    @foreach ($locales as $locale)
+                    @foreach (locales() as $locale)
                         <div class="mb-3 form-group-translation">
                             <label class="form-label" for="slug[{{ $locale }}]">
                                 <span>{{ __('Url') }}</span>
@@ -45,10 +44,7 @@
                 @if ($model->id)
                     <item-list url-base="/api/pages/{{ $model->id }}/sections" fields="id,image_id,page_id,position,status,title" table="page_sections" title="sections" include="image" :sub-list="true" :searchable="['title']" :sorting="['position']">
                         <template #top-buttons v-if="$can('create page_sections')">
-                            @include('core::admin._button-create', [
-                                'url' => route('admin::create-page_section', $model->id),
-                                'module' => 'page_sections',
-                            ])
+                            <x-core::create-button :url="route('admin::create-page_section', $model->id)" :label="__('Create page section')" />
                         </template>
 
                         <template #columns="{ sortArray }">

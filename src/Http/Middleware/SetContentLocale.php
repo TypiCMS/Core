@@ -16,6 +16,7 @@ class SetContentLocale
     {
         // Store requested locale in session.
         $localeFromRequest = $request->string('locale');
+
         if (in_array($localeFromRequest, locales())) {
             session(['content_locale' => $localeFromRequest]);
         }

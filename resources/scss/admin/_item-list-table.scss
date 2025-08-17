@@ -37,18 +37,14 @@
             border-top-right-radius: $modal-content-border-radius;
         }
     }
-    &-filters {
-        @extend .main-content-header;
-    }
 }
 
 .item-list-table {
-    margin-bottom: 2rem;
-
     thead th {
         white-space: nowrap;
         border-top: none;
         vertical-align: top;
+        font-weight: 600;
     }
 
     .checkboxes,

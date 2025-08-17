@@ -1,12 +1,11 @@
 <div class="header">
-    @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Menus')])
-    @include('core::admin._title', ['default' => __('New menu')])
-    @component('core::admin._buttons-form', ['model' => $model])
-    @endcomponent
+    <x-core::back-button :url="$model->indexUrl()" :title="__('Menus')" />
+    <x-core::title :$model :default="__('New menu')" />
+    <x-core::form-buttons :$model :locales="locales()" />
 </div>
 
 <div class="content">
-    @include('core::admin._form-errors')
+    <x-core::form-errors />
 
     <file-manager related-table="{{ $model->getTable() }}" :related-id="{{ $model->id ?? 0 }}"></file-manager>
     <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>
@@ -26,10 +25,7 @@
     @if ($model->id)
         <item-list-tree url-base="/api/menus/{{ $model->id }}/menulinks" fields="id,menu_id,page_id,position,parent_id,status,title,website" table="menulinks" title="menulinks" v-if="$can('read menulinks')" :sub-list="true">
             <template #top-buttons v-if="$can('create menulinks')">
-                @include('core::admin._button-create', [
-                    'url' => route('admin::create-menulink', $model->id),
-                    'module' => 'menulinks',
-                ])
+                <x-core::create-button :url="route('admin::create-menulink', $model->id)" :label="__('Create menulink')" />
             </template>
         </item-list-tree>
     @endif

@@ -11,7 +11,7 @@
             <slot name="top-buttons"></slot>
         </div>
         <div :class="{ 'item-list-content': !subList }">
-            <div :class="{ header: !subList }" class="item-list-filters">
+            <div :class="{ header: !subList }">
                 <div class="btn-toolbar header-toolbar">
                     <item-list-selector
                         v-if="selector && ($can('update ' + table) || $can('delete ' + table))"

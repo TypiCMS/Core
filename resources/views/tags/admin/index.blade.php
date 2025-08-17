@@ -5,7 +5,7 @@
 @section('content')
     <item-list url-base="/api/tags" fields="id,tag,slug" table="tags" title="tags" :translatable="false" :publishable="false" :searchable="['tag']" :sorting="['tag']">
         <template #top-buttons v-if="$can('create tags')">
-            @include('core::admin._button-create', ['module' => 'tags'])
+            <x-core::create-button :url="route('admin::create-tag')" :label="__('Create tag')" />
         </template>
 
         <template #columns="{ sortArray }">

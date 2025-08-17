@@ -1,10 +1,9 @@
 {!! BootForm::hidden('id') !!}
 
 <div class="header">
-    @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Roles')])
-    @include('core::admin._title', ['default' => __('New role')])
-    @component('core::admin._buttons-form', ['model' => $model, 'langSwitcher' => false])
-    @endcomponent
+    <x-core::back-button :url="$model->indexUrl()" :title="__('Roles')" />
+    <x-core::title :$model :default="__('New role')" />
+    <x-core::form-buttons :$model :lang-switcher="false" />
 </div>
 
 <div class="content">
@@ -14,5 +13,5 @@
         </div>
     </div>
 
-    @include('core::admin._permissions-form')
+    <x-core::permissions-form />
 </div>

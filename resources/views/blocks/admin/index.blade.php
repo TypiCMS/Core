@@ -5,7 +5,7 @@
 @section('content')
     <item-list url-base="/api/blocks" fields="id,name,body,status,body" table="blocks" title="blocks" :searchable="['name,body']" :sorting="['name']">
         <template #top-buttons v-if="$can('create blocks')">
-            @include('core::admin._button-create', ['module' => 'blocks'])
+            <x-core::create-button :url="route('admin::create-block')" :label="__('Create block')" />
         </template>
 
         <template #columns="{ sortArray }">

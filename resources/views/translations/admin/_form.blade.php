@@ -1,12 +1,11 @@
 <div class="header">
-    @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Translations')])
-    @include('core::admin._title', ['default' => __('New translation')])
-    @component('core::admin._buttons-form', ['model' => $model, 'langSwitcher' => false])
-    @endcomponent
+    <x-core::back-button :url="$model->indexUrl()" :title="__('Translations')" />
+    <x-core::title :$model :default="__('New translation')" />
+    <x-core::form-buttons :$model :lang-switcher="false" />
 </div>
 
 <div class="content">
-    @include('core::admin._form-errors')
+    <x-core::form-errors />
 
     @if (empty($model->id))
         {!! BootForm::text(__('Key'), 'key')->required() !!}
@@ -14,7 +13,7 @@
 
     <p class="form-label">{{ __('Translations') }}</p>
 
-    @foreach ($locales as $locale)
+    @foreach (locales() as $locale)
         <div class="mb-3">
             <div class="input-group">
                 <span class="input-group-text">{{ strtoupper($locale) }}</span>

@@ -13,14 +13,14 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     @if (Request::segment(1) === 'admin')
-                        @include('core::admin._navbar-public-link')
+                        <x-core::navbar-public-link :model="$model ?? null" />
                     @else
-                        @include('core::public._navbar-admin-link')
+                        <x-core::navbar-admin-link :model="$model ?? null" />
                     @endif
                 </li>
                 <li class="nav-item dropdown">
                     <button class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="icon-circle-user-round me-2"></span>
+                        <span class="icon-circle-user-round me-1"></span>
                         <span class="d-none d-lg-inline">
                             {{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}
                         </span>
@@ -47,7 +47,7 @@
                 @can('read settings')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin::index-settings') }}">
-                            <span class="icon-settings me-2"></span>
+                            <span class="icon-settings me-1"></span>
                             <span class="d-none d-lg-inline">
                                 {{ __('Settings', [], config('typicms.navbar_locale')) }}
                             </span>

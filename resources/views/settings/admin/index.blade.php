@@ -20,7 +20,7 @@
 
     <div class="content">
         <label class="form-label">{{ __('Website title') }}</label>
-        @foreach ($locales as $locale)
+        @foreach (locales() as $locale)
             <div class="mb-3">
                 <div class="input-group">
                     <span class="input-group-text">{{ strtoupper($locale) }}</span>
@@ -32,7 +32,7 @@
         <label class="form-label">{{ __('Publish website') }}</label>
 
         <div class="mb-3">
-            @foreach ($locales as $locale)
+            @foreach (locales() as $locale)
                 <div class="form-check form-check-inline">
                     <input type="hidden" name="{{ $locale }}[status]" value="0" />
                     <input class="form-check-input" type="checkbox" name="{{ $locale }}[status]" id="{{ $locale }}[status]" value="1" @if (isset($data->$locale) and $data->$locale->status) checked @endif />
@@ -42,7 +42,7 @@
         </div>
 
         <label class="form-label">{{ __('Website baseline') }}</label>
-        @foreach ($locales as $locale)
+        @foreach (locales() as $locale)
             <div class="mb-3">
                 <div class="input-group">
                     <span class="input-group-text">{{ strtoupper($locale) }}</span>

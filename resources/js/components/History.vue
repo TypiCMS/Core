@@ -1,6 +1,6 @@
 <template>
     <div class="item-list-content">
-        <div class="header item-list-filters py-2">
+        <div class="header position-static py-2">
             {{ t('Latest changes') }}
             <button v-if="filteredItems.length > 0 && clearButton" id="clear-history" class="btn-clear-history" @click="clearHistory">
                 {{ t('Clear') }}

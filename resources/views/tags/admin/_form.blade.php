@@ -1,12 +1,11 @@
 <div class="header">
-    @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Tags')])
-    @include('core::admin._title', ['default' => __('New tag')])
-    @component('core::admin._buttons-form', ['model' => $model, 'langSwitcher' => false])
-    @endcomponent
+    <x-core::back-button :url="$model->indexUrl()" :title="__('Tags')" />
+    <x-core::title :$model :default="__('New tag')" />
+    <x-core::form-buttons :$model :lang-switcher="false" />
 </div>
 
 <div class="content">
-    @include('core::admin._form-errors')
+    <x-core::form-errors />
 
     <div class="row gx-3">
         <div class="col-md-6">

@@ -1,17 +1,16 @@
 <div class="header">
-    @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Taxonomies')])
-    @include('core::admin._title', ['default' => __('New taxonomy')])
-    @component('core::admin._buttons-form', ['model' => $model])
-    @endcomponent
+    <x-core::back-button :url="$model->indexUrl()" :title="__('Taxonomies')" />
+    <x-core::title :$model :default="__('New taxonomy')" />
+    <x-core::form-buttons :$model :locales="locales()" />
 </div>
 
 <div class="content">
-    @include('core::admin._form-errors')
+    <x-core::form-errors />
 
     {!! BootForm::text(__('Name'), 'name')->required()->autocomplete('off') !!}
     {!! TranslatableBootForm::text(__('Info for search results'), 'result_string') !!}
 
-    @include('core::form._title-and-slug')
+    <x-core::title-and-slug-fields :locales="locales()" />
 
     {!! BootForm::text(__('Validation rule'), 'validation_rule')->placeholder('required|array|size:2')->required() !!}
 

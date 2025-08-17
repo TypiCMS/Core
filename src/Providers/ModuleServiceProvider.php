@@ -16,7 +16,6 @@ use TypiCMS\Modules\Core\Commands\Database;
 use TypiCMS\Modules\Core\Commands\Install;
 use TypiCMS\Modules\Core\Commands\Publish;
 use TypiCMS\Modules\Core\Composers\LocaleComposer;
-use TypiCMS\Modules\Core\Composers\LocalesComposer;
 use TypiCMS\Modules\Core\Composers\MasterViewComposer;
 use TypiCMS\Modules\Core\Composers\SidebarViewComposer;
 use TypiCMS\Modules\Core\Composers\SidebarViewCreator;
@@ -226,7 +225,6 @@ class ModuleServiceProvider extends ServiceProvider
         View::composers([
             MasterViewComposer::class => '*',
             LocaleComposer::class => '*::public.*',
-            LocalesComposer::class => '*::admin.*',
             SidebarViewComposer::class => 'core::admin._sidebar',
         ]);
         View::composer('search::public.*', function ($view) {

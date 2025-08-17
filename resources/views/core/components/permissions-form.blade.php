@@ -2,7 +2,7 @@
 <input type="hidden" name="checked_permissions[]" value="update preferences" />
 <input type="hidden" name="checked_permissions[]" value="clear cache" />
 
-<h2>{{ __('Global permissions') }}</h2>
+<h2 class="my-4">{{ __('Global permissions') }}</h2>
 
 <div class="mb-3">
     <div class="form-check">
@@ -42,10 +42,10 @@
 </div>
 
 <div class="permissions-modules">
-    <h2>{{ __('Modules permissions') }}</h2>
+    <h2 class="my-4">{{ __('Modules permissions') }}</h2>
     <div class="permissions-modules-items">
         @foreach (permissions() as $module => $permissions)
-            <div class="permissions-modules-item mt-4 mb-4">
+            <div class="permissions-modules-item mt-2 mb-4">
                 <label class="permissions-modules-item-title">{{ $module }}</label>
                 @foreach ($permissions as $permission => $label)
                     <div class="permissions-modules-item-checkbox checkbox">

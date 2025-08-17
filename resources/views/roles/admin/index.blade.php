@@ -5,7 +5,7 @@
 @section('content')
     <item-list url-base="/api/roles" fields="id,name" table="roles" title="roles" :translatable="false" :publishable="false" :searchable="['name']" :sorting="['name']">
         <template #top-buttons v-if="$can('create roles')">
-            @include('core::admin._button-create', ['module' => 'roles'])
+            <x-core::create-button :url="route('admin::create-role')" :label="__('Create role')" />
         </template>
 
         <template #columns="{ sortArray }">

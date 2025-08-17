@@ -1,12 +1,11 @@
 <div class="header">
-    @include('core::admin._button-back', ['url' => $menu->editUrl(), 'title' => $menu->name])
-    @include('core::admin._title', ['default' => __('New menulink')])
-    @component('core::admin._buttons-form', ['model' => $model, 'langSwitcher' => true])
-    @endcomponent
+    <x-core::back-button :url="$menu->editUrl()" :title="$menu->name" />
+    <x-core::title :$model :default="__('New menulink')" />
+    <x-core::form-buttons :$model :lang-switcher="true" />
 </div>
 
 <div class="content">
-    @include('core::admin._form-errors')
+    <x-core::form-errors />
 
     {!! BootForm::hidden('id') !!}
     {!! BootForm::hidden('menu_id')->value($menu->id) !!}

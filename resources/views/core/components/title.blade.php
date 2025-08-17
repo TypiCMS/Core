@@ -1,3 +1,5 @@
+@props(['model', 'default' => null])
+
 @if (empty($model->id))
     <h1 class="header-title">
         {{ $default ?? __('New') }}

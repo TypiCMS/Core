@@ -1,12 +1,11 @@
 <div class="header">
-    @include('core::admin._button-back', ['url' => $page->editUrl(), 'title' => $page->title])
-    @include('core::admin._title', ['default' => __('New page section')])
-    @component('core::admin._buttons-form', ['model' => $model])
-    @endcomponent
+    <x-core::back-button :url="$page->editUrl()" :title="$page->title" />
+    <x-core::title :$model :default="__('New page section')" />
+    <x-core::form-buttons :$model :locales="locales()" />
 </div>
 
 <div class="content">
-    @include('core::admin._form-errors')
+    <x-core::form-errors />
 
     {!! BootForm::hidden('id') !!}
     {!! BootForm::hidden('page_id')->value($page->id) !!}
@@ -15,7 +14,7 @@
     <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>
     <files-field :init-files="{{ $model->files }}"></files-field>
 
-    @include('core::form._title-and-slug')
+    <x-core::title-and-slug-fields :locales="locales()" />
     <div class="mb-3">
         {!! TranslatableBootForm::hidden('status')->value(0) !!}
         {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}

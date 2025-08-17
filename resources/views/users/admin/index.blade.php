@@ -5,7 +5,7 @@
 @section('content')
     <item-list url-base="/api/users" fields="id,first_name,last_name,email,activated,superuser,roles.name" table="users" title="users" include="roles" :translatable="false" :publishable="false" :exportable="true" :searchable="['first_name,last_name,email']" :sorting="['first_name']">
         <template #top-buttons v-if="$can('create users')">
-            @include('core::admin._button-create', ['module' => 'users'])
+            <x-core::create-button :url="route('admin::create-user')" :label="__('Create user')" />
         </template>
 
         <template #columns="{ sortArray }">

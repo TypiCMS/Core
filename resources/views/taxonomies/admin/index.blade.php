@@ -5,7 +5,7 @@
 @section('content')
     <item-list url-base="/api/taxonomies" fields="id,title,name,validation_rule,position,result_string,modules" table="taxonomies" title="taxonomies" :publishable="false" :exportable="false" :searchable="['title,name,validation_rule,result_string']" :sorting="['position']">
         <template #top-buttons v-if="$can('create taxonomies')">
-            @include('core::admin._button-create', ['module' => 'taxonomies'])
+            <x-core::create-button :url="route('admin::create-taxonomy')" :label="__('Create taxonomy')" />
         </template>
 
         <template #columns="{ sortArray }">

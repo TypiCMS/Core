@@ -13,7 +13,7 @@
     </div>
 
     <ul class="lang-chooser-list">
-        @foreach ($locales as $locale)
+        @foreach (enabledLocales() as $locale)
             <li class="lang-chooser-list-item">
                 <a class="lang-chooser-list-anchor" href="{{ $homepage->url($locale) }}">
                     @lang('languages.' . $locale, [], $locale)

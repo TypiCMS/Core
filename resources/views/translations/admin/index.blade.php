@@ -5,7 +5,7 @@
 @section('content')
     <item-list url-base="/api/translations" fields="id,key,translation" table="translations" title="translations" :publishable="false" :searchable="['key,translation']" :sorting="['key']">
         <template #top-buttons v-if="$can('create translations')">
-            @include('core::admin._button-create', ['module' => 'translations'])
+            <x-core::create-button :url="route('admin::create-translation')" :label="__('Create translation')" />
         </template>
 
         <template #columns="{ sortArray }">

@@ -1,3 +1,5 @@
+@props(['locales'])
+
 @foreach ($locales as $locale)
     <div class="mb-3 form-group-translation @if ($errors->has('slug.' . $locale)) has-error @endif">
         {!! Form::label('<span>' . __('Slug') . '</span> <span>(' . $locale . ')</span>')->addClass('form-label')->forId('slug[' . $locale . ']') !!}

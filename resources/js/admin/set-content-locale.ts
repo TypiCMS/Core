@@ -1,5 +1,6 @@
 // @ts-ignore
 import alertify from 'alertify.js';
+
 import fetcher from './fetcher';
 
 /**
@@ -23,7 +24,7 @@ export default (): void => {
                 element.style.display = 'block';
             });
         } else {
-            document.querySelectorAll<HTMLElement>('.btn-preview').forEach((element: HTMLElement, index: number) => {
+            document.querySelectorAll<HTMLElement>('.btn-preview').forEach((element: HTMLElement) => {
                 element.style.display = element.dataset.language === locale ? 'block' : 'none';
             });
             document.querySelectorAll<HTMLElement>('.form-group-translation').forEach((element) => {

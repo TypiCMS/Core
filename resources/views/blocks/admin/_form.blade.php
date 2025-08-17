@@ -1,14 +1,13 @@
 <div class="header">
-    @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Blocks')])
-    @include('core::admin._title', ['default' => __('New block')])
-    @component('core::admin._buttons-form', ['model' => $model])
-    @endcomponent
+    <x-core::back-button :url="$model->indexUrl()" :title="__('Blocks')" />
+    <x-core::title :$model :default="__('New block')" />
+    <x-core::form-buttons :$model :locales="locales()" />
 </div>
 
 <file-manager related-table="{{ $model->getTable() }}" :related-id="{{ $model->id ?? 0 }}"></file-manager>
 
 <div class="content">
-    @include('core::admin._form-errors')
+    <x-core::form-errors />
 
     @if ($model->id)
         {!! BootForm::hidden('name') !!}

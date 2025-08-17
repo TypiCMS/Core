@@ -39,6 +39,7 @@ body {
 }
 .main {
     display: flex;
+    align-items: flex-start;
     &-content {
         @extend .card;
         flex-grow: 1;

@@ -1,3 +1,4 @@
+@props(['model' => null])
 @php
     $contentLocale = (string) config('typicms.content_locale');
     if (isset($model) && $model->id && $contentLocale) {
@@ -15,6 +16,6 @@
 @endphp
 
 <a class="nav-link" href="{{ $url }}">
-    <span class="icon-eye me-2"></span>
+    <span class="icon-eye me-1"></span>
     <span class="d-none d-lg-inline">{{ __('View website', [], config('typicms.navbar_locale')) }}</span>
 </a>

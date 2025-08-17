@@ -1,12 +1,11 @@
 <div class="header">
-    @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => $model->folder?->name ?? __('Files')])
-    @include('core::admin._title', ['default' => __('New file')])
-    @component('core::admin._buttons-form', ['model' => $model])
-    @endcomponent
+    <x-core::back-button :url="$model->indexUrl()" :title="$model->folder?->name ?? __('Files')" />
+    <x-core::title :$model :default="__('New file')" />
+    <x-core::form-buttons :$model :locales="locales()" />
 </div>
 
 <div class="content">
-    @include('core::admin._form-errors')
+    <x-core::form-errors />
 
     {!! BootForm::hidden('id') !!}
     {!! BootForm::hidden('type') !!}

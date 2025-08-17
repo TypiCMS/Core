@@ -1,12 +1,11 @@
 <div class="header">
-    @include('core::admin._button-back', ['url' => $model->indexUrl(), 'title' => __('Users')])
-    @include('core::admin._title', ['default' => __('New user')])
-    @component('core::admin._buttons-form', ['model' => $model, 'langSwitcher' => false])
-    @endcomponent
+    <x-core::back-button :url="$model->indexUrl()" :title="__('Users')" />
+    <x-core::title :$model :default="__('New user')" />
+    <x-core::form-buttons :$model :lang-switcher="false" />
 </div>
 
 <div class="content">
-    @include('core::admin._form-errors')
+    <x-core::form-errors />
 
     <div class="row gx-3">
         <div class="col-sm-6">
@@ -92,6 +91,6 @@
     <!-- Per user permissions -->
     {{--
         <label class="form-label">{{ __('User permissions') }}</label>
-        @include('core::admin._permissions-form')
+        <x-core::permissions-form />
     --}}
 </div>

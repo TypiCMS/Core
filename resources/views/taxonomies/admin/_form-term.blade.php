@@ -1,15 +1,11 @@
 <div class="header">
-    @include('core::admin._button-back', [
-        'url' => route('admin::index-terms', $taxonomy),
-        'title' => __('Terms'),
-    ])
-    @include('core::admin._title', ['default' => __('New term')])
-    @component('core::admin._buttons-form', ['model' => $model])
-    @endcomponent
+    <x-core::back-button :url="route('admin::index-terms', $taxonomy)" :title="__('Terms')" />
+    <x-core::title :$model :default="__('New term')" />
+    <x-core::form-buttons :$model :locales="locales()" />
 </div>
 
 <div class="content">
-    @include('core::admin._form-errors')
+    <x-core::form-errors />
 
-    @include('core::form._title-and-slug')
+    <x-core::title-and-slug-fields :locales="locales()" />
 </div>
