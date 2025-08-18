@@ -30,7 +30,9 @@ class FileUploader
 
         $filename = "$filenameWithoutExtension.$extension";
 
-        [$width, $height] = getimagesize($file);
+        $dimensions = getimagesize($file);
+        [$width, $height] = $dimensions !== false ? $dimensions : [0, 0];
+
         if ($extension === 'svg') {
             preg_match("#viewbox=[\"']\d* \d* (\d*) (\d*)#i", $file->getContent(), $d);
             $width = (float) $d[1];
@@ -77,10 +79,12 @@ class FileUploader
 
                     break;
             }
-            if ($deg) {
+            if ($deg && $img) {
                 $img = imagerotate($img, $deg, 0);
             }
-            imagejpeg($img, $file->getPath() . DIRECTORY_SEPARATOR . $file->getFilename(), 100);
+            if ($img) {
+                imagejpeg($img, $file->getPath() . DIRECTORY_SEPARATOR . $file->getFilename(), 100);
+            }
         }
     }
 }

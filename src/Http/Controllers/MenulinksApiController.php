@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use TypiCMS\Modules\Core\Models\Menu;
 use TypiCMS\Modules\Core\Models\Menulink;
 
 class MenulinksApiController extends BaseApiController
 {
+    /** @return array{models: Collection<int, Model>, total: int} */
     public function index(Menu $menu, Request $request): array
     {
         $userPreferences = $request->user()->preferences;

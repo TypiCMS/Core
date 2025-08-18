@@ -36,16 +36,18 @@ class TipTapHTMLObserver
             );
             $xpath = new DOMXPath($dom);
             $listItems = $xpath->query('//li');
-            foreach ($listItems as $li) {
-                $paragraphs = $xpath->query('./p', $li);
-                if ($paragraphs === false || $paragraphs->length === 0) {
-                    continue;
+            if ($listItems) {
+                foreach ($listItems as $li) {
+                    $paragraphs = $xpath->query('./p', $li);
+                    if ($paragraphs === false || $paragraphs->length === 0) {
+                        continue;
+                    }
+                    $p = $paragraphs->item(0);
+                    while ($p->firstChild !== null) {
+                        $li->insertBefore($p->firstChild, $p);
+                    }
+                    $li->removeChild($p);
                 }
-                $p = $paragraphs->item(0);
-                while ($p->firstChild !== null) {
-                    $li->insertBefore($p->firstChild, $p);
-                }
-                $li->removeChild($p);
             }
             $body = $dom->getElementsByTagName('body')->item(0);
             $result = '';

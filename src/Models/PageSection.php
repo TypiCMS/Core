@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -68,7 +69,8 @@ class PageSection extends Base implements Sortable
         'order_column_name' => 'position',
     ];
 
-    public function buildSortQuery()
+    /** @return Builder<static> */
+    public function buildSortQuery(): Builder
     {
         return static::query()->where('page_id', $this->page_id);
     }

@@ -12,6 +12,7 @@ use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Support\Config;
 use Throwable;
 use TypiCMS\Modules\Core\Models\User;
+use Webauthn\PublicKeyCredentialCreationOptions;
 
 class PasskeysApiController extends BaseApiController
 {
@@ -54,7 +55,7 @@ class PasskeysApiController extends BaseApiController
         return $user;
     }
 
-    protected function generatePasskeyOptions(): string
+    protected function generatePasskeyOptions(): string|PublicKeyCredentialCreationOptions
     {
         $generatePassKeyOptionsAction = Config::getAction('generate_passkey_register_options', GeneratePasskeyRegisterOptionsAction::class);
 

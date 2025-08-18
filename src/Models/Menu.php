@@ -81,7 +81,7 @@ class Menu extends Base
     {
         $items->each(function (Model $item, int $key) {
             /** @var Menulink $item */
-            $item->items = collect();
+            $item->items = new Collection();
             $item->href = $this->setHref($item);
             $item->class = $this->setClass($item);
         });
@@ -115,7 +115,7 @@ class Menu extends Base
      */
     public function setClass(Menulink $menulink): string
     {
-        $classArray = preg_split('/ /', (string) $menulink->class, -1, PREG_SPLIT_NO_EMPTY);
+        $classArray = (array) preg_split('/ /', (string) $menulink->class, -1, PREG_SPLIT_NO_EMPTY);
         // add active class if current uri is equal to item uri or contains
         // item uri and is bigger than 3 to avoid homepage link always active ('/', '/lg')
         $pattern = $menulink->href;

@@ -33,7 +33,7 @@ class Install extends Command
             'typicms-seeders',
         ]]);
 
-        $this->laravel['env'] = 'local';
+        app()->environment('local');
 
         // Ask for database name
         info('Setting up database…');
@@ -52,7 +52,7 @@ class Install extends Command
         $this->call('typicms:user');
 
         // Composer install
-        if (!mb_stripos(ini_get('disable_functions'), 'shell_exec')) {
+        if (function_exists('shell_exec') && !in_array('shell_exec', explode(',', (string) ini_get('disable_functions')))) {
             spin(
                 function () {
                     shell_exec('chmod 755 $(find storage -type d) 2> /dev/null');
