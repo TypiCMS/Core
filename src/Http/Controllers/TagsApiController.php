@@ -3,7 +3,6 @@
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -32,7 +31,7 @@ class TagsApiController extends BaseApiController
         return $data;
     }
 
-    /** @return Collection<int, Model> */
+    /** @return Collection<int, Tag> */
     public function tagsList(): Collection
     {
         return QueryBuilder::for(Tag::class)->get();
