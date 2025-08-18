@@ -4,8 +4,8 @@ namespace TypiCMS\Modules\Core\Composers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
-use Maatwebsite\Sidebar\SidebarGroup;
-use Maatwebsite\Sidebar\SidebarItem;
+use TypiCMS\Modules\Sidebar\SidebarGroup;
+use TypiCMS\Modules\Sidebar\SidebarItem;
 
 class SidebarViewComposer
 {

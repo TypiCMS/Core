@@ -1,5 +1,6 @@
 // @ts-ignore
 import alertify from 'alertify.js';
+
 import fetcher from './fetcher';
 
 export default (): void => {
@@ -14,12 +15,12 @@ export default (): void => {
                 throw new Error('Failed to update preferences. Network response was not ok.');
             }
         } catch (error) {
-            alertify.error(t('User preferences couldn’t be set.'));
+            alertify.error('User preferences couldn’t be set.');
             console.error('There was a problem with the fetch operation:', error);
         }
     }
 
-    document.querySelectorAll('.panel-collapse').forEach((panel: Element) => {
+    document.querySelectorAll('.sidebar-panel-collapse').forEach((panel: Element) => {
         const panelId: string | null = panel?.getAttribute('id');
 
         if (panelId) {

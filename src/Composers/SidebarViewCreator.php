@@ -3,7 +3,7 @@
 namespace TypiCMS\Modules\Core\Composers;
 
 use Illuminate\View\View;
-use Maatwebsite\Sidebar\SidebarManager;
+use TypiCMS\Modules\Sidebar\SidebarManager;
 
 readonly class SidebarViewCreator
 {

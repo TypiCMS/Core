@@ -2,7 +2,7 @@
     <nav class="typicms-navbar navbar navbar-expand justify-content-between sticky-top">
         <div class="container-fluid">
             @if (Request::segment(1) === 'admin')
-                <button class="btn btn-link d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive" aria-label="{{ __('Toggle navigation') }}">
+                <button class="btn btn-link d-lg-none px-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
             @endif
