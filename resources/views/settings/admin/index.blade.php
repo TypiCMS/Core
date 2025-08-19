@@ -9,7 +9,7 @@
     <div class="header">
         <h1 class="header-title">@lang('Settings')</h1>
         <div class="btn-toolbar header-toolbar">
-            <button class="btn btn-sm btn-primary me-2" type="submit">{{ __('Save') }}</button>
+            <button class="btn btn-sm btn-primary" type="submit">{{ __('Save') }}</button>
             @if (config('laravel-model-caching.enabled'))
                 <a class="btn btn-sm btn-light me-2" href="{{ route('admin::clear-cache') }}">
                     {{ __('Clear cache') }}
