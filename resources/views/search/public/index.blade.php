@@ -1,5 +1,7 @@
 @extends('pages::public.master')
 
+@section('canonical', url()->full())
+
 @section('bodyClass', 'body-search body-search-index body-page body-page-' . $page->id)
 
 @section('page')

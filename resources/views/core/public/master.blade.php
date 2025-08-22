@@ -16,6 +16,8 @@
     <meta property="og:image" content="@yield('ogImage')" />
     <meta name="twitter:card" content="summary_large_image" />
 
+    <link rel="canonical" href="@yield('canonical', url()->current())">
+
     @vite('resources/scss/public.scss')
 
     @include('core::public._feed-links')
