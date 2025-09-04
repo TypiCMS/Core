@@ -1,10 +1,9 @@
-#filemanager {
-    .uppy-Root {
-        font-family: $font-family-base !important;
-        color: var(--bs-body-color) !important;
-        -webkit-font-smoothing: initial !important;
-        -moz-osx-font-smoothing: initial !important;
-    }
+.filemanager .uppy-Root {
+    font-family: $font-family-base !important;
+    color: var(--bs-body-color) !important;
+    -webkit-font-smoothing: initial !important;
+    -moz-osx-font-smoothing: initial !important;
+
     .uppy-Dashboard-inner,
     .uppy-Dashboard-innerWrap {
         border-radius: $modal-content-border-radius !important;
