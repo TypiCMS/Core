@@ -116,6 +116,9 @@
 .icon-menu::before {
     content: '\e119';
 }
+.icon-arrow-up::before {
+    content: '\e04e';
+}
 
 $icon-house: '\e0f9';
 $icon-user: '\e19f';
@@ -152,3 +155,4 @@ $icon-chevron-left: '\e072';
 $icon-chevron-up: '\e074';
 $icon-users: '\e1a4';
 $icon-menu: '\e119';
+$icon-arrow-up: '\e04e';
