@@ -12,6 +12,18 @@
         <div :class="{ 'item-list-content': !subList }">
             <div :class="{ header: !subList }" class="item-list-header">
                 <div class="btn-toolbar item-list-toolbar header-toolbar">
+                    <item-list-actions
+                        v-if="$can('update ' + table) || $can('delete ' + table)"
+                        :deletable="true"
+                        :loading="loading"
+                        :number-of-checked-models="numberOfCheckedModels"
+                        :publishable="true"
+                        :duplicable="false"
+                        :table="table"
+                        @destroy="destroy"
+                        @publish="publish"
+                        @unpublish="unpublish"
+                    ></item-list-actions>
                     <slot name="buttons"></slot>
                     <div class="d-flex align-items-center">
                         <div v-if="loading" class="spinner-border spinner-border-sm text-dark" role="status">
@@ -34,11 +46,15 @@
                 </div>
             </div>
             <div class="content">
-                <sl-vue-tree-next ref="slVueTree" v-model="models" :allowMultiselect="false" @drop="drop" @toggle="toggle">
+                <sl-vue-tree-next ref="slVueTree" v-model="models" @drop="drop" @toggle="toggle">
                     <template #title="{ node }">
-                        <button v-if="$can('delete ' + table)" class="btn btn-xs btn-link" type="button" @click="deleteFromNested(node)">
-                            <x-icon class="text-danger" :size="18" stroke-width="2" />
-                        </button>
+                        <input
+                            v-if="$can('delete ' + table) || $can('update ' + table)"
+                            :checked="isChecked(node.data)"
+                            class="form-check-input me-2"
+                            type="checkbox"
+                            @change="toggleCheck(node.data)"
+                        />
 
                         <a v-if="$can('update ' + table)" :href="table + '/' + node.data.id + '/edit'" class="btn btn-light btn-xs me-2 ms-1">
                             {{ t('Edit') }}
@@ -50,7 +66,7 @@
                         </button>
                         <house-icon v-if="node.data.is_home" class="text-secondary" size="16" />
                         <lock-icon v-if="node.data.private" class="text-secondary" size="16" />
-                        <div class="title" v-html="translatable ? node.data.title_translated : node.data.title"></div>
+                        <div class="title">{{ translatable ? node.data.title_translated : node.data.title }}</div>
                         <corner-right-down-icon v-if="node.data.redirect" class="text-secondary" size="16" />
 
                         <a v-if="node.data.module" :href="'/admin/' + node.data.module" class="btn btn-xs btn-secondary fw-bold px-1 py-0">
@@ -71,12 +87,14 @@
 
 <script setup>
 import alertify from 'alertify.js';
-import { ChevronDownIcon, ChevronRightIcon, CornerRightDownIcon, HouseIcon, LockIcon, XIcon } from 'lucide-vue-next';
+import { ChevronDownIcon, ChevronRightIcon, CornerRightDownIcon, HouseIcon, LockIcon } from 'lucide-vue-next';
 import { SlVueTreeNext } from 'sl-vue-tree-next';
 import { computed, ref, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import fetcher from '../admin/fetcher';
+
+import ItemListActions from './ItemListActions.vue';
 
 const { t } = useI18n();
 
@@ -112,6 +130,7 @@ const contentLocale = ref(window.TypiCMS.content_locale);
 const loading = ref(false);
 const models = ref([]);
 const total = ref(null);
+const checkedItems = ref([]);
 const slVueTree = useTemplateRef('slVueTree');
 
 const url = computed(() => {
@@ -124,7 +143,42 @@ const url = computed(() => {
     return props.urlBase + '?' + query.join('&');
 });
 
+const flattenedModels = computed(() => {
+    const flattened = [];
+    function flatten(nodes) {
+        for (const node of nodes) {
+            flattened.push(node.data);
+            if (node.children && node.children.length > 0) {
+                flatten(node.children);
+            }
+        }
+    }
+    flatten(models.value);
+    return flattened;
+});
+
+const numberOfCheckedModels = computed(() => {
+    return checkedItems.value.length;
+});
+
 fetchData();
+
+function isChecked(model) {
+    return checkedItems.value.some((item) => item.id === model.id);
+}
+
+function toggleCheck(model) {
+    const index = checkedItems.value.findIndex((item) => item.id === model.id);
+    if (index > -1) {
+        checkedItems.value.splice(index, 1);
+    } else {
+        checkedItems.value.push(model);
+    }
+}
+
+function checkNone() {
+    checkedItems.value = [];
+}
 
 async function fetchData() {
     startLoading();
@@ -170,32 +224,144 @@ async function switchLocale(locale) {
     }
 }
 
-async function deleteFromNested(node) {
-    const model = node.data;
-    const title = model.title_translated;
+async function destroy() {
+    const deleteLimit = 100;
+
+    if (checkedItems.value.length > deleteLimit) {
+        alertify.error(
+            t('Impossible to delete more than # items in one go.', {
+                deleteLimit,
+            }),
+        );
+        return false;
+    }
     if (
         !window.confirm(
-            t('Are you sure you want to delete “{title}”?', {
-                title,
+            t('Are you sure you want to delete # items?', numberOfCheckedModels.value, {
+                count: numberOfCheckedModels.value,
             }),
         )
     ) {
         return false;
     }
-    try {
-        const response = await fetcher(props.urlBase + '/' + model.id, {
-            method: 'DELETE',
-        });
-        if (!response.ok) {
-            const responseData = await response.json();
-            throw new Error(responseData.message);
+
+    startLoading();
+
+    let successCount = 0;
+    let failCount = 0;
+
+    for (const model of checkedItems.value) {
+        try {
+            const response = await fetcher(props.urlBase + '/' + model.id, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                successCount++;
+            } else {
+                failCount++;
+            }
+        } catch (error) {
+            failCount++;
         }
-        slVueTree.value.remove([node.path]);
-        alertify.success(t('Item successfully deleted.'));
-    } catch (error) {
-        console.log(error);
-        alertify.error(t(error.message) || t('Sorry, an error occurred.'));
     }
+
+    if (successCount > 0) {
+        alertify.success(
+            t('# items deleted', successCount, {
+                count: successCount,
+            }),
+        );
+    }
+    if (failCount > 0) {
+        alertify.error(t('Some items could not be deleted.'));
+    }
+
+    stopLoading();
+    checkNone();
+    await fetchData();
+}
+
+function publish() {
+    if (
+        !window.confirm(
+            t('Are you sure you want to publish # items?', checkedItems.value.length, {
+                count: checkedItems.value.length,
+            }),
+        )
+    ) {
+        return false;
+    }
+    setStatus(1);
+}
+
+function unpublish() {
+    if (
+        !window.confirm(
+            t('Are you sure you want to unpublish # items?', checkedItems.value.length, {
+                count: checkedItems.value.length,
+            }),
+        )
+    ) {
+        return false;
+    }
+    setStatus(0);
+}
+
+async function setStatus(status) {
+    const newData = {
+            status: {},
+        },
+        label = status === 1 ? 'published' : 'unpublished';
+    let statusVar = 'status';
+
+    if (props.translatable) {
+        statusVar = 'status_translated';
+        newData.status[contentLocale.value] = status;
+    } else {
+        newData.status = status;
+    }
+
+    // Update local data first
+    checkedItems.value.forEach((checkedModel) => {
+        slVueTree.value.traverse((node) => {
+            if (node.data.id === checkedModel.id) {
+                node.data[statusVar] = status;
+                slVueTree.value.updateNode({ path: node.path, patch: node });
+            }
+        });
+    });
+
+    startLoading();
+
+    const updatePromises = checkedItems.value.map(async (model) => {
+        try {
+            const response = await fetcher(props.urlBase + '/' + model.id, {
+                method: 'PATCH',
+                body: JSON.stringify(newData),
+            });
+            return response.ok ? { success: true } : { success: false };
+        } catch (error) {
+            return { success: false };
+        }
+    });
+
+    const results = await Promise.all(updatePromises);
+    const successes = results.filter((result) => result.success);
+
+    if (successes.length > 0) {
+        alertify.success(
+            t('# items ' + label, successes.length, {
+                count: successes.length,
+            }),
+        );
+    }
+    if (successes.length < checkedItems.value.length) {
+        alertify.error(t('Some items could not be updated.'));
+    }
+
+    stopLoading();
+    checkNone();
+    await fetchData();
 }
 
 async function drop(draggingNodes, position) {
@@ -245,9 +411,24 @@ async function drop(draggingNodes, position) {
     }
 }
 
-async function toggle(node) {
+async function toggle(node, event) {
     const data = {};
     data[props.title.toLowerCase() + '_' + node.data.id + '_collapsed'] = node.isExpanded;
+
+    // Check if Option key (altKey) is pressed to expand/collapse all children
+    if (event && event.altKey) {
+        // Recursively set expansion state for all children
+        slVueTree.value.traverse((childNode, childModel) => {
+            // Check if this node is a descendant of the target node
+            if (childNode.pathStr.startsWith(node.pathStr.slice(0, -1)) && childNode.pathStr !== node.pathStr) {
+                if (!childNode.isLeaf) {
+                    childModel.isExpanded = !node.isExpanded;
+                    data[props.title.toLowerCase() + '_' + childModel.data.id + '_collapsed'] = node.isExpanded;
+                }
+            }
+        });
+    }
+
     try {
         const response = await fetcher('/api/users/current/update-preferences', {
             method: 'POST',
@@ -257,7 +438,7 @@ async function toggle(node) {
             const responseData = await response.json();
             throw new Error(responseData.message);
         }
-    } catch {
+    } catch (error) {
         alertify.error(t('User preferences couldn’t be set.'));
     }
 }

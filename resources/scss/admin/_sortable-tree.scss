@@ -8,10 +8,6 @@
     position: relative;
 }
 
-.sl-vue-tree-next-selected > .sl-vue-tree-next-node-item {
-    background-color: var(--bs-tertiary-bg);
-}
-
 .sl-vue-tree-next-node {
     &-item {
         position: relative;
@@ -20,6 +16,8 @@
         line-height: 28px;
         border: 1px solid transparent;
         border-top-color: var(--bs-border-color);
+        padding-left: $table-cell-padding-x;
+        padding-right: $table-cell-padding-x;
     }
 }
 
@@ -32,9 +30,6 @@
     .title {
         cursor: default !important;
     }
-}
-.sl-vue-tree-next-node.sl-vue-tree-next-selected .sl-vue-tree-next-node-item.sl-vue-tree-next-cursor-inside {
-    background-color: var(--bs-tertiary-bg);
 }
 
 .sl-vue-tree-next-cursor {
