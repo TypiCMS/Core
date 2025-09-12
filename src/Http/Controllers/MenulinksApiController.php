@@ -70,9 +70,7 @@ class MenulinksApiController extends BaseApiController
 
     public function destroy(Menu $menu, Menulink $menulink): JsonResponse
     {
-        if ($menulink->submenulinks->count() > 0) {
-            return response()->json(['message' => 'This item cannot be deleted because it has children.'], 403);
-        }
+        $menulink->submenulinks()->update(['parent_id' => $menulink->parent_id]);
         $menulink->delete();
 
         return response()->json(status: 204);

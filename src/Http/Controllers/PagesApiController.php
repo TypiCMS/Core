@@ -92,9 +92,8 @@ class PagesApiController extends BaseApiController
         if ($page->isHome()) {
             return response()->json(['message' => 'The home page cannot be deleted.'], 403);
         }
-        if ($page->subpages->count() > 0) {
-            return response()->json(['message' => 'This item cannot be deleted because it has children.'], 403);
-        }
+
+        $page->subpages()->update(['parent_id' => $page->parent_id]);
         $page->delete();
 
         return response()->json(status: 204);
