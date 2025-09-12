@@ -28,7 +28,7 @@ class PagesApiController extends BaseApiController
                 /** @var Page $page */
                 $page->data = $page->toArray();
                 $page->isLeaf = $page->module === null ? false : true;
-                $page->isExpanded = !Arr::get($userPreferences, 'Pages_' . $page->id . '_collapsed', false);
+                $page->isExpanded = !Arr::get($userPreferences, 'pages_' . $page->id . '_collapsed', false);
 
                 return $page;
             })

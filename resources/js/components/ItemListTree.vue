@@ -247,7 +247,7 @@ async function drop(draggingNodes, position) {
 
 async function toggle(node) {
     const data = {};
-    data[props.title + '_' + node.data.id + '_collapsed'] = node.isExpanded;
+    data[props.title.toLowerCase() + '_' + node.data.id + '_collapsed'] = node.isExpanded;
     try {
         const response = await fetcher('/api/users/current/update-preferences', {
             method: 'POST',
