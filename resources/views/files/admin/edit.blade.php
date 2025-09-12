@@ -3,7 +3,7 @@
 @section('title', $model->present()->title)
 
 @section('content')
-    {!! BootForm::open()->put()->action(route('admin::update-file', $model->id))->addClass('main-content') !!}
+    {!! BootForm::open()->put()->action(route('admin::update-file', $model->id))->addClass('main-content')->multipart() !!}
     {!! BootForm::bind($model) !!}
     @include('files::admin._form')
     {!! BootForm::close() !!}
