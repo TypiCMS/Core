@@ -47,10 +47,20 @@
 
 .sl-vue-tree-next-toggle {
     position: absolute;
-    cursor: pointer;
-    left: -15px;
-    top: 4px;
-    color: var(--bs-tertiary-color);
+    margin-left: -1.5rem;
+}
+
+.tree-toggle-btn {
+    @extend .btn;
+    @extend .btn-sm;
+    @include button-variant(transparent, transparent, $secondary);
+    padding: 0;
+    width: 1.125rem;
+    height: 1.125rem;
+    &:focus-visible {
+        @extend .focus-ring;
+        @extend .focus-ring-secondary;
+    }
 }
 
 .sl-vue-tree-next-sidebar {

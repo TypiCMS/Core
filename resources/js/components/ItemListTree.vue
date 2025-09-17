@@ -76,9 +76,18 @@
                     </template>
 
                     <template #toggle="{ node }">
-                        <chevron-down-icon v-if="node.children.length > 0 && node.isExpanded" size="16" />
-                        <chevron-right-icon v-if="node.children.length > 0 && !node.isExpanded" size="16" />
-                        <small v-else />
+                        <button
+                            v-if="node.children.length > 0"
+                            type="button"
+                            class="tree-toggle-btn"
+                            :aria-label="node.isExpanded ? t('Collapse') : t('Expand')"
+                            :aria-expanded="node.isExpanded"
+                            tabindex="0"
+                        >
+                            <chevron-down-icon v-if="node.isExpanded" size="18" />
+                            <chevron-right-icon v-else size="18" />
+                        </button>
+                        <span v-else class="tree-toggle-placeholder" />
                     </template>
                 </sl-vue-tree-next>
             </div>
