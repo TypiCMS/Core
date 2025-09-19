@@ -53,7 +53,7 @@
                             :checked="isChecked(node.data)"
                             class="form-check-input me-2"
                             type="checkbox"
-                            @change="toggleCheck(node.data)"
+                            @change="toggleCheck(node)"
                             @click="captureModifierKeys($event)"
                         />
 
@@ -180,68 +180,6 @@ function isChecked(model) {
 
 function captureModifierKeys(event) {
     lastClickEvent.value = event;
-}
-
-function toggleCheck(model) {
-    const index = checkedItems.value.findIndex((item) => item.id === model.id);
-    const isChecking = index === -1;
-
-    if (index > -1) {
-        checkedItems.value.splice(index, 1);
-    } else {
-        checkedItems.value.push(model);
-    }
-
-    // Check if Option key (altKey) is pressed to expand and check/uncheck all children
-    if (lastClickEvent.value && lastClickEvent.value.altKey) {
-        // Find the node in the tree
-        let targetNode = null;
-        slVueTree.value.traverse((node) => {
-            if (node.data.id === model.id) {
-                targetNode = node;
-                return false; // Stop traversing
-            }
-        });
-
-        if (targetNode && targetNode.children && targetNode.children.length > 0) {
-            // Expand the node if it has children and we're checking
-            if (isChecking && !targetNode.isExpanded) {
-                targetNode.isExpanded = true;
-                slVueTree.value.updateNode({ path: targetNode.path, patch: targetNode });
-            }
-
-            // Recursively check/uncheck all children
-            const checkChildren = (node) => {
-                if (node.children && node.children.length > 0) {
-                    for (const childNode of node.children) {
-                        const childIndex = checkedItems.value.findIndex((item) => item.id === childNode.data.id);
-
-                        if (isChecking) {
-                            // Expand child nodes if they have children
-                            if (childNode.children && childNode.children.length > 0 && !childNode.isExpanded) {
-                                childNode.isExpanded = true;
-                                slVueTree.value.updateNode({ path: childNode.path, patch: childNode });
-                            }
-                            // Check child if not already checked
-                            if (childIndex === -1) {
-                                checkedItems.value.push(childNode.data);
-                            }
-                        } else {
-                            // Uncheck child if checked
-                            if (childIndex > -1) {
-                                checkedItems.value.splice(childIndex, 1);
-                            }
-                        }
-
-                        // Recursively process children
-                        checkChildren(childNode);
-                    }
-                }
-            };
-
-            checkChildren(targetNode);
-        }
-    }
 }
 
 function checkNone() {
@@ -508,6 +446,56 @@ async function toggle(node, event) {
         }
     } catch (error) {
         alertify.error(t('User preferences couldn’t be set.'));
+    }
+}
+
+function toggleCheck(node) {
+    const model = node.data;
+    const index = checkedItems.value.findIndex((item) => item.id === model.id);
+    const isChecking = index === -1;
+
+    if (index > -1) {
+        checkedItems.value.splice(index, 1);
+    } else {
+        checkedItems.value.push(model);
+    }
+
+    // Check if Option key (altKey) is pressed to expand and check/uncheck all children
+    if (lastClickEvent.value && lastClickEvent.value.altKey) {
+        if (node && node.children && node.children.length > 0) {
+            // Expand the node if it has children and we're checking
+            if (!node.isExpanded) {
+                toggle(node, lastClickEvent.value);
+                node.isExpanded = true;
+                slVueTree.value.updateNode({ path: node.path, patch: node });
+            }
+
+            // Recursively check/uncheck all children
+            const checkChildren = (currentNode) => {
+                if (currentNode.children && currentNode.children.length > 0) {
+                    for (const childNode of currentNode.children) {
+                        // Expand child nodes if they have children
+                        if (childNode.children && childNode.children.length > 0 && !childNode.isExpanded) {
+                            childNode.isExpanded = true;
+                            slVueTree.value.updateNode({ path: childNode.path, patch: childNode });
+                        }
+                        const childIndex = checkedItems.value.findIndex((item) => item.id === childNode.data.id);
+                        const isChildChecked = childIndex > -1;
+
+                        if (isChecking && !isChildChecked) {
+                            checkedItems.value.push(childNode.data);
+                        } else if (!isChecking && isChildChecked) {
+                            checkedItems.value.splice(childIndex, 1);
+                        }
+
+                        // Recursively process children
+                        checkChildren(childNode);
+                    }
+                }
+            };
+
+            checkChildren(node);
+        }
     }
 }
 
