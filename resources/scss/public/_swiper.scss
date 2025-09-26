@@ -1,34 +1,34 @@
 // swiper core styles
-@import 'swiper/scss';
+@import 'swiper/css';
 
 // modules styles
-@import 'swiper/scss/navigation';
-@import 'swiper/scss/pagination';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
 
-// @import 'swiper/scss/a11y';
-@import 'swiper/scss/autoplay';
-// @import 'swiper/scss/controller';
+// @import 'swiper/css/a11y';
+@import 'swiper/css/autoplay';
+// @import 'swiper/css/controller';
 
-// @import 'swiper/scss/effect-coverflow';
-// @import 'swiper/scss/effect-cube';
-@import 'swiper/scss/effect-fade';
-// @import 'swiper/scss/effect-flip';
-// @import 'swiper/scss/effect-creative';
-// @import 'swiper/scss/effect-cards';
+// @import 'swiper/css/effect-coverflow';
+// @import 'swiper/css/effect-cube';
+@import 'swiper/css/effect-fade';
+// @import 'swiper/css/effect-flip';
+// @import 'swiper/css/effect-creative';
+// @import 'swiper/css/effect-cards';
 
-// @import 'swiper/scss/free-mode';
-// @import 'swiper/scss/grid';
-// @import 'swiper/scss/hash-navigation';
-// @import 'swiper/scss/history';
-// @import 'swiper/scss/keyboard';
-// @import 'swiper/scss/lazy';
-// @import 'swiper/scss/manipulation';
-// @import 'swiper/scss/mousewheel';
-@import 'swiper/scss/parallax';
-// @import 'swiper/scss/scrollbar';
-// @import 'swiper/scss/thumbs';
-// @import 'swiper/scss/virtual';
-// @import 'swiper/scss/zoom';
+// @import 'swiper/css/free-mode';
+// @import 'swiper/css/grid';
+// @import 'swiper/css/hash-navigation';
+// @import 'swiper/css/history';
+// @import 'swiper/css/keyboard';
+// @import 'swiper/css/lazy';
+// @import 'swiper/css/manipulation';
+// @import 'swiper/css/mousewheel';
+@import 'swiper/css/parallax';
+// @import 'swiper/css/scrollbar';
+// @import 'swiper/css/thumbs';
+// @import 'swiper/css/virtual';
+// @import 'swiper/css/zoom';
 :root {
     --swiper-theme-color: #fff;
     --swiper-navigation-size: 24px;
