@@ -155,15 +155,15 @@
 
 <script setup>
 import Uppy from '@uppy/core';
-import '@uppy/core/dist/style.css';
-import '@uppy/dashboard/dist/style.css';
+import '@uppy/core/css/style.min.css';
+import '@uppy/dashboard/css/style.min.css';
+import '@uppy/image-editor/css/style.min.css';
 import DropTarget from '@uppy/drop-target';
 import ImageEditor from '@uppy/image-editor';
-import '@uppy/image-editor/dist/style.min.css';
 import es from '@uppy/locales/lib/es_ES';
 import fr from '@uppy/locales/lib/fr_FR';
 import nl from '@uppy/locales/lib/nl_NL';
-import { Dashboard } from '@uppy/vue';
+import Dashboard from '@uppy/vue/dashboard';
 import XHRUpload from '@uppy/xhr-upload';
 import { ArrowLeftIcon, CloudUploadIcon, FileIcon, FileMusicIcon, FileVideo2Icon, FolderIcon, FolderPlusIcon, LayoutGridIcon, LayoutListIcon } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
