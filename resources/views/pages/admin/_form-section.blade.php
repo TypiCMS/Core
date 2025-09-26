@@ -10,7 +10,7 @@
     {!! BootForm::hidden('id') !!}
     {!! BootForm::hidden('page_id')->value($page->id) !!}
 
-    <file-manager related-table="{{ $model->getTable() }}" :related-id="{{ $model->id ?? 0 }}"></file-manager>
+    <file-manager></file-manager>
     <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>
     <files-field :init-files="{{ $model->files }}"></files-field>
 

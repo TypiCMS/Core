@@ -4,7 +4,7 @@
     <x-core::form-buttons :$model :locales="locales()" />
 </div>
 
-<file-manager related-table="{{ $model->getTable() }}" :related-id="{{ $model->id ?? 0 }}"></file-manager>
+<file-manager></file-manager>
 
 <div class="content">
     <x-core::form-errors />
