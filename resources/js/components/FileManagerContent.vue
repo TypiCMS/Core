@@ -107,6 +107,7 @@
                 :uppy="uppy"
             />
             <div :class="{ 'filemanager-view-list': view === 'list' }" class="filemanager-list" @click="checkNone()">
+                <p class="my-3 text-muted" v-if="filteredItems.length === 0">{{ t('The folder is empty.') }}</p>
                 <div
                     v-for="item in filteredItems"
                     :key="item.id"
