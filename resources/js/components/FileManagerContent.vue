@@ -154,6 +154,7 @@
 </template>
 
 <script setup>
+import Compressor from '@uppy/compressor';
 import Uppy from '@uppy/core';
 import '@uppy/core/css/style.min.css';
 import '@uppy/dashboard/css/style.min.css';
@@ -204,6 +205,7 @@ const selectedItems = ref([]);
 const deleteLimit = ref(100);
 const urlBase = ref('/api/files');
 const maxFilesize = ref(window.TypiCMS.max_file_upload_size);
+const compressorJsConfiguration = ref(window.TypiCMS.compressor_js_configuration);
 const folder = ref({ id: '' });
 const data = ref({ models: [], path: [] });
 
@@ -242,6 +244,7 @@ const uppy = computed(() => {
             ],
         },
     })
+        .use(Compressor, compressorJsConfiguration.value)
         .use(DropTarget, {
             target: document.body,
         })

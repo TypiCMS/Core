@@ -77,6 +77,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Compressor.js configuration, used for image uploads.
+    |--------------------------------------------------------------------------
+    */
+    'compressor_js_configuration' => [
+        'maxWidth' => 3000,
+        'maxHeight' => 2400,
+        'retainExif' => true,
+        'convertTypes' => ['image/png'],
+        'convertSize' => 2500000,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Welcome message URL for the admin’s dashboard
     |--------------------------------------------------------------------------
     */
