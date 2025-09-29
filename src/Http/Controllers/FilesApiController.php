@@ -2,8 +2,8 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Exception;
 use Bkwld\Croppa\Facades\Croppa;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;

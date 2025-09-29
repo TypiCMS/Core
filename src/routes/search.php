@@ -1,9 +1,9 @@
 <?php
 
-use TypiCMS\Modules\Core\Models\Page;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use TypiCMS\Modules\Core\Http\Controllers\SearchPublicController;
+use TypiCMS\Modules\Core\Models\Page;
 
 /*
  * Front office routes

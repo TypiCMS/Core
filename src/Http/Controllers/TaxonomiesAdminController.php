@@ -18,7 +18,7 @@ class TaxonomiesAdminController extends BaseAdminController
     public function create(): View
     {
         $model = new Taxonomy();
-        $modules = array_filter(config('typicms.modules'), fn(array $item): bool => isset($item['has_taxonomies']) && $item['has_taxonomies'] === true);
+        $modules = array_filter(config('typicms.modules'), fn (array $item): bool => isset($item['has_taxonomies']) && $item['has_taxonomies'] === true);
 
         return view('taxonomies::admin.create')
             ->with(['model' => $model, 'modules' => $modules]);
@@ -26,7 +26,7 @@ class TaxonomiesAdminController extends BaseAdminController
 
     public function edit(Taxonomy $taxonomy): View
     {
-        $modules = array_filter(config('typicms.modules'), fn(array $item): bool => isset($item['has_taxonomies']) && $item['has_taxonomies'] === true);
+        $modules = array_filter(config('typicms.modules'), fn (array $item): bool => isset($item['has_taxonomies']) && $item['has_taxonomies'] === true);
 
         return view('taxonomies::admin.edit')
             ->with(['model' => $taxonomy, 'modules' => $modules]);

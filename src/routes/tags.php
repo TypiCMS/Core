@@ -1,11 +1,11 @@
 <?php
 
-use TypiCMS\Modules\Core\Models\Page;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use TypiCMS\Modules\Core\Http\Controllers\TagsAdminController;
 use TypiCMS\Modules\Core\Http\Controllers\TagsApiController;
 use TypiCMS\Modules\Core\Http\Controllers\TagsPublicController;
+use TypiCMS\Modules\Core\Models\Page;
 
 /*
  * Front office routes

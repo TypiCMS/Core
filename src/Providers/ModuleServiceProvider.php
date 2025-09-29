@@ -260,8 +260,8 @@ class ModuleServiceProvider extends ServiceProvider
         | Blade directives.
         |--------------------------------------------------------------------------
         */
-        Blade::directive('block', fn($name): string => "<?php echo Blocks::render({$name}) ?>");
-        Blade::directive('menu', fn($name): string => "<?php echo view('menus::public._menu', ['name' => {$name}]) ?>");
+        Blade::directive('block', fn ($name): string => "<?php echo Blocks::render({$name}) ?>");
+        Blade::directive('menu', fn ($name): string => "<?php echo view('menus::public._menu', ['name' => {$name}]) ?>");
     }
 
     /**
