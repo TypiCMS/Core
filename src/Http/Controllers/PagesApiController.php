@@ -24,10 +24,10 @@ class PagesApiController extends BaseApiController
 
         $models = $query
             ->get()
-            ->map(function (Model $page) use ($userPreferences) {
+            ->map(function (Model $page) use ($userPreferences): Model {
                 /** @var Page $page */
                 $page->data = $page->toArray();
-                $page->isLeaf = $page->module === null ? false : true;
+                $page->isLeaf = $page->module !== null;
                 $page->isExpanded = !Arr::get($userPreferences, 'pages_' . $page->id . '_collapsed', false);
 
                 return $page;
@@ -35,7 +35,7 @@ class PagesApiController extends BaseApiController
             ->childrenName('children')
             ->nest();
 
-        return compact('models', 'total');
+        return ['models' => $models, 'total' => $total];
     }
 
     /** @return list<array<int, mixed>> */
@@ -54,21 +54,6 @@ class PagesApiController extends BaseApiController
         }
 
         return $pages;
-    }
-
-    protected function updatePartial(Page $page, Request $request): void
-    {
-        foreach ($request->only('status') as $key => $content) {
-            if ($page->isTranslatableAttribute($key)) {
-                foreach ($content as $lang => $value) {
-                    $page->setTranslation($key, $lang, $value);
-                }
-            } else {
-                $page->{$key} = $content;
-            }
-        }
-
-        $page->save();
     }
 
     public function sort(Request $request): void
@@ -97,5 +82,20 @@ class PagesApiController extends BaseApiController
         $page->delete();
 
         return response()->json(status: 204);
+    }
+
+    protected function updatePartial(Page $page, Request $request): void
+    {
+        foreach ($request->only('status') as $key => $content) {
+            if ($page->isTranslatableAttribute($key)) {
+                foreach ($content as $lang => $value) {
+                    $page->setTranslation($key, $lang, $value);
+                }
+            } else {
+                $page->{$key} = $content;
+            }
+        }
+
+        $page->save();
     }
 }

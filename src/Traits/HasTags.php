@@ -10,7 +10,7 @@ trait HasTags
 {
     public static function bootHasTags(): void
     {
-        static::saved(function (mixed $model) {
+        static::saved(function (mixed $model): void {
             if (request()->has('tags')) {
                 $tags = array_filter(array_map('trim', explode(',', request()->string('tags'))));
 
@@ -34,7 +34,7 @@ trait HasTags
 
                     // Add remaining tags as new
                     foreach ($tags as $tag) {
-                        $returnTags[] = Tag::create([
+                        $returnTags[] = Tag::query()->create([
                             'tag' => $tag,
                             'slug' => Str::slug($tag),
                         ]);

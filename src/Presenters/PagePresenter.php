@@ -10,15 +10,14 @@ class PagePresenter extends Presenter
     public function parentUri(string $locale): string
     {
         $parentUri = $this->entity->translate('uri', $locale) ?: '/';
-        $parentUri = explode('/', $parentUri);
+        $parentUri = explode('/', (string) $parentUri);
         array_pop($parentUri);
-        $parentUri = implode('/', $parentUri) . '/';
 
-        return $parentUri;
+        return implode('/', $parentUri) . '/';
     }
 
     public function metaTitle(): string
     {
-        return !empty($this->entity->meta_title) ? $this->entity->meta_title : $this->entity->title;
+        return empty($this->entity->meta_title) ? $this->entity->title : $this->entity->meta_title;
     }
 }

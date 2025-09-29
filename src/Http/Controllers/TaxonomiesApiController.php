@@ -16,14 +16,13 @@ class TaxonomiesApiController extends BaseApiController
     public function index(Request $request): LengthAwarePaginator
     {
         $query = Taxonomy::query()->selectFields();
-        $data = QueryBuilder::for($query)
+
+        return QueryBuilder::for($query)
             ->allowedSorts(['title_translated', 'validation_rule', 'result_string_translated', 'position', 'name'])
             ->allowedFilters([
                 AllowedFilter::custom('title,name,validation_rule,result_string', new FilterOr()),
             ])
             ->paginate($request->integer('per_page'));
-
-        return $data;
     }
 
     protected function updatePartial(Taxonomy $taxonomy, Request $request): void

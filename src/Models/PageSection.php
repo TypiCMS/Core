@@ -85,7 +85,7 @@ class PageSection extends Base implements Sortable
 
     public function url(?string $locale = null): string
     {
-        $locale = $locale ?: app()->getLocale();
+        $locale ??= app()->getLocale();
 
         return $this->page->url($locale) . '#' . $this->position . '-' . $this->translate('slug', $locale);
     }

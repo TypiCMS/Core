@@ -15,7 +15,7 @@ class SettingsAdminController extends BaseAdminController
     public function index(): View
     {
         $data = new stdClass();
-        foreach (Setting::get() as $model) {
+        foreach (Setting::query()->get() as $model) {
             $value = is_numeric($model->value) ? (int) $model->value : $model->value;
             $group_name = $model->group_name;
             $key_name = $model->key_name;
@@ -30,7 +30,7 @@ class SettingsAdminController extends BaseAdminController
         }
 
         return view('settings::admin.index')
-            ->with(compact('data'));
+            ->with(['data' => $data]);
     }
 
     public function save(Request $request, FileUploader $fileUploader): RedirectResponse
@@ -43,7 +43,7 @@ class SettingsAdminController extends BaseAdminController
                 $group_name = 'config';
             }
             foreach ($array as $key_name => $value) {
-                $model = Setting::firstOrCreate(['key_name' => $key_name, 'group_name' => $group_name]);
+                $model = Setting::query()->firstOrCreate(['key_name' => $key_name, 'group_name' => $group_name]);
                 $model->value = $value;
                 $model->save();
             }
@@ -58,6 +58,6 @@ class SettingsAdminController extends BaseAdminController
         $message = __('Cache cleared.');
 
         return redirect()->route('admin::index-settings')
-            ->with(compact('message'));
+            ->with(['message' => $message]);
     }
 }

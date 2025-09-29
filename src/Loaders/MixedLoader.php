@@ -37,10 +37,10 @@ class MixedLoader extends FileLoader
     public function loadFromDatabase(string $locale, string $group, ?string $namespace = null): array
     {
         try {
-            return Translation::select(DB::raw("JSON_UNQUOTE(JSON_EXTRACT(`translation`, '$." . $locale . "')) AS translated"), 'key')
+            return Translation::query()->select(DB::raw("JSON_UNQUOTE(JSON_EXTRACT(`translation`, '$." . $locale . "')) AS translated"), 'key')
                 ->pluck('translated', 'key')
                 ->all();
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
 
         return [];

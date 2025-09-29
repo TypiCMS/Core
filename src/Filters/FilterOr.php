@@ -21,7 +21,7 @@ class FilterOr implements Filter
 
         $columns = explode(',', $property);
 
-        return $query->where(function (Builder $query) use ($columns, $value) {
+        return $query->where(function (Builder $query) use ($columns, $value): void {
             foreach ($columns as $column) {
                 $model = $query->getModel();
                 if (property_exists($model, 'translatable') && in_array($column, (array) $model->translatable)) {

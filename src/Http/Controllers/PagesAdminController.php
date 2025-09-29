@@ -19,7 +19,7 @@ class PagesAdminController extends BaseAdminController
         $model = new Page();
 
         return view('pages::admin.create')
-            ->with(compact('model'));
+            ->with(['model' => $model]);
     }
 
     public function edit(Page $page): View

@@ -18,7 +18,8 @@ class TagsApiController extends BaseApiController
     public function index(Request $request): LengthAwarePaginator
     {
         $query = Tag::query()->selectFields();
-        $data = QueryBuilder::for($query)
+
+        return QueryBuilder::for($query)
             ->allowedSorts(['tag', 'uses'])
             ->allowedFilters([
                 AllowedFilter::custom('tag', new FilterOr()),
@@ -27,8 +28,6 @@ class TagsApiController extends BaseApiController
                 'uses' => DB::table('taggables')->selectRaw('COUNT(*)')->whereColumn('tags.id', 'taggables.tag_id'),
             ])
             ->paginate($request->integer('per_page'));
-
-        return $data;
     }
 
     /** @return Collection<int, Tag> */

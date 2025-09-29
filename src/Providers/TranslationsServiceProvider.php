@@ -12,8 +12,6 @@ class TranslationsServiceProvider extends LaravelTranslationServiceProvider
      */
     protected function registerLoader()
     {
-        $this->app->singleton('translation.loader', function ($app) {
-            return new MixedLoader($app['files'], $app['path.lang']);
-        });
+        $this->app->singleton('translation.loader', fn ($app): MixedLoader => new MixedLoader($app['files'], $app['path.lang']));
     }
 }

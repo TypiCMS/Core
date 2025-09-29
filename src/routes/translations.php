@@ -8,7 +8,7 @@ use TypiCMS\Modules\Core\Http\Controllers\TranslationsApiController;
 /*
  * Admin routes
  */
-Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router) {
+Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router): void {
     $router->get('translations', [TranslationsAdminController::class, 'index'])->name('index-translations')->middleware('can:read translations');
     $router->get('translations/create', [TranslationsAdminController::class, 'create'])->name('create-translation')->middleware('can:create translations');
     $router->get('translations/{translation}/edit', [TranslationsAdminController::class, 'edit'])->name('edit-translation')->middleware('can:read translations');
@@ -19,7 +19,7 @@ Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Ro
 /*
  * API routes
  */
-Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router) {
+Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
     $router->get('translations', [TranslationsApiController::class, 'index'])->middleware('can:read translations');
     $router->patch('translations/{translation}', [TranslationsApiController::class, 'updatePartial'])->middleware('can:update translations');
     $router->delete('translations/{translation}', [TranslationsApiController::class, 'destroy'])->middleware('can:delete translations');

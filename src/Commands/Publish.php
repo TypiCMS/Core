@@ -76,7 +76,10 @@ class Publish extends Command
         ]);
 
         foreach ($manager->listContents('from://', true) as $file) {
-            if (mb_substr($file['path'], 0, 15) === 'resources/views' || mb_substr($file['path'], 0, 16) === 'resources/assets') {
+            if (mb_substr((string) $file['path'], 0, 15) === 'resources/views') {
+                continue;
+            }
+            if (mb_substr((string) $file['path'], 0, 16) === 'resources/assets') {
                 continue;
             }
             $path = Str::after($file['path'], 'from://');
@@ -106,7 +109,7 @@ class Publish extends Command
 
         if (function_exists('shell_exec') && !in_array('shell_exec', explode(',', (string) ini_get('disable_functions')))) {
             spin(
-                fn () => shell_exec($uninstallCommand),
+                fn (): string|false|null => shell_exec($uninstallCommand),
                 'Uninstall ' . $this->module . ' from composer…'
             );
         } else {

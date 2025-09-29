@@ -10,19 +10,19 @@ trait Historable
 {
     public static function bootHistorable(): void
     {
-        static::created(function (mixed $model) {
+        static::created(function (mixed $model): void {
             $model->writeHistory('created', Str::limit($model->present()->title, 200, '…'), [], $model->toArray());
         });
 
-        static::updated(function (mixed $model) {
+        static::updated(function (mixed $model): void {
             $action = 'updated';
 
             $new = [];
             $old = [];
             foreach ($model->attributes as $key => $value) {
-                if ($model->translatable and in_array($key, $model->translatable)) {
+                if ($model->translatable && in_array($key, $model->translatable)) {
                     $values = (array) json_decode($value);
-                    $originalValues = (array) json_decode($model->original[$key]);
+                    $originalValues = (array) json_decode((string) $model->original[$key]);
                     foreach ($values as $locale => $newItem) {
                         if (isset($originalValues[$locale]) && $newItem !== $originalValues[$locale]) {
                             $new[$key][$locale] = $newItem;
@@ -41,7 +41,7 @@ trait Historable
             $model->writeHistory($action, Str::limit($model->present()->title, 200, '…'), $old, $new);
         });
 
-        static::deleted(function (mixed $model) {
+        static::deleted(function (mixed $model): void {
             $model->writeHistory('deleted', Str::limit($model->present()->title, 200, '…'));
         });
     }
@@ -56,7 +56,7 @@ trait Historable
     {
         History::query()->create([
             'historable_id' => $this->getKey(),
-            'historable_type' => get_class($this),
+            'historable_type' => $this::class,
             'user_id' => auth()->id(),
             'title' => $title,
             'historable_table' => $this->getTable(),

@@ -17,7 +17,8 @@ class PageSectionsApiController extends BaseApiController
     public function index(Page $page, Request $request): LengthAwarePaginator
     {
         $query = PageSection::query()->selectFields();
-        $data = QueryBuilder::for($query)
+
+        return QueryBuilder::for($query)
             ->allowedSorts(['status_translated', 'position', 'title_translated'])
             ->allowedFilters([
                 AllowedFilter::custom('title', new FilterOr()),
@@ -25,8 +26,6 @@ class PageSectionsApiController extends BaseApiController
             ->allowedIncludes(['image'])
             ->where('page_id', $page->id)
             ->paginate($request->integer('per_page'));
-
-        return $data;
     }
 
     protected function updatePartial(Page $page, PageSection $section, Request $request): void

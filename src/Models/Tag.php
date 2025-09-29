@@ -35,7 +35,7 @@ class Tag extends Base
 
     public function url(?string $locale = null): string
     {
-        $locale = $locale ?: app()->getLocale();
+        $locale ??= app()->getLocale();
         $route = $locale . '::tag';
         $slug = $this->slug ?: null;
 

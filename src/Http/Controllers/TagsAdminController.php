@@ -19,7 +19,7 @@ class TagsAdminController extends BaseAdminController
         $model = new Tag();
 
         return view('tags::admin.create')
-            ->with(compact('model'));
+            ->with(['model' => $model]);
     }
 
     public function edit(Tag $tag): View

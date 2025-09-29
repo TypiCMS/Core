@@ -18,14 +18,13 @@ class TermsApiController extends BaseApiController
     {
         $query = Term::query()->selectFields()
             ->where('taxonomy_id', $taxonomy->id);
-        $data = QueryBuilder::for($query)
+
+        return QueryBuilder::for($query)
             ->allowedSorts(['title_translated', 'position'])
             ->allowedFilters([
                 AllowedFilter::custom('title', new FilterOr()),
             ])
             ->paginate($request->integer('per_page'));
-
-        return $data;
     }
 
     protected function updatePartial(Taxonomy $taxonomy, Term $term, Request $request): void

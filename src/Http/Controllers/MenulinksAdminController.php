@@ -15,7 +15,7 @@ class MenulinksAdminController extends BaseAdminController
         $model = new Menulink();
 
         return view('menus::admin.create-menulink')
-            ->with(compact('model', 'menu'));
+            ->with(['model' => $model, 'menu' => $menu]);
     }
 
     public function edit(Menu $menu, Menulink $menulink): View

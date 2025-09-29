@@ -34,7 +34,7 @@ abstract class Base extends Model
 
     public function isPublished(?string $locale = null): bool
     {
-        $locale = $locale ?: app()->getLocale();
+        $locale ??= app()->getLocale();
 
         return (bool) $this->translate('status', $locale);
     }
@@ -99,11 +99,10 @@ abstract class Base extends Model
                             '
                             );
                     }
-                } else {
-                    if (config('typicms.postgresql') === true) {
-                        $query
-                            ->selectRaw(
-                                '
+                } elseif (config('typicms.postgresql') === true) {
+                    $query
+                        ->selectRaw(
+                            '
                                 CASE WHEN
                                     ' . $field . '::json->>\'' . $locale . '\' = null
                                 THEN
@@ -113,11 +112,11 @@ abstract class Base extends Model
                                 END
                                 AS  ' . $field . '_translated
                             '
-                            );
-                    } else {
-                        $query
-                            ->selectRaw(
-                                '
+                        );
+                } else {
+                    $query
+                        ->selectRaw(
+                            '
                                 CASE WHEN
                                 JSON_UNQUOTE(
                                     JSON_EXTRACT(`' . $field . '`, \'$.' . $locale . '\')
@@ -127,11 +126,10 @@ abstract class Base extends Model
                                     JSON_EXTRACT(`' . $field . '`, \'$.' . $locale . '\')
                                 )
                                 END ' .
-                                (config('typicms.mariadb') === false ? 'COLLATE ' . (DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci') : '') . '
+                            (config('typicms.mariadb') === false ? 'COLLATE ' . (DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci') : '') . '
                                 AS `' . $field . '_translated`
                             '
-                            );
-                    }
+                        );
                 }
             } else {
                 $query->addSelect($field);
@@ -145,10 +143,8 @@ abstract class Base extends Model
         return Attribute::make(
             set: function ($status) {
                 if (is_array($status)) {
-                    $status = json_encode(
-                        array_map(function ($item) {
-                            return (int) $item;
-                        }, $status)
+                    return json_encode(
+                        array_map(fn ($item): int => (int) $item, $status)
                     );
                 }
 

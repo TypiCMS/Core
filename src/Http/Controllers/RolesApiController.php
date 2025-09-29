@@ -15,14 +15,12 @@ class RolesApiController extends BaseApiController
     /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
     {
-        $data = QueryBuilder::for(Role::class)
+        return QueryBuilder::for(Role::class)
             ->allowedSorts(['name'])
             ->allowedFilters([
                 AllowedFilter::custom('name', new FilterOr()),
             ])
             ->paginate($request->integer('per_page'));
-
-        return $data;
     }
 
     public function destroy(Role $role): JsonResponse

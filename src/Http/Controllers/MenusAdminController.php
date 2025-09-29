@@ -19,7 +19,7 @@ class MenusAdminController extends BaseAdminController
         $model = new Menu();
 
         return view('menus::admin.create')
-            ->with(compact('model'));
+            ->with(['model' => $model]);
     }
 
     public function edit(Menu $menu): View

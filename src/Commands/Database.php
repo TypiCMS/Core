@@ -2,7 +2,6 @@
 
 namespace TypiCMS\Modules\Core\Commands;
 
-use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
@@ -66,11 +65,7 @@ class Database extends Command
             '${1}' . $dbUserName,
             '${1}' . $dbPassword,
         ];
-        $contents = preg_replace($search, $replace, $contents);
-
-        if (!$contents) {
-            throw new Exception('Error while writing credentials to .env file.');
-        }
+        $contents = (string) preg_replace($search, $replace, $contents);
 
         // Set DB username and password in config
         $this->laravel['config']['database.connections.mysql.host'] = $dbAddress;

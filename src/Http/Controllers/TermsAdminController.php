@@ -13,7 +13,7 @@ class TermsAdminController extends BaseAdminController
     public function index(Taxonomy $taxonomy): View
     {
         return view('taxonomies::admin.index-terms')
-            ->with(compact('taxonomy'));
+            ->with(['taxonomy' => $taxonomy]);
     }
 
     public function create(Taxonomy $taxonomy): View
@@ -21,7 +21,7 @@ class TermsAdminController extends BaseAdminController
         $model = new Term();
 
         return view('taxonomies::admin.create-term')
-            ->with(compact('model', 'taxonomy'));
+            ->with(['model' => $model, 'taxonomy' => $taxonomy]);
     }
 
     public function edit(Taxonomy $taxonomy, Term $term): View

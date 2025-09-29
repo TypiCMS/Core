@@ -10,7 +10,7 @@ use TypiCMS\Modules\Core\Http\Controllers\TermsApiController;
 /*
  * Admin routes
  */
-Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router) {
+Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router): void {
     $router->get('taxonomies', [TaxonomiesAdminController::class, 'index'])->name('index-taxonomies')->middleware('can:read taxonomies');
     $router->get('taxonomies/export', [TaxonomiesAdminController::class, 'export'])->name('export-taxonomies')->middleware('can:read taxonomies');
     $router->get('taxonomies/create', [TaxonomiesAdminController::class, 'create'])->name('create-taxonomy')->middleware('can:create taxonomies');
@@ -28,7 +28,7 @@ Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Ro
 /*
  * API routes
  */
-Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router) {
+Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
     $router->get('taxonomies', [TaxonomiesApiController::class, 'index'])->middleware('can:read taxonomies');
     $router->patch('taxonomies/{taxonomy}', [TaxonomiesApiController::class, 'updatePartial'])->middleware('can:update taxonomies');
     $router->delete('taxonomies/{taxonomy}', [TaxonomiesApiController::class, 'destroy'])->middleware('can:delete taxonomies');

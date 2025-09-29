@@ -39,7 +39,10 @@ class TipTapHTMLObserver
             if ($listItems) {
                 foreach ($listItems as $li) {
                     $paragraphs = $xpath->query('./p', $li);
-                    if ($paragraphs === false || $paragraphs->length === 0) {
+                    if ($paragraphs === false) {
+                        continue;
+                    }
+                    if ($paragraphs->length === 0) {
                         continue;
                     }
                     $p = $paragraphs->item(0);

@@ -31,7 +31,7 @@ class CreateUser extends Command
         $email = text(
             label: 'Enter your email address',
             required: 'The email address is required.',
-            validate: fn (string $value) => match (true) {
+            validate: fn (string $value): ?string => match (true) {
                 !filter_var($value, FILTER_VALIDATE_EMAIL) => 'The email address is not valid.',
                 default => null
             }
@@ -48,7 +48,7 @@ class CreateUser extends Command
         try {
             User::query()->create($data);
             info('Superuser created.');
-        } catch (Exception $e) {
+        } catch (Exception) {
             error('The user could not be created.');
         }
     }

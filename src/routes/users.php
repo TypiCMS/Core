@@ -14,7 +14,7 @@ use TypiCMS\Modules\Core\Http\Middleware\JavaScriptData;
  * Front office routes
  */
 foreach (locales() as $lang) {
-    Route::middleware(['public', JavaScriptData::class])->prefix($lang)->name($lang . '::')->group(function (Router $router) {
+    Route::middleware(['public', JavaScriptData::class])->prefix($lang)->name($lang . '::')->group(function (Router $router): void {
         if (config('typicms.registration.allowed')) {
             // Registration
             $router->get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
@@ -27,7 +27,7 @@ foreach (locales() as $lang) {
         $router->post('otp-login', [AuthController::class, 'submitOneTimePasswordLoginForm'])->name('send-one-time-password');
         $router->get('otp-login-code', [AuthController::class, 'showOneTimePasswordForm'])->name('login-code');
         $router->post('otp-login-code', [AuthController::class, 'submitOneTimePassword'])->name('submit-one-time-password');
-        $router->middleware('auth')->group(function (Router $router) {
+        $router->middleware('auth')->group(function (Router $router): void {
             // Require passkey creation
             $router->get('create-passkey', [AuthController::class, 'showPasskeyCreationForm'])->name('create-passkey');
         });
@@ -38,14 +38,14 @@ foreach (locales() as $lang) {
     });
 }
 
-Route::middleware('web')->group(function (Router $router) {
+Route::middleware('web')->group(function (Router $router): void {
     Route::passkeys();
 });
 
 /*
  * Admin routes
  */
-Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router) {
+Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router): void {
     $router->get('users', [UsersAdminController::class, 'index'])->name('index-users')->middleware('can:read users');
     $router->get('users/export', [UsersAdminController::class, 'export'])->name('export-users')->middleware('can:read users');
     $router->get('users/create', [UsersAdminController::class, 'create'])->name('create-user')->middleware('can:create users');
@@ -58,7 +58,7 @@ Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Ro
 /*
  * API routes
  */
-Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router) {
+Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
     $router->get('users', [UsersApiController::class, 'index'])->middleware('can:read users');
     $router->post('users/current/update-preferences', [UsersApiController::class, 'updatePreferences'])->middleware('can:update users');
     $router->delete('users/{user}', [UsersApiController::class, 'destroy'])->middleware('can:delete users');

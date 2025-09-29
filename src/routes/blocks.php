@@ -8,7 +8,7 @@ use TypiCMS\Modules\Core\Http\Controllers\ApiController;
 /*
  * Admin routes
  */
-Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router) {
+Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router): void {
     $router->get('blocks', [AdminController::class, 'index'])->name('index-blocks')->middleware('can:read blocks');
     $router->get('blocks/create', [AdminController::class, 'create'])->name('create-block')->middleware('can:create blocks');
     $router->get('blocks/{block}/edit', [AdminController::class, 'edit'])->name('edit-block')->middleware('can:read blocks');
@@ -19,7 +19,7 @@ Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Ro
 /*
  * API routes
  */
-Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router) {
+Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
     $router->get('blocks', [ApiController::class, 'index'])->middleware('can:read blocks');
     $router->patch('blocks/{block}', [ApiController::class, 'updatePartial'])->middleware('can:update blocks');
     $router->delete('blocks/{block}', [ApiController::class, 'destroy'])->middleware('can:delete blocks');

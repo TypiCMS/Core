@@ -12,7 +12,7 @@ class AuthenticatePasskey extends Component
 
     public function render(): View
     {
-        if ($this->redirect) {
+        if ($this->redirect !== null && $this->redirect !== '') {
             Session::put('passkeys.redirect', $this->redirect);
         }
 

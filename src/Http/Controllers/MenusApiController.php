@@ -16,15 +16,14 @@ class MenusApiController extends BaseApiController
     public function index(Request $request): LengthAwarePaginator
     {
         $query = Menu::query()->selectFields();
-        $data = QueryBuilder::for($query)
+
+        return QueryBuilder::for($query)
             ->allowedSorts(['status_translated', 'name'])
             ->allowedFilters([
                 AllowedFilter::custom('name', new FilterOr()),
             ])
             ->allowedIncludes(['image'])
             ->paginate($request->integer('per_page'));
-
-        return $data;
     }
 
     protected function updatePartial(Menu $menu, Request $request): void

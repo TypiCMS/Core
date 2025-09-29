@@ -10,7 +10,7 @@ use TypiCMS\Modules\Core\Http\Controllers\MenusApiController;
 /*
  * Admin routes
  */
-Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router) {
+Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router): void {
     $router->get('menus', [MenusAdminController::class, 'index'])->name('index-menus')->middleware('can:read menus');
     $router->get('menus/create', [MenusAdminController::class, 'create'])->name('create-menu')->middleware('can:create menus');
     $router->get('menus/{menu}/edit', [MenusAdminController::class, 'edit'])->name('edit-menu')->middleware('can:read menus');
@@ -26,7 +26,7 @@ Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Ro
 /*
  * API routes
  */
-Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router) {
+Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
     $router->get('menus', [MenusApiController::class, 'index'])->middleware('can:read menus');
     $router->patch('menus/{menu}', [MenusApiController::class, 'updatePartial'])->middleware('can:update menus');
     $router->delete('menus/{menu}', [MenusApiController::class, 'destroy'])->middleware('can:delete menus');

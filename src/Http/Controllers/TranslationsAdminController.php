@@ -19,7 +19,7 @@ class TranslationsAdminController extends BaseAdminController
         $model = new Translation();
 
         return view('translations::admin.create')
-            ->with(compact('model'));
+            ->with(['model' => $model]);
     }
 
     public function edit(Translation $translation): View

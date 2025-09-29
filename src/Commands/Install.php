@@ -54,7 +54,7 @@ class Install extends Command
         // Composer install
         if (function_exists('shell_exec') && !in_array('shell_exec', explode(',', (string) ini_get('disable_functions')))) {
             spin(
-                function () {
+                function (): void {
                     shell_exec('chmod 755 $(find storage -type d) 2> /dev/null');
                     shell_exec('chmod 755 $(find bootstrap/cache -type d) 2> /dev/null');
                 },
@@ -62,12 +62,12 @@ class Install extends Command
             );
 
             spin(
-                fn () => shell_exec('bun i 2> /dev/null'),
+                fn (): string|false|null => shell_exec('bun i 2> /dev/null'),
                 'Install packages with bun…'
             );
 
             spin(
-                fn () => shell_exec('bun run build 2> /dev/null'),
+                fn (): string|false|null => shell_exec('bun run build 2> /dev/null'),
                 'Compiling assets…'
             );
         } else {
@@ -92,7 +92,7 @@ class Install extends Command
             $name = explode('.', $segments[1])[0];
 
             return Str::slug($name);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return '';
         }
     }

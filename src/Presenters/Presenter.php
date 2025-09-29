@@ -84,7 +84,7 @@ abstract class Presenter extends BasePresenter
         }
 
         if (!is_file(Storage::path($path))) {
-            $path = $this->imgNotFound();
+            return $this->imgNotFound();
         }
 
         return $path;
@@ -136,7 +136,7 @@ abstract class Presenter extends BasePresenter
             return '';
         }
 
-        return strip_tags($this->entity->title);
+        return strip_tags((string) $this->entity->title);
     }
 
     public function body(): string
@@ -150,7 +150,7 @@ abstract class Presenter extends BasePresenter
     public function dynamicLinks(string $property = 'body'): string
     {
         $text = $this->entity->$property;
-        preg_match_all('/{!! ([a-z]+):([0-9]+) !!}/', $text, $matches, PREG_SET_ORDER);
+        preg_match_all('/{!! ([a-z]+):(d+) !!}/', (string) $text, $matches, PREG_SET_ORDER);
         $patterns = [];
         $replacements = [];
         $lang = app()->getLocale();
@@ -173,12 +173,10 @@ abstract class Presenter extends BasePresenter
             }
             if ($module === 'page') {
                 $replacements[] = $model->url($lang);
+            } elseif (Route::has($lang . '::' . $module)) {
+                $replacements[] = route($lang . '::' . $module, $model->slug);
             } else {
-                if (Route::has($lang . '::' . $module)) {
-                    $replacements[] = route($lang . '::' . $module, $model->slug);
-                } else {
-                    $replacements[] = '';
-                }
+                $replacements[] = '';
             }
         }
 

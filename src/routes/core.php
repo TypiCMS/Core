@@ -7,6 +7,6 @@ use TypiCMS\Modules\Core\Http\Controllers\LocaleController;
 /*
  * Admin routes
  */
-Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router) {
+Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router): void {
     $router->get('_locale/{locale}', [LocaleController::class, 'setContentLocale'])->name('change-locale');
 });

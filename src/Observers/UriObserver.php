@@ -95,7 +95,7 @@ class UriObserver
      */
     private function incrementWhileExists(Page $page, ?string $uri, string $locale, ?int $id = null): ?string
     {
-        if (empty($uri)) {
+        if ($uri === null || $uri === '') {
             return null;
         }
 

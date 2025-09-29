@@ -3,16 +3,14 @@
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 
 class SetTranslatableFallbackLocaleToNull
 {
     /**
      * Handle an incoming request.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
         config(['app.fallback_locale' => null]);
 

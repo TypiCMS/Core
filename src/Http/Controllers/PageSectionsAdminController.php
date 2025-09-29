@@ -15,7 +15,7 @@ class PageSectionsAdminController extends BaseAdminController
         $model = new PageSection();
 
         return view('pages::admin.create-section')
-            ->with(compact('model', 'page'));
+            ->with(['model' => $model, 'page' => $page]);
     }
 
     public function edit(Page $page, PageSection $section): View

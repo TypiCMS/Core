@@ -15,7 +15,7 @@ class UsersApiController extends BaseApiController
     /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
     {
-        $data = QueryBuilder::for(User::class)
+        return QueryBuilder::for(User::class)
             ->allowedFields([
                 'users.id',
                 'users.first_name',
@@ -31,8 +31,6 @@ class UsersApiController extends BaseApiController
                 AllowedFilter::custom('first_name,last_name,email', new FilterOr()),
             ])
             ->paginate($request->integer('per_page'));
-
-        return $data;
     }
 
     public function updatePreferences(Request $request): void
@@ -50,13 +48,11 @@ class UsersApiController extends BaseApiController
                 'message' => __('The current logged in user cannot be deleted.'),
             ], 403);
         }
-        if (method_exists($user, 'hasRunningSubscription')) {
-            if ($user->hasRunningSubscription()) {
-                return response()->json([
-                    'error' => true,
-                    'message' => __('The user :name can not be deleted because he has a running subscription.', ['name' => "{$user->first_name} {$user->last_name}"]),
-                ], 403);
-            }
+        if (method_exists($user, 'hasRunningSubscription') && $user->hasRunningSubscription()) {
+            return response()->json([
+                'error' => true,
+                'message' => __('The user :name can not be deleted because he has a running subscription.', ['name' => "{$user->first_name} {$user->last_name}"]),
+            ], 403);
         }
         $user->delete();
 

@@ -21,7 +21,7 @@ class RolesAdminController extends BaseAdminController
         $checkedPermissions = [];
 
         return view('roles::admin.create')
-            ->with(compact('model', 'checkedPermissions'));
+            ->with(['model' => $model, 'checkedPermissions' => $checkedPermissions]);
     }
 
     public function edit(Role $role): View
@@ -64,7 +64,7 @@ class RolesAdminController extends BaseAdminController
     private function storeNewPermissions(array $permissions): void
     {
         foreach ($permissions as $name) {
-            Permission::firstOrCreate(['name' => $name]);
+            Permission::query()->firstOrCreate(['name' => $name]);
         }
     }
 }

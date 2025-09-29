@@ -55,7 +55,7 @@ class Menu extends Base
             $menu = self::query()
                 ->published()
                 ->with([
-                    'menulinks' => function ($query) {
+                    'menulinks' => function ($query): void {
                         $query->with([
                             'page',
                             'section',
@@ -70,7 +70,7 @@ class Menu extends Base
             $menu->menulinks = $this->prepare($menu->menulinks)->nest();
 
             return $menu;
-        } catch (Exception $e) {
+        } catch (Exception) {
             Log::info('No menu found with name “' . $name . '”');
 
             return null;
@@ -79,7 +79,7 @@ class Menu extends Base
 
     public function prepare(?NestableCollection $items = null): NestableCollection
     {
-        $items->each(function (Model $item, int $key) {
+        $items->each(function (Model $item, int $key): void {
             /** @var Menulink $item */
             $item->items = new Collection();
             $item->href = $this->setHref($item);
@@ -119,7 +119,7 @@ class Menu extends Base
         // add active class if current uri is equal to item uri or contains
         // item uri and is bigger than 3 to avoid homepage link always active ('/', '/lg')
         $pattern = $menulink->href;
-        if (mb_strlen($menulink->href) > 3) {
+        if (mb_strlen((string) $menulink->href) > 3) {
             $pattern .= '*';
         }
         if (request()->is($pattern)) {

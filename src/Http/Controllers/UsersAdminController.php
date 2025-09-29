@@ -34,7 +34,7 @@ class UsersAdminController extends BaseAdminController
         $passkeys = collect();
 
         return view('users::admin.create')
-            ->with(compact('model', 'roles', 'checkedRoles', 'passkeys'));
+            ->with(['model' => $model, 'roles' => $roles, 'checkedRoles' => $checkedRoles, 'passkeys' => $passkeys]);
     }
 
     public function edit(User $user): View

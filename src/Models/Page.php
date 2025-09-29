@@ -105,7 +105,7 @@ class Page extends Base
 
     public function path(?string $locale = null): string
     {
-        $locale = $locale ?: app()->getLocale();
+        $locale ??= app()->getLocale();
         $uri = $this->translate('uri', $locale);
         if (
             mainLocale() !== $locale
@@ -184,10 +184,9 @@ class Page extends Base
     {
         $rootUriArray = explode('/', $this->uri);
         $uri = $rootUriArray[0];
-        if (in_array($uri, locales())) {
-            if (isset($rootUriArray[1])) {
-                $uri .= '/' . $rootUriArray[1]; // add next part of uri in locale
-            }
+        if (in_array($uri, locales()) && isset($rootUriArray[1])) {
+            $uri .= '/' . $rootUriArray[1];
+            // add next part of uri in locale
         }
 
         return self::query()

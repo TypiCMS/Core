@@ -20,7 +20,7 @@ class SearchPublicController extends BasePublicController
         ]);
         if ($validator->fails()) {
             return view('search::public.index')
-                ->with(compact('results', 'count'))
+                ->with(['results' => $results, 'count' => $count])
                 ->withErrors($validator);
         }
 
@@ -35,9 +35,9 @@ class SearchPublicController extends BasePublicController
             $columns = $data['columns'];
             $query = $model
                 ->query()
-                ->where(function ($query) use ($words, $columns, $model, $key) {
+                ->where(function ($query) use ($words, $columns, $model, $key): void {
                     foreach ($columns as $column) {
-                        $query->orWhere(function ($query) use ($words, $column, $model) {
+                        $query->orWhere(function ($query) use ($words, $column, $model): void {
                             foreach ($words as $word) {
                                 $word = addslashes($word);
                                 if (in_array($column, (array) $model->translatable)) {
@@ -52,9 +52,9 @@ class SearchPublicController extends BasePublicController
                             }
                         });
                         if ($key === 'pages') { // search in page sections
-                            $query->orWhere(function ($query) use ($words, $column, $model) {
+                            $query->orWhere(function ($query) use ($words, $column, $model): void {
                                 $query->published();
-                                $query->whereHas('sections', function ($query) use ($words, $column, $model) {
+                                $query->whereHas('sections', function ($query) use ($words, $column, $model): void {
                                     foreach ($words as $word) {
                                         $word = addslashes($word);
                                         if (in_array($column, (array) $model->translatable)) {
@@ -82,7 +82,7 @@ class SearchPublicController extends BasePublicController
         }
 
         return view('search::public.index')
-            ->with(compact('results', 'count', 'tabs'))
+            ->with(['results' => $results, 'count' => $count, 'tabs' => $tabs])
             ->withErrors($validator);
     }
 }

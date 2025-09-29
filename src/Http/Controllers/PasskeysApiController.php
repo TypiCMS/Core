@@ -35,7 +35,7 @@ class PasskeysApiController extends BaseApiController
                 request()->getHost(),
                 ['name' => $request->string('name')]
             );
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             throw ValidationException::withMessages([
                 'name' => __('passkeys::passkeys.error_something_went_wrong_generating_the_passkey'),
             ])->errorBag('passkeyForm');

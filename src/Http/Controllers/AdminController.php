@@ -19,7 +19,7 @@ class AdminController extends BaseAdminController
         $model = new Block();
 
         return view('blocks::admin.create')
-            ->with(compact('model'));
+            ->with(['model' => $model]);
     }
 
     public function edit(Block $block): View

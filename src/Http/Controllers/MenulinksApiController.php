@@ -26,7 +26,7 @@ class MenulinksApiController extends BaseApiController
 
         $models = $query
             ->get()
-            ->map(function (Model $menulink) use ($userPreferences) {
+            ->map(function (Model $menulink) use ($userPreferences): Model {
                 /** @var Menulink $menulink */
                 $menulink->data = $menulink->toArray();
                 $menulink->isLeaf = false;
@@ -37,7 +37,7 @@ class MenulinksApiController extends BaseApiController
             ->childrenName('children')
             ->nest();
 
-        return compact('models', 'total');
+        return ['models' => $models, 'total' => $total];
     }
 
     protected function updatePartial(Menu $menu, Menulink $menulink, Request $request): void

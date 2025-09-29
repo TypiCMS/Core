@@ -76,7 +76,7 @@ class File extends Base
 
         try {
             $url = Storage::url($this->path);
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
 
         return Attribute::make(

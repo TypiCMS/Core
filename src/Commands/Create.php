@@ -41,11 +41,13 @@ class Create extends Command
 
     public function handle(): void
     {
-        if (!preg_match('/^[a-z]+$/i', $this->argument('module'))) {
+        $moduleName = $this->argument('module');
+        $isAlphabetic = preg_match('/^[a-z]+$/i', $moduleName) === 1;
+        if (!$isAlphabetic) {
             throw new RuntimeException('Only alphabetic characters are allowed.');
         }
 
-        $this->module = Str::plural(mb_ucfirst(mb_strtolower($this->argument('module'))));
+        $this->module = Str::plural(mb_ucfirst(mb_strtolower($moduleName)));
 
         $this->replace = [
             mb_strtolower($this->module),

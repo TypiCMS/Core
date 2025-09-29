@@ -23,7 +23,7 @@ class FileUploader
         $filesize = $file->getSize();
         $mimetype = $file->getClientMimeType();
 
-        $filenameWithoutExtension = Str::slug($filenameWithoutExtension ?: pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
+        $filenameWithoutExtension = Str::slug($filenameWithoutExtension ?? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
         if ($filenameWithoutExtension === '') {
             $filenameWithoutExtension = Str::slug(Str::random());
         }
@@ -46,7 +46,7 @@ class FileUploader
         $path = $file->storeAs($path, $filename, $disk);
         $type = Arr::get(config('file.types'), $extension, 'd');
 
-        return compact('filesize', 'mimetype', 'extension', 'filename', 'width', 'height', 'path', 'type');
+        return ['filesize' => $filesize, 'mimetype' => $mimetype, 'extension' => $extension, 'filename' => $filename, 'width' => $width, 'height' => $height, 'path' => $path, 'type' => $type];
     }
 
     private function correctImageOrientation(UploadedFile $file): void
@@ -55,7 +55,7 @@ class FileUploader
             return;
         }
         $exif = @exif_read_data($file);
-        if (empty($exif) || !isset($exif['Orientation'])) {
+        if ($exif === [] || $exif === false || !isset($exif['Orientation'])) {
             return;
         }
         $orientation = $exif['Orientation'];

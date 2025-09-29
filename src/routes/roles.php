@@ -8,7 +8,7 @@ use TypiCMS\Modules\Core\Http\Controllers\RolesApiController;
 /*
  * Admin routes
  */
-Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router) {
+Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router): void {
     $router->get('roles', [RolesAdminController::class, 'index'])->name('index-roles')->middleware('can:read roles');
     $router->get('roles/create', [RolesAdminController::class, 'create'])->name('create-role')->middleware('can:create roles');
     $router->get('roles/{role}/edit', [RolesAdminController::class, 'edit'])->name('edit-role')->middleware('can:read roles');
@@ -19,7 +19,7 @@ Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Ro
 /*
  * API routes
  */
-Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router) {
+Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
     $router->get('roles', [RolesApiController::class, 'index'])->middleware('can:read roles');
     $router->patch('roles/{role}', [RolesApiController::class, 'updatePartial'])->middleware('can:update roles');
     $router->delete('roles/{role}', [RolesApiController::class, 'destroy'])->middleware('can:delete roles');

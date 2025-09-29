@@ -4,6 +4,7 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use TypiCMS\Modules\Core\Models\Page;
 
@@ -32,7 +33,7 @@ class PagesPublicController extends BasePublicController
             $template = 'default';
         }
 
-        return view($templateDir . $template, compact('page', 'templateDir'));
+        return view($templateDir . $template, ['page' => $page, 'templateDir' => $templateDir]);
     }
 
     private function findPageByUri(?string $uri): Page
@@ -81,12 +82,12 @@ class PagesPublicController extends BasePublicController
     {
         $homepage = Page::query()->published()->where('is_home', 1)->first();
         if (!$homepage) {
-            app('log')->error('No homepage found.');
+            Log::error('No homepage found.');
             abort(404);
         }
         $locales = enabledLocales();
 
         return view('core::public.lang-chooser')
-            ->with(compact('homepage', 'locales'));
+            ->with(['homepage' => $homepage, 'locales' => $locales]);
     }
 }

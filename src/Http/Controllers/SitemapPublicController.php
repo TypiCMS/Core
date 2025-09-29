@@ -35,10 +35,7 @@ class SitemapPublicController extends Controller
                 foreach ($pages as $page) {
                     $url = $page->url($locale);
                     $sitemap->add($url, $page->updated_at);
-
-                    if (!$module = ucfirst($page->module)) {
-                        continue;
-                    }
+                    $module = ucfirst((string) $page->module);
 
                     if (!class_exists($module)) {
                         continue;

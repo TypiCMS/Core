@@ -33,13 +33,13 @@ class HistoryApiController extends BaseApiController
             ->allowedFilters([
                 AllowedFilter::custom('title,historable_type,action,user_name', new FilterOr()),
             ])
-            ->selectSub(User::selectRaw('CONCAT(`first_name`, " ", `last_name`)')->whereColumn('user_id', 'users.id'), 'user_name')
+            ->selectSub(User::query()->selectRaw('CONCAT(`first_name`, " ", `last_name`)')->whereColumn('user_id', 'users.id'), 'user_name')
             ->paginate($request->integer('per_page'));
     }
 
     public function destroy(): JsonResponse
     {
-        History::truncate();
+        History::query()->truncate();
 
         return response()->json(status: 204);
     }

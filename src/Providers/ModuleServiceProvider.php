@@ -228,10 +228,10 @@ class ModuleServiceProvider extends ServiceProvider
             LocaleComposer::class => '*::public.*',
             SidebarViewComposer::class => 'core::admin._sidebar',
         ]);
-        View::composer('search::public.*', function ($view) {
+        View::composer('search::public.*', function ($view): void {
             $view->page = getPageLinkedToModule('search');
         });
-        View::composer('tags::public.*', function ($view) {
+        View::composer('tags::public.*', function ($view): void {
             $view->page = getPageLinkedToModule('tags');
         });
 
@@ -260,12 +260,8 @@ class ModuleServiceProvider extends ServiceProvider
         | Blade directives.
         |--------------------------------------------------------------------------
         */
-        Blade::directive('block', function ($name) {
-            return "<?php echo Blocks::render({$name}) ?>";
-        });
-        Blade::directive('menu', function ($name) {
-            return "<?php echo view('menus::public._menu', ['name' => {$name}]) ?>";
-        });
+        Blade::directive('block', fn($name): string => "<?php echo Blocks::render({$name}) ?>");
+        Blade::directive('menu', fn($name): string => "<?php echo view('menus::public._menu', ['name' => {$name}]) ?>");
     }
 
     /**
@@ -317,7 +313,7 @@ class ModuleServiceProvider extends ServiceProvider
                     ->whereNotNull('module')
                     ->get()
                     ->all();
-            } catch (Exception $e) {
+            } catch (Exception) {
                 return [];
             }
         });

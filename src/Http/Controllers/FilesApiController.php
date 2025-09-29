@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Exception;
 use Bkwld\Croppa\Facades\Croppa;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class FilesApiController extends BaseApiController
             $folderId = $request->integer('folder_id');
         }
 
-        $data = [
+        return [
             'models' => File::query()
                 ->with('children')
                 ->where('folder_id', $folderId)
@@ -31,8 +32,6 @@ class FilesApiController extends BaseApiController
                 ->get(),
             'path' => $this->getPath($folderId),
         ];
-
-        return $data;
     }
 
     public function show(File $file): File
@@ -56,7 +55,7 @@ class FilesApiController extends BaseApiController
 
         $model->load('children');
 
-        return response()->json(compact('model'));
+        return response()->json(['model' => $model]);
     }
 
     protected function move(string $ids, Request $request): JsonResponse
@@ -77,7 +76,7 @@ class FilesApiController extends BaseApiController
         $file->delete();
         try {
             Croppa::delete('storage/' . $file->getOriginal('path'));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error($e->getMessage());
         }
 

@@ -11,7 +11,7 @@ use TypiCMS\Modules\Core\Http\Controllers\PagesPublicController;
 /*
  * Admin routes
  */
-Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router) {
+Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Router $router): void {
     $router->get('pages', [PagesAdminController::class, 'index'])->name('index-pages')->middleware('can:read pages');
     $router->get('pages/create', [PagesAdminController::class, 'create'])->name('create-page')->middleware('can:create pages');
     $router->get('pages/{page}/edit', [PagesAdminController::class, 'edit'])->name('edit-page')->middleware('can:read pages');
@@ -33,7 +33,7 @@ Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Ro
 /*
  * API routes
  */
-Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router) {
+Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $router): void {
     $router->get('pages', [PagesApiController::class, 'index'])->middleware('can:read pages');
     $router->get('pages/links-for-editor', [PagesApiController::class, 'linksForEditor'])->middleware('can:read pages');
     $router->patch('pages/{page}', [PagesApiController::class, 'updatePartial'])->middleware('can:update pages');
@@ -47,7 +47,7 @@ Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $r
 /*
  * Front office routes
  */
-Route::middleware('public')->group(function (Router $router) {
+Route::middleware('public')->group(function (Router $router): void {
     if (config('typicms.main_locale_in_url')) {
         if (config('typicms.lang_chooser')) {
             $router->get('/', [PagesPublicController::class, 'langChooser']);

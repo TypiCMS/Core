@@ -18,7 +18,7 @@ class DashboardAdminController extends BaseAdminController
     {
         $welcomeMessage = config('typicms.welcome_message');
         $url = (string) config('typicms.welcome_message_url');
-        if (!empty($url)) {
+        if ($url !== '') {
             try {
                 $response = $client->get($url, ['timeout' => 2]);
                 if ($response->getStatusCode() < 400) {
@@ -29,6 +29,6 @@ class DashboardAdminController extends BaseAdminController
             }
         }
 
-        return view('dashboard::show')->with(compact('welcomeMessage'));
+        return view('dashboard::show')->with(['welcomeMessage' => $welcomeMessage]);
     }
 }
