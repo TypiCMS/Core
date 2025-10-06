@@ -67,10 +67,12 @@ class ModuleServiceProvider extends ServiceProvider
         /*
          * Get configuration from DB and store it in the container
          */
-        $typiCMSConfig = $this->app->make('Settings')->allToArray();
-
-        $config = config('typicms', []);
-        config()->set('typicms', array_merge($typiCMSConfig, $config));
+        config([
+            'typicms' => array_merge(
+                app('Settings')->allToArray(),
+                config('typicms', [])
+            ),
+        ]);
 
         $this->mergeConfigFrom(__DIR__ . '/../config/dashboard.php', 'typicms.modules.dashboard');
         $this->mergeConfigFrom(__DIR__ . '/../config/pages.php', 'typicms.modules.pages');
