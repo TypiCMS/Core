@@ -85,7 +85,7 @@
     </div>
 
     @if ($model->id)
-        <user-passkeys url-base="/api/users/{{ $model->id }}/passkeys" new-passkey-name="{{ auth()->user()->first_name . '’s passkey' }}" :create-button="{{ $model->id === auth()->id() }}"></user-passkeys>
+        <user-passkeys url-base="/api/users/{{ $model->id }}/passkeys" new-passkey-name="{{ auth()->user()->first_name . '’s passkey' }}" :create-button="{{ $model->id === auth()->id() ? 'true' : 'false' }}"></user-passkeys>
     @endif
 
     <!-- Per user permissions -->
