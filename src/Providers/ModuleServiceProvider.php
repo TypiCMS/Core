@@ -74,6 +74,9 @@ class ModuleServiceProvider extends ServiceProvider
             ),
         ]);
 
+        /*
+         * Merge config from the different modules.
+         */
         $this->mergeConfigFrom(__DIR__ . '/../config/dashboard.php', 'typicms.modules.dashboard');
         $this->mergeConfigFrom(__DIR__ . '/../config/pages.php', 'typicms.modules.pages');
         $this->mergeConfigFrom(__DIR__ . '/../config/page_sections.php', 'typicms.modules.page_sections');
@@ -90,6 +93,9 @@ class ModuleServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/users.php', 'typicms.modules.users');
         $this->mergeConfigFrom(__DIR__ . '/../config/roles.php', 'typicms.modules.roles');
 
+        /*
+         * Load routes.
+         */
         $this->loadRoutesFrom(__DIR__ . '/../routes/blocks.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/core.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/dashboard.php');
@@ -105,6 +111,9 @@ class ModuleServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/../routes/translations.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/users.php');
 
+        /*
+         * Load views.
+         */
         $this->loadViewsFrom(__DIR__ . '/../../resources/views/blocks/', 'blocks');
         $this->loadViewsFrom(__DIR__ . '/../../resources/views/core/', 'core');
         $this->loadViewsFrom(__DIR__ . '/../../resources/views/dashboard/', 'dashboard');
