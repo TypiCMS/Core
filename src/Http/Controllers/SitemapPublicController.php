@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -10,7 +11,7 @@ use TypiCMS\Modules\Core\Models\Page;
 
 class SitemapPublicController extends Controller
 {
-    public function generate(): string
+    public function generate(): Response
     {
         // create new sitemap object
         $sitemap = app('sitemap');
