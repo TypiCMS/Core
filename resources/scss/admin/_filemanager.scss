@@ -14,6 +14,7 @@
     }
 
     .modal & {
+        background-color: transparent;
         overflow: hidden;
         margin: 0;
         border: none;
@@ -24,6 +25,7 @@
 
     .modal &-header {
         top: 0 !important;
+        background-color: transparent;
         &-top {
             margin-bottom: 0.75rem;
         }
