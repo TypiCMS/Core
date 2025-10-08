@@ -3,11 +3,9 @@
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Bkwld\Croppa\Facades\Croppa;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 use stdClass;
 use TypiCMS\Modules\Core\Http\Requests\FileFormRequest;
 use TypiCMS\Modules\Core\Models\File;
@@ -74,11 +72,8 @@ class FilesApiController extends BaseApiController
             return response()->json(['message' => __('A non-empty folder cannot be deleted.')], 403);
         }
         $file->delete();
-        try {
-            Croppa::delete('storage/' . $file->getOriginal('path'));
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
-        }
+
+        Croppa::delete('storage/' . $file->getOriginal('path'));
 
         return response()->json(status: 204);
     }
