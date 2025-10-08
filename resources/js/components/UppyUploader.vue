@@ -1,6 +1,6 @@
 <template>
     <UppyContextProvider :uppy="uppy">
-        <FilesList />
+        <UppyList />
         <DropzoneContent ref="dropzoneRef" />
     </UppyContextProvider>
 </template>
@@ -13,18 +13,23 @@ import ImageEditor from '@uppy/image-editor';
 import es from '@uppy/locales/lib/es_ES';
 import fr from '@uppy/locales/lib/fr_FR';
 import nl from '@uppy/locales/lib/nl_NL';
-import UppyRemoteSources from '@uppy/remote-sources';
-import UppyScreenCapture from '@uppy/screen-capture';
-import { FilesList, UppyContextProvider, useDropzone, useFileInput } from '@uppy/vue';
-import UppyWebcam from '@uppy/webcam';
+import { UppyContextProvider, useDropzone, useFileInput } from '@uppy/vue';
 import XHRUpload from '@uppy/xhr-upload';
 import { computed, defineComponent, h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import UppyList from './UppyList.vue';
+
+const props = defineProps({
+    folderId: {
+        type: [String, Number],
+        default: '',
+    },
+});
+
 const compressorJsConfiguration = ref(window.TypiCMS.compressor_js_configuration);
 const maxFilesize = ref(window.TypiCMS.max_file_upload_size);
 const uppyLocales = { fr, nl, es };
-const folder = ref({ id: '' });
 const { t } = useI18n();
 const emit = defineEmits(['complete']);
 const dropzoneRef = ref(null);
@@ -41,10 +46,7 @@ const DropzoneContent = defineComponent({
         });
 
         return () =>
-            h('div', [
-                h('input', { ...getInputProps(), class: 'd-none' }),
-                h('div', { ...getRootProps(), role: 'button' }, [h('div', [h('input', { ...getFileInputProps(), class: 'd-none' })])]),
-            ]);
+            h('div', [h('input', { ...getInputProps(), class: 'd-none' }), h('div', { ...getRootProps(), role: 'button' }, [h('div', [h('input', { ...getFileInputProps(), class: 'd-none' })])])]);
     },
 });
 
@@ -80,9 +82,6 @@ const uppy = computed(() =>
             ],
         },
     })
-        .use(UppyWebcam)
-        .use(UppyScreenCapture)
-        .use(UppyRemoteSources, { companionUrl: 'http://localhost:3020' })
         .use(Compressor, compressorJsConfiguration.value)
         .use(DropTarget, {
             target: document.body,
@@ -100,8 +99,11 @@ const uppy = computed(() =>
         .use(ImageEditor, { quality: 0.8 })
         .on('file-added', (file) => {
             uppy.value.setFileMeta(file.id, {
-                folder_id: folder.value.id,
+                folder_id: props.folderId,
             });
+        })
+        .on('restriction-failed', (file, error) => {
+            alertify.error(error.message);
         })
         .on('complete', (result) => {
             const fails = result.failed;
@@ -121,7 +123,6 @@ const uppy = computed(() =>
                     }),
                 );
                 emit('complete');
-                // fetchData();
             }
         }),
 );

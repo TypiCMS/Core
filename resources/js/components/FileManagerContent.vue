@@ -98,7 +98,7 @@
         </div>
 
         <div class="filemanager-body">
-            <UppyUploader ref="uppyUploaderRef" @complete="fetchData"></UppyUploader>
+            <UppyUploader ref="uppyUploaderRef" :folder-id="folder.id" @complete="fetchData"></UppyUploader>
             <div :class="{ 'filemanager-view-list': view === 'list' }" class="filemanager-list" @click="checkNone()">
                 <p class="my-3 text-muted" v-if="filteredItems.length === 0">{{ t('The folder is empty.') }}</p>
                 <div
