@@ -27,7 +27,7 @@ class FilesAdminController extends BaseAdminController
         $file->fill(Arr::except($request->validated(), 'file'));
 
         if ($request->hasFile('file')) {
-            Storage::delete($file->path);
+            Croppa::delete('storage/' . $file->path);
             $newFile = (new FileUploader())->handle($request->file('file'));
             $file->name = $newFile['filename'];
             $file->fill(Arr::except($newFile, 'filename'));
