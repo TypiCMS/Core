@@ -54,8 +54,8 @@
     }
 
     &-body {
+        padding: $spacer;
         overflow-y: auto;
-        padding: 1.5rem 2rem;
     }
 
     &-btn-add {
@@ -72,8 +72,6 @@
     }
 
     &-list {
-        margin-left: -10px;
-        margin-right: -10px;
         display: flex;
         flex-wrap: wrap;
         user-select: none;
