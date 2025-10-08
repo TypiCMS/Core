@@ -68,6 +68,7 @@ import FileField from './components/FileField.vue';
 import FileManager from './components/FileManager.vue';
 import FileManagerContent from './components/FileManagerContent.vue';
 import FilesField from './components/FilesField.vue';
+import ImageCropper from './components/ImageCropper.vue';
 
 /**
  * Tiptap editor
@@ -102,6 +103,7 @@ const app = createApp()
     .component('FileManagerContent', FileManagerContent)
     .component('FileField', FileField)
     .component('FilesField', FilesField)
+    .component('ImageCropper', ImageCropper)
     // .component('Repeater', Repeater)
     .component('UserPasskeys', UserPasskeys)
     .component('TiptapEditor', TiptapEditor)

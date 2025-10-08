@@ -36,7 +36,10 @@
 
         <div class="col-lg-6">
             @if ($model->type === 'i')
-                <img class="img-fluid mb-4" src="{{ Storage::url($model->path) }}" alt="" />
+                <image-cropper
+                    :image-url="'{{ Storage::url($model->path) }}'"
+                    :file-id="{{ $model->id }}"
+                ></image-cropper>
             @endif
 
             @if ($model->type !== 'f')

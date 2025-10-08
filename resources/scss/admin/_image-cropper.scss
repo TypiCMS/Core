@@ -1,0 +1,18 @@
+.image-cropper {
+    width: 100%;
+    &-container {
+        max-width: 100%;
+        overflow: hidden;
+        img {
+            max-width: 100%;
+            display: block;
+        }
+    }
+    &-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+        margin-top: $spacer * 0.5;
+        margin-bottom: $spacer;
+    }
+}
