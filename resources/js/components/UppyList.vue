@@ -53,7 +53,7 @@ function handleComplete(result) {
             uppy.removeFile(file.id);
         });
         updateFiles();
-    }, 1000);
+    }, 500);
 }
 
 onMounted(() => {
