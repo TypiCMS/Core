@@ -1,5 +1,10 @@
 .uppy-list {
     @extend .list-group;
+    position: absolute;
+    left: $spacer;
+    right: $spacer;
+    z-index: 1;
+    box-shadow: $box-shadow;
     &-item {
         @extend .list-group-item;
         display: flex;
