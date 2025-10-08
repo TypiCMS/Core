@@ -88,7 +88,7 @@
                         {{ t('Select file') }}
                     </button>
                 </div>
-                <button id="upload-files-button" class="btn btn-sm btn-light header-btn-add" type="button">
+                <button id="upload-files-button" v-bind="buttonProps" class="btn btn-sm btn-light header-btn-add" type="button">
                     <cloud-upload-icon size="16" />
                     {{ t('Upload files') }}
                 </button>
@@ -96,16 +96,7 @@
         </div>
 
         <div class="filemanager-body">
-            <Dashboard
-                :plugins="['ImageEditor']"
-                :props="{
-                    theme: 'auto',
-                    inline: false,
-                    trigger: '#upload-files-button',
-                    proudlyDisplayPoweredByUppy: false,
-                }"
-                :uppy="uppy"
-            />
+            <UppyUploader ref="uppyUploaderRef" @complete="fetchData"></UppyUploader>
             <div :class="{ 'filemanager-view-list': view === 'list' }" class="filemanager-list" @click="checkNone()">
                 <p class="my-3 text-muted" v-if="filteredItems.length === 0">{{ t('The folder is empty.') }}</p>
                 <div
@@ -155,26 +146,15 @@
 </template>
 
 <script setup>
-import Compressor from '@uppy/compressor';
-import Uppy from '@uppy/core';
-import '@uppy/core/css/style.min.css';
-import '@uppy/dashboard/css/style.min.css';
-import '@uppy/image-editor/css/style.min.css';
-import DropTarget from '@uppy/drop-target';
-import ImageEditor from '@uppy/image-editor';
-import es from '@uppy/locales/lib/es_ES';
-import fr from '@uppy/locales/lib/fr_FR';
-import nl from '@uppy/locales/lib/nl_NL';
-import Dashboard from '@uppy/vue/dashboard';
-import XHRUpload from '@uppy/xhr-upload';
 import { ArrowLeftIcon, CloudUploadIcon, FileIcon, FileMusicIcon, FileVideo2Icon, FolderIcon, FolderPlusIcon, LayoutGridIcon, LayoutListIcon } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import fetcher from '../admin/fetcher';
 
+import UppyUploader from './UppyUploader.vue';
+
 const { t } = useI18n();
-const uppyLocales = { fr, nl, es };
 
 const props = defineProps({
     multiple: {
@@ -202,96 +182,20 @@ const loadingTimeout = ref(null);
 const dragging = ref(false);
 const loading = ref(false);
 const view = ref('grid');
+const uppyUploaderRef = ref(null);
+
+const buttonProps = computed(() => {
+    return uppyUploaderRef.value?.dropzoneRef?.getButtonProps?.() || {};
+});
 const selectedItems = ref([]);
 const deleteLimit = ref(100);
 const urlBase = ref('/api/files');
-const maxFilesize = ref(window.TypiCMS.max_file_upload_size);
-const compressorJsConfiguration = ref(window.TypiCMS.compressor_js_configuration);
 const folder = ref({ id: '' });
 const data = ref({ models: [], path: [] });
 
 if (sessionStorage.getItem('view')) {
     view.value = JSON.parse(sessionStorage.getItem('view'));
 }
-
-const uppy = computed(() => {
-    return new Uppy({
-        locale: uppyLocales[TypiCMS.locale],
-        restrictions: {
-            maxFileSize: maxFilesize.value * 1024,
-            allowedFileTypes: [
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-                'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-                'application/vnd.openxmlformats-officedocument.presentationml.slide',
-                'application/msword',
-                'application/vnd.ms-powerpoint',
-                'application/vnd.ms-excel',
-                'application/pdf',
-                'application/postscript',
-                'application/zip',
-                'application/json',
-                'text/plain',
-                'image/svg+xml',
-                'image/tiff',
-                'image/jpeg',
-                'image/gif',
-                'image/png',
-                'image/bmp',
-                'image/gif',
-                'audio/*',
-                'video/*',
-            ],
-        },
-    })
-        .use(Compressor, compressorJsConfiguration.value)
-        .use(DropTarget, {
-            target: document.body,
-        })
-        .use(XHRUpload, {
-            endpoint: '/api/files',
-            formData: true,
-            fieldName: 'name',
-            allowedMetaFields: ['folder_id'],
-            headers: {
-                Accept: 'application/json',
-                Authorization: 'Bearer ' + document.head.querySelector('meta[name="api-token"]').content,
-            },
-        })
-        .use(ImageEditor, { quality: 0.8 })
-        .on('file-added', (file) => {
-            uppy.value.setFileMeta(file.id, {
-                folder_id: folder.value.id,
-            });
-        })
-        .on('dashboard:modal-open', () => {
-            emitter.emit('modalIsBehind');
-        })
-        .on('dashboard:modal-closed', () => {
-            emitter.emit('modalIsInFront');
-        })
-        .on('complete', (result) => {
-            const fails = result.failed;
-            if (fails.length > 0) {
-                alertify.error(
-                    t('# files could not be uploaded.', fails.length, {
-                        count: fails.length,
-                    }),
-                );
-            }
-
-            const successes = result.successful;
-            if (successes.length > 0) {
-                alertify.success(
-                    t('# files uploaded.', successes.length, {
-                        count: successes.length,
-                    }),
-                );
-                fetchData();
-            }
-        });
-});
 
 const url = computed(() => {
     let url = urlBase.value;

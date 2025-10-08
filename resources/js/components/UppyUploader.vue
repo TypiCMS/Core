@@ -1,0 +1,134 @@
+<template>
+    <UppyContextProvider :uppy="uppy">
+        <FilesList />
+        <DropzoneContent ref="dropzoneRef" />
+    </UppyContextProvider>
+</template>
+
+<script setup>
+import Compressor from '@uppy/compressor';
+import Uppy from '@uppy/core';
+import DropTarget from '@uppy/drop-target';
+import ImageEditor from '@uppy/image-editor';
+import es from '@uppy/locales/lib/es_ES';
+import fr from '@uppy/locales/lib/fr_FR';
+import nl from '@uppy/locales/lib/nl_NL';
+import UppyRemoteSources from '@uppy/remote-sources';
+import UppyScreenCapture from '@uppy/screen-capture';
+import { FilesList, UppyContextProvider, useDropzone, useFileInput } from '@uppy/vue';
+import UppyWebcam from '@uppy/webcam';
+import XHRUpload from '@uppy/xhr-upload';
+import { computed, defineComponent, h, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const compressorJsConfiguration = ref(window.TypiCMS.compressor_js_configuration);
+const maxFilesize = ref(window.TypiCMS.max_file_upload_size);
+const uppyLocales = { fr, nl, es };
+const folder = ref({ id: '' });
+const { t } = useI18n();
+const emit = defineEmits(['complete']);
+const dropzoneRef = ref(null);
+
+const DropzoneContent = defineComponent({
+    setup(props, { expose }) {
+        const { getRootProps, getInputProps } = useDropzone({
+            noClick: true,
+        });
+        const { getButtonProps, getInputProps: getFileInputProps } = useFileInput();
+
+        expose({
+            getButtonProps,
+        });
+
+        return () =>
+            h('div', [
+                h('input', { ...getInputProps(), class: 'd-none' }),
+                h('div', { ...getRootProps(), role: 'button' }, [h('div', [h('input', { ...getFileInputProps(), class: 'd-none' })])]),
+            ]);
+    },
+});
+
+const uppy = computed(() =>
+    new Uppy({
+        autoProceed: true,
+        locale: uppyLocales[TypiCMS.locale],
+        restrictions: {
+            maxFileSize: maxFilesize.value * 1024,
+            allowedFileTypes: [
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+                'application/vnd.openxmlformats-officedocument.presentationml.slide',
+                'application/msword',
+                'application/vnd.ms-powerpoint',
+                'application/vnd.ms-excel',
+                'application/pdf',
+                'application/postscript',
+                'application/zip',
+                'application/json',
+                'text/plain',
+                'image/svg+xml',
+                'image/tiff',
+                'image/jpeg',
+                'image/gif',
+                'image/png',
+                'image/bmp',
+                'image/gif',
+                'audio/*',
+                'video/*',
+            ],
+        },
+    })
+        .use(UppyWebcam)
+        .use(UppyScreenCapture)
+        .use(UppyRemoteSources, { companionUrl: 'http://localhost:3020' })
+        .use(Compressor, compressorJsConfiguration.value)
+        .use(DropTarget, {
+            target: document.body,
+        })
+        .use(XHRUpload, {
+            endpoint: '/api/files',
+            formData: true,
+            fieldName: 'name',
+            allowedMetaFields: ['folder_id'],
+            headers: {
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + document.head.querySelector('meta[name="api-token"]').content,
+            },
+        })
+        .use(ImageEditor, { quality: 0.8 })
+        .on('file-added', (file) => {
+            uppy.value.setFileMeta(file.id, {
+                folder_id: folder.value.id,
+            });
+        })
+        .on('complete', (result) => {
+            const fails = result.failed;
+            if (fails.length > 0) {
+                alertify.error(
+                    t('# files could not be uploaded.', fails.length, {
+                        count: fails.length,
+                    }),
+                );
+            }
+
+            const successes = result.successful;
+            if (successes.length > 0) {
+                alertify.success(
+                    t('# files uploaded.', successes.length, {
+                        count: successes.length,
+                    }),
+                );
+                emit('complete');
+                // fetchData();
+            }
+        }),
+);
+
+defineExpose({
+    dropzoneRef,
+});
+</script>
+
+<style src="@uppy/vue/css/style.css"></style>
