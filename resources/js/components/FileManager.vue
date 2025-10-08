@@ -48,7 +48,6 @@ const props = defineProps({
 
 const options = ref({
     modal: props.modal,
-    preventCloseOnEscape: false,
     multiple: props.multiple,
     single: props.single,
     selectSingleFile: false,
@@ -72,24 +71,8 @@ emitter.on('openFilePicker', (opts) => {
     show.value = true;
 });
 
-emitter.on('modalIsBehind', () => {
-    options.value.preventCloseOnEscape = true;
-});
-
-emitter.on('modalIsInFront', () => {
-    options.value.preventCloseOnEscape = false;
-});
-
 emitter.on('closeModal', () => {
     closeModal();
-});
-
-document.addEventListener('keydown', (event) => {
-    if (event.code === 'Escape') {
-        if (!options.value.preventCloseOnEscape) {
-            closeModal();
-        }
-    }
 });
 
 function closeModal() {
@@ -108,9 +91,6 @@ onMounted(() => {
 
     const modal = document.querySelector('#filemanager-modal');
     modal.addEventListener('hide.bs.modal', (event) => {
-        if (options.value.preventCloseOnEscape) {
-            return event.preventDefault();
-        }
         document.activeElement.blur();
         show.value = false;
         if (options.value.emitOnClose) {

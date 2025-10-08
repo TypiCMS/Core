@@ -12,6 +12,7 @@ Route::middleware('admin')->prefix('admin')->name('admin::')->group(function (Ro
     $router->get('files', [FilesAdminController::class, 'index'])->name('index-files')->middleware('can:read files');
     $router->get('files/{file}/edit', [FilesAdminController::class, 'edit'])->name('edit-file')->middleware('can:read files');
     $router->put('files/{file}', [FilesAdminController::class, 'update'])->name('update-file')->middleware('can:update files');
+    $router->post('files/{file}/crop', [FilesAdminController::class, 'crop'])->name('crop-file')->middleware('can:update files');
 });
 
 /*

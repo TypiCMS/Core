@@ -73,7 +73,7 @@ return [
     | Max file upload size allowed
     |--------------------------------------------------------------------------
     */
-    'max_file_upload_size' => env('MAX_FILE_UPLOAD_SIZE', 60000),
+    'max_file_upload_size' => env('MAX_FILE_UPLOAD_SIZE', 61440),
 
     /*
     |--------------------------------------------------------------------------
