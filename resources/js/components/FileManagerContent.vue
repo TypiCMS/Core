@@ -1,16 +1,18 @@
 <template>
     <div class="filemanager">
         <div class="filemanager-header header">
-            <button type="button" v-if="path.length > 1" class="btn-back" @click="openFolder(path[path.length - 2])">
-                <arrow-left-icon size="15" stroke-width="1.75" />
-                <span class="btn-back-label">
-                    {{ path[path.length - 2].name }}
-                </span>
-            </button>
             <div class="filemanager-header-top">
-                <h1 v-if="path.length > 0" class="filemanager-title header-title">
-                    {{ path[path.length - 1].name }}
-                </h1>
+                <div>
+                    <button type="button" v-if="path.length > 1" class="btn-back" @click="openFolder(path[path.length - 2])">
+                        <arrow-left-icon size="15" stroke-width="1.75" />
+                        <span class="btn-back-label">
+                            {{ path[path.length - 2].name }}
+                        </span>
+                    </button>
+                    <h1 v-if="path.length > 0" class="filemanager-title header-title">
+                        {{ path[path.length - 1].name }}
+                    </h1>
+                </div>
                 <button v-if="modal" class="filemanager-modal-btn-close btn-close" type="button" data-bs-dismiss="modal" :aria-label="t('Close window')"></button>
             </div>
             <div class="header-toolbar btn-toolbar">
