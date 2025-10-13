@@ -62,7 +62,8 @@ class ModuleServiceProvider extends ServiceProvider
             }
         });
 
-        Paginator::useBootstrapFive();
+        Paginator::defaultView('core::public.pagination.bootstrap-5');
+        Paginator::defaultSimpleView('core::public.pagination.simple-bootstrap-5');
 
         /*
          * Get configuration from DB and store it in the container

@@ -30,6 +30,7 @@
     "# terms": "Aucune terme|1 terme|{count} termes",
     "# translations": "Aucune traduction|1 traduction|{count} traductions",
     "# users": "Aucun utilisateur|1 utilisateur|{count} utilisateurs",
+    ":from to :to results of :total": "<strong>:from<\/strong> à <strong>:to<\/strong> résultats sur <strong>:total<\/strong>",
     "(and :count more error)": "(et :count erreur en plus)",
     "(and :count more errors)": "(et :count erreur en plus)|(et :count erreurs en plus)|(et :count erreurs en plus)",
     "A decryption key is required.": "A decryption key is required.",

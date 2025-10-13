@@ -30,6 +30,7 @@
     "# terms": "Geen term|1 term|{count} termen",
     "# translations": "Geen vertaling|1 vertaling|{count} vertalingen",
     "# users": "Geen gebruiker|1 gebruiker|{count} gebruikers",
+    ":from to :to results of :total": "<strong>:from<\/strong> tot <strong>:to<\/strong> résultaten van <strong>:total<\/strong>",
     "(and :count more error)": "(en :count andere foutmelding)",
     "(and :count more errors)": "(en :count andere foutmelding)|(en :count andere foutmeldingen)|(en :count andere foutmeldingen)",
     "A decryption key is required.": "Een decryptiesleutel is verplicht.",
