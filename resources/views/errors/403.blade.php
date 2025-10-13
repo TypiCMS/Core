@@ -1,6 +1,6 @@
 @extends('core::public.master')
 
-@section('title', 'Error 403 – ' . $websiteTitle)
+@section('title', __('Error :code', ['code' => '403']) . ' – ' . $websiteTitle)
 
 @section('bodyClass', 'error-403')
 
@@ -8,8 +8,7 @@
     <header class="page-header">
         <div class="page-header-container">
             <h1 class="page-title">
-                @lang('Error')
-                403
+                @lang('Error :code', ['code' => '403'])
             </h1>
         </div>
     </header>

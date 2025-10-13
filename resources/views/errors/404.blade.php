@@ -1,6 +1,6 @@
 @extends('core::public.master')
 
-@section('title', 'Error 404 – ' . $websiteTitle)
+@section('title', __('Error :code', ['code' => '404']) . ' – ' . $websiteTitle)
 
 @section('bodyClass', 'error-404')
 
@@ -8,8 +8,7 @@
     <header class="page-header">
         <div class="page-header-container">
             <h1 class="page-title">
-                @lang('Error')
-                404
+                @lang('Error :code', ['code' => '404'])
             </h1>
         </div>
     </header>
@@ -19,7 +18,7 @@
             <p>
                 @lang('Sorry, this page was not found.')
                 <br>
-                {!! trans('Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>']) !!}
+                @lang('Go to our homepage?', ['a_open' => '<a href="/">', 'a_close' => '</a>'])
             </p>
         </div>
     </div>

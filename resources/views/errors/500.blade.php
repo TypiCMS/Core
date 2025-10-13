@@ -1,6 +1,6 @@
 @extends('core::public.master')
 
-@section('title', 'Error 500 – ' . $websiteTitle)
+@section('title', __('Error :code', ['code' => '500']) . ' – ' . $websiteTitle)
 @section('bodyClass', 'error-500')
 @section('lang-switcher', '')
 
@@ -15,7 +15,8 @@
         <div class="page-body-container">
             <p>
                 @lang('Sorry, a server error occurred.')
-                <br>{!! trans('Error :code', ['code' => '500']) !!}.
+                <br>
+                @lang('Error :code', ['code' => '500'])
             </p>
         </div>
     </div>

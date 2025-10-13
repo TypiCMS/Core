@@ -5,17 +5,14 @@
 @section('bodyClass', 'error-419')
 
 @section('content')
-    <div class="header">
-        <h1 class="page-title">
-            @lang('Error')
-            419
-        </h1>
-    </div>
-
-    <div class="content">
-        <p class="lead">
-            @lang('Page Expired')
-            .
-        </p>
+    <div class="main-content">
+        <div class="header">
+            <h1 class="header-title mb-0">@lang('Error :code', 419)</h1>
+        </div>
+        <div class="content">
+            <p class="mb-0">
+                @lang('Page Expired')
+            </p>
+        </div>
     </div>
 @endsection

@@ -5,14 +5,14 @@
 @section('bodyClass', 'error-500')
 
 @section('content')
-    <div class="header">
-        <h1 class="page-title">@lang('Server Error')</h1>
-    </div>
-
-    <div class="content">
-        <p class="lead">
-            @lang('Sorry, a server error occurred')
-            .
-        </p>
+    <div class="main-content">
+        <div class="header">
+            <h1 class="header-title mb-0">@lang('Error :code', 500)</h1>
+        </div>
+        <div class="content">
+            <p class="mb-0">
+                @lang('Sorry, a server error occurred.')
+            </p>
+        </div>
     </div>
 @endsection
