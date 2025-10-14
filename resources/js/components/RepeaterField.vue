@@ -115,7 +115,7 @@
             <input v-if="modelValue !== null" :name="fieldNameComplete + '[name]'" :value="modelValue.name" type="hidden" />
             <input v-if="modelValue !== null" :name="fieldNameComplete + '[thumb_sm]'" :value="modelValue.thumb_sm" type="hidden" />
             <div :data-language="locale">
-                <div v-if="modelValue !== null" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
+                <div v-if="modelValue !== null" class="filemanager-item filemanager-item-with-name filemanager-item-horizontal filemanager-item-removable">
                     <div class="filemanager-item-wrapper">
                         <button class="filemanager-item-removable-button" type="button" @click="remove">
                             <x-icon :size="18" stroke-width="2" />

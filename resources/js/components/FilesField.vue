@@ -11,9 +11,9 @@
             </p>
         </div>
 
-        <draggable v-model="files" class="filemanager-list" group="files" @start="drag = true" @end="drag = false" item-key="id">
+        <draggable v-model="files" class="filemanager-list filemanager-list-horizontal" group="files" @start="drag = true" @end="drag = false" item-key="id">
             <template #item="{ element }">
-                <div class="filemanager-item filemanager-item-with-name filemanager-item-removable">
+                <div class="filemanager-item filemanager-item-with-name filemanager-item-horizontal filemanager-item-removable">
                     <div class="filemanager-item-wrapper">
                         <button class="filemanager-item-removable-button" type="button" @click="remove(element)">
                             <x-icon :size="18" stroke-width="2" />

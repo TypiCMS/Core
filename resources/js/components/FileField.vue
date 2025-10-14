@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mb-3">
         <p class="form-label mb-2">
             <span v-if="label">{{ t(label) }}</span>
             <span v-else-if="type === 'audio'">{{ t('Audio') }}</span>
@@ -9,7 +9,7 @@
         </p>
         <input :id="field" v-model="fileId" :name="field" :rel="field" type="hidden" />
         <div>
-            <div v-if="file" class="filemanager-item filemanager-item-with-name filemanager-item-removable">
+            <div v-if="file" class="filemanager-item filemanager-item-with-name filemanager-item-horizontal filemanager-item-removable">
                 <div class="filemanager-item-wrapper">
                     <button class="filemanager-item-removable-button" type="button" @click="remove">
                         <x-icon :size="18" stroke-width="2" />
