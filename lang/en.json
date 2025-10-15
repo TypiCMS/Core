@@ -15,6 +15,7 @@
     "# items selected": "No items selected|1 item selected|{count} items selected",
     "# items unpublished": "1 item unpublished|{count} items unpublished",
     "# menus": "No menus|1 menu|{count} menus",
+    "# menulinks": "No menu links|1 menu link|{count} menu links",
     "# news": "No news|1 news|{count} news",
     "# pages": "No pages|1 page|{count} pages",
     "# partners": "No partners|1 partner|{count} partners",
