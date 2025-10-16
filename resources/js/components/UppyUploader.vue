@@ -8,7 +8,6 @@
 <script setup>
 import Uppy from '@uppy/core';
 import DropTarget from '@uppy/drop-target';
-import ImageEditor from '@uppy/image-editor';
 import es from '@uppy/locales/lib/es_ES';
 import fr from '@uppy/locales/lib/fr_FR';
 import nl from '@uppy/locales/lib/nl_NL';
@@ -93,7 +92,6 @@ const uppy = computed(() =>
                 Authorization: 'Bearer ' + document.head.querySelector('meta[name="api-token"]').content,
             },
         })
-        .use(ImageEditor, { quality: 0.8 })
         .on('file-added', (file) => {
             uppy.value.setFileMeta(file.id, {
                 folder_id: props.folderId,
