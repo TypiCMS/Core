@@ -7,7 +7,7 @@
 @section('content')
     <div class="main-content">
         <div class="header">
-            <h1 class="header-title mb-0">@lang('Error :code', 404)</h1>
+            <h1 class="header-title mb-0">@lang('Error :code', ['code' => '404'])</h1>
         </div>
         <div class="content">
             <p class="mb-0">
