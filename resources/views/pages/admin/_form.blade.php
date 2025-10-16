@@ -106,14 +106,7 @@
                     {!! BootForm::select(__('Module'), 'module', getModulesForSelect())->disable($model->subpages->count() > 0)->formText($model->subpages->count() ? __('A page containing subpages cannot be linked to a module') : '') !!}
                     {!! BootForm::select(__('Template'), 'template', pageTemplates()) !!}
                     @if (!$model->id)
-                        {!! BootForm::select(
-                            __('Add to menu'),
-                            'add_to_menu',
-                            ['' => ''] +
-                                Menus::all()->pluck('name', 'id')->all(),
-                            null,
-                            ['class' => 'form-control'],
-                        ) !!}
+                        {!! BootForm::select(__('Add to menu'), 'add_to_menu', ['' => ''] + Menus::all()->pluck('name', 'id')->all(), null, ['class' => 'form-control']) !!}
                     @endif
 
                     {!! BootForm::textarea(__('Css'), 'css') !!}

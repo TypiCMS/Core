@@ -26,13 +26,15 @@
                         </span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><h6 class="dropdown-header">{{ auth()->user()->email }}</h6></li>
-                        @can('update users')
                         <li>
-                            <a class="dropdown-item" href="{{ route('admin::edit-user', Auth::id()) }}">
-                                {{ __('Profile', [], config('typicms.navbar_locale')) }}
-                            </a>
+                            <h6 class="dropdown-header">{{ auth()->user()->email }}</h6>
                         </li>
+                        @can('update users')
+                            <li>
+                                <a class="dropdown-item" href="{{ route('admin::edit-user', Auth::id()) }}">
+                                    {{ __('Profile', [], config('typicms.navbar_locale')) }}
+                                </a>
+                            </li>
                         @endcan
                         <li>
                             <form action="{{ route(mainLocale() . '::logout') }}" method="post">

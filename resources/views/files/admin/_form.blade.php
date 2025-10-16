@@ -36,56 +36,53 @@
 
         <div class="col-lg-6">
             @if ($model->type === 'i')
-                <image-cropper
-                    :image-url="'{{ Storage::url($model->path) }}'"
-                    :file-id="{{ $model->id }}"
-                ></image-cropper>
+                <image-cropper :image-url="'{{ Storage::url($model->path) }}'" :file-id="{{ $model->id }}"></image-cropper>
             @endif
 
             @if ($model->type !== 'f')
                 <table class="table table-sm table-striped">
                     <tbody>
-                    <tr>
-                        <th class="w-25">{{ __('URL') }}</th>
-                        <td>
-                            <div class="d-flex align-items-start justify-content-between">
-                                <a href="{{ Storage::url($model->path) }}" target="_blank" rel="noopener noreferrer">
-                                    {{ Storage::url($model->path) }}
-                                </a>
-                                <button class="btn btn-light btn-xs text-nowrap" type="button" onclick="copyToClipboard('{{ Storage::url($model->path) }}')">
-                                    @lang('Copy')
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>{{ __('Path') }}</th>
-                        <td>{{ $model->path }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ __('Display name') }}</th>
-                        <td>{{ $model->name }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ __('Extension') }}</th>
-                        <td>{{ $model->extension }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ __('Mimetype') }}</th>
-                        <td>{{ $model->mimetype }}</td>
-                    </tr>
-                    @if ($model->width)
                         <tr>
-                            <th>{{ __('Width') }}</th>
-                            <td>{{ $model->width }} px</td>
+                            <th class="w-25">{{ __('URL') }}</th>
+                            <td>
+                                <div class="d-flex align-items-start justify-content-between">
+                                    <a href="{{ Storage::url($model->path) }}" target="_blank" rel="noopener noreferrer">
+                                        {{ Storage::url($model->path) }}
+                                    </a>
+                                    <button class="btn btn-light btn-xs text-nowrap" type="button" onclick="copyToClipboard('{{ Storage::url($model->path) }}')">
+                                        @lang('Copy')
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
-                    @endif
-                    @if ($model->height)
                         <tr>
-                            <th>{{ __('Height') }}</th>
-                            <td>{{ $model->height }} px</td>
+                            <th>{{ __('Path') }}</th>
+                            <td>{{ $model->path }}</td>
                         </tr>
-                    @endif
+                        <tr>
+                            <th>{{ __('Display name') }}</th>
+                            <td>{{ $model->name }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ __('Extension') }}</th>
+                            <td>{{ $model->extension }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ __('Mimetype') }}</th>
+                            <td>{{ $model->mimetype }}</td>
+                        </tr>
+                        @if ($model->width)
+                            <tr>
+                                <th>{{ __('Width') }}</th>
+                                <td>{{ $model->width }} px</td>
+                            </tr>
+                        @endif
+                        @if ($model->height)
+                            <tr>
+                                <th>{{ __('Height') }}</th>
+                                <td>{{ $model->height }} px</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             @endif
