@@ -6,7 +6,6 @@
 </template>
 
 <script setup>
-import Compressor from '@uppy/compressor';
 import Uppy from '@uppy/core';
 import DropTarget from '@uppy/drop-target';
 import ImageEditor from '@uppy/image-editor';
@@ -27,7 +26,6 @@ const props = defineProps({
     },
 });
 
-const compressorJsConfiguration = ref(window.TypiCMS.compressor_js_configuration);
 const maxFilesize = ref(window.TypiCMS.max_file_upload_size);
 const uppyLocales = { fr, nl, es };
 const { t } = useI18n();
@@ -82,7 +80,6 @@ const uppy = computed(() =>
             ],
         },
     })
-        .use(Compressor, compressorJsConfiguration.value)
         .use(DropTarget, {
             target: document.body,
         })
