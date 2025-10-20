@@ -12,28 +12,22 @@
             {!! BootForm::hidden('menu_id')->value($menu->id) !!}
             {!! BootForm::hidden('position') !!}
             {!! BootForm::hidden('parent_id') !!}
-            <div class="row gx-3">
-                <div class="col-xl-6">
-                    {!! TranslatableBootForm::text(__('Title'), 'title') !!}
-                    <div class="mb-3">
-                        {!! TranslatableBootForm::hidden('status')->value(0) !!}
-                        {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}
-                    </div>
-                    {!! TranslatableBootForm::textarea(__('Description'), 'description')->rows(3) !!}
-                </div>
-                <div class="col-xl-6">
-                    {!! BootForm::select(__('Page'), 'page_id', Pages::allForSelect()) !!}
-                    {!! BootForm::select(__('Section'), 'section_id', ['' => '']) !!}
-                    {!! TranslatableBootForm::text(__('Website'), 'website')->type('url')->placeholder('https://') !!}
-                    {!! BootForm::select(__('Target'), 'target', ['' => __('Active tab'), '_blank' => __('New tab')]) !!}
-                    {!! BootForm::text(__('Class'), 'class') !!}
-                </div>
+            {!! TranslatableBootForm::text(__('Title'), 'title') !!}
+            <div class="mb-3">
+                {!! TranslatableBootForm::hidden('status')->value(0) !!}
+                {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}
             </div>
+            {!! TranslatableBootForm::textarea(__('Description'), 'description')->rows(3) !!}
+            {!! BootForm::select(__('Page'), 'page_id', Pages::allForSelect()) !!}
+            {!! BootForm::select(__('Section'), 'section_id', ['' => '']) !!}
+            {!! TranslatableBootForm::text(__('Website'), 'website')->type('url')->placeholder('https://') !!}
+            {!! BootForm::select(__('Target'), 'target', ['' => __('Active tab'), '_blank' => __('New tab')]) !!}
         </div>
         <div class="col-lg-4">
             <div class="right-column">
                 <file-manager></file-manager>
                 <file-field type="image" field="image_id" :init-file="{{ $model->image ?? 'null' }}"></file-field>
+                {!! BootForm::text(__('Class'), 'class') !!}
             </div>
         </div>
     </div>
