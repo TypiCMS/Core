@@ -3,16 +3,19 @@
     src: url('../../fonts/lucide-subset.woff2?t=1751036098915') format('woff2');
 }
 
-[class^='icon-'],
-[class*=' icon-'] {
+.lucide-icon {
     font-family: 'lucide' !important;
     font-size: inherit;
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+[class^='icon-'],
+[class*=' icon-'] {
+    @extend .lucide-icon;
+}
 .icon-house::before {
-    content: '\e0f9';
+    content: '\e0f5';
 }
 .icon-user::before {
     content: '\e19f';
@@ -21,70 +24,70 @@
     content: '\e34c';
 }
 .icon-image::before {
-    content: '\e0fa';
+    content: '\e0f6';
 }
 .icon-file-text::before {
-    content: '\e0d0';
+    content: '\e0cc';
 }
 .icon-map-pin::before {
-    content: '\e115';
+    content: '\e111';
 }
 .icon-calendar-range::before {
     content: '\e2bd';
 }
 .icon-grid-2x2::before {
-    content: '\e504';
+    content: '\e503';
 }
 .icon-text-select::before {
     content: '\e3e2';
 }
 .icon-tag::before {
-    content: '\e183';
+    content: '\e17f';
 }
 .icon-globe::before {
-    content: '\e0ec';
+    content: '\e0e8';
 }
 .icon-file-image::before {
     content: '\e31d';
 }
 .icon-shield-user::before {
-    content: '\e64c';
+    content: '\e64b';
 }
 .icon-circle-user-round::before {
-    content: '\e467';
+    content: '\e466';
 }
 .icon-settings::before {
-    content: '\e158';
+    content: '\e154';
 }
 .icon-eye::before {
-    content: '\e0be';
+    content: '\e0ba';
 }
 .icon-corner-right-down::before {
-    content: '\e0a9';
+    content: '\e0a5';
 }
 .icon-lock::before {
-    content: '\e10f';
+    content: '\e10b';
 }
 .icon-folder::before {
-    content: '\e0db';
+    content: '\e0d7';
 }
 .icon-file::before {
-    content: '\e0c4';
+    content: '\e0c0';
 }
 .icon-file-music::before {
-    content: '\e563';
+    content: '\e562';
 }
 .icon-file-archive::before {
     content: '\e30d';
 }
-.icon-file-video-2::before {
+.icon-file-video-camera::before {
     content: '\e32d';
 }
 .icon-circle-plus::before {
-    content: '\e085';
+    content: '\e081';
 }
 .icon-move::before {
-    content: '\e125';
+    content: '\e121';
 }
 .icon-x::before {
     content: '\e1b2';
@@ -96,75 +99,75 @@
     content: '\e31b';
 }
 .icon-arrow-left::before {
-    content: '\e04c';
+    content: '\e048';
 }
 .icon-chevron-down::before {
-    content: '\e071';
+    content: '\e06d';
 }
 .icon-chevron-right::before {
-    content: '\e073';
+    content: '\e06f';
 }
 .icon-chevron-left::before {
-    content: '\e072';
+    content: '\e06e';
 }
 .icon-chevron-up::before {
-    content: '\e074';
+    content: '\e070';
 }
 .icon-users::before {
     content: '\e1a4';
 }
 .icon-menu::before {
-    content: '\e119';
+    content: '\e115';
 }
 .icon-sheet::before {
-    content: '\e15b';
+    content: '\e157';
 }
 .icon-cloud-upload::before {
-    content: '\e095';
+    content: '\e091';
 }
 .icon-search::before {
-    content: '\e155';
+    content: '\e151';
 }
 .icon-key-round::before {
-    content: '\e4a8';
+    content: '\e4a7';
 }
 
-$icon-house: '\e0f9';
+$icon-house: '\e0f5';
 $icon-user: '\e19f';
 $icon-newspaper: '\e34c';
-$icon-image: '\e0fa';
-$icon-file-text: '\e0d0';
-$icon-map-pin: '\e115';
+$icon-image: '\e0f6';
+$icon-file-text: '\e0cc';
+$icon-map-pin: '\e111';
 $icon-calendar-range: '\e2bd';
-$icon-grid-2x2: '\e504';
+$icon-grid-2x2: '\e503';
 $icon-text-select: '\e3e2';
-$icon-tag: '\e183';
-$icon-globe: '\e0ec';
+$icon-tag: '\e17f';
+$icon-globe: '\e0e8';
 $icon-file-image: '\e31d';
-$icon-shield-user: '\e64c';
-$icon-circle-user-round: '\e467';
-$icon-settings: '\e158';
-$icon-eye: '\e0be';
-$icon-corner-right-down: '\e0a9';
-$icon-lock: '\e10f';
-$icon-folder: '\e0db';
-$icon-file: '\e0c4';
-$icon-file-music: '\e563';
+$icon-shield-user: '\e64b';
+$icon-circle-user-round: '\e466';
+$icon-settings: '\e154';
+$icon-eye: '\e0ba';
+$icon-corner-right-down: '\e0a5';
+$icon-lock: '\e10b';
+$icon-folder: '\e0d7';
+$icon-file: '\e0c0';
+$icon-file-music: '\e562';
 $icon-file-archive: '\e30d';
-$icon-file-video-2: '\e32d';
-$icon-circle-plus: '\e085';
-$icon-move: '\e125';
+$icon-file-video-camera: '\e32d';
+$icon-circle-plus: '\e081';
+$icon-move: '\e121';
 $icon-x: '\e1b2';
 $icon-pencil: '\e1f9';
 $icon-file-down: '\e31b';
-$icon-arrow-left: '\e04c';
-$icon-chevron-down: '\e071';
-$icon-chevron-right: '\e073';
-$icon-chevron-left: '\e072';
-$icon-chevron-up: '\e074';
+$icon-arrow-left: '\e048';
+$icon-chevron-down: '\e06d';
+$icon-chevron-right: '\e06f';
+$icon-chevron-left: '\e06e';
+$icon-chevron-up: '\e070';
 $icon-users: '\e1a4';
-$icon-menu: '\e119';
-$icon-sheet: '\e15b';
-$icon-cloud-upload: '\e095';
-$icon-search: '\e155';
-$icon-key-round: '\e4a8';
+$icon-menu: '\e115';
+$icon-sheet: '\e157';
+$icon-cloud-upload: '\e091';
+$icon-search: '\e151';
+$icon-key-round: '\e4a7';
