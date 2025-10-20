@@ -9,7 +9,7 @@
 
     <div class="mb-3 d-grid">
         <button class="btn btn-lg btn-primary" onclick="authenticateWithPasskey()">
-            <i class="icon-key-round me-2"></i>
+            <i class="icon-key-round"></i>
             @lang('Authenticate')
         </button>
     </div>
