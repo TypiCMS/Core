@@ -2,6 +2,7 @@
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,7 @@ use Laracasts\Presenter\PresentableTrait;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Spatie\Translatable\HasTranslations;
+use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
 use TypiCMS\Modules\Core\Presenters\PagePresenter;
 use TypiCMS\Modules\Core\Traits\HasFiles;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -29,6 +31,7 @@ use TypiCMS\Modules\Core\Traits\Historable;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
+#[ObservedBy([TipTapHTMLObserver::class])]
 class PageSection extends Base implements Sortable
 {
     use HasFiles;

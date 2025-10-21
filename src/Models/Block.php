@@ -2,10 +2,12 @@
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\Translatable\HasTranslations;
+use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
 use TypiCMS\Modules\Core\Presenters\BlockPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 
@@ -20,6 +22,7 @@ use TypiCMS\Modules\Core\Traits\Historable;
  * @property-read int|null $history_count
  * @property-read mixed $translations
  */
+#[ObservedBy([TipTapHTMLObserver::class])]
 class Block extends Base
 {
     use HasTranslations;
