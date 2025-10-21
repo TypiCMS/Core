@@ -14,9 +14,7 @@ class TipTapHTMLObserver
                 $contents = $model->getTranslations($richTextElement);
                 foreach ($contents as $locale => $content) {
                     $patchedContent = $this->patchTipTapHTML($content, $locale);
-                    if ($patchedContent !== null) {
-                        $model->setTranslation($richTextElement, $locale, $patchedContent);
-                    }
+                    $model->setTranslation($richTextElement, $locale, $patchedContent);
                 }
             }
         }
@@ -24,7 +22,7 @@ class TipTapHTMLObserver
 
     public function patchTipTapHTML(?string $content, string $locale): ?string
     {
-        if ($content === null) {
+        if ($content === null || $content === '<p></p>') {
             return null;
         }
         $dom = new DOMDocument('1.0', 'UTF-8');
