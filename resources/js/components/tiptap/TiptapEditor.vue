@@ -436,9 +436,9 @@
         </bubble-menu>
         <editor-content :editor="editor" :data-language="locale" />
         <textarea :name="name" class="d-none" v-if="editor">{{ editor.getHTML() }}</textarea>
-        <tiptap-link-dialog :id="'link-dialog-' + locale" v-model:link="link" v-model:show="linkDialogOpened" @save="setLink"></tiptap-link-dialog>
-        <tiptap-image-dialog :id="'image-dialog-' + locale" v-model:image="image" v-model:captioned="imageCaptioned" v-model:show="imageDialogOpened" @save="setImage"></tiptap-image-dialog>
-        <tiptap-video-dialog :id="'video-dialog-' + locale" v-model:video="video" v-model:show="videoDialogOpened" @save="addVideo"></tiptap-video-dialog>
+        <tiptap-link-dialog :id="'link-dialog-' + id + '-' + locale" v-model:link="link" v-model:show="linkDialogOpened" @save="setLink"></tiptap-link-dialog>
+        <tiptap-image-dialog :id="'image-dialog-' + id + '-' + locale" v-model:image="image" v-model:captioned="imageCaptioned" v-model:show="imageDialogOpened" @save="setImage"></tiptap-image-dialog>
+        <tiptap-video-dialog :id="'video-dialog-' + id + '-' + locale" v-model:video="video" v-model:show="videoDialogOpened" @save="addVideo"></tiptap-video-dialog>
     </div>
 </template>
 
@@ -494,7 +494,7 @@ import {
     WrapTextIcon,
     XIcon,
 } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { Div } from './div.ts';
@@ -515,6 +515,10 @@ const imageDialogOpened = ref(false);
 
 const video = ref({});
 const videoDialogOpened = ref(false);
+
+const id = computed(() => {
+    return String(props.name).replace(/[^a-z0-9]/g, '');
+});
 
 const props = defineProps({
     name: {
