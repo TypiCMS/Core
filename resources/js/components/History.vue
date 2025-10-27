@@ -43,12 +43,12 @@
                 </table>
             </div>
 
-            <div v-else class="card-body">
+            <div v-else>
                 <div v-if="loading">
                     <span class="text-muted">{{ t('Loading…') }}</span>
                 </div>
                 <div v-else>
-                    <span class="text-muted">{{ searchString !== '' ? t('Nothing found.') : t('History is empty.') }}</span>
+                    <span class="text-muted">{{ searchString !== null ? t('Nothing found.') : t('History is empty.') }}</span>
                 </div>
             </div>
             <item-list-pagination
