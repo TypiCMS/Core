@@ -58,7 +58,7 @@
                                 <div class="input-group-text">
                                     <search-icon size="14" />
                                 </div>
-                                <input id="search" v-model="searchString" class="form-control" type="text" @input="onSearchStringChanged" />
+                                <input id="search" v-model="searchString" class="form-control" type="search" @input="onSearchStringChanged" />
                             </div>
                         </div>
                         <div v-if="translatable && locales.length > 1" class="btn-group btn-group-sm">
