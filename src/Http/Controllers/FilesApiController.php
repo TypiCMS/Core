@@ -31,7 +31,7 @@ class FilesApiController extends BaseApiController
 
             return [
                 'models' => $query->get(),
-                'path' => [],
+                'path' => $this->getPath(),
             ];
         }
 
@@ -98,7 +98,7 @@ class FilesApiController extends BaseApiController
     }
 
     /** @return array<File|stdClass> */
-    private function getPath(?int $folderId): array
+    private function getPath(?int $folderId = null): array
     {
         $folder = File::query()->find($folderId);
         $path = [];
