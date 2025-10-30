@@ -16,30 +16,28 @@
     {!! BootForm::hidden('width') !!}
     {!! BootForm::hidden('height') !!}
 
-    <div class="row gx-3">
-        <div class="col-lg-6">
-            @if ($model->type !== 'f')
+    @if ($model->type === 'f')
+        {!! BootForm::text(__('Name'), 'name')->autocomplete('off') !!}
+    @else
+        <div class="row gx-3">
+            <div class="col-lg-6">
                 {!! TranslatableBootForm::text(__('Title'), 'title') !!}
                 {!! TranslatableBootForm::textarea(__('Description'), 'description') !!}
-            @endif
 
-            @if ($model->type === 'i')
-                {!! TranslatableBootForm::text(__('Alt attribute'), 'alt_attribute') !!}
-            @endif
+                @if ($model->type === 'i')
+                    {!! TranslatableBootForm::text(__('Alt attribute'), 'alt_attribute') !!}
+                @endif
 
-            {!! BootForm::text(__('Name'), 'name')->autocomplete('off') !!}
+                {!! BootForm::text(__('Name'), 'name')->autocomplete('off') !!}
 
-            @if ($model->type !== 'f')
                 {!! BootForm::file(__('Replace file'), 'file') !!}
-            @endif
-        </div>
+            </div>
 
-        <div class="col-lg-6">
-            @if ($model->type === 'i')
-                <image-cropper :image-url="'{{ Storage::url($model->path) }}'" :file-id="{{ $model->id }}"></image-cropper>
-            @endif
+            <div class="col-lg-6">
+                @if ($model->type === 'i')
+                    <image-cropper :image-url="'{{ Storage::url($model->path) }}'" :file-id="{{ $model->id }}"></image-cropper>
+                @endif
 
-            @if ($model->type !== 'f')
                 <table class="table table-sm table-striped">
                     <tbody>
                         <tr>
@@ -85,9 +83,11 @@
                         @endif
                     </tbody>
                 </table>
-            @endif
+
+            </div>
         </div>
-    </div>
+    @endif
+
     @push('js')
         <script>
             function copyToClipboard(content) {
