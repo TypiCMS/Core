@@ -16,6 +16,25 @@ class FilesApiController extends BaseApiController
     /** @return array<string, mixed> */
     public function index(Request $request): array
     {
+        if ($request->has('search') && $request->string('search')->isNotEmpty()) {
+            $searchTerm = $request->string('search')->value();
+
+            $query = File::query()
+                ->with('folder')
+                ->where(function ($query) use ($searchTerm): void {
+                    $query->where('name', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('title', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('description', 'like', '%' . $searchTerm . '%');
+                })
+                ->orderByRaw('type="f" desc')
+                ->orderBy('name');
+
+            return [
+                'models' => $query->get(),
+                'path' => [],
+            ];
+        }
+
         $folderId = null;
         if ($request->has('folder_id')) {
             $folderId = $request->integer('folder_id');

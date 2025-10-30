@@ -58,6 +58,12 @@
                     </div>
                 </div>
                 <div class="btn-group btn-group-sm ms-auto">
+                    <div class="input-group input-group-sm mb-0">
+                        <div class="input-group-text">
+                            <search-icon size="14" />
+                        </div>
+                        <input id="search" v-model="searchString" class="form-control" type="search" @input="onSearchStringChanged" @search="onSearchCleared" />
+                    </div>
                     <button
                         v-if="props.multiple"
                         id="add-selected-files-button"
@@ -148,7 +154,7 @@
 </template>
 
 <script setup>
-import { ArrowLeftIcon, CloudUploadIcon, FileIcon, FileMusicIcon, FileVideo2Icon, FolderIcon, FolderPlusIcon, LayoutGridIcon, LayoutListIcon } from 'lucide-vue-next';
+import { ArrowLeftIcon, CloudUploadIcon, FileIcon, FileMusicIcon, FileVideo2Icon, FolderIcon, FolderPlusIcon, LayoutGridIcon, LayoutListIcon, SearchIcon } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -181,10 +187,12 @@ const props = defineProps({
     },
 });
 const loadingTimeout = ref(null);
+const fetchTimeout = ref(null);
 const dragging = ref(false);
 const loading = ref(false);
 const view = ref('grid');
 const uppyUploaderRef = ref(null);
+const searchString = ref(null);
 
 const buttonProps = computed(() => {
     return uppyUploaderRef.value?.dropzoneRef?.getButtonProps?.() || {};
@@ -201,13 +209,21 @@ if (sessionStorage.getItem('view')) {
 
 const url = computed(() => {
     let url = urlBase.value;
-    if (sessionStorage.getItem('folder')) {
-        folder.value = JSON.parse(sessionStorage.getItem('folder'));
+    const params = new URLSearchParams();
+
+    if (searchString.value) {
+        params.append('search', searchString.value);
+    } else {
+        if (sessionStorage.getItem('folder')) {
+            folder.value = JSON.parse(sessionStorage.getItem('folder'));
+        }
+        if (folder.value.id !== '') {
+            params.append('folder_id', folder.value.id);
+        }
     }
-    if (folder.value.id !== '') {
-        url += '?folder_id=' + folder.value.id;
-    }
-    return url;
+
+    const queryString = params.toString();
+    return queryString ? `${url}?${queryString}` : url;
 });
 
 const filteredItems = computed(() => {
@@ -223,6 +239,20 @@ const selectedFiles = computed(() => {
 });
 
 fetchData();
+
+function onSearchStringChanged() {
+    clearTimeout(fetchTimeout.value);
+    fetchTimeout.value = setTimeout(() => {
+        selectedItems.value = [];
+        fetchData();
+    }, 300);
+}
+
+function onSearchCleared() {
+    searchString.value = null;
+    selectedItems.value = [];
+    fetchData();
+}
 
 async function fetchData() {
     startLoading();
@@ -474,6 +504,7 @@ function switchView(viewType) {
 
 function openFolder(folderToOpen) {
     folder.value = folderToOpen;
+    searchString.value = null;
     sessionStorage.setItem('folder', JSON.stringify(folder.value));
     fetchData();
     checkNone();
