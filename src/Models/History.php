@@ -23,7 +23,7 @@ use TypiCMS\Modules\Core\Presenters\HistoryPresenter;
  * @property object $new
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Model $historable
+ * @property-read ?Model $historable
  * @property-read mixed $href
  * @property-write mixed $status
  * @property-read User|null $user
