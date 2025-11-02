@@ -5,9 +5,9 @@ namespace TypiCMS\Modules\Core\Models;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
-use Spatie\Translatable\HasTranslations;
 use TypiCMS\Modules\Core\Presenters\TranslationsPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
+use TypiCMS\Translatable\HasTranslations;
 
 /**
  * @property int $id

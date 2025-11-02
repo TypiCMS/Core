@@ -9,10 +9,10 @@ use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
-use Spatie\Translatable\HasTranslations;
 use TypiCMS\Modules\Core\Observers\SlugObserver;
 use TypiCMS\Modules\Core\Presenters\TaxonomyPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
+use TypiCMS\Translatable\HasTranslations;
 
 /**
  * @property int $id

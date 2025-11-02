@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
-use Spatie\Translatable\HasTranslations;
 use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
 use TypiCMS\Modules\Core\Presenters\BlockPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
+use TypiCMS\Translatable\HasTranslations;
 
 /**
  * @property int $id

@@ -11,10 +11,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Laracasts\Presenter\PresentableTrait;
-use Spatie\Translatable\HasTranslations;
 use TypiCMS\Modules\Core\Presenters\MenusPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
 use TypiCMS\NestableCollection;
+use TypiCMS\Translatable\HasTranslations;
 
 /**
  * @property int $id

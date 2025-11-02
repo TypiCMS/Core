@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Spatie\Translatable\Facades\Translatable;
 use TypiCMS\Modules\Core\Commands\Create;
 use TypiCMS\Modules\Core\Commands\CreateUser;
 use TypiCMS\Modules\Core\Commands\Database;
@@ -54,8 +53,6 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Translatable::allowNullForTranslation();
-
         Gate::before(function ($user) {
             if ($user->isSuperUser()) {
                 return true;

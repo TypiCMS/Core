@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Laracasts\Presenter\PresentableTrait;
-use Spatie\Translatable\HasTranslations;
 use TypiCMS\Modules\Core\Presenters\FilePresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
+use TypiCMS\Translatable\HasTranslations;
 
 /**
  * @property int $id

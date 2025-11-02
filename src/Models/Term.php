@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Route;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
-use Spatie\Translatable\HasTranslations;
 use TypiCMS\Modules\Core\Observers\SlugObserver;
 use TypiCMS\Modules\Core\Presenters\TermPresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
+use TypiCMS\Translatable\HasTranslations;
 
 /**
  * @property int $id

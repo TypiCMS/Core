@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\Route;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
-use Spatie\Translatable\HasTranslations;
 use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
 use TypiCMS\Modules\Core\Presenters\PagePresenter;
 use TypiCMS\Modules\Core\Traits\HasFiles;
 use TypiCMS\Modules\Core\Traits\Historable;
+use TypiCMS\Translatable\HasTranslations;
 
 /**
  * @property int $id

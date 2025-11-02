@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
-use Spatie\Translatable\HasTranslations;
 use TypiCMS\Modules\Core\Observers\AddToMenuObserver;
 use TypiCMS\Modules\Core\Observers\HomePageObserver;
 use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
@@ -21,6 +20,7 @@ use TypiCMS\Modules\Core\Presenters\PagePresenter;
 use TypiCMS\Modules\Core\Traits\HasFiles;
 use TypiCMS\Modules\Core\Traits\Historable;
 use TypiCMS\NestableCollection;
+use TypiCMS\Translatable\HasTranslations;
 
 /**
  * @property int $id
