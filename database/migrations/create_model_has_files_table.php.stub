@@ -8,7 +8,7 @@ return new class() extends Migration {
 
     public function up(): void
     {
-        Schema::create('model_has_files', function (Blueprint $table) {
+        Schema::create('model_has_files', function (Blueprint $table): void {
             $table->foreignId('file_id')->constrained()->onDelete('cascade');
             $table->morphs('model', 'file');
             $table->unsignedInteger('position');

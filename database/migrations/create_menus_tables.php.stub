@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
 return new class() extends Migration {
     public function up(): void
     {
-        Schema::create('menus', function (Blueprint $table) {
+        Schema::create('menus', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('image_id')->nullable()->constrained('files')->nullOnDelete();
             $table->string('name');
@@ -16,7 +16,7 @@ return new class() extends Migration {
             $table->json('status')->default(new Expression('(JSON_OBJECT())'));
             $table->timestamps();
         });
-        Schema::create('menulinks', function (Blueprint $table) {
+        Schema::create('menulinks', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('menu_id')->constrained()->onDelete('cascade');
             $table->foreignId('page_id')->nullable()->constrained()->onDelete('cascade');

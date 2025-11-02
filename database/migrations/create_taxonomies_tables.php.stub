@@ -9,7 +9,7 @@ return new class() extends Migration {
 
     public function up(): void
     {
-        Schema::create('taxonomies', function (Blueprint $table) {
+        Schema::create('taxonomies', function (Blueprint $table): void {
             $table->id();
             $table->unsignedInteger('position');
             $table->string('name');
@@ -20,7 +20,7 @@ return new class() extends Migration {
             $table->json('modules')->default(new Expression('(JSON_ARRAY())'));
             $table->timestamps();
         });
-        Schema::create('terms', function (Blueprint $table) {
+        Schema::create('terms', function (Blueprint $table): void {
             $table->id();
             $table->unsignedInteger('position');
             $table->foreignId('taxonomy_id')->constrained()->onDelete('cascade');
@@ -28,7 +28,7 @@ return new class() extends Migration {
             $table->json('slug')->default(new Expression('(JSON_OBJECT())'));
             $table->timestamps();
         });
-        Schema::create('model_has_terms', function (Blueprint $table) {
+        Schema::create('model_has_terms', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('term_id')->constrained()->onDelete('cascade');
             $table->foreignId('model_id');

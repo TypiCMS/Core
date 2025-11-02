@@ -8,13 +8,13 @@ return new class() extends Migration {
 
     public function up(): void
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table): void {
             $table->id();
             $table->string('tag');
             $table->string('slug');
             $table->timestamps();
         });
-        Schema::create('taggables', function (Blueprint $table) {
+        Schema::create('taggables', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('tag_id')->constrained()->onDelete('cascade');
             $table->foreignId('taggable_id');

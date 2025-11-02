@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
 return new class() extends Migration {
     public function up(): void
     {
-        Schema::create('history', function (Blueprint $table) {
+        Schema::create('history', function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->unsignedInteger('historable_id');
             $table->string('historable_type');
