@@ -57,18 +57,19 @@
                         <span class="visually-hidden">{{ t('Loading…') }}</span>
                     </div>
                 </div>
-                <div class="btn-group btn-group-sm ms-auto">
+                <div class="d-flex gap-2 ms-auto">
                     <div class="input-group input-group-sm mb-0">
                         <div class="input-group-text">
                             <search-icon size="14" />
                         </div>
                         <input id="search" v-model="searchString" class="form-control" type="search" @input="onSearchStringChanged" @search="onSearchCleared" />
                     </div>
+
                     <button
                         v-if="props.multiple"
                         id="add-selected-files-button"
                         :disabled="selectedFiles.length < 1"
-                        class="btn btn-primary filemanager-btn-add btn-add-multiple"
+                        class="btn btn-sm btn-primary filemanager-btn-add btn-add-multiple"
                         type="button"
                         @click="addSelectedFiles()"
                     >
@@ -79,24 +80,26 @@
                         v-if="props.single"
                         id="add-selected-file-button"
                         :disabled="selectedFiles.length !== 1 || (selectedFiles[0].type !== Array.from(props.type)[0] && props.type !== '')"
-                        class="btn btn-primary filemanager-btn-add btn-add-single"
+                        class="btn btn-sm btn-primary filemanager-btn-add btn-add-single"
                         type="button"
                         @click="addSingleFile(selectedFiles[0])"
                     >
                         {{ t('Add selected file') }}
                     </button>
+
                     <button
                         v-if="props.selectSingleFile"
                         id="add-selected-file-button"
                         :disabled="selectedFiles.length !== 1 || (selectedFiles[0].type !== Array.from(props.type)[0] && props.type !== '')"
-                        class="btn btn-primary filemanager-btn-add btn-add-single"
+                        class="btn btn-sm btn-primary filemanager-btn-add btn-add-single"
                         type="button"
                         @click="selectSingleFile(selectedFiles[0])"
                     >
                         {{ t('Select file') }}
                     </button>
                 </div>
-                <button id="upload-files-button" v-bind="buttonProps" class="btn btn-sm btn-light header-btn-add" type="button">
+
+                <button class="btn btn-sm btn-light header-btn-add" id="upload-files-button" v-bind="buttonProps" type="button">
                     <cloud-upload-icon size="16" />
                     {{ t('Upload files') }}
                 </button>
