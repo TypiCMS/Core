@@ -60,7 +60,7 @@ class AuthController extends Controller
         $user = $this->findUser();
 
         if ($this->rateLimitHit()) {
-            return redirect()->back()
+            return back()
                 ->withInput($request->only('email'))
                 ->withErrors(['$errors' => __('Please try later.')]);
         }
