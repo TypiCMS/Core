@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
 class PageSeeder extends Seeder
@@ -22,8 +22,8 @@ class PageSeeder extends Seeder
                 'status' => '{"fr": 1, "en": 1, "nl": 1}',
                 'module' => null,
                 'template' => 'home',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => Date::now(),
+                'updated_at' => Date::now(),
             ],
             [
                 'id' => 2,
@@ -36,8 +36,8 @@ class PageSeeder extends Seeder
                 'status' => '{"fr": 1, "en": 1, "nl": 1}',
                 'module' => null,
                 'template' => null,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => Date::now(),
+                'updated_at' => Date::now(),
             ],
             [
                 'id' => 3,
@@ -50,8 +50,8 @@ class PageSeeder extends Seeder
                 'status' => '{"fr": 1, "en": 1, "nl": 1}',
                 'module' => 'search',
                 'template' => null,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => Date::now(),
+                'updated_at' => Date::now(),
             ],
             [
                 'id' => 4,
@@ -64,8 +64,8 @@ class PageSeeder extends Seeder
                 'status' => '{"fr": 1, "en": 1, "nl": 1}',
                 'module' => null,
                 'template' => null,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => Date::now(),
+                'updated_at' => Date::now(),
             ],
             [
                 'id' => 5,
@@ -78,8 +78,8 @@ class PageSeeder extends Seeder
                 'status' => '{"fr": 1, "en": 1, "nl": 1}',
                 'module' => null,
                 'template' => null,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => Date::now(),
+                'updated_at' => Date::now(),
             ],
             [
                 'id' => 6,
@@ -92,8 +92,8 @@ class PageSeeder extends Seeder
                 'status' => '{"fr": 1, "en": 1, "nl": 1}',
                 'module' => null,
                 'template' => null,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => Date::now(),
+                'updated_at' => Date::now(),
             ],
         ];
 
