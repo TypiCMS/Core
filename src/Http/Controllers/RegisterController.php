@@ -29,8 +29,7 @@ class RegisterController extends Controller
         $data = $request->validated();
 
         if (User::query()->where('email', $data['email'])->exists()) {
-            return redirect()
-                ->route(app()->getLocale() . '::login')
+            return to_route(app()->getLocale() . '::login')
                 ->with('status', __('An account already exists for this email address.'));
         }
 
@@ -51,8 +50,7 @@ class RegisterController extends Controller
 
         event(new Registered($user));
 
-        return redirect()
-            ->route(app()->getLocale() . '::login-code')
+        return to_route(app()->getLocale() . '::login-code')
             ->with('status', __('Your account has been created, check your email for the one time login code.'));
     }
 }

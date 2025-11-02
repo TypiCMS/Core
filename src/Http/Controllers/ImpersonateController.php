@@ -27,6 +27,6 @@ class ImpersonateController extends Controller
     {
         Session::forget('impersonation');
 
-        return redirect()->route('admin::dashboard');
+        return to_route('admin::dashboard');
     }
 }

@@ -44,7 +44,7 @@ class AuthController extends Controller
     public function showPasskeyCreationForm(): View|RedirectResponse
     {
         if (auth()->check() && auth()->user()->passkeys->isNotEmpty()) {
-            return redirect()->route('admin::dashboard');
+            return to_route('admin::dashboard');
         }
 
         return view('users::create-passkey');
@@ -69,7 +69,7 @@ class AuthController extends Controller
 
         $user->sendOneTimePassword();
 
-        return redirect()->route(app()->getLocale() . '::login-code')
+        return to_route(app()->getLocale() . '::login-code')
             ->withInput($request->only('email'))
             ->with('status', __('A one-time password has been sent to your email address.'));
     }
@@ -77,8 +77,7 @@ class AuthController extends Controller
     public function submitOneTimePassword(Request $request): RedirectResponse
     {
         if (session()->missing('email')) {
-            return redirect()
-                ->route(app()->getLocale() . '::otp-login')
+            return to_route(app()->getLocale() . '::otp-login')
                 ->with('status', __('Please enter your email address first.'));
         }
         $this->email = session('email');
@@ -92,10 +91,10 @@ class AuthController extends Controller
         auth()->login($user);
 
         if ($user->passkeys->isEmpty()) {
-            return redirect()->route(app()->getLocale() . '::create-passkey');
+            return to_route(app()->getLocale() . '::create-passkey');
         }
 
-        return redirect()->route('admin::dashboard');
+        return to_route('admin::dashboard');
     }
 
     protected function findUser(): ?Authenticatable

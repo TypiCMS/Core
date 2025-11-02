@@ -49,7 +49,7 @@ class SettingsAdminController extends BaseAdminController
             }
         }
 
-        return redirect()->route('admin::index-settings');
+        return to_route('admin::index-settings');
     }
 
     public function clearCache(): RedirectResponse
@@ -57,7 +57,7 @@ class SettingsAdminController extends BaseAdminController
         Cache::flush();
         $message = __('Cache cleared.');
 
-        return redirect()->route('admin::index-settings')
+        return to_route('admin::index-settings')
             ->with(['message' => $message]);
     }
 }
