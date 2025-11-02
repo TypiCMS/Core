@@ -16,7 +16,7 @@ class SearchPublicController extends BasePublicController
         $data = [];
         $data['query'] = e($request->string('query'));
         $validator = Validator::make($data, [
-            'query' => 'required|string|min:3',
+            'query' => ['required', 'string', 'min:3'],
         ]);
         if ($validator->fails()) {
             return view('search::public.index')

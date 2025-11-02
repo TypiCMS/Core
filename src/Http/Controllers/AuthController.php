@@ -53,7 +53,7 @@ class AuthController extends Controller
     protected function submitOneTimePasswordLoginForm(Request $request): RedirectResponse
     {
         Validator::make($request->all(), [
-            'email' => 'required|email:rfc,dns|exists:users,email',
+            'email' => ['required', 'email:rfc,dns', 'exists:users,email'],
         ])->validate();
 
         $this->email = $request->string('email');

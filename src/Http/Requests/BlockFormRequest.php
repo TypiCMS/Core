@@ -2,15 +2,18 @@
 
 namespace TypiCMS\Modules\Core\Http\Requests;
 
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Unique;
+
 class BlockFormRequest extends AbstractFormRequest
 {
-    /** @return array<string, string> */
+    /** @return array<string, list<Unique|string>> */
     public function rules(): array
     {
         return [
-            'name' => 'required|max:255|alpha_dash|unique:blocks,name,' . $this->block?->id,
-            'status.*' => 'boolean',
-            'body.*' => 'nullable|max:20000',
+            'name' => ['required', 'max:255', 'alpha_dash', Rule::unique('blocks', 'name')->ignore($this->block?->id)],
+            'status.*' => ['boolean'],
+            'body.*' => ['nullable', 'max:20000'],
         ];
     }
 }

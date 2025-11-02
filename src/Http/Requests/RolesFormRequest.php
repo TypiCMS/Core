@@ -2,13 +2,16 @@
 
 namespace TypiCMS\Modules\Core\Http\Requests;
 
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Unique;
+
 class RolesFormRequest extends AbstractFormRequest
 {
-    /** @return array<string, string> */
+    /** @return array<string, list<Unique|string>> */
     public function rules(): array
     {
         return [
-            'name' => 'required|min:4|max:255|unique:roles,name,' . $this->role?->id,
+            'name' => ['required', 'min:4', 'max:255', Rule::unique('roles', 'name')->ignore($this->role?->id)],
         ];
     }
 }
