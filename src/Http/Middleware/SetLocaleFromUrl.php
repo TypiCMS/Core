@@ -4,8 +4,8 @@ namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Number;
 
 class SetLocaleFromUrl
@@ -26,7 +26,7 @@ class SetLocaleFromUrl
             abort(404);
         }
         App::setLocale($locale);
-        Carbon::setLocale(localeAndRegion());
+        Date::setLocale(localeAndRegion());
         Number::useLocale(localeAndRegion());
 
         return $next($request);

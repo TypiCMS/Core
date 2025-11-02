@@ -3,7 +3,7 @@
 namespace TypiCMS\Modules\Core\Presenters;
 
 use Bkwld\Croppa\Facades\Croppa;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -50,7 +50,7 @@ abstract class Presenter extends BasePresenter
      */
     public function datetimeOrNow(string $column = 'date'): string
     {
-        $date = $this->entity->{$column} ?: Carbon::now();
+        $date = $this->entity->{$column} ?: Date::now();
 
         return $date->format('Y-m-d\TH:i');
     }
@@ -60,7 +60,7 @@ abstract class Presenter extends BasePresenter
      */
     public function dateOrNow(string $column = 'date'): string
     {
-        $date = $this->entity->{$column} ?: Carbon::now();
+        $date = $this->entity->{$column} ?: Date::now();
 
         return $date->format('Y-m-d');
     }
@@ -70,7 +70,7 @@ abstract class Presenter extends BasePresenter
      */
     public function timeOrNow(string $column = 'date'): string
     {
-        $date = $this->entity->{$column} ?: Carbon::now();
+        $date = $this->entity->{$column} ?: Date::now();
 
         return $date->format('H:i');
     }
