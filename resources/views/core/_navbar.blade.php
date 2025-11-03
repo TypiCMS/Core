@@ -13,9 +13,9 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     @if (Request::segment(1) === 'admin')
-                        <x-core::navbar-public-link :model="$model ?? null" />
+                        <x-core::navbar-public-link :page="$page ?? null" :model="$model ?? null" />
                     @else
-                        <x-core::navbar-admin-link :model="$model ?? null" />
+                        <x-core::navbar-admin-link :page="$page ?? null" :model="$model ?? null" />
                     @endif
                 </li>
                 <li class="nav-item dropdown">
