@@ -7,9 +7,9 @@
     <button class="btn btn-sm btn-light" type="submit">
         @lang('Save')
     </button>
-    @if ($model->getTable() === 'pages' || Route::has(config('typicms.content_locale') . '::' . Str::singular($model->getTable())))
+    @if (in_array($model->getTable(), ['pages', 'page_sections']) || Route::has(config('typicms.content_locale') . '::' . Str::singular($model->getTable())))
         @foreach ($locales as $locale)
-            <a class="btn btn-sm btn-light btn-preview" href="{{ $model->previewUrl($locale) }}?preview=true" data-language="{{ $locale }}">
+            <a class="btn btn-sm btn-light btn-preview" href="{{ $model->previewUrl($locale) }}" data-language="{{ $locale }}">
                 @lang('Preview')
             </a>
         @endforeach

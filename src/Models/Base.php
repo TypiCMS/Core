@@ -25,11 +25,24 @@ abstract class Base extends Model
 
     public function previewUrl(?string $locale = null): string
     {
-        if ($this->id) {
-            return $this->url($locale);
+        if (!$this->id) {
+            return url('/');
         }
 
-        return url('/');
+        $url = $this->url($locale);
+
+        $parts = explode('#', $url, 2);
+        $baseUrl = $parts[0];
+        $fragment = $parts[1] ?? null;
+
+        $separator = str_contains($baseUrl, '?') ? '&' : '?';
+        $urlWithPreview = $baseUrl . $separator . 'preview=true';
+
+        if ($fragment !== null) {
+            $urlWithPreview .= '#' . $fragment;
+        }
+
+        return $urlWithPreview;
     }
 
     public function isPublished(?string $locale = null): bool

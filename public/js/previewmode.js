@@ -1,19 +1,16 @@
 /**
- * Add query preview=true on every <a href>
- * Required for previewing in admin side
+ * Appends preview=true query parameter to all same-domain links.
+ * Maintains preview mode when navigating between pages.
  */
 'use strict';
 
-var params = {};
-window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (str, key, value) {
-    params[key] = value;
-});
-if (params.preview) {
-    document.querySelectorAll('[href]').forEach((link) => {
-        var chunks = link.href.split('#');
-        if (chunks[0] !== '') {
-            chunks[0] = chunks[0] + (chunks[0].indexOf('?') !== -1 ? '&preview=true' : '?preview=true');
+const searchParams = new URLSearchParams(window.location.search);
+if (searchParams.has('preview')) {
+    document.querySelectorAll('a[href]').forEach((link) => {
+        const url = new URL(link.href);
+        if (url.hostname === window.location.hostname) {
+            url.searchParams.set('preview', 'true');
+            link.href = url.toString();
         }
-        link.href = chunks.join('#');
     });
 }
