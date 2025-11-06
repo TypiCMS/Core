@@ -38,7 +38,8 @@ class PagesPublicController extends BasePublicController
 
     private function findPageByUri(?string $uri): Page
     {
-        $query = Page::query()->published()
+        $query = Page::query()
+            ->published()
             ->with([
                 'image',
                 'images',
@@ -62,8 +63,6 @@ class PagesPublicController extends BasePublicController
         ) {
             return $query->where('is_home', 1)->firstOrFail();
         }
-
-        $query->published();
 
         $query->whereUriIs($uri);
 
