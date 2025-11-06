@@ -49,7 +49,8 @@ class Block extends Base
         $args = func_get_args();
         $args[] = app()->getLocale();
 
-        $block = $this->where('name', $name)
+        $block = self::query()
+            ->where('name', $name)
             ->published()
             ->first();
 

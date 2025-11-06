@@ -29,7 +29,7 @@ class Setting extends Model
         $config = [];
 
         try {
-            foreach ($this->get() as $object) {
+            foreach (self::query()->get() as $object) {
                 $key = $object->key_name;
                 if ($object->group_name != 'config') {
                     $config[$object->group_name][$key] = $object->value;
