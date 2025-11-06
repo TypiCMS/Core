@@ -178,7 +178,7 @@ class Page extends Base
             ->nest()
             ->listsFlattened();
 
-        return ['' => ''] + array_map('strip_tags', $pages);
+        return ['' => ''] + array_map(strip_tags(...), $pages);
     }
 
     public function getSubPages(): NestableCollection

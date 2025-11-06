@@ -18,7 +18,7 @@ trait HasFiles
 
     public function syncIds(string $ids): void
     {
-        $idsArray = array_filter(array_map('trim', explode(',', $ids)));
+        $idsArray = array_filter(array_map(trim(...), explode(',', $ids)));
         $data = [];
         $position = 1;
         foreach ($idsArray as $id) {
