@@ -150,7 +150,7 @@ abstract class Presenter extends BasePresenter
     public function dynamicLinks(string $property = 'body'): string
     {
         $text = $this->entity->$property;
-        preg_match_all('/{!! ([a-z]+):(d+) !!}/', (string) $text, $matches, PREG_SET_ORDER);
+        preg_match_all('/{!! ([a-z]+):(\d+) !!}/', (string) $text, $matches, PREG_SET_ORDER);
         $patterns = [];
         $replacements = [];
         $lang = app()->getLocale();
