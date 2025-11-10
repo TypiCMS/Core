@@ -97,3 +97,9 @@ blockquote {
 .required_mark {
     color: var(--bs-red);
 }
+
+[data-youtube-video],
+[data-iframe-wrapper] {
+    @extend .ratio;
+    @extend .ratio-16x9;
+}

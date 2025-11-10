@@ -233,7 +233,10 @@
             <button type="button" class="tiptap-button" :title="t('Image')" v-tooltip @click="openImageDialog" :class="{ 'is-active': editor.isActive('image') }">
                 <image-icon size="18" stroke-width="1.5" />
             </button>
-            <button type="button" class="tiptap-button" :title="t('YouTube Video')" v-tooltip @click="openVideoDialog">
+            <button type="button" class="tiptap-button" :title="t('YouTube Video')" v-tooltip @click="openYoutubeDialog" :class="{ 'is-active': editor.isActive('youtube') }">
+                <youtube-icon size="18" stroke-width="1.5" />
+            </button>
+            <button type="button" class="tiptap-button" :title="t('Embed Iframe')" v-tooltip @click="openIframeDialog">
                 <video-icon size="18" stroke-width="1.5" />
             </button>
 
@@ -401,7 +404,7 @@
                 <redo-icon size="18" stroke-width="1.5" />
             </button>
         </div>
-        <bubble-menu :editor="editor" v-if="editor && !editor.isActive('video')">
+        <bubble-menu :editor="editor" v-if="editor">
             <div class="bubble-menu btn-group shadow">
                 <button
                     v-if="!editor.isActive('image')"
@@ -438,7 +441,8 @@
         <textarea :name="name" class="d-none" v-if="editor">{{ editor.getHTML() }}</textarea>
         <tiptap-link-dialog :id="'link-dialog-' + id + '-' + locale" v-model:link="link" v-model:show="linkDialogOpened" @save="setLink"></tiptap-link-dialog>
         <tiptap-image-dialog :id="'image-dialog-' + id + '-' + locale" v-model:image="image" v-model:captioned="imageCaptioned" v-model:show="imageDialogOpened" @save="setImage"></tiptap-image-dialog>
-        <tiptap-video-dialog :id="'video-dialog-' + id + '-' + locale" v-model:video="video" v-model:show="videoDialogOpened" @save="addVideo"></tiptap-video-dialog>
+        <tiptap-video-dialog :id="'youtube-dialog-' + id + '-' + locale" v-model:video="youtube" v-model:show="youtubeDialogOpened" @save="addYoutube" title="YouTube Video"></tiptap-video-dialog>
+        <tiptap-video-dialog :id="'iframe-dialog-' + id + '-' + locale" v-model:video="iframe" v-model:show="iframeDialogOpened" @save="addIframe" title="Media embed"></tiptap-video-dialog>
     </div>
 </template>
 
@@ -493,6 +497,7 @@ import {
     VideoIcon,
     WrapTextIcon,
     XIcon,
+    YoutubeIcon,
 } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -500,6 +505,7 @@ import { useI18n } from 'vue-i18n';
 import { Div } from './div.ts';
 import { Figcaption } from './figcaption.ts';
 import { Figure } from './figure.ts';
+import { Iframe } from './iframe.ts';
 import TiptapImageDialog from './TiptapImageDialog.vue';
 import TiptapLinkDialog from './TiptapLinkDialog.vue';
 import TiptapVideoDialog from './TiptapVideoDialog.vue';
@@ -513,8 +519,11 @@ const image = ref({});
 const imageCaptioned = ref(false);
 const imageDialogOpened = ref(false);
 
-const video = ref({});
-const videoDialogOpened = ref(false);
+const youtube = ref({});
+const youtubeDialogOpened = ref(false);
+
+const iframe = ref({});
+const iframeDialogOpened = ref(false);
 
 const id = computed(() => {
     return String(props.name).replace(/[^a-z0-9]/g, '');
@@ -550,12 +559,11 @@ const blockStyles = [
 ];
 
 const linkStyles = [
-    { tag: 'a', class: 'btn btn-primary', label: 'Button Primary' },
-    { tag: 'a', class: 'btn btn-secondary', label: 'Button Secondary' },
-    { tag: 'a', class: 'btn btn-dark', label: 'Button Dark' },
-    { tag: 'a', class: 'btn btn-outline-primary', label: 'Button Outline Primary' },
-    { tag: 'a', class: 'btn btn-outline-secondary', label: 'Button Outline Secondary' },
-    { tag: 'a', class: 'btn btn-outline-dark', label: 'Button Outline Dark' },
+    { tag: 'a', class: 'btn-civis-primary', label: 'Button Primary' },
+    { tag: 'a', class: 'btn-civis-secondary', label: 'Button Secondary' },
+    { tag: 'a', class: 'btn-civis-white', label: 'Button White' },
+    { tag: 'a', class: 'btn-civis-outline-primary', label: 'Button Outline Primary' },
+    { tag: 'a', class: 'btn-civis-outline-secondary', label: 'Button Outline Secondary' },
 ];
 
 const CustomParagraph = Paragraph.extend({
@@ -610,8 +618,17 @@ const editor = useEditor({
         Superscript,
         Subscript,
         Youtube.configure({
-            controls: false,
+            controls: true,
             nocookie: true,
+            modestBranding: true,
+            width: 560,
+            height: 315,
+        }),
+        Iframe.configure({
+            allowFullscreen: true,
+            HTMLAttributes: {
+                class: 'iframe-wrapper',
+            },
         }),
         Figure,
         Figcaption,
@@ -712,15 +729,30 @@ const setImage = function () {
     }
 };
 
-const openVideoDialog = function () {
-    videoDialogOpened.value = true;
-    video.value = {};
+const openYoutubeDialog = function () {
+    youtubeDialogOpened.value = true;
+    youtube.value = {};
 };
 
-const addVideo = function () {
+const addYoutube = function () {
     editor.value.commands.setYoutubeVideo({
-        src: video.value.src,
-        width: '100%',
+        src: youtube.value.src,
+    });
+};
+
+const openIframeDialog = function () {
+    iframeDialogOpened.value = true;
+    iframe.value = {};
+};
+
+const addIframe = function () {
+    editor.value.commands.insertContent({
+        type: 'iframe',
+        attrs: {
+            src: iframe.value.src,
+            width: 560,
+            height: 315,
+        },
     });
 };
 

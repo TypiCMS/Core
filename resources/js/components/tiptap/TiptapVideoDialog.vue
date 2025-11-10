@@ -3,13 +3,14 @@
         <div class="modal-dialog modal-dialog-centered">
             <form class="modal-content" @submit.prevent="save">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" :id="props.id + '-label'">{{ t('YouTube Video') }}</h1>
+                    <h1 class="modal-title fs-5" :id="props.id + '-label'">{{ props.title || t('Embed Video') }}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="t('Close')"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-2">
                         <label :for="props.id + '-src'" class="col-form-label">{{ t('URL') }}</label>
-                        <input :id="props.id + '-src'" type="url" class="form-control" v-model="src" />
+                        <input :id="props.id + '-src'" type="url" class="form-control" v-model="src" :placeholder="placeholderText" />
+                        <small class="form-text text-muted">{{ helpText }}</small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -23,7 +24,7 @@
 
 <script setup>
 import Modal from 'bootstrap/js/dist/modal';
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
@@ -41,6 +42,24 @@ const props = defineProps({
     id: {
         type: String,
     },
+    title: {
+        type: String,
+        default: null,
+    },
+});
+
+const placeholderText = computed(() => {
+    if (props.title && props.title.includes('YouTube')) {
+        return 'https://www.youtube.com/watch?v=...';
+    }
+    return 'https://example.com/embed/...';
+});
+
+const helpText = computed(() => {
+    if (props.title && props.title.includes('YouTube')) {
+        return t('Enter a YouTube video URL');
+    }
+    return t('Enter any iframe embed URL (Vimeo, Google Maps, etc.)');
 });
 
 const emit = defineEmits(['save']);
