@@ -236,7 +236,7 @@
             <button type="button" class="tiptap-button" :title="t('YouTube Video')" v-tooltip @click="openYoutubeDialog" :class="{ 'is-active': editor.isActive('youtube') }">
                 <youtube-icon size="18" stroke-width="1.5" />
             </button>
-            <button type="button" class="tiptap-button" :title="t('Embed Iframe')" v-tooltip @click="openIframeDialog">
+            <button type="button" class="tiptap-button" :title="t('Media Embed')" v-tooltip @click="openIframeDialog">
                 <video-icon size="18" stroke-width="1.5" />
             </button>
 
@@ -445,8 +445,14 @@
         <textarea :name="name" class="d-none" v-if="editor">{{ editor.getHTML() }}</textarea>
         <tiptap-link-dialog :id="'link-dialog-' + id + '-' + locale" v-model:link="link" v-model:show="linkDialogOpened" @save="setLink"></tiptap-link-dialog>
         <tiptap-image-dialog :id="'image-dialog-' + id + '-' + locale" v-model:image="image" v-model:captioned="imageCaptioned" v-model:show="imageDialogOpened" @save="setImage"></tiptap-image-dialog>
-        <tiptap-iframe-dialog :id="'youtube-dialog-' + id + '-' + locale" v-model:video="youtube" v-model:show="youtubeDialogOpened" @save="addYoutube" title="YouTube Video"></tiptap-iframe-dialog>
-        <tiptap-iframe-dialog :id="'iframe-dialog-' + id + '-' + locale" v-model:video="iframe" v-model:show="iframeDialogOpened" @save="addIframe" title="Media embed"></tiptap-iframe-dialog>
+        <tiptap-iframe-dialog
+            :id="'youtube-dialog-' + id + '-' + locale"
+            v-model:video="youtube"
+            v-model:show="youtubeDialogOpened"
+            @save="addYoutube"
+            :title="t('YouTube Video')"
+        ></tiptap-iframe-dialog>
+        <tiptap-iframe-dialog :id="'iframe-dialog-' + id + '-' + locale" v-model:video="iframe" v-model:show="iframeDialogOpened" @save="addIframe" :title="t('Media Embed')"></tiptap-iframe-dialog>
         <tiptap-source-code-dialog
             :id="'source-code-dialog-' + id + '-' + locale"
             v-model:html="sourceCodeHtml"
@@ -517,10 +523,10 @@ import { Div } from './div.ts';
 import { Figcaption } from './figcaption.ts';
 import { Figure } from './figure.ts';
 import { Iframe } from './iframe.ts';
+import TiptapIframeDialog from './TiptapIframeDialog.vue';
 import TiptapImageDialog from './TiptapImageDialog.vue';
 import TiptapLinkDialog from './TiptapLinkDialog.vue';
 import TiptapSourceCodeDialog from './TiptapSourceCodeDialog.vue';
-import TiptapIframeDialog from './TiptapIframeDialog.vue';
 
 const { t } = useI18n();
 
