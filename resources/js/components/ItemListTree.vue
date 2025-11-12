@@ -33,14 +33,31 @@
                     <small v-if="!loading && total" class="text-muted align-self-center">
                         {{ t('# ' + title, total, { count: total }) }}
                     </small>
-                    <div v-if="translatable && locales.length > 1" class="btn-group btn-group-sm ms-auto">
-                        <button id="dropdownLangSwitcher" aria-expanded="false" aria-haspopup="true" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" type="button">
-                            <span id="active-locale">{{ locales.find((item) => item.short === contentLocale).long }}</span>
-                        </button>
-                        <div aria-labelledby="dropdownLangSwitcher" class="dropdown-menu dropdown-menu-right">
-                            <button v-for="locale in locales" :key="locale.short" :class="{ active: locale === contentLocale }" class="dropdown-item" type="button" @click="switchLocale(locale.short)">
-                                {{ locale.long }}
+                    <div class="d-flex ms-auto gap-2">
+                        <div v-if="searchable.length > 0" class="filters form-inline">
+                            <div class="input-group input-group-sm mb-0">
+                                <div class="input-group-text">
+                                    <search-icon size="14" />
+                                </div>
+                                <input v-model="searchString" class="form-control" type="search" @input="onSearchStringChanged" />
+                            </div>
+                        </div>
+                        <div v-if="translatable && locales.length > 1" class="btn-group btn-group-sm">
+                            <button id="dropdownLangSwitcher" aria-expanded="false" aria-haspopup="true" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" type="button">
+                                <span id="active-locale">{{ locales.find((item) => item.short === contentLocale).long }}</span>
                             </button>
+                            <div aria-labelledby="dropdownLangSwitcher" class="dropdown-menu dropdown-menu-right">
+                                <button
+                                    v-for="locale in locales"
+                                    :key="locale.short"
+                                    :class="{ active: locale === contentLocale }"
+                                    class="dropdown-item"
+                                    type="button"
+                                    @click="switchLocale(locale.short)"
+                                >
+                                    {{ locale.long }}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -97,7 +114,7 @@
 
 <script setup>
 import alertify from 'alertify.js';
-import { ChevronDownIcon, ChevronRightIcon, CornerRightDownIcon, HouseIcon, LockIcon } from 'lucide-vue-next';
+import { ChevronDownIcon, ChevronRightIcon, CornerRightDownIcon, HouseIcon, LockIcon, SearchIcon } from 'lucide-vue-next';
 import { SlVueTreeNext } from 'sl-vue-tree-next';
 import { computed, ref, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -124,6 +141,10 @@ const props = defineProps({
     fields: {
         type: String,
     },
+    searchable: {
+        type: Array,
+        default: () => [],
+    },
     translatable: {
         type: Boolean,
         default: true,
@@ -135,6 +156,8 @@ const props = defineProps({
 });
 
 const loadingTimeout = ref(null);
+const fetchTimeout = ref(null);
+const searchString = ref(null);
 const locales = ref(window.TypiCMS.locales);
 const contentLocale = ref(window.TypiCMS.content_locale);
 const loading = ref(false);
@@ -144,11 +167,21 @@ const checkedItems = ref([]);
 const slVueTree = useTemplateRef('slVueTree');
 const lastClickEvent = ref(null);
 
+const searchQuery = computed(() => {
+    if (searchString.value === null) {
+        return '';
+    }
+    return props.searchable.map((item) => 'filter[' + item + ']=' + searchString.value).join('&');
+});
+
 const url = computed(() => {
     const query = ['fields[' + props.table + ']=' + props.fields];
 
     if (props.translatable) {
         query.push('locale=' + contentLocale.value);
+    }
+    if (searchQuery.value !== '') {
+        query.push(searchQuery.value);
     }
 
     return props.urlBase + '?' + query.join('&');
@@ -201,6 +234,14 @@ async function fetchData() {
     } catch (error) {
         alertify.error(t(error.message) || t('An error occurred with the data fetch.'));
     }
+}
+
+function onSearchStringChanged() {
+    clearTimeout(fetchTimeout.value);
+    fetchTimeout.value = setTimeout(() => {
+        checkedItems.value = [];
+        fetchData();
+    }, 200);
 }
 
 function startLoading() {
