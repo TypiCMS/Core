@@ -7,6 +7,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
+use TypiCMS\Modules\Core\Filters\FilterOr;
 use TypiCMS\Modules\Core\Models\Page;
 
 class PagesApiController extends BaseApiController
@@ -20,15 +23,52 @@ class PagesApiController extends BaseApiController
             ->selectFields()
             ->orderBy('position');
 
-        $total = $query->count();
+        $hasSearchFilter = $request->has('filter');
 
-        $models = $query
-            ->get()
-            ->map(function (Model $page) use ($userPreferences): Model {
+        if ($hasSearchFilter) {
+            $queryBuilder = QueryBuilder::for($query)
+                ->allowedFilters([
+                    AllowedFilter::custom('title', new FilterOr()),
+                ]);
+
+            $matchingPages = $queryBuilder->get();
+            $parentIds = collect();
+
+            // Collect all parent IDs
+            foreach ($matchingPages as $page) {
+                $currentParentId = $page->parent_id;
+                while ($currentParentId !== null) {
+                    $parentIds->push($currentParentId);
+                    $parent = Page::query()->find($currentParentId);
+                    $currentParentId = $parent?->parent_id;
+                }
+            }
+
+            // Get all matching pages plus their parents
+            $allPageIds = $matchingPages->pluck('id')->merge($parentIds)->unique();
+            $models = Page::query()
+                ->selectFields()
+                ->whereIn('id', $allPageIds)
+                ->orderBy('position')
+                ->get();
+
+            $total = $matchingPages->count();
+        } else {
+            $models = $query->get();
+            $total = $models->count();
+        }
+
+        $models = $models
+            ->map(function (Model $page) use ($userPreferences, $hasSearchFilter): Model {
                 /** @var Page $page */
                 $page->data = $page->toArray();
                 $page->isLeaf = $page->module !== null;
-                $page->isExpanded = !Arr::get($userPreferences, 'pages_' . $page->id . '_collapsed', false);
+
+                if ($hasSearchFilter) {
+                    $page->isExpanded = true;
+                } else {
+                    $page->isExpanded = !Arr::get($userPreferences, 'pages_' . $page->id . '_collapsed', false);
+                }
 
                 return $page;
             })
