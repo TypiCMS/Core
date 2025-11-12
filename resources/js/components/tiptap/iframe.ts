@@ -1,7 +1,11 @@
-import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core';
+import { mergeAttributes, Node } from '@tiptap/core';
 
 export interface IframeOptions {
     allowFullscreen: boolean;
+    autoplay: boolean;
+    height: number;
+    loading: string;
+    width: number;
     HTMLAttributes: Record<string, unknown>;
 }
 
@@ -19,6 +23,10 @@ export const Iframe = Node.create<IframeOptions>({
     addOptions() {
         return {
             allowFullscreen: true,
+            autoplay: false,
+            height: 315,
+            loading: 'lazy',
+            width: 560,
             HTMLAttributes: {},
         };
     },
@@ -36,12 +44,11 @@ export const Iframe = Node.create<IframeOptions>({
             src: {
                 default: null,
             },
-            frameborder: {
-                default: 0,
+            width: {
+                default: this.options.width,
             },
-            allowfullscreen: {
-                default: this.options.allowFullscreen,
-                parseHTML: () => this.options.allowFullscreen,
+            height: {
+                default: this.options.height,
             },
         };
     },
@@ -49,40 +56,8 @@ export const Iframe = Node.create<IframeOptions>({
     parseHTML() {
         return [
             {
-                tag: 'div[data-iframe-wrapper]',
-                getAttrs: (element) => {
-                    if (typeof element === 'string') {
-                        return false;
-                    }
-                    const iframe = element.querySelector('iframe');
-                    if (!iframe) {
-                        return false;
-                    }
-
-                    return {
-                        src: iframe.getAttribute('src'),
-                        frameborder: iframe.getAttribute('frameborder') || 0,
-                        allowfullscreen: iframe.hasAttribute('allowfullscreen'),
-                    };
-                },
+                tag: 'div[data-media-embed] iframe',
             },
-        ];
-    },
-
-    renderHTML({ HTMLAttributes }) {
-        return [
-            'div',
-            mergeAttributes(this.options.HTMLAttributes, { 'data-iframe-wrapper': '' }),
-            [
-                'iframe',
-                mergeAttributes({
-                    width: 560,
-                    height: 315,
-                    frameborder: '0',
-                    allowfullscreen: this.options.allowFullscreen ? 'true' : null,
-                    ...HTMLAttributes,
-                }),
-            ],
         ];
     },
 
@@ -97,5 +72,26 @@ export const Iframe = Node.create<IframeOptions>({
                     });
                 },
         };
+    },
+
+    renderHTML({ HTMLAttributes }) {
+        return [
+            'div',
+            { 'data-iframe-wrapper': '' },
+            [
+                'iframe',
+                mergeAttributes(
+                    this.options.HTMLAttributes,
+                    {
+                        allowfullscreen: this.options.allowFullscreen,
+                        autoplay: this.options.autoplay,
+                        height: this.options.height,
+                        loading: this.options.loading,
+                        width: this.options.width,
+                    },
+                    HTMLAttributes,
+                ),
+            ],
+        ];
     },
 });

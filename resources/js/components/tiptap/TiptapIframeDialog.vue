@@ -9,7 +9,7 @@
                 <div class="modal-body">
                     <div class="mb-2">
                         <label :for="props.id + '-src'" class="col-form-label">{{ t('URL') }}</label>
-                        <input :id="props.id + '-src'" type="url" class="form-control" v-model="src" :placeholder="placeholderText" />
+                        <input ref="inputElement" :id="props.id + '-src'" type="url" class="form-control" v-model="src" :placeholder="placeholderText" />
                         <small class="form-text text-muted">{{ helpText }}</small>
                     </div>
                 </div>
@@ -30,6 +30,7 @@ import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 
 const videoDialog = ref(null);
+const inputElement = ref(null);
 
 const src = ref('');
 
@@ -94,6 +95,9 @@ onMounted(() => {
     videoDialog.value = new Modal('#' + props.id);
 
     const modal = document.querySelector('#' + props.id);
+    modal.addEventListener('shown.bs.modal', () => {
+        inputElement.value?.focus();
+    });
     modal.addEventListener('hide.bs.modal', () => {
         const buttonElement = document.activeElement;
         buttonElement.blur();

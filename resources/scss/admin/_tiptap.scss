@@ -226,9 +226,14 @@
         @extend .alert-link;
     }
 
+    [data-media-embed],
     [data-youtube-video] {
-        @extend .ratio;
-        @extend .ratio-16x9;
+        margin-bottom: $paragraph-margin-bottom;
+        iframe {
+            aspect-ratio: 16 / 9;
+            height: 100%;
+            width: 100%;
+        }
     }
 
     @include meta.load-css('../public.scss');

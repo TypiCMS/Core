@@ -403,6 +403,10 @@
             <button type="button" class="tiptap-button" :title="t('Redo')" v-tooltip @click="editor.chain().focus().redo().run()" :disabled="!editor.can().chain().focus().redo().run()">
                 <redo-icon size="18" stroke-width="1.5" />
             </button>
+            <div class="tiptap-separator"></div>
+            <button type="button" class="tiptap-button" :title="t('Edit Source Code')" v-tooltip @click="openSourceCodeDialog">
+                <file-code-icon size="18" stroke-width="1.5" />
+            </button>
         </div>
         <bubble-menu :editor="editor" v-if="editor">
             <div class="bubble-menu btn-group shadow">
@@ -441,8 +445,14 @@
         <textarea :name="name" class="d-none" v-if="editor">{{ editor.getHTML() }}</textarea>
         <tiptap-link-dialog :id="'link-dialog-' + id + '-' + locale" v-model:link="link" v-model:show="linkDialogOpened" @save="setLink"></tiptap-link-dialog>
         <tiptap-image-dialog :id="'image-dialog-' + id + '-' + locale" v-model:image="image" v-model:captioned="imageCaptioned" v-model:show="imageDialogOpened" @save="setImage"></tiptap-image-dialog>
-        <tiptap-video-dialog :id="'youtube-dialog-' + id + '-' + locale" v-model:video="youtube" v-model:show="youtubeDialogOpened" @save="addYoutube" title="YouTube Video"></tiptap-video-dialog>
-        <tiptap-video-dialog :id="'iframe-dialog-' + id + '-' + locale" v-model:video="iframe" v-model:show="iframeDialogOpened" @save="addIframe" title="Media embed"></tiptap-video-dialog>
+        <tiptap-iframe-dialog :id="'youtube-dialog-' + id + '-' + locale" v-model:video="youtube" v-model:show="youtubeDialogOpened" @save="addYoutube" title="YouTube Video"></tiptap-iframe-dialog>
+        <tiptap-iframe-dialog :id="'iframe-dialog-' + id + '-' + locale" v-model:video="iframe" v-model:show="iframeDialogOpened" @save="addIframe" title="Media embed"></tiptap-iframe-dialog>
+        <tiptap-source-code-dialog
+            :id="'source-code-dialog-' + id + '-' + locale"
+            v-model:html="sourceCodeHtml"
+            v-model:show="sourceCodeDialogOpened"
+            @save="setSourceCode"
+        ></tiptap-source-code-dialog>
     </div>
 </template>
 
@@ -470,6 +480,7 @@ import {
     BetweenVerticalStartIcon,
     BoldIcon,
     CodeIcon,
+    FileCodeIcon,
     Grid2x2CheckIcon,
     Grid2x2PlusIcon,
     Grid2x2XIcon,
@@ -508,7 +519,8 @@ import { Figure } from './figure.ts';
 import { Iframe } from './iframe.ts';
 import TiptapImageDialog from './TiptapImageDialog.vue';
 import TiptapLinkDialog from './TiptapLinkDialog.vue';
-import TiptapVideoDialog from './TiptapVideoDialog.vue';
+import TiptapSourceCodeDialog from './TiptapSourceCodeDialog.vue';
+import TiptapIframeDialog from './TiptapIframeDialog.vue';
 
 const { t } = useI18n();
 
@@ -524,6 +536,9 @@ const youtubeDialogOpened = ref(false);
 
 const iframe = ref({});
 const iframeDialogOpened = ref(false);
+
+const sourceCodeHtml = ref('');
+const sourceCodeDialogOpened = ref(false);
 
 const id = computed(() => {
     return String(props.name).replace(/[^a-z0-9]/g, '');
@@ -546,7 +561,60 @@ const props = defineProps({
     },
 });
 
-const content = ref(props.initContent);
+const transformHtml = (html) => {
+    if (!html) {
+        return html;
+    }
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    // Find all iframes
+    const iframes = doc.querySelectorAll('iframe');
+
+    iframes.forEach((iframe) => {
+        const parent = iframe.parentElement;
+
+        if (!parent) {
+            return;
+        }
+
+        // Check if iframe is from YouTube
+        const src = iframe.getAttribute('src') || '';
+        const isYoutube = src.includes('youtube.com') || src.includes('youtu.be');
+
+        // Determine the data attribute to add
+        const dataAttr = isYoutube ? 'data-youtube-video' : 'data-media-embed';
+
+        // If parent is a <p> tag, replace it with a <div>
+        if (parent.tagName.toLowerCase() === 'p') {
+            const div = doc.createElement('div');
+
+            // Copy all attributes from p to div
+            Array.from(parent.attributes).forEach((attr) => {
+                div.setAttribute(attr.name, attr.value);
+            });
+
+            // Add the data attribute
+            div.setAttribute(dataAttr, '');
+
+            // Move all children from p to div
+            while (parent.firstChild) {
+                div.appendChild(parent.firstChild);
+            }
+
+            // Replace p with div
+            parent.replaceWith(div);
+        } else if (parent.tagName.toLowerCase() === 'div') {
+            // If parent is already a div, just add the data attribute
+            parent.setAttribute(dataAttr, '');
+        }
+    });
+
+    return doc.body.innerHTML;
+};
+
+const content = ref(transformHtml(props.initContent));
 
 const blockStyles = [
     { tag: 'paragraph', class: 'lead', label: 'Lead Paragraph' },
@@ -618,17 +686,14 @@ const editor = useEditor({
         Superscript,
         Subscript,
         Youtube.configure({
-            controls: true,
             nocookie: true,
             modestBranding: true,
             width: 560,
             height: 315,
         }),
         Iframe.configure({
-            allowFullscreen: true,
-            HTMLAttributes: {
-                class: 'iframe-wrapper',
-            },
+            width: 560,
+            height: 315,
         }),
         Figure,
         Figcaption,
@@ -754,6 +819,17 @@ const addIframe = function () {
             height: 315,
         },
     });
+};
+
+const openSourceCodeDialog = function () {
+    sourceCodeDialogOpened.value = true;
+    sourceCodeHtml.value = editor.value.getHTML();
+};
+
+const setSourceCode = function () {
+    if (sourceCodeHtml.value !== null && sourceCodeHtml.value !== undefined) {
+        editor.value.commands.setContent(sourceCodeHtml.value);
+    }
 };
 
 const vTooltip = {
