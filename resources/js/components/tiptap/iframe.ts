@@ -77,7 +77,7 @@ export const Iframe = Node.create<IframeOptions>({
     renderHTML({ HTMLAttributes }) {
         return [
             'div',
-            { 'data-iframe-wrapper': '' },
+            { 'data-media-embed': '' },
             [
                 'iframe',
                 mergeAttributes(
