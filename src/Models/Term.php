@@ -3,6 +3,7 @@
 namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -51,6 +52,12 @@ class Term extends Base implements Sortable
     public array $sortable = [
         'order_column_name' => 'position',
     ];
+
+    /** @return Builder<static> */
+    public function buildSortQuery(): Builder
+    {
+        return static::query()->where('taxonomy_id', $this->taxonomy_id);
+    }
 
     public function editUrl(): string
     {
