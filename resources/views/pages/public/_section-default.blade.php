@@ -1,5 +1,6 @@
 <div class="section-default section-{{ $section->id }}" id="{{ $section->position }}-{{ $section->slug }}">
     <div class="section-default-container">
+        <x-core::edit-button :section="$section" />
         <div class="section-default-row">
             @if (empty($section->image))
                 <div class="section-default-content">

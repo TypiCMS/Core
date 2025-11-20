@@ -1,0 +1,22 @@
+.edit {
+    position: relative;
+    &-button {
+        @extend .btn;
+        @include button-variant(rgba($white, 0.6), transparent, $primary, $white, transparent, $primary);
+        @extend .rounded-pill;
+        position: absolute;
+        right: 0;
+        padding: 0;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        @include media-breakpoint-up(sm) {
+            width: 3rem;
+            height: 3rem;
+            font-size: 1.5rem;
+        }
+    }
+}
