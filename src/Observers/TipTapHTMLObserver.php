@@ -56,7 +56,7 @@ class TipTapHTMLObserver
                 $result .= $dom->saveHTML($child);
             }
 
-            return $result;
+            return urldecode($result);
         } finally {
             libxml_clear_errors();
         }
