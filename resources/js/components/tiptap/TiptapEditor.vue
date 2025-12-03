@@ -236,7 +236,7 @@
             <button type="button" class="tiptap-button" :title="t('YouTube Video')" v-tooltip @click="openYoutubeDialog" :class="{ 'is-active': editor.isActive('youtube') }">
                 <youtube-icon size="18" stroke-width="1.5" />
             </button>
-            <button type="button" class="tiptap-button" :title="t('Media Embed')" v-tooltip @click="openIframeDialog">
+            <button type="button" class="tiptap-button" :title="t('Embed Iframe')" v-tooltip @click="openIframeDialog">
                 <video-icon size="18" stroke-width="1.5" />
             </button>
 
@@ -445,14 +445,8 @@
         <textarea :name="name" class="d-none" v-if="editor">{{ editor.getHTML() }}</textarea>
         <tiptap-link-dialog :id="'link-dialog-' + id + '-' + locale" v-model:link="link" v-model:show="linkDialogOpened" @save="setLink"></tiptap-link-dialog>
         <tiptap-image-dialog :id="'image-dialog-' + id + '-' + locale" v-model:image="image" v-model:captioned="imageCaptioned" v-model:show="imageDialogOpened" @save="setImage"></tiptap-image-dialog>
-        <tiptap-iframe-dialog
-            :id="'youtube-dialog-' + id + '-' + locale"
-            v-model:video="youtube"
-            v-model:show="youtubeDialogOpened"
-            @save="addYoutube"
-            :title="t('YouTube Video')"
-        ></tiptap-iframe-dialog>
-        <tiptap-iframe-dialog :id="'iframe-dialog-' + id + '-' + locale" v-model:video="iframe" v-model:show="iframeDialogOpened" @save="addIframe" :title="t('Media Embed')"></tiptap-iframe-dialog>
+        <tiptap-iframe-dialog :id="'youtube-dialog-' + id + '-' + locale" v-model:video="youtube" v-model:show="youtubeDialogOpened" @save="addYoutube" title="YouTube Video"></tiptap-iframe-dialog>
+        <tiptap-iframe-dialog :id="'iframe-dialog-' + id + '-' + locale" v-model:video="iframe" v-model:show="iframeDialogOpened" @save="addIframe" title="Media embed"></tiptap-iframe-dialog>
         <tiptap-source-code-dialog
             :id="'source-code-dialog-' + id + '-' + locale"
             v-model:html="sourceCodeHtml"
@@ -670,6 +664,27 @@ const CustomBulletList = BulletList.extend({
     },
 });
 
+const CustomImage = Image.extend({
+    addAttributes() {
+        return {
+            ...this.parent?.(),
+            style: {
+                default: null,
+                parseHTML: (element) => element.getAttribute('style'),
+                renderHTML: (attributes) => {
+                    if (!attributes.style) {
+                        return {};
+                    }
+
+                    return {
+                        style: attributes.style,
+                    };
+                },
+            },
+        };
+    },
+});
+
 const editor = useEditor({
     extensions: [
         StarterKit.configure({
@@ -703,7 +718,7 @@ const editor = useEditor({
         }),
         Figure,
         Figcaption,
-        Image,
+        CustomImage,
         CustomParagraph,
         Div,
         TableKit.configure({
@@ -734,30 +749,58 @@ const setLink = function () {
 
 const openImageDialog = function () {
     imageDialogOpened.value = true;
-    imageCaptioned.value = editor.value.view.state.selection.$head.parent.type.name === 'figure';
+    const isFigure = editor.value.view.state.selection.$head.parent.type.name === 'figure';
+    imageCaptioned.value = isFigure;
+
+    const imageAttrs = editor.value.getAttributes('image');
+    const figureAttrs = isFigure ? editor.value.getAttributes('figure') : {};
+
+    // Determine alignment from style attribute
+    const style = isFigure ? figureAttrs.style : imageAttrs.style;
+    let align = 'none';
+    if (style) {
+        if (style.includes('float:left') || style.includes('float: left')) {
+            align = 'left';
+        } else if (style.includes('float:right') || style.includes('float: right')) {
+            align = 'right';
+        }
+    }
+
     image.value = {
-        src: editor.value.getAttributes('image').src,
-        alt: editor.value.getAttributes('image').alt,
-        width: editor.value.getAttributes('image').width,
-        height: editor.value.getAttributes('image').height,
+        src: imageAttrs.src,
+        alt: imageAttrs.alt,
+        width: imageAttrs.width,
+        height: imageAttrs.height,
+        align: align,
     };
 };
 
 const setImage = function () {
     if (image.value.src) {
+        // Determine style based on alignment
+        const style = image.value.align === 'left' ? 'float:left' : image.value.align === 'right' ? 'float:right' : null;
+
         if (editor.value.view.state.selection.$head.parent.type.name !== 'figure') {
             // If the current image is not in a figure…
             if (imageCaptioned.value) {
-                // Add figure and figcaption.
+                // Add figure and figcaption with style.
                 editor.value
                     .chain()
                     .focus()
                     .insertContent({
                         type: 'figure',
+                        attrs: {
+                            style: style,
+                        },
                         content: [
                             {
                                 type: 'image',
-                                attrs: image.value,
+                                attrs: {
+                                    src: image.value.src,
+                                    alt: image.value.alt,
+                                    width: image.value.width,
+                                    height: image.value.height,
+                                },
                             },
                             {
                                 type: 'figcaption',
@@ -772,13 +815,35 @@ const setImage = function () {
                     })
                     .run();
             } else {
-                // Just insert the image.
-                editor.value.chain().focus().setImage(image.value).run();
+                // Just insert the image with style.
+                editor.value
+                    .chain()
+                    .focus()
+                    .setImage({
+                        src: image.value.src,
+                        alt: image.value.alt,
+                        width: image.value.width,
+                        height: image.value.height,
+                        style: style,
+                    })
+                    .run();
             }
         } else {
             // If the current image is in a figure…
             if (imageCaptioned.value) {
-                editor.value.chain().focus().setImage(image.value).run();
+                // Update image attributes
+                editor.value
+                    .chain()
+                    .focus()
+                    .setImage({
+                        src: image.value.src,
+                        alt: image.value.alt,
+                        width: image.value.width,
+                        height: image.value.height,
+                    })
+                    .run();
+                // Update figure style
+                editor.value.commands.updateAttributes('figure', { style: style });
             } else {
                 // Replace the figure with an image.
                 editor.value
@@ -792,6 +857,7 @@ const setImage = function () {
                             alt: image.value.alt,
                             width: image.value.width,
                             height: image.value.height,
+                            style: style,
                         },
                     })
                     .run();

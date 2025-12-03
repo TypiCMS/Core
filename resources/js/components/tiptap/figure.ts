@@ -18,6 +18,24 @@ export const Figure = Node.create({
 
     isolating: true,
 
+    addAttributes() {
+        return {
+            style: {
+                default: null,
+                parseHTML: (element) => element.getAttribute('style'),
+                renderHTML: (attributes) => {
+                    if (!attributes.style) {
+                        return {};
+                    }
+
+                    return {
+                        style: attributes.style,
+                    };
+                },
+            },
+        };
+    },
+
     parseHTML() {
         return [
             {

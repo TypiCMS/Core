@@ -10,7 +10,7 @@
                     <div class="mb-2">
                         <label :for="props.id + '-src'" class="col-form-label">{{ t('URL') }}</label>
                         <div class="input-group">
-                            <input :id="props.id + '-src'" type="url" class="form-control" v-model="src" />
+                            <input :id="props.id + '-src'" type="text" class="form-control" v-model="src" />
                             <button type="button" class="btn btn-sm btn-light" @click="browseServer">
                                 {{ t('Browse server') }}
                             </button>
@@ -34,6 +34,21 @@
                                 <input class="form-control" :id="props.id + '-height'" type="text" inputmode="numeric" pattern="[0-9]*" v-model="height" @keyup="setWidth" />
                                 <span class="input-group-text">px</span>
                             </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <label class="form-label">{{ t('Alignment') }}</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" v-model="align" value="none" :id="props.id + '-align-none'" />
+                            <label class="form-check-label" :for="props.id + '-align-none'">{{ t('None') }}</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" v-model="align" value="left" :id="props.id + '-align-left'" />
+                            <label class="form-check-label" :for="props.id + '-align-left'">{{ t('Left') }}</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" v-model="align" value="right" :id="props.id + '-align-right'" />
+                            <label class="form-check-label" :for="props.id + '-align-right'">{{ t('Right') }}</label>
                         </div>
                     </div>
                     <div class="form-check mt-3">
@@ -64,6 +79,7 @@ const alt = ref('');
 const width = ref('');
 const height = ref('');
 const ratio = ref(0);
+const align = ref('none');
 
 const activeElement = ref(null);
 
@@ -97,6 +113,7 @@ watch(image, (image) => {
     width.value = image.width;
     height.value = image.height;
     ratio.value = image.width / image.height;
+    align.value = image.align || 'none';
 });
 
 emitter.on('fileSelected', (file) => {
@@ -134,6 +151,7 @@ function save() {
     image.value.alt = alt.value;
     image.value.width = width.value;
     image.value.height = height.value;
+    image.value.align = align.value;
     emit('save');
 }
 
