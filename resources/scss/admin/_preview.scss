@@ -5,9 +5,9 @@
     }
     &-content {
         height: 100%;
+        overflow: hidden;
     }
     &-iframe {
-        border-radius: $modal-content-border-radius;
         height: 100%;
     }
     &-btn-close {
