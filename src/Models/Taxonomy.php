@@ -76,11 +76,6 @@ class Taxonomy extends Base implements Sortable
         return ['' => ''] + $items;
     }
 
-    public function url(?string $locale = null): string
-    {
-        return '/';
-    }
-
     /** @return HasMany<Term, $this> */
     public function terms(): HasMany
     {
