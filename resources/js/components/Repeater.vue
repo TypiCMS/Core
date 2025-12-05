@@ -3,19 +3,19 @@
         <input v-if="items.length === 0" :name="name" type="hidden" />
         <label class="form-label">{{ t(title) }}</label>
 
-        <draggable v-if="items.length > 0" v-model="items" :group="'items_' + name" class="d-flex flex-column mb-3 gap-3" handle=".handle" @change="errors = []" item-key="index">
+        <draggable v-if="items.length > 0" v-model="items" :group="'items_' + name" class="d-flex flex-column mb-3 gap-3" handle=".handle" @change="errors = []" item-key="id">
             <template #item="{ element, index }">
-                <div class="d-flex card item gap-2">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <move-icon class="handle" />
-                        <button class="btn btn-danger btn-sm" @click.prevent="remove(element)">{{ t('Delete') }}</button>
+                <div class="d-flex card item border">
+                    <div class="card-header border-bottom d-flex justify-content-between align-items-center">
+                        <grip-vertical class="handle text-secondary" size="16" />
+                        <button class="btn btn-danger btn-xs" @click.prevent="remove(element)">{{ t('Delete') }}</button>
                     </div>
                     <div class="card-body d-flex justify-content-between flex-row flex-wrap gap-2">
                         <div v-for="field in fields" :class="[{ 'flex-grow-1': field.type !== 'hidden' }, field.class]" :key="field.name">
                             <template v-if="field.translatable">
                                 <repeater-field
                                     v-for="locale in locales"
-                                    :key="'item_' + name + '_' + index + '_' + field.name + '_' + locale.short"
+                                    :key="'item_' + element.id + '_' + field.name + '_' + locale.short"
                                     v-model="element[field.name][locale.short]"
                                     :errors="getError(index, field.name, locale.short)"
                                     :field="field"
@@ -26,7 +26,7 @@
                             </template>
                             <repeater-field
                                 v-else
-                                :key="'item_' + name + '_' + index + '_' + field.name"
+                                :key="'item_' + element.id + '_' + field.name"
                                 v-model="element[field.name]"
                                 :errors="getError(index, field.name, null)"
                                 :field="field"
@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import { CirclePlusIcon, MoveIcon } from 'lucide-vue-next';
+import { CirclePlusIcon, GripVertical } from 'lucide-vue-next';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import draggable from 'vuedraggable';
@@ -72,7 +72,7 @@ const props = defineProps({
 });
 
 const locales = ref(window.TypiCMS.locales);
-const items = ref(props.initItems || []);
+const items = ref((props.initItems || []).map((item) => ({ ...item, id: item.id || crypto.randomUUID() })));
 const title = ref(props.config.title);
 const name = ref(props.config.name);
 const maxItems = ref(props.config.max_items || null);
@@ -86,7 +86,7 @@ function add() {
 }
 
 function emptyItem() {
-    const item = {};
+    const item = { id: crypto.randomUUID() };
     fields.value.forEach((field) => {
         if (field.translatable) {
             item[field.name] = {};
