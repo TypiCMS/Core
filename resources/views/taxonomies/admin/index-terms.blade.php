@@ -31,7 +31,7 @@
             <td>
                 <item-list-position-input :model="model"></item-list-position-input>
             </td>
-            <td v-html="model.title_translated"></td>
+            <td>@{{ model.title_translated }}</td>
         </template>
     </item-list>
 @endsection

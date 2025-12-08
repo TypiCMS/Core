@@ -34,7 +34,7 @@
                 <item-list-position-input :model="model"></item-list-position-input>
             </td>
             <td>@{{ model.name }}</td>
-            <td v-html="model.title_translated"></td>
+            <td>@{{ model.title_translated }}</td>
             <td><small class="text-muted">@{{ model.validation_rule }}</small></td>
             <td>@{{ model.result_string_translated }}</td>
             <td>
