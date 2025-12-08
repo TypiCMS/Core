@@ -42,7 +42,7 @@
 
             @can('read page_sections')
                 @if ($model->id)
-                    <item-list url-base="/api/pages/{{ $model->id }}/sections" fields="id,image_id,page_id,position,status,title" table="page_sections" title="sections" include="image" :sub-list="true" :searchable="['title']" :sorting="['position']">
+                    <item-list url-base="/api/pages/{{ $model->id }}/sections" fields="id,image_id,page_id,position,status,title,template" table="page_sections" title="sections" include="image" :sub-list="true" :searchable="['title']" :sorting="['position']">
                         <template #top-buttons v-if="$can('create page_sections')">
                             <x-core::create-button :url="route('admin::create-page_section', $model->id)" :label="__('Create page section')" />
                         </template>
@@ -54,6 +54,7 @@
                             <item-list-column-header name="position" sortable :sort-array="sortArray" :label="$t('Order')"></item-list-column-header>
                             <item-list-column-header name="image" :label="$t('Image')"></item-list-column-header>
                             <item-list-column-header name="title_translated" sortable :sort-array="sortArray" :label="$t('Title')"></item-list-column-header>
+                            <item-list-column-header name="template" :label="$t('Template')"></item-list-column-header>
                         </template>
 
                         <template #table-row="{ model, checkedModels, loading }">
@@ -71,6 +72,11 @@
                             </td>
                             <td><img :src="model.thumb" alt="" height="27" /></td>
                             <td>@{{ model.title_translated }}</td>
+                            <td>
+                                <span class="badge text-bg-warning">
+                                    @{{ model.template.replace(new RegExp('-', 'g'), ' ') }}
+                                </span>
+                            </td>
                         </template>
                     </item-list>
                 @else
