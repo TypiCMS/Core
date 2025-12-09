@@ -15,7 +15,7 @@ class PageSectionFormRequest extends AbstractFormRequest
             'slug.*' => ['nullable', 'alpha_dash', 'max:255', 'required_if:status.*,1', 'required_with:title.*'],
             'status.*' => ['boolean'],
             'body.*' => ['nullable', 'max:20000'],
-            'template' => ['nullable', 'max:255'],
+            'template' => ['required', 'max:255'],
             'hide_title' => ['required', 'boolean'],
         ];
     }
