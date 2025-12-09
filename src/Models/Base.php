@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+use Illuminate\Support\Uri;
 
 /**
  * @property int $id
@@ -30,19 +31,11 @@ abstract class Base extends Model
         }
 
         $url = $this->url($locale);
-
-        $parts = explode('#', $url, 2);
-        $baseUrl = $parts[0];
-        $fragment = $parts[1] ?? null;
-
-        $separator = str_contains($baseUrl, '?') ? '&' : '?';
-        $urlWithPreview = $baseUrl . $separator . 'preview=true';
-
-        if ($fragment !== null) {
-            $urlWithPreview .= '#' . $fragment;
+        if (!is_string($url)) {
+            return url('/');
         }
 
-        return $urlWithPreview;
+        return (string) Uri::of($url)->withQuery(['preview' => 'true']);
     }
 
     public function isPublished(?string $locale = null): bool
