@@ -1,4 +1,4 @@
-@props(['locales', 'model', 'langSwitcher' => true])
+@props(['locales' => locales(), 'model', 'langSwitcher' => true])
 
 <div class="header-toolbar btn-toolbar">
     <button class="btn btn-sm btn-primary" value="true" id="exit" name="exit" type="submit">
@@ -17,6 +17,6 @@
 
     {{ $slot }}
     @if ($langSwitcher)
-        <x-core::lang-switcher-for-form :locales="locales()" />
+        <x-core::lang-switcher-for-form />
     @endif
 </div>

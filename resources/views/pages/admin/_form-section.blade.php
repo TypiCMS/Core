@@ -1,7 +1,7 @@
 <div class="header">
     <x-core::back-button :url="$page->editUrl()" :title="$page->title" />
     <x-core::title :$model :default="__('New page section')" />
-    <x-core::form-buttons :$model :locales="locales()" />
+    <x-core::form-buttons :$model />
 </div>
 
 <div class="content">
@@ -12,7 +12,7 @@
             {!! BootForm::hidden('id') !!}
             {!! BootForm::hidden('page_id')->value($page->id) !!}
 
-            <x-core::title-and-slug-fields :locales="locales()" />
+            <x-core::title-and-slug-fields />
             <div class="mb-3">
                 {!! TranslatableBootForm::hidden('status')->value(0) !!}
                 {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}

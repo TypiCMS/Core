@@ -1,4 +1,4 @@
-@props(['locales'])
+@props(['locales' => locales()])
 
 @foreach ($locales as $locale)
     <div class="mb-3 form-group-translation @if ($errors->has('slug.' . $locale)) has-error @endif">

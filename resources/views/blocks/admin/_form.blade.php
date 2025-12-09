@@ -1,7 +1,7 @@
 <div class="header">
     <x-core::back-button :url="$model->indexUrl()" :title="__('Blocks')" />
     <x-core::title :$model :default="__('New block')" />
-    <x-core::form-buttons :$model :locales="locales()" />
+    <x-core::form-buttons :$model />
 </div>
 
 <file-manager></file-manager>

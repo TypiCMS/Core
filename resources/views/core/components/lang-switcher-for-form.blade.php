@@ -1,4 +1,4 @@
-@props(['locales'])
+@props(['locales' => locales()])
 
 @if (count($locales) > 1)
     <div class="btn-group btn-group-sm ms-auto">

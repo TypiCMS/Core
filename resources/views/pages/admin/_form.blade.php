@@ -1,7 +1,7 @@
 <div class="header">
     <x-core::back-button :url="$model->indexUrl()" :title="__('Pages')" />
     <x-core::title :$model :default="__('New page')" />
-    <x-core::form-buttons :$model :locales="locales()" />
+    <x-core::form-buttons :$model />
 </div>
 
 <div class="content">
