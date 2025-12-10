@@ -5,6 +5,7 @@ namespace TypiCMS\Modules\Core\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use TypiCMS\Modules\Core\Http\Requests\PageFormRequest;
+use TypiCMS\Modules\Core\Models\Menulink;
 use TypiCMS\Modules\Core\Models\Page;
 
 class PagesAdminController extends BaseAdminController
@@ -39,6 +40,7 @@ class PagesAdminController extends BaseAdminController
     public function update(Page $page, PageFormRequest $request): RedirectResponse
     {
         $page->update($request->validated());
+        (new Menulink())->flushCache();
 
         return $this->redirect($request, $page)
             ->withMessage(__('Item successfully updated.'));
