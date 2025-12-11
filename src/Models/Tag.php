@@ -2,11 +2,12 @@
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 use Laracasts\Presenter\PresentableTrait;
 use TypiCMS\Modules\Core\Presenters\TagsModulePresenter;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -33,12 +34,42 @@ class Tag extends Base
     #[Scope]
     protected function published(Builder $query): void {}
 
-    public function url(?string $locale = null): string
+    /**
+     * Get all tagged items grouped by type
+     *
+     * @return array<string, Collection>
+     */
+    public function getTaggedItemsGrouped(): array
     {
-        $locale ??= app()->getLocale();
-        $route = $locale . '::tag';
-        $slug = $this->slug ?: null;
+        $taggables = DB::table('taggables')
+            ->where('tag_id', $this->id)
+            ->get();
 
-        return Route::has($route) && $slug ? url(route($route, $slug)) : url('/');
+        $grouped = [];
+
+        foreach ($taggables as $taggable) {
+            $modelClass = $taggable->taggable_type;
+            $modelId = $taggable->taggable_id;
+
+            if (!class_exists($modelClass)) {
+                continue;
+            }
+
+            try {
+                $model = $modelClass::query()->find($modelId);
+                if ($model) {
+                    $type = $model->getTable();
+                    if (!isset($grouped[$type])) {
+                        $grouped[$type] = collect();
+                    }
+
+                    $grouped[$type]->push($model);
+                }
+            } catch (Exception) {
+                continue;
+            }
+        }
+
+        return $grouped;
     }
 }

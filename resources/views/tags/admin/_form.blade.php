@@ -22,4 +22,48 @@
             </div>
         </div>
     </div>
+
+    @if ($model->id)
+        @php
+            $taggedItems = $model->getTaggedItemsGrouped();
+            $totalCount = array_sum(array_map(fn($items) => $items->count(), $taggedItems));
+        @endphp
+
+        @if ($totalCount > 0)
+            <div class="mt-3">
+                <h2 class="mb-3">{{ __('Tagged items') }} ({{ $totalCount }})</h2>
+                @foreach ($taggedItems as $type => $items)
+                    <div class="mb-4">
+                        <h3>{{ $items->count() }} @choice($type, $items->count()) </h3>
+                        <ul class="list-group list-group-flush">
+                            @foreach ($items as $item)
+                                <li class="list-group-item d-flex gap-2 align-items-center px-0">
+                                    @if (method_exists($item, 'editUrl'))
+                                        <a class="btn btn-xs btn-light" href="{{ $item->editUrl() }}">
+                                            {{ __('Edit') }}
+                                        </a>
+                                    @endif
+                                    <div>
+                                        @if (method_exists($item, 'present') && method_exists($item->present(), 'title'))
+                                            {{ $item->present()->title }}
+                                        @elseif(isset($item->title))
+                                            {{ $item->title }}
+                                        @elseif(isset($item->name))
+                                            {{ $item->name }}
+                                        @else
+                                            {{ $type }} #{{ $item->id }}
+                                        @endif
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <div class="alert alert-info mt-4">
+                {{ __('No items are tagged with this tag yet.') }}
+            </div>
+        @endif
+    @endif
 </div>
