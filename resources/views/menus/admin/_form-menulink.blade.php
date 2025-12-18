@@ -1,3 +1,9 @@
+@push('js')
+    <script type="module">
+        new TomSelect('#page_id');
+    </script>
+@endpush
+
 <div class="header">
     <x-core::back-button :url="$menu->editUrl()" :title="$menu->name" />
     <x-core::title :$model :default="__('New menulink')" />
