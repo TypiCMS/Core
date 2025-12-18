@@ -25,6 +25,7 @@ class TipTapHTMLObserver
         if ($content === null || $content === '<p></p>') {
             return null;
         }
+
         $dom = new DOMDocument('1.0', 'UTF-8');
         libxml_use_internal_errors(true);
         try {
@@ -40,23 +41,27 @@ class TipTapHTMLObserver
                     if ($paragraphs === false) {
                         continue;
                     }
+
                     if ($paragraphs->length === 0) {
                         continue;
                     }
+
                     $p = $paragraphs->item(0);
                     while ($p->firstChild !== null) {
                         $li->insertBefore($p->firstChild, $p);
                     }
+
                     $li->removeChild($p);
                 }
             }
+
             $body = $dom->getElementsByTagName('body')->item(0);
             $result = '';
             foreach ($body->childNodes as $child) {
                 $result .= $dom->saveHTML($child);
             }
 
-            return urldecode($result);
+            return $result;
         } finally {
             libxml_clear_errors();
         }
