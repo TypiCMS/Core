@@ -88,12 +88,22 @@ class PagesApiController extends BaseApiController
             ->nest()
             ->listsFlattened();
 
-        $pages = [];
-        foreach ($data as $id => $title) {
-            $pages[] = [$title, "{!! page:{$id} !!}"];
-        }
+        $titleCounts = collect($data)->countBy();
+        $titleIndices = [];
 
-        return $pages;
+        return collect($data)
+            ->map(function ($title, $id) use ($titleCounts, &$titleIndices) {
+                $displayTitle = $title;
+
+                if ($titleCounts[$title] > 1) {
+                    $titleIndices[$title] = ($titleIndices[$title] ?? 0) + 1;
+                    $displayTitle = sprintf('%s (%d)', $title, $titleIndices[$title]);
+                }
+
+                return [$displayTitle, sprintf('{!! page:%s !!}', $id)];
+            })
+            ->values()
+            ->all();
     }
 
     public function sort(Request $request): void

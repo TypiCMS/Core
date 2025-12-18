@@ -19,7 +19,7 @@
                     <div class="mb-2" v-if="type === 'url'">
                         <label :for="props.id + '-url'" class="col-form-label">{{ t('URL') }}</label>
                         <div class="input-group">
-                            <input :id="props.id + '-url'" type="url" class="form-control" v-model="url" />
+                            <input :id="props.id + '-url'" type="url" class="form-control" v-model="url" required />
                             <button type="button" class="btn btn-sm btn-light" @click="browseServer">
                                 {{ t('Browse server') }}
                             </button>
@@ -32,14 +32,15 @@
                                 <span class="visually-hidden">{{ t('Loading…') }}</span>
                             </div>
                         </label>
-                        <select :id="props.id + '-page'" class="form-select" v-model="page">
-                            <option v-for="page in pages" :value="page[1]">{{ page[0] }}</option>
-                        </select>
+                        <input :id="props.id + '-page'" :list="props.id + '-page-list'" class="form-control" v-model="pageTitle" required />
+                        <datalist :id="props.id + '-page-list'">
+                            <option v-for="page in pages" :key="page[1]" :value="page[0]"></option>
+                        </datalist>
                     </div>
                     <div class="mb-2" v-if="type === 'email'">
                         <div class="mb-2">
                             <label :for="props.id + '-email'" class="col-form-label">{{ t('E-mail') }}</label>
-                            <input :id="props.id + '-email'" type="text" class="form-control" v-model="email" />
+                            <input :id="props.id + '-email'" type="email" class="form-control" v-model="email" required />
                         </div>
                         <div class="mb-2">
                             <label :for="props.id + '-email-subject'" class="col-form-label">{{ t('Subject') }}</label>
@@ -52,7 +53,7 @@
                     </div>
                     <div class="mb-2" v-if="type === 'phone'">
                         <label :for="props.id + '-phone'" class="col-form-label">{{ t('Phone') }}</label>
-                        <input :id="props.id + '-phone'" type="text" class="form-control" v-model="phone" />
+                        <input :id="props.id + '-phone'" type="tel" class="form-control" v-model="phone" required />
                     </div>
                     <div class="form-check mt-3" v-if="type === 'url' || type === 'page'">
                         <input class="form-check-input" type="checkbox" v-model="newTab" :id="props.id + '-open-in-new-tab'" />
@@ -71,7 +72,7 @@
 <script setup>
 import alertify from 'alertify.js';
 import Modal from 'bootstrap/js/dist/modal';
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import fetcher from '../../admin/fetcher.js';
@@ -92,6 +93,22 @@ const emailSubject = ref('');
 const emailBody = ref('');
 const phone = ref('');
 const page = ref('');
+
+const pageTitle = computed({
+    get() {
+        if (!page.value) {
+            return '';
+        }
+        const foundPage = pages.value.find((p) => p[1] === page.value);
+        return foundPage ? foundPage[0] : '';
+    },
+    set(newTitle) {
+        const foundPage = pages.value.find((p) => p[0] === newTitle);
+        if (foundPage) {
+            page.value = foundPage[1];
+        }
+    },
+});
 
 const activeElement = ref(null);
 
