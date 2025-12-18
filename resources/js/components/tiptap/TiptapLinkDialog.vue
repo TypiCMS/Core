@@ -136,13 +136,23 @@ watch(
 );
 
 watch(link, (link) => {
-    const href = link.href;
+    let href = link.href;
     const target = link.target;
     if (target === '_blank') {
         newTab.value = true;
     } else {
         newTab.value = false;
     }
+
+    // Decode URL-encoded hrefs (e.g., {!!%20page:49%20!!} → {!! page:49 !!})
+    if (href) {
+        try {
+            href = decodeURIComponent(href);
+        } catch (e) {
+            // If decoding fails, use the original href
+        }
+    }
+
     if (!href) {
         type.value = 'url';
         url.value = '';
