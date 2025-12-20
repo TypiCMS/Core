@@ -627,11 +627,11 @@ const blockStyles = [
 ];
 
 const linkStyles = [
-    { tag: 'a', class: 'btn-civis-primary', label: 'Button Primary' },
-    { tag: 'a', class: 'btn-civis-secondary', label: 'Button Secondary' },
-    { tag: 'a', class: 'btn-civis-white', label: 'Button White' },
-    { tag: 'a', class: 'btn-civis-outline-primary', label: 'Button Outline Primary' },
-    { tag: 'a', class: 'btn-civis-outline-secondary', label: 'Button Outline Secondary' },
+    { tag: 'a', class: 'btn-primary', label: 'Button Primary' },
+    { tag: 'a', class: 'btn-secondary', label: 'Button Secondary' },
+    { tag: 'a', class: 'btn-white', label: 'Button White' },
+    { tag: 'a', class: 'btn-outline-primary', label: 'Button Outline Primary' },
+    { tag: 'a', class: 'btn-outline-secondary', label: 'Button Outline Secondary' },
 ];
 
 const CustomParagraph = Paragraph.extend({
