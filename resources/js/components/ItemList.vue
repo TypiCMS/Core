@@ -427,10 +427,29 @@ async function destroy() {
 
     await Promise.all(
         checkedItems.value.map((model) => {
-            return fetcher(props.urlBase + '/' + model.id, { method: 'DELETE' }).then((response) => response);
+            return fetcher(props.urlBase + '/' + model.id, { method: 'DELETE' }).then(async (response) => {
+                if (response && response.status === 204) {
+                    return { success: true };
+                }
+
+                let message = 'An error occurred';
+                if (response) {
+                    try {
+                        const responseData = await response.json();
+                        console.log(responseData);
+                        message = responseData.message || message;
+                    } catch (error) {
+                        // Ignore parse error
+                    }
+                }
+
+                return { success: false, message };
+            });
         }),
-    ).then((responses) => {
-        const successes = responses.filter((response) => response && response.status === 204);
+    ).then((results) => {
+        const successes = results.filter((result) => result.success);
+        const errors = results.filter((result) => !result.success);
+
         if (successes.length > 0) {
             alertify.success(
                 t('# items deleted', successes.length, {
@@ -438,9 +457,10 @@ async function destroy() {
                 }),
             );
         }
-        if (successes.length < checkedItems.value.length) {
-            alertify.error(t('Some items could not be deleted.'));
-        }
+
+        errors.forEach((error) => {
+            alertify.error(t(error.message));
+        });
     });
     stopLoading();
     checkNone();
