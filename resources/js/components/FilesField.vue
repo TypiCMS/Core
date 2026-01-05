@@ -2,7 +2,9 @@
     <div>
         <input :value="fileIds.join()" name="file_ids" type="hidden" />
         <div class="mb-3">
-            <p class="form-label mb-2">{{ t(label) }}</p>
+            <p class="form-label mb-2">
+                {{ t(label) }} <small class="text-muted" v-if="hint"> ({{ t(hint) }})</small>
+            </p>
             <p>
                 <button class="filemanager-field-btn-add" type="button" @click="openFilePicker">
                     <circle-plus-icon class="text-white-50" size="18" />
@@ -47,6 +49,9 @@ const props = defineProps({
     label: {
         type: String,
         default: 'Files',
+    },
+    hint: {
+        type: String,
     },
     initFiles: {
         type: Array,
