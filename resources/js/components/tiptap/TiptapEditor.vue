@@ -1,6 +1,6 @@
 <template>
     <div class="mb-3 form-group-translation">
-        <p v-if="label" class="form-label">{{ label }}</p>
+        <p v-if="label" class="form-label">{{ label }} ({{ locale }})</p>
         <div class="tiptap-toolbar" v-if="editor">
             <div class="dropdown">
                 <button
@@ -554,6 +554,7 @@ const props = defineProps({
     },
     locale: {
         type: String,
+        default: 'en',
     },
     initContent: {
         type: String,
