@@ -133,9 +133,7 @@
                 >
                     <div class="filemanager-item-wrapper">
                         <div v-if="item.type === 'i'" class="filemanager-item-icon">
-                            <div class="filemanager-item-image-wrapper">
-                                <img :src="item.thumb_sm" class="filemanager-item-image" alt="" />
-                            </div>
+                            <img class="filemanager-item-image" :src="item.thumb_sm" alt="" />
                         </div>
                         <div v-else :class="'filemanager-item-icon-' + item.type" class="filemanager-item-icon">
                             <file-music-icon v-if="item.type === 'a'" size="72" stroke-width="1.25" />

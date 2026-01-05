@@ -15,9 +15,7 @@
                         <x-icon :size="18" stroke-width="2" />
                     </button>
                     <div v-if="file.type === 'i'" class="filemanager-item-icon">
-                        <div class="filemanager-item-image-wrapper">
-                            <img :alt="file.alt" :src="file.thumb_sm" class="filemanager-item-image" />
-                        </div>
+                        <img class="filemanager-item-image" :alt="file.alt" :src="file.thumb_sm" />
                     </div>
                     <div v-else :class="'filemanager-item-icon-' + file.type" class="filemanager-item-icon">
                         <file-music-icon v-if="file.type === 'a'" size="72" stroke-width="1.25" />

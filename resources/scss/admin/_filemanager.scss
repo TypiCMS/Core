@@ -112,12 +112,12 @@
             padding-bottom: 0;
         }
         &-horizontal &-icon {
-            width: calc(var(--filemanager-item-thumb-size-sm) - var(--filemanager-item-border-width) * 2);
-            height: calc(var(--filemanager-item-thumb-size-sm) - var(--filemanager-item-border-width) * 2);
+            width: var(--filemanager-item-thumb-size-sm);
+            height: var(--filemanager-item-thumb-size-sm);
         }
         &-horizontal &-image {
-            max-width: var(--filemanager-item-thumb-size-sm);
-            max-height: var(--filemanager-item-thumb-size-sm);
+            max-width: calc(var(--filemanager-item-thumb-size-sm) - var(--filemanager-item-border-width) * 2);
+            max-height: calc(var(--filemanager-item-thumb-size-sm) - var(--filemanager-item-border-width) * 2);
         }
 
         &-editable {
@@ -204,14 +204,10 @@
             background-color: var(--bs-secondary-bg);
             max-width: 120px;
             max-height: 120px;
+            border-radius: var(--bs-border-radius);
+            border: 1px solid var(--bs-border-color);
             &[src$='.svg'] {
                 width: 100%;
-            }
-
-            &-wrapper {
-                border-radius: var(--bs-border-radius);
-                overflow: hidden;
-                border: 1px solid var(--bs-border-color);
             }
         }
 
@@ -270,23 +266,19 @@
             flex-grow: 1;
         }
 
-        &-image {
-            max-width: 40px;
-            max-height: 40px;
-
-            &-wrapper {
-                border-radius: $border-radius-sm;
-                overflow: hidden;
-                padding: 0;
-                border: none;
-            }
-        }
-
         &-icon {
             flex-shrink: 0;
             width: 55px;
             height: 55px;
             padding: 10px;
+        }
+
+        &-image {
+            max-width: 40px;
+            max-height: 40px;
+            border-radius: $border-radius-sm;
+            overflow: hidden;
+            border: none;
         }
     }
 }
