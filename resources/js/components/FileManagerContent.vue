@@ -29,7 +29,7 @@
                         <button :disabled="selectedItems.length === 0" class="dropdown-item" type="button" @click="deleteSelected">
                             {{ t('Delete') }}
                         </button>
-                        <button :disabled="!folder.id || selectedFiles.length === 0" class="dropdown-item" type="button" @click="moveToParentFolder()">
+                        <button :disabled="!folder.id || selectedItems.length === 0" class="dropdown-item" type="button" @click="moveToParentFolder()">
                             {{ t('Move to parent folder') }}
                         </button>
                         <div class="dropdown-divider"></div>
