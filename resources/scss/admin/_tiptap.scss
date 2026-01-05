@@ -106,27 +106,49 @@
         font-size: $h6-font-size;
     }
 
-    figure {
-        display: inline-block;
-        width: fit-content;
-        img {
-            margin-bottom: 0.5rem;
-        }
-        figcaption {
-            color: var(--bs-gray-600);
-            font-size: $font-size-sm;
-        }
-    }
-    figure,
     img {
+        @extend .img-fluid;
+        border-radius: $border-radius-lg;
+    }
+
+    img,
+    figure {
         display: block;
         height: auto;
-        margin: 1.5rem 0;
+        margin: $paragraph-margin-bottom 0;
         max-width: 100%;
-
+        width: 100%;
         &.ProseMirror-selectednode {
             box-shadow: 0 0 $focus-ring-blur $focus-ring-width $focus-ring-color;
         }
+        &[style*='float:left'],
+        &[style*='float: left'] {
+            margin-right: $grid-gutter-width;
+            width: 40%;
+            @include media-breakpoint-down(sm) {
+                float: none !important;
+                display: block;
+                margin-right: 0;
+                width: 100%;
+            }
+        }
+        &[style*='float:right'],
+        &[style*='float: right'] {
+            margin-left: $grid-gutter-width;
+            width: 40%;
+            @include media-breakpoint-down(sm) {
+                float: none !important;
+                display: block;
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    }
+
+    figcaption {
+        margin-top: 0.5rem;
+        color: var(--bs-gray-600);
+        font-size: $font-size-sm;
     }
 
     /* Code and preformatted text styles */
@@ -234,6 +256,12 @@
             height: 100%;
             width: 100%;
         }
+    }
+
+    blockquote {
+        background-color: $light;
+        border-radius: $border-radius-lg;
+        @include padding(4rem 3rem 3.5rem);
     }
 
     @include meta.load-css('../public.scss');
