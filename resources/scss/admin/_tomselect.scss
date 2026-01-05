@@ -1,0 +1,7 @@
+.ts-control {
+    gap: 0.25rem;
+    padding: 0.25rem $input-padding-x;
+}
+.ts-wrapper.multi .ts-control > div {
+    margin: 0;
+}
