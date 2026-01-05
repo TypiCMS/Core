@@ -10,13 +10,13 @@
         padding-right: 1rem;
     }
     &-brand {
+        @extend .btn;
+        --bs-btn-active-border-color: transparent;
         padding: 0.25rem;
         font-size: 1.25rem;
         overflow: hidden;
         text-overflow: ellipsis;
         max-width: 50%;
-        font-weight: normal;
-        text-transform: none !important;
         &:focus-visible {
             @extend .focus-ring;
         }
