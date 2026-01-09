@@ -52,7 +52,7 @@
                 @show
                 <div class="header-offcanvas" id="navigation">
                     <button class="hamburger" type="button" id="menu-button" data-bs-toggle="collapse" data-bs-target="#navigation-container" aria-expanded="false" aria-controls="navigation-container">
-                        Menu
+                        <span class="visually-hidden">@lang('Menu')</span>
                     </button>
                     <div class="navigation collapse fade" id="navigation-container" data-bs-parent="#navigation">
                         <nav class="primary-nav" aria-label="@lang('Primary navigation')">

@@ -1,25 +1,26 @@
 .hamburger {
+    @extend .btn;
+    @extend .btn-sm;
+    @extend .btn-link;
     @extend .rounded-pill;
+    @include transition();
+    padding: 0;
     z-index: 3000;
-    transition: all 0.3s ease-in-out;
     position: relative;
-    font-size: 1px;
-    color: $body-color !important;
     height: 50px;
     width: 50px;
     text-decoration: none;
     background-color: transparent;
     border: none;
     &:focus-visible {
-        outline: 0;
-        box-shadow: 0 0 $focus-ring-blur $focus-ring-width rgba($white, 0.5);
+        @extend .focus-ring;
     }
     @include media-breakpoint-up(lg) {
         display: none;
     }
     &:before,
     &:after {
-        transition: all 0.3s ease-in-out;
+        @include transition();
         left: calc(50% - 13px);
         position: absolute;
         content: '';
@@ -36,6 +37,9 @@
     }
     &-open {
         transform: rotate(45deg);
+        &:focus-visible {
+            @extend .focus-ring;
+        }
         &:before {
             top: 24px;
             transform: rotate(-180deg);
