@@ -13,7 +13,7 @@
         display: block;
     }
     &-icon {
-        transition: transform 0.15s ease-in-out;
+        @include transition();
         display: block;
         width: 2.25rem;
         height: 2.25rem;

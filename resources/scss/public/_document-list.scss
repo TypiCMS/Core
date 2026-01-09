@@ -33,7 +33,7 @@
         &-meta {
             font-size: 0.875rem;
             color: $gray-600;
-            transition: $transition-base;
+            @include transition();
         }
 
         &-link:hover &-meta {

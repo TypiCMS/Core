@@ -1,6 +1,6 @@
 .navigation {
-    @include transition($transition-base);
     background: $light;
+    @include transition();
     flex-grow: 1;
     right: 0;
     top: 0;
