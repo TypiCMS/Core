@@ -2,12 +2,14 @@
     &-list {
         @extend .nav;
         @include font-size($font-size-lg);
+        @include margin-bottom(1rem);
         flex-direction: column;
         align-items: center;
-        @include margin-bottom(1rem);
+        gap: 0.25rem;
         @include media-breakpoint-up(lg) {
-            justify-content: flex-end;
-            font-size: $font-size-base;
+            flex-grow: 1;
+            justify-content: center;
+            font-size: 1.25rem;
             flex-direction: row;
             align-items: flex-start;
             margin-bottom: 0;
@@ -19,25 +21,15 @@
         white-space: nowrap;
     }
     &-link {
+        @extend .btn;
+        @extend .btn-sm;
+        @extend .btn-link;
         @extend .rounded-pill;
+        display: block;
         text-decoration: none;
-        display: inline-block;
-        color: $body-color;
-        padding: 0.65rem 1rem 0.5rem;
-        &:hover {
-            color: $primary;
-        }
-        &:active {
-            color: $primary;
-        }
-        &:focus-visible {
-            color: $white;
-            outline: 0;
-            box-shadow: 0 0 $focus-ring-blur $focus-ring-width rgba($white, 0.5);
-        }
+        font-weight: 400;
     }
     &-item.active > &-link {
-        @extend .active;
-        color: $primary;
+        background-color: $gray-200;
     }
 }
