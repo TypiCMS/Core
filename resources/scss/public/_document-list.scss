@@ -32,12 +32,12 @@
 
         &-meta {
             font-size: 0.875rem;
-            color: $gray-600;
+            color: var(--bs-gray-600);
             @include transition();
         }
 
         &-link:hover &-meta {
-            color: rgba($white, 0.7);
+            color: color-mix(in srgb, var(--bs-white) 70%, transparent);
         }
     }
 }

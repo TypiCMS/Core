@@ -9,8 +9,8 @@
         @extend .visually-hidden-focusable;
         border-bottom-left-radius: $border-radius;
         border-bottom-right-radius: $border-radius;
-        background-color: $primary;
-        color: $white;
+        background-color: var(--bs-primary);
+        color: var(--bs-white);
         padding: 0.25rem 1rem;
         text-decoration: none;
         &:focus-visible {

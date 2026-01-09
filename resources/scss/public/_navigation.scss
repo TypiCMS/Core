@@ -1,6 +1,6 @@
 .navigation {
-    background: $light;
     @include transition();
+    background-color: var(--bs-light);
     flex-grow: 1;
     right: 0;
     top: 0;
