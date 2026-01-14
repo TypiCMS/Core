@@ -8,27 +8,29 @@ class SlugMonolingualObserver
 {
     public function saving(mixed $model): void
     {
-        $slug = $model->slug ?: Str::slug($model->title);
-        $model->slug = $slug;
+        if ($model->slug === null) {
+            $generatedSlug = Str::slug($model->title);
+            $model->slug = $generatedSlug !== '' ? $generatedSlug : null;
+        }
 
-        if ($slug) {
-            $i = 0;
-            // Check slug is unique
-            while ($this->slugExists($model)) {
-                $i++;
-                // increment slug if exists
-                $model->slug = $slug . '-' . $i;
-            }
+        if ($model->slug === null) {
+            return;
+        }
+
+        $baseSlug = $model->slug;
+        $counter = 0;
+
+        while ($this->slugExists($model)) {
+            $counter++;
+            $model->slug = "{$baseSlug}-{$counter}";
         }
     }
 
     private function slugExists(mixed $model): bool
     {
-        $query = $model::query()->where('slug', $model->slug);
-        if ($model->id) {
-            $query->where('id', '!=', $model->id);
-        }
-
-        return (bool) $query->count();
+        return $model::query()
+            ->where('slug', $model->slug)
+            ->when($model->id, fn ($query) => $query->where('id', '!=', $model->id))
+            ->exists();
     }
 }
