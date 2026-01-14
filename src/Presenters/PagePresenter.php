@@ -20,6 +20,6 @@ class PagePresenter extends Presenter
 
     public function metaTitle(): string
     {
-        return $this->entity->meta_title === '' ? $this->entity->title : $this->entity->meta_title;
+        return $this->entity->meta_title ?? $this->entity->title ?? '';
     }
 }
