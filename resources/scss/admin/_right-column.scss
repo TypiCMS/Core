@@ -2,5 +2,5 @@
     background-color: var(--bs-tertiary-bg);
     border: 1px solid var(--bs-border-color);
     padding: $spacer;
-    border-radius: $border-radius;
+    border-radius: var(--bs-border-radius);
 }

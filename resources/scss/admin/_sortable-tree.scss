@@ -71,7 +71,7 @@
     position: absolute;
     background-color: var(--bs-body-color);
     opacity: 0.5;
-    border-radius: $border-radius;
+    border-radius: var(--bs-border-radius);
     margin-left: 1.25rem;
     margin-bottom: 1.25rem;
     padding: 0.25rem 0.5rem;

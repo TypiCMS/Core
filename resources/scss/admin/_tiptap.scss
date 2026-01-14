@@ -7,10 +7,11 @@
     flex-wrap: wrap;
     background-color: var(--bs-body-bg);
     border: 1px solid var(--bs-border-color);
-    border-top-left-radius: $border-radius;
-    border-top-right-radius: $border-radius;
-    border-bottom: none;
+    border-radius: var(--bs-border-radius);
     padding: 5px;
+    z-index: 6;
+    top: 199px;
+    position: sticky;
 }
 
 .tiptap-separator {
@@ -49,11 +50,11 @@
 .tiptap {
     @extend .form-control;
     @extend .mb-3;
-    min-height: 200px;
-    max-height: 500px;
+    min-height: 100px;
     overflow: auto;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    position: relative;
 
     :first-child {
         margin-top: 0;
@@ -108,7 +109,7 @@
 
     img {
         @extend .img-fluid;
-        border-radius: $border-radius-lg;
+        border-radius: var(--bs-border-radius-lg);
     }
 
     img,
@@ -260,7 +261,7 @@
 
     blockquote {
         background-color: $light;
-        border-radius: $border-radius-lg;
+        border-radius: var(--bs-border-radius-lg);
         @include padding(4rem 3rem 3.5rem);
     }
 
