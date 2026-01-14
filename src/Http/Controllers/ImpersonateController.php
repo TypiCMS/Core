@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
@@ -7,7 +9,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use TypiCMS\Modules\Core\Models\User;
 
-class ImpersonateController extends Controller
+final class ImpersonateController extends Controller
 {
     public function start(int $id): RedirectResponse
     {

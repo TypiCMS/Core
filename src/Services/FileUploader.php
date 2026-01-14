@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Services;
 
 use Illuminate\Http\UploadedFile;
@@ -10,8 +12,12 @@ use Illuminate\Support\Str;
 class FileUploader
 {
     /** @return array<string, mixed> */
-    public function handle(UploadedFile $file, string $path = 'files', ?string $disk = null, ?string $filenameWithoutExtension = null): array
-    {
+    public function handle(
+        UploadedFile $file,
+        string $path = 'files',
+        ?string $disk = null,
+        ?string $filenameWithoutExtension = null,
+    ): array {
         $disk ??= config('filesystems.default');
         $extension = $this->normalizeExtension($file);
         $filesize = $file->getSize();
@@ -42,7 +48,7 @@ class FileUploader
     {
         $extension = mb_strtolower($file->getClientOriginalExtension());
 
-        if (in_array($extension, ['jpg', 'jpeg', 'jpe'])) {
+        if (in_array($extension, ['jpg', 'jpeg', 'jpe'], true)) {
             $extension = 'jpg';
             $this->correctImageOrientation($file);
         }
@@ -82,13 +88,17 @@ class FileUploader
         ];
     }
 
-    private function generateUniqueFilename(string $filenameWithoutExtension, string $extension, string $path, string $disk): string
-    {
-        $filename = "$filenameWithoutExtension.$extension";
+    private function generateUniqueFilename(
+        string $filenameWithoutExtension,
+        string $extension,
+        string $path,
+        string $disk,
+    ): string {
+        $filename = sprintf('%s.%s', $filenameWithoutExtension, $extension);
         $counter = 1;
 
-        while (Storage::disk($disk)->exists("$path/$filename")) {
-            $filename = "{$filenameWithoutExtension}_{$counter}.$extension";
+        while (Storage::disk($disk)->exists(sprintf('%s/%s', $path, $filename))) {
+            $filename = sprintf('%s_%d.%s', $filenameWithoutExtension, $counter, $extension);
             $counter++;
         }
 
@@ -100,10 +110,12 @@ class FileUploader
         if (!function_exists('exif_read_data')) {
             return;
         }
+
         $exif = @exif_read_data($file);
         if ($exif === [] || $exif === false || !isset($exif['Orientation'])) {
             return;
         }
+
         $orientation = $exif['Orientation'];
         if ($orientation !== 1) {
             $img = imagecreatefromjpeg($file);
@@ -125,9 +137,11 @@ class FileUploader
 
                     break;
             }
+
             if ($deg && $img) {
                 $img = imagerotate($img, $deg, 0);
             }
+
             if ($img) {
                 imagejpeg($img, $file->getPath() . DIRECTORY_SEPARATOR . $file->getFilename(), 100);
             }

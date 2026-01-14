@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Composers;
 
 use Illuminate\View\View;
@@ -7,7 +9,9 @@ use TypiCMS\Modules\Sidebar\SidebarManager;
 
 readonly class SidebarViewCreator
 {
-    public function __construct(private SidebarManager $manager) {}
+    public function __construct(
+        private SidebarManager $manager,
+    ) {}
 
     public function create(View $view): void
     {

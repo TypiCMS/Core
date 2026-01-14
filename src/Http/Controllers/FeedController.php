@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Spatie\Feed\Feed;
 
-class FeedController
+final class FeedController
 {
     public function __invoke(string $module): Feed
     {
@@ -13,11 +15,8 @@ class FeedController
         $page = getPageLinkedToModule($module);
         abort_if(is_null($page), 404);
 
-        $model = app(ucfirst($module));
-        $items = $model->published()
-            ->order()
-            ->take(10)
-            ->get();
+        $model = resolve(ucfirst($module));
+        $items = $model->published()->order()->take(10)->get();
 
         $feed = [
             'title' => websiteTitle() . ' – ' . $page->title,

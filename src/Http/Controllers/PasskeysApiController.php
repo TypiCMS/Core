@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -14,7 +16,7 @@ use Throwable;
 use TypiCMS\Modules\Core\Models\User;
 use Webauthn\PublicKeyCredentialCreationOptions;
 
-class PasskeysApiController extends BaseApiController
+final class PasskeysApiController extends BaseApiController
 {
     public function getPasskeys(Request $request, User $user): JsonResponse
     {
@@ -33,7 +35,7 @@ class PasskeysApiController extends BaseApiController
                 $request->passkey,
                 $request->options ?? $this->previouslyGeneratedPasskeyOptions(),
                 request()->getHost(),
-                ['name' => $request->string('name')]
+                ['name' => (string) $request->string('name')],
             );
         } catch (Throwable) {
             throw ValidationException::withMessages([
@@ -44,20 +46,24 @@ class PasskeysApiController extends BaseApiController
 
     public function destroy(int $id): void
     {
-        $this->currentUser()->passkeys()->where('id', $id)->delete();
+        $this
+            ->currentUser()
+            ->passkeys()
+            ->where('id', $id)
+            ->delete();
     }
 
     public function currentUser(): Authenticatable&HasPasskeys
     {
-        /** @var Authenticatable&HasPasskeys $user */
-        $user = auth()->user();
-
-        return $user;
+        return auth()->user();
     }
 
     protected function generatePasskeyOptions(): string|PublicKeyCredentialCreationOptions
     {
-        $generatePassKeyOptionsAction = Config::getAction('generate_passkey_register_options', GeneratePasskeyRegisterOptionsAction::class);
+        $generatePassKeyOptionsAction = Config::getAction(
+            'generate_passkey_register_options',
+            GeneratePasskeyRegisterOptionsAction::class,
+        );
 
         $options = $generatePassKeyOptionsAction->execute($this->currentUser());
 

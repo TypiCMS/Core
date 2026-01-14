@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
@@ -8,7 +10,7 @@ use TypiCMS\Modules\Core\Http\Requests\PageFormRequest;
 use TypiCMS\Modules\Core\Models\Menulink;
 use TypiCMS\Modules\Core\Models\Page;
 
-class PagesAdminController extends BaseAdminController
+final class PagesAdminController extends BaseAdminController
 {
     public function index(): View
     {
@@ -19,22 +21,19 @@ class PagesAdminController extends BaseAdminController
     {
         $model = new Page();
 
-        return view('pages::admin.create')
-            ->with(['model' => $model]);
+        return view('pages::admin.create', ['model' => $model]);
     }
 
     public function edit(Page $page): View
     {
-        return view('pages::admin.edit')
-            ->with(['model' => $page]);
+        return view('pages::admin.edit', ['model' => $page]);
     }
 
     public function store(PageFormRequest $request): RedirectResponse
     {
         $page = Page::query()->create($request->validated());
 
-        return $this->redirect($request, $page)
-            ->withMessage(__('Item successfully created.'));
+        return $this->redirect($request, $page)->withMessage(__('Item successfully created.'));
     }
 
     public function update(Page $page, PageFormRequest $request): RedirectResponse
@@ -42,8 +41,7 @@ class PagesAdminController extends BaseAdminController
         $page->update($request->validated());
         (new Menulink())->flushCache();
 
-        return $this->redirect($request, $page)
-            ->withMessage(__('Item successfully updated.'));
+        return $this->redirect($request, $page)->withMessage(__('Item successfully updated.'));
     }
 
     public function notFound(): never

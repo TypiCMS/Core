@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Commands;
 
 use Exception;
@@ -52,24 +54,18 @@ class Install extends Command
         $this->call('typicms:user');
 
         // Composer install
-        if (function_exists('shell_exec') && !in_array('shell_exec', explode(',', (string) ini_get('disable_functions')))) {
-            spin(
-                function (): void {
-                    shell_exec('chmod 755 $(find storage -type d) 2> /dev/null');
-                    shell_exec('chmod 755 $(find bootstrap/cache -type d) 2> /dev/null');
-                },
-                'Set permissions on directories…'
-            );
+        if (
+            function_exists('shell_exec')
+            && !in_array('shell_exec', explode(',', (string) ini_get('disable_functions')), true)
+        ) {
+            spin(function (): void {
+                shell_exec('chmod 755 $(find storage -type d) 2> /dev/null');
+                shell_exec('chmod 755 $(find bootstrap/cache -type d) 2> /dev/null');
+            }, 'Set permissions on directories…');
 
-            spin(
-                fn (): string|false|null => shell_exec('bun i 2> /dev/null'),
-                'Install packages with bun…'
-            );
+            spin(fn (): string|false|null => shell_exec('bun i 2> /dev/null'), 'Install packages with bun…');
 
-            spin(
-                fn (): string|false|null => shell_exec('bun run build 2> /dev/null'),
-                'Compiling assets…'
-            );
+            spin(fn (): string|false|null => shell_exec('bun run build 2> /dev/null'), 'Compiling assets…');
         } else {
             info('You can now make /storage and /bootstrap/cache directories writable,');
             info('run "composer install", "npm install", and finally "npm run dev".');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Providers;
 
 use Exception;
@@ -66,10 +68,7 @@ class ModuleServiceProvider extends ServiceProvider
          * Get configuration from DB and store it in the container
          */
         config([
-            'typicms' => array_merge(
-                app('Settings')->allToArray(),
-                config('typicms', [])
-            ),
+            'typicms' => array_merge(resolve('Settings')->allToArray(), config('typicms', [])),
         ]);
 
         /*
@@ -127,17 +126,17 @@ class ModuleServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../../resources/views/users/', 'users');
 
         /*
-        |--------------------------------------------------------------------------
-        | Publish config.
-        |--------------------------------------------------------------------------
-        */
+         |--------------------------------------------------------------------------
+         | Publish config.
+         |--------------------------------------------------------------------------
+         */
         $this->publishes([__DIR__ . '/../config/typicms.php' => config_path('typicms.php')], 'typicms-config');
 
         /*
-        |--------------------------------------------------------------------------
-        | Publish images, fonts, js and scss files.
-        |--------------------------------------------------------------------------
-        */
+         |--------------------------------------------------------------------------
+         | Publish images, fonts, js and scss files.
+         |--------------------------------------------------------------------------
+         */
         $this->publishes([
             __DIR__ . '/../../resources/images' => resource_path('images'),
             __DIR__ . '/../../resources/fonts' => resource_path('fonts'),
@@ -146,42 +145,44 @@ class ModuleServiceProvider extends ServiceProvider
         ], 'typicms-resources');
 
         /*
-        |--------------------------------------------------------------------------
-        | Publish lang files.
-        |--------------------------------------------------------------------------
-        */
+         |--------------------------------------------------------------------------
+         | Publish lang files.
+         |--------------------------------------------------------------------------
+         */
         $this->publishes([
             __DIR__ . '/../../lang' => lang_path(),
         ], 'typicms-lang');
 
         /*
-        |--------------------------------------------------------------------------
-        | Publish public folder.
-        |--------------------------------------------------------------------------
-        */
+         |--------------------------------------------------------------------------
+         | Publish public folder.
+         |--------------------------------------------------------------------------
+         */
         $this->publishes([__DIR__ . '/../../public' => public_path()], 'typicms-public');
 
         /*
-        |--------------------------------------------------------------------------
-        | Publish seeders.
-        |--------------------------------------------------------------------------
-        */
+         |--------------------------------------------------------------------------
+         | Publish seeders.
+         |--------------------------------------------------------------------------
+         */
         $this->publishes([
             __DIR__ . '/../../database/seeders/DatabaseSeeder.php' => database_path('seeders/DatabaseSeeder.php'),
             __DIR__ . '/../../database/seeders/PageSeeder.php' => database_path('seeders/PageSeeder.php'),
             __DIR__ . '/../../database/seeders/MenuSeeder.php' => database_path('seeders/MenuSeeder.php'),
             __DIR__ . '/../../database/seeders/PermissionSeeder.php' => database_path('seeders/PermissionSeeder.php'),
             __DIR__ . '/../../database/seeders/RoleSeeder.php' => database_path('seeders/RoleSeeder.php'),
-            __DIR__ . '/../../database/seeders/RoleHasPermissionsSeeder.php' => database_path('seeders/RoleHasPermissionsSeeder.php'),
+            __DIR__ . '/../../database/seeders/RoleHasPermissionsSeeder.php' => database_path(
+                'seeders/RoleHasPermissionsSeeder.php',
+            ),
             __DIR__ . '/../../database/seeders/SettingsSeeder.php' => database_path('seeders/SettingsSeeder.php'),
             __DIR__ . '/../../database/seeders/TranslationSeeder.php' => database_path('seeders/TranslationSeeder.php'),
         ], 'typicms-seeders');
 
         /*
-        |--------------------------------------------------------------------------
-        | Publish views.
-        |--------------------------------------------------------------------------
-        */
+         |--------------------------------------------------------------------------
+         | Publish views.
+         |--------------------------------------------------------------------------
+         */
         $this->publishes([
             __DIR__ . '/../../resources/views/errors' => resource_path('views/errors'),
             __DIR__ . '/../../resources/views/blocks' => resource_path('views/vendor/blocks'),
@@ -200,38 +201,65 @@ class ModuleServiceProvider extends ServiceProvider
         ], 'typicms-views');
 
         /*
-        |--------------------------------------------------------------------------
-        | Publish migrations.
-        |--------------------------------------------------------------------------
-        */
+         |--------------------------------------------------------------------------
+         | Publish migrations.
+         |--------------------------------------------------------------------------
+         */
         $this->publishes([
-            __DIR__ . '/../../database/migrations/create_files_table.php.stub' => $this->getMigrationFileName('create_files_table'),
-            __DIR__ . '/../../database/migrations/create_pages_tables.php.stub' => $this->getMigrationFileName('create_pages_tables'),
-            __DIR__ . '/../../database/migrations/create_blocks_table.php.stub' => $this->getMigrationFileName('create_blocks_table'),
-            __DIR__ . '/../../database/migrations/create_settings_table.php.stub' => $this->getMigrationFileName('create_settings_table'),
-            __DIR__ . '/../../database/migrations/create_history_table.php.stub' => $this->getMigrationFileName('create_history_table'),
-            __DIR__ . '/../../database/migrations/create_users_table.php.stub' => $this->getMigrationFileName('create_users_table'),
-            __DIR__ . '/../../database/migrations/create_one_time_passwords_table.php.stub' => $this->getMigrationFileName('create_one_time_passwords_table'),
-            __DIR__ . '/../../database/migrations/create_passkeys_table.php.stub' => $this->getMigrationFileName('create_passkeys_table'),
-            __DIR__ . '/../../database/migrations/create_model_has_files_table.php.stub' => $this->getMigrationFileName('create_model_has_files_table'),
-            __DIR__ . '/../../database/migrations/create_menus_tables.php.stub' => $this->getMigrationFileName('create_menus_tables'),
-            __DIR__ . '/../../database/migrations/create_tags_table.php.stub' => $this->getMigrationFileName('create_tags_table'),
-            __DIR__ . '/../../database/migrations/create_taxonomies_tables.php.stub' => $this->getMigrationFileName('create_taxonomies_tables'),
-            __DIR__ . '/../../database/migrations/create_translations_table.php.stub' => $this->getMigrationFileName('create_translations_table'),
+            __DIR__ . '/../../database/migrations/create_files_table.php.stub' => $this->getMigrationFileName(
+                'create_files_table',
+            ),
+            __DIR__ . '/../../database/migrations/create_pages_tables.php.stub' => $this->getMigrationFileName(
+                'create_pages_tables',
+            ),
+            __DIR__ . '/../../database/migrations/create_blocks_table.php.stub' => $this->getMigrationFileName(
+                'create_blocks_table',
+            ),
+            __DIR__ . '/../../database/migrations/create_settings_table.php.stub' => $this->getMigrationFileName(
+                'create_settings_table',
+            ),
+            __DIR__ . '/../../database/migrations/create_history_table.php.stub' => $this->getMigrationFileName(
+                'create_history_table',
+            ),
+            __DIR__ . '/../../database/migrations/create_users_table.php.stub' => $this->getMigrationFileName(
+                'create_users_table',
+            ),
+            __DIR__
+                . '/../../database/migrations/create_one_time_passwords_table.php.stub' => $this->getMigrationFileName(
+                'create_one_time_passwords_table',
+            ),
+            __DIR__ . '/../../database/migrations/create_passkeys_table.php.stub' => $this->getMigrationFileName(
+                'create_passkeys_table',
+            ),
+            __DIR__ . '/../../database/migrations/create_model_has_files_table.php.stub' => $this->getMigrationFileName(
+                'create_model_has_files_table',
+            ),
+            __DIR__ . '/../../database/migrations/create_menus_tables.php.stub' => $this->getMigrationFileName(
+                'create_menus_tables',
+            ),
+            __DIR__ . '/../../database/migrations/create_tags_table.php.stub' => $this->getMigrationFileName(
+                'create_tags_table',
+            ),
+            __DIR__ . '/../../database/migrations/create_taxonomies_tables.php.stub' => $this->getMigrationFileName(
+                'create_taxonomies_tables',
+            ),
+            __DIR__ . '/../../database/migrations/create_translations_table.php.stub' => $this->getMigrationFileName(
+                'create_translations_table',
+            ),
         ], 'typicms-migrations');
 
         /*
-        |--------------------------------------------------------------------------
-        | Sidebar
-        |--------------------------------------------------------------------------
-        */
+         |--------------------------------------------------------------------------
+         | Sidebar
+         |--------------------------------------------------------------------------
+         */
         View::creator('core::admin._sidebar', SidebarViewCreator::class);
 
         /*
-        |--------------------------------------------------------------------------
-        | View composers.
-        |--------------------------------------------------------------------------
-        */
+         |--------------------------------------------------------------------------
+         | View composers.
+         |--------------------------------------------------------------------------
+         */
         View::composers([
             MasterViewComposer::class => '*',
             LocaleComposer::class => '*::public.*',
@@ -247,10 +275,10 @@ class ModuleServiceProvider extends ServiceProvider
         Blade::componentNamespace('TypiCMS\\Modules\\Core\\Http\\Components', 'core');
 
         /*
-        |--------------------------------------------------------------------------
-        | Aliases.
-        |--------------------------------------------------------------------------
-        */
+         |--------------------------------------------------------------------------
+         | Aliases.
+         |--------------------------------------------------------------------------
+         */
         AliasLoader::getInstance()->alias('Blocks', Blocks::class);
         AliasLoader::getInstance()->alias('Files', Files::class);
         AliasLoader::getInstance()->alias('History', HistoryFacade::class);
@@ -265,12 +293,15 @@ class ModuleServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias('Users', Users::class);
 
         /*
-        |--------------------------------------------------------------------------
-        | Blade directives.
-        |--------------------------------------------------------------------------
-        */
-        Blade::directive('block', fn ($name): string => "<?php echo Blocks::render({$name}) ?>");
-        Blade::directive('menu', fn ($name): string => "<?php echo view('menus::public._menu', ['name' => {$name}]) ?>");
+         |--------------------------------------------------------------------------
+         | Blade directives.
+         |--------------------------------------------------------------------------
+         */
+        Blade::directive('block', fn (string $name): string => sprintf('<?php echo Blocks::render(%s) ?>', $name));
+        Blade::directive('menu', fn (string $name): string => sprintf(
+            "<?php echo view('menus::public._menu', ['name' => %s]) ?>",
+            $name,
+        ));
     }
 
     /**
@@ -279,10 +310,10 @@ class ModuleServiceProvider extends ServiceProvider
     public function register(): void
     {
         /*
-        |--------------------------------------------------------------------------
-        | Bindings.
-        |--------------------------------------------------------------------------
-        */
+         |--------------------------------------------------------------------------
+         | Bindings.
+         |--------------------------------------------------------------------------
+         */
         $this->app->bind('Blocks', Block::class);
         $this->app->bind('Files', File::class);
         $this->app->bind('History', History::class);
@@ -298,10 +329,10 @@ class ModuleServiceProvider extends ServiceProvider
         $this->app->bind('Users', User::class);
 
         /*
-        |--------------------------------------------------------------------------
-        | Register TypiCMS commands.
-        |--------------------------------------------------------------------------
-        */
+         |--------------------------------------------------------------------------
+         | Register TypiCMS commands.
+         |--------------------------------------------------------------------------
+         */
         $this->commands([
             Create::class,
             CreateUser::class,
@@ -311,10 +342,10 @@ class ModuleServiceProvider extends ServiceProvider
         ]);
 
         /*
-        |--------------------------------------------------------------------------
-        | Register TypiCMS routes.
-        |--------------------------------------------------------------------------
-        */
+         |--------------------------------------------------------------------------
+         | Register TypiCMS routes.
+         |--------------------------------------------------------------------------
+         */
         $this->app->singleton('typicms.routes', function (): array {
             try {
                 return Page::query()

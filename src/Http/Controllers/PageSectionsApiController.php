@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
@@ -11,7 +13,7 @@ use TypiCMS\Modules\Core\Filters\FilterOr;
 use TypiCMS\Modules\Core\Models\Page;
 use TypiCMS\Modules\Core\Models\PageSection;
 
-class PageSectionsApiController extends BaseApiController
+final class PageSectionsApiController extends BaseApiController
 {
     /** @return LengthAwarePaginator<int, mixed> */
     public function index(Page $page, Request $request): LengthAwarePaginator

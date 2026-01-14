@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
@@ -12,7 +14,7 @@ use TypiCMS\Modules\Core\Http\Requests\UsersFormRequest;
 use TypiCMS\Modules\Core\Models\Role;
 use TypiCMS\Modules\Core\Models\User;
 
-class UsersAdminController extends BaseAdminController
+final class UsersAdminController extends BaseAdminController
 {
     public function index(): View
     {
@@ -33,8 +35,12 @@ class UsersAdminController extends BaseAdminController
         $roles = Role::query()->get();
         $passkeys = collect();
 
-        return view('users::admin.create')
-            ->with(['model' => $model, 'roles' => $roles, 'checkedRoles' => $checkedRoles, 'passkeys' => $passkeys]);
+        return view('users::admin.create', [
+            'model' => $model,
+            'roles' => $roles,
+            'checkedRoles' => $checkedRoles,
+            'passkeys' => $passkeys,
+        ]);
     }
 
     public function edit(User $user): View
@@ -43,8 +49,12 @@ class UsersAdminController extends BaseAdminController
         $roles = Role::query()->get();
         $passkeys = $user->passkeys()->get(['id', 'name', 'last_used_at']);
 
-        return view('users::admin.edit')
-            ->with(['model' => $user, 'roles' => $roles, 'checkedRoles' => $checkedRoles, 'passkeys' => $passkeys]);
+        return view('users::admin.edit', [
+            'model' => $user,
+            'roles' => $roles,
+            'checkedRoles' => $checkedRoles,
+            'passkeys' => $passkeys,
+        ]);
     }
 
     public function store(UsersFormRequest $request): RedirectResponse

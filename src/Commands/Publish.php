@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Commands;
 
 use Exception;
@@ -25,8 +27,9 @@ class Publish extends Command
 
     protected $description = 'Move a module from the vendor directory to the /Modules directory.';
 
-    public function __construct(protected Filesystem $files)
-    {
+    public function __construct(
+        protected Filesystem $files,
+    ) {
         parent::__construct();
     }
 
@@ -36,6 +39,7 @@ class Publish extends Command
         if (!is_dir(base_path('vendor/typicms/' . $this->module))) {
             throw new Exception('Module “' . $this->module . '” not found in vendor directory.');
         }
+
         $provider = 'TypiCMS\Modules\\' . ucfirst($this->module) . '\Providers\ModuleServiceProvider';
         if (class_exists($provider)) {
             $this->call('vendor:publish', ['--provider' => $provider]);
@@ -59,7 +63,7 @@ class Publish extends Command
         if ($this->files->isDirectory($from)) {
             $this->publishDirectory($from, $to);
         } else {
-            error("Can’t locate path: <{$from}>");
+            error(sprintf('Can’t locate path: <%s>', $from));
         }
     }
 
@@ -79,9 +83,11 @@ class Publish extends Command
             if (mb_substr((string) $file['path'], 0, 15) === 'resources/views') {
                 continue;
             }
+
             if (mb_substr((string) $file['path'], 0, 16) === 'resources/assets') {
                 continue;
             }
+
             $path = Str::after($file['path'], 'from://');
             if ($file['type'] === 'file' && (!$manager->fileExists('to://' . $path) || $this->option('force'))) {
                 $manager->write('to://' . $path, $manager->read($file['path']));
@@ -96,7 +102,12 @@ class Publish extends Command
     {
         $file = 'Modules/' . ucfirst($this->module) . '/Providers/ModuleServiceProvider.php';
         $contents = $this->files->get($file);
-        $contents = preg_replace('#loadViewsFrom(.*)/\', \'(.*)\'\)#', 'loadViewsFrom(resource_path(\'views\'), \'$2\')', $contents);
+        $contents = preg_replace(
+            '#loadViewsFrom(.*)/\', \'(.*)\'\)#',
+            'loadViewsFrom(resource_path(\'views\'), \'$2\')',
+            $contents,
+        );
+
         $this->files->put($file, $contents);
     }
 
@@ -107,10 +118,13 @@ class Publish extends Command
     {
         $uninstallCommand = 'composer remove typicms/' . $this->module . ' 2> /dev/null';
 
-        if (function_exists('shell_exec') && !in_array('shell_exec', explode(',', (string) ini_get('disable_functions')))) {
+        if (
+            function_exists('shell_exec')
+            && !in_array('shell_exec', explode(',', (string) ini_get('disable_functions')), true)
+        ) {
             spin(
                 fn (): string|false|null => shell_exec($uninstallCommand),
-                'Uninstall ' . $this->module . ' from composer…'
+                'Uninstall ' . $this->module . ' from composer…',
             );
         } else {
             info('You can now run ' . $uninstallCommand . '.');

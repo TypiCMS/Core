@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Commands;
 
 use Illuminate\Console\Command;
@@ -34,8 +36,9 @@ class Create extends Command
 
     protected $description = 'Create a module in the /Modules directory.';
 
-    public function __construct(protected Filesystem $files)
-    {
+    public function __construct(
+        protected Filesystem $files,
+    ) {
         parent::__construct();
     }
 
@@ -59,6 +62,7 @@ class Create extends Command
         if ($this->moduleExists()) {
             throw new RuntimeException('A module named ' . $this->module . ' already exists.');
         }
+
         $this->publishModule();
         $this->moveAndRenameFiles();
         $this->searchAndReplaceInFiles();
@@ -68,9 +72,19 @@ class Create extends Command
         $this->moveMigrationFile();
         $this->addTranslations();
         $this->deleteDirectories();
-        info('<info>The module</info> <comment>' . $this->module . '</comment> <info>was created in</info> <comment>/Modules</comment><info>, customize it!</info>');
-        info('<info>Add</info> <comment>TypiCMS\Modules\\' . $this->module . '\Providers\ModuleServiceProvider::class</comment> <info>in</info> <comment>bootstrap/providers.php</comment><info>.</info>');
-        info('<info>Run the database migration with the command</info> <comment>php artisan migrate</comment><info>.</info>');
+        info(
+            '<info>The module</info> <comment>'
+            . $this->module
+            . '</comment> <info>was created in</info> <comment>/Modules</comment><info>, customize it!</info>',
+        );
+        info(
+            '<info>Add</info> <comment>TypiCMS\Modules\\'
+            . $this->module
+            . '\Providers\ModuleServiceProvider::class</comment> <info>in</info> <comment>bootstrap/providers.php</comment><info>.</info>',
+        );
+        info(
+            '<info>Run the database migration with the command</info> <comment>php artisan migrate</comment><info>.</info>',
+        );
         info('<info>Run</info> <comment>npm run dev</comment> <info>to finish.</info>');
     }
 
@@ -85,7 +99,7 @@ class Create extends Command
         if ($this->files->isDirectory($from)) {
             $this->publishDirectory($from, $to);
         } else {
-            throw new RuntimeException("Can’t locate path: <{$from}>");
+            throw new RuntimeException(sprintf('Can’t locate path: <%s>', $from));
         }
     }
 
@@ -145,7 +159,12 @@ class Create extends Command
     {
         $file = 'Modules/' . ucfirst($this->module) . '/Providers/ModuleServiceProvider.php';
         $contents = $this->files->get($file);
-        $contents = preg_replace('#loadViewsFrom(.*)/\', \'(.*)\'\)#', 'loadViewsFrom(resource_path(\'views\'), \'$2\')', $contents);
+        $contents = preg_replace(
+            '#loadViewsFrom(.*)/\', \'(.*)\'\)#',
+            'loadViewsFrom(resource_path(\'views\'), \'$2\')',
+            $contents,
+        );
+
         $this->files->put($file, $contents);
     }
 
@@ -231,7 +250,7 @@ class Create extends Command
     protected function createParentDirectory(string $directory): void
     {
         if (!$this->files->isDirectory($directory)) {
-            $this->files->makeDirectory($directory, 0755, true);
+            $this->files->makeDirectory($directory, 0o755, true);
         }
     }
 

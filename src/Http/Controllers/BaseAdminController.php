@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
@@ -13,6 +15,7 @@ abstract class BaseAdminController extends Controller
         if (is_array($model)) {
             $model = end($model);
         }
+
         $redirectUrl = $request->get('exit') ? $model->indexUrl() : $model->editUrl();
 
         return redirect($redirectUrl);

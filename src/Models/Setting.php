@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Models;
 
 use Exception;
@@ -31,7 +33,7 @@ class Setting extends Model
         try {
             foreach (self::query()->get() as $object) {
                 $key = $object->key_name;
-                if ($object->group_name != 'config') {
+                if ($object->group_name !== 'config') {
                     $config[$object->group_name][$key] = $object->value;
                 } else {
                     $config[$key] = $object->value;

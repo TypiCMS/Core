@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'sidebar' => [
         'icon' => '<i class="icon-shield-user"></i>',

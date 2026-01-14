@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
@@ -28,12 +30,14 @@ class JavaScriptData
                 'long' => trans('languages.' . $locale),
             ];
         }
+
         if (auth()->check()) {
             $data['permissions'] = $request->user()->all_permissions;
         }
+
         $data['public_css_file'] = Vite::asset('resources/scss/public.scss');
 
-        app('JavaScript')->put($data);
+        resolve('JavaScript')->put($data);
 
         return $next($request);
     }

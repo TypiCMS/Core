@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
@@ -15,7 +17,7 @@ class SetLocaleFromUser
     public function handle(Request $request, Closure $next)
     {
         $userLocale = auth()->user()->locale;
-        if (in_array($userLocale, locales())) {
+        if (in_array($userLocale, locales(), true)) {
             app()->setLocale($userLocale);
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
@@ -15,15 +17,15 @@ class SetContentLocale
     public function handle(Request $request, Closure $next)
     {
         // Store requested locale in session.
-        $localeFromRequest = $request->string('locale');
+        $localeFromRequest = (string) $request->string('locale');
 
-        if (in_array($localeFromRequest, locales())) {
+        if (in_array($localeFromRequest, locales(), true)) {
             session(['content_locale' => $localeFromRequest]);
         }
 
         // Set content locale.
         $contentLocale = session('content_locale', app()->getLocale());
-        if (in_array($contentLocale, locales())) {
+        if (in_array($contentLocale, locales(), true)) {
             config(['typicms.content_locale' => $contentLocale]);
         }
 

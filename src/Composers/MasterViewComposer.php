@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Composers;
 
 use Illuminate\Contracts\View\View;
@@ -14,6 +16,7 @@ class MasterViewComposer
         if ($user && $user->can('see navbar') && !request()->boolean('preview') && !request()->is('*/create-passkey')) {
             $navbar = true;
         }
+
         $view->with('navbar', $navbar);
     }
 }

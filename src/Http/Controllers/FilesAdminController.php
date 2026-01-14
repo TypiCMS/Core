@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Bkwld\Croppa\Facades\Croppa;
@@ -15,7 +17,7 @@ use TypiCMS\Modules\Core\Http\Requests\FileFormRequest;
 use TypiCMS\Modules\Core\Models\File;
 use TypiCMS\Modules\Core\Services\FileUploader;
 
-class FilesAdminController extends BaseAdminController
+final class FilesAdminController extends BaseAdminController
 {
     public function index(): View
     {
@@ -24,7 +26,7 @@ class FilesAdminController extends BaseAdminController
 
     public function edit(File $file): View
     {
-        return view('files::admin.edit')->with(['model' => $file]);
+        return view('files::admin.edit', ['model' => $file]);
     }
 
     public function update(File $file, FileFormRequest $request): RedirectResponse
@@ -37,6 +39,7 @@ class FilesAdminController extends BaseAdminController
             $file->name = $newFile['filename'];
             $file->fill(Arr::except($newFile, 'filename'));
         }
+
         $file->save();
 
         return $this->redirect($request, $file);

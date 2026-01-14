@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Auth\Events\Registered;
@@ -10,15 +12,8 @@ use TypiCMS\Modules\Core\Http\Requests\UserRegistrationFormRequest;
 use TypiCMS\Modules\Core\Models\Role;
 use TypiCMS\Modules\Core\Models\User;
 
-class RegisterController extends Controller
+final class RegisterController extends Controller
 {
-    protected string $redirectTo = '/';
-
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
     public function showRegistrationForm(): View
     {
         return view('users::register');

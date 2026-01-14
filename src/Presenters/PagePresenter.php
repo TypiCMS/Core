@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Presenters;
 
 class PagePresenter extends Presenter
@@ -18,6 +20,6 @@ class PagePresenter extends Presenter
 
     public function metaTitle(): string
     {
-        return empty($this->entity->meta_title) ? $this->entity->title : $this->entity->meta_title;
+        return $this->entity->meta_title === '' ? $this->entity->title : $this->entity->meta_title;
     }
 }

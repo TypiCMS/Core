@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Observers;
 
 use DOMDocument;
@@ -30,8 +32,12 @@ class TipTapHTMLObserver
         libxml_use_internal_errors(true);
         try {
             $dom->loadHTML(
-                '<!DOCTYPE html><html lang="' . $locale . '"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><body>' . $content . '</body></html>',
-                LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
+                '<!DOCTYPE html><html lang="'
+                . $locale
+                . '"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><body>'
+                . $content
+                . '</body></html>',
+                LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD,
             );
             $xpath = new DOMXPath($dom);
             $listItems = $xpath->query('//li');

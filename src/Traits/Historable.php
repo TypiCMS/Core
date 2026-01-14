@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Traits;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -20,7 +22,7 @@ trait Historable
             $new = [];
             $old = [];
             foreach ($model->attributes as $key => $value) {
-                if ($model->translatable && in_array($key, $model->translatable)) {
+                if ($model->translatable && in_array($key, $model->translatable, true)) {
                     $values = (array) json_decode($value);
                     $originalValues = (array) json_decode((string) $model->original[$key]);
                     foreach ($values as $locale => $newItem) {
@@ -31,7 +33,7 @@ trait Historable
                     }
                 } else {
                     $originalValue = $model->original[$key];
-                    if ($value != $originalValue) {
+                    if ($value !== $originalValue) {
                         $new[$key] = $value;
                         $old[$key] = $originalValue;
                     }

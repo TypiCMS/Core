@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -15,16 +17,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Spatie\OneTimePasswords\Rules\OneTimePasswordRule;
 
-class AuthController extends Controller
+final class AuthController extends Controller
 {
-    protected string $redirectTo = '/';
-
-    protected ?string $email = null;
-
-    public function __construct()
-    {
-        $this->middleware('guest')->except(['logout', 'showPasskeyCreationForm']);
-    }
+    private ?string $email = null;
 
     public function showPasskeyLoginForm(): View
     {
@@ -52,17 +47,15 @@ class AuthController extends Controller
 
     protected function submitOneTimePasswordLoginForm(Request $request): RedirectResponse
     {
-        Validator::make($request->all(), [
+        Validator::make($request->only('email'), [
             'email' => ['required', 'email:rfc,dns', 'exists:users,email'],
         ])->validate();
 
-        $this->email = $request->string('email');
+        $this->email = (string) $request->string('email');
         $user = $this->findUser();
 
         if ($this->rateLimitHit()) {
-            return back()
-                ->withInput($request->only('email'))
-                ->withErrors(['$errors' => __('Please try later.')]);
+            return back()->withInput($request->only('email'))->withErrors(['$errors' => __('Please try later.')]);
         }
 
         session(['email' => $this->email]);
@@ -80,11 +73,12 @@ class AuthController extends Controller
             return to_route(app()->getLocale() . '::otp-login')
                 ->with('status', __('Please enter your email address first.'));
         }
+
         $this->email = session('email');
         session()->forget('email');
         $user = $this->findUser();
 
-        Validator::make($request->all(), [
+        Validator::make($request->only('one_time_password'), [
             'one_time_password' => ['required', new OneTimePasswordRule($user)],
         ])->validate();
 
@@ -106,7 +100,7 @@ class AuthController extends Controller
 
     protected function rateLimitHit(): bool
     {
-        $rateLimitKey = "one-time-password-component-send-code.{$this->email}";
+        $rateLimitKey = 'one-time-password-component-send-code.' . $this->email;
 
         if (RateLimiter::tooManyAttempts($rateLimitKey, 10)) {
             return true;
@@ -125,9 +119,7 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return $request->wantsJson()
-            ? new JsonResponse([], 204)
-            : redirect('/');
+        return $request->wantsJson() ? new JsonResponse([], 204) : redirect('/');
     }
 
     protected function guard(): StatefulGuard|Guard

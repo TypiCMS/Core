@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
@@ -7,7 +9,7 @@ use Illuminate\View\View;
 use TypiCMS\Modules\Core\Http\Requests\BlockFormRequest;
 use TypiCMS\Modules\Core\Models\Block;
 
-class AdminController extends BaseAdminController
+final class AdminController extends BaseAdminController
 {
     public function index(): View
     {
@@ -18,29 +20,25 @@ class AdminController extends BaseAdminController
     {
         $model = new Block();
 
-        return view('blocks::admin.create')
-            ->with(['model' => $model]);
+        return view('blocks::admin.create', ['model' => $model]);
     }
 
     public function edit(Block $block): View
     {
-        return view('blocks::admin.edit')
-            ->with(['model' => $block]);
+        return view('blocks::admin.edit', ['model' => $block]);
     }
 
     public function store(BlockFormRequest $request): RedirectResponse
     {
         $block = Block::query()->create($request->validated());
 
-        return $this->redirect($request, $block)
-            ->withMessage(__('Item successfully created.'));
+        return $this->redirect($request, $block)->withMessage(__('Item successfully created.'));
     }
 
     public function update(Block $block, BlockFormRequest $request): RedirectResponse
     {
         $block->update($request->validated());
 
-        return $this->redirect($request, $block)
-            ->withMessage(__('Item successfully updated.'));
+        return $this->redirect($request, $block)->withMessage(__('Item successfully updated.'));
     }
 }

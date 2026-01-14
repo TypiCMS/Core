@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
@@ -14,7 +16,7 @@ class VerifyLocalizedUrl
         if (
             config('typicms.main_locale_in_url')
             && $request->segment(1) !== null
-            && !in_array($request->segment(1), enabledLocales())
+            && !in_array($request->segment(1), enabledLocales(), true)
         ) {
             abort(404);
         }

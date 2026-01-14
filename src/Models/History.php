@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -68,14 +70,12 @@ class History extends Base
     /** @return Attribute<string, null> */
     protected function href(): Attribute
     {
-        return Attribute::make(
-            get: function () {
-                if ($this->historable === null) {
-                    return null;
-                }
-
-                return method_exists($this->historable, 'editUrl') ? $this->historable->editUrl() : '';
+        return Attribute::make(get: function () {
+            if ($this->historable === null) {
+                return null;
             }
-        );
+
+            return method_exists($this->historable, 'editUrl') ? $this->historable->editUrl() : '';
+        });
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Commands;
 
 use Exception;
@@ -20,21 +22,15 @@ class CreateUser extends Command
     {
         info('Creating a Super User…');
 
-        $firstname = text(
-            label: 'Enter your first name',
-            required: 'The first name is required.',
-        );
-        $lastname = text(
-            label: 'Enter your last name',
-            required: 'The last name is required.',
-        );
+        $firstname = text(label: 'Enter your first name', required: 'The first name is required.');
+        $lastname = text(label: 'Enter your last name', required: 'The last name is required.');
         $email = text(
             label: 'Enter your email address',
             required: 'The email address is required.',
             validate: fn (string $value): ?string => match (true) {
                 !filter_var($value, FILTER_VALIDATE_EMAIL) => 'The email address is not valid.',
-                default => null
-            }
+                default => null,
+            },
         );
 
         $data = [

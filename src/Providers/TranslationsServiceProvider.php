@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Providers;
 
 use Illuminate\Translation\TranslationServiceProvider as LaravelTranslationServiceProvider;
@@ -12,6 +14,9 @@ class TranslationsServiceProvider extends LaravelTranslationServiceProvider
      */
     protected function registerLoader()
     {
-        $this->app->singleton('translation.loader', fn ($app): MixedLoader => new MixedLoader($app['files'], $app['path.lang']));
+        $this->app->singleton(
+            'translation.loader',
+            fn ($app): MixedLoader => new MixedLoader($app['files'], $app['path.lang']),
+        );
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Models;
 
 use Exception;
@@ -94,13 +96,13 @@ class Menu extends Base
      */
     public function setHref(Menulink $menulink): string
     {
-        if (!empty($menulink->website)) {
+        if ($menulink->website) {
             return $menulink->website;
         }
 
         if ($menulink->page) {
             $url = $menulink->page->path();
-            if (!empty($menulink->section)) {
+            if ($menulink->section) {
                 return $url . '#' . $menulink->section->slug . '-' . $menulink->section->id;
             }
 
@@ -122,6 +124,7 @@ class Menu extends Base
         if (mb_strlen((string) $menulink->href) > 3) {
             $pattern .= '*';
         }
+
         if (request()->is($pattern)) {
             $classArray[] = 'active';
         }
@@ -132,9 +135,7 @@ class Menu extends Base
     /** @return Attribute<string, null> */
     protected function thumb(): Attribute
     {
-        return Attribute::make(
-            get: fn () => $this->present()->image(null, 54),
-        );
+        return Attribute::make(get: fn () => $this->present()->image(null, 54));
     }
 
     /** @return BelongsTo<File, $this> */

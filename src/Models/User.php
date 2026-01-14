@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Auth\Authenticatable;
@@ -123,7 +125,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return route('admin::dashboard');
     }
 
-    public static function boot(): void
+    protected static function boot(): void
     {
         parent::boot();
         static::creating(function ($user): void {
@@ -145,6 +147,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             if ($user->isSuperUser()) {
                 $permissions = ['all'];
             }
+
             foreach (Permission::all() as $permission) {
                 if ($user->can($permission->name)) {
                     $permissions[] = $permission->name;
@@ -152,9 +155,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             }
         }
 
-        return Attribute::make(
-            get: fn (): array => $permissions,
-        );
+        return Attribute::make(get: fn (): array => $permissions);
     }
 
     public function isImpersonating(): bool

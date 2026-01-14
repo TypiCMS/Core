@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Observers;
 
 use Illuminate\Support\Str;
@@ -19,7 +21,7 @@ class SlugObserver
 
             $count = 1;
             while ($this->slugExists($model, $locale)) {
-                $model->setTranslation('slug', $locale, "{$baseSlug}-{$count}");
+                $model->setTranslation('slug', $locale, sprintf('%s-%d', $baseSlug, $count));
                 $count++;
             }
         }

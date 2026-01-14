@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
@@ -10,7 +12,7 @@ use stdClass;
 use TypiCMS\Modules\Core\Models\Setting;
 use TypiCMS\Modules\Core\Services\FileUploader;
 
-class SettingsAdminController extends BaseAdminController
+final class SettingsAdminController extends BaseAdminController
 {
     public function index(): View
     {
@@ -19,18 +21,18 @@ class SettingsAdminController extends BaseAdminController
             $value = is_numeric($model->value) ? (int) $model->value : $model->value;
             $group_name = $model->group_name;
             $key_name = $model->key_name;
-            if ($group_name != 'config') {
+            if ($group_name !== 'config') {
                 if (!isset($data->{$group_name})) {
                     $data->{$group_name} = new stdClass();
                 }
+
                 $data->{$group_name}->{$key_name} = $value;
             } else {
                 $data->{$key_name} = $value;
             }
         }
 
-        return view('settings::admin.index')
-            ->with(['data' => $data]);
+        return view('settings::admin.index', ['data' => $data]);
     }
 
     public function save(Request $request, FileUploader $fileUploader): RedirectResponse
@@ -42,6 +44,7 @@ class SettingsAdminController extends BaseAdminController
                 $array = [$group_name => $array];
                 $group_name = 'config';
             }
+
             foreach ($array as $key_name => $value) {
                 $model = Setting::query()->firstOrCreate(['key_name' => $key_name, 'group_name' => $group_name]);
                 $model->value = $value;
@@ -57,7 +60,6 @@ class SettingsAdminController extends BaseAdminController
         Cache::flush();
         $message = __('Cache cleared.');
 
-        return to_route('admin::index-settings')
-            ->with(['message' => $message]);
+        return to_route('admin::index-settings')->with(['message' => $message]);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
@@ -8,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use TypiCMS\Modules\Core\Models\Page;
 
-class PagesPublicController extends BasePublicController
+final class PagesPublicController extends BasePublicController
 {
     public function uri(?string $uri = null): RedirectResponse|View
     {
@@ -54,13 +56,7 @@ class PagesPublicController extends BasePublicController
         }
 
         // Only locale in url
-        if (
-            in_array($uri, enabledLocales())
-            && (
-                mainLocale() !== $uri
-                || config('typicms.main_locale_in_url')
-            )
-        ) {
+        if (in_array($uri, enabledLocales(), true) && (mainLocale() !== $uri || config('typicms.main_locale_in_url'))) {
             return $query->where('is_home', 1)->firstOrFail();
         }
 
@@ -71,7 +67,10 @@ class PagesPublicController extends BasePublicController
 
     public function redirectToHomepage(): RedirectResponse
     {
-        $homepage = Page::query()->published()->where('is_home', 1)->firstOrFail();
+        $homepage = Page::query()
+            ->published()
+            ->where('is_home', 1)
+            ->firstOrFail();
         $locale = getBrowserLocaleOrMainLocale();
 
         return redirect($homepage->url($locale));
@@ -79,14 +78,17 @@ class PagesPublicController extends BasePublicController
 
     public function langChooser(): View
     {
-        $homepage = Page::query()->published()->where('is_home', 1)->first();
+        $homepage = Page::query()
+            ->published()
+            ->where('is_home', 1)
+            ->first();
         if (!$homepage) {
             Log::error('No homepage found.');
             abort(404);
         }
+
         $locales = enabledLocales();
 
-        return view('core::public.lang-chooser')
-            ->with(['homepage' => $homepage, 'locales' => $locales]);
+        return view('core::public.lang-chooser', ['homepage' => $homepage, 'locales' => $locales]);
     }
 }

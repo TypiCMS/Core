@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Observers;
 
 use TypiCMS\Modules\Core\Models\Page;
@@ -16,6 +18,7 @@ class HomePageObserver
             if ($page->id) {
                 $query->where('id', '!=', $page->id);
             }
+
             $query->update(['is_home' => 0]);
         }
     }
@@ -26,7 +29,11 @@ class HomePageObserver
     public function saved(Page $page): void
     {
         if (!$page->is_home && Page::query()->where('is_home', 1)->count() === 0) {
-            Page::query()->whereNull('parent_id')->orderBy('position')->take(1)->update(['is_home' => 1]);
+            Page::query()
+                ->whereNull('parent_id')
+                ->orderBy('position')
+                ->take(1)
+                ->update(['is_home' => 1]);
         }
     }
 }

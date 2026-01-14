@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
@@ -19,12 +21,14 @@ class SetLocaleFromUrl
     {
         $locale = mainLocale();
         $firstSegment = $request->segment(1);
-        if (in_array($firstSegment, enabledLocales())) {
+        if (in_array($firstSegment, enabledLocales(), true)) {
             $locale = $firstSegment;
         }
-        if ($locale === null || !in_array($locale, enabledLocales())) {
+
+        if (!in_array($locale, enabledLocales(), true)) {
             abort(404);
         }
+
         App::setLocale($locale);
         Date::setLocale(localeAndRegion());
         Number::useLocale(localeAndRegion());

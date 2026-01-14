@@ -18,7 +18,7 @@
                     <i class="icon-key-round"></i>
                     @lang('Create passkey')
                 </button>
-                <a class="text-body text-decoration-underline small text-center mt-3 d-block" href="{{route('admin::dashboard')}}">@lang('I will do it later.')</a>
+                <a class="text-body text-decoration-underline small text-center mt-3 d-block" href="{{ route('admin::dashboard') }}">@lang('I will do it later.')</a>
             </div>
         </div>
         <x-users::back-to-website-link />

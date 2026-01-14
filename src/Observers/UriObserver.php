@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Observers;
 
 use TypiCMS\Modules\Core\Models\Page;
@@ -29,17 +31,19 @@ class UriObserver
         foreach (locales() as $locale) {
             $slug = $page->getTranslation('slug', $locale);
             $parentUri = $parentUris[$locale] ?? '';
-            if (!empty($parentUri)) {
+            if ($parentUri) {
                 $uri = $parentUri;
-                if (!empty($slug)) {
+                if ($slug) {
                     $uri .= '/' . $slug;
                 }
             } else {
                 $uri = $slug;
             }
+
             $uri = $this->incrementWhileExists($page, $uri, $locale, $page->id);
             $uris[$locale] = $uri;
         }
+
         $page->setTranslations('uri', $uris);
     }
 
@@ -62,6 +66,7 @@ class UriObserver
             foreach ($uris as $locale => $uri) {
                 $subpage->setTranslation('uri', $locale, null);
             }
+
             $subpage->save();
             $this->emptySubpagesUris($subpage);
         }

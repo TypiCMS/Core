@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Models;
 
 use Exception;
@@ -64,9 +66,7 @@ class File extends Base
     /** @return Attribute<string, null> */
     protected function thumbSm(): Attribute
     {
-        return Attribute::make(
-            get: fn () => $this->present()->image(240, 240, ['resize']),
-        );
+        return Attribute::make(get: fn () => $this->present()->image(240, 240, ['resize']));
     }
 
     /** @return Attribute<string, null> */
@@ -79,9 +79,7 @@ class File extends Base
         } catch (Exception) {
         }
 
-        return Attribute::make(
-            get: fn () => $url
-        );
+        return Attribute::make(get: fn () => $url);
     }
 
     /** @return BelongsTo<File, $this> */

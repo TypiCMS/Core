@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
@@ -10,7 +12,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use TypiCMS\Modules\Core\Filters\FilterOr;
 use TypiCMS\Modules\Core\Models\Taxonomy;
 
-class TaxonomiesApiController extends BaseApiController
+final class TaxonomiesApiController extends BaseApiController
 {
     /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
@@ -45,6 +47,7 @@ class TaxonomiesApiController extends BaseApiController
         if ($taxonomy->terms->count() > 0) {
             return response()->json(['message' => __('This taxonomy cannot be deleted as it contains terms.')], 403);
         }
+
         $taxonomy->delete();
 
         return response()->json(status: 204);

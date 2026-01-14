@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
@@ -8,38 +10,34 @@ use TypiCMS\Modules\Core\Http\Requests\MenulinkFormRequest;
 use TypiCMS\Modules\Core\Models\Menu;
 use TypiCMS\Modules\Core\Models\Menulink;
 
-class MenulinksAdminController extends BaseAdminController
+final class MenulinksAdminController extends BaseAdminController
 {
     public function create(Menu $menu): View
     {
         $model = new Menulink();
 
-        return view('menus::admin.create-menulink')
-            ->with(['model' => $model, 'menu' => $menu]);
+        return view('menus::admin.create-menulink', ['model' => $model, 'menu' => $menu]);
     }
 
     public function edit(Menu $menu, Menulink $menulink): View
     {
-        return view('menus::admin.edit-menulink')
-            ->with([
-                'menu' => $menu,
-                'model' => $menulink,
-            ]);
+        return view('menus::admin.edit-menulink', [
+            'menu' => $menu,
+            'model' => $menulink,
+        ]);
     }
 
     public function store(Menu $menu, MenulinkFormRequest $request): RedirectResponse
     {
         $menulink = Menulink::query()->create($request->validated());
 
-        return $this->redirect($request, $menulink)
-            ->withMessage(__('Item successfully created.'));
+        return $this->redirect($request, $menulink)->withMessage(__('Item successfully created.'));
     }
 
     public function update(Menu $menu, Menulink $menulink, MenulinkFormRequest $request): RedirectResponse
     {
         $menulink->update($request->validated());
 
-        return $this->redirect($request, $menulink)
-            ->withMessage(__('Item successfully updated.'));
+        return $this->redirect($request, $menulink)->withMessage(__('Item successfully updated.'));
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
@@ -11,7 +13,7 @@ use TypiCMS\Modules\Core\Filters\FilterOr;
 use TypiCMS\Modules\Core\Models\History;
 use TypiCMS\Modules\Core\Models\User;
 
-class HistoryApiController extends BaseApiController
+final class HistoryApiController extends BaseApiController
 {
     /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
@@ -33,7 +35,10 @@ class HistoryApiController extends BaseApiController
             ->allowedFilters([
                 AllowedFilter::custom('title,historable_type,action,user_name', new FilterOr()),
             ])
-            ->selectSub(User::query()->selectRaw('CONCAT(`first_name`, " ", `last_name`)')->whereColumn('user_id', 'users.id'), 'user_name')
+            ->selectSub(
+                User::query()->selectRaw('CONCAT(`first_name`, " ", `last_name`)')->whereColumn('user_id', 'users.id'),
+                'user_name',
+            )
             ->paginate($request->integer('per_page'));
     }
 

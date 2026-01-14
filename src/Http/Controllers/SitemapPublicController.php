@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Collection;
@@ -9,12 +11,12 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use TypiCMS\Modules\Core\Models\Page;
 
-class SitemapPublicController extends Controller
+final class SitemapPublicController extends Controller
 {
     public function generate(): Response
     {
         // create new sitemap object
-        $sitemap = app('sitemap');
+        $sitemap = resolve('sitemap');
 
         // set cache (key (string), duration in minutes (Carbon|Datetime|int), turn on/off (boolean))
         // by default cache is disabled

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
@@ -10,7 +12,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use TypiCMS\Modules\Core\Filters\FilterOr;
 use TypiCMS\Modules\Core\Models\User;
 
-class UsersApiController extends BaseApiController
+final class UsersApiController extends BaseApiController
 {
     /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
@@ -48,12 +50,18 @@ class UsersApiController extends BaseApiController
                 'message' => __('The current logged in user cannot be deleted.'),
             ], 403);
         }
+
         if (method_exists($user, 'hasRunningSubscription') && $user->hasRunningSubscription()) {
             return response()->json([
                 'error' => true,
-                'message' => __('The user :name can not be deleted because he has a running subscription.', ['name' => "{$user->first_name} {$user->last_name}"]),
+                'message' => __('The user :name can not be deleted because he has a running subscription.', ['name' => sprintf(
+                    '%s %s',
+                    $user->first_name,
+                    $user->last_name,
+                )]),
             ], 403);
         }
+
         $user->delete();
 
         return response()->json(status: 204);

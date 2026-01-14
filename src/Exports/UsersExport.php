@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Exports;
 
 use Illuminate\Database\Eloquent\Collection;
@@ -24,7 +26,15 @@ class UsersExport implements FromCollection, ShouldAutoSize, WithColumnFormattin
     public function collection(): Collection
     {
         return QueryBuilder::for(User::class)
-            ->allowedSorts(['first_name', 'last_name', 'email', 'subscription_plan', 'subscription_ends_at', 'last_payment_at', 'superuser'])
+            ->allowedSorts([
+                'first_name',
+                'last_name',
+                'email',
+                'subscription_plan',
+                'subscription_ends_at',
+                'last_payment_at',
+                'superuser',
+            ])
             ->allowedFilters([
                 AllowedFilter::custom('first_name,last_name,email', new FilterOr()),
             ])

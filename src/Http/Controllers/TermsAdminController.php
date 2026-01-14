@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
@@ -8,29 +10,26 @@ use TypiCMS\Modules\Core\Http\Requests\TermFormRequest;
 use TypiCMS\Modules\Core\Models\Taxonomy;
 use TypiCMS\Modules\Core\Models\Term;
 
-class TermsAdminController extends BaseAdminController
+final class TermsAdminController extends BaseAdminController
 {
     public function index(Taxonomy $taxonomy): View
     {
-        return view('taxonomies::admin.index-terms')
-            ->with(['taxonomy' => $taxonomy]);
+        return view('taxonomies::admin.index-terms', ['taxonomy' => $taxonomy]);
     }
 
     public function create(Taxonomy $taxonomy): View
     {
         $model = new Term();
 
-        return view('taxonomies::admin.create-term')
-            ->with(['model' => $model, 'taxonomy' => $taxonomy]);
+        return view('taxonomies::admin.create-term', ['model' => $model, 'taxonomy' => $taxonomy]);
     }
 
     public function edit(Taxonomy $taxonomy, Term $term): View
     {
-        return view('taxonomies::admin.edit-term')
-            ->with([
-                'model' => $term,
-                'taxonomy' => $taxonomy,
-            ]);
+        return view('taxonomies::admin.edit-term', [
+            'model' => $term,
+            'taxonomy' => $taxonomy,
+        ]);
     }
 
     public function store(Taxonomy $taxonomy, TermFormRequest $request): RedirectResponse

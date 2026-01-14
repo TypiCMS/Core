@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Model;
@@ -12,24 +14,21 @@ use Spatie\QueryBuilder\QueryBuilder;
 use TypiCMS\Modules\Core\Filters\FilterOr;
 use TypiCMS\Modules\Core\Models\Page;
 
-class PagesApiController extends BaseApiController
+final class PagesApiController extends BaseApiController
 {
     /** @return array{models: Collection<int, Model>, total: int} */
     public function index(Request $request): array
     {
         $userPreferences = $request->user()->preferences;
 
-        $query = Page::query()
-            ->selectFields()
-            ->orderBy('position');
+        $query = Page::query()->selectFields()->orderBy('position');
 
         $hasSearchFilter = $request->has('filter');
 
         if ($hasSearchFilter) {
-            $queryBuilder = QueryBuilder::for($query)
-                ->allowedFilters([
-                    AllowedFilter::custom('title', new FilterOr()),
-                ]);
+            $queryBuilder = QueryBuilder::for($query)->allowedFilters([
+                AllowedFilter::custom('title', new FilterOr()),
+            ]);
 
             $matchingPages = $queryBuilder->get();
             $parentIds = collect();
@@ -91,19 +90,16 @@ class PagesApiController extends BaseApiController
         $titleCounts = collect($data)->countBy();
         $titleIndices = [];
 
-        return collect($data)
-            ->map(function ($title, $id) use ($titleCounts, &$titleIndices) {
-                $displayTitle = $title;
+        return collect($data)->map(function ($title, $id) use ($titleCounts, &$titleIndices): array {
+            $displayTitle = $title;
 
-                if ($titleCounts[$title] > 1) {
-                    $titleIndices[$title] = ($titleIndices[$title] ?? 0) + 1;
-                    $displayTitle = sprintf('%s (%d)', $title, $titleIndices[$title]);
-                }
+            if ($titleCounts[$title] > 1) {
+                $titleIndices[$title] = ($titleIndices[$title] ?? 0) + 1;
+                $displayTitle = sprintf('%s (%d)', $title, $titleIndices[$title]);
+            }
 
-                return [$displayTitle, sprintf('{!! page:%s !!}', $id)];
-            })
-            ->values()
-            ->all();
+            return [$displayTitle, sprintf('{!! page:%s !!}', $id)];
+        })->values()->all();
     }
 
     public function sort(Request $request): void

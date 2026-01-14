@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Presenters;
 
 use Bkwld\Croppa\Facades\Croppa;
@@ -15,7 +17,9 @@ abstract class Presenter extends BasePresenter
 {
     protected string $imageNotFound = 'img-not-found.png';
 
-    public function __construct(protected $entity) {}
+    public function __construct(
+        protected $entity,
+    ) {}
 
     /**
      * Allow for property-style retrieval.
@@ -95,11 +99,15 @@ abstract class Presenter extends BasePresenter
      *
      * @param array<string|int, string|array<string>> $options
      */
-    public function image(?int $width = null, ?int $height = null, array $options = [], string $relationName = 'image'): string
-    {
+    public function image(
+        ?int $width = null,
+        ?int $height = null,
+        array $options = [],
+        string $relationName = 'image',
+    ): string {
         $path = $this->getImagePathOrDefault($relationName);
 
-        if (in_array(pathinfo($path, PATHINFO_EXTENSION), ['svg', 'gif'])) {
+        if (in_array(pathinfo($path, PATHINFO_EXTENSION), ['svg', 'gif'], true)) {
             return Storage::url($path);
         }
 
@@ -123,6 +131,7 @@ abstract class Presenter extends BasePresenter
         if ($this->entity->ogImage !== '') {
             return $this->image(1200, 630, [], 'ogImage');
         }
+
         if ($this->entity->image !== '') {
             return $this->image(1200, 630);
         }
@@ -149,7 +158,7 @@ abstract class Presenter extends BasePresenter
      */
     public function dynamicLinks(string $property = 'body'): string
     {
-        $text = $this->entity->$property;
+        $text = $this->entity->$property ?? '';
         preg_match_all('/{!!(?:\s|%20)([a-z]+):(\d+)(?:\s|%20)!!}/', (string) $text, $matches, PREG_SET_ORDER);
         $patterns = [];
         $replacements = [];
@@ -157,20 +166,21 @@ abstract class Presenter extends BasePresenter
         foreach ($matches as $match) {
             $patterns[] = $match[0];
             $module = $match[1];
-            if (in_array($module, ['page', 'tag', 'user', 'term', 'taxonomy'])) {
+            if (in_array($module, ['page', 'tag', 'user', 'term', 'taxonomy'], true)) {
                 $classname = 'TypiCMS\Modules\Core\Models\\' . ucfirst($module);
             } else {
                 $classname = 'TypiCMS\Modules\\' . ucfirst(Str::plural($module)) . '\Models\\' . ucfirst($module);
             }
+
             $model = null;
             if (class_exists($classname)) {
-                $model = app($classname)
-                    ->published()
-                    ->find($match[2]);
+                $model = resolve($classname)->published()->find($match[2]);
             }
+
             if ($model === null) {
                 continue;
             }
+
             if ($module === 'page') {
                 $replacements[] = $model->url($lang);
             } elseif (Route::has($lang . '::' . $module)) {

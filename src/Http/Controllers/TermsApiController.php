@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
@@ -11,13 +13,12 @@ use TypiCMS\Modules\Core\Filters\FilterOr;
 use TypiCMS\Modules\Core\Models\Taxonomy;
 use TypiCMS\Modules\Core\Models\Term;
 
-class TermsApiController extends BaseApiController
+final class TermsApiController extends BaseApiController
 {
     /** @return LengthAwarePaginator<int, mixed> */
     public function index(Taxonomy $taxonomy, Request $request): LengthAwarePaginator
     {
-        $query = Term::query()->selectFields()
-            ->where('taxonomy_id', $taxonomy->id);
+        $query = Term::query()->selectFields()->where('taxonomy_id', $taxonomy->id);
 
         return QueryBuilder::for($query)
             ->allowedSorts(['title_translated', 'position'])

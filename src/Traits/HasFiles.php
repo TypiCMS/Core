@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Traits;
 
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -11,7 +13,7 @@ trait HasFiles
     {
         static::saved(function (mixed $model): void {
             if (request()->has('file_ids')) {
-                $model->syncIds(request()->string('file_ids'));
+                $model->syncIds((string) request()->string('file_ids'));
             }
         });
     }
@@ -24,6 +26,7 @@ trait HasFiles
         foreach ($idsArray as $id) {
             $data[$id] = ['position' => $position++];
         }
+
         $this->files()->sync($data);
     }
 
@@ -54,7 +57,8 @@ trait HasFiles
     /** @return MorphToMany<File, $this> */
     public function files(): MorphToMany
     {
-        return $this->morphToMany(File::class, 'model', 'model_has_files', 'model_id', 'file_id')
-            ->orderBy('model_has_files.position');
+        return $this->morphToMany(File::class, 'model', 'model_has_files', 'model_id', 'file_id')->orderBy(
+            'model_has_files.position',
+        );
     }
 }

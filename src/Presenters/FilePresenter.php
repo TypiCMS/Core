@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Presenters;
 
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +21,7 @@ class FilePresenter extends Presenter
 
     public function title(): string
     {
-        if (!empty($this->entity->title)) {
+        if ($this->entity->title) {
             return $this->entity->title;
         }
 

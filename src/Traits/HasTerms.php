@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Traits;
 
 use Illuminate\Database\Eloquent\Collection;
@@ -23,9 +25,7 @@ trait HasTerms
     /** @return MorphToMany<Term, $this> */
     public function terms(): MorphToMany
     {
-        return $this->morphToMany(Term::class, 'model', 'model_has_terms')
-            ->orderBy('position')
-            ->withTimestamps();
+        return $this->morphToMany(Term::class, 'model', 'model_has_terms')->orderBy('position')->withTimestamps();
     }
 
     /** @return Collection<int, Taxonomy> */

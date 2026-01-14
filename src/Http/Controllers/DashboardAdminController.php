@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use GuzzleHttp\Client;
@@ -7,7 +9,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
-class DashboardAdminController extends BaseAdminController
+final class DashboardAdminController extends BaseAdminController
 {
     public function index(): RedirectResponse
     {
@@ -29,6 +31,6 @@ class DashboardAdminController extends BaseAdminController
             }
         }
 
-        return view('dashboard::show')->with(['welcomeMessage' => $welcomeMessage]);
+        return view('dashboard::show', ['welcomeMessage' => $welcomeMessage]);
     }
 }

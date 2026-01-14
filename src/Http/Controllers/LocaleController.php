@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Support\Facades\Session;
 
-class LocaleController extends BaseAdminController
+final class LocaleController extends BaseAdminController
 {
     /**
      * Change content locale.

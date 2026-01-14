@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,8 +21,9 @@ class Database extends Command
 
     protected $description = 'Set database credentials in .env file';
 
-    public function __construct(protected Filesystem $files)
-    {
+    public function __construct(
+        protected Filesystem $files,
+    ) {
         parent::__construct();
     }
 
@@ -46,17 +50,15 @@ class Database extends Command
             default: 'root',
             required: 'The MySQL server username is required.',
         );
-        $dbPassword = password(
-            label: 'What is your MySQL server password?',
-        );
+        $dbPassword = password(label: 'What is your MySQL server password?');
 
         // Update DB credentials in .env file.
         $search = [
-            '/(' . preg_quote('DB_HOST=') . ')(.*)/',
-            '/(' . preg_quote('DB_PORT=') . ')(.*)/',
-            '/(' . preg_quote('DB_DATABASE=') . ')(.*)/',
-            '/(' . preg_quote('DB_USERNAME=') . ')(.*)/',
-            '/(' . preg_quote('DB_PASSWORD=') . ')(.*)/',
+            '/(' . preg_quote('DB_HOST=', '/') . ')(.*)/',
+            '/(' . preg_quote('DB_PORT=', '/') . ')(.*)/',
+            '/(' . preg_quote('DB_DATABASE=', '/') . ')(.*)/',
+            '/(' . preg_quote('DB_USERNAME=', '/') . ')(.*)/',
+            '/(' . preg_quote('DB_PASSWORD=', '/') . ')(.*)/',
         ];
         $replace = [
             '${1}' . $dbAddress,
@@ -68,13 +70,12 @@ class Database extends Command
         $contents = (string) preg_replace($search, $replace, $contents);
 
         // Set DB username and password in config
-        $this->laravel['config']['database.connections.mysql.host'] = $dbAddress;
-        $this->laravel['config']['database.connections.mysql.port'] = $dbPort;
-        $this->laravel['config']['database.connections.mysql.username'] = $dbUserName;
-        $this->laravel['config']['database.connections.mysql.password'] = $dbPassword;
+        $this->laravel->make(Repository::class)->set('database.connections.mysql.host', $dbAddress);
+        $this->laravel->make(Repository::class)->set('database.connections.mysql.port', $dbPort);
+        $this->laravel->make(Repository::class)->set('database.connections.mysql.username', $dbUserName);
+        $this->laravel->make(Repository::class)->set('database.connections.mysql.password', $dbPassword);
 
-        // Clear DB name in config
-        unset($this->laravel['config']['database.connections.mysql.database']);
+        $this->laravel->make(Repository::class)->set('database.connections.mysql.database');
 
         // Force the new login to be used
         DB::purge();

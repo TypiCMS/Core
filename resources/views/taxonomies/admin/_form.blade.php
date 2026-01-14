@@ -15,7 +15,7 @@
     {!! BootForm::text(__('Validation rule'), 'validation_rule')->placeholder('required|array|size:2')->required() !!}
 
     {!! Form::hidden('modules[]')->value('') !!}
-    @if (!empty($modules))
+    @if ($modules)
         <p class="form-label">@lang('Use in modules')</p>
         @foreach ($modules as $module => $properties)
             <div class="form-check">

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Traits;
 
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -12,18 +14,18 @@ trait HasTags
     {
         static::saved(function (mixed $model): void {
             if (request()->has('tags')) {
-                $tags = array_filter(array_map(trim(...), explode(',', request()->string('tags'))));
+                $tags = array_filter(array_map(trim(...), explode(',', (string) request()->string('tags'))));
 
                 // Create or add tags
                 $tagIds = [];
 
-                if (count($tags) > 0) {
+                if ($tags !== []) {
                     $foundTags = Tag::query()->whereIn('tag', $tags)->get();
 
                     $returnTags = [];
 
                     foreach ($foundTags as $tag) {
-                        $pos = array_search($tag->tag, $tags);
+                        $pos = array_search($tag->tag, $tags, true);
 
                         // Add returned tags to array
                         if ($pos !== false) {
@@ -47,7 +49,6 @@ trait HasTags
 
                 // Assign tags to model
                 $model->tags()->sync($tagIds);
-
             }
         });
     }
@@ -55,8 +56,6 @@ trait HasTags
     /** @return MorphToMany<Tag, $this> */
     public function tags(): MorphToMany
     {
-        return $this->morphToMany(Tag::class, 'taggable')
-            ->orderBy('tag')
-            ->withTimestamps();
+        return $this->morphToMany(Tag::class, 'taggable')->orderBy('tag')->withTimestamps();
     }
 }

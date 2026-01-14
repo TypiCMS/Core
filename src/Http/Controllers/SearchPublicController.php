@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
-class SearchPublicController extends BasePublicController
+final class SearchPublicController extends BasePublicController
 {
     public function search(Request $request): View
     {
@@ -14,14 +16,12 @@ class SearchPublicController extends BasePublicController
         $tabs = [];
         $count = 0;
         $data = [];
-        $data['query'] = e($request->string('query'));
+        $data['query'] = e((string) $request->string('query'));
         $validator = Validator::make($data, [
             'query' => ['required', 'string', 'min:3'],
         ]);
         if ($validator->fails()) {
-            return view('search::public.index')
-                ->with(['results' => $results, 'count' => $count])
-                ->withErrors($validator);
+            return view('search::public.index', ['results' => $results, 'count' => $count])->withErrors($validator);
         }
 
         $config = config('typicms.search');
@@ -31,7 +31,8 @@ class SearchPublicController extends BasePublicController
             if (!is_array($data)) {
                 continue;
             }
-            $model = app($data['model']);
+
+            $model = resolve($data['model']);
             $columns = $data['columns'];
             $query = $model
                 ->query()
@@ -40,14 +41,26 @@ class SearchPublicController extends BasePublicController
                         $query->orWhere(function ($query) use ($words, $column, $model): void {
                             foreach ($words as $word) {
                                 $word = addslashes($word);
-                                if (in_array($column, (array) $model->translatable)) {
-                                    $query->published()->whereRaw(
-                                        'JSON_UNQUOTE(JSON_EXTRACT(`' . $column . '`, \'$.' . app()->getLocale() . '\')) LIKE \'%' . $word . '%\' COLLATE utf8mb4_unicode_ci'
-                                    );
+                                if (in_array($column, (array) $model->translatable, true)) {
+                                    $query
+                                        ->published()
+                                        ->whereRaw(
+                                            'JSON_UNQUOTE(JSON_EXTRACT(`'
+                                            . $column
+                                            . '`, \'$.'
+                                            . app()->getLocale()
+                                            . "')) LIKE '%"
+                                            . $word
+                                            . "%' COLLATE utf8mb4_unicode_ci",
+                                        );
                                 } else {
-                                    $query->published()->whereRaw(
-                                        '`' . $column . '` LIKE \'%' . $word . '%\' COLLATE utf8mb4_unicode_ci'
-                                    );
+                                    $query
+                                        ->published()
+                                        ->whereRaw('`'
+                                        . $column
+                                        . "` LIKE '%"
+                                        . $word
+                                        . "%' COLLATE utf8mb4_unicode_ci");
                                 }
                             }
                         });
@@ -57,14 +70,26 @@ class SearchPublicController extends BasePublicController
                                 $query->whereHas('sections', function ($query) use ($words, $column, $model): void {
                                     foreach ($words as $word) {
                                         $word = addslashes($word);
-                                        if (in_array($column, (array) $model->translatable)) {
-                                            $query->published()->whereRaw(
-                                                'JSON_UNQUOTE(JSON_EXTRACT(`' . $column . '`, \'$.' . app()->getLocale() . '\')) LIKE \'%' . $word . '%\' COLLATE utf8mb4_unicode_ci'
-                                            );
+                                        if (in_array($column, (array) $model->translatable, true)) {
+                                            $query
+                                                ->published()
+                                                ->whereRaw(
+                                                    'JSON_UNQUOTE(JSON_EXTRACT(`'
+                                                    . $column
+                                                    . '`, \'$.'
+                                                    . app()->getLocale()
+                                                    . "')) LIKE '%"
+                                                    . $word
+                                                    . "%' COLLATE utf8mb4_unicode_ci",
+                                                );
                                         } else {
-                                            $query->published()->whereRaw(
-                                                '`' . $column . '` LIKE \'%' . $word . '%\' COLLATE utf8mb4_unicode_ci'
-                                            );
+                                            $query
+                                                ->published()
+                                                ->whereRaw('`'
+                                                . $column
+                                                . "` LIKE '%"
+                                                . $word
+                                                . "%' COLLATE utf8mb4_unicode_ci");
                                         }
                                     }
                                 });
@@ -81,8 +106,8 @@ class SearchPublicController extends BasePublicController
             }
         }
 
-        return view('search::public.index')
-            ->with(['results' => $results, 'count' => $count, 'tabs' => $tabs])
-            ->withErrors($validator);
+        return view('search::public.index', ['results' => $results, 'count' => $count, 'tabs' => $tabs])->withErrors(
+            $validator,
+        );
     }
 }

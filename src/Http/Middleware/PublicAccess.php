@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
 use Closure;
@@ -19,7 +21,7 @@ class PublicAccess
     public function handle(Request $request, Closure $next)
     {
         if (
-            !in_array($request->ip(), config('typicms.authorized_ips', []))
+            !in_array($request->ip(), config('typicms.authorized_ips', []), true)
             && config('typicms.auth_public')
             && !Auth::check()
             && !Route::is('*::login*')

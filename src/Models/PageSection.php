@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -81,9 +83,7 @@ class PageSection extends Base implements Sortable
     /** @return Attribute<string, null> */
     protected function thumb(): Attribute
     {
-        return Attribute::make(
-            get: fn () => $this->present()->image(null, 54),
-        );
+        return Attribute::make(get: fn () => $this->present()->image(null, 54));
     }
 
     public function url(?string $locale = null): string

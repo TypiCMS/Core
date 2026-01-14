@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Attributes\CollectedBy;
@@ -108,10 +110,7 @@ class Page extends Base
     {
         $locale ??= app()->getLocale();
         $uri = $this->translate('uri', $locale);
-        if (
-            mainLocale() !== $locale
-            || config('typicms.main_locale_in_url')
-        ) {
+        if (mainLocale() !== $locale || config('typicms.main_locale_in_url')) {
             $uri = $uri ? $locale . '/' . $uri : $locale;
         }
 
@@ -138,7 +137,7 @@ class Page extends Base
     protected function whereUriIs(Builder $query, string $uri): void
     {
         $field = 'uri';
-        if (in_array($field, $this->translatable)) {
+        if (in_array($field, $this->translatable, true)) {
             $field .= '->' . app()->getLocale();
         }
 
@@ -150,7 +149,7 @@ class Page extends Base
     protected function whereUriIsNot(Builder $query, string $uri): void
     {
         $field = 'uri';
-        if (in_array($field, $this->translatable)) {
+        if (in_array($field, $this->translatable, true)) {
             $field .= '->' . app()->getLocale();
         }
 
@@ -162,7 +161,7 @@ class Page extends Base
     protected function whereUriIsLike(Builder $query, string $uri): void
     {
         $field = 'uri';
-        if (in_array($field, $this->translatable)) {
+        if (in_array($field, $this->translatable, true)) {
             $field .= '->' . app()->getLocale();
         }
 
@@ -185,8 +184,9 @@ class Page extends Base
     {
         $rootUriArray = explode('/', $this->uri);
         $uri = $rootUriArray[0];
-        if (in_array($uri, locales()) && isset($rootUriArray[1])) {
+        if (in_array($uri, locales(), true) && isset($rootUriArray[1])) {
             $uri .= '/' . $rootUriArray[1];
+
             // add next part of uri in locale
         }
 

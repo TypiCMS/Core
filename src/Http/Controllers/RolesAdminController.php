@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
@@ -8,7 +10,7 @@ use Spatie\Permission\Models\Permission;
 use TypiCMS\Modules\Core\Http\Requests\RolesFormRequest;
 use TypiCMS\Modules\Core\Models\Role;
 
-class RolesAdminController extends BaseAdminController
+final class RolesAdminController extends BaseAdminController
 {
     public function index(): View
     {
@@ -20,16 +22,14 @@ class RolesAdminController extends BaseAdminController
         $model = new Role();
         $checkedPermissions = [];
 
-        return view('roles::admin.create')
-            ->with(['model' => $model, 'checkedPermissions' => $checkedPermissions]);
+        return view('roles::admin.create', ['model' => $model, 'checkedPermissions' => $checkedPermissions]);
     }
 
     public function edit(Role $role): View
     {
         $checkedPermissions = $role->permissions()->pluck('name')->all();
 
-        return view('roles::admin.edit')
-            ->with(['model' => $role, 'checkedPermissions' => $checkedPermissions]);
+        return view('roles::admin.edit', ['model' => $role, 'checkedPermissions' => $checkedPermissions]);
     }
 
     public function store(RolesFormRequest $request): RedirectResponse

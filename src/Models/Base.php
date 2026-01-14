@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Models;
 
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
@@ -49,9 +51,12 @@ abstract class Base extends Model
     #[Scope]
     protected function published(Builder $query): void
     {
-        if (!auth('web')->check() || (auth('web')->user()->can('see unpublished items') && !request()->boolean('preview'))) {
+        if (
+            !auth('web')->check()
+            || auth('web')->user()->can('see unpublished items') && !request()->boolean('preview')
+        ) {
             $field = 'status';
-            if (in_array($field, (array) $this->translatable)) {
+            if (in_array($field, $this->translatable, true)) {
                 $field .= '->' . app()->getLocale();
             }
 
@@ -64,7 +69,7 @@ abstract class Base extends Model
     protected function whereSlugIs(Builder $query, string $slug): void
     {
         $field = 'slug';
-        if (in_array($field, (array) $this->translatable)) {
+        if (in_array($field, $this->translatable, true)) {
             $field .= '->' . app()->getLocale();
         }
 
@@ -87,55 +92,87 @@ abstract class Base extends Model
     protected function selectFields(Builder $query): void
     {
         $locale = request('locale', app()->getLocale());
-        $fields = explode(',', request()->string('fields.' . $this->getTable()));
+        $fields = explode(',', (string) request()->string('fields.' . $this->getTable()));
         foreach ($fields as $field) {
             if (isset($this->translatable) && $this->isTranslatableAttribute($field)) {
                 if ($field === 'status') {
                     if (config('typicms.postgresql') === true) {
-                        $query->selectRaw(
-                            '(' . $field . '::json->>\'' . $locale . '\' )::int AS ' . $field . '_translated'
-                        );
+                        $query->selectRaw('('
+                        . $field
+                        . "::json->>'"
+                        . $locale
+                        . "' )::int AS "
+                        . $field
+                        . '_translated');
                     } else {
-                        $query
-                            ->selectRaw(
-                                '
-                                CAST(JSON_UNQUOTE(
-                                    JSON_EXTRACT(`' . $field . '`, \'$.' . $locale . '\')
-                                ) AS UNSIGNED) AS `' . $field . '_translated`
+                        $query->selectRaw(
                             '
-                            );
+                                CAST(JSON_UNQUOTE(
+                                    JSON_EXTRACT(`'
+                            . $field
+                            . '`, \'$.'
+                            . $locale
+                            . '\')
+                                ) AS UNSIGNED) AS `'
+                            . $field
+                            . '_translated`
+                            ',
+                        );
                     }
                 } elseif (config('typicms.postgresql') === true) {
-                    $query
-                        ->selectRaw(
-                            '
+                    $query->selectRaw(
+                        '
                                 CASE WHEN
-                                    ' . $field . '::json->>\'' . $locale . '\' = null
+                                    '
+                        . $field
+                        . "::json->>'"
+                        . $locale
+                        . '\' = null
                                 THEN
                                     NULL
                                 ELSE
-                                    ' . $field . '::json->>\'' . $locale . '\'
+                                    '
+                        . $field
+                        . "::json->>'"
+                        . $locale
+                        . '\'
                                 END
-                                AS  ' . $field . '_translated
-                            '
-                        );
+                                AS  '
+                        . $field
+                        . '_translated
+                            ',
+                    );
                 } else {
-                    $query
-                        ->selectRaw(
-                            '
+                    $query->selectRaw(
+                        '
                                 CASE WHEN
                                 JSON_UNQUOTE(
-                                    JSON_EXTRACT(`' . $field . '`, \'$.' . $locale . '\')
+                                    JSON_EXTRACT(`'
+                        . $field
+                        . '`, \'$.'
+                        . $locale
+                        . '\')
                                 ) = \'null\' THEN NULL
                                 ELSE
                                 JSON_UNQUOTE(
-                                    JSON_EXTRACT(`' . $field . '`, \'$.' . $locale . '\')
+                                    JSON_EXTRACT(`'
+                        . $field
+                        . '`, \'$.'
+                        . $locale
+                        . '\')
                                 )
-                                END ' .
-                            (config('typicms.mariadb') === false ? 'COLLATE ' . (DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci') : '') . '
-                                AS `' . $field . '_translated`
-                            '
-                        );
+                                END '
+                        . (
+                            config('typicms.mariadb') === false
+                                ? 'COLLATE ' . (DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci')
+                                : ''
+                        )
+                        . '
+                                AS `'
+                        . $field
+                        . '_translated`
+                            ',
+                    );
                 }
             } else {
                 $query->addSelect($field);
@@ -146,17 +183,13 @@ abstract class Base extends Model
     /** @return Attribute<string, null> */
     protected function status(): Attribute
     {
-        return Attribute::make(
-            set: function ($status) {
-                if (is_array($status)) {
-                    return json_encode(
-                        array_map(fn ($item): int => (int) $item, $status)
-                    );
-                }
+        return Attribute::make(set: function ($status) {
+            if (is_array($status)) {
+                return json_encode(array_map(fn ($item): int => (int) $item, $status));
+            }
 
-                return $status;
-            },
-        );
+            return $status;
+        });
     }
 
     public function editUrl(): string
@@ -205,6 +238,7 @@ abstract class Base extends Model
                 ->order()
                 ->get(['id', 'slug']);
         }
+
         foreach ($models as $key => $model) {
             if ($currentModel->id === $model->id) {
                 $adjacentKey = $key + $direction;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Observers;
 
 use TypiCMS\Modules\Core\Models\Menulink;
@@ -25,6 +27,7 @@ class AddToMenuObserver
                 $data['description'][$locale] = null;
                 $data['website'][$locale] = '';
             }
+
             Menulink::query()->create($data);
         }
     }

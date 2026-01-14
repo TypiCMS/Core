@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Models;
 
 use Exception;
@@ -32,7 +34,9 @@ class Tag extends Base
     protected $guarded = [];
 
     #[Scope]
-    protected function published(Builder $query): void {}
+    protected function published(Builder $query): void
+    {
+    }
 
     /**
      * Get all tagged items grouped by type
@@ -41,9 +45,7 @@ class Tag extends Base
      */
     public function getTaggedItemsGrouped(): array
     {
-        $taggables = DB::table('taggables')
-            ->where('tag_id', $this->id)
-            ->get();
+        $taggables = DB::table('taggables')->where('tag_id', $this->id)->get();
 
         $grouped = [];
 

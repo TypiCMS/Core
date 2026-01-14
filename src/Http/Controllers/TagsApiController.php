@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Collection;
@@ -12,7 +14,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use TypiCMS\Modules\Core\Filters\FilterOr;
 use TypiCMS\Modules\Core\Models\Tag;
 
-class TagsApiController extends BaseApiController
+final class TagsApiController extends BaseApiController
 {
     /** @return LengthAwarePaginator<int, mixed> */
     public function index(Request $request): LengthAwarePaginator
@@ -39,8 +41,11 @@ class TagsApiController extends BaseApiController
     public function destroy(Tag $tag): JsonResponse
     {
         if (DB::table('taggables')->where('tag_id', $tag->id)->count() > 0) {
-            return response()->json(['message' => __('This tag cannot be deleted because it is associated with existing items.')], 403);
+            return response()->json(['message' => __(
+                'This tag cannot be deleted because it is associated with existing items.',
+            )], 403);
         }
+
         $tag->delete();
 
         return response()->json(status: 204);

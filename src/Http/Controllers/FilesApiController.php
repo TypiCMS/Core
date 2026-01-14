@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Bkwld\Croppa\Facades\Croppa;
@@ -11,7 +13,7 @@ use TypiCMS\Modules\Core\Http\Requests\FileFormRequest;
 use TypiCMS\Modules\Core\Models\File;
 use TypiCMS\Modules\Core\Services\FileUploader;
 
-class FilesApiController extends BaseApiController
+final class FilesApiController extends BaseApiController
 {
     /** @return array<string, mixed> */
     public function index(Request $request): array
@@ -22,7 +24,8 @@ class FilesApiController extends BaseApiController
             $query = File::query()
                 ->with('folder')
                 ->where(function ($query) use ($searchTerm): void {
-                    $query->where('name', 'like', '%' . $searchTerm . '%')
+                    $query
+                        ->where('name', 'like', '%' . $searchTerm . '%')
                         ->orWhere('title', 'like', '%' . $searchTerm . '%')
                         ->orWhere('description', 'like', '%' . $searchTerm . '%');
                 })
@@ -68,6 +71,7 @@ class FilesApiController extends BaseApiController
         } else {
             $model->name = $data['name'];
         }
+
         $model->save();
 
         $model->load('children');
@@ -90,6 +94,7 @@ class FilesApiController extends BaseApiController
         if ($file->children->count() > 0) {
             return response()->json(['message' => __('A non-empty folder cannot be deleted.')], 403);
         }
+
         $file->delete();
 
         Croppa::delete('storage/' . $file->getOriginal('path'));
