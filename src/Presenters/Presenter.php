@@ -46,7 +46,7 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Return resource's datetime or current date and time if empty.
+     * Return the resource’s datetime or current date and time if empty.
      */
     public function datetimeOrNow(string $column = 'date'): string
     {
@@ -56,7 +56,7 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Return resource's date or current date if empty.
+     * Return the resource’s date or current date if empty.
      */
     public function dateOrNow(string $column = 'date'): string
     {
@@ -66,7 +66,7 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Return resource's time or current time if empty.
+     * Return the resource’s time or current time if empty.
      */
     public function timeOrNow(string $column = 'date'): string
     {
@@ -107,7 +107,7 @@ abstract class Presenter extends BasePresenter
     }
 
     /**
-     * Get default image when not found.
+     * Get the default image when not found.
      */
     public function imgNotFound(): string
     {
@@ -120,10 +120,10 @@ abstract class Presenter extends BasePresenter
 
     public function ogImage(): string
     {
-        if (!empty($this->entity->ogImage)) {
+        if ($this->entity->ogImage !== '') {
             return $this->image(1200, 630, [], 'ogImage');
         }
-        if (!empty($this->entity->image)) {
+        if ($this->entity->image !== '') {
             return $this->image(1200, 630);
         }
 
@@ -132,7 +132,7 @@ abstract class Presenter extends BasePresenter
 
     public function title(): string
     {
-        if (!$this->entity->id) {
+        if ($this->entity->id === null) {
             return '';
         }
 
