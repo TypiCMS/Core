@@ -31,8 +31,9 @@ export const Figcaption = Node.create({
         return {
             Enter: () => {
                 if (this.editor.isActive('figcaption')) {
-                    this.editor.chain().selectParentNode().selectParentNode().run();
+                    return this.editor.chain().selectParentNode().selectParentNode().run();
                 }
+                return false;
             },
         };
     },
