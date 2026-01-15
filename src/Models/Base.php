@@ -56,7 +56,7 @@ abstract class Base extends Model
             || auth('web')->user()->can('see unpublished items') && !request()->boolean('preview')
         ) {
             $field = 'status';
-            if (in_array($field, $this->translatable, true)) {
+            if (in_array($field, $this->translatable ?? [], true)) {
                 $field .= '->' . app()->getLocale();
             }
 
@@ -69,7 +69,7 @@ abstract class Base extends Model
     protected function whereSlugIs(Builder $query, string $slug): void
     {
         $field = 'slug';
-        if (in_array($field, $this->translatable, true)) {
+        if (in_array($field, $this->translatable ?? [], true)) {
             $field .= '->' . app()->getLocale();
         }
 

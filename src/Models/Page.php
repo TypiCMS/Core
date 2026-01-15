@@ -137,7 +137,7 @@ class Page extends Base
     protected function whereUriIs(Builder $query, string $uri): void
     {
         $field = 'uri';
-        if (in_array($field, $this->translatable, true)) {
+        if (in_array($field, $this->translatable ?? [], true)) {
             $field .= '->' . app()->getLocale();
         }
 
@@ -149,7 +149,7 @@ class Page extends Base
     protected function whereUriIsNot(Builder $query, string $uri): void
     {
         $field = 'uri';
-        if (in_array($field, $this->translatable, true)) {
+        if (in_array($field, $this->translatable ?? [], true)) {
             $field .= '->' . app()->getLocale();
         }
 
@@ -161,7 +161,7 @@ class Page extends Base
     protected function whereUriIsLike(Builder $query, string $uri): void
     {
         $field = 'uri';
-        if (in_array($field, $this->translatable, true)) {
+        if (in_array($field, $this->translatable ?? [], true)) {
             $field .= '->' . app()->getLocale();
         }
 
