@@ -1,6 +1,8 @@
 @push('js')
     <script type="module">
-        new TomSelect('#page_id');
+        new TomSelect('#page_id', {
+            maxOptions: undefined,
+        });
     </script>
 @endpush
 

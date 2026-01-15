@@ -31,6 +31,7 @@ export default async (): Promise<void> => {
                 .map((tag) => ({ text: tag, value: tag })),
         ];
         const select = new TomSelect('#tags', {
+            maxOptions: undefined,
             onItemAdd() {
                 this.control_input.value = '';
                 this.refreshOptions();
