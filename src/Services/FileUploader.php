@@ -62,7 +62,7 @@ class FileUploader
         $filename = preg_replace('/-[0-9_]+x[0-9_]+(-[0-9a-zA-Z(),._-]+)*$/', '', $filename);
 
         // Remove trailing underscores or hyphens
-        return mb_rtrim($filename, '_-');
+        return mb_rtrim((string) $filename, '_-');
     }
 
     /** @return array{0: float|int, 1: float|int} */
@@ -72,7 +72,7 @@ class FileUploader
             return $this->getSvgDimensions($file);
         }
 
-        $dimensions = getimagesize($file);
+        $dimensions = getimagesize((string) $file);
 
         return $dimensions !== false ? [$dimensions[0], $dimensions[1]] : [0, 0];
     }
