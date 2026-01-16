@@ -32,7 +32,7 @@ trait Historable
                         }
                     }
                 } else {
-                    $originalValue = $model->original[$key];
+                    $originalValue = $model->original[$key] ?? '';
                     if ($value !== $originalValue) {
                         $new[$key] = $value;
                         $old[$key] = $originalValue;
