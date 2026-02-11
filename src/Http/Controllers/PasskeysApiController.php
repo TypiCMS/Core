@@ -11,6 +11,7 @@ use Illuminate\Validation\ValidationException;
 use Spatie\LaravelPasskeys\Actions\GeneratePasskeyRegisterOptionsAction;
 use Spatie\LaravelPasskeys\Actions\StorePasskeyAction;
 use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
+use Spatie\LaravelPasskeys\Models\Passkey;
 use Spatie\LaravelPasskeys\Support\Config;
 use Throwable;
 use TypiCMS\Modules\Core\Models\User;
@@ -44,12 +45,10 @@ final class PasskeysApiController extends BaseApiController
         }
     }
 
-    public function destroy(int $id): void
+    public function destroy(int $passkey): void
     {
-        $this
-            ->currentUser()
-            ->passkeys()
-            ->where('id', $id)
+        Passkey::query()
+            ->where('id', $passkey)
             ->delete();
     }
 

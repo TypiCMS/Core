@@ -684,7 +684,7 @@
     "This category cannot be deleted as it contains projects.": "Deze categorie kan niet worden geschrapt, omdat ze projecten bevat.",
     "This item cannot be deleted because it has children.": "Dit item kan niet worden verwijderd omdat het nakomelingen heeft.",
     "This password reset link will expire in :count minutes.": "Deze link om je wachtwoord te herstellen verloopt over :count minuten.",
-    "This user has no access keys.": "Deze gebruiker heeft geen toegangssleutels.",
+    "This user has no passkeys.": "Deze gebruiker heeft geen toegangssleutels.",
     "This user is not activated.": "Deze gebruiker is niet geactiveerd.",
     "This user was not found.": "Deze gebruiker is niet gevonden.",
     "Time": "Tijd",

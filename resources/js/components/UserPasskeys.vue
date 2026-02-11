@@ -1,11 +1,15 @@
 <template>
     <div>
-        <form class="mb-3" @submit.prevent="addPassKey">
-            <p v-if="passkeys.length !== 0 || loading" class="form-label">
+        <form class="mb-2" @submit.prevent="addPassKey">
+            <p class="form-label">
                 {{ t('Passkeys') }}
             </p>
-            <button v-if="createButton" type="submit" class="btn btn-sm btn-primary">
-                {{ t('Create') }}
+            <p class="text-muted" v-if="passkeys.length === 0 && !loading">
+                <em>{{ t('This user has no passkeys.') }}</em>
+            </p>
+            <button v-if="createButton" type="submit" class="btn btn-sm btn-light">
+                <i class="icon-key-round"></i>
+                {{ t('Create a passkey') }}
             </button>
             <span class="invalid-feedback" v-if="error">{{ error }}</span>
         </form>
@@ -31,7 +35,6 @@
                     </div>
                 </li>
             </ul>
-            <p class="alert alert-info d-inline-block" v-if="passkeys.length === 0 && !loading">{{ t('This user has no access keys.') }}</p>
         </div>
     </div>
 </template>

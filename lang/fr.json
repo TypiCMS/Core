@@ -684,7 +684,7 @@
     "This category cannot be deleted as it contains projects.": "Cette catégorie ne peut pas être supprimée car elle contient des projets.",
     "This item cannot be deleted because it has children.": "Cet élément ne peut pas être supprimé car il a des descendants.",
     "This password reset link will expire in :count minutes.": "Ce lien de réinitialisation du mot de passe expirera dans :count minutes.",
-    "This user has no access keys.": "Cet utilisateur n’a pas de clé d’accès.",
+    "This user has no passkeys.": "Cet utilisateur n’a pas de clé d’accès.",
     "This user is not activated.": "Cet utilisateur n’a pas été activé.",
     "This user was not found.": "Cet utilisateur n’a pas été trouvé.",
     "Time": "Heure",
