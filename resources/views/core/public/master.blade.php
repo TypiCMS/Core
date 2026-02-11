@@ -18,7 +18,7 @@
 
     <link rel="canonical" href="@yield('canonical', url()->current())">
 
-    @vite('resources/scss/public.scss')
+    @vite(['resources/scss/public.scss', 'resources/js/public.js'])
 
     @include('core::public._feed-links')
 
@@ -95,8 +95,6 @@
     </div>
 
 </div>
-
-@vite('resources/js/public.js')
 
 @can('see unpublished items')
     @if (request()->boolean('preview'))
