@@ -11,11 +11,14 @@
         height: 100%;
     }
     &-btn-close {
-        @extend .rounded-pill;
         background-color: var(--bs-white);
         position: absolute;
         right: 0.5rem;
         top: 0.5rem;
         padding: 0.5rem;
+        opacity: 0.9;
+        &:hover {
+            opacity: 1;
+        }
     }
 }
