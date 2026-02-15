@@ -456,6 +456,39 @@
     </div>
 </template>
 
+<script>
+let publicCssLoaded = false;
+
+function loadPublicCss() {
+    if (publicCssLoaded) {
+        return;
+    }
+    publicCssLoaded = true;
+
+    const cssUrl = document.querySelector('meta[name="public-css-url"]')?.getAttribute('content');
+
+    if (!cssUrl) {
+        return;
+    }
+
+    fetch(cssUrl)
+        .then((response) => response.text())
+        .then((cssText) => {
+            const style = document.createElement('style');
+            style.setAttribute('data-tiptap-public-css', '');
+            const scopedCss = cssText.replace(/:root/g, ':scope');
+            style.textContent = `@scope (.rich-content-container) { ${scopedCss} }`;
+            document.body.appendChild(style);
+        })
+        .catch((error) => {
+            console.error('Failed to load public CSS for TipTap editor:', error);
+            publicCssLoaded = false;
+        });
+}
+
+export default {};
+</script>
+
 <script setup>
 import Image from '@tiptap/extension-image';
 import { BulletList } from '@tiptap/extension-list';
@@ -510,7 +543,7 @@ import {
     XIcon,
     YoutubeIcon,
 } from 'lucide-vue-next';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { Div } from './div.ts';
@@ -910,4 +943,8 @@ const vTooltip = {
         new Tooltip(element, { delay: { show: 500, hide: 0 }, trigger: 'hover' });
     },
 };
+
+onMounted(() => {
+    loadPublicCss();
+});
 </script>
