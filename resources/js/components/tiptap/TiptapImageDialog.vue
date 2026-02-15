@@ -20,23 +20,31 @@
                         <label :for="props.id + '-alt'" class="col-form-label">{{ t('Alt attribute') }}</label>
                         <input :id="props.id + '-alt'" type="text" class="form-control" v-model="alt" />
                     </div>
-                    <div class="row mb-2 gx-3">
+                    <div class="form-check mt-3">
+                        <input class="form-check-input" type="checkbox" v-model="captioned" :id="props.id + '-captioned'" />
+                        <label class="form-check-label" :for="props.id + '-captioned'">{{ t('Captioned image') }}</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" v-model="customSize" :id="props.id + '-custom-size'" />
+                        <label class="form-check-label" :for="props.id + '-custom-size'">{{ t('Custom size') }}</label>
+                    </div>
+                    <div class="row mb-2 gx-3" v-show="customSize">
                         <div class="col">
                             <label :for="props.id + '-width'" class="col-form-label">{{ t('Width') }}</label>
                             <div class="input-group">
-                                <input class="form-control" :id="props.id + '-width'" type="text" inputmode="numeric" pattern="[0-9]*" v-model="width" @keyup="setHeight" />
+                                <input class="form-control" :id="props.id + '-width'" type="number" min="0" v-model="width" @keyup="setHeight" />
                                 <span class="input-group-text">px</span>
                             </div>
                         </div>
                         <div class="col">
                             <label :for="props.id + '-height'" class="col-form-label">{{ t('Height') }}</label>
                             <div class="input-group">
-                                <input class="form-control" :id="props.id + '-height'" type="text" inputmode="numeric" pattern="[0-9]*" v-model="height" @keyup="setWidth" />
+                                <input class="form-control" :id="props.id + '-height'" type="number" min="0" v-model="height" @keyup="setWidth" />
                                 <span class="input-group-text">px</span>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-3">
+                    <div class="mt-3" v-show="customSize">
                         <label class="form-label">{{ t('Alignment') }}</label>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" v-model="align" value="none" :id="props.id + '-align-none'" />
@@ -50,10 +58,6 @@
                             <input class="form-check-input" type="radio" v-model="align" value="right" :id="props.id + '-align-right'" />
                             <label class="form-check-label" :for="props.id + '-align-right'">{{ t('Right') }}</label>
                         </div>
-                    </div>
-                    <div class="form-check mt-3">
-                        <input class="form-check-input" type="checkbox" v-model="captioned" :id="props.id + '-captioned'" />
-                        <label class="form-check-label" :for="props.id + '-captioned'">{{ t('Captioned image') }}</label>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -80,6 +84,13 @@ const width = ref('');
 const height = ref('');
 const ratio = ref(0);
 const align = ref('none');
+const customSize = ref(false);
+
+watch(customSize, (value) => {
+    if (!value) {
+        align.value = 'none';
+    }
+});
 
 const activeElement = ref(null);
 
@@ -114,13 +125,14 @@ watch(image, (image) => {
     height.value = image.height;
     ratio.value = image.width / image.height;
     align.value = image.align || 'none';
+    customSize.value = image.customSize || false;
 });
 
 emitter.on('fileSelected', (file) => {
     src.value = file.url;
     alt.value = file.alt_attribute[props.locale] || '';
-    width.value = file.width / 2 || null;
-    height.value = file.height / 2 || null;
+    width.value = file.width ? Math.round(file.width / 2) : null;
+    height.value = file.height ? Math.round(file.height / 2) : null;
     ratio.value = file.width / file.height;
 });
 
@@ -152,6 +164,7 @@ function save() {
     image.value.width = width.value;
     image.value.height = height.value;
     image.value.align = align.value;
+    image.value.customSize = customSize.value;
     emit('save');
 }
 

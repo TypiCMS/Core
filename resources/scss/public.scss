@@ -108,3 +108,7 @@ blockquote {
         width: 100%;
     }
 }
+
+.arrow-list li::marker {
+    content: '→ ';
+}

@@ -9,7 +9,7 @@
                 <div class="modal-body">
                     <div class="mb-2">
                         <label :for="props.id + '-src'" class="col-form-label">{{ t('URL') }}</label>
-                        <input ref="inputElement" :id="props.id + '-src'" type="url" class="form-control" v-model="src" :placeholder="placeholderText" />
+                        <input ref="inputElement" :id="props.id + '-src'" type="url" class="form-control" v-model="src" />
                         <small class="form-text text-muted">{{ helpText }}</small>
                     </div>
                 </div>
@@ -49,18 +49,11 @@ const props = defineProps({
     },
 });
 
-const placeholderText = computed(() => {
-    if (props.title && props.title.includes('YouTube')) {
-        return 'https://www.youtube.com/watch?v=...';
-    }
-    return 'https://example.com/embed/...';
-});
-
 const helpText = computed(() => {
     if (props.title && props.title.includes('YouTube')) {
-        return t('Enter a YouTube video URL');
+        return t('Enter a YouTube video or playlist URL.');
     }
-    return t('Enter any iframe embed URL (Vimeo, Google Maps, etc.)');
+    return t('Enter any iframe embed URL (Vimeo, Google Maps, etc.).');
 });
 
 const emit = defineEmits(['save']);
@@ -85,9 +78,44 @@ emitter.on('openVideoDialog' + props.id, () => {
     show.value = true;
 });
 
+function normalizeYoutubeUrl(url) {
+    if (!url) {
+        return url;
+    }
+
+    // Check for playlist-only URL
+    const playlistMatch = url.match(/youtube\.com\/playlist\?list=([a-zA-Z0-9_-]+)/);
+    if (playlistMatch) {
+        return `https://www.youtube.com/playlist?list=${playlistMatch[1]}`;
+    }
+
+    // Check for video with playlist
+    const videoWithPlaylistMatch = url.match(/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+).*[&?]list=([a-zA-Z0-9_-]+)/);
+    if (videoWithPlaylistMatch) {
+        return `https://www.youtube.com/watch?v=${videoWithPlaylistMatch[1]}&list=${videoWithPlaylistMatch[2]}`;
+    }
+
+    const patterns = [
+        /youtube\.com\/live\/([a-zA-Z0-9_-]+)/,
+        /youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/,
+        /youtu\.be\/([a-zA-Z0-9_-]+)/,
+        /youtube\.com\/embed\/([a-zA-Z0-9_-]+)/,
+    ];
+
+    for (const pattern of patterns) {
+        const match = url.match(pattern);
+        if (match) {
+            return `https://www.youtube.com/watch?v=${match[1]}`;
+        }
+    }
+
+    return url;
+}
+
 function save() {
     show.value = false;
-    video.value.src = src.value;
+    const isYoutube = props.title && props.title.includes('YouTube');
+    video.value.src = isYoutube ? normalizeYoutubeUrl(src.value) : src.value;
     emit('save');
 }
 

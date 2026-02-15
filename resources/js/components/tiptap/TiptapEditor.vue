@@ -12,7 +12,7 @@
                     :disabled="editor.isActive('image')"
                 >
                     <span v-if="editor.isActive('heading')" class="">
-                        <template v-for="level in [1, 2, 3, 4, 5, 6]" :key="level">
+                        <template v-for="level in headingLevels" :key="level">
                             <span v-if="editor.isActive('heading', { level })">{{ t('Heading') }} {{ level }}</span>
                         </template>
                     </span>
@@ -29,7 +29,7 @@
                             {{ t('Normal') }}
                         </button>
                     </li>
-                    <li v-for="level in [1, 2, 3, 4, 5, 6]" :key="level">
+                    <li v-for="level in headingLevels" :key="level">
                         <button
                             class="dropdown-item small d-flex gap-1 align-items-center"
                             :class="{ active: editor.isActive('heading', { level }) }"
@@ -44,13 +44,16 @@
             <div class="dropdown">
                 <button
                     class="tiptap-button dropdown-toggle text-start d-flex justify-content-between align-items-center"
-                    style="width: 100px"
+                    style="width: 140px"
                     type="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                     :disabled="editor.isActive('image')"
                 >
-                    {{ t('Style') }}
+                    <span class="tiptap-style-label" v-if="activeBlockStyle">{{ t(activeBlockStyle.label) }}</span>
+                    <span class="tiptap-style-label" v-else-if="activeListStyle">{{ t(activeListStyle.label) }}</span>
+                    <span class="tiptap-style-label" v-else-if="activeLinkStyle">{{ t(activeLinkStyle.label) }}</span>
+                    <span class="tiptap-style-label" v-else>{{ t('Style') }}</span>
                 </button>
                 <ul class="dropdown-menu">
                     <li>
@@ -68,6 +71,23 @@
                             "
                         >
                             {{ t(blockStyle.label) }}
+                        </button>
+                    </li>
+                    <li v-if="editor.isActive('bulletList')">
+                        <p class="dropdown-header text-uppercase fw-light">{{ t('List Style') }}</p>
+                    </li>
+                    <li v-for="listStyle in listStyles" v-if="editor.isActive('bulletList')">
+                        <button
+                            type="button"
+                            class="dropdown-item small d-flex gap-1 align-items-center"
+                            :class="{ active: editor.isActive(listStyle.tag, { class: listStyle.class }) }"
+                            @click="
+                                editor.isActive(listStyle.tag, { class: listStyle.class })
+                                    ? editor.commands.updateAttributes(listStyle.tag, { class: null })
+                                    : editor.commands.updateAttributes(listStyle.tag, { class: listStyle.class })
+                            "
+                        >
+                            {{ t(listStyle.label) }}
                         </button>
                     </li>
                     <li v-if="editor.isActive('link')">
@@ -214,20 +234,7 @@
                 @click="editor.chain().focus().toggleBlockquote().run()"
                 :class="{ 'is-active': editor.isActive('blockquote') }"
             >
-                <message-square-quote-icon size="18" stroke-width="1.5" />
-            </button>
-            <button type="button" class="tiptap-button" :title="t('Create Div Container')" v-tooltip @click="editor.chain().focus().toggleDiv().run()" :class="{ active: editor.isActive('div') }">
-                <text-select-icon size="18" stroke-width="1.5" />
-            </button>
-            <div class="tiptap-separator"></div>
-            <button type="button" class="tiptap-button" @click="editor.chain().focus().setTextAlign('left').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }">
-                <align-left-icon size="18" stroke-width="1.5" />
-            </button>
-            <button type="button" class="tiptap-button" @click="editor.chain().focus().setTextAlign('center').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }">
-                <align-center-icon size="18" stroke-width="1.5" />
-            </button>
-            <button type="button" class="tiptap-button" @click="editor.chain().focus().setTextAlign('right').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }">
-                <align-right-icon size="18" stroke-width="1.5" />
+                <quote-icon size="18" stroke-width="1.5" />
             </button>
             <div class="tiptap-separator"></div>
             <button type="button" class="tiptap-button" :title="t('Image')" v-tooltip @click="openImageDialog" :class="{ 'is-active': editor.isActive('image') }">
@@ -441,12 +448,20 @@
                 <button type="button" class="tiptap-button" :title="t('Edit')" v-tooltip @click="openImageDialog" v-if="editor.isActive('image')">Edit</button>
             </div>
         </bubble-menu>
-        <editor-content :editor="editor" :data-language="locale" />
+        <div class="rich-content-container-border">
+            <editor-content class="rich-content-container" :editor="editor" :data-language="locale" />
+        </div>
         <textarea :name="name" class="d-none" v-if="editor">{{ editor.getHTML() }}</textarea>
         <tiptap-link-dialog :id="'link-dialog-' + id + '-' + locale" v-model:link="link" v-model:show="linkDialogOpened" @save="setLink"></tiptap-link-dialog>
         <tiptap-image-dialog :id="'image-dialog-' + id + '-' + locale" v-model:image="image" v-model:captioned="imageCaptioned" v-model:show="imageDialogOpened" @save="setImage"></tiptap-image-dialog>
-        <tiptap-iframe-dialog :id="'youtube-dialog-' + id + '-' + locale" v-model:video="youtube" v-model:show="youtubeDialogOpened" @save="addYoutube" title="YouTube Video"></tiptap-iframe-dialog>
-        <tiptap-iframe-dialog :id="'iframe-dialog-' + id + '-' + locale" v-model:video="iframe" v-model:show="iframeDialogOpened" @save="addIframe" title="Media embed"></tiptap-iframe-dialog>
+        <tiptap-iframe-dialog
+            :id="'youtube-dialog-' + id + '-' + locale"
+            v-model:video="youtube"
+            v-model:show="youtubeDialogOpened"
+            @save="addYoutube"
+            :title="t('YouTube Video')"
+        ></tiptap-iframe-dialog>
+        <tiptap-iframe-dialog :id="'iframe-dialog-' + id + '-' + locale" v-model:video="iframe" v-model:show="iframeDialogOpened" @save="addIframe" :title="t('Media embed')"></tiptap-iframe-dialog>
         <tiptap-source-code-dialog
             :id="'source-code-dialog-' + id + '-' + locale"
             v-model:html="sourceCodeHtml"
@@ -496,7 +511,6 @@ import Paragraph from '@tiptap/extension-paragraph';
 import Subscript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
 import { TableKit } from '@tiptap/extension-table';
-import TextAlign from '@tiptap/extension-text-align';
 import Typography from '@tiptap/extension-typography';
 import Youtube from '@tiptap/extension-youtube';
 import StarterKit from '@tiptap/starter-kit';
@@ -504,9 +518,6 @@ import { EditorContent, useEditor } from '@tiptap/vue-3';
 import { BubbleMenu } from '@tiptap/vue-3/menus';
 import Tooltip from 'bootstrap/js/dist/tooltip';
 import {
-    AlignCenterIcon,
-    AlignLeftIcon,
-    AlignRightIcon,
     BetweenHorizontalEndIcon,
     BetweenHorizontalStartIcon,
     BetweenVerticalEndIcon,
@@ -525,8 +536,8 @@ import {
     Link2OffIcon,
     ListIcon,
     ListOrderedIcon,
-    MessageSquareQuoteIcon,
     MinusIcon,
+    QuoteIcon,
     RedoIcon,
     RemoveFormattingIcon,
     SheetIcon,
@@ -536,7 +547,6 @@ import {
     SuperscriptIcon,
     TableCellsMergeIcon,
     TableCellsSplitIcon,
-    TextSelectIcon,
     UndoIcon,
     VideoIcon,
     WrapTextIcon,
@@ -546,7 +556,6 @@ import {
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { Div } from './div.ts';
 import { Figcaption } from './figcaption.ts';
 import { Figure } from './figure.ts';
 import { Iframe } from './iframe.ts';
@@ -613,14 +622,14 @@ const transformHtml = (html) => {
             return;
         }
 
-        // Check if iframe is from YouTube
+        // Check if the iframe is from YouTube
         const src = iframe.getAttribute('src') || '';
         const isYoutube = src.includes('youtube.com') || src.includes('youtu.be');
 
         // Determine the data attribute to add
         const dataAttr = isYoutube ? 'data-youtube-video' : 'data-media-embed';
 
-        // If parent is a <p> tag, replace it with a <div>
+        // If the parent is a <p> tag, replace it with a <div>
         if (parent.tagName.toLowerCase() === 'p') {
             const div = doc.createElement('div');
 
@@ -640,7 +649,7 @@ const transformHtml = (html) => {
             // Replace p with div
             parent.replaceWith(div);
         } else if (parent.tagName.toLowerCase() === 'div') {
-            // If parent is already a div, just add the data attribute
+            // If the parent is already a div, just add the data attribute
             parent.setAttribute(dataAttr, '');
         }
     });
@@ -656,17 +665,42 @@ const blockStyles = [
     { tag: 'paragraph', class: 'alert alert-warning', label: 'Alert Warning' },
     { tag: 'paragraph', class: 'alert alert-success', label: 'Alert Success' },
     { tag: 'paragraph', class: 'alert alert-danger', label: 'Alert Danger' },
-    // { tag: 'bulletList', class: 'list-columns', label: 'List in columns' },
-    // { tag: 'div', class: 'header', label: 'Header' },
 ];
 
+const listStyles = [{ tag: 'bulletList', class: 'arrow-list', label: 'Arrow List' }];
+
 const linkStyles = [
-    { tag: 'a', class: 'btn-primary', label: 'Button Primary' },
-    { tag: 'a', class: 'btn-secondary', label: 'Button Secondary' },
-    { tag: 'a', class: 'btn-white', label: 'Button White' },
-    { tag: 'a', class: 'btn-outline-primary', label: 'Button Outline Primary' },
-    { tag: 'a', class: 'btn-outline-secondary', label: 'Button Outline Secondary' },
+    { tag: 'a', class: 'btn btn-primary', label: 'Button Primary' },
+    { tag: 'a', class: 'btn btn-secondary', label: 'Button Secondary' },
+    { tag: 'a', class: 'btn btn-outline-primary', label: 'Button Outline Primary' },
+    { tag: 'a', class: 'btn btn-outline-secondary', label: 'Button Outline Secondary' },
 ];
+
+const activeBlockStyle = computed(() => {
+    if (!editor.value) {
+        return null;
+    }
+
+    return blockStyles.find((style) => editor.value.isActive(style.tag, { class: style.class })) || null;
+});
+
+const activeListStyle = computed(() => {
+    if (!editor.value) {
+        return null;
+    }
+
+    return listStyles.find((style) => editor.value.isActive(style.tag, { class: style.class })) || null;
+});
+
+const activeLinkStyle = computed(() => {
+    if (!editor.value) {
+        return null;
+    }
+
+    return linkStyles.find((style) => editor.value.isActive('link', { class: style.class })) || null;
+});
+
+const headingLevels = [2, 3, 4, 5];
 
 const CustomParagraph = Paragraph.extend({
     addAttributes() {
@@ -715,11 +749,29 @@ const CustomImage = Image.extend({
                     };
                 },
             },
+            class: {
+                default: null,
+                parseHTML: (element) => element.getAttribute('class'),
+                renderHTML: (attributes) => {
+                    if (!attributes.class) {
+                        return {};
+                    }
+
+                    return {
+                        class: attributes.class,
+                    };
+                },
+            },
         };
     },
 });
 
 const editor = useEditor({
+    editorProps: {
+        attributes: {
+            class: 'rich-content',
+        },
+    },
     extensions: [
         StarterKit.configure({
             listKeymap: false,
@@ -727,6 +779,9 @@ const editor = useEditor({
             trailingNode: false,
             paragraph: false,
             bulletList: false,
+            heading: {
+                levels: headingLevels,
+            },
             link: {
                 openOnClick: false,
                 defaultProtocol: 'https',
@@ -754,12 +809,8 @@ const editor = useEditor({
         Figcaption,
         CustomImage,
         CustomParagraph,
-        Div,
         TableKit.configure({
             table: { resizable: false },
-        }),
-        TextAlign.configure({
-            types: ['heading', 'paragraph'],
         }),
     ],
     content: content.value,
@@ -806,6 +857,7 @@ const openImageDialog = function () {
         width: imageAttrs.width,
         height: imageAttrs.height,
         align: align,
+        customSize: (isFigure ? figureAttrs.class : imageAttrs.class)?.includes('custom-size') || false,
     };
 };
 
@@ -813,6 +865,7 @@ const setImage = function () {
     if (image.value.src) {
         // Determine style based on alignment
         const style = image.value.align === 'left' ? 'float:left' : image.value.align === 'right' ? 'float:right' : null;
+        const imageClass = image.value.customSize ? 'custom-size' : null;
 
         if (editor.value.view.state.selection.$head.parent.type.name !== 'figure') {
             // If the current image is not in a figure…
@@ -825,6 +878,7 @@ const setImage = function () {
                         type: 'figure',
                         attrs: {
                             style: style,
+                            class: imageClass,
                         },
                         content: [
                             {
@@ -834,6 +888,7 @@ const setImage = function () {
                                     alt: image.value.alt,
                                     width: image.value.width,
                                     height: image.value.height,
+                                    class: imageClass,
                                 },
                             },
                             {
@@ -859,6 +914,7 @@ const setImage = function () {
                         width: image.value.width,
                         height: image.value.height,
                         style: style,
+                        class: imageClass,
                     })
                     .run();
             }
@@ -874,10 +930,11 @@ const setImage = function () {
                         alt: image.value.alt,
                         width: image.value.width,
                         height: image.value.height,
+                        class: imageClass,
                     })
                     .run();
-                // Update figure style
-                editor.value.commands.updateAttributes('figure', { style: style });
+                // Update figure style and class
+                editor.value.commands.updateAttributes('figure', { style: style, class: imageClass });
             } else {
                 // Replace the figure with an image.
                 editor.value
@@ -892,6 +949,7 @@ const setImage = function () {
                             width: image.value.width,
                             height: image.value.height,
                             style: style,
+                            class: imageClass,
                         },
                     })
                     .run();
@@ -906,8 +964,40 @@ const openYoutubeDialog = function () {
 };
 
 const addYoutube = function () {
+    const url = youtube.value.src;
+
+    // Check for playlist-only URL
+    const playlistMatch = url.match(/youtube\.com\/playlist\?list=([a-zA-Z0-9_-]+)/);
+    if (playlistMatch) {
+        const embedUrl = `https://www.youtube-nocookie.com/embed/videoseries?list=${playlistMatch[1]}`;
+        editor.value.commands.insertContent({
+            type: 'iframe',
+            attrs: {
+                src: embedUrl,
+                width: 560,
+                height: 315,
+            },
+        });
+        return;
+    }
+
+    // Check if URL has a playlist parameter - TipTap YouTube extension doesn't preserve it
+    const videoWithPlaylistMatch = url.match(/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+).*[&?]list=([a-zA-Z0-9_-]+)/);
+    if (videoWithPlaylistMatch) {
+        const embedUrl = `https://www.youtube-nocookie.com/embed/${videoWithPlaylistMatch[1]}?list=${videoWithPlaylistMatch[2]}`;
+        editor.value.commands.insertContent({
+            type: 'iframe',
+            attrs: {
+                src: embedUrl,
+                width: 560,
+                height: 315,
+            },
+        });
+        return;
+    }
+
     editor.value.commands.setYoutubeVideo({
-        src: youtube.value.src,
+        src: url,
     });
 };
 
