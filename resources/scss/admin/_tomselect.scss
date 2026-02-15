@@ -5,3 +5,18 @@
 .ts-wrapper.multi .ts-control > div {
     margin: 0;
 }
+.ts-dropdown,
+.ts-control,
+.ts-control input {
+    color: var(--bs-body-color);
+}
+.ts-dropdown {
+    font-size: $font-size-sm;
+    white-space: nowrap;
+    &-content {
+        max-height: 250px;
+    }
+    .option {
+        text-overflow: ellipsis;
+    }
+}
