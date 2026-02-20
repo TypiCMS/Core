@@ -38,7 +38,7 @@ final class UsersApiController extends BaseApiController
     public function updatePreferences(Request $request): void
     {
         $user = $request->user();
-        $user->preferences = array_merge((array) $user->preferences, request()->all());
+        $user->preferences = array_merge((array) $user->preferences, $request->input());
         $user->save();
     }
 
