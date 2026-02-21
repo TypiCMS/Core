@@ -1,7 +1,7 @@
 @extends('pages::public.master')
 
 @section('header-title')
-    <h1 class="header-title">@include('core::public._header-title')</h1>
+    <h1 class="header-title"><x-core::header-title /></h1>
 @endsection
 
 @section('page')

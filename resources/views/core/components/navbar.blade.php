@@ -1,3 +1,5 @@
+@props(['page' => null, 'model' => null])
+
 @if ($navbar)
     <nav class="typicms-navbar navbar navbar-expand justify-content-between sticky-top">
         <div class="container-fluid">
@@ -13,9 +15,9 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     @if (Request::segment(1) === 'admin')
-                        <x-core::navbar-public-link :page="$page ?? null" :model="$model ?? null" />
+                        <x-core::navbar-public-link :$page :$model />
                     @else
-                        <x-core::navbar-admin-link :page="$page ?? null" :model="$model ?? null" />
+                        <x-core::navbar-admin-link :$page :$model />
                     @endif
                 </li>
                 <li class="nav-item dropdown">

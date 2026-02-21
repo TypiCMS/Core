@@ -1,3 +1,7 @@
+@props(['page' => null, 'model' => null])
+
+@php $lang = app()->getLocale(); @endphp
+
 @if ($enabledLocales = enabledLocales() and count($enabledLocales) > 1)
     <nav class="lang-switcher dropdown">
         <button class="lang-switcher-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownLangSwitcher">
@@ -8,8 +12,8 @@
                 @if ($locale !== $lang)
                     @php
                         $url = url('/' . $locale);
-                        if (isset($page) && $page->isPublished($locale)) {
-                            $url = isset($model) && $model->isPublished($locale) ? $model->url($locale) : $page->url($locale);
+                        if ($page && $page->isPublished($locale)) {
+                            $url = $model && $model->isPublished($locale) ? $model->url($locale) : $page->url($locale);
                         }
                     @endphp
                     <li>
