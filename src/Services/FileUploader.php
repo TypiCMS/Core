@@ -110,41 +110,33 @@ class FileUploader
         if (!function_exists('exif_read_data')) {
             return;
         }
-
+        // @mago-ignore lint:no-error-control-operator
         $exif = @exif_read_data($file);
-        if ($exif === [] || $exif === false || !isset($exif['Orientation'])) {
+        $orientation = $exif['Orientation'] ?? 1;
+
+        if ($orientation === 1) {
             return;
         }
 
-        $orientation = $exif['Orientation'];
-        if ($orientation !== 1) {
-            $img = imagecreatefromjpeg($file);
-            $deg = 0;
+        $degrees = match ($orientation) {
+            3 => 180,
+            6 => 270,
+            8 => 90,
+            default => 0,
+        };
 
-            switch ($orientation) {
-                case 3:
-                    $deg = 180;
+        $img = imagecreatefromjpeg($file);
 
-                    break;
+        if (!$img) {
+            return;
+        }
 
-                case 6:
-                    $deg = 270;
+        if ($degrees) {
+            $img = imagerotate($img, $degrees, 0);
+        }
 
-                    break;
-
-                case 8:
-                    $deg = 90;
-
-                    break;
-            }
-
-            if ($deg && $img) {
-                $img = imagerotate($img, $deg, 0);
-            }
-
-            if ($img) {
-                imagejpeg($img, $file->getPath() . DIRECTORY_SEPARATOR . $file->getFilename(), 100);
-            }
+        if ($img) {
+            imagejpeg($img, $file->getPath() . DIRECTORY_SEPARATOR . $file->getFilename(), 100);
         }
     }
 }
