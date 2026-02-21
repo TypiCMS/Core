@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use Exception;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 
 final class DashboardAdminController extends BaseAdminController
@@ -16,21 +16,32 @@ final class DashboardAdminController extends BaseAdminController
         return redirect(route('admin::dashboard'));
     }
 
-    public function dashboard(Client $client): View
+    public function dashboard(): View
     {
-        $welcomeMessage = config('typicms.welcome_message');
+        $welcomeMessage = $this->fetchWelcomeMessage();
+
+        return view('dashboard::show', compact('welcomeMessage'));
+    }
+
+    private function fetchWelcomeMessage(): string
+    {
+        $fallback = (string) config('typicms.welcome_message');
         $url = (string) config('typicms.welcome_message_url');
-        if ($url !== '') {
-            try {
-                $response = $client->get($url, ['timeout' => 2]);
-                if ($response->getStatusCode() < 400) {
-                    $welcomeMessage = $response->getBody();
-                }
-            } catch (GuzzleException $exception) {
-                info($exception->getMessage());
-            }
+
+        if ($url === '') {
+            return $fallback;
         }
 
-        return view('dashboard::show', ['welcomeMessage' => $welcomeMessage]);
+        try {
+            $response = Http::timeout(2)->get($url);
+
+            if ($response->successful()) {
+                return $response->body();
+            }
+        } catch (Exception $exception) {
+            info($exception->getMessage());
+        }
+
+        return $fallback;
     }
 }
