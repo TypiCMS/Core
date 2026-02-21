@@ -6,7 +6,6 @@ namespace TypiCMS\Modules\Core\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\Filters\Filter;
 
 /**
@@ -17,30 +16,36 @@ class FilterOr implements Filter
     /** @return Builder<Model> */
     public function __invoke(Builder $query, mixed $value, string $property): Builder
     {
-        if (is_array($value)) {
-            $value = implode(',', $value);
-        }
-
+        $searchTerm = is_array($value) ? implode(',', $value) : $value;
         $columns = explode(',', $property);
+        $locale = request()->string('locale')->value();
 
-        return $query->where(function (Builder $query) use ($columns, $value): void {
+        return $query->where(function (Builder $query) use ($columns, $searchTerm, $locale): void {
             foreach ($columns as $column) {
-                $model = $query->getModel();
-                if (property_exists($model, 'translatable') && in_array($column, (array) $model->translatable, true)) {
-                    $query->orWhereRaw(
-                        'JSON_UNQUOTE(JSON_EXTRACT(`'
-                        . $column
-                        . '`, \'$.'
-                        . request()->string('locale')
-                        . "')) LIKE '%"
-                        . $value
-                        . "%' COLLATE "
-                        . (DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci'),
-                    );
-                } else {
-                    $query->orWhere($column, 'like', '%' . $value . '%');
+                if (!$this->isTranslatable($query->getModel(), $column)) {
+                    $query->orWhere($column, 'like', "%{$searchTerm}%");
+
+                    continue;
                 }
+
+                $connection = $query->getConnection();
+
+                match ($connection->getDriverName()) {
+                    'pgsql' => $query->orWhereRaw(
+                        "unaccent(\"{$column}\"::jsonb->>?) ILIKE unaccent(?)",
+                        [$locale, "%{$searchTerm}%"]
+                    ),
+                    default => $query->orWhereRaw(
+                        "JSON_UNQUOTE(JSON_EXTRACT(`{$column}`, ?)) LIKE ? COLLATE " . ($connection->getConfig('collation') ?? 'utf8mb4_unicode_ci'),
+                        ["$.{$locale}", "%{$searchTerm}%"]
+                    ),
+                };
             }
         });
+    }
+
+    private function isTranslatable(Model $model, string $column): bool
+    {
+        return property_exists($model, 'translatable') && in_array($column, (array) $model->translatable, true);
     }
 }
