@@ -146,9 +146,9 @@ return [
      |--------------------------------------------------------------------------
      */
     'registration' => [
-        'allowed' => env('TYPICMS_REGISTRATION_ALLOWED', true),
-        'role' => env('TYPICMS_REGISTRATION_ROLE', 'administrator'),
-        'activated' => env('TYPICMS_REGISTRATION_ACTIVATED', true),
+        'allowed' => env('TYPICMS_REGISTRATION_ALLOWED', false),
+        'role' => env('TYPICMS_REGISTRATION_ROLE'),
+        'activated' => env('TYPICMS_REGISTRATION_ACTIVATED', false),
     ],
 
     /*
