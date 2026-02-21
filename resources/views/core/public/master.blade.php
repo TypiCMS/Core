@@ -20,7 +20,7 @@
 
     @vite(['resources/scss/public.scss', 'resources/js/public.js'])
 
-    @include('core::public._feed-links')
+    <x-core::feed-links />
 
     @stack('css')
 </head>
@@ -33,7 +33,7 @@
         </div>
     @show
 
-    @include('core::_navbar')
+    <x-core::navbar :page="$page ?? null" :model="$model ?? null" />
 
     @auth
         @if (auth()->user()->isImpersonating())
@@ -48,7 +48,7 @@
             <header class="header" id="header">
                 <div class="header-container">
                 @section('header-title')
-                    <div class="header-title">@include('core::public._header-title')</div>
+                    <div class="header-title"><x-core::header-title /></div>
                 @show
                 <div class="header-offcanvas" id="navigation">
                     <button class="hamburger" type="button" id="menu-button" data-bs-toggle="collapse" data-bs-target="#navigation-container" aria-expanded="false" aria-controls="navigation-container">
@@ -60,7 +60,7 @@
                         </nav>
                         @include('search::public._form')
                         @section('lang-switcher')
-                            @include('core::public._lang-switcher')
+                            <x-core::lang-switcher :page="$page ?? null" :model="$model ?? null" />
                         @show
                     </div>
                 </div>

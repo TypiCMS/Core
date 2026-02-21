@@ -14,7 +14,7 @@
 </head>
 
 <body class="@can('see navbar') has-navbar @endcan @yield('bodyClass')">
-    @include('core::_navbar')
+    <x-core::navbar :page="$page ?? null" :model="$model ?? null" />
 
     <div id="app" class="@section('mainClass') main @show">
     @section('sidebar')

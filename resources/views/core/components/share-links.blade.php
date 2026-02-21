@@ -1,3 +1,5 @@
+@props(['model'])
+
 <div class="share-links">
     <ul class="share-links-list">
         <li class="share-links-item">

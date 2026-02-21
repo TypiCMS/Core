@@ -1,3 +1,5 @@
+@props(['module', 'model', 'page', 'lang' => app()->getLocale()])
+
 <div class="items-navigator">
     <a class="items-navigator-back" href="{{ $page->url($lang) }}">
         ←
