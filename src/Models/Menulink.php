@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Attributes\CollectedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,11 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Laracasts\Presenter\PresentableTrait;
 use TypiCMS\Modules\Core\Presenters\MenulinkPresenter;
+use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
+use TypiCMS\Modules\Core\Traits\HasSelectableFields;
+use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
+use TypiCMS\Modules\Core\Traits\Publishable;
 use TypiCMS\NestableCollection;
 use TypiCMS\Translatable\HasTranslations;
 
@@ -50,11 +55,16 @@ use TypiCMS\Translatable\HasTranslations;
  * @property-read mixed $translations
  */
 #[CollectedBy(NestableCollection::class)]
-class Menulink extends Base
+class Menulink extends Model
 {
+    use Cachable;
+    use HasConfigurableOrder;
+    use HasSelectableFields;
+    use HasSlugScope;
     use HasTranslations;
     use Historable;
     use PresentableTrait;
+    use Publishable;
 
     protected string $presenter = MenulinkPresenter::class;
 

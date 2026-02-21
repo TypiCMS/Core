@@ -5,15 +5,22 @@ declare(strict_types=1);
 namespace TypiCMS\Modules\Core\Models;
 
 use Exception;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Laracasts\Presenter\PresentableTrait;
 use TypiCMS\Modules\Core\Presenters\FilePresenter;
+use TypiCMS\Modules\Core\Traits\HasAdminUrls;
+use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
+use TypiCMS\Modules\Core\Traits\HasSelectableFields;
+use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
+use TypiCMS\Modules\Core\Traits\Publishable;
 use TypiCMS\Translatable\HasTranslations;
 
 /**
@@ -44,11 +51,17 @@ use TypiCMS\Translatable\HasTranslations;
  * @property-read mixed $translations
  * @property-read mixed $url
  */
-class File extends Base
+class File extends Model
 {
+    use Cachable;
+    use HasAdminUrls;
+    use HasConfigurableOrder;
+    use HasSelectableFields;
+    use HasSlugScope;
     use HasTranslations;
     use Historable;
     use PresentableTrait;
+    use Publishable;
 
     protected string $presenter = FilePresenter::class;
 
