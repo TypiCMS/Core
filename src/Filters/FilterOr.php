@@ -30,14 +30,21 @@ class FilterOr implements Filter
 
                 $connection = $query->getConnection();
 
-                match ($connection->getDriverName()) {
-                    'pgsql' => $query->orWhereRaw(
-                        "unaccent(\"{$column}\"::jsonb->>?) ILIKE unaccent(?)",
-                        [$locale, "%{$searchTerm}%"]
-                    ),
+                $driver = $connection->getDriverName();
+
+                match ($driver) {
+                    'pgsql' => $query->orWhereRaw("unaccent(\"{$column}\"::jsonb->>?) ILIKE unaccent(?)", [
+                        $locale,
+                        "%{$searchTerm}%",
+                    ]),
                     default => $query->orWhereRaw(
-                        "JSON_UNQUOTE(JSON_EXTRACT(`{$column}`, ?)) LIKE ? COLLATE " . ($connection->getConfig('collation') ?? 'utf8mb4_unicode_ci'),
-                        ["$.{$locale}", "%{$searchTerm}%"]
+                        "JSON_UNQUOTE(JSON_EXTRACT(`{$column}`, ?)) LIKE ?"
+                        . (
+                            $driver !== 'mariadb'
+                                ? ' COLLATE ' . ($connection->getConfig('collation') ?? 'utf8mb4_unicode_ci')
+                                : ''
+                        ),
+                        ["$.{$locale}", "%{$searchTerm}%"],
                     ),
                 };
             }
