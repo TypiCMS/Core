@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Illuminate\Support\Uri;
@@ -53,7 +52,8 @@ abstract class Base extends Model
     {
         if (
             !auth('web')->check()
-            || auth('web')->user()->can('see unpublished items') && !request()->boolean('preview')
+            || !auth('web')->user()->can('see unpublished items')
+            || !request()->boolean('preview')
         ) {
             $field = 'status';
             if (in_array($field, $this->translatable ?? [], true)) {
@@ -93,90 +93,42 @@ abstract class Base extends Model
     {
         $locale = request('locale', app()->getLocale());
         $fields = explode(',', (string) request()->string('fields.' . $this->getTable()));
+
         foreach ($fields as $field) {
-            if (isset($this->translatable) && $this->isTranslatableAttribute($field)) {
-                if ($field === 'status') {
-                    if (config('typicms.postgresql') === true) {
-                        $query->selectRaw('('
-                        . $field
-                        . "::json->>'"
-                        . $locale
-                        . "' )::int AS "
-                        . $field
-                        . '_translated');
-                    } else {
-                        $query->selectRaw(
-                            '
-                                CAST(JSON_UNQUOTE(
-                                    JSON_EXTRACT(`'
-                            . $field
-                            . '`, \'$.'
-                            . $locale
-                            . '\')
-                                ) AS UNSIGNED) AS `'
-                            . $field
-                            . '_translated`
-                            ',
-                        );
-                    }
-                } elseif (config('typicms.postgresql') === true) {
-                    $query->selectRaw(
-                        '
-                                CASE WHEN
-                                    '
-                        . $field
-                        . "::json->>'"
-                        . $locale
-                        . '\' = null
-                                THEN
-                                    NULL
-                                ELSE
-                                    '
-                        . $field
-                        . "::json->>'"
-                        . $locale
-                        . '\'
-                                END
-                                AS  '
-                        . $field
-                        . '_translated
-                            ',
-                    );
-                } else {
-                    $query->selectRaw(
-                        '
-                                CASE WHEN
-                                JSON_UNQUOTE(
-                                    JSON_EXTRACT(`'
-                        . $field
-                        . '`, \'$.'
-                        . $locale
-                        . '\')
-                                ) = \'null\' THEN NULL
-                                ELSE
-                                JSON_UNQUOTE(
-                                    JSON_EXTRACT(`'
-                        . $field
-                        . '`, \'$.'
-                        . $locale
-                        . '\')
-                                )
-                                END '
-                        . (
-                            config('typicms.mariadb') === false
-                                ? 'COLLATE ' . (DB::connection()->getConfig()['collation'] ?? 'utf8mb4_unicode_ci')
-                                : ''
-                        )
-                        . '
-                                AS `'
-                        . $field
-                        . '_translated`
-                            ',
-                    );
-                }
-            } else {
+            if ($this->translatable === null || !$this->isTranslatableAttribute($field)) {
                 $query->addSelect($field);
+
+                continue;
             }
+
+            $connection = $query->getConnection();
+            $driver = $connection->getDriverName();
+
+            if ($field === 'status') {
+                match ($driver) {
+                    'pgsql' => $query->selectRaw("({$field}::json->>?)::int AS {$field}_translated", [$locale]),
+                    default => $query->selectRaw(
+                        "CAST(JSON_UNQUOTE(JSON_EXTRACT(`{$field}`, ?)) AS UNSIGNED) AS `{$field}_translated`",
+                        ["$.{$locale}"],
+                    ),
+                };
+
+                continue;
+            }
+
+            match ($driver) {
+                'pgsql' => $query->selectRaw("{$field}::json->>? AS {$field}_translated", [$locale]),
+                default => $query->selectRaw(
+                    "CASE WHEN JSON_UNQUOTE(JSON_EXTRACT(`{$field}`, ?)) = 'null' THEN NULL ELSE JSON_UNQUOTE(JSON_EXTRACT(`{$field}`, ?)) END"
+                    . (
+                        $driver !== 'mariadb'
+                            ? ' COLLATE ' . ($connection->getConfig('collation') ?? 'utf8mb4_unicode_ci')
+                            : ''
+                    )
+                    . " AS `{$field}_translated`",
+                    ["$.{$locale}", "$.{$locale}"],
+                ),
+            };
         }
     }
 
@@ -231,12 +183,12 @@ abstract class Base extends Model
                 ->with('category')
                 ->order()
                 ->where('category_id', $category_id)
-                ->get(['id', 'category_id', 'slug']);
+                ->get(['id', 'category_id', 'slug', 'title']);
         } else {
             $models = self::query()
                 ->published()
                 ->order()
-                ->get(['id', 'slug']);
+                ->get(['id', 'slug', 'title']);
         }
 
         foreach ($models as $key => $model) {
