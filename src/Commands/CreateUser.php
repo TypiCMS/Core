@@ -20,7 +20,7 @@ class CreateUser extends Command
 
     public function handle(): void
     {
-        info('Creating a Super User…');
+        info('Creating a superuser…');
 
         $firstname = text(label: 'Enter your first name', required: 'The first name is required.');
         $lastname = text(label: 'Enter your last name', required: 'The last name is required.');
