@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,11 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
 use TypiCMS\Modules\Core\Presenters\HistoryPresenter;
+use TypiCMS\Modules\Core\Traits\HasAdminUrls;
+use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
+use TypiCMS\Modules\Core\Traits\HasSelectableFields;
+use TypiCMS\Modules\Core\Traits\HasSlugScope;
+use TypiCMS\Modules\Core\Traits\Publishable;
 
 /**
  * @property int $id
@@ -30,9 +36,15 @@ use TypiCMS\Modules\Core\Presenters\HistoryPresenter;
  * @property-write mixed $status
  * @property-read User|null $user
  */
-class History extends Base
+class History extends Model
 {
+    use Cachable;
+    use HasAdminUrls;
+    use HasConfigurableOrder;
+    use HasSelectableFields;
+    use HasSlugScope;
     use PresentableTrait;
+    use Publishable;
 
     protected $table = 'history';
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Attributes\CollectedBy;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -19,8 +20,14 @@ use TypiCMS\Modules\Core\Observers\HomePageObserver;
 use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
 use TypiCMS\Modules\Core\Observers\UriObserver;
 use TypiCMS\Modules\Core\Presenters\PagePresenter;
+use TypiCMS\Modules\Core\Traits\HasAdminUrls;
+use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
 use TypiCMS\Modules\Core\Traits\HasFiles;
+use TypiCMS\Modules\Core\Traits\HasSelectableFields;
+use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
+use TypiCMS\Modules\Core\Traits\Navigable;
+use TypiCMS\Modules\Core\Traits\Publishable;
 use TypiCMS\NestableCollection;
 use TypiCMS\Translatable\HasTranslations;
 
@@ -68,12 +75,19 @@ use TypiCMS\Translatable\HasTranslations;
  */
 #[ObservedBy([AddToMenuObserver::class, HomePageObserver::class, UriObserver::class, TipTapHTMLObserver::class])]
 #[CollectedBy(NestableCollection::class)]
-class Page extends Base
+class Page extends Model
 {
+    use Cachable;
+    use HasAdminUrls;
+    use HasConfigurableOrder;
     use HasFiles;
+    use HasSelectableFields;
+    use HasSlugScope;
     use HasTranslations;
     use Historable;
+    use Navigable;
     use PresentableTrait;
+    use Publishable;
 
     protected string $presenter = PagePresenter::class;
 

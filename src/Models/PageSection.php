@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
@@ -15,8 +17,12 @@ use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
 use TypiCMS\Modules\Core\Presenters\PagePresenter;
+use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
 use TypiCMS\Modules\Core\Traits\HasFiles;
+use TypiCMS\Modules\Core\Traits\HasSelectableFields;
+use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
+use TypiCMS\Modules\Core\Traits\Publishable;
 use TypiCMS\Translatable\HasTranslations;
 
 /**
@@ -34,12 +40,17 @@ use TypiCMS\Translatable\HasTranslations;
  * @property Carbon|null $updated_at
  */
 #[ObservedBy([TipTapHTMLObserver::class])]
-class PageSection extends Base implements Sortable
+class PageSection extends Model implements Sortable
 {
+    use Cachable;
+    use HasConfigurableOrder;
     use HasFiles;
+    use HasSelectableFields;
+    use HasSlugScope;
     use HasTranslations;
     use Historable;
     use PresentableTrait;
+    use Publishable;
     use SortableTrait;
 
     protected string $presenter = PagePresenter::class;
