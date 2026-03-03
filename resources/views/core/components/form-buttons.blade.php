@@ -1,4 +1,4 @@
-@props(['locales' => locales(), 'model', 'langSwitcher' => true])
+@props(['locales' => locales(), 'model', 'langSwitcher' => true, 'preview' => true])
 
 <div class="header-toolbar btn-toolbar">
     <button class="btn btn-sm btn-primary" value="true" id="exit" name="exit" type="submit">
@@ -7,7 +7,7 @@
     <button class="btn btn-sm btn-light" type="submit">
         @lang('Save')
     </button>
-    @if (method_exists($model, 'url') && method_exists($model, 'previewUrl'))
+    @if ($preview && method_exists($model, 'url') && method_exists($model, 'previewUrl'))
         @foreach ($locales as $locale)
             <a class="btn btn-sm btn-light btn-preview" href="{{ $model->previewUrl($locale) }}" data-language="{{ $locale }}">
                 @lang('Preview')

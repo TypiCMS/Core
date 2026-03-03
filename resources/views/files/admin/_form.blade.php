@@ -1,7 +1,7 @@
 <div class="header">
     <x-core::back-button :url="$model->indexUrl()" :title="$model->folder?->name ?? __('Files')" />
     <x-core::title :$model :default="__('New file')" />
-    <x-core::form-buttons :$model />
+    <x-core::form-buttons :$model :preview="false" />
 </div>
 
 <div class="content">
