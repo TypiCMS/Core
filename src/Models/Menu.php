@@ -64,7 +64,7 @@ class Menu extends Model
 
     public function getMenu(string $name): ?self
     {
-        $menu = self::query()
+        $menu = static::query()
             ->published()
             ->with([
                 'menulinks' => function ($query): void {

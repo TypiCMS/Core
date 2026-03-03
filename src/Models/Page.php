@@ -185,7 +185,7 @@ class Page extends Model
     /** @return array<string, string> */
     public function allForSelect(): array
     {
-        $pages = self::query()
+        $pages = static::query()
             ->order()
             ->get()
             ->nest()

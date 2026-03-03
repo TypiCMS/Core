@@ -61,10 +61,7 @@ class Block extends Model
 
     public function render(?string $name = null): string
     {
-        $args = func_get_args();
-        $args[] = app()->getLocale();
-
-        $block = self::query()
+        $block = static::query()
             ->where('name', $name)
             ->published()
             ->first();

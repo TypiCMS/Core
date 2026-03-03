@@ -22,14 +22,14 @@ trait Navigable
     {
         $currentModel = $model;
         if ($category_id !== null) {
-            $models = self::query()
+            $models = static::query()
                 ->published()
                 ->with('category')
                 ->order()
                 ->where('category_id', $category_id)
                 ->get(['id', 'category_id', 'slug', 'title']);
         } else {
-            $models = self::query()
+            $models = static::query()
                 ->published()
                 ->order()
                 ->get(['id', 'slug', 'title']);
