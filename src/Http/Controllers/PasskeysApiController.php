@@ -47,9 +47,7 @@ final class PasskeysApiController extends BaseApiController
 
     public function destroy(int $passkey): void
     {
-        Passkey::query()
-            ->where('id', $passkey)
-            ->delete();
+        Passkey::query()->where('id', $passkey)->delete();
     }
 
     public function currentUser(): Authenticatable&HasPasskeys

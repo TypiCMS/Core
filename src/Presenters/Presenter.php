@@ -163,7 +163,12 @@ abstract class Presenter extends BasePresenter
         // {!!%20page:1%20!!}
         // %7B!!%20page:1%20!!%7D
         $text = $this->entity->$property ?? '';
-        preg_match_all('/(?:{|%7B)!!(?:\s|%20)([a-z]+):(\d+)(?:\s|%20)!!(?:}|%7D)/', (string) $text, $matches, PREG_SET_ORDER);
+        preg_match_all(
+            '/(?:{|%7B)!!(?:\s|%20)([a-z]+):(\d+)(?:\s|%20)!!(?:}|%7D)/',
+            (string) $text,
+            $matches,
+            PREG_SET_ORDER,
+        );
         $patterns = [];
         $replacements = [];
         $lang = app()->getLocale();

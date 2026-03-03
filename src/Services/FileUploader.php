@@ -115,10 +115,7 @@ class FileUploader
         $sanitizer = new Sanitizer();
         $sanitizedContent = $sanitizer->sanitize($file->getContent());
 
-        file_put_contents(
-            $file->getPathname(),
-            $sanitizedContent ?: ''
-        );
+        file_put_contents($file->getPathname(), $sanitizedContent ?: '');
     }
 
     private function correctImageOrientation(UploadedFile $file): void
