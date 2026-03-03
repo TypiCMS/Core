@@ -47,9 +47,7 @@ class Tag extends Model
     protected $guarded = [];
 
     #[Scope]
-    protected function published(Builder $query): void
-    {
-    }
+    protected function published(Builder $query): void {}
 
     /**
      * Get all tagged items grouped by type

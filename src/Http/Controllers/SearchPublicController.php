@@ -56,11 +56,9 @@ final class SearchPublicController extends BasePublicController
                                 } else {
                                     $query
                                         ->published()
-                                        ->whereRaw('`'
-                                        . $column
-                                        . "` LIKE '%"
-                                        . $word
-                                        . "%' COLLATE utf8mb4_unicode_ci");
+                                        ->whereRaw(
+                                            '`' . $column . "` LIKE '%" . $word . "%' COLLATE utf8mb4_unicode_ci",
+                                        );
                                 }
                             }
                         });
@@ -85,11 +83,13 @@ final class SearchPublicController extends BasePublicController
                                         } else {
                                             $query
                                                 ->published()
-                                                ->whereRaw('`'
-                                                . $column
-                                                . "` LIKE '%"
-                                                . $word
-                                                . "%' COLLATE utf8mb4_unicode_ci");
+                                                ->whereRaw(
+                                                    '`'
+                                                    . $column
+                                                    . "` LIKE '%"
+                                                    . $word
+                                                    . "%' COLLATE utf8mb4_unicode_ci",
+                                                );
                                         }
                                     }
                                 });

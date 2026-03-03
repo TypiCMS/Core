@@ -270,7 +270,6 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
         /*
          |--------------------------------------------------------------------------
          | Register TypiCMS commands.
