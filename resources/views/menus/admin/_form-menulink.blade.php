@@ -26,7 +26,7 @@
                 {!! TranslatableBootForm::checkbox(__('Published'), 'status') !!}
             </div>
             {!! TranslatableBootForm::textarea(__('Description'), 'description')->rows(3) !!}
-            {!! BootForm::select(__('Page'), 'page_id', Pages::allForSelect()) !!}
+            {!! BootForm::select(__('Page'), 'page_id', (new TypiCMS\Modules\Core\Models\Page())->allForSelect()) !!}
             {!! BootForm::select(__('Section'), 'section_id', ['' => '']) !!}
             {!! TranslatableBootForm::text(__('Website'), 'website')->type('url')->placeholder('https://') !!}
             {!! BootForm::select(__('Target'), 'target', ['' => __('Active tab'), '_blank' => __('New tab')]) !!}

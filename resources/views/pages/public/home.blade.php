@@ -18,12 +18,12 @@
             @include('files::public._document-list', ['model' => $page])
             @include('files::public._image-list', ['model' => $page])
             {{--
-            @if ($slides = Slides::published()->order()->get() and $slides->count() > 0)
+            @if ($slides = TypiCMS\Modules\Slides\Models\Slide::published()->order()->get() and $slides->count() > 0)
                 @include('slides::public._slider', ['items' => $slides])
             @endif
             --}}
             {{--
-            @if ($latestNews = News::published()->order()->take(3)->get() and $latestNews->count() > 0)
+            @if ($latestNews = TypiCMS\Modules\News\Models\News::published()->order()->take(3)->get() and $latestNews->count() > 0)
                 <div class="news-list-container">
                     <h3 class="news-list-title">
                         <a href="{{ Route::has($lang . '::index-news') ? route($lang . '::index-news') : '/' }}">@lang('Latest news')</a>
@@ -34,7 +34,7 @@
             @endif
             --}}
             {{--
-            @if ($upcomingEvents = Events::upcoming() and $upcomingEvents->count() > 0)
+            @if ($upcomingEvents = (new TypiCMS\Modules\Events\Models\Event())->upcoming() and $upcomingEvents->count() > 0)
                 <div class="event-list-container">
                     <h3 class="event-list-title">
                         <a href="{{ Route::has($lang . '::index-events') ? route($lang . '::index-events') : '/' }}">@lang('Upcoming events')</a>
@@ -44,8 +44,9 @@
                 </div>
             @endif
             --}}
+
             {{--
-            @if ($partners = Partners::published()->where('homepage', 1)->get() and $partners->count() > 0)
+            @if ($partners = TypiCMS\Modules\Partners\Models\Partner::published()->where('homepage', 1)->get() and $partners->count() > 0)
                 <div class="partner-list-container">
                     <h3 class="partner-list-title">
                         <a href="{{ Route::has($lang . '::index-partners') ? route($lang . '::index-partners') : '/' }}">@lang('Partners')</a>
@@ -55,6 +56,7 @@
                 </div>
             @endif
             --}}
+
         </div>
     </div>
 @endsection

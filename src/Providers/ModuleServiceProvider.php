@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace TypiCMS\Modules\Core\Providers;
 
 use Exception;
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
@@ -20,31 +19,8 @@ use TypiCMS\Modules\Core\Composers\LocaleComposer;
 use TypiCMS\Modules\Core\Composers\MasterViewComposer;
 use TypiCMS\Modules\Core\Composers\SidebarViewComposer;
 use TypiCMS\Modules\Core\Composers\SidebarViewCreator;
-use TypiCMS\Modules\Core\Facades\Blocks;
-use TypiCMS\Modules\Core\Facades\Files;
-use TypiCMS\Modules\Core\Facades\History as HistoryFacade;
-use TypiCMS\Modules\Core\Facades\Menulinks;
-use TypiCMS\Modules\Core\Facades\Menus;
-use TypiCMS\Modules\Core\Facades\Pages;
-use TypiCMS\Modules\Core\Facades\PageSections;
-use TypiCMS\Modules\Core\Facades\Roles;
-use TypiCMS\Modules\Core\Facades\Tags;
-use TypiCMS\Modules\Core\Facades\Taxonomies;
-use TypiCMS\Modules\Core\Facades\Terms;
-use TypiCMS\Modules\Core\Facades\Users;
-use TypiCMS\Modules\Core\Models\Block;
-use TypiCMS\Modules\Core\Models\File;
-use TypiCMS\Modules\Core\Models\History;
-use TypiCMS\Modules\Core\Models\Menu;
-use TypiCMS\Modules\Core\Models\Menulink;
 use TypiCMS\Modules\Core\Models\Page;
-use TypiCMS\Modules\Core\Models\PageSection;
-use TypiCMS\Modules\Core\Models\Role;
 use TypiCMS\Modules\Core\Models\Setting;
-use TypiCMS\Modules\Core\Models\Tag;
-use TypiCMS\Modules\Core\Models\Taxonomy;
-use TypiCMS\Modules\Core\Models\Term;
-use TypiCMS\Modules\Core\Models\User;
 
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -68,7 +44,7 @@ class ModuleServiceProvider extends ServiceProvider
          * Get configuration from DB and store it in the container
          */
         config([
-            'typicms' => array_merge(resolve('Settings')->allToArray(), config('typicms', [])),
+            'typicms' => array_merge((new Setting())->allToArray(), config('typicms', [])),
         ]);
 
         /*
@@ -276,28 +252,13 @@ class ModuleServiceProvider extends ServiceProvider
 
         /*
          |--------------------------------------------------------------------------
-         | Aliases.
-         |--------------------------------------------------------------------------
-         */
-        AliasLoader::getInstance()->alias('Blocks', Blocks::class);
-        AliasLoader::getInstance()->alias('Files', Files::class);
-        AliasLoader::getInstance()->alias('History', HistoryFacade::class);
-        AliasLoader::getInstance()->alias('Menulinks', Menulinks::class);
-        AliasLoader::getInstance()->alias('Menus', Menus::class);
-        AliasLoader::getInstance()->alias('Pages', Pages::class);
-        AliasLoader::getInstance()->alias('PageSections', PageSections::class);
-        AliasLoader::getInstance()->alias('Roles', Roles::class);
-        AliasLoader::getInstance()->alias('Tags', Tags::class);
-        AliasLoader::getInstance()->alias('Taxonomies', Taxonomies::class);
-        AliasLoader::getInstance()->alias('Terms', Terms::class);
-        AliasLoader::getInstance()->alias('Users', Users::class);
-
-        /*
-         |--------------------------------------------------------------------------
          | Blade directives.
          |--------------------------------------------------------------------------
          */
-        Blade::directive('block', fn (string $name): string => sprintf('<?php echo Blocks::render(%s) ?>', $name));
+        Blade::directive('block', fn (string $name): string => sprintf(
+            '<?php echo (new TypiCMS\Modules\Core\Models\Block())->render(%s) ?>',
+            $name,
+        ));
         Blade::directive('menu', fn (string $name): string => sprintf(
             "<?php echo view('menus::public._menu', ['name' => %s]) ?>",
             $name,
@@ -309,24 +270,6 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        /*
-         |--------------------------------------------------------------------------
-         | Bindings.
-         |--------------------------------------------------------------------------
-         */
-        $this->app->bind('Blocks', Block::class);
-        $this->app->bind('Files', File::class);
-        $this->app->bind('History', History::class);
-        $this->app->bind('Menulinks', Menulink::class);
-        $this->app->bind('Menus', Menu::class);
-        $this->app->bind('Pages', Page::class);
-        $this->app->bind('PageSections', PageSection::class);
-        $this->app->bind('Roles', Role::class);
-        $this->app->bind('Settings', Setting::class);
-        $this->app->bind('Tags', Tag::class);
-        $this->app->bind('Taxonomies', Taxonomy::class);
-        $this->app->bind('Terms', Term::class);
-        $this->app->bind('Users', User::class);
 
         /*
          |--------------------------------------------------------------------------
