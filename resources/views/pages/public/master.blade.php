@@ -26,6 +26,16 @@
 
 @section('content')
 
+<x-core::json-ld :schema="[
+    '@context' => 'https://schema.org',
+    '@type' => 'WebPage',
+    'name' => $page->title,
+    'description' => $page->meta_description ?: null,
+    'url' => $page->url(),
+    'dateModified' => $page->updated_at->toIso8601String(),
+    'inLanguage' => app()->getLocale(),
+]" />
+
 @section('page-header')
     <header class="page-header">
         <div class="page-header-container">
