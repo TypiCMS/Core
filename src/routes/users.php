@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
+use Spatie\LaravelPasskeys\Http\Controllers\GeneratePasskeyAuthenticationOptionsController;
 use TypiCMS\Modules\Core\Http\Controllers\AuthController;
+use TypiCMS\Modules\Core\Http\Controllers\AuthenticateUsingPasskeyController;
 use TypiCMS\Modules\Core\Http\Controllers\ImpersonateController;
 use TypiCMS\Modules\Core\Http\Controllers\PasskeysApiController;
 use TypiCMS\Modules\Core\Http\Controllers\RegisterController;
@@ -69,7 +71,12 @@ foreach (locales() as $lang) {
 }
 
 Route::middleware('web')->group(function (Router $router): void {
-    Route::passkeys();
+    Route::prefix('passkeys')->group(function (): void {
+        Route::get('authentication-options', GeneratePasskeyAuthenticationOptionsController::class)->name(
+            'passkeys.authentication_options',
+        );
+        Route::post('authenticate', AuthenticateUsingPasskeyController::class)->name('passkeys.login');
+    });
 });
 
 /*
@@ -120,9 +127,7 @@ Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $r
     $router->delete('users/{user}', [UsersApiController::class, 'destroy'])->middleware('can:delete users');
     // Passkeys API routes
     $router->delete('passkeys/{passkey}', [PasskeysApiController::class, 'destroy'])->middleware('can:update users');
-    $router->post('passkeys', [PasskeysApiController::class, 'store'])->middleware('can:update users');
-    $router->get('passkeys/generate-options', [PasskeysApiController::class, 'generatePasskeyOptions'])->middleware(
-        'can:update users',
-    );
+    $router->post('passkeys', [PasskeysApiController::class, 'store']);
+    $router->get('passkeys/generate-options', [PasskeysApiController::class, 'generatePasskeyOptions']);
     $router->get('users/{user}/passkeys', [PasskeysApiController::class, 'getPasskeys'])->middleware('can:read users');
 });

@@ -54,6 +54,12 @@ final class AuthController extends Controller
         $this->email = (string) $request->string('email');
         $user = $this->findUser();
 
+        if (!$user->activated) {
+            return back()
+                ->withInput($request->only('email'))
+                ->withErrors(['email' => __('Your account is not activated.')]);
+        }
+
         if ($this->rateLimitHit()) {
             return back()->withInput($request->only('email'))->withErrors(['$errors' => __('Please try later.')]);
         }
@@ -77,6 +83,12 @@ final class AuthController extends Controller
         $this->email = session('email');
         session()->forget('email');
         $user = $this->findUser();
+
+        if (!$user->activated) {
+            return to_route(app()->getLocale() . '::otp-login')->withErrors(['email' => __(
+                'Your account is not activated.',
+            )]);
+        }
 
         Validator::make($request->only('one_time_password'), [
             'one_time_password' => ['required', new OneTimePasswordRule($user)],
