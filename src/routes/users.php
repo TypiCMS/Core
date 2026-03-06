@@ -9,6 +9,7 @@ use TypiCMS\Modules\Core\Http\Controllers\AuthController;
 use TypiCMS\Modules\Core\Http\Controllers\AuthenticateUsingPasskeyController;
 use TypiCMS\Modules\Core\Http\Controllers\ImpersonateController;
 use TypiCMS\Modules\Core\Http\Controllers\PasskeysApiController;
+use TypiCMS\Modules\Core\Http\Controllers\ProfileController;
 use TypiCMS\Modules\Core\Http\Controllers\RegisterController;
 use TypiCMS\Modules\Core\Http\Controllers\UsersAdminController;
 use TypiCMS\Modules\Core\Http\Controllers\UsersApiController;
@@ -39,7 +40,7 @@ foreach (locales() as $lang) {
                 ->group(function (Router $router): void {
                     // Login with a passkey
                     $router->get('login', [AuthController::class, 'showPasskeyLoginForm'])->name('login');
-                    // Login with one-time password
+                    // Login with a one-time password
                     $router->get('otp-login', [AuthController::class, 'showOneTimePasswordLoginForm'])->name(
                         'otp-login',
                     );
@@ -114,6 +115,14 @@ Route::middleware('admin')
             ->get('users/{id}/impersonate', [ImpersonateController::class, 'start'])
             ->name('impersonate-user')
             ->middleware('can:impersonate users');
+        $router
+            ->get('profile', [ProfileController::class, 'edit'])
+            ->name('profile')
+            ->middleware('can:edit profile');
+        $router
+            ->put('profile', [ProfileController::class, 'update'])
+            ->name('update-profile')
+            ->middleware('can:edit profile');
     });
 
 /*
@@ -126,8 +135,8 @@ Route::middleware(['api', 'auth:api'])->prefix('api')->group(function (Router $r
         ->middleware('can:update users');
     $router->delete('users/{user}', [UsersApiController::class, 'destroy'])->middleware('can:delete users');
     // Passkeys API routes
-    $router->delete('passkeys/{passkey}', [PasskeysApiController::class, 'destroy'])->middleware('can:update users');
+    $router->delete('passkeys/{passkey}', [PasskeysApiController::class, 'destroy']);
     $router->post('passkeys', [PasskeysApiController::class, 'store']);
     $router->get('passkeys/generate-options', [PasskeysApiController::class, 'generatePasskeyOptions']);
-    $router->get('users/{user}/passkeys', [PasskeysApiController::class, 'getPasskeys'])->middleware('can:read users');
+    $router->get('users/{user}/passkeys', [PasskeysApiController::class, 'getPasskeys']);
 });

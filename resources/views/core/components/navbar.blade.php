@@ -31,9 +31,9 @@
                         <li>
                             <h6 class="dropdown-header">{{ auth()->user()->email }}</h6>
                         </li>
-                        @can('update users')
+                        @can('edit profile')
                             <li>
-                                <a class="dropdown-item" href="{{ route('admin::edit-user', Auth::id()) }}">
+                                <a class="dropdown-item" href="{{ route('admin::profile') }}">
                                     {{ __('Profile', [], config('typicms.navbar_locale')) }}
                                 </a>
                             </li>

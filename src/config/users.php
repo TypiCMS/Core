@@ -12,5 +12,6 @@ return [
         'create users' => 'Create',
         'update users' => 'Update',
         'delete users' => 'Delete',
+        'edit profile' => 'Edit profile',
     ],
 ];

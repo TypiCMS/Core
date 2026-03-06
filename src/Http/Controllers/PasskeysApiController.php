@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Spatie\LaravelPasskeys\Actions\GeneratePasskeyRegisterOptionsAction;
 use Spatie\LaravelPasskeys\Actions\StorePasskeyAction;
-use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Models\Passkey;
 use Spatie\LaravelPasskeys\Support\Config;
 use Throwable;
@@ -21,6 +20,8 @@ final class PasskeysApiController extends BaseApiController
 {
     public function getPasskeys(Request $request, User $user): JsonResponse
     {
+        $this->authorizePasskeyAccess($user);
+
         $passkeys = $user->passkeys()->get(['id', 'name', 'last_used_at']);
 
         return response()->json($passkeys);
@@ -28,11 +29,13 @@ final class PasskeysApiController extends BaseApiController
 
     public function store(Request $request): void
     {
+        $this->authorizePasskeyAccess();
+
         $storePasskeyAction = Config::getAction('store_passkey', StorePasskeyAction::class);
 
         try {
             $storePasskeyAction->execute(
-                $this->currentUser(),
+                auth()->user(),
                 $request->passkey,
                 $request->options ?? $this->previouslyGeneratedPasskeyOptions(),
                 request()->getHost(),
@@ -45,24 +48,23 @@ final class PasskeysApiController extends BaseApiController
         }
     }
 
-    public function destroy(int $passkey): void
+    public function destroy(Passkey $passkey): void
     {
-        Passkey::query()->where('id', $passkey)->delete();
+        $this->authorizePasskeyAccess(User::findOrFail($passkey->authenticatable_id));
+
+        $passkey->delete();
     }
 
-    public function currentUser(): Authenticatable&HasPasskeys
+    public function generatePasskeyOptions(): string|PublicKeyCredentialCreationOptions
     {
-        return auth()->user();
-    }
+        $this->authorizePasskeyAccess();
 
-    protected function generatePasskeyOptions(): string|PublicKeyCredentialCreationOptions
-    {
         $generatePassKeyOptionsAction = Config::getAction(
             'generate_passkey_register_options',
             GeneratePasskeyRegisterOptionsAction::class,
         );
 
-        $options = $generatePassKeyOptionsAction->execute($this->currentUser());
+        $options = $generatePassKeyOptionsAction->execute(auth()->user());
 
         session()->put('passkey-registration-options', $options);
 
@@ -72,5 +74,23 @@ final class PasskeysApiController extends BaseApiController
     protected function previouslyGeneratedPasskeyOptions(): ?string
     {
         return session()->pull('passkey-registration-options');
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    private function authorizePasskeyAccess(?User $user = null): void
+    {
+        $currentUser = auth()->user();
+
+        if ($currentUser->can('update users')) {
+            return;
+        }
+
+        if ($currentUser->can('edit profile') && ($user === null || $user->id === $currentUser->id)) {
+            return;
+        }
+
+        throw new AuthorizationException();
     }
 }
