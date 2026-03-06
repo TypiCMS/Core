@@ -35,7 +35,11 @@
 
             <div class="col-lg-6">
                 @if ($model->type === 'i')
-                    <image-cropper :image-url="'{{ Storage::url($model->path) }}'" :file-id="{{ $model->id }}"></image-cropper>
+                    @if ($model->extension !== 'svg')
+                        <image-cropper :image-url="'{{ Storage::url($model->path) }}'" :file-id="{{ $model->id }}"></image-cropper>
+                    @else
+                        <img class="img-fluid mb-3" src="{{ Storage::url($model->path) }}" alt="{{ $model->alt_attribute }}">
+                    @endif
                 @endif
 
                 <table class="table table-sm table-striped">
