@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -65,13 +66,13 @@ final class PagesPublicController extends BasePublicController
         return $query->firstOrFail();
     }
 
-    public function redirectToHomepage(): RedirectResponse
+    public function redirectToHomepage(Request $request): RedirectResponse
     {
         $homepage = Page::query()
             ->published()
             ->where('is_home', 1)
             ->firstOrFail();
-        $locale = getBrowserLocaleOrMainLocale();
+        $locale = $request->getPreferredLanguage(enabledLocales());
 
         return redirect($homepage->url($locale));
     }
