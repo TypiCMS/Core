@@ -10,10 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
-use Laracasts\Presenter\PresentableTrait;
-use TypiCMS\Modules\Core\Presenters\HistoryPresenter;
 use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
+use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Publishable;
@@ -41,14 +40,12 @@ class History extends Model
     use Cachable;
     use HasAdminUrls;
     use HasConfigurableOrder;
+    use HasPresenterMethods;
     use HasSelectableFields;
     use HasSlugScope;
-    use PresentableTrait;
     use Publishable;
 
     protected $table = 'history';
-
-    protected string $presenter = HistoryPresenter::class;
 
     protected $guarded = [];
 

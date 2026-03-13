@@ -13,7 +13,7 @@ trait Historable
     public static function bootHistorable(): void
     {
         static::created(function (mixed $model): void {
-            $model->writeHistory('created', Str::limit($model->present()->title, 200, '…'), [], $model->toArray());
+            $model->writeHistory('created', Str::limit($model->presentTitle(), 200, '…'), [], $model->toArray());
         });
 
         static::updated(function (mixed $model): void {
@@ -40,11 +40,11 @@ trait Historable
                 }
             }
 
-            $model->writeHistory($action, Str::limit($model->present()->title, 200, '…'), $old, $new);
+            $model->writeHistory($action, Str::limit($model->presentTitle(), 200, '…'), $old, $new);
         });
 
         static::deleted(function (mixed $model): void {
-            $model->writeHistory('deleted', Str::limit($model->present()->title, 200, '…'));
+            $model->writeHistory('deleted', Str::limit($model->presentTitle(), 200, '…'));
         });
     }
 

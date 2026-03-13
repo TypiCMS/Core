@@ -14,15 +14,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
-use Laracasts\Presenter\PresentableTrait;
 use TypiCMS\Modules\Core\Observers\AddToMenuObserver;
 use TypiCMS\Modules\Core\Observers\HomePageObserver;
 use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
 use TypiCMS\Modules\Core\Observers\UriObserver;
-use TypiCMS\Modules\Core\Presenters\PagePresenter;
 use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
 use TypiCMS\Modules\Core\Traits\HasFiles;
+use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -81,15 +80,13 @@ class Page extends Model
     use HasAdminUrls;
     use HasConfigurableOrder;
     use HasFiles;
+    use HasPresenterMethods;
     use HasSelectableFields;
     use HasSlugScope;
     use HasTranslations;
     use Historable;
     use Navigable;
-    use PresentableTrait;
     use Publishable;
-
-    protected string $presenter = PagePresenter::class;
 
     protected $guarded = [];
 
@@ -119,6 +116,20 @@ class Page extends Model
     public array $tipTapContent = [
         'body',
     ];
+
+    public function parentUri(string $locale): string
+    {
+        $parentUri = $this->translate('uri', $locale) ?: '/';
+        $parentUri = explode('/', (string) $parentUri);
+        array_pop($parentUri);
+
+        return implode('/', $parentUri) . '/';
+    }
+
+    public function metaTitle(): string
+    {
+        return $this->meta_title ?? $this->title ?? '';
+    }
 
     public function path(?string $locale = null): string
     {

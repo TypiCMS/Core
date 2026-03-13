@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TypiCMS\Modules\Core\Presenters;
+namespace TypiCMS\Modules\Core\Traits;
 
 use Bkwld\Croppa\Facades\Croppa;
 use Illuminate\Support\Facades\Date;
@@ -11,70 +11,38 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
-use Laracasts\Presenter\Presenter as BasePresenter;
 
-abstract class Presenter extends BasePresenter
+trait HasPresenterMethods
 {
     protected string $imageNotFound = 'img-not-found.png';
 
-    public function __construct(
-        protected $entity,
-    ) {}
-
-    /**
-     * Allow for property-style retrieval.
-     */
-    public function __get(mixed $property): mixed
-    {
-        if (method_exists($this, $property)) {
-            return $this->{$property}();
-        }
-
-        return $this->entity->{$property};
-    }
-
-    /**
-     * Return a localized date.
-     */
     public function dateLocalized(string $column = 'date', string $format = 'LL'): string
     {
-        return $this->entity->{$column}->isoFormat($format);
+        return $this->{$column}->isoFormat($format);
     }
 
-    /**
-     * Return a localized date and time.
-     */
     public function dateTimeLocalized(string $column = 'datetime', string $format = 'LLL'): string
     {
-        return $this->entity->{$column}->isoFormat($format);
+        return $this->{$column}->isoFormat($format);
     }
 
-    /**
-     * Return the resource’s datetime or current date and time if empty.
-     */
     public function datetimeOrNow(string $column = 'date'): string
     {
-        $date = $this->entity->{$column} ?: Date::now();
+        $date = $this->{$column} ?: Date::now();
 
         return $date->format('Y-m-d\TH:i');
     }
 
-    /**
-     * Return the resource’s date or current date if empty.
-     */
     public function dateOrNow(string $column = 'date'): string
     {
-        $date = $this->entity->{$column} ?: Date::now();
+        $date = $this->{$column} ?: Date::now();
 
         return $date->format('Y-m-d');
     }
 
-    /**
-     * Return the resource’s time or current time if empty.
-     */
     public function timeOrNow(string $column = 'date'): string
     {
-        $date = $this->entity->{$column} ?: Date::now();
+        $date = $this->{$column} ?: Date::now();
 
         return $date->format('H:i');
     }
@@ -83,8 +51,8 @@ abstract class Presenter extends BasePresenter
     {
         $path = '';
 
-        if (is_object($this->entity->{$relationName})) {
-            $path = $this->entity->{$relationName}->path;
+        if (is_object($this->{$relationName})) {
+            $path = $this->{$relationName}->path;
         }
 
         if (!is_file(Storage::path($path))) {
@@ -99,7 +67,7 @@ abstract class Presenter extends BasePresenter
      *
      * @param array<string|int, string|array<string>> $options
      */
-    public function image(
+    public function imageUrl(
         ?int $width = null,
         ?int $height = null,
         array $options = [],
@@ -114,9 +82,6 @@ abstract class Presenter extends BasePresenter
         return url(Croppa::url('storage/' . $path, $width, $height, $options));
     }
 
-    /**
-     * Get the default image when not found.
-     */
     public function imgNotFound(): string
     {
         if (!Storage::exists($this->imageNotFound)) {
@@ -126,43 +91,36 @@ abstract class Presenter extends BasePresenter
         return $this->imageNotFound;
     }
 
-    public function ogImage(): string
+    public function ogImageUrl(): string
     {
-        if ($this->entity->ogImage !== '') {
-            return $this->image(1200, 630, [], 'ogImage');
+        if ($this->ogImage !== '') {
+            return $this->imageUrl(1200, 630, [], 'ogImage');
         }
 
-        if ($this->entity->image !== '') {
-            return $this->image(1200, 630);
+        if ($this->image !== '') {
+            return $this->imageUrl(1200, 630);
         }
 
         return Vite::asset(config('typicms.og_image'));
     }
 
-    public function title(): string
+    public function presentTitle(): string
     {
-        if ($this->entity->id === null) {
+        if ($this->id === null) {
             return '';
         }
 
-        return strip_tags((string) $this->entity->title);
+        return strip_tags((string) $this->title);
     }
 
-    public function body(): string
+    public function formattedBody(): string
     {
         return $this->dynamicLinks();
     }
 
-    /**
-     * Return content with dynamic links.
-     */
     public function dynamicLinks(string $property = 'body'): string
     {
-        // Examples of matches:
-        // {!! page:1 !!}
-        // {!!%20page:1%20!!}
-        // %7B!!%20page:1%20!!%7D
-        $text = $this->entity->$property ?? '';
+        $text = $this->$property ?? '';
         preg_match_all(
             '/(?:{|%7B)!!(?:\s|%20)([a-z]+):(\d+)(?:\s|%20)!!(?:}|%7D)/',
             (string) $text,

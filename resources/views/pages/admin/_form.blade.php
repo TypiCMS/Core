@@ -21,7 +21,7 @@
                                 ({{ $locale }})
                             </label>
                             <div class="input-group">
-                                <span class="input-group-text">{{ $model->present()->parentUri($locale) }}</span>
+                                <span class="input-group-text">{{ $model->parentUri($locale) }}</span>
                                 <input class="form-control @if ($errors->has('slug.' . $locale)) is-invalid @endif" type="text" name="slug[{{ $locale }}]" id="slug[{{ $locale }}]" value="{{ $model->translate('slug', $locale) }}" data-slug="title[{{ $locale }}]" data-language="{{ $locale }}" />
                                 <button class="btn btn-outline-secondary btn-slug" type="button">
                                     {{ __('Generate') }}

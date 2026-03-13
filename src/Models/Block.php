@@ -9,11 +9,10 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Laracasts\Presenter\PresentableTrait;
 use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
-use TypiCMS\Modules\Core\Presenters\BlockPresenter;
 use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
+use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -37,14 +36,12 @@ class Block extends Model
     use Cachable;
     use HasAdminUrls;
     use HasConfigurableOrder;
+    use HasPresenterMethods;
     use HasSelectableFields;
     use HasSlugScope;
     use HasTranslations;
     use Historable;
-    use PresentableTrait;
     use Publishable;
-
-    protected string $presenter = BlockPresenter::class;
 
     protected $guarded = [];
 
@@ -59,6 +56,11 @@ class Block extends Model
         'body',
     ];
 
+    public function presentTitle(): string
+    {
+        return $this->name;
+    }
+
     public function render(?string $name = null): string
     {
         $block = static::query()
@@ -66,6 +68,6 @@ class Block extends Model
             ->published()
             ->first();
 
-        return $block !== null ? $block->present()->body : '';
+        return $block !== null ? $block->formattedBody() : '';
     }
 }

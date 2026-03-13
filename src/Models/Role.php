@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
-use Laracasts\Presenter\PresentableTrait;
 use Spatie\Permission\Contracts\Role as RoleContract;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role as SpatieRole;
-use TypiCMS\Modules\Core\Presenters\RolePresenter;
+use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
 use TypiCMS\Modules\Core\Traits\Historable;
 
 /**
@@ -31,12 +30,15 @@ use TypiCMS\Modules\Core\Traits\Historable;
  */
 class Role extends SpatieRole implements RoleContract
 {
+    use HasPresenterMethods;
     use Historable;
-    use PresentableTrait;
-
-    protected string $presenter = RolePresenter::class;
 
     protected $guarded = [];
+
+    public function presentTitle(): string
+    {
+        return $this->name;
+    }
 
     public function editUrl(): string
     {

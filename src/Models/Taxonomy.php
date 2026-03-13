@@ -10,13 +10,12 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
-use Laracasts\Presenter\PresentableTrait;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use TypiCMS\Modules\Core\Observers\SlugObserver;
-use TypiCMS\Modules\Core\Presenters\TaxonomyPresenter;
 use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
+use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -49,15 +48,18 @@ class Taxonomy extends Model implements Sortable
     use HasConfigurableOrder;
     use HasSelectableFields;
     use HasSlugScope;
+    use HasPresenterMethods;
     use HasTranslations;
     use Historable;
-    use PresentableTrait;
     use Publishable;
     use SortableTrait;
 
-    protected string $presenter = TaxonomyPresenter::class;
-
     protected $guarded = [];
+
+    public function presentTitle(): string
+    {
+        return $this->name ?? '';
+    }
 
     /** @var array<string> */
     public array $translatable = [

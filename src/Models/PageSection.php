@@ -12,13 +12,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
-use Laracasts\Presenter\PresentableTrait;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
-use TypiCMS\Modules\Core\Presenters\PagePresenter;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
 use TypiCMS\Modules\Core\Traits\HasFiles;
+use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -45,15 +44,13 @@ class PageSection extends Model implements Sortable
     use Cachable;
     use HasConfigurableOrder;
     use HasFiles;
+    use HasPresenterMethods;
     use HasSelectableFields;
     use HasSlugScope;
     use HasTranslations;
     use Historable;
-    use PresentableTrait;
     use Publishable;
     use SortableTrait;
-
-    protected string $presenter = PagePresenter::class;
 
     protected $guarded = [];
 
@@ -94,7 +91,7 @@ class PageSection extends Model implements Sortable
     /** @return Attribute<string, null> */
     protected function thumb(): Attribute
     {
-        return Attribute::make(get: fn () => $this->present()->image(null, 54));
+        return Attribute::make(get: fn () => $this->imageUrl(null, 54));
     }
 
     public function url(?string $locale = null): string

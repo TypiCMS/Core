@@ -13,10 +13,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use Laracasts\Presenter\PresentableTrait;
-use TypiCMS\Modules\Core\Presenters\FilePresenter;
 use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
+use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -56,14 +55,12 @@ class File extends Model
     use Cachable;
     use HasAdminUrls;
     use HasConfigurableOrder;
+    use HasPresenterMethods;
     use HasSelectableFields;
     use HasSlugScope;
     use HasTranslations;
     use Historable;
-    use PresentableTrait;
     use Publishable;
-
-    protected string $presenter = FilePresenter::class;
 
     protected $guarded = [];
 
@@ -76,10 +73,34 @@ class File extends Model
 
     protected $appends = ['thumb_sm', 'url'];
 
+    public function presentTitle(): string
+    {
+        return $this->title ?: $this->name;
+    }
+
+    public function formattedFilesize(int $precision = 0): string
+    {
+        $base = log($this->filesize, 1024);
+        $suffixes = ['', __('KB'), __('MB'), __('GB'), __('TB')];
+
+        return round(1024 ** ($base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
+    }
+
+    protected function getImagePathOrDefault(string $relationName): string
+    {
+        $imagePath = $this->path ?? '';
+
+        if (!Storage::exists($imagePath)) {
+            return $this->imgNotFound();
+        }
+
+        return $imagePath;
+    }
+
     /** @return Attribute<string, null> */
     protected function thumbSm(): Attribute
     {
-        return Attribute::make(get: fn () => $this->present()->image(240, 240, ['resize']));
+        return Attribute::make(get: fn () => $this->imageUrl(240, 240, ['resize']));
     }
 
     /** @return Attribute<string, null> */

@@ -8,10 +8,9 @@ use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Laracasts\Presenter\PresentableTrait;
-use TypiCMS\Modules\Core\Presenters\TranslationsPresenter;
 use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
+use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -36,14 +35,17 @@ class Translation extends Model
     use HasConfigurableOrder;
     use HasSelectableFields;
     use HasSlugScope;
+    use HasPresenterMethods;
     use HasTranslations;
     use Historable;
-    use PresentableTrait;
     use Publishable;
 
-    protected string $presenter = TranslationsPresenter::class;
-
     protected $guarded = [];
+
+    public function presentTitle(): string
+    {
+        return $this->key;
+    }
 
     /** @var array<string> */
     public array $translatable = [

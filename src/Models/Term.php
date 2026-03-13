@@ -12,12 +12,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
-use Laracasts\Presenter\PresentableTrait;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use TypiCMS\Modules\Core\Observers\SlugObserver;
-use TypiCMS\Modules\Core\Presenters\TermPresenter;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
+use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -45,13 +44,11 @@ class Term extends Model implements Sortable
     use HasConfigurableOrder;
     use HasSelectableFields;
     use HasSlugScope;
+    use HasPresenterMethods;
     use HasTranslations;
     use Historable;
-    use PresentableTrait;
     use Publishable;
     use SortableTrait;
-
-    protected string $presenter = TermPresenter::class;
 
     protected $guarded = [];
 

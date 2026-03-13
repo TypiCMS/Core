@@ -19,13 +19,12 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use Laracasts\Presenter\PresentableTrait;
 use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
 use Spatie\LaravelPasskeys\Models\Concerns\InteractsWithPasskeys;
 use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
-use TypiCMS\Modules\Core\Presenters\UsersPresenter;
+use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
 use TypiCMS\Modules\Core\Traits\Historable;
 
 /**
@@ -64,14 +63,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     use Authorizable;
     use HasOneTimePasswords;
     use HasRoles;
+    use HasPresenterMethods;
     use Historable;
     use InteractsWithPasskeys;
     use Notifiable;
-    use PresentableTrait;
-
-    protected string $presenter = UsersPresenter::class;
 
     protected $guarded = ['my_name', 'my_time'];
+
+    public function presentTitle(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 
     /** @return array<string, string> */
     protected function casts(): array

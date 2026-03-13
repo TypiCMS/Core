@@ -12,10 +12,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
-use Laracasts\Presenter\PresentableTrait;
-use TypiCMS\Modules\Core\Presenters\MenusPresenter;
 use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
+use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -44,18 +43,21 @@ class Menu extends Model
     use Cachable;
     use HasAdminUrls;
     use HasConfigurableOrder;
+    use HasPresenterMethods;
     use HasSelectableFields;
     use HasSlugScope;
     use HasTranslations;
     use Historable;
-    use PresentableTrait;
     use Publishable;
-
-    protected string $presenter = MenusPresenter::class;
 
     protected $guarded = [];
 
     protected $appends = ['thumb'];
+
+    public function presentTitle(): string
+    {
+        return $this->name;
+    }
 
     /** @var array<string> */
     public array $translatable = [
@@ -129,7 +131,7 @@ class Menu extends Model
     /** @return Attribute<string, null> */
     protected function thumb(): Attribute
     {
-        return Attribute::make(get: fn () => $this->present()->image(null, 54));
+        return Attribute::make(get: fn () => $this->imageUrl(null, 54));
     }
 
     /** @return BelongsTo<File, $this> */

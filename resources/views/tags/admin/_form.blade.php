@@ -44,8 +44,8 @@
                                         </a>
                                     @endif
                                     <div>
-                                        @if (method_exists($item, 'present') && method_exists($item->present(), 'title'))
-                                            {{ $item->present()->title }}
+                                        @if (method_exists($item, 'presentTitle'))
+                                            {{ $item->presentTitle() }}
                                         @elseif(isset($item->title))
                                             {{ $item->title }}
                                         @elseif(isset($item->name))
