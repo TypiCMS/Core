@@ -21,19 +21,10 @@ trait Navigable
     public function adjacent(int $direction, mixed $model, ?int $category_id = null): ?Model
     {
         $currentModel = $model;
-        if ($category_id !== null) {
-            $models = static::query()
-                ->published()
-                ->with('category')
-                ->order()
-                ->where('category_id', $category_id)
-                ->get(['id', 'category_id', 'slug', 'title']);
-        } else {
-            $models = static::query()
-                ->published()
-                ->order()
-                ->get(['id', 'slug', 'title']);
-        }
+        $models = static::query()
+            ->published()
+            ->order()
+            ->get(['id', 'slug', 'title']);
 
         foreach ($models as $key => $model) {
             if ($currentModel->id === $model->id) {
