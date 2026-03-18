@@ -14,11 +14,9 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
-use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
-use TypiCMS\Modules\Core\Traits\Publishable;
 
 /**
  * @property int $id
@@ -36,10 +34,8 @@ class Tag extends Model
     use HasAdminUrls;
     use HasConfigurableOrder;
     use HasSelectableFields;
-    use HasPresenterMethods;
     use HasSlugScope;
     use Historable;
-    use Publishable;
 
     protected $guarded = [];
 

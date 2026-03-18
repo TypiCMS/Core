@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 use Spatie\Permission\Contracts\Role as RoleContract;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role as SpatieRole;
-use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
+use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\Historable;
 
 /**
@@ -30,7 +30,7 @@ use TypiCMS\Modules\Core\Traits\Historable;
  */
 class Role extends SpatieRole implements RoleContract
 {
-    use HasPresenterMethods;
+    use HasAdminUrls;
     use Historable;
 
     protected $guarded = [];

@@ -15,11 +15,9 @@ use Spatie\EloquentSortable\SortableTrait;
 use TypiCMS\Modules\Core\Observers\SlugObserver;
 use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
-use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
-use TypiCMS\Modules\Core\Traits\Publishable;
 use TypiCMS\Translatable\HasTranslations;
 
 /**
@@ -48,10 +46,8 @@ class Taxonomy extends Model implements Sortable
     use HasConfigurableOrder;
     use HasSelectableFields;
     use HasSlugScope;
-    use HasPresenterMethods;
     use HasTranslations;
     use Historable;
-    use Publishable;
     use SortableTrait;
 
     protected $guarded = [];

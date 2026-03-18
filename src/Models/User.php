@@ -24,7 +24,7 @@ use Spatie\LaravelPasskeys\Models\Concerns\InteractsWithPasskeys;
 use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
-use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
+use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\Historable;
 
 /**
@@ -61,9 +61,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable;
     use Authorizable;
+    use HasAdminUrls;
     use HasOneTimePasswords;
     use HasRoles;
-    use HasPresenterMethods;
     use Historable;
     use InteractsWithPasskeys;
     use Notifiable;

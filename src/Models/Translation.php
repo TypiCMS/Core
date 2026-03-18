@@ -10,11 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
-use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
-use TypiCMS\Modules\Core\Traits\Publishable;
 use TypiCMS\Translatable\HasTranslations;
 
 /**
@@ -35,10 +33,8 @@ class Translation extends Model
     use HasConfigurableOrder;
     use HasSelectableFields;
     use HasSlugScope;
-    use HasPresenterMethods;
     use HasTranslations;
     use Historable;
-    use Publishable;
 
     protected $guarded = [];
 

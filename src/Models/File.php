@@ -19,7 +19,6 @@ use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
-use TypiCMS\Modules\Core\Traits\Publishable;
 use TypiCMS\Translatable\HasTranslations;
 
 /**
@@ -60,7 +59,6 @@ class File extends Model
     use HasSlugScope;
     use HasTranslations;
     use Historable;
-    use Publishable;
 
     protected $guarded = [];
 
