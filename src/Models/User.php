@@ -107,26 +107,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return '/';
     }
 
-    public function editUrl(): string
-    {
-        $route = 'admin::edit-' . Str::singular($this->getTable());
-        if (Route::has($route)) {
-            return route($route, $this->id);
-        }
-
-        return route('admin::dashboard');
-    }
-
-    public function indexUrl(): string
-    {
-        $route = 'admin::index-' . $this->getTable();
-        if (Route::has($route)) {
-            return route($route);
-        }
-
-        return route('admin::dashboard');
-    }
-
     protected static function boot(): void
     {
         parent::boot();
