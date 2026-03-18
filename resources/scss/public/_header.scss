@@ -1,7 +1,6 @@
 .header {
     padding-top: 1rem;
     padding-bottom: 1rem;
-    background-color: var(--bs-light);
     &-container {
         @extend .container-xl;
         display: flex;
