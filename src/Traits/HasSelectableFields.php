@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Traits;
 
+use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,7 @@ trait HasSelectableFields
                 continue;
             }
 
+            /** @var Connection $connection */
             $connection = $query->getConnection();
             $driver = $connection->getDriverName();
 
