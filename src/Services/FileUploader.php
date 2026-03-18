@@ -123,8 +123,10 @@ class FileUploader
         if (!function_exists('exif_read_data')) {
             return;
         }
-        // @mago-ignore lint:no-error-control-operator
-        $exif = @exif_read_data($file);
+
+        $path = $file->getPathname();
+
+        $exif = @exif_read_data($path);
         $orientation = $exif['Orientation'] ?? 1;
 
         if ($orientation === 1) {
@@ -138,18 +140,18 @@ class FileUploader
             default => 0,
         };
 
-        $img = imagecreatefromjpeg($file);
+        $img = imagecreatefromjpeg($path);
 
         if (!$img) {
             return;
         }
 
-        if ($degrees) {
+        if ($degrees !== 0) {
             $img = imagerotate($img, $degrees, 0);
         }
 
         if ($img) {
-            imagejpeg($img, $file->getPath() . DIRECTORY_SEPARATOR . $file->getFilename(), 100);
+            imagejpeg($img, $path, 100);
         }
     }
 }
