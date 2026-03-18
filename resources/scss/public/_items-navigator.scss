@@ -1,0 +1,19 @@
+.items-navigator {
+    &-back {
+        @extend .btn;
+        @extend .btn-sm;
+        @extend .btn-light;
+    }
+    &-previous-next {
+        @extend .btn-group;
+        @extend .btn-group-sm;
+    }
+    &-previous {
+        @extend .btn;
+        @extend .btn-light;
+    }
+    &-next {
+        @extend .btn;
+        @extend .btn-light;
+    }
+}
