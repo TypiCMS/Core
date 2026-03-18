@@ -13,7 +13,7 @@
                     @php
                         $url = url('/' . $locale);
                         if ($page && $page->isPublished($locale)) {
-                            $url = $model && $model->isPublished($locale) ? $model->url($locale) : $page->url($locale);
+                            $url = $model && $model->isPublished($locale) ? $model->url($locale) ?? $page->url($locale) : $page->url($locale);
                         }
                     @endphp
                     <li>

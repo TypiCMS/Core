@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Uri;
 use TypiCMS\Modules\Core\Observers\AddToMenuObserver;
 use TypiCMS\Modules\Core\Observers\HomePageObserver;
 use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
@@ -145,6 +146,11 @@ class Page extends Model
     public function url(?string $locale = null): string
     {
         return url($this->path($locale));
+    }
+
+    public function previewUrl(?string $locale = null): string
+    {
+        return (string) Uri::of($this->url($locale))->withQuery(['preview' => 'true']);
     }
 
     public function isHome(): bool

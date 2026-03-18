@@ -149,7 +149,7 @@ trait HasPresenterMethods
             }
 
             if ($module === 'page') {
-                $replacements[] = $model->url($lang);
+                $replacements[] = $model->url($lang) ?? '';
             } elseif (Route::has($lang . '::' . $module)) {
                 $replacements[] = route($lang . '::' . $module, $model->slug);
             } else {

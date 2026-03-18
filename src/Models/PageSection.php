@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Uri;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
@@ -94,11 +95,27 @@ class PageSection extends Model implements Sortable
         return Attribute::make(get: fn () => $this->imageUrl(null, 54));
     }
 
-    public function url(?string $locale = null): string
+    public function url(?string $locale = null): ?string
     {
         $locale ??= app()->getLocale();
+        $pageUrl = $this->page->url($locale);
 
-        return $this->page->url($locale) . '#' . $this->position . '-' . $this->translate('slug', $locale);
+        if (!$pageUrl) {
+            return null;
+        }
+
+        return "{$pageUrl}#{$this->position}-{$this->translate('slug', $locale)}";
+    }
+
+    public function previewUrl(?string $locale = null): ?string
+    {
+        $url = $this->url($locale);
+
+        if (!$url) {
+            return null;
+        }
+
+        return (string) Uri::of($url)->withQuery(['preview' => 'true']);
     }
 
     public function editUrl(): string

@@ -16,7 +16,6 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Spatie\LaravelPasskeys\Models\Concerns\HasPasskeys;
@@ -100,11 +99,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function preferredLocale()
     {
         return $this->locale;
-    }
-
-    public function url(?string $locale = null): string
-    {
-        return '/';
     }
 
     protected static function boot(): void

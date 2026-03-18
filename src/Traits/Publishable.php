@@ -8,29 +8,18 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Uri;
 
 trait Publishable
 {
-    public function previewUrl(?string $locale = null): string
-    {
-        if (!$this->id) {
-            return url('/');
-        }
-
-        $url = $this->url($locale);
-        if (!is_string($url)) {
-            return url('/');
-        }
-
-        return (string) Uri::of($url)->withQuery(['preview' => 'true']);
-    }
-
     public function isPublished(?string $locale = null): bool
     {
         $locale ??= app()->getLocale();
 
-        return (bool) $this->translate('status', $locale);
+        if (in_array('status', $this->translatable ?? [], true)) {
+            return (bool) $this->translate('status', $locale);
+        }
+
+        return (bool) $this->status;
     }
 
     /** @param Builder<Model> $query */

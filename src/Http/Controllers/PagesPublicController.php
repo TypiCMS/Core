@@ -74,7 +74,7 @@ final class PagesPublicController extends BasePublicController
             ->firstOrFail();
         $locale = $request->getPreferredLanguage(enabledLocales());
 
-        return redirect($homepage->url($locale));
+        return redirect($homepage->url($locale) ?? url('/'));
     }
 
     public function langChooser(): View
