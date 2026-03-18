@@ -19,10 +19,10 @@ final class ApiController extends BaseApiController
     {
         $query = Block::query()->selectFields();
         $data = QueryBuilder::for($query)
-            ->allowedSorts(['status_translated', 'name', 'body_translated'])
-            ->allowedFilters([
+            ->allowedSorts('status_translated', 'name', 'body_translated')
+            ->allowedFilters(
                 AllowedFilter::custom('name,body', new FilterOr()),
-            ])
+            )
             ->paginate($request->integer('per_page'));
 
         $data->setCollection(collect($data->items())->map(function ($item) {

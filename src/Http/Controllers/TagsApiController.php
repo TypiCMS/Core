@@ -22,10 +22,10 @@ final class TagsApiController extends BaseApiController
         $query = Tag::query()->selectFields();
 
         return QueryBuilder::for($query)
-            ->allowedSorts(['tag', 'uses'])
-            ->allowedFilters([
+            ->allowedSorts('tag', 'uses')
+            ->allowedFilters(
                 AllowedFilter::custom('tag', new FilterOr()),
-            ])
+            )
             ->addSelect([
                 'uses' => DB::table('taggables')->selectRaw('COUNT(*)')->whereColumn('tags.id', 'taggables.tag_id'),
             ])

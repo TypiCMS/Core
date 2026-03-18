@@ -26,9 +26,9 @@ final class PagesApiController extends BaseApiController
         $hasSearchFilter = $request->has('filter');
 
         if ($hasSearchFilter) {
-            $queryBuilder = QueryBuilder::for($query)->allowedFilters([
+            $queryBuilder = QueryBuilder::for($query)->allowedFilters(
                 AllowedFilter::custom('title', new FilterOr()),
-            ]);
+            );
 
             $matchingPages = $queryBuilder->get();
             $parentIds = collect();

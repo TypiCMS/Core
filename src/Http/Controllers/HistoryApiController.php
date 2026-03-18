@@ -21,7 +21,7 @@ final class HistoryApiController extends BaseApiController
         $query = History::query();
 
         return QueryBuilder::for($query)
-            ->allowedFields([
+            ->allowedFields(
                 'history.id',
                 'history.created_at',
                 'history.title',
@@ -30,11 +30,11 @@ final class HistoryApiController extends BaseApiController
                 'history.historable_type',
                 'history.action',
                 'history.user_id',
-            ])
-            ->allowedSorts(['created_at', 'title', 'historable_type', 'action', 'user_name'])
-            ->allowedFilters([
+            )
+            ->allowedSorts('created_at', 'title', 'historable_type', 'action', 'user_name')
+            ->allowedFilters(
                 AllowedFilter::custom('title,historable_type,action,user_name', new FilterOr()),
-            ])
+            )
             ->selectSub(
                 User::query()->selectRaw('CONCAT(`first_name`, " ", `last_name`)')->whereColumn('user_id', 'users.id'),
                 'user_name',

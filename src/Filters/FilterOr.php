@@ -13,14 +13,13 @@ use Spatie\QueryBuilder\Filters\Filter;
  */
 class FilterOr implements Filter
 {
-    /** @return Builder<Model> */
-    public function __invoke(Builder $query, mixed $value, string $property): Builder
+    public function __invoke(Builder $query, mixed $value, string $property): void
     {
         $searchTerm = is_array($value) ? implode(',', $value) : $value;
         $columns = explode(',', $property);
         $locale = request()->string('locale')->value();
 
-        return $query->where(function (Builder $query) use ($columns, $searchTerm, $locale): void {
+        $query->where(function (Builder $query) use ($columns, $searchTerm, $locale): void {
             foreach ($columns as $column) {
                 if (!$this->isTranslatable($query->getModel(), $column)) {
                     $query->orWhere($column, 'like', "%{$searchTerm}%");

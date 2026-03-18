@@ -18,7 +18,7 @@ final class UsersApiController extends BaseApiController
     public function index(Request $request): LengthAwarePaginator
     {
         return QueryBuilder::for(User::class)
-            ->allowedFields([
+            ->allowedFields(
                 'users.id',
                 'users.first_name',
                 'users.last_name',
@@ -26,12 +26,12 @@ final class UsersApiController extends BaseApiController
                 'users.activated',
                 'users.superuser',
                 'roles.name',
-            ])
-            ->allowedIncludes(['roles'])
-            ->allowedSorts(['first_name', 'last_name', 'email', 'superuser', 'activated'])
-            ->allowedFilters([
+            )
+            ->allowedIncludes('roles')
+            ->allowedSorts('first_name', 'last_name', 'email', 'superuser', 'activated')
+            ->allowedFilters(
                 AllowedFilter::custom('first_name,last_name,email', new FilterOr()),
-            ])
+            )
             ->paginate($request->integer('per_page'));
     }
 

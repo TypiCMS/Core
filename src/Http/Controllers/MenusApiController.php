@@ -20,11 +20,11 @@ final class MenusApiController extends BaseApiController
         $query = Menu::query()->selectFields();
 
         return QueryBuilder::for($query)
-            ->allowedSorts(['status_translated', 'name'])
-            ->allowedFilters([
+            ->allowedSorts('status_translated', 'name')
+            ->allowedFilters(
                 AllowedFilter::custom('name', new FilterOr()),
-            ])
-            ->allowedIncludes(['image'])
+            )
+            ->allowedIncludes('image')
             ->paginate($request->integer('per_page'));
     }
 

@@ -21,10 +21,10 @@ final class TermsApiController extends BaseApiController
         $query = Term::query()->selectFields()->where('taxonomy_id', $taxonomy->id);
 
         return QueryBuilder::for($query)
-            ->allowedSorts(['title_translated', 'position'])
-            ->allowedFilters([
+            ->allowedSorts('title_translated', 'position')
+            ->allowedFilters(
                 AllowedFilter::custom('title', new FilterOr()),
-            ])
+            )
             ->paginate($request->integer('per_page'));
     }
 

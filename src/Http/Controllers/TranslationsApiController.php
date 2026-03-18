@@ -20,10 +20,10 @@ final class TranslationsApiController extends BaseApiController
         $query = Translation::query()->selectFields();
 
         return QueryBuilder::for($query)
-            ->allowedSorts(['key', 'translation_translated'])
-            ->allowedFilters([
+            ->allowedSorts('key', 'translation_translated')
+            ->allowedFilters(
                 AllowedFilter::custom('key,translation', new FilterOr()),
-            ])
+            )
             ->paginate($request->integer('per_page'));
     }
 

@@ -18,10 +18,10 @@ final class RolesApiController extends BaseApiController
     public function index(Request $request): LengthAwarePaginator
     {
         return QueryBuilder::for(Role::class)
-            ->allowedSorts(['name'])
-            ->allowedFilters([
+            ->allowedSorts('name')
+            ->allowedFilters(
                 AllowedFilter::custom('name', new FilterOr()),
-            ])
+            )
             ->paginate($request->integer('per_page'));
     }
 

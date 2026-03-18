@@ -26,7 +26,7 @@ class UsersExport implements FromCollection, ShouldAutoSize, WithColumnFormattin
     public function collection(): Collection
     {
         return QueryBuilder::for(User::class)
-            ->allowedSorts([
+            ->allowedSorts(
                 'first_name',
                 'last_name',
                 'email',
@@ -34,10 +34,10 @@ class UsersExport implements FromCollection, ShouldAutoSize, WithColumnFormattin
                 'subscription_ends_at',
                 'last_payment_at',
                 'superuser',
-            ])
-            ->allowedFilters([
+            )
+            ->allowedFilters(
                 AllowedFilter::custom('first_name,last_name,email', new FilterOr()),
-            ])
+            )
             ->get();
     }
 
