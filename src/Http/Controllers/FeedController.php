@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Spatie\Feed\Feed;
+use Spatie\MarkdownResponse\Attributes\DoNotProvideMarkdown;
 
 final class FeedController
 {
+    #[DoNotProvideMarkdown]
     public function __invoke(string $module): Feed
     {
         abort_unless(config('typicms.modules.' . $module . '.has_feed', false), 404);
@@ -20,7 +22,7 @@ final class FeedController
 
         $feed = [
             'title' => websiteTitle() . ' – ' . $page->title,
-            'description' => strip_tags($page->body),
+            'description' => strip_tags($page->body ?? ''),
             'language' => localeAndRegion('-'),
             'image' => $page->image !== null ? $page->imageUrl(1200, 630) : null,
         ];
