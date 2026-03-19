@@ -50,7 +50,7 @@ final class PasskeysApiController extends BaseApiController
 
     public function destroy(Passkey $passkey): void
     {
-        $this->authorizePasskeyAccess(User::findOrFail($passkey->authenticatable_id));
+        $this->authorizePasskeyAccess(User::query()->findOrFail($passkey->authenticatable_id));
 
         $passkey->delete();
     }
@@ -87,7 +87,7 @@ final class PasskeysApiController extends BaseApiController
             return;
         }
 
-        if ($currentUser->can('edit profile') && ($user === null || $user->id === $currentUser->id)) {
+        if ($currentUser->can('edit profile') && (!$user instanceof User || $user->id === $currentUser->id)) {
             return;
         }
 
