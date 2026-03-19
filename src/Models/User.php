@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Database\Factories\UserFactory;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\DatabaseNotification;
@@ -61,6 +63,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     use Authenticatable;
     use Authorizable;
     use HasAdminUrls;
+    use HasFactory;
     use HasOneTimePasswords;
     use HasRoles;
     use Historable;
@@ -68,6 +71,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     use Notifiable;
 
     protected $guarded = ['my_name', 'my_time'];
+
+    protected static function newFactory(): UserFactory
+    {
+        return UserFactory::new();
+    }
 
     public function presentTitle(): string
     {
