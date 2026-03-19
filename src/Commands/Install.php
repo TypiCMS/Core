@@ -33,6 +33,8 @@ class Install extends Command
             'typicms-views',
             'typicms-migrations',
             'typicms-seeders',
+            'typicms-factories',
+            'typicms-tests',
         ]]);
 
         app()->environment('local');
