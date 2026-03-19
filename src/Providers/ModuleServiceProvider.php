@@ -138,21 +138,40 @@ class ModuleServiceProvider extends ServiceProvider
 
         /*
          |--------------------------------------------------------------------------
+         | Publish migrations.
+         |--------------------------------------------------------------------------
+         */
+        $this->publishes([
+            __DIR__ . '/../../database/migrations/' => database_path('migrations'),
+        ], 'typicms-migrations');
+
+        /*
+         |--------------------------------------------------------------------------
          | Publish seeders.
          |--------------------------------------------------------------------------
          */
         $this->publishes([
-            __DIR__ . '/../../database/seeders/DatabaseSeeder.php' => database_path('seeders/DatabaseSeeder.php'),
-            __DIR__ . '/../../database/seeders/PageSeeder.php' => database_path('seeders/PageSeeder.php'),
-            __DIR__ . '/../../database/seeders/MenuSeeder.php' => database_path('seeders/MenuSeeder.php'),
-            __DIR__ . '/../../database/seeders/PermissionSeeder.php' => database_path('seeders/PermissionSeeder.php'),
-            __DIR__ . '/../../database/seeders/RoleSeeder.php' => database_path('seeders/RoleSeeder.php'),
-            __DIR__ . '/../../database/seeders/RoleHasPermissionsSeeder.php' => database_path(
-                'seeders/RoleHasPermissionsSeeder.php',
-            ),
-            __DIR__ . '/../../database/seeders/SettingsSeeder.php' => database_path('seeders/SettingsSeeder.php'),
-            __DIR__ . '/../../database/seeders/TranslationSeeder.php' => database_path('seeders/TranslationSeeder.php'),
+            __DIR__ . '/../../database/seeders/' => database_path('seeders'),
         ], 'typicms-seeders');
+
+        /*
+         |--------------------------------------------------------------------------
+         | Publish factories.
+         |--------------------------------------------------------------------------
+         */
+        $this->publishes([
+            __DIR__ . '/../../database/factories/' => database_path('factories'),
+        ], 'typicms-factories');
+
+        /*
+         |--------------------------------------------------------------------------
+         | Publish tests.
+         |--------------------------------------------------------------------------
+         */
+        $this->publishes([
+            __DIR__ . '/../../tests/Feature/' => base_path('tests/Feature'),
+            __DIR__ . '/../../tests/Unit/' => base_path('tests/Unit'),
+        ], 'typicms-tests');
 
         /*
          |--------------------------------------------------------------------------
