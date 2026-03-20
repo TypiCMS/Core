@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Commands;
 
-use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 
 use function Laravel\Prompts\info;
@@ -19,6 +19,12 @@ class Install extends Command
     protected $name = 'typicms:install';
 
     protected $description = 'Installation of TypiCMS: Laravel setup, installation of composer and npm packages';
+
+    public function __construct(
+        protected Filesystem $files,
+    ) {
+        parent::__construct();
+    }
 
     public function handle(): void
     {
@@ -39,7 +45,7 @@ class Install extends Command
 
         app()->environment('local');
 
-        // Ask for database name
+        // Ask for the database name
         info('Setting up database…');
         $dbName = text(
             label: 'Choose a database name',
@@ -55,43 +61,98 @@ class Install extends Command
         // Create a superuser
         $this->call('typicms:user');
 
-        // Composer install
-        if (
-            function_exists('shell_exec')
-            && !in_array('shell_exec', explode(',', (string) ini_get('disable_functions')), true)
-        ) {
-            spin(function (): void {
-                shell_exec('chmod 755 $(find storage -type d) 2> /dev/null');
-                shell_exec('chmod 755 $(find bootstrap/cache -type d) 2> /dev/null');
-            }, 'Set permissions on directories…');
+        $domain = $this->guessSiteName() . '.test';
 
-            spin(fn (): string|false|null => shell_exec('bun i 2> /dev/null'), 'Install packages with bun…');
-
-            spin(fn (): string|false|null => shell_exec('bun run build 2> /dev/null'), 'Compiling assets…');
+        if ($this->canShellExec()) {
+            $this->setAppUrl($domain);
+            $this->secureSite($domain);
+            $this->setDirectoryPermissions();
+            $this->installAndBuildAssets();
         } else {
-            info('You can now make /storage and /bootstrap/cache directories writable,');
-            info('run "composer install", "npm install", and finally "npm run dev".');
+            info('Set APP_URL in your .env file and secure your site with “herd secure” or “valet secure”.');
+            info(
+                'Make the /storage and /bootstrap/cache directories writable, then run “npm install && npm run build”.',
+            );
         }
 
-        // Done
-        outro('Done.');
-        info('Next steps:');
-        info('1. Secure your installation with a SSL certificate.');
-        info('2. Set the correct APP_URL in your .env file.');
-        info('3. Configure the Laravel’s email service.');
-        info('4. Access the admin panel at /admin.');
+        outro('Installation complete!');
+        info("Configure Laravel’s email service, then access the admin panel at https://{$domain}/admin");
         outro('Enjoy TypiCMS!');
+    }
+
+    private function canShellExec(): bool
+    {
+        return (
+            function_exists('shell_exec')
+            && !in_array('shell_exec', explode(',', (string) ini_get('disable_functions')), true)
+        );
+    }
+
+    private function setDirectoryPermissions(): void
+    {
+        spin(function (): void {
+            shell_exec('chmod 755 $(find storage -type d) 2> /dev/null');
+            shell_exec('chmod 755 $(find bootstrap/cache -type d) 2> /dev/null');
+        }, 'Set permissions on directories…');
+    }
+
+    private function installAndBuildAssets(): void
+    {
+        $packageManager = shell_exec('which bun 2> /dev/null')
+            ? 'bun'
+            : (shell_exec('which npm 2> /dev/null') ? 'npm' : null);
+
+        if (!$packageManager) {
+            info('No package manager found. Please install bun or npm, run “npm install” and finally “npm run dev”.');
+
+            return;
+        }
+
+        $installCommand = $packageManager === 'bun' ? 'bun i' : 'npm install';
+
+        spin(
+            fn (): string|false|null => shell_exec("{$installCommand} 2> /dev/null"),
+            "Install packages with {$packageManager}…",
+        );
+
+        spin(fn (): string|false|null => shell_exec("{$packageManager} run build 2> /dev/null"), 'Compiling assets…');
+    }
+
+    private function setAppUrl(string $domain): void
+    {
+        $appUrl = "https://{$domain}";
+
+        $contents = $this->files->get('.env');
+        $contents = (string) preg_replace('/(' . preg_quote('APP_URL=', '/') . ')(.*)/', '${1}' . $appUrl, $contents);
+        $this->files->put('.env', $contents);
+
+        info("APP_URL set to {$appUrl}");
+    }
+
+    private function secureSite(string $domain): void
+    {
+        if (shell_exec('which herd 2> /dev/null')) {
+            spin(fn (): string|false|null => shell_exec(
+                "herd secure {$domain} 2> /dev/null",
+            ), 'Securing site with Herd…');
+
+            return;
+        }
+
+        if (shell_exec('which valet 2> /dev/null')) {
+            spin(fn (): string|false|null => shell_exec(
+                "valet secure {$domain} 2> /dev/null",
+            ), 'Securing site with Valet…');
+        }
+    }
+
+    private function guessSiteName(): string
+    {
+        return Str::slug(Str::before(basename(dirname(app_path())), '.'));
     }
 
     public function guessDatabaseName(): string
     {
-        try {
-            $segments = array_reverse(explode(DIRECTORY_SEPARATOR, app_path()));
-            $name = explode('.', $segments[1])[0];
-
-            return Str::slug($name);
-        } catch (Exception) {
-            return '';
-        }
+        return $this->guessSiteName();
     }
 }
