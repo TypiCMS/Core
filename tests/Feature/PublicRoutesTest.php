@@ -75,20 +75,6 @@ describe('lang switcher', function () {
     test('on a page links to the same page in another language', function () {
         $page = Page::query()
             ->published()
-            ->whereUriIs('contact')
-            ->firstOrFail();
-
-        $response = $this->get($page->url('en'));
-        $response->assertOk();
-
-        $frUrl = $page->url('fr');
-        $response->assertSee('hreflang="fr"', false);
-        $response->assertSee($frUrl, false);
-    });
-
-    test('on a page links to the same page in another language', function () {
-        $page = Page::query()
-            ->published()
             ->whereNotNull('slug->en')
             ->whereNotNull('slug->fr')
             ->firstOrFail();
