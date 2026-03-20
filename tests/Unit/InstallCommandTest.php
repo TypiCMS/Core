@@ -30,75 +30,51 @@ test('guessDatabaseName matches the project directory name', function () {
 });
 
 test('setAppUrl replaces APP_URL in .env file', function () {
-    $filesystem = new Filesystem();
-    $envPath = sys_get_temp_dir() . '/test_env_' . uniqid();
-    $filesystem->put($envPath, "APP_NAME=TypiCMS\nAPP_URL=http://localhost\nAPP_DEBUG=true");
+    $written = null;
+
+    $filesystem = mock(Filesystem::class);
+    $filesystem->shouldReceive('get')->with('.env')->once()->andReturn("APP_NAME=TypiCMS\nAPP_URL=http://localhost\nAPP_DEBUG=true");
+    $filesystem->shouldReceive('put')->with('.env', Mockery::capture($written))->once();
 
     $command = new Install($filesystem);
 
     $method = new ReflectionMethod($command, 'setAppUrl');
-
-    // Temporarily override the .env path by swapping working directory
-    $originalDir = getcwd();
-    $tmpDir = dirname($envPath);
-    $tmpEnv = $tmpDir . '/.env';
-    rename($envPath, $tmpEnv);
-    chdir($tmpDir);
-
     $method->invoke($command, 'my-site.test');
 
-    $result = $filesystem->get($tmpEnv);
-    chdir($originalDir);
-    $filesystem->delete($tmpEnv);
-
-    expect($result)
+    expect($written)
         ->toContain('APP_URL=https://my-site.test')
         ->toContain('APP_NAME=TypiCMS')
         ->toContain('APP_DEBUG=true');
 });
 
 test('setAppUrl overwrites existing APP_URL value', function () {
-    $filesystem = new Filesystem();
-    $tmpDir = sys_get_temp_dir();
-    $tmpEnv = $tmpDir . '/.env';
-    $filesystem->put($tmpEnv, "APP_URL=https://old-site.test");
+    $written = null;
+
+    $filesystem = mock(Filesystem::class);
+    $filesystem->shouldReceive('get')->with('.env')->once()->andReturn('APP_URL=https://old-site.test');
+    $filesystem->shouldReceive('put')->with('.env', Mockery::capture($written))->once();
 
     $command = new Install($filesystem);
 
     $method = new ReflectionMethod($command, 'setAppUrl');
-
-    $originalDir = getcwd();
-    chdir($tmpDir);
-
     $method->invoke($command, 'new-site.test');
 
-    $result = $filesystem->get($tmpEnv);
-    chdir($originalDir);
-    $filesystem->delete($tmpEnv);
-
-    expect($result)->toBe("APP_URL=https://new-site.test");
+    expect($written)->toBe('APP_URL=https://new-site.test');
 });
 
 test('setAppUrl preserves other .env keys', function () {
-    $filesystem = new Filesystem();
-    $tmpDir = sys_get_temp_dir();
-    $tmpEnv = $tmpDir . '/.env';
-    $filesystem->put($tmpEnv, "APP_NAME=TypiCMS\nAPP_URL=http://localhost\nAPP_URL_ADMIN=/admin");
+    $written = null;
+
+    $filesystem = mock(Filesystem::class);
+    $filesystem->shouldReceive('get')->with('.env')->once()->andReturn("APP_NAME=TypiCMS\nAPP_URL=http://localhost\nAPP_URL_ADMIN=/admin");
+    $filesystem->shouldReceive('put')->with('.env', Mockery::capture($written))->once();
 
     $command = new Install($filesystem);
 
     $method = new ReflectionMethod($command, 'setAppUrl');
-
-    $originalDir = getcwd();
-    chdir($tmpDir);
-
     $method->invoke($command, 'example.test');
 
-    $result = $filesystem->get($tmpEnv);
-    chdir($originalDir);
-    $filesystem->delete($tmpEnv);
-
-    expect($result)
+    expect($written)
         ->toContain('APP_URL=https://example.test')
         ->toContain('APP_NAME=TypiCMS');
 });
