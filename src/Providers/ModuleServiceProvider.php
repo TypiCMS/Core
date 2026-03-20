@@ -138,15 +138,6 @@ class ModuleServiceProvider extends ServiceProvider
 
         /*
          |--------------------------------------------------------------------------
-         | Publish migrations.
-         |--------------------------------------------------------------------------
-         */
-        $this->publishes([
-            __DIR__ . '/../../database/migrations/' => database_path('migrations'),
-        ], 'typicms-migrations');
-
-        /*
-         |--------------------------------------------------------------------------
          | Publish seeders.
          |--------------------------------------------------------------------------
          */
@@ -180,19 +171,7 @@ class ModuleServiceProvider extends ServiceProvider
          */
         $this->publishes([
             __DIR__ . '/../../resources/views/errors' => resource_path('views/errors'),
-            __DIR__ . '/../../resources/views/blocks' => resource_path('views/vendor/blocks'),
-            __DIR__ . '/../../resources/views/core' => resource_path('views/vendor/core'),
-            __DIR__ . '/../../resources/views/dashboard' => resource_path('views/vendor/dashboard'),
-            __DIR__ . '/../../resources/views/files' => resource_path('views/vendor/files'),
-            __DIR__ . '/../../resources/views/menus' => resource_path('views/vendor/menus'),
-            __DIR__ . '/../../resources/views/pages' => resource_path('views/vendor/pages'),
-            __DIR__ . '/../../resources/views/roles' => resource_path('views/vendor/roles'),
-            __DIR__ . '/../../resources/views/search' => resource_path('views/vendor/search'),
-            __DIR__ . '/../../resources/views/settings' => resource_path('views/vendor/settings'),
-            __DIR__ . '/../../resources/views/tags' => resource_path('views/vendor/tags'),
-            __DIR__ . '/../../resources/views/taxonomies' => resource_path('views/vendor/taxonomies'),
-            __DIR__ . '/../../resources/views/translations' => resource_path('views/vendor/translations'),
-            __DIR__ . '/../../resources/views/users' => resource_path('views/vendor/users'),
+            __DIR__ . '/../../resources/views' => resource_path('views/vendor'),
         ], 'typicms-views');
 
         /*
