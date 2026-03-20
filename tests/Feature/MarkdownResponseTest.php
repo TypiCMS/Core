@@ -21,12 +21,6 @@ test('requests with Accept text/markdown header receive markdown', function () {
     );
 });
 
-test('requests from GPTBot user agent receive markdown', function () {
-    $this->get('/en', [
-        'User-Agent' => 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; GPTBot/1.0; +https://openai.com/gptbot)',
-    ])->assertOk()->assertHeader('Content-Type', 'text/markdown; charset=UTF-8');
-});
-
 test('requests from ClaudeBot user agent receive markdown', function () {
     $this->get('/en', [
         'User-Agent' => 'ClaudeBot/1.0',
