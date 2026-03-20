@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -33,7 +32,6 @@ use TypiCMS\Translatable\HasTranslations;
 #[ObservedBy([TipTapHTMLObserver::class])]
 class Block extends Model
 {
-    use Cachable;
     use HasAdminUrls;
     use HasConfigurableOrder;
     use HasPresenterMethods;

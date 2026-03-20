@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -42,7 +41,6 @@ use TypiCMS\Translatable\HasTranslations;
 #[ObservedBy([TipTapHTMLObserver::class])]
 class PageSection extends Model implements Sortable
 {
-    use Cachable;
     use HasConfigurableOrder;
     use HasFiles;
     use HasPresenterMethods;

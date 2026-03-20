@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Attributes\CollectedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -56,7 +55,6 @@ use TypiCMS\Translatable\HasTranslations;
 #[CollectedBy(NestableCollection::class)]
 class Menulink extends Model
 {
-    use Cachable;
     use HasConfigurableOrder;
     use HasPresenterMethods;
     use HasSelectableFields;

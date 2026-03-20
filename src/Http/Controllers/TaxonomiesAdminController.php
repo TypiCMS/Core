@@ -8,7 +8,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use TypiCMS\Modules\Core\Http\Requests\TaxonomyFormRequest;
 use TypiCMS\Modules\Core\Models\Taxonomy;
-use TypiCMS\Modules\Core\Models\Term;
 
 final class TaxonomiesAdminController extends BaseAdminController
 {
@@ -48,7 +47,6 @@ final class TaxonomiesAdminController extends BaseAdminController
     public function update(Taxonomy $taxonomy, TaxonomyFormRequest $request): RedirectResponse
     {
         $taxonomy->update($request->validated());
-        (new Term())->flushCache();
 
         return $this->redirect($request, $taxonomy)->withMessage(__('Item successfully updated.'));
     }

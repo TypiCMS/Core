@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -38,7 +37,6 @@ use TypiCMS\Translatable\HasTranslations;
 #[ObservedBy(SlugObserver::class)]
 class Term extends Model implements Sortable
 {
-    use Cachable;
     use HasConfigurableOrder;
     use HasSelectableFields;
     use HasSlugScope;
