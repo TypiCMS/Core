@@ -22,10 +22,14 @@ enablePhotoSwipeLightbox();
 enableAnchorTop();
 enableNavigation();
 
-import.meta.glob(['../images/**']);
+/**
+ * Images
+ */
+import.meta.glob(['../images/**'], { eager: true, query: '?url' });
 
 /**
  * For TypiCMS’s Places module
  */
 // import initMap from './public/map';
 // window.initMap = initMap;
+
