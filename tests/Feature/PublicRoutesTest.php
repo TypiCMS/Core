@@ -2,7 +2,6 @@
 
 use TypiCMS\Modules\Core\Models\Page;
 use TypiCMS\Modules\Events\Models\Event;
-use TypiCMS\Modules\News\Models\News;
 
 beforeEach(function () {
     $this->obLevel = ob_get_level();
@@ -32,10 +31,6 @@ test('login page returns 200', function () {
     $this->get('/en/login')->assertOk();
 });
 
-test('news index returns 200', function () {
-    $this->get('/en/news')->assertOk();
-});
-
 test('events index returns 200', function () {
     $this->get('/en/events/past')->assertOk();
 });
@@ -56,18 +51,14 @@ test('admin dashboard redirects to login for guests', function () {
     $this->get('/admin/dashboard')->assertRedirect();
 });
 
-test('french news index returns 200', function () {
-    $this->get('/fr/actualites')->assertOk();
-});
-
-test('news detail page returns 200', function () {
-    $news = News::query()
+test('page returns 200', function () {
+    $page = Page::query()
         ->published()
         ->whereNotNull('slug->en')
         ->first();
 
-    $this->assertNotNull($news, 'No published news with English slug found');
-    $this->get($news->url('en'))->assertOk();
+    $this->assertNotNull($page, 'No published page with English slug found');
+    $this->get($page->url('en'))->assertOk();
 });
 
 test('event detail page returns 200', function () {
@@ -95,23 +86,23 @@ describe('lang switcher', function () {
         $response->assertSee($frUrl, false);
     });
 
-    test('on a news article links to the same article in another language', function () {
-        $news = News::query()
+    test('on a page links to the same page in another language', function () {
+        $page = Page::query()
             ->published()
             ->whereNotNull('slug->en')
             ->whereNotNull('slug->fr')
             ->firstOrFail();
 
-        $enUrl = $news->url('en');
+        $enUrl = $page->url('en');
 
-        $this->assertNotNull($enUrl, 'News article must have an English URL');
+        $this->assertNotNull($enUrl, 'Page must have an English URL');
 
         $response = $this->get($enUrl);
         $response->assertOk();
 
-        $frUrl = $news->url('fr');
+        $frUrl = $page->url('fr');
 
-        $this->assertNotNull($frUrl, 'News article must have a French URL');
+        $this->assertNotNull($frUrl, 'Page must have a French URL');
 
         $response->assertSee('hreflang="fr"', false);
         $response->assertSee($frUrl, false);
