@@ -9,6 +9,13 @@ use Illuminate\Validation\Rules\Unique;
 
 class UsersFormRequest extends AbstractFormRequest
 {
+    protected function prepareForValidation(): void
+    {
+        if (!$this->user()?->isSuperUser()) {
+            $this->request->remove('superuser');
+        }
+    }
+
     /** @return array<string, list<Unique|string>> */
     public function rules(): array
     {
