@@ -19,7 +19,7 @@ trait HasSelectableFields
         $fields = explode(',', (string) request()->string('fields.' . $this->getTable()));
 
         foreach ($fields as $field) {
-            if ($this->translatable === null || !$this->isTranslatableAttribute($field)) {
+            if (!method_exists($this, 'isTranslatableAttribute') || !$this->isTranslatableAttribute($field)) {
                 $query->addSelect($field);
 
                 continue;
