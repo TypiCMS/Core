@@ -2,51 +2,51 @@
 
 use TypiCMS\Modules\Core\Models\Page;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->obLevel = ob_get_level();
 });
 
-afterEach(function () {
+afterEach(function (): void {
     while (ob_get_level() > $this->obLevel) {
         ob_end_clean();
     }
 });
 
-describe('homepage', function () {
-    test('redirects to default locale', function () {
+describe('homepage', function (): void {
+    test('redirects to default locale', function (): void {
         $this->get('/')->assertRedirect('/en');
     });
 
-    test('returns 200', function () {
+    test('returns 200', function (): void {
         $this->get('/en')->assertOk();
     });
 
-    test('is available in all locales', function (string $locale) {
+    test('is available in all locales', function (string $locale): void {
         $this->get("/{$locale}")->assertOk();
     })->with(['en', 'fr', 'nl']);
 });
 
-test('login page returns 200', function () {
+test('login page returns 200', function (): void {
     $this->get('/en/login')->assertOk();
 });
 
-test('search page returns 200', function () {
+test('search page returns 200', function (): void {
     $this->get('/en/search-results')->assertOk();
 });
 
-test('sitemap returns 200', function () {
+test('sitemap returns 200', function (): void {
     $this->get('/sitemap.xml')->assertOk();
 });
 
-test('admin redirects to login for guests', function () {
+test('admin redirects to login for guests', function (): void {
     $this->get('/admin')->assertRedirect();
 });
 
-test('admin dashboard redirects to login for guests', function () {
+test('admin dashboard redirects to login for guests', function (): void {
     $this->get('/admin/dashboard')->assertRedirect();
 });
 
-test('page returns 200', function () {
+test('page returns 200', function (): void {
     $page = Page::query()
         ->published()
         ->whereNotNull('slug->en')
@@ -56,8 +56,8 @@ test('page returns 200', function () {
     $this->get($page->url('en'))->assertOk();
 });
 
-describe('lang switcher', function () {
-    test('on a page links to the same page in another language', function () {
+describe('lang switcher', function (): void {
+    test('on a page links to the same page in another language', function (): void {
         $page = Page::query()
             ->published()
             ->whereNotNull('slug->en')

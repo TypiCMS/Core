@@ -10,7 +10,7 @@ use Webauthn\TrustPath\EmptyTrustPath;
 
 function createTestUser(array $attributes = []): User
 {
-    return User::create(array_merge([
+    return User::query()->create(array_merge([
         'first_name' => 'Test',
         'last_name' => 'User',
         'email' => Str::random(10) . '@example.com',
@@ -20,7 +20,7 @@ function createTestUser(array $attributes = []): User
 
 function createPasskeyForUser(User $user): Passkey
 {
-    return Passkey::create([
+    return Passkey::query()->create([
         'name' => 'Test passkey',
         'authenticatable_id' => $user->id,
         'data' => CredentialRecord::create(
@@ -43,14 +43,14 @@ function createPasskeyForUser(User $user): Passkey
     ]);
 }
 
-test('create-passkey page is accessible for authenticated users without passkeys', function () {
+test('create-passkey page is accessible for authenticated users without passkeys', function (): void {
     $user = User::query()->firstOrFail();
     $user->passkeys()->delete();
 
     $this->actingAs($user)->get('/en/create-passkey')->assertOk();
 });
 
-test('create-passkey page redirects to dashboard for users with passkeys', function () {
+test('create-passkey page redirects to dashboard for users with passkeys', function (): void {
     $user = User::query()->firstOrFail();
     $user->passkeys()->delete();
 
@@ -59,32 +59,32 @@ test('create-passkey page redirects to dashboard for users with passkeys', funct
     $this->actingAs($user)->get('/en/create-passkey')->assertRedirect(route('admin::dashboard'));
 });
 
-test('create-passkey page redirects guests to login', function () {
+test('create-passkey page redirects guests to login', function (): void {
     $this->get('/en/create-passkey')->assertRedirect();
 });
 
-test('generate-options endpoint returns json for user with edit profile permission', function () {
+test('generate-options endpoint returns json for user with edit profile permission', function (): void {
     $user = User::query()->firstOrFail();
     $user->givePermissionTo('edit profile');
 
     $this->actingAs($user, 'api')->getJson('/api/passkeys/generate-options')->assertSuccessful();
 });
 
-test('generate-options endpoint rejects unauthenticated requests', function () {
+test('generate-options endpoint rejects unauthenticated requests', function (): void {
     $this->getJson('/api/passkeys/generate-options')->assertUnauthorized();
 });
 
-test('generate-options endpoint rejects user without permission', function () {
+test('generate-options endpoint rejects user without permission', function (): void {
     $user = createTestUser();
 
     $this->actingAs($user, 'api')->getJson('/api/passkeys/generate-options')->assertForbidden();
 });
 
-test('passkeys store endpoint rejects unauthenticated requests', function () {
+test('passkeys store endpoint rejects unauthenticated requests', function (): void {
     $this->postJson('/api/passkeys')->assertUnauthorized();
 });
 
-test('user with edit profile permission can delete their own passkey via api', function () {
+test('user with edit profile permission can delete their own passkey via api', function (): void {
     $user = User::query()->firstOrFail();
     $user->givePermissionTo('edit profile');
 
@@ -98,7 +98,7 @@ test('user with edit profile permission can delete their own passkey via api', f
     $this->assertDatabaseMissing(Passkey::class, ['id' => $passkey->id]);
 });
 
-test('user with edit profile permission cannot delete another users passkey', function () {
+test('user with edit profile permission cannot delete another users passkey', function (): void {
     $user = createTestUser();
     $user->givePermissionTo('edit profile');
 
@@ -113,7 +113,7 @@ test('user with edit profile permission cannot delete another users passkey', fu
     $this->assertDatabaseHas(Passkey::class, ['id' => $passkey->id]);
 });
 
-test('user with edit profile permission can list their own passkeys via api', function () {
+test('user with edit profile permission can list their own passkeys via api', function (): void {
     $user = User::query()->firstOrFail();
     $user->givePermissionTo('edit profile');
     $user->passkeys()->delete();
@@ -127,7 +127,7 @@ test('user with edit profile permission can list their own passkeys via api', fu
     $response->assertJsonCount(2);
 });
 
-test('user with edit profile permission cannot list another users passkeys', function () {
+test('user with edit profile permission cannot list another users passkeys', function (): void {
     $user = createTestUser();
     $user->givePermissionTo('edit profile');
 
@@ -140,7 +140,7 @@ test('user with edit profile permission cannot list another users passkeys', fun
         ->assertForbidden();
 });
 
-test('user without permission cannot delete passkeys', function () {
+test('user without permission cannot delete passkeys', function (): void {
     $user = createTestUser();
 
     $passkey = createPasskeyForUser($user);
@@ -153,7 +153,7 @@ test('user without permission cannot delete passkeys', function () {
     $this->assertDatabaseHas(Passkey::class, ['id' => $passkey->id]);
 });
 
-test('user without permission cannot list passkeys', function () {
+test('user without permission cannot list passkeys', function (): void {
     $user = createTestUser();
 
     $this

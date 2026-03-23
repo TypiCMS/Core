@@ -1,16 +1,17 @@
 <?php
 
+use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Models\Role;
 use TypiCMS\Modules\Core\Models\User;
 
-describe('user with “edit profile” permission', function () {
-    test('can view profile page', function () {
+describe('user with “edit profile” permission', function (): void {
+    test('can view profile page', function (): void {
         $user = User::factory()->create();
         $user->givePermissionTo('edit profile');
         $this->actingAs($user)->get(route('admin::profile'))->assertSuccessful();
     });
 
-    test('can update profile', function () {
+    test('can update profile', function (): void {
         $user = User::factory()->create();
         $user->givePermissionTo('edit profile');
 
@@ -29,15 +30,15 @@ describe('user with “edit profile” permission', function () {
     });
 });
 
-describe('user without “edit profile” permission', function () {
-    test('cannot view profile page', function () {
+describe('user without “edit profile” permission', function (): void {
+    test('cannot view profile page', function (): void {
         $user = User::factory()->create();
 
         $role = Role::findByName('administrator');
         $user->assignRole($role);
         $role->revokePermissionTo('edit profile');
 
-        app()[Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
 
         $this->actingAs($user->refresh())->get(route('admin::profile'))->assertForbidden();
 
@@ -45,8 +46,8 @@ describe('user without “edit profile” permission', function () {
     });
 });
 
-describe('guest user', function () {
-    test('cannot access profile page', function () {
+describe('guest user', function (): void {
+    test('cannot access profile page', function (): void {
         $this->get(route('admin::profile'))->assertRedirect();
     });
 });

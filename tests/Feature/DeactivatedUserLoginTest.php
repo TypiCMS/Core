@@ -2,9 +2,9 @@
 
 use TypiCMS\Modules\Core\Models\User;
 
-describe('deactivated user', function () {
+describe('deactivated user', function (): void {
 
-    test('cannot request a one-time password', function () {
+    test('cannot request a one-time password', function (): void {
         $user = User::query()->firstOrFail();
         $user->update(['activated' => false]);
 
@@ -15,7 +15,7 @@ describe('deactivated user', function () {
         $user->update(['activated' => true]);
     });
 
-    test('cannot submit a one-time password', function () {
+    test('cannot submit a one-time password', function (): void {
         $user = User::query()->firstOrFail();
         $user->update(['activated' => false]);
 
@@ -28,9 +28,9 @@ describe('deactivated user', function () {
     });
 });
 
-describe('activated user', function () {
+describe('activated user', function (): void {
 
-    test('can request a one-time password', function () {
+    test('can request a one-time password', function (): void {
         $user = User::query()->firstOrFail();
         $user->update(['activated' => true]);
 
