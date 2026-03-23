@@ -27,6 +27,6 @@ final class ProfileController extends BaseAdminController
         $user = Auth::user();
         $user->update($request->validated());
 
-        return redirect()->route('admin::profile')->with('success', __('Profile updated.'));
+        return to_route('admin::profile')->with('success', __('Profile updated.'));
     }
 }

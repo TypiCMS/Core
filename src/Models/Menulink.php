@@ -13,7 +13,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
 use TypiCMS\Modules\Core\Traits\HasContentPresenter;
-use TypiCMS\Modules\Core\Traits\HasImagePresenter;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -58,7 +57,6 @@ class Menulink extends Model
 {
     use HasConfigurableOrder;
     use HasContentPresenter;
-    use HasImagePresenter;
     use HasSelectableFields;
     use HasSlugScope;
     use HasTranslations;

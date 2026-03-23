@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Override;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -68,6 +69,7 @@ class Taxonomy extends Model implements Sortable
     ];
 
     /** @return array<string, string> */
+    #[Override]
     protected function casts(): array
     {
         return [

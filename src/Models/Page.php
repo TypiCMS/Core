@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Uri;
+use Override;
 use TypiCMS\Modules\Core\Observers\AddToMenuObserver;
 use TypiCMS\Modules\Core\Observers\HomePageObserver;
 use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
@@ -22,10 +23,8 @@ use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\HasBodyPresenter;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
 use TypiCMS\Modules\Core\Traits\HasContentPresenter;
-use TypiCMS\Modules\Core\Traits\HasDatePresenter;
 use TypiCMS\Modules\Core\Traits\HasFiles;
-use TypiCMS\Modules\Core\Traits\HasImagePresenter;
-use TypiCMS\Modules\Core\Traits\HasOgImagePresenter;
+use TypiCMS\Modules\Core\Traits\HasOgImage;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -84,10 +83,8 @@ class Page extends Model
     use HasBodyPresenter;
     use HasConfigurableOrder;
     use HasContentPresenter;
-    use HasDatePresenter;
     use HasFiles;
-    use HasImagePresenter;
-    use HasOgImagePresenter;
+    use HasOgImage;
     use HasSelectableFields;
     use HasSlugScope;
     use HasTranslations;
@@ -98,6 +95,7 @@ class Page extends Model
     protected $guarded = [];
 
     /** @return array<string, string> */
+    #[Override]
     protected function casts(): array
     {
         return [
@@ -223,7 +221,6 @@ class Page extends Model
         $uri = $rootUriArray[0];
         if (in_array($uri, locales(), true) && isset($rootUriArray[1])) {
             $uri .= '/' . $rootUriArray[1];
-
             // add next part of uri in locale
         }
 

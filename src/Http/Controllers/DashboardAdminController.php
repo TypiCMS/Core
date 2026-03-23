@@ -20,7 +20,7 @@ final class DashboardAdminController extends BaseAdminController
     {
         $welcomeMessage = $this->fetchWelcomeMessage();
 
-        return view('dashboard::show', compact('welcomeMessage'));
+        return view('dashboard::show', ['welcomeMessage' => $welcomeMessage]);
     }
 
     private function fetchWelcomeMessage(): string

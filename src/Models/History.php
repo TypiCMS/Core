@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Override;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -44,6 +45,7 @@ class History extends Model
     protected $appends = ['href'];
 
     /** @return array<string, string> */
+    #[Override]
     protected function casts(): array
     {
         return [

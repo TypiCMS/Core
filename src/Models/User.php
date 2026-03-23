@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Override;
 use Database\Factories\UserFactory;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
@@ -83,6 +84,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
     /** @return array<string, string> */
+    #[Override]
     protected function casts(): array
     {
         return [
@@ -109,6 +111,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->locale;
     }
 
+    #[Override]
     protected static function boot(): void
     {
         parent::boot();

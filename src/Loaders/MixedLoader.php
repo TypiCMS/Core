@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Loaders;
 
+use Override;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Translation\FileLoader;
@@ -19,6 +20,7 @@ class MixedLoader extends FileLoader
      * @param null|string $namespace
      * @return array<string, string>
      */
+    #[Override]
     public function load($locale, $group, $namespace = null): array
     {
         if ($group === '*' && $namespace === '*') {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Commands;
 
+use Override;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
@@ -99,6 +100,7 @@ class Database extends Command
     }
 
     /** @return array<int, array<int, int|string>> */
+    #[Override]
     protected function getArguments(): array
     {
         return [

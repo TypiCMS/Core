@@ -7,7 +7,7 @@
 <div class="content">
     <x-core::form-errors />
 
-    @if (empty($model->id))
+    @if (!$model->id)
         {!! BootForm::text(__('Key'), 'key')->required() !!}
     @endif
 

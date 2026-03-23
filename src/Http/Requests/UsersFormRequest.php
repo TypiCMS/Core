@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Requests;
 
+use Override;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
 
 class UsersFormRequest extends AbstractFormRequest
 {
+    #[Override]
     protected function prepareForValidation(): void
     {
         if (!$this->user()?->isSuperUser()) {

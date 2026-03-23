@@ -124,6 +124,7 @@ class Install extends Command
 
         $contents = $this->files->get('.env');
         $contents = (string) preg_replace('/(' . preg_quote('APP_URL=', '/') . ')(.*)/', '${1}' . $appUrl, $contents);
+
         $this->files->put('.env', $contents);
 
         info("APP_URL set to {$appUrl}");

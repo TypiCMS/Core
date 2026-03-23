@@ -65,7 +65,7 @@ final class FilesApiController extends BaseApiController
         $model = new File();
         $model->fill(Arr::except($data, 'name'));
         if ($request->hasFile('name')) {
-            $file = (new FileUploader())->handle($request->file('name'));
+            $file = new FileUploader()->handle($request->file('name'));
             $model->name = $file['filename'];
             $model->fill(Arr::except($file, 'filename'));
         } else {

@@ -1,16 +1,16 @@
 <template>
-    <div class="modal fade" :id="props.id" tabindex="-1" :aria-labelledby="props.id + '-label'" aria-hidden="true">
+    <div :id="props.id" class="modal fade" tabindex="-1" :aria-labelledby="props.id + '-label'" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <form class="modal-content" @submit.prevent="save">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" :id="props.id + '-label'">{{ t('Image') }}</h1>
+                    <h1 :id="props.id + '-label'" class="modal-title fs-5">{{ t('Image') }}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="t('Close')"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-2">
                         <label :for="props.id + '-src'" class="col-form-label">{{ t('URL') }}</label>
                         <div class="input-group">
-                            <input :id="props.id + '-src'" type="text" class="form-control" v-model="src" />
+                            <input :id="props.id + '-src'" v-model="src" type="text" class="form-control" />
                             <button type="button" class="btn btn-sm btn-light" @click="browseServer">
                                 {{ t('Browse server') }}
                             </button>
@@ -18,44 +18,44 @@
                     </div>
                     <div class="mb-2">
                         <label :for="props.id + '-alt'" class="col-form-label">{{ t('Alt attribute') }}</label>
-                        <input :id="props.id + '-alt'" type="text" class="form-control" v-model="alt" />
+                        <input :id="props.id + '-alt'" v-model="alt" type="text" class="form-control" />
                     </div>
                     <div class="form-check mt-3">
-                        <input class="form-check-input" type="checkbox" v-model="captioned" :id="props.id + '-captioned'" />
+                        <input :id="props.id + '-captioned'" v-model="captioned" class="form-check-input" type="checkbox" />
                         <label class="form-check-label" :for="props.id + '-captioned'">{{ t('Captioned image') }}</label>
                     </div>
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" v-model="customSize" :id="props.id + '-custom-size'" />
+                        <input :id="props.id + '-custom-size'" v-model="customSize" class="form-check-input" type="checkbox" />
                         <label class="form-check-label" :for="props.id + '-custom-size'">{{ t('Custom size') }}</label>
                     </div>
-                    <div class="row mb-2 gx-3" v-show="customSize">
+                    <div v-show="customSize" class="row mb-2 gx-3">
                         <div class="col">
                             <label :for="props.id + '-width'" class="col-form-label">{{ t('Width') }}</label>
                             <div class="input-group">
-                                <input class="form-control" :id="props.id + '-width'" type="number" min="0" v-model="width" @keyup="setHeight" />
+                                <input :id="props.id + '-width'" v-model="width" class="form-control" type="number" min="0" @keyup="setHeight" />
                                 <span class="input-group-text">px</span>
                             </div>
                         </div>
                         <div class="col">
                             <label :for="props.id + '-height'" class="col-form-label">{{ t('Height') }}</label>
                             <div class="input-group">
-                                <input class="form-control" :id="props.id + '-height'" type="number" min="0" v-model="height" @keyup="setWidth" />
+                                <input :id="props.id + '-height'" v-model="height" class="form-control" type="number" min="0" @keyup="setWidth" />
                                 <span class="input-group-text">px</span>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-3" v-show="customSize">
+                    <div v-show="customSize" class="mt-3">
                         <label class="form-label">{{ t('Alignment') }}</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" v-model="align" value="none" :id="props.id + '-align-none'" />
+                            <input :id="props.id + '-align-none'" v-model="align" class="form-check-input" type="radio" value="none" />
                             <label class="form-check-label" :for="props.id + '-align-none'">{{ t('None') }}</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" v-model="align" value="left" :id="props.id + '-align-left'" />
+                            <input :id="props.id + '-align-left'" v-model="align" class="form-check-input" type="radio" value="left" />
                             <label class="form-check-label" :for="props.id + '-align-left'">{{ t('Left') }}</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" v-model="align" value="right" :id="props.id + '-align-right'" />
+                            <input :id="props.id + '-align-right'" v-model="align" class="form-check-input" type="radio" value="right" />
                             <label class="form-check-label" :for="props.id + '-align-right'">{{ t('Right') }}</label>
                         </div>
                     </div>
@@ -129,7 +129,7 @@ watch(image, (image) => {
 });
 
 emitter.on('fileSelected', (file) => {
-    src.value = file.url;
+    src.value = file.storage_url;
     alt.value = file.alt_attribute[props.locale] || '';
     width.value = file.width ? Math.round(file.width / 2) : null;
     height.value = file.height ? Math.round(file.height / 2) : null;

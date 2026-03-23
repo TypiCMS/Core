@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Uri;
+use Override;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
@@ -19,7 +20,6 @@ use TypiCMS\Modules\Core\Traits\HasBodyPresenter;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
 use TypiCMS\Modules\Core\Traits\HasContentPresenter;
 use TypiCMS\Modules\Core\Traits\HasFiles;
-use TypiCMS\Modules\Core\Traits\HasImagePresenter;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -47,7 +47,6 @@ class PageSection extends Model implements Sortable
     use HasConfigurableOrder;
     use HasContentPresenter;
     use HasFiles;
-    use HasImagePresenter;
     use HasSelectableFields;
     use HasSlugScope;
     use HasTranslations;
@@ -58,6 +57,7 @@ class PageSection extends Model implements Sortable
     protected $guarded = [];
 
     /** @return array<string, string> */
+    #[Override]
     protected function casts(): array
     {
         return [
@@ -94,7 +94,7 @@ class PageSection extends Model implements Sortable
     /** @return Attribute<string, null> */
     protected function thumb(): Attribute
     {
-        return Attribute::make(get: fn () => $this->imageUrl(null, 54));
+        return Attribute::make(get: fn () => imageOrDefault($this->image, null, 54));
     }
 
     public function url(?string $locale = null): ?string

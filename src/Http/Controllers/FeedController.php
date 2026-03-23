@@ -24,7 +24,7 @@ final class FeedController
             'title' => websiteTitle() . ' – ' . $page->title,
             'description' => strip_tags($page->body ?? ''),
             'language' => localeAndRegion('-'),
-            'image' => $page->image !== null ? $page->imageUrl(1200, 630) : null,
+            'image' => $page->image ? $page->image->render(1200, 630) : null,
         ];
 
         return new Feed(

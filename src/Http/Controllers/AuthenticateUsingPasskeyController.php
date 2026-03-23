@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Override;
 use Illuminate\Http\RedirectResponse;
 use Spatie\LaravelPasskeys\Http\Controllers\AuthenticateUsingPasskeyController as BaseController;
 use Spatie\LaravelPasskeys\Http\Requests\AuthenticateUsingPasskeysRequest;
 
 final class AuthenticateUsingPasskeyController extends BaseController
 {
+    #[Override]
     public function __invoke(AuthenticateUsingPasskeysRequest $request): RedirectResponse
     {
         $result = parent::__invoke($request);

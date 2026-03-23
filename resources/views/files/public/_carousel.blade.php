@@ -7,7 +7,7 @@
         ])>
             <div class="swiper-wrapper">
                 @foreach ($model->images as $image)
-                    <img class="carousel-image swiper-slide" src="{!! $image->imageUrl(2880, 1920) !!}" width="1440" height="960" alt="" />
+                    <img class="carousel-image swiper-slide" src="{!! $image->render(2880, 1920) !!}" width="1440" height="960" alt="" />
                 @endforeach
             </div>
             @if ($model->images->count() > 1)

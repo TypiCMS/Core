@@ -8,7 +8,7 @@
     <div class="page-body">
         <div class="page-body-container">
             @if ($page->image)
-                <img class="page-image" src="{{ $page->imageUrl(2000) }}" width="{{ $page->image->width }}" height="{{ $page->image->height }}" alt="" />
+                <img class="page-image" src="{{ $page->image->render(2000) }}" width="{{ $page->image->width }}" height="{{ $page->image->height }}" alt="" />
             @endif
 
             @if ($page->body)

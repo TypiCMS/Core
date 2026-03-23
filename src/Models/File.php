@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Bkwld\Croppa\Facades\Croppa;
 use Exception;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
@@ -15,7 +16,6 @@ use Illuminate\Support\Facades\Storage;
 use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
 use TypiCMS\Modules\Core\Traits\HasContentPresenter;
-use TypiCMS\Modules\Core\Traits\HasImagePresenter;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -47,14 +47,13 @@ use TypiCMS\Translatable\HasTranslations;
  * @property-write mixed $status
  * @property-read mixed $thumb_sm
  * @property-read mixed $translations
- * @property-read mixed $url
+ * @property-read mixed $storage_url
  */
 class File extends Model
 {
     use HasAdminUrls;
     use HasConfigurableOrder;
     use HasContentPresenter;
-    use HasImagePresenter;
     use HasSelectableFields;
     use HasSlugScope;
     use HasTranslations;
@@ -69,7 +68,9 @@ class File extends Model
         'alt_attribute',
     ];
 
-    protected $appends = ['thumb_sm', 'url'];
+    protected $appends = ['thumb_sm', 'storage_url'];
+
+    protected string $imageNotFound = 'img-not-found.png';
 
     public function presentTitle(): string
     {
@@ -84,25 +85,51 @@ class File extends Model
         return round(1024 ** ($base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
     }
 
-    protected function getImagePathOrDefault(string $relationName): string
+    protected function getImagePathOrDefault(): string
     {
-        $imagePath = $this->path ?? '';
-
-        if (!Storage::exists($imagePath)) {
+        if (!$this->path || !Storage::exists($this->path)) {
             return $this->imgNotFound();
         }
 
-        return $imagePath;
+        return $this->path;
+    }
+
+    /**
+     * Return URL of a resized or cropped image.
+     *
+     * @param array<string|int, string|array<string>> $options
+     */
+    public function render(
+        ?int $width = null,
+        ?int $height = null,
+        array $options = [],
+    ): string {
+        $path = $this->getImagePathOrDefault();
+
+        if (in_array(pathinfo($path, PATHINFO_EXTENSION), ['svg', 'gif'], true)) {
+            return Storage::url($path);
+        }
+
+        return url(Croppa::url('storage/' . $path, $width, $height, $options));
+    }
+
+    public function imgNotFound(): string
+    {
+        if (!Storage::exists($this->imageNotFound)) {
+            Storage::put($this->imageNotFound, \Illuminate\Support\Facades\File::get(resource_path('images/' . $this->imageNotFound)));
+        }
+
+        return $this->imageNotFound;
     }
 
     /** @return Attribute<string, null> */
     protected function thumbSm(): Attribute
     {
-        return Attribute::make(get: fn () => $this->imageUrl(240, 240, ['resize']));
+        return Attribute::make(get: fn (): string => $this->render(240, 240, ['resize']));
     }
 
     /** @return Attribute<string, null> */
-    protected function url(): Attribute
+    protected function storageUrl(): Attribute
     {
         $url = '';
 

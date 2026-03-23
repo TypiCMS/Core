@@ -19,7 +19,7 @@ trait HasBodyPresenter
         $text = $this->$property ?? '';
         preg_match_all(
             '/(?:{|%7B)!!(?:\s|%20)([a-z]+):(\d+)(?:\s|%20)!!(?:}|%7D)/',
-            (string) $text,
+            $text,
             $matches,
             PREG_SET_ORDER,
         );

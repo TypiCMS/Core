@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Providers;
 
+use Override;
 use Exception;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
@@ -44,7 +45,7 @@ class ModuleServiceProvider extends ServiceProvider
          * Get configuration from DB and store it in the container
          */
         config([
-            'typicms' => array_merge((new Setting())->allToArray(), config('typicms', [])),
+            'typicms' => array_merge(new Setting()->allToArray(), config('typicms', [])),
         ]);
 
         /*
@@ -266,6 +267,7 @@ class ModuleServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         /*

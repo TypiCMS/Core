@@ -29,6 +29,7 @@ class DateRange extends Component
                 $startFormat = 'D';
             }
         }
+
         return view('core::components.date-range', [
             'startFormat' => $startFormat,
             'endFormat' => $endFormat,
