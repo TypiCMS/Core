@@ -27,7 +27,7 @@ final class DashboardAdminController extends BaseAdminController
         $fallback = (string) config('typicms.welcome_message');
         $url = (string) config('typicms.welcome_message_url');
 
-        if ($url === '') {
+        if ($url === '' || !$this->isAllowedUrl($url)) {
             return $fallback;
         }
 
@@ -38,5 +38,22 @@ final class DashboardAdminController extends BaseAdminController
         }
 
         return $fallback;
+    }
+
+    private function isAllowedUrl(string $url): bool
+    {
+        $parsed = parse_url($url);
+
+        if (!isset($parsed['scheme'], $parsed['host'])) {
+            return false;
+        }
+
+        if (!in_array($parsed['scheme'], ['http', 'https'], true)) {
+            return false;
+        }
+
+        $ip = gethostbyname($parsed['host']);
+
+        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false;
     }
 }
