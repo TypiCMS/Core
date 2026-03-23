@@ -8,13 +8,13 @@
                 </button>
             </li>
             <li
-                class="page-item"
                 v-for="page in getPages()"
+                :key="page"
+                class="page-item"
                 :class="{
                     disabled: page === '…',
                     active: page === data.current_page && page !== '…',
                 }"
-                :key="page"
             >
                 <button class="page-link pagination-page-nav" @click="selectPage(page)">
                     {{ page }}

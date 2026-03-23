@@ -3,7 +3,7 @@
         <input v-if="items.length === 0" :name="name" type="hidden" />
         <label class="form-label">{{ t(title) }}</label>
 
-        <draggable v-if="items.length > 0" v-model="items" :group="'items_' + name" class="d-flex flex-column mb-3 gap-3" handle=".handle" @change="errors = []" item-key="id">
+        <draggable v-if="items.length > 0" v-model="items" :group="'items_' + name" class="d-flex flex-column mb-3 gap-3" handle=".handle" item-key="id" @change="errors = []">
             <template #item="{ element, index }">
                 <div class="d-flex card item border">
                     <div class="card-header border-bottom d-flex justify-content-between align-items-center">
@@ -11,7 +11,7 @@
                         <button class="btn btn-danger btn-xs" @click.prevent="remove(element)">{{ t('Delete') }}</button>
                     </div>
                     <div class="card-body d-flex justify-content-between flex-row flex-wrap gap-2">
-                        <div v-for="field in fields" :class="[{ 'flex-grow-1': field.type !== 'hidden' }, field.class]" :key="field.name">
+                        <div v-for="field in fields" :key="field.name" :class="[{ 'flex-grow-1': field.type !== 'hidden' }, field.class]">
                             <template v-if="field.translatable">
                                 <repeater-field
                                     v-for="locale in locales"

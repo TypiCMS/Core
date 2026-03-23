@@ -1,7 +1,7 @@
 <template>
     <div class="mb-3 form-group-translation">
         <p v-if="label" class="form-label">{{ label }} ({{ locale }})</p>
-        <div class="tiptap-toolbar" v-if="editor">
+        <div v-if="editor" class="tiptap-toolbar">
             <div class="dropdown">
                 <button
                     class="tiptap-button dropdown-toggle text-start d-flex justify-content-between align-items-center"
@@ -22,9 +22,9 @@
                     <li>
                         <button
                             class="dropdown-item small d-flex gap-1 align-items-center"
-                            @click="editor.chain().focus().setParagraph().run()"
                             :class="{ active: editor.isActive('paragraph') }"
                             type="button"
+                            @click="editor.chain().focus().setParagraph().run()"
                         >
                             {{ t('Normal') }}
                         </button>
@@ -33,8 +33,8 @@
                         <button
                             class="dropdown-item small d-flex gap-1 align-items-center"
                             :class="{ active: editor.isActive('heading', { level }) }"
-                            @click="editor.chain().focus().toggleHeading({ level }).run()"
                             type="button"
+                            @click="editor.chain().focus().toggleHeading({ level }).run()"
                         >
                             {{ t('Heading') }} {{ level }}
                         </button>
@@ -50,10 +50,10 @@
                     aria-expanded="false"
                     :disabled="editor.isActive('image')"
                 >
-                    <span class="tiptap-style-label" v-if="activeBlockStyle">{{ t(activeBlockStyle.label) }}</span>
-                    <span class="tiptap-style-label" v-else-if="activeListStyle">{{ t(activeListStyle.label) }}</span>
-                    <span class="tiptap-style-label" v-else-if="activeLinkStyle">{{ t(activeLinkStyle.label) }}</span>
-                    <span class="tiptap-style-label" v-else>{{ t('Style') }}</span>
+                    <span v-if="activeBlockStyle" class="tiptap-style-label">{{ t(activeBlockStyle.label) }}</span>
+                    <span v-else-if="activeListStyle" class="tiptap-style-label">{{ t(activeListStyle.label) }}</span>
+                    <span v-else-if="activeLinkStyle" class="tiptap-style-label">{{ t(activeLinkStyle.label) }}</span>
+                    <span v-else class="tiptap-style-label">{{ t('Style') }}</span>
                 </button>
                 <ul class="dropdown-menu">
                     <li>
@@ -111,139 +111,139 @@
             </div>
             <div class="tiptap-separator"></div>
             <button
+                v-tooltip
                 type="button"
                 class="tiptap-button"
                 :title="t('Bold')"
-                v-tooltip
-                @click="editor.chain().focus().toggleBold().run()"
                 :disabled="!editor.can().chain().focus().toggleBold().run()"
                 :class="{ 'is-active': editor.isActive('bold') }"
+                @click="editor.chain().focus().toggleBold().run()"
             >
                 <bold-icon size="18" stroke-width="1.5" />
             </button>
             <button
+                v-tooltip
                 type="button"
                 class="tiptap-button"
                 :title="t('Italic')"
-                v-tooltip
-                @click="editor.chain().focus().toggleItalic().run()"
                 :disabled="!editor.can().chain().focus().toggleItalic().run()"
                 :class="{ 'is-active': editor.isActive('italic') }"
+                @click="editor.chain().focus().toggleItalic().run()"
             >
                 <italic-icon size="18" stroke-width="1.5" />
             </button>
             <button
+                v-tooltip
                 type="button"
                 class="tiptap-button"
                 :title="t('Strikethrough')"
-                v-tooltip
-                @click="editor.chain().focus().toggleStrike().run()"
                 :disabled="!editor.can().chain().focus().toggleStrike().run()"
                 :class="{ 'is-active': editor.isActive('strike') }"
+                @click="editor.chain().focus().toggleStrike().run()"
             >
                 <strikethrough-icon size="18" stroke-width="1.5" />
             </button>
             <button
+                v-tooltip
                 type="button"
                 class="tiptap-button"
                 :title="t('Superscript')"
-                v-tooltip
+                :disabled="!editor.can().chain().focus().toggleSuperscript().run()"
+                :class="{ 'is-active': editor.isActive('superscript') }"
                 @click="
                     editor.isActive('subscript') && editor.chain().focus().unsetSubscript().run();
                     editor.chain().focus().toggleSuperscript().run();
                 "
-                :disabled="!editor.can().chain().focus().toggleSuperscript().run()"
-                :class="{ 'is-active': editor.isActive('superscript') }"
             >
                 <superscript-icon size="18" stroke-width="1.5" />
             </button>
             <button
+                v-tooltip
                 type="button"
                 class="tiptap-button"
                 :title="t('Subscript')"
-                v-tooltip
+                :disabled="!editor.can().chain().focus().toggleSubscript().run()"
+                :class="{ 'is-active': editor.isActive('subscript') }"
                 @click="
                     editor.isActive('superscript') && editor.chain().focus().unsetSuperscript().run();
                     editor.chain().focus().toggleSubscript().run();
                 "
-                :disabled="!editor.can().chain().focus().toggleSubscript().run()"
-                :class="{ 'is-active': editor.isActive('subscript') }"
             >
                 <subscript-icon size="18" stroke-width="1.5" />
             </button>
             <div class="tiptap-separator"></div>
-            <button type="button" class="tiptap-button" :title="t('Remove Format')" v-tooltip @click="editor.chain().focus().unsetAllMarks().run()" :disabled="editor.isActive('image')">
+            <button v-tooltip type="button" class="tiptap-button" :title="t('Remove Format')" :disabled="editor.isActive('image')" @click="editor.chain().focus().unsetAllMarks().run()">
                 <remove-formatting-icon size="18" stroke-width="1.5" />
             </button>
             <div class="tiptap-separator"></div>
             <button
+                v-tooltip
                 type="button"
                 class="tiptap-button"
                 :title="t('Insert/Remove Bulleted List')"
-                v-tooltip
-                @click="editor.chain().focus().toggleBulletList().run()"
                 :class="{ 'is-active': editor.isActive('bulletList') }"
                 :disabled="editor.isActive('image')"
+                @click="editor.chain().focus().toggleBulletList().run()"
             >
                 <list-icon size="18" stroke-width="1.5" />
             </button>
             <button
+                v-tooltip
                 type="button"
                 class="tiptap-button"
                 :title="t('Insert/Remove Numbered List')"
-                v-tooltip
-                @click="editor.chain().focus().toggleOrderedList().run()"
                 :class="{ 'is-active': editor.isActive('orderedList') }"
                 :disabled="editor.isActive('image')"
+                @click="editor.chain().focus().toggleOrderedList().run()"
             >
                 <list-ordered-icon size="18" stroke-width="1.5" />
             </button>
             <button
+                v-tooltip
                 type="button"
                 class="tiptap-button"
                 :title="t('Increase Indent')"
-                v-tooltip
-                @click="editor.chain().focus().sinkListItem('listItem').run()"
                 :disabled="!editor.can().sinkListItem('listItem')"
+                @click="editor.chain().focus().sinkListItem('listItem').run()"
             >
                 <indent-increase-icon size="18" stroke-width="1.5" />
             </button>
             <button
+                v-tooltip
                 type="button"
                 class="tiptap-button"
                 :title="t('Decrease Indent')"
-                v-tooltip
-                @click="editor.chain().focus().liftListItem('listItem').run()"
                 :disabled="!editor.can().liftListItem('listItem')"
+                @click="editor.chain().focus().liftListItem('listItem').run()"
             >
                 <indent-decrease-icon size="18" stroke-width="1.5" />
             </button>
             <div class="tiptap-separator"></div>
-            <button type="button" class="tiptap-button" :title="t('Link')" v-tooltip @click="openLinkDialog" :class="{ 'is-active': editor.isActive('link') }" :disabled="editor.isActive('image')">
+            <button v-tooltip type="button" class="tiptap-button" :title="t('Link')" :class="{ 'is-active': editor.isActive('link') }" :disabled="editor.isActive('image')" @click="openLinkDialog">
                 <link2-icon size="18" stroke-width="1.5" />
             </button>
-            <button type="button" class="tiptap-button" :title="t('Unset Link')" v-tooltip @click="editor.chain().focus().unsetLink().run()" :disabled="editor.isActive('image')">
+            <button v-tooltip type="button" class="tiptap-button" :title="t('Unset Link')" :disabled="editor.isActive('image')" @click="editor.chain().focus().unsetLink().run()">
                 <link2-off-icon size="18" stroke-width="1.5" />
             </button>
             <div class="tiptap-separator"></div>
             <button
+                v-tooltip
                 type="button"
                 class="tiptap-button"
                 :title="t('Block Quote')"
-                v-tooltip
-                @click="editor.chain().focus().toggleBlockquote().run()"
                 :class="{ 'is-active': editor.isActive('blockquote') }"
+                @click="editor.chain().focus().toggleBlockquote().run()"
             >
                 <quote-icon size="18" stroke-width="1.5" />
             </button>
             <div class="tiptap-separator"></div>
-            <button type="button" class="tiptap-button" :title="t('Image')" v-tooltip @click="openImageDialog" :class="{ 'is-active': editor.isActive('image') }">
+            <button v-tooltip type="button" class="tiptap-button" :title="t('Image')" :class="{ 'is-active': editor.isActive('image') }" @click="openImageDialog">
                 <image-icon size="18" stroke-width="1.5" />
             </button>
-            <button type="button" class="tiptap-button" :title="t('YouTube Video')" v-tooltip @click="openYoutubeDialog" :class="{ 'is-active': editor.isActive('youtube') }">
+            <button v-tooltip type="button" class="tiptap-button" :title="t('YouTube Video')" :class="{ 'is-active': editor.isActive('youtube') }" @click="openYoutubeDialog">
                 <youtube-icon size="18" stroke-width="1.5" />
             </button>
-            <button type="button" class="tiptap-button" :title="t('Embed Iframe')" v-tooltip @click="openIframeDialog">
+            <button v-tooltip type="button" class="tiptap-button" :title="t('Embed Iframe')" @click="openIframeDialog">
                 <video-icon size="18" stroke-width="1.5" />
             </button>
 
@@ -260,13 +260,13 @@
                         </button>
                     </li>
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" @click="editor.chain().focus().deleteTable().run()" :disabled="!editor.can().deleteTable()">
+                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" :disabled="!editor.can().deleteTable()" @click="editor.chain().focus().deleteTable().run()">
                             <grid2x2-x-icon size="18" stroke-width="1" />
                             {{ t('Delete table') }}
                         </button>
                     </li>
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" @click="editor.chain().focus().fixTables().run()" :disabled="!editor.can().fixTables()">
+                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" :disabled="!editor.can().fixTables()" @click="editor.chain().focus().fixTables().run()">
                             <grid2x2-check-icon size="18" stroke-width="1" />
                             {{ t('Fix tables') }}
                         </button>
@@ -278,8 +278,8 @@
                         <button
                             type="button"
                             class="dropdown-item small d-flex gap-1 align-items-center"
-                            @click="editor.chain().focus().addColumnBefore().run()"
                             :disabled="!editor.can().addColumnBefore()"
+                            @click="editor.chain().focus().addColumnBefore().run()"
                         >
                             <between-horizontal-end-icon size="18" stroke-width="1" />
                             {{ t('Add column before') }}
@@ -289,15 +289,15 @@
                         <button
                             type="button"
                             class="dropdown-item small d-flex gap-1 align-items-center"
-                            @click="editor.chain().focus().addColumnAfter().run()"
                             :disabled="!editor.can().addColumnAfter()"
+                            @click="editor.chain().focus().addColumnAfter().run()"
                         >
                             <between-horizontal-start-icon size="18" stroke-width="1" />
                             {{ t('Add column after') }}
                         </button>
                     </li>
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" @click="editor.chain().focus().deleteColumn().run()" :disabled="!editor.can().deleteColumn()">
+                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" :disabled="!editor.can().deleteColumn()" @click="editor.chain().focus().deleteColumn().run()">
                             <x-icon size="18" stroke-width="1" />
                             {{ t('Delete column') }}
                         </button>
@@ -306,19 +306,19 @@
                         <hr class="dropdown-divider" />
                     </li>
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" @click="editor.chain().focus().addRowBefore().run()" :disabled="!editor.can().addRowBefore()">
+                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" :disabled="!editor.can().addRowBefore()" @click="editor.chain().focus().addRowBefore().run()">
                             <between-vertical-end-icon size="18" stroke-width="1" />
                             {{ t('Add row before') }}
                         </button>
                     </li>
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" @click="editor.chain().focus().addRowAfter().run()" :disabled="!editor.can().addRowAfter()">
+                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" :disabled="!editor.can().addRowAfter()" @click="editor.chain().focus().addRowAfter().run()">
                             <between-vertical-start-icon size="18" stroke-width="1" />
                             {{ t('Add row after') }}
                         </button>
                     </li>
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" @click="editor.chain().focus().deleteRow().run()" :disabled="!editor.can().deleteRow()">
+                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" :disabled="!editor.can().deleteRow()" @click="editor.chain().focus().deleteRow().run()">
                             <x-icon size="18" stroke-width="1" />
                             {{ t('Delete row') }}
                         </button>
@@ -327,13 +327,13 @@
                         <hr class="dropdown-divider" />
                     </li>
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" @click="editor.chain().focus().mergeCells().run()" :disabled="!editor.can().mergeCells()">
+                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" :disabled="!editor.can().mergeCells()" @click="editor.chain().focus().mergeCells().run()">
                             <table-cells-merge-icon size="18" stroke-width="1" />
                             {{ t('Merge cells') }}
                         </button>
                     </li>
                     <li>
-                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" @click="editor.chain().focus().splitCell().run()" :disabled="!editor.can().splitCell()">
+                        <button type="button" class="dropdown-item small d-flex gap-1 align-items-center" :disabled="!editor.can().splitCell()" @click="editor.chain().focus().splitCell().run()">
                             <table-cells-split-icon size="18" stroke-width="1" />
                             {{ t('Split cell') }}
                         </button>
@@ -345,8 +345,8 @@
                         <button
                             type="button"
                             class="dropdown-item small d-flex gap-1 align-items-center"
-                            @click="editor.chain().focus().toggleHeaderColumn().run()"
                             :disabled="!editor.can().toggleHeaderColumn()"
+                            @click="editor.chain().focus().toggleHeaderColumn().run()"
                         >
                             {{ t('Toggle header column') }}
                         </button>
@@ -355,8 +355,8 @@
                         <button
                             type="button"
                             class="dropdown-item small d-flex gap-1 align-items-center"
-                            @click="editor.chain().focus().toggleHeaderRow().run()"
                             :disabled="!editor.can().toggleHeaderRow()"
+                            @click="editor.chain().focus().toggleHeaderRow().run()"
                         >
                             {{ t('Toggle header row') }}
                         </button>
@@ -365,8 +365,8 @@
                         <button
                             type="button"
                             class="dropdown-item small d-flex gap-1 align-items-center"
-                            @click="editor.chain().focus().toggleHeaderCell().run()"
                             :disabled="!editor.can().toggleHeaderCell()"
+                            @click="editor.chain().focus().toggleHeaderCell().run()"
                         >
                             {{ t('Toggle header cell') }}
                         </button>
@@ -375,93 +375,93 @@
             </div>
             <div class="tiptap-separator"></div>
             <button
+                v-tooltip
                 type="button"
                 class="tiptap-button"
                 :title="t('Code Block')"
-                v-tooltip
-                @click="editor.chain().focus().toggleCodeBlock().run()"
                 :class="{ 'is-active': editor.isActive('codeBlock') }"
                 :disabled="editor.isActive('image')"
+                @click="editor.chain().focus().toggleCodeBlock().run()"
             >
                 <square-code-icon size="18" stroke-width="1.5" />
             </button>
             <button
+                v-tooltip
                 type="button"
                 class="tiptap-button"
                 :title="t('Code')"
-                v-tooltip
-                @click="editor.chain().focus().toggleCode().run()"
                 :disabled="!editor.can().chain().focus().toggleCode().run()"
                 :class="{ 'is-active': editor.isActive('code') }"
+                @click="editor.chain().focus().toggleCode().run()"
             >
                 <code-icon size="18" stroke-width="1.5" />
             </button>
             <div class="tiptap-separator"></div>
-            <button type="button" class="tiptap-button" :title="t('Insert Horizontal Line')" v-tooltip @click="editor.chain().focus().setHorizontalRule().run()">
+            <button v-tooltip type="button" class="tiptap-button" :title="t('Insert Horizontal Line')" @click="editor.chain().focus().setHorizontalRule().run()">
                 <minus-icon size="18" stroke-width="1.5" />
             </button>
-            <button type="button" class="tiptap-button" :title="t('Insert Line Break')" v-tooltip @click="editor.chain().focus().setHardBreak().run()">
+            <button v-tooltip type="button" class="tiptap-button" :title="t('Insert Line Break')" @click="editor.chain().focus().setHardBreak().run()">
                 <wrap-text-icon size="18" stroke-width="1.5" />
             </button>
             <div class="tiptap-separator"></div>
-            <button type="button" class="tiptap-button" :title="t('Undo')" v-tooltip @click="editor.chain().focus().undo().run()" :disabled="!editor.can().chain().focus().undo().run()">
+            <button v-tooltip type="button" class="tiptap-button" :title="t('Undo')" :disabled="!editor.can().chain().focus().undo().run()" @click="editor.chain().focus().undo().run()">
                 <undo-icon size="18" stroke-width="1.5" />
             </button>
-            <button type="button" class="tiptap-button" :title="t('Redo')" v-tooltip @click="editor.chain().focus().redo().run()" :disabled="!editor.can().chain().focus().redo().run()">
+            <button v-tooltip type="button" class="tiptap-button" :title="t('Redo')" :disabled="!editor.can().chain().focus().redo().run()" @click="editor.chain().focus().redo().run()">
                 <redo-icon size="18" stroke-width="1.5" />
             </button>
             <div class="tiptap-separator"></div>
-            <button type="button" class="tiptap-button" :title="t('Edit Source Code')" v-tooltip @click="openSourceCodeDialog">
+            <button v-tooltip type="button" class="tiptap-button" :title="t('Edit Source Code')" @click="openSourceCodeDialog">
                 <file-code-icon size="18" stroke-width="1.5" />
             </button>
         </div>
-        <bubble-menu :editor="editor" v-if="editor">
+        <bubble-menu v-if="editor" :editor="editor">
             <div class="bubble-menu btn-group shadow">
                 <button
                     v-if="!editor.isActive('image')"
+                    v-tooltip
                     type="button"
                     class="tiptap-button"
                     :title="t('Bold')"
-                    v-tooltip
-                    @click="editor.chain().focus().toggleBold().run()"
                     :class="{ 'is-active': editor.isActive('bold') }"
+                    @click="editor.chain().focus().toggleBold().run()"
                 >
                     <bold-icon size="18" stroke-width="1.5" />
                 </button>
                 <button
                     v-if="!editor.isActive('image')"
+                    v-tooltip
                     type="button"
                     class="tiptap-button"
                     :title="t('Italic')"
-                    v-tooltip
-                    @click="editor.chain().focus().toggleItalic().run()"
                     :class="{ 'is-active': editor.isActive('italic') }"
+                    @click="editor.chain().focus().toggleItalic().run()"
                 >
                     <italic-icon size="18" stroke-width="1.5" />
                 </button>
-                <button v-if="!editor.isActive('image')" type="button" class="tiptap-button" :title="t('Link')" v-tooltip @click="openLinkDialog" :class="{ 'is-active': editor.isActive('link') }">
+                <button v-if="!editor.isActive('image')" v-tooltip type="button" class="tiptap-button" :title="t('Link')" :class="{ 'is-active': editor.isActive('link') }" @click="openLinkDialog">
                     <link2-icon size="18" stroke-width="1.5" />
                 </button>
-                <button type="button" class="tiptap-button" :title="t('Unset Link')" v-tooltip @click="editor.chain().focus().unsetLink().run()" v-if="editor.isActive('link')">
+                <button v-if="editor.isActive('link')" v-tooltip type="button" class="tiptap-button" :title="t('Unset Link')" @click="editor.chain().focus().unsetLink().run()">
                     <link2-off-icon size="18" stroke-width="1.5" />
                 </button>
-                <button type="button" class="tiptap-button" :title="t('Edit')" v-tooltip @click="openImageDialog" v-if="editor.isActive('image')">Edit</button>
+                <button v-if="editor.isActive('image')" v-tooltip type="button" class="tiptap-button" :title="t('Edit')" @click="openImageDialog">Edit</button>
             </div>
         </bubble-menu>
         <div class="rich-content-container-border">
             <editor-content class="rich-content-container" :editor="editor" :data-language="locale" />
         </div>
-        <textarea :name="name" class="d-none" v-if="editor">{{ editor.getHTML() }}</textarea>
+        <textarea v-if="editor" :name="name" class="d-none">{{ editor.getHTML() }}</textarea>
         <tiptap-link-dialog :id="'link-dialog-' + id + '-' + locale" v-model:link="link" v-model:show="linkDialogOpened" @save="setLink"></tiptap-link-dialog>
         <tiptap-image-dialog :id="'image-dialog-' + id + '-' + locale" v-model:image="image" v-model:captioned="imageCaptioned" v-model:show="imageDialogOpened" @save="setImage"></tiptap-image-dialog>
         <tiptap-iframe-dialog
             :id="'youtube-dialog-' + id + '-' + locale"
             v-model:video="youtube"
             v-model:show="youtubeDialogOpened"
-            @save="addYoutube"
             :title="t('YouTube Video')"
+            @save="addYoutube"
         ></tiptap-iframe-dialog>
-        <tiptap-iframe-dialog :id="'iframe-dialog-' + id + '-' + locale" v-model:video="iframe" v-model:show="iframeDialogOpened" @save="addIframe" :title="t('Media embed')"></tiptap-iframe-dialog>
+        <tiptap-iframe-dialog :id="'iframe-dialog-' + id + '-' + locale" v-model:video="iframe" v-model:show="iframeDialogOpened" :title="t('Media embed')" @save="addIframe"></tiptap-iframe-dialog>
         <tiptap-source-code-dialog
             :id="'source-code-dialog-' + id + '-' + locale"
             v-model:html="sourceCodeHtml"

@@ -6,7 +6,7 @@
             <span v-else-if="type === 'video'">{{ t('Video') }}</span>
             <span v-else-if="type === 'image'">{{ t('Image') }}</span>
             <span v-else>{{ t('Document') }}</span>
-            <small class="text-muted" v-if="hint"> ({{ t(hint) }})</small>
+            <small v-if="hint" class="text-muted"> ({{ t(hint) }})</small>
         </p>
         <input :id="field" v-model="fileId" :name="field" :rel="field" type="hidden" />
         <div>

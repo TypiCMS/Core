@@ -1,15 +1,15 @@
 <template>
-    <div class="modal fade" :id="props.id" tabindex="-1" :aria-labelledby="props.id + '-label'" aria-hidden="true">
+    <div :id="props.id" class="modal fade" tabindex="-1" :aria-labelledby="props.id + '-label'" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <form class="modal-content" @submit.prevent="save">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" :id="props.id + '-label'">{{ props.title || t('Embed Video') }}</h1>
+                    <h1 :id="props.id + '-label'" class="modal-title fs-5">{{ props.title || t('Embed Video') }}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="t('Close')"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-2">
                         <label :for="props.id + '-src'" class="col-form-label">{{ t('URL') }}</label>
-                        <input ref="inputElement" :id="props.id + '-src'" type="url" class="form-control" v-model="src" />
+                        <input :id="props.id + '-src'" ref="inputElement" v-model="src" type="url" class="form-control" />
                         <small class="form-text text-muted">{{ helpText }}</small>
                     </div>
                 </div>

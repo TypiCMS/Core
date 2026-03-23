@@ -68,11 +68,11 @@
                             <div aria-labelledby="dropdownLangSwitcher" class="dropdown-menu dropdown-menu-right">
                                 <button
                                     v-for="locale in locales"
+                                    :key="locale.short"
                                     :class="{ active: locale === contentLocale }"
                                     class="dropdown-item"
                                     type="button"
                                     @click="switchLocale(locale.short)"
-                                    :key="locale.short"
                                 >
                                     {{ locale.long }}
                                 </button>

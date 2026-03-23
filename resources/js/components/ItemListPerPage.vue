@@ -4,7 +4,7 @@
             {{ perPage }} {{ t('per page') }}
         </button>
         <div aria-labelledby="dropdownActions" class="dropdown-menu">
-            <button v-for="value in values" class="dropdown-item" type="button" @click="$emit('change-per-page', value)" :key="value">
+            <button v-for="value in values" :key="value" class="dropdown-item" type="button" @click="$emit('change-per-page', value)">
                 {{ value }}
             </button>
         </div>

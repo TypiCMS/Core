@@ -5,23 +5,23 @@
             <span v-if="locale">({{ locale }})</span>
         </label>
         <div>
-            <div class="tiptap-inline-toolbar" v-if="editor">
+            <div v-if="editor" class="tiptap-inline-toolbar">
                 <button
+                    v-tooltip
                     type="button"
                     class="tiptap-button"
                     :title="t('Italic')"
-                    v-tooltip
-                    @click="editor.chain().focus().toggleItalic().run()"
                     :disabled="!editor.can().chain().focus().toggleItalic().run()"
                     :class="{ 'is-active': editor.isActive('italic') }"
+                    @click="editor.chain().focus().toggleItalic().run()"
                 >
                     Light
                 </button>
             </div>
             <div class="tiptap-inline-editor">
-                <editor-content :editor="editor" :data-language="locale" :id="editorId" />
+                <editor-content :id="editorId" :editor="editor" :data-language="locale" />
             </div>
-            <input type="hidden" :name="name" :id="inputId" :value="markdownContent" />
+            <input :id="inputId" type="hidden" :name="name" :value="markdownContent" />
         </div>
     </div>
 </template>

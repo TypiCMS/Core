@@ -3,7 +3,7 @@
         <div class="filemanager-header header">
             <div class="filemanager-header-top">
                 <div>
-                    <button type="button" v-if="path.length > 1" class="btn-back" @click="openFolder(path[path.length - 2])">
+                    <button v-if="path.length > 1" type="button" class="btn-back" @click="openFolder(path[path.length - 2])">
                         <arrow-left-icon size="15" stroke-width="1.75" />
                         <span class="btn-back-label">
                             {{ path[path.length - 2].name }}
@@ -99,7 +99,7 @@
                     </button>
                 </div>
 
-                <button class="btn btn-sm btn-light header-btn-add" id="upload-files-button" v-bind="buttonProps" type="button">
+                <button id="upload-files-button" class="btn btn-sm btn-light header-btn-add" v-bind="buttonProps" type="button">
                     <cloud-upload-icon size="16" />
                     {{ t('Upload files') }}
                 </button>
@@ -109,11 +109,11 @@
         <div class="filemanager-body">
             <UppyUploader ref="uppyUploaderRef" :folder-id="folder.id" @complete="fetchData"></UppyUploader>
             <div :class="{ 'filemanager-view-list': view === 'list' }" class="filemanager-list" @click="checkNone()">
-                <p class="my-3 text-muted" v-if="filteredItems.length === 0">{{ t('The folder is empty.') }}</p>
+                <p v-if="filteredItems.length === 0" class="my-3 text-muted">{{ t('The folder is empty.') }}</p>
                 <div
                     v-for="item in filteredItems"
-                    :key="item.id"
                     :id="'item_' + item.id"
+                    :key="item.id"
                     :class="{
                         'filemanager-item-selected': selectedItems.indexOf(item) !== -1,
                         'filemanager-item-folder': item.type === 'f',

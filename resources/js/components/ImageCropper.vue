@@ -1,5 +1,5 @@
 <template>
-    <div class="image-cropper" v-if="imageUrl">
+    <div v-if="imageUrl" class="image-cropper">
         <div class="image-cropper-container">
             <img ref="imageElement" :src="imageUrl" alt="Image to crop" />
         </div>

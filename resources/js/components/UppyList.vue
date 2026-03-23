@@ -3,7 +3,7 @@
         <li v-for="file in files" :key="file.id" class="uppy-list-item">
             <div class="uppy-list-item-info">
                 <div class="uppy-list-item-status">
-                    <div class="spinner-border text-secondary spinner-border-sm" role="status" v-if="!file.progress.uploadComplete && !file.error">
+                    <div v-if="!file.progress.uploadComplete && !file.error" class="spinner-border text-secondary spinner-border-sm" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                     <CircleCheckIcon v-else-if="file.progress.uploadComplete" :size="18" class="text-success" />

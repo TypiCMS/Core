@@ -1,9 +1,9 @@
 <template>
-    <div class="modal fade" :id="props.id" tabindex="-1" :aria-labelledby="props.id + '-label'" aria-hidden="true">
+    <div :id="props.id" class="modal fade" tabindex="-1" :aria-labelledby="props.id + '-label'" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <form class="modal-content" @submit.prevent="save">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" :id="props.id + '-label'">{{ t('Edit Source Code') }}</h1>
+                    <h1 :id="props.id + '-label'" class="modal-title fs-5">{{ t('Edit Source Code') }}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="t('Close')"></button>
                 </div>
                 <div class="modal-body">

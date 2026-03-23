@@ -56,7 +56,7 @@
                 class="form-select"
                 @change="$emit('update:modelValue', $event.target.value)"
             >
-                <option v-for="(label, value) in items" :value="value" :key="value">{{ t(label) }}</option>
+                <option v-for="(label, value) in items" :key="value" :value="value">{{ t(label) }}</option>
             </select>
             <div v-if="errors.length > 0" class="invalid-feedback">{{ errors[0] }}</div>
         </div>
@@ -84,7 +84,7 @@
         <div v-if="type === 'radio'" :class="{ 'form-group-translation': locale !== null }">
             <p class="form-label">{{ fieldLabel }}</p>
             <input :name="fieldNameComplete" type="hidden" value="" />
-            <div v-for="(label, radioButtonValue) in items" class="form-check" :key="radioButtonValue">
+            <div v-for="(label, radioButtonValue) in items" :key="radioButtonValue" class="form-check">
                 <label :for="fieldId + '_' + radioButtonValue" class="form-check-label">{{ t(label) }}</label>
                 <input
                     :id="fieldId + '_' + radioButtonValue"
@@ -132,7 +132,7 @@
                     </div>
                 </div>
                 <div v-if="modelValue === null">
-                    <button class="filemanager-field-btn-add" type="button" @click="openFilePicker" :disabled="disabled">
+                    <button class="filemanager-field-btn-add" type="button" :disabled="disabled" @click="openFilePicker">
                         <circle-plus-icon class="text-white-50" size="18" />
                         {{ t('Add') }}
                     </button>

@@ -4,21 +4,21 @@
             <p class="form-label">
                 {{ t('Passkeys') }}
             </p>
-            <p class="text-muted" v-if="passkeys.length === 0 && !loading">
+            <p v-if="passkeys.length === 0 && !loading" class="text-muted">
                 <em>{{ t('This user has no passkeys.') }}</em>
             </p>
             <button v-if="createButton" type="submit" class="btn btn-sm btn-light">
                 <i class="icon-key-round"></i>
                 {{ t('Create a passkey') }}
             </button>
-            <span class="invalid-feedback" v-if="error">{{ error }}</span>
+            <span v-if="error" class="invalid-feedback">{{ error }}</span>
         </form>
 
         <div class="mb-3">
             <div v-if="loading" class="spinner-border spinner-border-sm text-dark" role="status">
                 <span class="visually-hidden">{{ t('Loading…') }}</span>
             </div>
-            <ul class="list-unstyled mb-0 d-flex flex-row flex-wrap gap-2" v-if="passkeys.length > 0 && !loading">
+            <ul v-if="passkeys.length > 0 && !loading" class="list-unstyled mb-0 d-flex flex-row flex-wrap gap-2">
                 <li v-for="passkey in passkeys" :key="passkey.id" class="px-3 border d-flex flex-row align-items-center gap-4 bg-light rounded">
                     <key-round-icon class="text-body-tertiary" size="40" stroke-width="1.5" />
                     <div class="d-flex flex-column py-3">
