@@ -10,8 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
 use TypiCMS\Modules\Core\Traits\HasAdminUrls;
+use TypiCMS\Modules\Core\Traits\HasBodyPresenter;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
-use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
+use TypiCMS\Modules\Core\Traits\HasContentPresenter;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -33,8 +34,9 @@ use TypiCMS\Translatable\HasTranslations;
 class Block extends Model
 {
     use HasAdminUrls;
+    use HasBodyPresenter;
     use HasConfigurableOrder;
-    use HasPresenterMethods;
+    use HasContentPresenter;
     use HasSelectableFields;
     use HasSlugScope;
     use HasTranslations;

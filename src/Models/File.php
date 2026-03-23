@@ -14,7 +14,8 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use TypiCMS\Modules\Core\Traits\HasAdminUrls;
 use TypiCMS\Modules\Core\Traits\HasConfigurableOrder;
-use TypiCMS\Modules\Core\Traits\HasPresenterMethods;
+use TypiCMS\Modules\Core\Traits\HasContentPresenter;
+use TypiCMS\Modules\Core\Traits\HasImagePresenter;
 use TypiCMS\Modules\Core\Traits\HasSelectableFields;
 use TypiCMS\Modules\Core\Traits\HasSlugScope;
 use TypiCMS\Modules\Core\Traits\Historable;
@@ -52,7 +53,8 @@ class File extends Model
 {
     use HasAdminUrls;
     use HasConfigurableOrder;
-    use HasPresenterMethods;
+    use HasContentPresenter;
+    use HasImagePresenter;
     use HasSelectableFields;
     use HasSlugScope;
     use HasTranslations;
