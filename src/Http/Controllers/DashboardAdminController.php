@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
@@ -32,14 +31,10 @@ final class DashboardAdminController extends BaseAdminController
             return $fallback;
         }
 
-        try {
-            $response = Http::timeout(2)->get($url);
+        $body = rescue(fn () => Http::timeout(2)->get($url)->body());
 
-            if ($response->successful()) {
-                return $response->body();
-            }
-        } catch (Exception $exception) {
-            info($exception->getMessage());
+        if ($body !== null) {
+            return strip_tags($body, '<a><strong><em><br><p><ul><ol><li>');
         }
 
         return $fallback;
