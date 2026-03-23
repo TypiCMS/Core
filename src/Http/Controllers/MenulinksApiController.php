@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use TypiCMS\Modules\Core\Models\User;
+use TypiCMS\NestableCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,10 +16,12 @@ use TypiCMS\Modules\Core\Models\Menulink;
 
 final class MenulinksApiController extends BaseApiController
 {
-    /** @return array{models: Collection<int, Model>, total: int} */
+    /** @return array{models: NestableCollection<int, Menulink>, total: int} */
     public function index(Menu $menu, Request $request): array
     {
-        $userPreferences = $request->user()->preferences;
+        /** @var User $user */
+        $user = $request->user();
+        $userPreferences = $user->preferences ?? [];
 
         $query = Menulink::query()
             ->selectFields()
@@ -61,12 +65,12 @@ final class MenulinksApiController extends BaseApiController
     {
         $data = $request->only('moved', 'item');
         foreach ($data['item'] as $position => $item) {
+            /** @var Menulink|null $menulink */
             $menulink = Menulink::query()->find($item['id']);
-            $sortData = [
+            $menulink?->update([
                 'position' => (int) $position + 1,
                 'parent_id' => $item['parent_id'],
-            ];
-            $menulink->update($sortData);
+            ]);
         }
     }
 

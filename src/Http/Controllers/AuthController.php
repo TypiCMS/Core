@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\JsonResponse;
@@ -16,6 +15,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Spatie\OneTimePasswords\Rules\OneTimePasswordRule;
+use TypiCMS\Modules\Core\Models\User;
 
 final class AuthController extends Controller
 {
@@ -38,7 +38,10 @@ final class AuthController extends Controller
 
     public function showPasskeyCreationForm(): View|RedirectResponse
     {
-        if (auth()->check() && auth()->user()->passkeys->isNotEmpty()) {
+        /** @var User|null $user */
+        $user = auth()->user();
+
+        if ($user && $user->passkeys->isNotEmpty()) {
             return to_route('admin::dashboard');
         }
 
@@ -52,7 +55,7 @@ final class AuthController extends Controller
         ])->validate();
 
         $this->email = (string) $request->string('email');
-        $user = $this->findUser();
+        $user = $this->findUserOrFail();
 
         if (!$user->activated) {
             return back()
@@ -82,7 +85,7 @@ final class AuthController extends Controller
 
         $this->email = session('email');
         session()->forget('email');
-        $user = $this->findUser();
+        $user = $this->findUserOrFail();
 
         if (!$user->activated) {
             return to_route(app()->getLocale() . '::otp-login')->withErrors(['email' => __(
@@ -103,11 +106,11 @@ final class AuthController extends Controller
         return to_route('admin::dashboard');
     }
 
-    protected function findUser(): ?Authenticatable
+    protected function findUserOrFail(): User
     {
         $authenticatableModel = config('auth.providers.users.model');
 
-        return $authenticatableModel::query()->firstWhere('email', $this->email);
+        return $authenticatableModel::query()->where('email', $this->email)->firstOrFail();
     }
 
     protected function rateLimitHit(): bool

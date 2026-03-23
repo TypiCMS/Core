@@ -42,14 +42,11 @@ class Tag extends Model
         return $this->tag;
     }
 
+    /** @param Builder<Tag> $query */
     #[Scope]
     protected function published(Builder $query): void {}
 
-    /**
-     * Get all tagged items grouped by type
-     *
-     * @return array<string, Collection>
-     */
+    /** @return array<string, \Illuminate\Support\Collection<(int|string), mixed>> */
     public function getTaggedItemsGrouped(): array
     {
         $taggables = DB::table('taggables')->where('tag_id', $this->id)->get();

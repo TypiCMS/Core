@@ -74,15 +74,15 @@ class File extends Model
 
     public function presentTitle(): string
     {
-        return $this->title ?: $this->name;
+        return $this->title ?: ($this->name ?? '');
     }
 
     public function formattedFilesize(int $precision = 0): string
     {
-        $base = log($this->filesize, 1024);
+        $base = log((float) ($this->filesize ?? 0), 1024);
         $suffixes = ['', __('KB'), __('MB'), __('GB'), __('TB')];
 
-        return round(1024 ** ($base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
+        return round(1024 ** ($base - floor($base)), $precision) . ' ' . $suffixes[(int) floor($base)];
     }
 
     protected function getImagePathOrDefault(): string
@@ -134,7 +134,7 @@ class File extends Model
         $url = '';
 
         try {
-            $url = Storage::url($this->path);
+            $url = Storage::url($this->path ?? '');
         } catch (Exception) {
         }
 

@@ -37,6 +37,7 @@ final class UsersApiController extends BaseApiController
 
     public function updatePreferences(Request $request): void
     {
+        /** @var User $user */
         $user = $request->user();
         $user->preferences = array_merge((array) $user->preferences, $request->input());
         $user->save();
@@ -44,7 +45,10 @@ final class UsersApiController extends BaseApiController
 
     public function destroy(User $user): JsonResponse
     {
-        if (auth()->user()->id === $user->id) {
+        /** @var User $currentUser */
+        $currentUser = auth()->user();
+
+        if ($currentUser->id === $user->id) {
             return response()->json([
                 'error' => true,
                 'message' => __('The current logged in user cannot be deleted.'),

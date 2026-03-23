@@ -164,7 +164,7 @@ class Create extends Command
             $contents,
         );
 
-        $this->files->put($file, $contents);
+        $this->files->put($file, $contents ?? '');
     }
 
     /**

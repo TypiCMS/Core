@@ -30,8 +30,8 @@ class SetLocaleFromUrl
         }
 
         App::setLocale($locale);
-        Date::setLocale(localeAndRegion());
-        Number::useLocale(localeAndRegion());
+        Date::setLocale(localeAndRegion() ?? $locale);
+        Number::useLocale(localeAndRegion() ?? $locale);
 
         return $next($request);
     }

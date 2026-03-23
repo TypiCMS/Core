@@ -6,11 +6,10 @@ namespace TypiCMS\Modules\Core\Http\Requests;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Unique;
 
 class ProfileFormRequest extends AbstractFormRequest
 {
-    /** @return Unique */
+    /** @return array<string, array<int, mixed>> */
     public function rules(): array
     {
         return [

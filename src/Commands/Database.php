@@ -32,7 +32,7 @@ class Database extends Command
     {
         $contents = $this->getKeyFile();
 
-        $dbName = $this->argument('database');
+        $dbName = (string) $this->argument('database');
 
         $dbAddress = text(
             label: 'What is your MySQL server address?',

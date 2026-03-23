@@ -28,7 +28,7 @@ final class PagesPublicController extends BasePublicController
             }
         }
 
-        $templateDir = 'pages::' . config('typicms.template_dir', 'public') . '.';
+        $templateDir = 'pages::' . (string) config('typicms.template_dir', 'public') . '.';
         $template = $page->template ?: 'default';
 
         if (!view()->exists($templateDir . $template)) {
@@ -74,7 +74,7 @@ final class PagesPublicController extends BasePublicController
             ->firstOrFail();
         $locale = $request->getPreferredLanguage(enabledLocales());
 
-        return redirect($homepage->url($locale) ?? url('/'));
+        return redirect($homepage->url($locale));
     }
 
     public function langChooser(): View

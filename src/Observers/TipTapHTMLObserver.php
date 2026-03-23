@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Observers;
 
+use DOMElement;
 use DOMDocument;
 use DOMXPath;
 
@@ -43,6 +44,10 @@ class TipTapHTMLObserver
             $listItems = $xpath->query('//li');
             if ($listItems) {
                 foreach ($listItems as $li) {
+                    if (!$li instanceof DOMElement) {
+                        continue;
+                    }
+
                     $paragraphs = $xpath->query('./p', $li);
                     if ($paragraphs === false) {
                         continue;
@@ -53,6 +58,10 @@ class TipTapHTMLObserver
                     }
 
                     $p = $paragraphs->item(0);
+                    if (!$p instanceof DOMElement) {
+                        continue;
+                    }
+
                     while ($p->firstChild !== null) {
                         $li->insertBefore($p->firstChild, $p);
                     }
@@ -62,6 +71,10 @@ class TipTapHTMLObserver
             }
 
             $body = $dom->getElementsByTagName('body')->item(0);
+            if (!$body) {
+                return $content;
+            }
+
             $result = '';
             foreach ($body->childNodes as $child) {
                 $result .= $dom->saveHTML($child);

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use TypiCMS\Modules\Core\Models\User;
+use TypiCMS\NestableCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,10 +18,12 @@ use TypiCMS\Modules\Core\Models\Page;
 
 final class PagesApiController extends BaseApiController
 {
-    /** @return array{models: Collection<int, Model>, total: int} */
+    /** @return array{models: NestableCollection<int, Page>, total: int} */
     public function index(Request $request): array
     {
-        $userPreferences = $request->user()->preferences;
+        /** @var User $user */
+        $user = $request->user();
+        $userPreferences = $user->preferences ?? [];
 
         $query = Page::query()->selectFields()->orderBy('position');
 
@@ -77,7 +81,7 @@ final class PagesApiController extends BaseApiController
         return ['models' => $models, 'total' => $total];
     }
 
-    /** @return list<array<int, mixed>> */
+    /** @return array<int, array{string, string}> */
     public function linksForEditor(Request $request): array
     {
         $data = Page::query()
@@ -106,15 +110,13 @@ final class PagesApiController extends BaseApiController
     {
         $data = $request->only('moved', 'item');
         foreach ($data['item'] as $position => $item) {
+            /** @var Page|null $page */
             $page = Page::query()->find($item['id']);
-
-            $sortData = [
+            $page?->update([
                 'position' => (int) $position + 1,
                 'parent_id' => $item['parent_id'],
                 'private' => $item['private'],
-            ];
-
-            $page->update($sortData);
+            ]);
         }
     }
 

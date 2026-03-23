@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use TypiCMS\Modules\Core\Models\User;
 
+/** @extends Factory<User> */
 final class UserFactory extends Factory
 {
     protected $model = User::class;

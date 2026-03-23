@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use TypiCMS\Modules\Core\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -13,6 +14,7 @@ final class ProfileController extends BaseAdminController
 {
     public function edit(): View
     {
+        /** @var User $user */
         $user = Auth::user();
         $passkeys = $user->passkeys()->get(['id', 'name', 'last_used_at']);
 
@@ -24,6 +26,7 @@ final class ProfileController extends BaseAdminController
 
     public function update(ProfileFormRequest $request): RedirectResponse
     {
+        /** @var User $user */
         $user = Auth::user();
         $user->update($request->validated());
 

@@ -108,7 +108,7 @@ class Publish extends Command
             $contents,
         );
 
-        $this->files->put($file, $contents);
+        $this->files->put($file, $contents ?? '');
     }
 
     /**

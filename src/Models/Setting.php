@@ -25,15 +25,20 @@ class Setting extends Model
         'value',
     ];
 
-    /** @return array<string, string|array<string>> */
+    /** @return array<string, string|null|array<string, string|null>> */
     public function allToArray(): array
     {
+        /** @var array<string, string|null|array<string, string|null>> $config */
         $config = [];
 
         try {
             foreach (self::query()->get() as $object) {
                 $key = $object->key_name;
                 if ($object->group_name !== 'config') {
+                    if (!isset($config[$object->group_name]) || !is_array($config[$object->group_name])) {
+                        $config[$object->group_name] = [];
+                    }
+
                     $config[$object->group_name][$key] = $object->value;
                 } else {
                     $config[$key] = $object->value;

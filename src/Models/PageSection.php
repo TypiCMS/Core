@@ -100,7 +100,7 @@ class PageSection extends Model implements Sortable
     public function url(?string $locale = null): ?string
     {
         $locale ??= app()->getLocale();
-        $pageUrl = $this->page->url($locale);
+        $pageUrl = $this->page?->url($locale);
 
         if (!$pageUrl) {
             return null;

@@ -38,7 +38,7 @@ final class SitemapPublicController extends Controller
                 foreach ($pages as $page) {
                     $url = $page->url($locale);
                     if ($url) {
-                        $sitemap->add($url, $page->updated_at);
+                        $sitemap->add($url, $page->updated_at?->toDateTimeString());
                     }
 
                     $module = ucfirst((string) $page->module);
@@ -54,7 +54,7 @@ final class SitemapPublicController extends Controller
                     foreach ($module::published()->get() as $item) {
                         $url = $item->url($locale);
                         if ($url) {
-                            $sitemap->add($url, $item->updated_at);
+                            $sitemap->add($url, $item->updated_at?->toDateTimeString());
                         }
                     }
                 }

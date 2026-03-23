@@ -31,11 +31,13 @@ final class PasskeysApiController extends BaseApiController
     {
         $this->authorizePasskeyAccess();
 
+        /** @var User $user */
+        $user = auth()->user();
         $storePasskeyAction = Config::getAction('store_passkey', StorePasskeyAction::class);
 
         try {
             $storePasskeyAction->execute(
-                auth()->user(),
+                $user,
                 $request->passkey,
                 $request->options ?? $this->previouslyGeneratedPasskeyOptions(),
                 request()->getHost(),
@@ -50,7 +52,9 @@ final class PasskeysApiController extends BaseApiController
 
     public function destroy(Passkey $passkey): void
     {
-        $this->authorizePasskeyAccess(User::query()->findOrFail($passkey->authenticatable_id));
+        /** @var User $user */
+        $user = User::query()->findOrFail($passkey->getAttribute('authenticatable_id'));
+        $this->authorizePasskeyAccess($user);
 
         $passkey->delete();
     }
@@ -64,7 +68,9 @@ final class PasskeysApiController extends BaseApiController
             GeneratePasskeyRegisterOptionsAction::class,
         );
 
-        $options = $generatePassKeyOptionsAction->execute(auth()->user());
+        /** @var User $user */
+        $user = auth()->user();
+        $options = $generatePassKeyOptionsAction->execute($user);
 
         session()->put('passkey-registration-options', $options);
 
@@ -81,6 +87,7 @@ final class PasskeysApiController extends BaseApiController
      */
     private function authorizePasskeyAccess(?User $user = null): void
     {
+        /** @var User $currentUser */
         $currentUser = auth()->user();
 
         if ($currentUser->can('update users')) {

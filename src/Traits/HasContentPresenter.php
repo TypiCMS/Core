@@ -8,7 +8,7 @@ trait HasContentPresenter
 {
     public function presentTitle(): string
     {
-        if ($this->id === null) {
+        if (!$this->exists) {
             return '';
         }
 

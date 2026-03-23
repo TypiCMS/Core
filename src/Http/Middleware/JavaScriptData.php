@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
+use TypiCMS\Modules\Core\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Vite;
@@ -32,7 +33,9 @@ class JavaScriptData
         }
 
         if (auth()->check()) {
-            $data['permissions'] = $request->user()->all_permissions;
+            /** @var User $user */
+            $user = $request->user();
+            $data['permissions'] = $user->all_permissions;
         }
 
         $data['public_css_file'] = Vite::asset('resources/scss/public.scss');

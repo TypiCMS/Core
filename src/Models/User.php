@@ -64,6 +64,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     use Authenticatable;
     use Authorizable;
     use HasAdminUrls;
+    /** @use HasFactory<UserFactory> */
     use HasFactory;
     use HasOneTimePasswords;
     use HasRoles;
@@ -130,6 +131,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         $permissions = [];
         if (auth()->check()) {
+            /** @var User $user */
             $user = auth()->user();
             if ($user->isSuperUser()) {
                 $permissions = ['all'];

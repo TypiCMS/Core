@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Filters;
 
+use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\QueryBuilder\Filters\Filter;
@@ -27,25 +28,23 @@ class FilterOr implements Filter
                     continue;
                 }
 
+                /** @var Connection $connection */
                 $connection = $query->getConnection();
 
                 $driver = $connection->getDriverName();
 
-                match ($driver) {
-                    'pgsql' => $query->orWhereRaw("unaccent(\"{$column}\"::jsonb->>?) ILIKE unaccent(?)", [
-                        $locale,
-                        "%{$searchTerm}%",
-                    ]),
-                    default => $query->orWhereRaw(
-                        "JSON_UNQUOTE(JSON_EXTRACT(`{$column}`, ?)) LIKE ?"
-                        . (
-                            $driver !== 'mariadb'
-                                ? ' COLLATE ' . ($connection->getConfig('collation') ?? 'utf8mb4_unicode_ci')
-                                : ''
-                        ),
-                        ["$.{$locale}", "%{$searchTerm}%"],
-                    ),
-                };
+                if ($driver === 'pgsql') {
+                    $sql = "unaccent(\"{$column}\"::jsonb->>?) ILIKE unaccent(?)";
+                    $bindings = [$locale, "%{$searchTerm}%"];
+                } else {
+                    $collation = $driver !== 'mariadb'
+                        ? ' COLLATE ' . ((string) $connection->getConfig('collation') ?: 'utf8mb4_unicode_ci')
+                        : '';
+                    $sql = "JSON_UNQUOTE(JSON_EXTRACT(`{$column}`, ?)) LIKE ?{$collation}";
+                    $bindings = ["$.{$locale}", "%{$searchTerm}%"];
+                }
+
+                $query->orWhereRaw($sql, $bindings);
             }
         });
     }

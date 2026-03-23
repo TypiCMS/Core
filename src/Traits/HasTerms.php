@@ -37,7 +37,7 @@ trait HasTerms
             ->get();
     }
 
-    /** @return array<string, string> */
+    /** @return array<string, string|null> */
     public function getTaxonomyValidationRules(): array
     {
         $taxonomies = $this->getTaxonomies();

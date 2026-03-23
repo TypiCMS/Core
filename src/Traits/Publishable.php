@@ -28,7 +28,7 @@ trait Publishable
     {
         if (
             !auth('web')->check()
-            || !auth('web')->user()->can('see unpublished items')
+            || !auth('web')->user()?->can('see unpublished items')
             || !request()->boolean('preview')
         ) {
             $field = 'status';

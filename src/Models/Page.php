@@ -203,7 +203,7 @@ class Page extends Model
         $query->where($field, 'LIKE', $uri);
     }
 
-    /** @return array<string, string> */
+    /** @return array<int|string, string> */
     public function allForSelect(): array
     {
         $pages = static::query()
@@ -215,6 +215,7 @@ class Page extends Model
         return ['' => ''] + array_map(strip_tags(...), $pages);
     }
 
+    /** @return NestableCollection<int, Page> */
     public function getSubPages(): NestableCollection
     {
         $rootUriArray = explode('/', $this->uri);

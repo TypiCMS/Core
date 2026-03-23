@@ -11,7 +11,6 @@ use Spatie\MarkdownResponse\Attributes\DoNotProvideMarkdown;
 use TypiCMS\Modules\Core\Models\Menu;
 use TypiCMS\Modules\Core\Models\Menulink;
 use TypiCMS\Modules\Core\Models\Page;
-use TypiCMS\Modules\News\Models\News;
 
 final class LlmsTxtController extends Controller
 {
@@ -110,33 +109,5 @@ final class LlmsTxtController extends Controller
         }
 
         return $pages;
-    }
-
-    /** @param array<int, string> $lines */
-    private function addNews(array $lines, string $locale): array
-    {
-        $news = News::query()
-            ->published()
-            ->orderBy('date', 'desc')
-            ->limit(50)
-            ->get();
-
-        if ($news->isEmpty()) {
-            return $lines;
-        }
-
-        $lines[] = '## Recent News';
-        $lines[] = '';
-        foreach ($news as $article) {
-            $title = $article->translate('title', $locale);
-            $url = $article->url($locale);
-            if ($title && $url !== '/' && $url !== url('/')) {
-                $lines[] = "- [{$title}]({$url})";
-            }
-        }
-
-        $lines[] = '';
-
-        return $lines;
     }
 }

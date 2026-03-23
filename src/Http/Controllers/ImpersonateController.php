@@ -13,10 +13,12 @@ final class ImpersonateController extends Controller
 {
     public function start(int $id): RedirectResponse
     {
-        $user = User::query()->find($id);
+        $user = User::query()->findOrFail($id);
 
-        // Guard against administrator impersonate
-        if (auth()->user()->can('impersonate users') && !$user->isSuperUser()) {
+        /** @var User $currentUser */
+        $currentUser = auth()->user();
+
+        if ($currentUser->can('impersonate users') && !$user->isSuperUser()) {
             Session::put('impersonation', $user->id);
         } else {
             return back()->withError(__('A Superuser can not be impersonated.'));
