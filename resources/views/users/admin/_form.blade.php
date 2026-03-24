@@ -51,12 +51,12 @@
 
     <div class="row gx-3">
         <div class="col-6 col-lg-2">
-            {!! BootForm::select(__('Prefered locale'), 'locale', [
+            {!! BootForm::select(__('Interface locale'), 'locale', [
                 '' => '',
-                'en' => 'en',
-                'fr' => 'fr',
-                'nl' => 'nl',
-                'es' => 'es',
+                'en' => __('languages.en'),
+                'fr' => __('languages.fr'),
+                'nl' => __('languages.nl'),
+                'es' => __('languages.es'),
             ])->required() !!}
         </div>
     </div>

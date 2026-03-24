@@ -18,8 +18,16 @@
     </div>
 
     <div class="row gx-3">
-        <div class="col">
+        <div class="col-sm-6">
             {!! BootForm::email(__('Email'), 'email')->autocomplete('off')->required() !!}
+        </div>
+        <div class="col-sm-6">
+            {!! BootForm::select(__('Interface locale'), 'locale', [
+                'en' => __('languages.en'),
+                'fr' => __('languages.fr'),
+                'nl' => __('languages.nl'),
+                'es' => __('languages.es'),
+            ])->required() !!}
         </div>
     </div>
 
