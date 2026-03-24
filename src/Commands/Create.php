@@ -12,9 +12,6 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\MountManager;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\Visibility;
-use Symfony\Component\Console\Exception\RuntimeException;
-
-use function Laravel\Prompts\info;
 
 class Create extends Command
 {
@@ -47,7 +44,9 @@ class Create extends Command
         $moduleName = $this->argument('module');
         $isAlphabetic = preg_match('/^[a-z]+$/i', $moduleName) === 1;
         if (!$isAlphabetic) {
-            throw new RuntimeException('Only alphabetic characters are allowed.');
+            $this->components->error('Only alphabetic characters are allowed.');
+
+            return;
         }
 
         $this->module = Str::plural(mb_ucfirst(mb_strtolower($moduleName)));
@@ -60,7 +59,9 @@ class Create extends Command
         ];
 
         if ($this->moduleExists()) {
-            throw new RuntimeException('A module named ' . $this->module . ' already exists.');
+            $this->components->error('A module named ' . $this->module . ' already exists.');
+
+            return;
         }
 
         $this->publishModule();
@@ -72,24 +73,24 @@ class Create extends Command
         $this->moveMigrationFile();
         $this->addTranslations();
         $this->deleteDirectories();
-        info(
-            '<info>The module</info> <comment>'
+        $this->components->info(
+            'The module <info>'
             . $this->module
-            . '</comment> <info>was created in</info> <comment>/Modules</comment><info>, customize it!</info>',
+            . '</info> was created in <info>/Modules</info>.',
         );
-        info(
-            '<info>Add</info> <comment>TypiCMS\Modules\\'
+        $this->components->info(
+            'Add <info>TypiCMS\Modules\\'
             . $this->module
-            . '\Providers\ModuleServiceProvider::class</comment> <info>in</info> <comment>bootstrap/providers.php</comment><info>.</info>',
+            . '\Providers\ModuleServiceProvider::class</info> in <info>bootstrap/providers.php</info>.',
         );
-        info(
-            '<info>Run the database migration with the command</info> <comment>php artisan migrate</comment><info>.</info>',
+        $this->components->info(
+            'Run the database migration with the command <info>php artisan migrate</info>.',
         );
-        info('<info>Run</info> <comment>npm run dev</comment> <info>to finish.</info>');
+        $this->components->info('Run <info>npm run dev</info> to finish.');
     }
 
     /**
-     * Generate the module in Modules directory.
+     * Generate the module in the Modules directory.
      */
     private function publishModule(): void
     {
@@ -99,7 +100,7 @@ class Create extends Command
         if ($this->files->isDirectory($from)) {
             $this->publishDirectory($from, $to);
         } else {
-            throw new RuntimeException(sprintf('Can’t locate path: <%s>', $from));
+            $this->components->error(sprintf('Can’t locate path: <%s>', $from));
         }
     }
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Commands;
 
-use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
@@ -14,8 +13,6 @@ use League\Flysystem\MountManager;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\Visibility;
 
-use function Laravel\Prompts\error;
-use function Laravel\Prompts\info;
 use function Laravel\Prompts\spin;
 
 class Publish extends Command
@@ -37,7 +34,9 @@ class Publish extends Command
     {
         $this->module = mb_strtolower($this->argument('module'));
         if (!is_dir(base_path('vendor/typicms/' . $this->module))) {
-            throw new Exception('Module “' . $this->module . '” not found in vendor directory.');
+            $this->components->error('Module “' . $this->module . '” not found in vendor directory.');
+
+            return;
         }
 
         $provider = 'TypiCMS\Modules\\' . ucfirst($this->module) . '\Providers\ModuleServiceProvider';
@@ -46,9 +45,9 @@ class Publish extends Command
             $this->publishModule();
             $this->changePathForLoadViews();
             $this->uninstallFromComposer();
-            info(ucfirst($this->module) . ' module successfully published.');
+            $this->components->success(ucfirst($this->module) . ' module successfully published.');
         } else {
-            throw new Exception($provider . ' not found, did you add it to config/app.php?');
+            $this->components->error($provider . ' not found, did you add it to config/app.php?');
         }
     }
 
@@ -63,7 +62,7 @@ class Publish extends Command
         if ($this->files->isDirectory($from)) {
             $this->publishDirectory($from, $to);
         } else {
-            error(sprintf('Can’t locate path: <%s>', $from));
+            $this->components->error(sprintf('Can’t locate path: <%s>', $from));
         }
     }
 
@@ -112,7 +111,7 @@ class Publish extends Command
     }
 
     /**
-     * Remove the module from composer.
+     * Remove the module from Composer.
      */
     private function uninstallFromComposer(): void
     {
@@ -127,7 +126,7 @@ class Publish extends Command
                 'Uninstall ' . $this->module . ' from composer…',
             );
         } else {
-            info('You can now run ' . $uninstallCommand . '.');
+            $this->components->info('You can now run ' . $uninstallCommand . '.');
         }
     }
 }

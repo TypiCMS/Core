@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Commands;
 
-use Override;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 
-use function Laravel\Prompts\error;
-use function Laravel\Prompts\info;
 use function Laravel\Prompts\password;
 use function Laravel\Prompts\text;
 
@@ -88,11 +86,11 @@ class Database extends Command
 
         // Migrate DB
         if (count(DB::select('SHOW TABLES')) !== 0) {
-            error('The database ' . $dbName . ' is not empty, no migration and seed were done.');
+            $this->components->error('The database ' . $dbName . ' is not empty, no migration and seed were done.');
         } else {
             $this->callSilently('migrate');
             $this->callSilently('db:seed');
-            info('The database ' . $dbName . ' was migrated and seeded.');
+            $this->components->success('The database ' . $dbName . ' was migrated and seeded.');
         }
 
         // Write to .env

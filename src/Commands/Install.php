@@ -8,11 +8,11 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 
-use function Laravel\Prompts\info;
 use function Laravel\Prompts\intro;
 use function Laravel\Prompts\outro;
 use function Laravel\Prompts\spin;
 use function Laravel\Prompts\text;
+use function Laravel\Prompts\title;
 
 class Install extends Command
 {
@@ -28,25 +28,28 @@ class Install extends Command
 
     public function handle(): void
     {
+        title('Installing TypiCMS');
         intro('Welcome to TypiCMS');
 
-        $this->call('vendor:publish', ['--tag' => [
-            'permission-migrations',
-            'typicms-config',
-            'typicms-resources',
-            'typicms-public',
-            'typicms-lang',
-            'typicms-views',
-            'typicms-migrations',
-            'typicms-seeders',
-            'typicms-factories',
-            'typicms-tests',
-        ]]);
+        $this->call('vendor:publish', [
+            '--tag' => [
+                'permission-migrations',
+                'typicms-config',
+                'typicms-resources',
+                'typicms-public',
+                'typicms-lang',
+                'typicms-views',
+                'typicms-migrations',
+                'typicms-seeders',
+                'typicms-factories',
+                'typicms-tests',
+            ],
+        ]);
 
         app()->environment('local');
 
         // Ask for the database name
-        info('Setting up database…');
+        $this->components->info('Setting up database…');
         $dbName = text(
             label: 'Choose a database name',
             placeholder: $this->guessDatabaseName(),
@@ -69,23 +72,23 @@ class Install extends Command
             $this->setDirectoryPermissions();
             $this->installAndBuildAssets();
         } else {
-            info('Set APP_URL in your .env file and secure your site with “herd secure” or “valet secure”.');
-            info(
+            $this->components->info('Set APP_URL in your .env file and secure your site with “herd secure” or “valet secure”.');
+            $this->components->info(
                 'Make the /storage and /bootstrap/cache directories writable, then run “npm install && npm run build”.',
             );
         }
 
-        outro('Installation complete!');
-        info("Configure Laravel’s email service, then access the admin panel at https://{$domain}/admin");
+        $this->components->info('Installation complete!');
+        $this->components->info("Access the admin panel at https://{$domain}/admin");
         outro('Enjoy TypiCMS!');
+        title('');
     }
 
     private function canShellExec(): bool
     {
-        return (
+        return
             function_exists('shell_exec')
-            && !in_array('shell_exec', explode(',', (string) ini_get('disable_functions')), true)
-        );
+            && !in_array('shell_exec', explode(',', (string) ini_get('disable_functions')), true);
     }
 
     private function setDirectoryPermissions(): void
@@ -103,7 +106,7 @@ class Install extends Command
             : (shell_exec('which npm 2> /dev/null') ? 'npm' : null);
 
         if (!$packageManager) {
-            info('No package manager found. Please install bun or npm, run “npm install” and finally “npm run dev”.');
+            $this->components->error('No package manager found. Please install bun or npm, run “npm install” and finally “npm run dev”.');
 
             return;
         }
@@ -127,7 +130,7 @@ class Install extends Command
 
         $this->files->put('.env', $contents);
 
-        info("APP_URL set to {$appUrl}");
+        $this->components->info("APP_URL set to {$appUrl}");
     }
 
     private function secureSite(string $domain): void
