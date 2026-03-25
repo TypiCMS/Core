@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Spatie\LaravelPasskeys\Http\Controllers\GeneratePasskeyAuthenticationOptionsController;
+use Spatie\ResponseCache\Middlewares\DoNotCacheResponse;
 use TypiCMS\Modules\Core\Http\Controllers\AuthController;
 use TypiCMS\Modules\Core\Http\Controllers\AuthenticateUsingPasskeyController;
 use TypiCMS\Modules\Core\Http\Controllers\ImpersonateController;
@@ -26,17 +27,17 @@ foreach (locales() as $lang) {
             if (config('typicms.registration.allowed')) {
                 // Registration
                 $router
-                    ->middleware('guest')
+                    ->middleware(['guest', DoNotCacheResponse::class])
                     ->get('register', [RegisterController::class, 'showRegistrationForm'])
                     ->name('register');
                 $router
-                    ->middleware('guest')
+                    ->middleware(['guest', DoNotCacheResponse::class])
                     ->post('register', [RegisterController::class, 'register'])
                     ->name('register-action');
             }
 
             $router
-                ->middleware('guest')
+                ->middleware(['guest', DoNotCacheResponse::class])
                 ->group(function (Router $router): void {
                     // Login with a passkey
                     $router->get('login', [AuthController::class, 'showPasskeyLoginForm'])->name('login');
@@ -55,7 +56,7 @@ foreach (locales() as $lang) {
                         ->name('submit-one-time-password');
                 });
             $router
-                ->middleware('auth')
+                ->middleware(['auth', DoNotCacheResponse::class])
                 ->group(function (Router $router): void {
                     // Require passkey creation
                     $router->get('create-passkey', [AuthController::class, 'showPasskeyCreationForm'])->name(
