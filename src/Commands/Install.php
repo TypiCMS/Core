@@ -81,6 +81,9 @@ class Install extends Command
         $this->components->info('Installation complete!');
         $this->components->info("Access the admin panel at <href=https://{$domain}/en/otp-login>https://{$domain}/en/otp-login</>");
 
+        $directory = basename(base_path());
+        $this->components->info("Run <info>cd {$directory}</info> to enter your project directory.");
+
         outro('Enjoy TypiCMS!');
         title('');
     }
