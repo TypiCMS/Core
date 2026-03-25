@@ -28,7 +28,7 @@ final class PagesPublicController extends BasePublicController
             }
         }
 
-        $templateDir = 'pages::' . (string) config('typicms.template_dir', 'public') . '.';
+        $templateDir = 'pages::' . config('typicms.template_dir', 'public') . '.';
         $template = $page->template ?: 'default';
 
         if (!view()->exists($templateDir . $template)) {
