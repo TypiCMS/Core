@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
+use Spatie\ResponseCache\Facades\ResponseCache;
 use stdClass;
 use TypiCMS\Modules\Core\Models\Setting;
 use TypiCMS\Modules\Core\Services\FileUploader;
@@ -57,6 +58,7 @@ final class SettingsAdminController extends BaseAdminController
 
     public function clearCache(): RedirectResponse
     {
+        ResponseCache::clear();
         Cache::flush();
         $message = __('Cache cleared.');
 
