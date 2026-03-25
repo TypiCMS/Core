@@ -1,6 +1,6 @@
 {
     "name": "typicms/core",
-    "description": "",
+    "description": "The core package of TypiCMS, containing the base architecture, services, and shared components used across all modules.",
     "license": "MIT",
     "authors": [
         {
