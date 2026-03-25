@@ -261,6 +261,7 @@
     "Tags": "Tags",
     "Temporary Redirect": "Temporary Redirect",
     "The given data was invalid.": "The given data was invalid.",
+    "An e-mail with the one-time password has been sent to the Laravel log file.": "An e-mail with the one-time password has been sent to the Laravel log file.",
     "The response is not a streamed response.": "The response is not a streamed response.",
     "The response is not a view.": "The response is not a view.",
     "This action is unauthorized.": "This action is unauthorized.",

@@ -77,6 +77,7 @@
     "Already Reported": "Déjà rapporté",
     "Alt attribute": "Texte alternatif",
     "An account already exists for this email address.": "Un compte existe déjà pour cette adresse e-mail.",
+    "An e-mail with the one-time password has been sent to the Laravel log file.": "Un e-mail avec le mot de passe à usage unique a été envoyé dans le fichier log de Laravel.",
     "An error occurred with the data fetch.": "Une erreur s’est produite lors du chargement des données.",
     "and get access to all the content of our website.": "et accédez à tout le contenu de notre site.",
     "Archive": "Archive",

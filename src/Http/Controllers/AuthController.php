@@ -71,9 +71,13 @@ final class AuthController extends Controller
 
         $user->sendOneTimePassword();
 
+        $status = config('mail.default') === 'log'
+            ? __('An e-mail with the one-time password has been sent to the Laravel log file.')
+            : __('A one-time password has been sent to your email address.');
+
         return to_route(app()->getLocale() . '::login-code')
             ->withInput($request->only('email'))
-            ->with('status', __('A one-time password has been sent to your email address.'));
+            ->with('status', $status);
     }
 
     public function submitOneTimePassword(Request $request): RedirectResponse

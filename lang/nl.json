@@ -77,6 +77,7 @@
     "Already Reported": "Al gemeld",
     "Alt attribute": "Alternatieve tekst",
     "An account already exists for this email address.": "Er bestaat al een account voor dit e-mailadres.",
+    "An e-mail with the one-time password has been sent to the Laravel log file.": "Een e-mail met het eenmalig wachtwoord is naar het Laravel-logbestand gestuurd.",
     "An error occurred with the data fetch.": "Er is een fout opgetreden tijdens het laden van de gegevens.",
     "and get access to all the content of our website.": "en toegang tot alle inhoud van onze site.",
     "Archive": "Archiveren",
