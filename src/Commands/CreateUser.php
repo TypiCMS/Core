@@ -8,8 +8,6 @@ use Exception;
 use Illuminate\Console\Command;
 use TypiCMS\Modules\Core\Models\User;
 
-use function Laravel\Prompts\error;
-use function Laravel\Prompts\info;
 use function Laravel\Prompts\text;
 
 class CreateUser extends Command
@@ -20,7 +18,7 @@ class CreateUser extends Command
 
     public function handle(): void
     {
-        info('Creating a superuser…');
+        $this->components->info('Creating a superuser.');
 
         $firstname = text(label: 'Enter your first name', required: 'The first name is required.');
         $lastname = text(label: 'Enter your last name', required: 'The last name is required.');
@@ -43,9 +41,9 @@ class CreateUser extends Command
 
         try {
             User::query()->create($data);
-            info('Superuser created.');
+            $this->components->info('Superuser created.');
         } catch (Exception) {
-            error('The user could not be created.');
+            $this->components->error('The user could not be created.');
         }
     }
 }

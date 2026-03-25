@@ -49,7 +49,7 @@ class Install extends Command
         app()->environment('local');
 
         // Ask for the database name
-        $this->components->info('Setting up database…');
+        $this->components->info('Setting up the database.');
         $dbName = text(
             label: 'Choose a database name',
             placeholder: $this->guessDatabaseName(),
