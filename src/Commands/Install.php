@@ -79,7 +79,7 @@ class Install extends Command
         }
 
         $this->components->info('Installation complete!');
-        $this->components->info("Access the admin panel at https://{$domain}/admin");
+        $this->components->info("Access the admin panel at https://{$domain}/en/otp-login");
         outro('Enjoy TypiCMS!');
         title('');
     }
