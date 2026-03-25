@@ -1,7 +1,7 @@
 <?php
 
-use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 use TypiCMS\Modules\Core\Models\User;
 
 describe('user with “edit profile” permission', function (): void {
@@ -22,6 +22,7 @@ describe('user with “edit profile” permission', function (): void {
             'first_name' => 'Updated',
             'last_name' => 'Name',
             'email' => $user->email,
+            'locale' => 'en',
         ])->assertRedirect(route('admin::profile'));
 
         $user->refresh();
