@@ -359,6 +359,36 @@ TypiCMS\Modules\ModuleName\Providers\ModuleServiceProvider::class,
 | `SlugMonolingualObserver` | Auto-generates unique slugs from title for non-translatable models           | Model has simple `slug` and `title` string fields      |
 | `TipTapHTMLObserver`      | Patches TipTap HTML output (e.g., removes `<p>` tags inside `<li>` elements) | Model has `$tipTapContent` array with rich text fields |
 
+## Changing a Module's Sidebar Icon
+
+When changing the sidebar icon for a module, four steps are required:
+
+1. **Module config** — Update the icon class in the module's config file (e.g., `Modules/ModuleName/config/modulename.php`):
+   ```php
+   'sidebar' => [
+       'icon' => '<i class="icon-new-icon-name"></i>',
+   ],
+   ```
+
+2. **package.json** — Add the new icon name to the `icons` script's `--glyphs` list so it gets included in the Lucide font subset.
+
+3. **Lucide SCSS files** — Add the icon with its unicode value to the `$lucide-icons` map in the appropriate file:
+   - `resources/scss/admin/_lucide.scss`
+   - `resources/scss/public/_lucide.scss`
+
+   Find the unicode value by inspecting `node_modules/lucide-static/font/lucide.css` for the icon name. Add the entry alphabetically:
+   ```scss
+   $lucide-icons: (
+       // ...
+       'new-icon-name': '\eXXX',
+       // ...
+   );
+   ```
+
+4. **Build assets** — Run `bun run icons` then `bun run build` to regenerate the font subset and compiled assets.
+
+Icons come from [Lucide](https://lucide.dev/icons/). Use the Lucide icon name in kebab-case prefixed with `icon-` (e.g., Lucide's `handshake` becomes `icon-handshake`).
+
 ## Additional Resources
 
 ### Reference Files
