@@ -15,7 +15,7 @@ This skill provides guidance for developing with TypiCMS, a modular multilingual
 TypiCMS organizes functionality into self-contained modules in `Modules/`. Each module is a local Composer package with this structure:
 
 ```
-Modules/modulename/
+Modules/ModuleName/
 ├── Composers/
 │   └── SidebarViewComposer.php
 ├── config/
@@ -193,7 +193,7 @@ use Illuminate\Support\ServiceProvider;
 use TypiCMS\Modules\Core\Observers\SlugObserver;
 use TypiCMS\Modules\Core\Observers\TipTapHTMLObserver;
 use TypiCMS\Modules\ModuleName\Composers\SidebarViewComposer;
-use TypiCMS\Modules\ModuleName\Models\ModuleName;
+use TypiCMS\Modules\ModuleName\Models\ModelName;
 
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -240,24 +240,24 @@ final class AdminController extends BaseAdminController
 
     public function create(): View
     {
-        return view('modulename::admin.create', ['model' => new ModuleName()]);
+        return view('modulename::admin.create', ['model' => new ModelName()]);
     }
 
-    public function edit(ModuleName $modulename): View
+    public function edit(ModelName $modelname): View
     {
-        return view('modulename::admin.edit', ['model' => $modulename]);
+        return view('modulename::admin.edit', ['model' => $modelname]);
     }
 
     public function store(FormRequest $request): RedirectResponse
     {
-        $model = ModuleName::query()->create($request->validated());
+        $model = ModelName::query()->create($request->validated());
         return $this->redirect($request, $model)->withMessage(__('Item successfully created.'));
     }
 
-    public function update(ModuleName $modulename, FormRequest $request): RedirectResponse
+    public function update(ModelName $modelname, FormRequest $request): RedirectResponse
     {
-        $modulename->update($request->validated());
-        return $this->redirect($request, $modulename)->withMessage(__('Item successfully updated.'));
+        $modelname->update($request->validated());
+        return $this->redirect($request, $modelname)->withMessage(__('Item successfully updated.'));
     }
 }
 ```

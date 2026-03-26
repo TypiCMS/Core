@@ -4,7 +4,7 @@ Use this checklist when creating a new TypiCMS module.
 
 ## Files to Create
 
-### 1. Model (`Modules/ModuleName/Models/ModuleName.php`)
+### 1. Model (`Modules/ModuleName/Models/ModelName.php`)
 
 - [ ] Extend `Illuminate\Database\Eloquent\Model`
 - [ ] Add `HasTranslations` trait
@@ -85,11 +85,11 @@ Use this checklist when creating a new TypiCMS module.
 
 ## Naming Conventions
 
-| Type          | Convention          | Example                      |
-|---------------|---------------------|------------------------------|
-| Module folder | PascalCase plural   | `Modules/Events`             |
-| Model         | PascalCase singular | `News`, `Event`              |
-| Table         | snake_case plural   | `news`, `events`             |
-| Route name    | kebab-case          | `index-news`, `edit-event`   |
-| Config key    | snake_case          | `typicms.modules.news`       |
-| Permission    | snake_case          | `read news`, `create events` |
+| Type          | Convention                     | Example                          |
+|---------------|--------------------------------|----------------------------------|
+| Module folder | PascalCase plural              | `Modules/Events`                 |
+| Model         | PascalCase singular            | `Pertner`, `Event`               |
+| Table         | snake_case plural              | `partners`, `events`             |
+| Route name    | kebab-case plural and singular | `index-partners`, `edit-event`   |
+| Config key    | snake_case plural              | `typicms.modules.events`         |
+| Permission    | snake_case plural              | `read partners`, `create events` |
