@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Providers;
 
-use Override;
 use Exception;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Override;
 use TypiCMS\Modules\Core\Commands\Create;
 use TypiCMS\Modules\Core\Commands\CreateUser;
 use TypiCMS\Modules\Core\Commands\Database;
@@ -201,8 +201,8 @@ class ModuleServiceProvider extends ServiceProvider
             ),
             __DIR__
                 . '/../../database/migrations/create_one_time_passwords_table.php.stub' => $this->getMigrationFileName(
-                'create_one_time_passwords_table',
-            ),
+                    'create_one_time_passwords_table',
+                ),
             __DIR__ . '/../../database/migrations/create_passkeys_table.php.stub' => $this->getMigrationFileName(
                 'create_passkeys_table',
             ),

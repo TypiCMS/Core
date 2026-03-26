@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Middleware;
 
-use TypiCMS\Modules\Core\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Vite;
+use TypiCMS\Modules\Core\Models\User;
 
 class JavaScriptData
 {

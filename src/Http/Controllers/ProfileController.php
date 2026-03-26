@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use TypiCMS\Modules\Core\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use TypiCMS\Modules\Core\Http\Requests\ProfileFormRequest;
+use TypiCMS\Modules\Core\Models\User;
 
 final class ProfileController extends BaseAdminController
 {

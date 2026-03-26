@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
-use TypiCMS\Modules\Core\Models\User;
-use TypiCMS\NestableCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use TypiCMS\Modules\Core\Filters\FilterOr;
 use TypiCMS\Modules\Core\Models\Page;
+use TypiCMS\Modules\Core\Models\User;
+use TypiCMS\NestableCollection;
 
 final class PagesApiController extends BaseApiController
 {

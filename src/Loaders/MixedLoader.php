@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Loaders;
 
-use Override;
 use Exception;
 use Illuminate\Translation\FileLoader;
+use Override;
 use TypiCMS\Modules\Core\Models\Translation;
 
 class MixedLoader extends FileLoader

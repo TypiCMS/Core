@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Requests;
 
-use Override;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
+use Override;
 
 abstract class AbstractFormRequest extends FormRequest
 {

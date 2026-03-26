@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Observers;
 
-use DOMElement;
 use DOMDocument;
+use DOMElement;
 use DOMXPath;
 
 class TipTapHTMLObserver
