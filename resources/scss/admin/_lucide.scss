@@ -1,22 +1,5 @@
-@font-face {
-    font-family: 'lucide';
-    src: url('../../fonts/lucide-subset.woff2?t=1751036098915') format('woff2');
-}
+@import '../lucide-base';
 
-.lucide-icon {
-    font-family: 'lucide' !important;
-    font-size: inherit;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-[class^='icon-'],
-[class*=' icon-'] {
-    @extend .lucide-icon;
-}
-
-// Icon map
 $lucide-icons: (
     'arrow-left': '\e048',
     'calendar-range': '\e2bd',
@@ -25,47 +8,44 @@ $lucide-icons: (
     'chevron-right': '\e06f',
     'chevron-up': '\e070',
     'circle-plus': '\e081',
-    'circle-user-round': '\e466',
+    'circle-user-round': '\e462',
     'cloud-upload': '\e091',
     'corner-right-down': '\e0a5',
     'eye': '\e0ba',
     'file': '\e0c0',
     'file-archive': '\e30d',
-    'file-down': '\e31b',
-    'file-image': '\e31d',
-    'file-music': '\e562',
+    'file-down': '\e318',
+    'file-image': '\e31c',
+    'file-music': '\e55e',
     'file-text': '\e0cc',
-    'file-video-camera': '\e32d',
+    'file-video-camera': '\e32b',
     'folder': '\e0d7',
     'globe': '\e0e8',
-    'grid-2x2': '\e503',
+    'grid-2x2': '\e4ff',
+    'handshake': '\e5c0',
     'hash': '\e0ef',
     'house': '\e0f5',
     'image': '\e0f6',
-    'key-round': '\e4a7',
+    'key-round': '\e4a3',
     'lock': '\e10b',
+    'mail': '\e10f',
     'map-pin': '\e111',
     'menu': '\e115',
-    'message-square-more': '\e574',
+    'message-square-more': '\e570',
     'move': '\e121',
-    'newspaper': '\e34c',
+    'newspaper': '\e348',
     'pencil': '\e1f9',
     'search': '\e151',
     'settings': '\e154',
+    'shapes': '\e4b3',
     'sheet': '\e157',
-    'shield-user': '\e64b',
+    'shield-user': '\e647',
     'shuffle': '\e15e',
     'tag': '\e17f',
-    'text-select': '\e3e2',
+    'text-select': '\e3de',
     'user': '\e19f',
     'users': '\e1a4',
     'x': '\e1b2',
-    'circle-question-mark': '\e082',
 );
 
-// Generate icon classes
-@each $name, $unicode in $lucide-icons {
-    .icon-#{$name}::before {
-        content: $unicode;
-    }
-}
+@include generate-icons($lucide-icons);

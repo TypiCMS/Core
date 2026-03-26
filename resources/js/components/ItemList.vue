@@ -109,8 +109,8 @@
 </template>
 
 <script setup>
+import { SearchIcon, SheetIcon } from '@lucide/vue';
 import alertify from 'alertify.js';
-import { SearchIcon, SheetIcon } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

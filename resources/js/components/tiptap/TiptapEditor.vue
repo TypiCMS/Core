@@ -241,7 +241,7 @@
                 <image-icon size="18" stroke-width="1.5" />
             </button>
             <button v-tooltip type="button" class="tiptap-button" :title="t('YouTube Video')" :class="{ 'is-active': editor.isActive('youtube') }" @click="openYoutubeDialog">
-                <youtube-icon size="18" stroke-width="1.5" />
+                <square-play-icon size="18" stroke-width="1.5" />
             </button>
             <button v-tooltip type="button" class="tiptap-button" :title="t('Embed Iframe')" @click="openIframeDialog">
                 <video-icon size="18" stroke-width="1.5" />
@@ -505,18 +505,6 @@ export default {};
 </script>
 
 <script setup>
-import Image from '@tiptap/extension-image';
-import { BulletList } from '@tiptap/extension-list';
-import Paragraph from '@tiptap/extension-paragraph';
-import Subscript from '@tiptap/extension-subscript';
-import Superscript from '@tiptap/extension-superscript';
-import { TableKit } from '@tiptap/extension-table';
-import Typography from '@tiptap/extension-typography';
-import Youtube from '@tiptap/extension-youtube';
-import StarterKit from '@tiptap/starter-kit';
-import { EditorContent, useEditor } from '@tiptap/vue-3';
-import { BubbleMenu } from '@tiptap/vue-3/menus';
-import Tooltip from 'bootstrap/js/dist/tooltip';
 import {
     BetweenHorizontalEndIcon,
     BetweenHorizontalStartIcon,
@@ -551,8 +539,20 @@ import {
     VideoIcon,
     WrapTextIcon,
     XIcon,
-    YoutubeIcon,
-} from 'lucide-vue-next';
+    SquarePlayIcon,
+} from '@lucide/vue';
+import Image from '@tiptap/extension-image';
+import { BulletList } from '@tiptap/extension-list';
+import Paragraph from '@tiptap/extension-paragraph';
+import Subscript from '@tiptap/extension-subscript';
+import Superscript from '@tiptap/extension-superscript';
+import { TableKit } from '@tiptap/extension-table';
+import Typography from '@tiptap/extension-typography';
+import Youtube from '@tiptap/extension-youtube';
+import StarterKit from '@tiptap/starter-kit';
+import { EditorContent, useEditor } from '@tiptap/vue-3';
+import { BubbleMenu } from '@tiptap/vue-3/menus';
+import Tooltip from 'bootstrap/js/dist/tooltip';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

@@ -33,7 +33,7 @@
 <script setup>
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
-import { CheckIcon, FlipHorizontalIcon, FlipVerticalIcon, RotateCcwIcon, RotateCwIcon } from 'lucide-vue-next';
+import { CheckIcon, FlipHorizontalIcon, FlipVerticalIcon, RotateCcwIcon, RotateCwIcon } from '@lucide/vue';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 

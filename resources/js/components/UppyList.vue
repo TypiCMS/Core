@@ -29,8 +29,8 @@
 </template>
 
 <script setup>
+import { CircleCheckIcon, CircleXIcon } from '@lucide/vue';
 import { UppyContextSymbol } from '@uppy/vue';
-import { CircleCheckIcon, CircleXIcon } from 'lucide-vue-next';
 import { inject, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

@@ -1,22 +1,5 @@
-@font-face {
-    font-family: 'lucide';
-    src: url('../../fonts/lucide-subset.woff2?t=1751036098915') format('woff2');
-}
+@import '../lucide-base';
 
-.lucide-icon {
-    font-family: 'lucide' !important;
-    font-size: inherit;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-[class^='icon-'],
-[class*=' icon-'] {
-    @extend .lucide-icon;
-}
-
-// Icon map
 $lucide-icons: (
     'arrow-down': '\e042',
     'arrow-left': '\e048',
@@ -28,18 +11,19 @@ $lucide-icons: (
     'chevron-right': '\e06f',
     'chevron-up': '\e070',
     'circle-plus': '\e081',
-    'circle-user-round': '\e466',
+    'circle-user-round': '\e462',
     'corner-right-down': '\e0a5',
     'external-link': '\e0b9',
     'eye': '\e0ba',
     'file': '\e0c0',
     'file-archive': '\e30d',
-    'file-down': '\e31b',
-    'file-image': '\e31d',
-    'file-music': '\e562',
+    'file-down': '\e318',
+    'file-image': '\e31c',
+    'file-music': '\e55e',
     'file-text': '\e0cc',
-    'file-video-camera': '\e32d',
+    'file-video-camera': '\e32b',
     'globe': '\e0e8',
+    'handshake': '\e5c0',
     'image': '\e0f6',
     'mail': '\e10f',
     'map-pin': '\e111',
@@ -49,15 +33,11 @@ $lucide-icons: (
     'pencil': '\e1f9',
     'plus': '\e13d',
     'settings': '\e154',
-    'text-select': '\e3e2',
+    'shapes': '\e4b3',
+    'text-select': '\e3de',
     'user': '\e19f',
     'users': '\e1a4',
     'x': '\e1b2',
 );
 
-// Generate icon classes
-@each $name, $unicode in $lucide-icons {
-    .icon-#{$name}::before {
-        content: $unicode;
-    }
-}
+@include generate-icons($lucide-icons);
