@@ -53,8 +53,8 @@
 /* Basic editor styles */
 .tiptap {
     @extend .form-control;
-    border: 1px solid var(--bs-border-color);
-    border-radius: var(--bs-border-radius);
+    border: 1px solid $border-color; // Not via the CSS variable, since the public version takes precedence over the admin version.
+    border-radius: $border-radius; // Not via the CSS variable, since the public version takes precedence over the admin version.
     padding: $input-padding-y $input-padding-x;
     &:focus {
         box-shadow: 0 0 0 $focus-ring-width $focus-ring-color;
