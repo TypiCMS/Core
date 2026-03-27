@@ -1,3 +1,3 @@
 @props(['class' => ''])
 
-<img class="{{ $class }}" src="{{ Vite::asset(config('typicms.logo')) }}" alt="{{ websiteTitle() }}" width="128" height="96" />
+<img class="{{ $class }}" src="{{ Vite::asset('resources/images/typicms.svg') }}" alt="{{ websiteTitle() }}" width="128" height="96" />
