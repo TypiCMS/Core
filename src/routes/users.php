@@ -20,24 +20,24 @@ use TypiCMS\Modules\Core\Http\Middleware\JavaScriptData;
  * Front office routes
  */
 foreach (locales() as $lang) {
-    Route::middleware(['public', JavaScriptData::class])
+    Route::middleware(['public', JavaScriptData::class, DoNotCacheResponse::class])
         ->prefix($lang)
         ->name($lang . '::')
         ->group(function (Router $router): void {
             if (config('typicms.registration.allowed')) {
                 // Registration
                 $router
-                    ->middleware(['guest', DoNotCacheResponse::class])
+                    ->middleware(['guest'])
                     ->get('register', [RegisterController::class, 'showRegistrationForm'])
                     ->name('register');
                 $router
-                    ->middleware(['guest', DoNotCacheResponse::class])
+                    ->middleware(['guest'])
                     ->post('register', [RegisterController::class, 'register'])
                     ->name('register-action');
             }
 
             $router
-                ->middleware(['guest', DoNotCacheResponse::class])
+                ->middleware(['guest'])
                 ->group(function (Router $router): void {
                     // Login with a passkey
                     $router->get('login', [AuthController::class, 'showPasskeyLoginForm'])->name('login');
@@ -56,7 +56,7 @@ foreach (locales() as $lang) {
                         ->name('submit-one-time-password');
                 });
             $router
-                ->middleware(['auth', DoNotCacheResponse::class])
+                ->middleware(['auth'])
                 ->group(function (Router $router): void {
                     // Require passkey creation
                     $router->get('create-passkey', [AuthController::class, 'showPasskeyCreationForm'])->name(
@@ -72,7 +72,7 @@ foreach (locales() as $lang) {
         });
 }
 
-Route::middleware('web')->group(function (Router $router): void {
+Route::middleware(['web', DoNotCacheResponse::class])->group(function (Router $router): void {
     Route::prefix('passkeys')->group(function (): void {
         Route::get('authentication-options', GeneratePasskeyAuthenticationOptionsController::class)->name(
             'passkeys.authentication_options',
