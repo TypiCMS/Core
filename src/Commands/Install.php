@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 use function Laravel\Prompts\intro;
 use function Laravel\Prompts\outro;
-use function Laravel\Prompts\spin;
+use function Laravel\Prompts\task;
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\title;
 
@@ -94,10 +94,10 @@ class Install extends Command
 
     private function setDirectoryPermissions(): void
     {
-        spin(function (): void {
+        task('Set permissions on directories…', function (): void {
             shell_exec('chmod 755 $(find storage -type d) 2> /dev/null');
             shell_exec('chmod 755 $(find bootstrap/cache -type d) 2> /dev/null');
-        }, 'Set permissions on directories…');
+        });
     }
 
     private function installAndBuildAssets(): void
@@ -114,12 +114,12 @@ class Install extends Command
 
         $installCommand = $packageManager === 'bun' ? 'bun i' : 'npm install';
 
-        spin(
-            fn (): string|false|null => shell_exec("{$installCommand} 2> /dev/null"),
+        task(
             "Install packages with {$packageManager}…",
+            fn (): string|false|null => shell_exec("{$installCommand} 2> /dev/null"),
         );
 
-        spin(fn (): string|false|null => shell_exec("{$packageManager} run build 2> /dev/null"), 'Compiling assets…');
+        task('Compiling assets…', fn (): string|false|null => shell_exec("{$packageManager} run build 2> /dev/null"));
     }
 
     private function setAppUrl(string $domain): void
@@ -137,17 +137,17 @@ class Install extends Command
     private function secureSite(string $domain): void
     {
         if (shell_exec('which herd 2> /dev/null')) {
-            spin(fn (): string|false|null => shell_exec(
+            task('Securing site with Herd…', fn (): string|false|null => shell_exec(
                 "herd secure {$domain} 2> /dev/null",
-            ), 'Securing site with Herd…');
+            ));
 
             return;
         }
 
         if (shell_exec('which valet 2> /dev/null')) {
-            spin(fn (): string|false|null => shell_exec(
+            task('Securing site with Valet…', fn (): string|false|null => shell_exec(
                 "valet secure {$domain} 2> /dev/null",
-            ), 'Securing site with Valet…');
+            ));
         }
     }
 
