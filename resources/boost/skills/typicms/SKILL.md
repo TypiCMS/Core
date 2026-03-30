@@ -197,10 +197,13 @@ use TypiCMS\Modules\ModuleName\Models\ModelName;
 
 class ModuleServiceProvider extends ServiceProvider
 {
-    public function boot(): void
+    public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/modulename.php', 'typicms.modules.modulename');
+    }
 
+    public function boot(): void
+    {
         $this->loadRoutesFrom(__DIR__ . '/../routes/modulename.php');
 
         $this->loadViewsFrom(__DIR__ . '/../../resources/views/', 'modulename');
