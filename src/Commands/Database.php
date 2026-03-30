@@ -34,7 +34,7 @@ class Database extends Command
             placeholder: $this->guessDatabaseName(),
             default: $this->guessDatabaseName(),
             required: 'The database name is required.',
-            hint: 'The database will be created if it doesn\'t exist.',
+            hint: 'The database will be created if it doesn’t exist.',
         ));
 
         $dbAddress = text(
