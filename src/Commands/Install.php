@@ -8,6 +8,8 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Attribute\AsCommand;
 
+use Symfony\Component\Process\Process;
+
 use function Laravel\Prompts\title;
 
 #[AsCommand(name: 'typicms:install', description: 'Installation of TypiCMS: Laravel setup, installation of composer and npm packages')]
@@ -98,10 +100,13 @@ class Install extends Command
 
         $this->components->task(
             "Installing packages with {$packageManager}",
-            fn (): string|false|null => shell_exec("{$installCommand} 2> /dev/null"),
+            fn (): bool => $this->runWithSpinner($installCommand),
         );
 
-        $this->components->task('Compiling assets', fn (): string|false|null => shell_exec("{$packageManager} run build 2> /dev/null"));
+        $this->components->task(
+            'Compiling assets',
+            fn (): bool => $this->runWithSpinner("{$packageManager} run build"),
+        );
     }
 
     private function setAppUrl(string $domain): void
@@ -119,18 +124,39 @@ class Install extends Command
     private function secureSite(string $domain): void
     {
         if (shell_exec('which herd 2> /dev/null')) {
-            $this->components->task('Securing site with Herd', fn (): string|false|null => shell_exec(
-                "herd secure {$domain} 2> /dev/null",
-            ));
+            $this->components->task(
+                'Securing site with Herd',
+                fn (): bool => $this->runWithSpinner("herd secure {$domain}"),
+            );
 
             return;
         }
 
         if (shell_exec('which valet 2> /dev/null')) {
-            $this->components->task('Securing site with Valet', fn (): string|false|null => shell_exec(
-                "valet secure {$domain} 2> /dev/null",
-            ));
+            $this->components->task(
+                'Securing site with Valet',
+                fn (): bool => $this->runWithSpinner("valet secure {$domain}"),
+            );
         }
+    }
+
+    private function runWithSpinner(string $command): bool
+    {
+        $frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+        $i = 0;
+
+        $process = Process::fromShellCommandline("{$command} 2> /dev/null");
+        $process->setTimeout(300);
+        $process->start();
+
+        while ($process->isRunning()) {
+            $this->output->write($frames[$i % count($frames)]);
+            usleep(100_000);
+            $this->output->write("\x08 \x08");
+            $i++;
+        }
+
+        return $process->isSuccessful();
     }
 
     private function getDirectoryName(): string
