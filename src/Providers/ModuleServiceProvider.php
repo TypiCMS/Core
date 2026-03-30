@@ -32,6 +32,13 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        /*
+         * Get configuration from DB and store it in the container.
+         */
+        config([
+            'typicms' => array_merge(new Setting()->allToArray(), config('typicms', [])),
+        ]);
+
         Gate::before(function ($user) {
             if ($user->isSuperUser()) {
                 return true;
@@ -259,13 +266,6 @@ class ModuleServiceProvider extends ServiceProvider
     #[Override]
     public function register(): void
     {
-        /*
-         * Get configuration from DB and store it in the container.
-         */
-        config([
-            'typicms' => array_merge(new Setting()->allToArray(), config('typicms', [])),
-        ]);
-
         /*
          * Merge config from the different modules.
          */
