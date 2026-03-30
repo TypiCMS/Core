@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
-use Exception;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 /**
  * @property int $id
@@ -40,7 +40,7 @@ class Setting extends Model
                     $config[$key] = $object->value;
                 }
             }
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             Log::error($exception->getMessage());
         }
 
