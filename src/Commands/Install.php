@@ -64,7 +64,7 @@ class Install extends Command
         // Create a superuser
         $this->call('typicms:user');
 
-        $domain = $this->guessSiteName() . '.test';
+        $domain = $this->getDirectoryName() . '.test';
 
         if ($this->canShellExec()) {
             $this->setAppUrl($domain);
@@ -154,13 +154,13 @@ class Install extends Command
         }
     }
 
-    private function guessSiteName(): string
+    private function getDirectoryName(): string
     {
-        return Str::slug(Str::before(basename(dirname(app_path())), '.'));
+        return basename(dirname(app_path()));
     }
 
     public function guessDatabaseName(): string
     {
-        return $this->guessSiteName();
+        return Str::slug(Str::before($this->getDirectoryName(), '.'));
     }
 }

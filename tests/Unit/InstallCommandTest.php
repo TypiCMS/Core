@@ -12,7 +12,7 @@ function createInstallCommand(Filesystem $filesystem): Install
     $components = mock(Factory::class);
     $components->shouldReceive('info')->andReturnNull();
 
-    (new ReflectionProperty($command, 'components'))->setValue($command, $components);
+    new ReflectionProperty($command, 'components')->setValue($command, $components);
 
     return $command;
 }
@@ -35,7 +35,7 @@ test('guessDatabaseName returns a valid slug', function (): void {
     expect($command->guessDatabaseName())->toMatch('/^[a-z0-9]+(-[a-z0-9]+)*$/');
 });
 
-test('guessDatabaseName matches the project directory name', function (): void {
+test('guessDatabaseName matches the project directory name without TLD', function (): void {
     $command = resolve(Install::class);
     $expected = Str::slug(Str::before(basename(dirname(app_path())), '.'));
 
