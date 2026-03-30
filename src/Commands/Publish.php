@@ -45,9 +45,10 @@ class Publish extends Command
             $this->publishModule();
             $this->changePathForLoadViews();
             $this->uninstallFromComposer();
+            $this->addProviderToBootstrap($provider);
             $this->components->success(ucfirst($this->module).' module successfully published.');
         } else {
-            $this->components->error($provider.' not found, did you add it to config/app.php?');
+            $this->components->error($provider.' not found.');
         }
     }
 
@@ -108,6 +109,29 @@ class Publish extends Command
         );
 
         $this->files->put($file, $contents ?? '');
+    }
+
+    /**
+     * Add the module's service provider to bootstrap/providers.php.
+     */
+    private function addProviderToBootstrap(string $provider): void
+    {
+        $file = base_path('bootstrap/providers.php');
+        $contents = $this->files->get($file);
+
+        $providerLine = "    {$provider}::class,";
+
+        if (str_contains($contents, $provider)) {
+            return;
+        }
+
+        $contents = str_replace(
+            '    AppServiceProvider::class,',
+            "{$providerLine}\n\n    AppServiceProvider::class,",
+            $contents,
+        );
+
+        $this->files->put($file, $contents);
     }
 
     /**
