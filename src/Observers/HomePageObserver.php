@@ -28,7 +28,7 @@ class HomePageObserver
      */
     public function saved(Page $page): void
     {
-        if (!$page->is_home && Page::query()->where('is_home', 1)->count() === 0) {
+        if (! $page->is_home && Page::query()->where('is_home', 1)->count() === 0) {
             Page::query()
                 ->whereNull('parent_id')
                 ->orderBy('position')

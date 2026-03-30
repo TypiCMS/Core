@@ -14,7 +14,7 @@ final class PageSectionsAdminController extends BaseAdminController
 {
     public function create(Page $page): View
     {
-        $model = new PageSection();
+        $model = new PageSection;
 
         return view('pages::admin.create-section', ['model' => $model, 'page' => $page]);
     }

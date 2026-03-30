@@ -18,7 +18,7 @@ final class PagesAdminController extends BaseAdminController
 
     public function create(): View
     {
-        $model = new Page();
+        $model = new Page;
 
         return view('pages::admin.create', ['model' => $model]);
     }

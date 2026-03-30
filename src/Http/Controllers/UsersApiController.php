@@ -30,7 +30,7 @@ final class UsersApiController extends BaseApiController
             ->allowedIncludes('roles')
             ->allowedSorts('first_name', 'last_name', 'email', 'superuser', 'activated')
             ->allowedFilters(
-                AllowedFilter::custom('first_name,last_name,email', new FilterOr()),
+                AllowedFilter::custom('first_name,last_name,email', new FilterOr),
             )
             ->paginate($request->integer('per_page'));
     }

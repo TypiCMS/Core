@@ -19,7 +19,7 @@ final class RolesAdminController extends BaseAdminController
 
     public function create(): View
     {
-        $model = new Role();
+        $model = new Role;
         $checkedPermissions = [];
 
         return view('roles::admin.create', ['model' => $model, 'checkedPermissions' => $checkedPermissions]);
@@ -59,7 +59,7 @@ final class RolesAdminController extends BaseAdminController
     }
 
     /**
-     * @param array<string> $permissions
+     * @param  array<string>  $permissions
      */
     private function storeNewPermissions(array $permissions): void
     {

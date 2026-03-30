@@ -102,7 +102,7 @@ class PageSection extends Model implements Sortable
         $locale ??= app()->getLocale();
         $pageUrl = $this->page?->url($locale);
 
-        if (!$pageUrl) {
+        if (! $pageUrl) {
             return null;
         }
 
@@ -113,7 +113,7 @@ class PageSection extends Model implements Sortable
     {
         $url = $this->url($locale);
 
-        if (!$url) {
+        if (! $url) {
             return null;
         }
 

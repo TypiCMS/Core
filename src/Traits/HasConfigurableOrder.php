@@ -14,7 +14,7 @@ trait HasConfigurableOrder
     #[Scope]
     protected function order(Builder $query): void
     {
-        if ($order = config('typicms.modules.' . $this->getTable() . '.order')) {
+        if ($order = config('typicms.modules.'.$this->getTable().'.order')) {
             foreach ($order as $field => $direction) {
                 $query->orderBy($field, $direction);
             }

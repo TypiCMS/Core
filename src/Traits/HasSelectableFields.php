@@ -24,10 +24,10 @@ trait HasSelectableFields
     protected function selectFields(Builder $query): void
     {
         $locale = request('locale', app()->getLocale());
-        $fields = explode(',', (string) request()->string('fields.' . $this->getTable()));
+        $fields = explode(',', (string) request()->string('fields.'.$this->getTable()));
 
         foreach ($fields as $field) {
-            if (!$this->isFieldTranslatable($field)) {
+            if (! $this->isFieldTranslatable($field)) {
                 $query->addSelect($field);
 
                 continue;
@@ -56,7 +56,7 @@ trait HasSelectableFields
                 $bindings = [$locale];
             } else {
                 $collation = $driver !== 'mariadb'
-                    ? ' COLLATE ' . ((string) $connection->getConfig('collation') ?: 'utf8mb4_unicode_ci')
+                    ? ' COLLATE '.((string) $connection->getConfig('collation') ?: 'utf8mb4_unicode_ci')
                     : '';
                 $sql = "CASE WHEN JSON_UNQUOTE(JSON_EXTRACT(`{$field}`, ?)) = 'null' THEN NULL ELSE JSON_UNQUOTE(JSON_EXTRACT(`{$field}`, ?)) END{$collation} AS `{$field}_translated`";
                 $bindings = ["$.{$locale}", "$.{$locale}"];

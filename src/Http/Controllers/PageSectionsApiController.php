@@ -23,7 +23,7 @@ final class PageSectionsApiController extends BaseApiController
         return QueryBuilder::for($query)
             ->allowedSorts('status_translated', 'position', 'title_translated')
             ->allowedFilters(
-                AllowedFilter::custom('title', new FilterOr()),
+                AllowedFilter::custom('title', new FilterOr),
             )
             ->allowedIncludes('image')
             ->where('page_id', $page->id)

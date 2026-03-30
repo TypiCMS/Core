@@ -6,7 +6,6 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Database\Factories\UserFactory;
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Translation\HasLocalePreference;
@@ -84,7 +83,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function presentTitle(): string
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->first_name.' '.$this->last_name;
     }
 
     /** @return array<string, string> */
@@ -107,7 +106,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function getPasskeyDisplayName(): string
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->first_name.' '.$this->last_name;
     }
 
     public function preferredLocale()

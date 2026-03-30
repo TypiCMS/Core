@@ -28,7 +28,7 @@ final class SearchPublicController extends BasePublicController
         $words = array_filter(explode(' ', $data['query']));
 
         foreach ($config as $key => $data) {
-            if (!is_array($data)) {
+            if (! is_array($data)) {
                 continue;
             }
 
@@ -46,18 +46,18 @@ final class SearchPublicController extends BasePublicController
                                         ->published()
                                         ->whereRaw(
                                             'JSON_UNQUOTE(JSON_EXTRACT(`'
-                                            . $column
-                                            . '`, \'$.'
-                                            . app()->getLocale()
-                                            . "')) LIKE '%"
-                                            . $word
-                                            . "%' COLLATE utf8mb4_unicode_ci",
+                                            .$column
+                                            .'`, \'$.'
+                                            .app()->getLocale()
+                                            ."')) LIKE '%"
+                                            .$word
+                                            ."%' COLLATE utf8mb4_unicode_ci",
                                         );
                                 } else {
                                     $query
                                         ->published()
                                         ->whereRaw(
-                                            '`' . $column . "` LIKE '%" . $word . "%' COLLATE utf8mb4_unicode_ci",
+                                            '`'.$column."` LIKE '%".$word."%' COLLATE utf8mb4_unicode_ci",
                                         );
                                 }
                             }
@@ -73,22 +73,22 @@ final class SearchPublicController extends BasePublicController
                                                 ->published()
                                                 ->whereRaw(
                                                     'JSON_UNQUOTE(JSON_EXTRACT(`'
-                                                    . $column
-                                                    . '`, \'$.'
-                                                    . app()->getLocale()
-                                                    . "')) LIKE '%"
-                                                    . $word
-                                                    . "%' COLLATE utf8mb4_unicode_ci",
+                                                    .$column
+                                                    .'`, \'$.'
+                                                    .app()->getLocale()
+                                                    ."')) LIKE '%"
+                                                    .$word
+                                                    ."%' COLLATE utf8mb4_unicode_ci",
                                                 );
                                         } else {
                                             $query
                                                 ->published()
                                                 ->whereRaw(
                                                     '`'
-                                                    . $column
-                                                    . "` LIKE '%"
-                                                    . $word
-                                                    . "%' COLLATE utf8mb4_unicode_ci",
+                                                    .$column
+                                                    ."` LIKE '%"
+                                                    .$word
+                                                    ."%' COLLATE utf8mb4_unicode_ci",
                                                 );
                                         }
                                     }

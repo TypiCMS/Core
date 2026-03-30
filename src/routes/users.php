@@ -22,7 +22,7 @@ use TypiCMS\Modules\Core\Http\Middleware\JavaScriptData;
 foreach (locales() as $lang) {
     Route::middleware(['public', JavaScriptData::class, DoNotCacheResponse::class])
         ->prefix($lang)
-        ->name($lang . '::')
+        ->name($lang.'::')
         ->group(function (Router $router): void {
             if (config('typicms.registration.allowed')) {
                 // Registration

@@ -112,7 +112,7 @@ class FileUploader
 
     private function sanitizeSvg(UploadedFile $file): void
     {
-        $sanitizer = new Sanitizer();
+        $sanitizer = new Sanitizer;
         $sanitizedContent = $sanitizer->sanitize($file->getContent());
 
         file_put_contents($file->getPathname(), $sanitizedContent ?: '');
@@ -120,7 +120,7 @@ class FileUploader
 
     private function correctImageOrientation(UploadedFile $file): void
     {
-        if (!function_exists('exif_read_data')) {
+        if (! function_exists('exif_read_data')) {
             return;
         }
 
@@ -142,7 +142,7 @@ class FileUploader
 
         $img = imagecreatefromjpeg($path);
 
-        if (!$img) {
+        if (! $img) {
             return;
         }
 

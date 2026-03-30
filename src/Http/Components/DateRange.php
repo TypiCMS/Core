@@ -19,9 +19,9 @@ class DateRange extends Component
 
     public function render(): View
     {
-        $showYear = !$this->start->isSameYear(now()) || !$this->end->isSameYear(now());
-        $startFormat = $this->format . ($showYear ? ' YYYY' : '');
-        $endFormat = $this->format . ' YYYY';
+        $showYear = ! $this->start->isSameYear(now()) || ! $this->end->isSameYear(now());
+        $startFormat = $this->format.($showYear ? ' YYYY' : '');
+        $endFormat = $this->format.' YYYY';
 
         if ($this->start->isSameYear($this->end)) {
             $startFormat = $this->format;

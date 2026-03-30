@@ -33,21 +33,21 @@ class Publish extends Command
     public function handle(): void
     {
         $this->module = mb_strtolower($this->argument('module'));
-        if (!is_dir(base_path('vendor/typicms/' . $this->module))) {
-            $this->components->error('Module “' . $this->module . '” not found in vendor directory.');
+        if (! is_dir(base_path('vendor/typicms/'.$this->module))) {
+            $this->components->error('Module “'.$this->module.'” not found in vendor directory.');
 
             return;
         }
 
-        $provider = 'TypiCMS\Modules\\' . ucfirst($this->module) . '\Providers\ModuleServiceProvider';
+        $provider = 'TypiCMS\Modules\\'.ucfirst($this->module).'\Providers\ModuleServiceProvider';
         if (class_exists($provider)) {
             $this->call('vendor:publish', ['--provider' => $provider]);
             $this->publishModule();
             $this->changePathForLoadViews();
             $this->uninstallFromComposer();
-            $this->components->success(ucfirst($this->module) . ' module successfully published.');
+            $this->components->success(ucfirst($this->module).' module successfully published.');
         } else {
-            $this->components->error($provider . ' not found, did you add it to config/app.php?');
+            $this->components->error($provider.' not found, did you add it to config/app.php?');
         }
     }
 
@@ -56,8 +56,8 @@ class Publish extends Command
      */
     private function publishModule(): void
     {
-        $from = base_path('vendor/typicms/' . $this->module . '/src');
-        $to = base_path('Modules/' . ucfirst($this->module));
+        $from = base_path('vendor/typicms/'.$this->module.'/src');
+        $to = base_path('Modules/'.ucfirst($this->module));
 
         if ($this->files->isDirectory($from)) {
             $this->publishDirectory($from, $to);
@@ -88,8 +88,8 @@ class Publish extends Command
             }
 
             $path = Str::after($file['path'], 'from://');
-            if ($file['type'] === 'file' && (!$manager->fileExists('to://' . $path) || $this->option('force'))) {
-                $manager->write('to://' . $path, $manager->read($file['path']));
+            if ($file['type'] === 'file' && (! $manager->fileExists('to://'.$path) || $this->option('force'))) {
+                $manager->write('to://'.$path, $manager->read($file['path']));
             }
         }
     }
@@ -99,7 +99,7 @@ class Publish extends Command
      */
     private function changePathForLoadViews(): void
     {
-        $file = 'Modules/' . ucfirst($this->module) . '/Providers/ModuleServiceProvider.php';
+        $file = 'Modules/'.ucfirst($this->module).'/Providers/ModuleServiceProvider.php';
         $contents = $this->files->get($file);
         $contents = preg_replace(
             '#loadViewsFrom(.*)/\', \'(.*)\'\)#',
@@ -115,18 +115,18 @@ class Publish extends Command
      */
     private function uninstallFromComposer(): void
     {
-        $uninstallCommand = 'composer remove typicms/' . $this->module . ' 2> /dev/null';
+        $uninstallCommand = 'composer remove typicms/'.$this->module.' 2> /dev/null';
 
         if (
             function_exists('shell_exec')
-            && !in_array('shell_exec', explode(',', (string) ini_get('disable_functions')), true)
+            && ! in_array('shell_exec', explode(',', (string) ini_get('disable_functions')), true)
         ) {
             spin(
                 fn (): string|false|null => shell_exec($uninstallCommand),
-                'Uninstall ' . $this->module . ' from composer…',
+                'Uninstall '.$this->module.' from composer…',
             );
         } else {
-            $this->components->info('You can now run ' . $uninstallCommand . '.');
+            $this->components->info('You can now run '.$uninstallCommand.'.');
         }
     }
 }

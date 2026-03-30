@@ -36,7 +36,7 @@ class UsersExport implements FromCollection, ShouldAutoSize, WithColumnFormattin
                 'superuser',
             )
             ->allowedFilters(
-                AllowedFilter::custom('first_name,last_name,email', new FilterOr()),
+                AllowedFilter::custom('first_name,last_name,email', new FilterOr),
             )
             ->get();
     }

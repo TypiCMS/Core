@@ -23,7 +23,7 @@ final class TermsApiController extends BaseApiController
         return QueryBuilder::for($query)
             ->allowedSorts('title_translated', 'position')
             ->allowedFilters(
-                AllowedFilter::custom('title', new FilterOr()),
+                AllowedFilter::custom('title', new FilterOr),
             )
             ->paginate($request->integer('per_page'));
     }

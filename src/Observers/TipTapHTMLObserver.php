@@ -34,17 +34,17 @@ class TipTapHTMLObserver
         try {
             $dom->loadHTML(
                 '<!DOCTYPE html><html lang="'
-                . $locale
-                . '"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><body>'
-                . $content
-                . '</body></html>',
+                .$locale
+                .'"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><body>'
+                .$content
+                .'</body></html>',
                 LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD,
             );
             $xpath = new DOMXPath($dom);
             $listItems = $xpath->query('//li');
             if ($listItems) {
                 foreach ($listItems as $li) {
-                    if (!$li instanceof DOMElement) {
+                    if (! $li instanceof DOMElement) {
                         continue;
                     }
 
@@ -58,7 +58,7 @@ class TipTapHTMLObserver
                     }
 
                     $p = $paragraphs->item(0);
-                    if (!$p instanceof DOMElement) {
+                    if (! $p instanceof DOMElement) {
                         continue;
                     }
 
@@ -71,7 +71,7 @@ class TipTapHTMLObserver
             }
 
             $body = $dom->getElementsByTagName('body')->item(0);
-            if (!$body) {
+            if (! $body) {
                 return $content;
             }
 

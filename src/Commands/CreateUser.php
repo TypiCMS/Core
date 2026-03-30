@@ -13,7 +13,6 @@ use function Laravel\Prompts\text;
 #[AsCommand(name: 'typicms:user', description: 'Creation of a superuser.')]
 class CreateUser extends Command
 {
-
     public function handle(): void
     {
         $firstname = text(label: 'Enter your first name', required: 'The first name is required.');
@@ -22,7 +21,7 @@ class CreateUser extends Command
             label: 'Enter your email address',
             required: 'The email address is required.',
             validate: fn (string $value): ?string => match (true) {
-                !filter_var($value, FILTER_VALIDATE_EMAIL) => 'The email address is not valid.',
+                ! filter_var($value, FILTER_VALIDATE_EMAIL) => 'The email address is not valid.',
                 default => null,
             },
         );

@@ -23,14 +23,14 @@ final class UsersAdminController extends BaseAdminController
 
     public function export(Request $request): BinaryFileResponse
     {
-        $filename = date('Y-m-d') . ' ' . config('app.name') . ' users.xlsx';
+        $filename = date('Y-m-d').' '.config('app.name').' users.xlsx';
 
-        return Excel::download(new UsersExport(), $filename);
+        return Excel::download(new UsersExport, $filename);
     }
 
     public function create(): View
     {
-        $model = new User();
+        $model = new User;
         $checkedRoles = [];
         $roles = Role::query()->get();
         $passkeys = collect();

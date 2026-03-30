@@ -82,12 +82,12 @@ class File extends Model
         $base = log((float) ($this->filesize ?? 0), 1024);
         $suffixes = ['', __('KB'), __('MB'), __('GB'), __('TB')];
 
-        return round(1024 ** ($base - floor($base)), $precision) . ' ' . $suffixes[(int) floor($base)];
+        return round(1024 ** ($base - floor($base)), $precision).' '.$suffixes[(int) floor($base)];
     }
 
     protected function getImagePathOrDefault(): string
     {
-        if (!$this->path || !Storage::exists($this->path)) {
+        if (! $this->path || ! Storage::exists($this->path)) {
             return $this->imgNotFound();
         }
 
@@ -97,7 +97,7 @@ class File extends Model
     /**
      * Return URL of a resized or cropped image.
      *
-     * @param array<string|int, string|array<string>> $options
+     * @param  array<string|int, string|array<string>>  $options
      */
     public function render(
         ?int $width = null,
@@ -110,13 +110,13 @@ class File extends Model
             return Storage::url($path);
         }
 
-        return url(Croppa::url('storage/' . $path, $width, $height, $options));
+        return url(Croppa::url('storage/'.$path, $width, $height, $options));
     }
 
     public function imgNotFound(): string
     {
-        if (!Storage::exists($this->imageNotFound)) {
-            Storage::put($this->imageNotFound, \Illuminate\Support\Facades\File::get(resource_path('images/' . $this->imageNotFound)));
+        if (! Storage::exists($this->imageNotFound)) {
+            Storage::put($this->imageNotFound, \Illuminate\Support\Facades\File::get(resource_path('images/'.$this->imageNotFound)));
         }
 
         return $this->imageNotFound;

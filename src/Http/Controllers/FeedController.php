@@ -12,7 +12,7 @@ final class FeedController
     #[DoNotProvideMarkdown]
     public function __invoke(string $module): Feed
     {
-        abort_unless(config('typicms.modules.' . $module . '.has_feed', false), 404);
+        abort_unless(config('typicms.modules.'.$module.'.has_feed', false), 404);
 
         $page = getPageLinkedToModule($module);
         abort_if(is_null($page), 404);
@@ -21,7 +21,7 @@ final class FeedController
         $items = $model->published()->order()->take(10)->get();
 
         $feed = [
-            'title' => websiteTitle() . ' – ' . $page->title,
+            'title' => websiteTitle().' – '.$page->title,
             'description' => strip_tags($page->body ?? ''),
             'language' => localeAndRegion('-'),
             'image' => $page->image ? $page->image->render(1200, 630) : null,

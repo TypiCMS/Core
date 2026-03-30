@@ -28,7 +28,7 @@ class JavaScriptData
         foreach (locales() as $locale) {
             $data['locales'][] = [
                 'short' => $locale,
-                'long' => trans('languages.' . $locale),
+                'long' => trans('languages.'.$locale),
             ];
         }
 

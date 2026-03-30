@@ -25,9 +25,9 @@ final class FilesApiController extends BaseApiController
                 ->with('folder')
                 ->where(function ($query) use ($searchTerm): void {
                     $query
-                        ->where('name', 'like', '%' . $searchTerm . '%')
-                        ->orWhere('title', 'like', '%' . $searchTerm . '%')
-                        ->orWhere('description', 'like', '%' . $searchTerm . '%');
+                        ->where('name', 'like', '%'.$searchTerm.'%')
+                        ->orWhere('title', 'like', '%'.$searchTerm.'%')
+                        ->orWhere('description', 'like', '%'.$searchTerm.'%');
                 })
                 ->orderByRaw('type="f" desc')
                 ->orderBy('name');
@@ -62,7 +62,7 @@ final class FilesApiController extends BaseApiController
     public function store(FileFormRequest $request): JsonResponse
     {
         $data = $request->validated();
-        $model = new File();
+        $model = new File;
         $model->fill(Arr::except($data, 'name'));
         if ($request->hasFile('name')) {
             $file = new FileUploader()->handle($request->file('name'));
@@ -97,7 +97,7 @@ final class FilesApiController extends BaseApiController
 
         $file->delete();
 
-        Croppa::delete('storage/' . $file->getOriginal('path'));
+        Croppa::delete('storage/'.$file->getOriginal('path'));
 
         return response()->json(status: 204);
     }
@@ -112,7 +112,7 @@ final class FilesApiController extends BaseApiController
             $folder = $folder->folder;
         }
 
-        $firstItem = new stdClass();
+        $firstItem = new stdClass;
         $firstItem->name = __('Files');
         $firstItem->type = 'f';
         $firstItem->id = '';

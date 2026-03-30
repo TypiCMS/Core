@@ -22,7 +22,7 @@ final class TaxonomiesApiController extends BaseApiController
         return QueryBuilder::for($query)
             ->allowedSorts('title_translated', 'validation_rule', 'result_string_translated', 'position', 'name')
             ->allowedFilters(
-                AllowedFilter::custom('title,name,validation_rule,result_string', new FilterOr()),
+                AllowedFilter::custom('title,name,validation_rule,result_string', new FilterOr),
             )
             ->paginate($request->integer('per_page'));
     }

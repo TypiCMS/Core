@@ -16,7 +16,7 @@ trait HasSlugScope
     {
         $field = 'slug';
         if (in_array($field, $this->translatable ?? [], true)) {
-            $field .= '->' . app()->getLocale();
+            $field .= '->'.app()->getLocale();
         }
 
         $query->where($field, $slug);

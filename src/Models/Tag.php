@@ -57,7 +57,7 @@ class Tag extends Model
             $modelClass = $taggable->taggable_type;
             $modelId = $taggable->taggable_id;
 
-            if (!class_exists($modelClass)) {
+            if (! class_exists($modelClass)) {
                 continue;
             }
 
@@ -65,7 +65,7 @@ class Tag extends Model
                 $model = $modelClass::query()->find($modelId);
                 if ($model) {
                     $type = $model->getTable();
-                    if (!isset($grouped[$type])) {
+                    if (! isset($grouped[$type])) {
                         $grouped[$type] = collect();
                     }
 

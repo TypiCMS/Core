@@ -13,7 +13,6 @@ use function Laravel\Prompts\title;
 #[AsCommand(name: 'typicms:install', description: 'Installation of TypiCMS: Laravel setup, installation of composer and npm packages')]
 class Install extends Command
 {
-
     public function __construct(
         protected Filesystem $files,
     ) {
@@ -48,7 +47,7 @@ class Install extends Command
         // Create a superuser
         $this->call('typicms:user');
 
-        $domain = $this->getDirectoryName() . '.test';
+        $domain = $this->getDirectoryName().'.test';
 
         if ($this->canShellExec()) {
             $this->setAppUrl($domain);
@@ -72,7 +71,7 @@ class Install extends Command
     {
         return
             function_exists('shell_exec')
-            && !in_array('shell_exec', explode(',', (string) ini_get('disable_functions')), true);
+            && ! in_array('shell_exec', explode(',', (string) ini_get('disable_functions')), true);
     }
 
     private function setDirectoryPermissions(): void
@@ -89,7 +88,7 @@ class Install extends Command
             ? 'bun'
             : (shell_exec('which npm 2> /dev/null') ? 'npm' : null);
 
-        if (!$packageManager) {
+        if (! $packageManager) {
             $this->components->error('No package manager found. Please install bun or npm, run “npm install” and finally “npm run dev”.');
 
             return;
@@ -111,7 +110,7 @@ class Install extends Command
 
         $this->components->task("Setting app URL to {$appUrl}", function () use ($appUrl): void {
             $contents = $this->files->get('.env');
-            $contents = (string) preg_replace('/(' . preg_quote('APP_URL=', '/') . ')(.*)/', '${1}' . $appUrl, $contents);
+            $contents = (string) preg_replace('/('.preg_quote('APP_URL=', '/').')(.*)/', '${1}'.$appUrl, $contents);
 
             $this->files->put('.env', $contents);
         });

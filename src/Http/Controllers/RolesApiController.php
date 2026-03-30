@@ -20,7 +20,7 @@ final class RolesApiController extends BaseApiController
         return QueryBuilder::for(Role::class)
             ->allowedSorts('name')
             ->allowedFilters(
-                AllowedFilter::custom('name', new FilterOr()),
+                AllowedFilter::custom('name', new FilterOr),
             )
             ->paginate($request->integer('per_page'));
     }

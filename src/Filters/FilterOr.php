@@ -22,7 +22,7 @@ class FilterOr implements Filter
 
         $query->where(function (Builder $query) use ($columns, $searchTerm, $locale): void {
             foreach ($columns as $column) {
-                if (!$this->isTranslatable($query->getModel(), $column)) {
+                if (! $this->isTranslatable($query->getModel(), $column)) {
                     $query->orWhere($column, 'like', "%{$searchTerm}%");
 
                     continue;
@@ -38,7 +38,7 @@ class FilterOr implements Filter
                     $bindings = [$locale, "%{$searchTerm}%"];
                 } else {
                     $collation = $driver !== 'mariadb'
-                        ? ' COLLATE ' . ((string) $connection->getConfig('collation') ?: 'utf8mb4_unicode_ci')
+                        ? ' COLLATE '.((string) $connection->getConfig('collation') ?: 'utf8mb4_unicode_ci')
                         : '';
                     $sql = "JSON_UNQUOTE(JSON_EXTRACT(`{$column}`, ?)) LIKE ?{$collation}";
                     $bindings = ["$.{$locale}", "%{$searchTerm}%"];

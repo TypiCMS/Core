@@ -94,10 +94,10 @@ final class PasskeysApiController extends BaseApiController
             return;
         }
 
-        if ($currentUser->can('edit profile') && (!$user instanceof User || $user->id === $currentUser->id)) {
+        if ($currentUser->can('edit profile') && (! $user instanceof User || $user->id === $currentUser->id)) {
             return;
         }
 
-        throw new AuthorizationException();
+        throw new AuthorizationException;
     }
 }

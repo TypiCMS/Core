@@ -34,7 +34,7 @@ final class FilesAdminController extends BaseAdminController
         $file->fill(Arr::except($request->validated(), 'file'));
 
         if ($request->hasFile('file')) {
-            Croppa::delete('storage/' . $file->path);
+            Croppa::delete('storage/'.$file->path);
             $newFile = new FileUploader()->handle($request->file('file'));
             $file->name = $newFile['filename'];
             $file->fill(Arr::except($newFile, 'filename'));
@@ -47,7 +47,7 @@ final class FilesAdminController extends BaseAdminController
 
     public function crop(File $file, Request $request): JsonResponse
     {
-        if (!$request->hasFile('cropped_image')) {
+        if (! $request->hasFile('cropped_image')) {
             return response()->json(['error' => 'No image provided'], 400);
         }
 
@@ -57,14 +57,14 @@ final class FilesAdminController extends BaseAdminController
 
         $croppedImage = $request->file('cropped_image');
 
-        Croppa::delete('storage/' . $file->path);
+        Croppa::delete('storage/'.$file->path);
 
-        $manager = new ImageManager(new Driver());
+        $manager = new ImageManager(new Driver);
         $image = $manager->read($croppedImage->getRealPath());
         $width = $image->width();
         $height = $image->height();
 
-        $path = 'files/' . $file->name;
+        $path = 'files/'.$file->name;
         $encodedImage = $image->toJpeg(quality: 90);
         Storage::put($path, (string) $encodedImage);
 

@@ -19,7 +19,6 @@ use function Laravel\Prompts\text;
 #[AsCommand(name: 'typicms:database', description: 'Set database credentials in .env file')]
 class Database extends Command
 {
-
     public function __construct(
         protected Filesystem $files,
     ) {
@@ -59,18 +58,18 @@ class Database extends Command
 
         $this->components->task('Updating .env file with database credentials', function () use (&$contents, $dbAddress, $dbPort, $dbName, $dbUserName, $dbPassword): void {
             $search = [
-                '/(' . preg_quote('DB_HOST=', '/') . ')(.*)/',
-                '/(' . preg_quote('DB_PORT=', '/') . ')(.*)/',
-                '/(' . preg_quote('DB_DATABASE=', '/') . ')(.*)/',
-                '/(' . preg_quote('DB_USERNAME=', '/') . ')(.*)/',
-                '/(' . preg_quote('DB_PASSWORD=', '/') . ')(.*)/',
+                '/('.preg_quote('DB_HOST=', '/').')(.*)/',
+                '/('.preg_quote('DB_PORT=', '/').')(.*)/',
+                '/('.preg_quote('DB_DATABASE=', '/').')(.*)/',
+                '/('.preg_quote('DB_USERNAME=', '/').')(.*)/',
+                '/('.preg_quote('DB_PASSWORD=', '/').')(.*)/',
             ];
             $replace = [
-                '${1}' . $dbAddress,
-                '${1}' . $dbPort,
-                '${1}' . $dbName,
-                '${1}' . $dbUserName,
-                '${1}' . $dbPassword,
+                '${1}'.$dbAddress,
+                '${1}'.$dbPort,
+                '${1}'.$dbName,
+                '${1}'.$dbUserName,
+                '${1}'.$dbPassword,
             ];
             $contents = (string) preg_replace($search, $replace, $contents);
 
@@ -86,13 +85,13 @@ class Database extends Command
         DB::purge();
 
         $this->components->task('Creating database', function () use ($dbName): void {
-            DB::unprepared('CREATE DATABASE IF NOT EXISTS `' . $dbName . '`');
-            DB::unprepared('USE `' . $dbName . '`');
+            DB::unprepared('CREATE DATABASE IF NOT EXISTS `'.$dbName.'`');
+            DB::unprepared('USE `'.$dbName.'`');
             DB::connection()->setDatabaseName($dbName);
         });
 
         if (count(DB::select('SHOW TABLES')) !== 0) {
-            $this->components->error('The database ' . $dbName . ' is not empty, no migration and seed were done.');
+            $this->components->error('The database '.$dbName.' is not empty, no migration and seed were done.');
         } else {
             $this->components->task('Migrating and seeding database', function (): void {
                 $this->callSilently('migrate');

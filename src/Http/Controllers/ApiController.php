@@ -21,7 +21,7 @@ final class ApiController extends BaseApiController
         $data = QueryBuilder::for($query)
             ->allowedSorts('status_translated', 'name', 'body_translated')
             ->allowedFilters(
-                AllowedFilter::custom('name,body', new FilterOr()),
+                AllowedFilter::custom('name,body', new FilterOr),
             )
             ->paginate($request->integer('per_page'));
 

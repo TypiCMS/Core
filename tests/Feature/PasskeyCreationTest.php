@@ -13,7 +13,7 @@ function createTestUser(array $attributes = []): User
     return User::query()->create(array_merge([
         'first_name' => 'Test',
         'last_name' => 'User',
-        'email' => Str::random(10) . '@example.com',
+        'email' => Str::random(10).'@example.com',
         'activated' => true,
     ], $attributes));
 }

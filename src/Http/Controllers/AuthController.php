@@ -57,7 +57,7 @@ final class AuthController extends Controller
         $this->email = (string) $request->string('email');
         $user = $this->findUserOrFail();
 
-        if (!$user->activated) {
+        if (! $user->activated) {
             return back()
                 ->withInput($request->only('email'))
                 ->withErrors(['email' => __('Your account is not activated.')]);
@@ -75,7 +75,7 @@ final class AuthController extends Controller
             ? __('An e-mail with the one-time password has been sent to the Laravel log file.')
             : __('A one-time password has been sent to your email address.');
 
-        return to_route(app()->getLocale() . '::login-code')
+        return to_route(app()->getLocale().'::login-code')
             ->withInput($request->only('email'))
             ->with('status', $status);
     }
@@ -83,7 +83,7 @@ final class AuthController extends Controller
     public function submitOneTimePassword(Request $request): RedirectResponse
     {
         if (session()->missing('email')) {
-            return to_route(app()->getLocale() . '::otp-login')
+            return to_route(app()->getLocale().'::otp-login')
                 ->with('status', __('Please enter your email address first.'));
         }
 
@@ -91,8 +91,8 @@ final class AuthController extends Controller
         session()->forget('email');
         $user = $this->findUserOrFail();
 
-        if (!$user->activated) {
-            return to_route(app()->getLocale() . '::otp-login')->withErrors(['email' => __(
+        if (! $user->activated) {
+            return to_route(app()->getLocale().'::otp-login')->withErrors(['email' => __(
                 'Your account is not activated.',
             )]);
         }
@@ -104,7 +104,7 @@ final class AuthController extends Controller
         auth()->login($user);
 
         if ($user->passkeys->isEmpty()) {
-            return to_route(app()->getLocale() . '::create-passkey');
+            return to_route(app()->getLocale().'::create-passkey');
         }
 
         return to_route('admin::dashboard');
@@ -119,7 +119,7 @@ final class AuthController extends Controller
 
     protected function rateLimitHit(): bool
     {
-        $rateLimitKey = 'one-time-password-component-send-code.' . $this->email;
+        $rateLimitKey = 'one-time-password-component-send-code.'.$this->email;
 
         if (RateLimiter::tooManyAttempts($rateLimitKey, 10)) {
             return true;

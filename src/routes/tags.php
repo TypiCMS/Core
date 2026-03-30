@@ -18,7 +18,7 @@ if (($page = getPageLinkedToModule('tags')) instanceof Page) {
         if ($page->isPublished($lang) && ($path = $page->path($lang))) {
             Route::middleware($middleware)
                 ->prefix($path)
-                ->name($lang . '::')
+                ->name($lang.'::')
                 ->group(function (Router $router): void {
                     $router->get('/', [TagsPublicController::class, 'index'])->name('index-tags');
                     $router->get('{slug}', [TagsPublicController::class, 'show'])->name('tag');

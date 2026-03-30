@@ -18,7 +18,7 @@ final class TagsAdminController extends BaseAdminController
 
     public function create(): View
     {
-        $model = new Tag();
+        $model = new Tag;
 
         return view('tags::admin.create', ['model' => $model]);
     }

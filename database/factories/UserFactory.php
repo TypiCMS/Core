@@ -17,7 +17,7 @@ final class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'email' => Str::random(10) . '@gmail.com',
+            'email' => Str::random(10).'@gmail.com',
             'first_name' => 'Test',
             'last_name' => 'User',
             'locale' => 'en',

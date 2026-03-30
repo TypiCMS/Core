@@ -25,7 +25,7 @@ class SetLocaleFromUrl
             $locale = $firstSegment;
         }
 
-        if (!in_array($locale, enabledLocales(), true)) {
+        if (! in_array($locale, enabledLocales(), true)) {
             abort(404);
         }
 

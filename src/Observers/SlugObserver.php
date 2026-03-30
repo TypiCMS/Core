@@ -30,7 +30,7 @@ class SlugObserver
     private function slugExists(mixed $model, string $locale): bool
     {
         return $model::query()
-            ->where('slug->' . $locale, $model->getTranslation('slug', $locale))
+            ->where('slug->'.$locale, $model->getTranslation('slug', $locale))
             ->when($model->id, fn ($query) => $query->where('id', '!=', $model->id))
             ->exists();
     }

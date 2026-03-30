@@ -43,7 +43,7 @@ trait HasTerms
         $taxonomies = $this->getTaxonomies();
         $rules = [];
         foreach ($taxonomies as $taxonomy) {
-            $rules['terms.' . $taxonomy->name] = $taxonomy->validation_rule;
+            $rules['terms.'.$taxonomy->name] = $taxonomy->validation_rule;
         }
 
         return $rules;

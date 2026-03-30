@@ -30,9 +30,9 @@ trait HasBodyPresenter
             $patterns[] = $match[0];
             $module = $match[1];
             if (in_array($module, ['page', 'tag', 'user', 'term', 'taxonomy'], true)) {
-                $classname = 'TypiCMS\Modules\Core\Models\\' . ucfirst($module);
+                $classname = 'TypiCMS\Modules\Core\Models\\'.ucfirst($module);
             } else {
-                $classname = 'TypiCMS\Modules\\' . ucfirst(Str::plural($module)) . '\Models\\' . ucfirst($module);
+                $classname = 'TypiCMS\Modules\\'.ucfirst(Str::plural($module)).'\Models\\'.ucfirst($module);
             }
 
             $model = null;
@@ -46,8 +46,8 @@ trait HasBodyPresenter
 
             if ($module === 'page') {
                 $replacements[] = $model->url($lang) ?? '';
-            } elseif (Route::has($lang . '::' . $module)) {
-                $replacements[] = route($lang . '::' . $module, $model->slug);
+            } elseif (Route::has($lang.'::'.$module)) {
+                $replacements[] = route($lang.'::'.$module, $model->slug);
             } else {
                 $replacements[] = '';
             }

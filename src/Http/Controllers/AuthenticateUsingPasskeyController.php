@@ -18,7 +18,7 @@ final class AuthenticateUsingPasskeyController extends BaseController
 
         $user = auth()->user();
 
-        if ($user && !$user->activated) {
+        if ($user && ! $user->activated) {
             auth()->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();

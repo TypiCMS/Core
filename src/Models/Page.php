@@ -6,8 +6,8 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Attributes\CollectedBy;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -128,7 +128,7 @@ class Page extends Model
         $parentUri = explode('/', (string) $parentUri);
         array_pop($parentUri);
 
-        return implode('/', $parentUri) . '/';
+        return implode('/', $parentUri).'/';
     }
 
     public function metaTitle(): string
@@ -141,7 +141,7 @@ class Page extends Model
         $locale ??= app()->getLocale();
         $uri = $this->translate('uri', $locale);
         if (mainLocale() !== $locale || config('typicms.main_locale_in_url')) {
-            $uri = $uri ? $locale . '/' . $uri : $locale;
+            $uri = $uri ? $locale.'/'.$uri : $locale;
         }
 
         return $uri ?: '/';
@@ -173,7 +173,7 @@ class Page extends Model
     {
         $field = 'uri';
         if (in_array($field, $this->translatable ?? [], true)) {
-            $field .= '->' . app()->getLocale();
+            $field .= '->'.app()->getLocale();
         }
 
         $query->where($field, $uri);
@@ -185,7 +185,7 @@ class Page extends Model
     {
         $field = 'uri';
         if (in_array($field, $this->translatable ?? [], true)) {
-            $field .= '->' . app()->getLocale();
+            $field .= '->'.app()->getLocale();
         }
 
         $query->where($field, '!=', $uri);
@@ -197,7 +197,7 @@ class Page extends Model
     {
         $field = 'uri';
         if (in_array($field, $this->translatable ?? [], true)) {
-            $field .= '->' . app()->getLocale();
+            $field .= '->'.app()->getLocale();
         }
 
         $query->where($field, 'LIKE', $uri);
@@ -221,7 +221,7 @@ class Page extends Model
         $rootUriArray = explode('/', $this->uri);
         $uri = $rootUriArray[0];
         if (in_array($uri, locales(), true) && isset($rootUriArray[1])) {
-            $uri .= '/' . $rootUriArray[1];
+            $uri .= '/'.$rootUriArray[1];
             // add next part of uri in locale
         }
 
@@ -229,7 +229,7 @@ class Page extends Model
             ->whereUriIsNot($uri)
             ->published()
             ->orderBy('position')
-            ->whereUriIsLike($uri . '%')
+            ->whereUriIsLike($uri.'%')
             ->get()
             ->noCleaning()
             ->nest();

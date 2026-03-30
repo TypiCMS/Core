@@ -22,7 +22,7 @@ final class MenusApiController extends BaseApiController
         return QueryBuilder::for($query)
             ->allowedSorts('status_translated', 'name')
             ->allowedFilters(
-                AllowedFilter::custom('name', new FilterOr()),
+                AllowedFilter::custom('name', new FilterOr),
             )
             ->allowedIncludes('image')
             ->paginate($request->integer('per_page'));

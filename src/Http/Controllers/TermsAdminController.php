@@ -19,7 +19,7 @@ final class TermsAdminController extends BaseAdminController
 
     public function create(Taxonomy $taxonomy): View
     {
-        $model = new Term();
+        $model = new Term;
 
         return view('taxonomies::admin.create-term', ['model' => $model, 'taxonomy' => $taxonomy]);
     }

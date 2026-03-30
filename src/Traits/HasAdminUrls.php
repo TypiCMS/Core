@@ -11,7 +11,7 @@ trait HasAdminUrls
 {
     public function editUrl(): string
     {
-        $route = 'admin::edit-' . Str::singular($this->getTable());
+        $route = 'admin::edit-'.Str::singular($this->getTable());
         if (Route::has($route)) {
             return route($route, $this->id);
         }
@@ -21,7 +21,7 @@ trait HasAdminUrls
 
     public function indexUrl(): string
     {
-        $route = 'admin::index-' . $this->getTable();
+        $route = 'admin::index-'.$this->getTable();
         if (Route::has($route)) {
             return route($route);
         }

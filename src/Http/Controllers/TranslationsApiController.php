@@ -22,7 +22,7 @@ final class TranslationsApiController extends BaseApiController
         return QueryBuilder::for($query)
             ->allowedSorts('key', 'translation_translated')
             ->allowedFilters(
-                AllowedFilter::custom('key,translation', new FilterOr()),
+                AllowedFilter::custom('key,translation', new FilterOr),
             )
             ->paginate($request->integer('per_page'));
     }

@@ -24,7 +24,7 @@ final class TagsApiController extends BaseApiController
         return QueryBuilder::for($query)
             ->allowedSorts('tag', 'uses')
             ->allowedFilters(
-                AllowedFilter::custom('tag', new FilterOr()),
+                AllowedFilter::custom('tag', new FilterOr),
             )
             ->addSelect([
                 'uses' => DB::table('taggables')->selectRaw('COUNT(*)')->whereColumn('tags.id', 'taggables.tag_id'),

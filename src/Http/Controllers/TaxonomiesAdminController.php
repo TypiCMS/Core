@@ -18,7 +18,7 @@ final class TaxonomiesAdminController extends BaseAdminController
 
     public function create(): View
     {
-        $model = new Taxonomy();
+        $model = new Taxonomy;
         $modules = array_filter(
             config('typicms.modules'),
             fn (array $item): bool => isset($item['has_taxonomies']) && $item['has_taxonomies'] === true,

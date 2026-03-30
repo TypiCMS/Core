@@ -11,7 +11,7 @@ class FileFormRequest extends AbstractFormRequest
     {
         $fileRule =
             'mimes:jpeg,gif,png,bmp,tiff,pdf,eps,svg,json,rtf,txt,md,doc,xls,ppt,docx,xlsx,ppsx,pptx,sldx,mp4,m4a,aac,aiff,mov,avi,mp3,wav,zip|max:'
-            . config('typicms.max_file_upload_size');
+            .config('typicms.max_file_upload_size');
         $rules = [
             'folder_id' => ['nullable', 'integer'],
             'alt_attribute.*' => ['nullable', 'max:255'],

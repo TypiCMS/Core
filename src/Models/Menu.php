@@ -79,14 +79,14 @@ class Menu extends Model
             ->where('name', $name)
             ->first();
 
-        if (!$menu) {
+        if (! $menu) {
             Log::info("No menu named “{$name}” found.");
 
             return null;
         }
 
         $menu->menulinks = $menu->menulinks->each(function (Menulink $menulink): void {
-            $menulink->items = new Collection();
+            $menulink->items = new Collection;
             $menulink->href = $this->setHref($menulink);
             $menulink->class = $this->setClass($menulink);
         })->nest();
@@ -100,7 +100,7 @@ class Menu extends Model
             return $menulink->website;
         }
 
-        if (!$menulink->page) {
+        if (! $menulink->page) {
             return '/';
         }
 

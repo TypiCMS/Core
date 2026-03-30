@@ -25,7 +25,7 @@ final class SitemapPublicController extends Controller
         }
 
         // check if there is cached sitemap and build new only if is not
-        if (!$sitemap->isCached()) {
+        if (! $sitemap->isCached()) {
             foreach (enabledLocales() as $locale) {
                 app()->setLocale($locale);
 
@@ -43,11 +43,11 @@ final class SitemapPublicController extends Controller
 
                     $module = ucfirst((string) $page->module);
 
-                    if (!class_exists($module)) {
+                    if (! class_exists($module)) {
                         continue;
                     }
 
-                    if (!Route::has($locale . '::' . Str::singular(mb_strtolower($module)))) {
+                    if (! Route::has($locale.'::'.Str::singular(mb_strtolower($module)))) {
                         continue;
                     }
 

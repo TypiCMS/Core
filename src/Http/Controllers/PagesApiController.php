@@ -30,7 +30,7 @@ final class PagesApiController extends BaseApiController
 
         if ($hasSearchFilter) {
             $queryBuilder = QueryBuilder::for($query)->allowedFilters(
-                AllowedFilter::custom('title', new FilterOr()),
+                AllowedFilter::custom('title', new FilterOr),
             );
 
             $matchingPages = $queryBuilder->get();
@@ -69,7 +69,7 @@ final class PagesApiController extends BaseApiController
                 if ($hasSearchFilter) {
                     $page->isExpanded = true;
                 } else {
-                    $page->isExpanded = !Arr::get($userPreferences, 'pages_' . $page->id . '_collapsed', false);
+                    $page->isExpanded = ! Arr::get($userPreferences, 'pages_'.$page->id.'_collapsed', false);
                 }
 
                 return $page;

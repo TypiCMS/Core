@@ -18,7 +18,7 @@ final class ImpersonateController extends Controller
         /** @var User $currentUser */
         $currentUser = auth()->user();
 
-        if ($currentUser->can('impersonate users') && !$user->isSuperUser()) {
+        if ($currentUser->can('impersonate users') && ! $user->isSuperUser()) {
             Session::put('impersonation', $user->id);
         } else {
             return back()->withError(__('A Superuser can not be impersonated.'));

@@ -16,7 +16,7 @@ class VerifyLocalizedUrl
         if (
             config('typicms.main_locale_in_url')
             && $request->segment(1) !== null
-            && !in_array($request->segment(1), enabledLocales(), true)
+            && ! in_array($request->segment(1), enabledLocales(), true)
         ) {
             abort(404);
         }

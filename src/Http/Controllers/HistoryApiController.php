@@ -33,7 +33,7 @@ final class HistoryApiController extends BaseApiController
             )
             ->allowedSorts('created_at', 'title', 'historable_type', 'action', 'user_name')
             ->allowedFilters(
-                AllowedFilter::custom('title,historable_type,action,user_name', new FilterOr()),
+                AllowedFilter::custom('title,historable_type,action,user_name', new FilterOr),
             )
             ->selectSub(
                 User::query()->selectRaw('CONCAT(`first_name`, " ", `last_name`)')->whereColumn('user_id', 'users.id'),

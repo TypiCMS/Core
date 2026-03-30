@@ -35,7 +35,7 @@ final class MenulinksApiController extends BaseApiController
                 /** @var Menulink $menulink */
                 $menulink->data = $menulink->toArray();
                 $menulink->isLeaf = false;
-                $menulink->isExpanded = !Arr::get($userPreferences, 'menulinks_' . $menulink->id . '_collapsed', false);
+                $menulink->isExpanded = ! Arr::get($userPreferences, 'menulinks_'.$menulink->id.'_collapsed', false);
 
                 return $menulink;
             })

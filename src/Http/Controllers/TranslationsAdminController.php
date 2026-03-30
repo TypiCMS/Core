@@ -18,7 +18,7 @@ final class TranslationsAdminController extends BaseAdminController
 
     public function create(): View
     {
-        $model = new Translation();
+        $model = new Translation;
 
         return view('translations::admin.create', ['model' => $model]);
     }
