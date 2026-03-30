@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Attributes\CollectedBy;
+use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -53,6 +54,7 @@ use TypiCMS\Translatable\HasTranslations;
  * @property-read mixed $translations
  */
 #[CollectedBy(NestableCollection::class)]
+#[Unguarded]
 class Menulink extends Model
 {
     use HasConfigurableOrder;
@@ -62,8 +64,6 @@ class Menulink extends Model
     use HasTranslations;
     use Historable;
     use Publishable;
-
-    protected $guarded = [];
 
     /** @var array<string> */
     public array $translatable = [

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TypiCMS\Modules\Core\Models;
 
 use Exception;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -17,13 +18,9 @@ use Illuminate\Support\Facades\Log;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
+#[Fillable(['group_name', 'key_name', 'value'])]
 class Setting extends Model
 {
-    protected $fillable = [
-        'group_name',
-        'key_name',
-        'value',
-    ];
 
     /** @return array<string, string|null|array<string, string|null>> */
     public function allToArray(): array

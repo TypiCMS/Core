@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -31,6 +32,7 @@ use TypiCMS\Translatable\HasTranslations;
  * @property-read mixed $translations
  */
 #[ObservedBy([TipTapHTMLObserver::class])]
+#[Unguarded]
 class Block extends Model
 {
     use HasAdminUrls;
@@ -42,8 +44,6 @@ class Block extends Model
     use HasTranslations;
     use Historable;
     use Publishable;
-
-    protected $guarded = [];
 
     /** @var array<string> */
     public array $translatable = [

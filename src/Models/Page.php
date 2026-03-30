@@ -6,6 +6,7 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Attributes\CollectedBy;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -77,6 +78,7 @@ use TypiCMS\Translatable\HasTranslations;
  */
 #[ObservedBy([AddToMenuObserver::class, HomePageObserver::class, UriObserver::class, TipTapHTMLObserver::class])]
 #[CollectedBy(NestableCollection::class)]
+#[Unguarded]
 class Page extends Model
 {
     use HasAdminUrls;
@@ -91,8 +93,6 @@ class Page extends Model
     use Historable;
     use Navigable;
     use Publishable;
-
-    protected $guarded = [];
 
     /** @return array<string, string> */
     #[Override]

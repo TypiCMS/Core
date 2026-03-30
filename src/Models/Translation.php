@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -25,6 +26,7 @@ use TypiCMS\Translatable\HasTranslations;
  * @property-write mixed $status
  * @property-read mixed $translations
  */
+#[Unguarded]
 class Translation extends Model
 {
     use HasAdminUrls;
@@ -33,8 +35,6 @@ class Translation extends Model
     use HasSlugScope;
     use HasTranslations;
     use Historable;
-
-    protected $guarded = [];
 
     public function presentTitle(): string
     {

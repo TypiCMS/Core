@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -41,6 +42,7 @@ use TypiCMS\Translatable\HasTranslations;
  * @property Carbon|null $updated_at
  */
 #[ObservedBy([TipTapHTMLObserver::class])]
+#[Unguarded]
 class PageSection extends Model implements Sortable
 {
     use HasBodyPresenter;
@@ -53,8 +55,6 @@ class PageSection extends Model implements Sortable
     use Historable;
     use Publishable;
     use SortableTrait;
-
-    protected $guarded = [];
 
     /** @return array<string, string> */
     #[Override]

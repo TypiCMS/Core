@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TypiCMS\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -35,6 +36,7 @@ use TypiCMS\Translatable\HasTranslations;
  * @property-read mixed $translations
  */
 #[ObservedBy(SlugObserver::class)]
+#[Unguarded]
 class Term extends Model implements Sortable
 {
     use HasConfigurableOrder;
@@ -43,8 +45,6 @@ class Term extends Model implements Sortable
     use HasTranslations;
     use Historable;
     use SortableTrait;
-
-    protected $guarded = [];
 
     /** @var array<string> */
     public array $translatable = [

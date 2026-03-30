@@ -6,6 +6,7 @@ namespace TypiCMS\Modules\Core\Models;
 
 use Bkwld\Croppa\Facades\Croppa;
 use Exception;
+use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -49,6 +50,7 @@ use TypiCMS\Translatable\HasTranslations;
  * @property-read mixed $translations
  * @property-read mixed $storage_url
  */
+#[Unguarded]
 class File extends Model
 {
     use HasAdminUrls;
@@ -58,8 +60,6 @@ class File extends Model
     use HasSlugScope;
     use HasTranslations;
     use Historable;
-
-    protected $guarded = [];
 
     /** @var array<string> */
     public array $translatable = [

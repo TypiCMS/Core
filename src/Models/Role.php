@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Spatie\Permission\Contracts\Role as RoleContract;
@@ -26,12 +27,11 @@ use TypiCMS\Modules\Core\Traits\Historable;
  * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
  */
+#[Unguarded]
 class Role extends SpatieRole implements RoleContract
 {
     use HasAdminUrls;
     use Historable;
-
-    protected $guarded = [];
 
     public function presentTitle(): string
     {

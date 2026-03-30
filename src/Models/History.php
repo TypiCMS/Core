@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -32,6 +33,7 @@ use TypiCMS\Modules\Core\Traits\HasSlugScope;
  * @property-write mixed $status
  * @property-read User|null $user
  */
+#[Unguarded]
 class History extends Model
 {
     use HasConfigurableOrder;
@@ -39,8 +41,6 @@ class History extends Model
     use HasSlugScope;
 
     protected $table = 'history';
-
-    protected $guarded = [];
 
     protected $appends = ['href'];
 
