@@ -262,6 +262,21 @@ class ModuleServiceProvider extends ServiceProvider
             "<?php echo view('menus::public._menu', ['name' => %s]) ?>",
             $name,
         ));
+
+        /*
+         |--------------------------------------------------------------------------
+         | Register TypiCMS commands.
+         |--------------------------------------------------------------------------
+         */
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Create::class,
+                CreateUser::class,
+                Database::class,
+                Install::class,
+                Publish::class,
+            ]);
+        }
     }
 
     /**
@@ -270,19 +285,6 @@ class ModuleServiceProvider extends ServiceProvider
     #[Override]
     public function register(): void
     {
-        /*
-         |--------------------------------------------------------------------------
-         | Register TypiCMS commands.
-         |--------------------------------------------------------------------------
-         */
-        $this->commands([
-            Create::class,
-            CreateUser::class,
-            Database::class,
-            Install::class,
-            Publish::class,
-        ]);
-
         /*
          |--------------------------------------------------------------------------
          | Register TypiCMS routes.

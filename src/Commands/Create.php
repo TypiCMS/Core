@@ -12,7 +12,9 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\MountManager;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\Visibility;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand(name: 'typicms:create', description: 'Create a module in the /Modules directory.')]
 class Create extends Command
 {
     protected string $module;
@@ -30,8 +32,6 @@ class Create extends Command
 
     protected $signature = 'typicms:create {module : The module that you want to create}
             {--force : Overwrite any existing files.}';
-
-    protected $description = 'Create a module in the /Modules directory.';
 
     public function __construct(
         protected Filesystem $files,

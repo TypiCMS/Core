@@ -12,17 +12,17 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\MountManager;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\Visibility;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 use function Laravel\Prompts\spin;
 
+#[AsCommand(name: 'typicms:publish', description: 'Move a module from the vendor directory to the /Modules directory.')]
 class Publish extends Command
 {
     protected string $module;
 
     protected $signature = 'typicms:publish {module : The module that you want to publish}
             {--force : Overwrite any existing files.}';
-
-    protected $description = 'Move a module from the vendor directory to the /Modules directory.';
 
     public function __construct(
         protected Filesystem $files,

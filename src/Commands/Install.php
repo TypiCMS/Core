@@ -6,19 +6,13 @@ namespace TypiCMS\Modules\Core\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
+use Symfony\Component\Console\Attribute\AsCommand;
 
-use function Laravel\Prompts\intro;
-use function Laravel\Prompts\outro;
-use function Laravel\Prompts\task;
-use function Laravel\Prompts\text;
 use function Laravel\Prompts\title;
 
+#[AsCommand(name: 'typicms:install', description: 'Installation of TypiCMS: Laravel setup, installation of composer and npm packages')]
 class Install extends Command
 {
-    protected $name = 'typicms:install';
-
-    protected $description = 'Installation of TypiCMS: Laravel setup, installation of composer and npm packages';
 
     public function __construct(
         protected Filesystem $files,
@@ -29,7 +23,7 @@ class Install extends Command
     public function handle(): void
     {
         title('Installing TypiCMS');
-        intro('Welcome to TypiCMS');
+        $this->components->info('Welcome to TypiCMS');
 
         $this->call('vendor:publish', [
             '--tag' => [
@@ -48,18 +42,8 @@ class Install extends Command
 
         app()->environment('local');
 
-        // Ask for the database name
-        $this->components->info('Setting up the database.');
-        $dbName = text(
-            label: 'Choose a database name',
-            placeholder: $this->guessDatabaseName(),
-            default: $this->guessDatabaseName(),
-            required: 'The database name is required.',
-            hint: 'The database will be created if it doesn’t exist.',
-        );
-
         // Set database credentials in .env and migrate
-        $this->call('typicms:database', ['database' => $dbName]);
+        $this->call('typicms:database');
 
         // Create a superuser
         $this->call('typicms:user');
@@ -80,8 +64,7 @@ class Install extends Command
 
         $this->components->info('Installation complete!');
         $this->components->info("Access the admin panel at <href=https://{$domain}/en/otp-login>https://{$domain}/en/otp-login</>");
-
-        outro('Enjoy TypiCMS!');
+        $this->components->info('Enjoy TypiCMS!');
         title('');
     }
 
@@ -94,7 +77,7 @@ class Install extends Command
 
     private function setDirectoryPermissions(): void
     {
-        task('Set permissions on directories…', function (): void {
+        $this->components->task('Setting permissions', function (): void {
             shell_exec('chmod 755 $(find storage -type d) 2> /dev/null');
             shell_exec('chmod 755 $(find bootstrap/cache -type d) 2> /dev/null');
         });
@@ -114,30 +97,30 @@ class Install extends Command
 
         $installCommand = $packageManager === 'bun' ? 'bun i' : 'npm install';
 
-        task(
-            "Install packages with {$packageManager}…",
+        $this->components->task(
+            "Installing packages with {$packageManager}",
             fn (): string|false|null => shell_exec("{$installCommand} 2> /dev/null"),
         );
 
-        task('Compiling assets…', fn (): string|false|null => shell_exec("{$packageManager} run build 2> /dev/null"));
+        $this->components->task('Compiling assets', fn (): string|false|null => shell_exec("{$packageManager} run build 2> /dev/null"));
     }
 
     private function setAppUrl(string $domain): void
     {
         $appUrl = "https://{$domain}";
 
-        $contents = $this->files->get('.env');
-        $contents = (string) preg_replace('/(' . preg_quote('APP_URL=', '/') . ')(.*)/', '${1}' . $appUrl, $contents);
+        $this->components->task("Setting app URL to {$appUrl}", function () use ($appUrl): void {
+            $contents = $this->files->get('.env');
+            $contents = (string) preg_replace('/(' . preg_quote('APP_URL=', '/') . ')(.*)/', '${1}' . $appUrl, $contents);
 
-        $this->files->put('.env', $contents);
-
-        $this->components->info("APP_URL set to {$appUrl}");
+            $this->files->put('.env', $contents);
+        });
     }
 
     private function secureSite(string $domain): void
     {
         if (shell_exec('which herd 2> /dev/null')) {
-            task('Securing site with Herd…', fn (): string|false|null => shell_exec(
+            $this->components->task('Securing site with Herd', fn (): string|false|null => shell_exec(
                 "herd secure {$domain} 2> /dev/null",
             ));
 
@@ -145,7 +128,7 @@ class Install extends Command
         }
 
         if (shell_exec('which valet 2> /dev/null')) {
-            task('Securing site with Valet…', fn (): string|false|null => shell_exec(
+            $this->components->task('Securing site with Valet', fn (): string|false|null => shell_exec(
                 "valet secure {$domain} 2> /dev/null",
             ));
         }
@@ -154,10 +137,5 @@ class Install extends Command
     private function getDirectoryName(): string
     {
         return basename(dirname(app_path()));
-    }
-
-    public function guessDatabaseName(): string
-    {
-        return Str::slug(Str::before($this->getDirectoryName(), '.'));
     }
 }
