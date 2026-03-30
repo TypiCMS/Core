@@ -17,5 +17,13 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TypiCMS\\Modules\\Core\\Providers\\ModuleServiceProvider",
+                "TypiCMS\\Modules\\Core\\Providers\\TranslationsServiceProvider"
+            ]
+        }
+    }
 }
