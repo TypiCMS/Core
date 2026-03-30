@@ -42,32 +42,6 @@ class ModuleServiceProvider extends ServiceProvider
         Paginator::defaultSimpleView('core::public.pagination.simple-bootstrap-5');
 
         /*
-         * Get configuration from DB and store it in the container
-         */
-        config([
-            'typicms' => array_merge(new Setting()->allToArray(), config('typicms', [])),
-        ]);
-
-        /*
-         * Merge config from the different modules.
-         */
-        $this->mergeConfigFrom(__DIR__.'/../config/dashboard.php', 'typicms.modules.dashboard');
-        $this->mergeConfigFrom(__DIR__.'/../config/pages.php', 'typicms.modules.pages');
-        $this->mergeConfigFrom(__DIR__.'/../config/page_sections.php', 'typicms.modules.page_sections');
-        $this->mergeConfigFrom(__DIR__.'/../config/blocks.php', 'typicms.modules.blocks');
-        $this->mergeConfigFrom(__DIR__.'/../config/history.php', 'typicms.modules.history');
-        $this->mergeConfigFrom(__DIR__.'/../config/menus.php', 'typicms.modules.menus');
-        $this->mergeConfigFrom(__DIR__.'/../config/menulinks.php', 'typicms.modules.menulinks');
-        $this->mergeConfigFrom(__DIR__.'/../config/files.php', 'typicms.modules.files');
-        $this->mergeConfigFrom(__DIR__.'/../config/search.php', 'typicms.modules.search');
-        $this->mergeConfigFrom(__DIR__.'/../config/tags.php', 'typicms.modules.tags');
-        $this->mergeConfigFrom(__DIR__.'/../config/taxonomies.php', 'typicms.modules.taxonomies');
-        $this->mergeConfigFrom(__DIR__.'/../config/terms.php', 'typicms.modules.terms');
-        $this->mergeConfigFrom(__DIR__.'/../config/translations.php', 'typicms.modules.translations');
-        $this->mergeConfigFrom(__DIR__.'/../config/users.php', 'typicms.modules.users');
-        $this->mergeConfigFrom(__DIR__.'/../config/roles.php', 'typicms.modules.roles');
-
-        /*
          * Load routes.
          */
         $this->loadRoutesFrom(__DIR__.'/../routes/blocks.php');
@@ -286,9 +260,33 @@ class ModuleServiceProvider extends ServiceProvider
     public function register(): void
     {
         /*
-         |--------------------------------------------------------------------------
-         | Register TypiCMS routes.
-         |--------------------------------------------------------------------------
+         * Get configuration from DB and store it in the container.
+         */
+        config([
+            'typicms' => array_merge(new Setting()->allToArray(), config('typicms', [])),
+        ]);
+
+        /*
+         * Merge config from the different modules.
+         */
+        $this->mergeConfigFrom(__DIR__.'/../config/dashboard.php', 'typicms.modules.dashboard');
+        $this->mergeConfigFrom(__DIR__.'/../config/pages.php', 'typicms.modules.pages');
+        $this->mergeConfigFrom(__DIR__.'/../config/page_sections.php', 'typicms.modules.page_sections');
+        $this->mergeConfigFrom(__DIR__.'/../config/blocks.php', 'typicms.modules.blocks');
+        $this->mergeConfigFrom(__DIR__.'/../config/history.php', 'typicms.modules.history');
+        $this->mergeConfigFrom(__DIR__.'/../config/menus.php', 'typicms.modules.menus');
+        $this->mergeConfigFrom(__DIR__.'/../config/menulinks.php', 'typicms.modules.menulinks');
+        $this->mergeConfigFrom(__DIR__.'/../config/files.php', 'typicms.modules.files');
+        $this->mergeConfigFrom(__DIR__.'/../config/search.php', 'typicms.modules.search');
+        $this->mergeConfigFrom(__DIR__.'/../config/tags.php', 'typicms.modules.tags');
+        $this->mergeConfigFrom(__DIR__.'/../config/taxonomies.php', 'typicms.modules.taxonomies');
+        $this->mergeConfigFrom(__DIR__.'/../config/terms.php', 'typicms.modules.terms');
+        $this->mergeConfigFrom(__DIR__.'/../config/translations.php', 'typicms.modules.translations');
+        $this->mergeConfigFrom(__DIR__.'/../config/users.php', 'typicms.modules.users');
+        $this->mergeConfigFrom(__DIR__.'/../config/roles.php', 'typicms.modules.roles');
+
+        /*
+         * Register TypiCMS routes.
          */
         $this->app->singleton('typicms.routes', function (): array {
             try {
