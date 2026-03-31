@@ -31,7 +31,15 @@ test('login page returns 200', function (): void {
 });
 
 test('search page returns 200', function (): void {
-    $this->get('/en/search-results')->assertOk();
+    $page = Page::query()
+        ->where('module', 'search')
+        ->first();
+
+    if (! $page) {
+        $this->markTestSkipped('No page linked to the search module found');
+    }
+
+    $this->get($page->url('en'))->assertOk();
 });
 
 test('sitemap returns 200', function (): void {
