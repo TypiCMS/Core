@@ -3,6 +3,7 @@
 use Illuminate\Console\View\Components\Factory;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
+use TypiCMS\Modules\Core\Commands\Database;
 use TypiCMS\Modules\Core\Commands\Install;
 
 function createInstallCommand(Filesystem $filesystem): Install
@@ -11,35 +12,39 @@ function createInstallCommand(Filesystem $filesystem): Install
 
     $components = mock(Factory::class);
     $components->shouldReceive('info')->andReturnNull();
+    $components->shouldReceive('task')->andReturnUsing(function ($label, $callback) {
+        $callback();
+    });
 
     new ReflectionProperty($command, 'components')->setValue($command, $components);
 
     return $command;
 }
 
-test('guessDatabaseName returns a non-empty string', function (): void {
-    $command = resolve(Install::class);
+function callGuessDatabaseName(): string
+{
+    $command = resolve(Database::class);
+    $method = new ReflectionMethod($command, 'guessDatabaseName');
 
-    expect($command->guessDatabaseName())->toBeString()->not->toBeEmpty();
+    return $method->invoke($command);
+}
+
+test('guessDatabaseName returns a non-empty string', function (): void {
+    expect(callGuessDatabaseName())->toBeString()->not->toBeEmpty();
 });
 
 test('guessDatabaseName strips the TLD extension', function (): void {
-    $command = resolve(Install::class);
-
-    expect($command->guessDatabaseName())->not->toContain('.');
+    expect(callGuessDatabaseName())->not->toContain('.');
 });
 
 test('guessDatabaseName returns a valid slug', function (): void {
-    $command = resolve(Install::class);
-
-    expect($command->guessDatabaseName())->toMatch('/^[a-z0-9]+(-[a-z0-9]+)*$/');
+    expect(callGuessDatabaseName())->toMatch('/^[a-z0-9]+(-[a-z0-9]+)*$/');
 });
 
 test('guessDatabaseName matches the project directory name without TLD', function (): void {
-    $command = resolve(Install::class);
     $expected = Str::slug(Str::before(basename(dirname(app_path())), '.'));
 
-    expect($command->guessDatabaseName())->toBe($expected);
+    expect(callGuessDatabaseName())->toBe($expected);
 });
 
 test('setAppUrl replaces APP_URL in .env file', function (): void {
