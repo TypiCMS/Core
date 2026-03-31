@@ -88,7 +88,7 @@ Use this checklist when creating a new TypiCMS module.
 | Type          | Convention                     | Example                          |
 |---------------|--------------------------------|----------------------------------|
 | Module folder | PascalCase plural              | `Modules/Events`                 |
-| Model         | PascalCase singular            | `Pertner`, `Event`               |
+| Model         | PascalCase singular            | `Partner`, `Event`               |
 | Table         | snake_case plural              | `partners`, `events`             |
 | Route name    | kebab-case plural and singular | `index-partners`, `edit-event`   |
 | Config key    | snake_case plural              | `typicms.modules.events`         |
