@@ -85,6 +85,14 @@
                                 <td>{{ $model->height }} px</td>
                             </tr>
                         @endif
+                        <tr>
+                            <th>{{ __('Created at') }}</th>
+                            <td>{{ $model->created_at->format('d/m/Y H:i:s') }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ __('Updated at') }}</th>
+                            <td>{{ $model->updated_at->format('d/m/Y H:i:s') }}</td>
+                        </tr>
                     </tbody>
                 </table>
 
