@@ -28,7 +28,7 @@
                     {!! TranslatableBootForm::text(__('Alt attribute'), 'alt_attribute') !!}
                 @endif
 
-                {!! BootForm::text(__('Name'), 'name')->autocomplete('off') !!}
+                {!! BootForm::text(__('Display name'), 'name')->autocomplete('off') !!}
 
                 {!! BootForm::file(__('Replace file'), 'file') !!}
             </div>
@@ -42,7 +42,7 @@
                     @endif
                 @endif
 
-                <table class="table table-sm table-striped">
+                <table class="table">
                     <tbody>
                         <tr>
                             <th class="w-25">{{ __('URL') }}</th>
