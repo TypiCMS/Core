@@ -58,7 +58,10 @@ final class SettingsAdminController extends BaseAdminController
 
     public function clearCache(): RedirectResponse
     {
-        ResponseCache::clear();
+        if (config('responsecache.enabled')) {
+            ResponseCache::clear();
+        }
+
         Cache::flush();
         $message = __('Cache cleared.');
 

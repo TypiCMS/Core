@@ -7,6 +7,7 @@ namespace TypiCMS\Modules\Core\Providers;
 use Exception;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -22,6 +23,7 @@ use TypiCMS\Modules\Core\Composers\SidebarViewComposer;
 use TypiCMS\Modules\Core\Composers\SidebarViewCreator;
 use TypiCMS\Modules\Core\Models\Page;
 use TypiCMS\Modules\Core\Models\Setting;
+use Spatie\ResponseCache\Facades\ResponseCache;
 
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -32,6 +34,11 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (config('responsecache.enabled')) {
+            Event::listen('eloquent.saved:*', fn () => ResponseCache::clear());
+            Event::listen('eloquent.deleted:*', fn () => ResponseCache::clear());
+        }
+
         /*
          * Get configuration from DB and store it in the container.
          */
