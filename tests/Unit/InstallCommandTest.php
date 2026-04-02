@@ -12,7 +12,7 @@ function createInstallCommand(Filesystem $filesystem): Install
 
     $components = mock(Factory::class);
     $components->shouldReceive('info')->andReturnNull();
-    $components->shouldReceive('task')->andReturnUsing(function ($label, $callback) {
+    $components->shouldReceive('task')->andReturnUsing(function ($label, $callback): void {
         $callback();
     });
 

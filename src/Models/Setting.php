@@ -40,8 +40,8 @@ class Setting extends Model
                     $config[$key] = $object->value;
                 }
             }
-        } catch (Throwable $exception) {
-            Log::error($exception->getMessage());
+        } catch (Throwable $throwable) {
+            Log::error($throwable->getMessage());
         }
 
         return $config;

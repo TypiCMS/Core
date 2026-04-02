@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Commands;
 
+use Illuminate\Support\Sleep;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -151,7 +152,7 @@ class Install extends Command
 
         while ($process->isRunning()) {
             $this->output->write($frames[$i % count($frames)]);
-            usleep(100_000);
+            Sleep::usleep(100_000);
             $this->output->write("\x08 \x08");
             $i++;
         }
