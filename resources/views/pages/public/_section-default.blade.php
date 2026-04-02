@@ -9,9 +9,7 @@
                 </div>
             @else
                 <div class="section-default-left">
-                    @if (!$section->hide_title)
-                        <h2 class="section-default-title">{{ $section->title }}</h2>
-                    @endif
+                    <h2 @class(['section-default-title', 'visually-hidden' => $section->hide_title])>{{ $section->title }}</h2>
                     <div class="section-default-text rich-content">{!! $section->formattedBody() !!}</div>
                 </div>
                 <div class="section-default-right">

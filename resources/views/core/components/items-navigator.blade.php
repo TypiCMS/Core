@@ -7,8 +7,8 @@
     </a>
     <div class="items-navigator-previous-next">
         @php
-            $prevUrl = new ($model::class)()->prev($model)?->url();
-            $nextUrl = new ($model::class)()->next($model)?->url();
+            $prevUrl = (new ($model::class))->prev($model)?->url();
+            $nextUrl = (new ($model::class))->next($model)?->url();
         @endphp
         <a @class(['items-navigator-previous', 'disabled' => !$prevUrl]) href="{{ $prevUrl }}">
             ←
