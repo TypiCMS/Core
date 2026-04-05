@@ -2,7 +2,7 @@
     position: relative;
     &-button {
         @extend .btn;
-        @include button-variant(rgba($white, 0.6), transparent, $primary, $white, transparent, $primary);
+        @include button-variant(rgba($yellow, 0.6), transparent, $primary, $yellow, transparent, $primary);
         @extend .rounded-pill;
         position: absolute;
         right: 0;
