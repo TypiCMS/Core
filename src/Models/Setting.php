@@ -18,7 +18,7 @@ use Throwable;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['group_name', 'key_name', 'value'])]
+#[Fillable('group_name', 'key_name', 'value')]
 class Setting extends Model
 {
     /** @return array<string, string|null|array<string, string|null>> */
