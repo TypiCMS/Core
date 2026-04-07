@@ -38,8 +38,6 @@ class JavaScriptData
             $data['permissions'] = $user->all_permissions;
         }
 
-        $data['public_css_file'] = Vite::asset('resources/scss/public.scss');
-
         resolve('JavaScript')->put($data);
 
         return $next($request);
