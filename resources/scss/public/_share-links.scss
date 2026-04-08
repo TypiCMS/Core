@@ -1,5 +1,7 @@
 .share-links {
-    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     &-list {
         @extend .list-unstyled;
         display: flex;
@@ -15,10 +17,10 @@
     &-icon {
         @include transition();
         display: block;
-        width: 2.25rem;
-        height: 2.25rem;
+        width: 2rem;
+        height: 2rem;
         mask-repeat: no-repeat;
-        mask-size: 20px 20px;
+        mask-size: 28px 28px;
         mask-position: center;
         background-color: #fff;
         &:hover,
@@ -26,14 +28,14 @@
             transform: translateY(-3px);
         }
     }
-    &-facebook {
-        background-color: #3b5998;
+    &-bluesky {
+        background-color: #1185fe;
         &-icon {
-            mask-image: url('../../images/facebook.svg');
+            mask-image: url('../../images/bluesky.svg');
         }
     }
     &-x {
-        background-color: #55acee;
+        background-color: #000;
         &-icon {
             mask-image: url('../../images/x.svg');
         }
@@ -42,6 +44,12 @@
         background-color: #007bb5;
         &-icon {
             mask-image: url('../../images/linkedin.svg');
+        }
+    }
+    &-facebook {
+        background-color: #3b5998;
+        &-icon {
+            mask-image: url('../../images/facebook.svg');
         }
     }
     &-whatsapp {
@@ -53,7 +61,7 @@
     &-mail {
         background-color: #495057;
         &-icon {
-            mask-image: url('../../images/envelope.svg');
+            mask-image: url('../../images/email.svg');
         }
     }
 }
