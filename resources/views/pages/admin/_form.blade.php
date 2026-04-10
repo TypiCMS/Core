@@ -70,7 +70,7 @@
                             <td>
                                 <item-list-position-input :model="model"></item-list-position-input>
                             </td>
-                            <td><img :src="model.thumb" alt="" height="27" /></td>
+                            <td><img v-if="model.image" :src="model.thumb" alt="" height="27" /></td>
                             <td>@{{ model.title_translated }}</td>
                             <td>
                                 <span class="badge text-bg-warning">
