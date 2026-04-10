@@ -15,6 +15,16 @@ final class PagesPublicController extends BasePublicController
 {
     public function uri(?string $uri = null): RedirectResponse|View
     {
+        if ($this->isLocaleOnlyUri($uri)) {
+            $homepage = $this->findHomepage();
+
+            if ($homepage->url() !== request()->url()) {
+                return redirect($homepage->url());
+            }
+
+            return $this->renderPage($homepage);
+        }
+
         $page = $this->findPageByUri($uri);
 
         if ($page->private && ! Auth::check()) {
@@ -23,25 +33,56 @@ final class PagesPublicController extends BasePublicController
 
         if ($page->redirect && $page->publishedSubpages->count() > 0) {
             $child = $page->publishedSubpages->first();
+
             if ($child instanceof Page) {
                 return redirect()->to($child->url());
             }
         }
 
-        $templateDir = 'pages::'.config('typicms.template_dir', 'public').'.';
-        $template = $page->template ?: 'default';
+        return $this->renderPage($page);
+    }
 
-        if (! view()->exists($templateDir.$template)) {
-            info('Template '.$template.' not found, switching to default template.');
-            $template = 'default';
+    public function redirectToHomepage(Request $request): RedirectResponse
+    {
+        $homepage = $this->findHomepage();
+        $locale = $request->getPreferredLanguage(enabledLocales());
+
+        return redirect($homepage->url($locale));
+    }
+
+    public function langChooser(): View
+    {
+        $homepage = $this->findHomepage();
+
+        if (! $homepage) {
+            Log::error('No homepage found.');
+            abort(404);
         }
 
-        return view($templateDir.$template, ['page' => $page, 'templateDir' => $templateDir]);
+        return view('core::public.lang-chooser', [
+            'homepage' => $homepage,
+            'locales' => enabledLocales(),
+        ]);
     }
 
     private function findPageByUri(?string $uri): Page
     {
-        $query = Page::query()
+        return $this->pageQuery()
+            ->when($uri === null, fn ($query) => $query->where('is_home', 1))
+            ->when($uri !== null, fn ($query) => $query->whereUriIs($uri))
+            ->firstOrFail();
+    }
+
+    private function findHomepage(): Page
+    {
+        return $this->pageQuery()
+            ->where('is_home', 1)
+            ->firstOrFail();
+    }
+
+    private function pageQuery()
+    {
+        return Page::query()
             ->published()
             ->with([
                 'image',
@@ -51,45 +92,25 @@ final class PagesPublicController extends BasePublicController
                 'publishedSections.images',
                 'publishedSections.documents',
             ]);
-
-        if ($uri === null) {
-            return $query->where('is_home', 1)->firstOrFail();
-        }
-
-        // Only locale in url
-        if (in_array($uri, enabledLocales(), true) && (mainLocale() !== $uri || config('typicms.main_locale_in_url'))) {
-            return $query->where('is_home', 1)->firstOrFail();
-        }
-
-        $query->whereUriIs($uri);
-
-        return $query->firstOrFail();
     }
 
-    public function redirectToHomepage(Request $request): RedirectResponse
+    private function isLocaleOnlyUri(?string $uri): bool
     {
-        $homepage = Page::query()
-            ->published()
-            ->where('is_home', 1)
-            ->firstOrFail();
-        $locale = $request->getPreferredLanguage(enabledLocales());
-
-        return redirect($homepage->url($locale));
+        return $uri !== null
+            && in_array($uri, enabledLocales(), true)
+            && (mainLocale() !== $uri || config('typicms.main_locale_in_url'));
     }
 
-    public function langChooser(): View
+    private function renderPage(Page $page): View
     {
-        $homepage = Page::query()
-            ->published()
-            ->where('is_home', 1)
-            ->first();
-        if (! $homepage) {
-            Log::error('No homepage found.');
-            abort(404);
+        $templateDir = 'pages::'.config('typicms.template_dir', 'public').'.';
+        $template = $page->template ?: 'default';
+
+        if (! view()->exists($templateDir.$template)) {
+            info("Template {$template} not found, switching to default template.");
+            $template = 'default';
         }
 
-        $locales = enabledLocales();
-
-        return view('core::public.lang-chooser', ['homepage' => $homepage, 'locales' => $locales]);
+        return view($templateDir.$template, ['page' => $page, 'templateDir' => $templateDir]);
     }
 }
