@@ -30,7 +30,7 @@
         </div>
         <div v-if="file === null" class="mb-3">
             <button class="filemanager-field-btn-add" type="button" @click="openFilePicker">
-                <circle-plus-icon class="text-white-50" size="18" />
+                <circle-plus-icon size="16" />
                 {{ t('Add') }}
             </button>
         </div>

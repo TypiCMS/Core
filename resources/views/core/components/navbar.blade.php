@@ -10,6 +10,7 @@
             @endif
 
             <a class="typicms-navbar-brand navbar-brand" href="{{ route('admin::dashboard') }}">
+                {{-- <x-core::logo class="typicms-navbar-brand-logo" /> --}}
                 {{ websiteTitle(config('typicms.navbar_locale')) }}
             </a>
             <ul class="navbar-nav ms-auto">

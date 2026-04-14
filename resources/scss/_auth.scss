@@ -2,27 +2,19 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    @include media-breakpoint-up(sm) {
-        background-color: var(--bs-gray-200);
-    }
-}
-@include color-mode(dark) {
-    .auth-background {
-        background-color: var(--bs-gray-700);
-    }
 }
 .auth {
     background-color: var(--bs-body-bg);
     margin: 5vh auto 0;
-    padding-top: 35px;
-    max-width: 580px;
+    padding-top: 3rem;
+    max-width: 36rem;
     @include media-breakpoint-up(sm) {
         box-shadow: $box-shadow;
         margin-top: 14vh;
         border-radius: 20px;
     }
     &-sm {
-        max-width: 380px;
+        max-width: 26rem;
     }
     &-title {
         @include visually-hidden;
@@ -34,7 +26,7 @@
     }
 
     &-form {
-        padding: 35px;
+        padding: 2rem 3rem 3rem;
     }
 
     &-back-to-website {
@@ -57,6 +49,8 @@
         &-logo {
             display: block;
             margin: 0 auto;
+            width: 190px;
+            height: auto;
         }
     }
 
@@ -73,10 +67,7 @@
 }
 
 @include color-mode(dark) {
-    .auth {
-        background-color: var(--bs-secondary-bg);
-        &-header-logo {
-            filter: invert(1);
-        }
+    .auth-header-logo {
+        filter: invert(1) brightness(1000) grayscale(100);
     }
 }

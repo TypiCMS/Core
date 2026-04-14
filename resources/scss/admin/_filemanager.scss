@@ -62,7 +62,7 @@
     &-field-btn-add {
         @extend .btn;
         @extend .btn-sm;
-        @extend .btn-secondary;
+        @extend .btn-light;
         display: flex;
         align-items: center;
     }

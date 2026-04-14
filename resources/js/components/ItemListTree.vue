@@ -87,7 +87,7 @@
                         <div class="title">{{ translatable ? node.data.title_translated : node.data.title }}</div>
                         <corner-right-down-icon v-if="node.data.redirect" class="text-secondary" size="16" />
 
-                        <a v-if="node.data.module" :href="'/admin/' + node.data.module" class="btn btn-xs btn-secondary fw-bold px-1 py-0">
+                        <a v-if="node.data.module" :href="'/admin/' + node.data.module" class="btn btn-xs btn-warning fw-bold px-1 py-0">
                             {{ t(node.data.module.charAt(0).toUpperCase() + node.data.module.slice(1)) }}
                         </a>
                     </template>

@@ -40,7 +40,7 @@
         </draggable>
         <div>
             <button :disabled="maxItems !== null && items.length >= maxItems" class="btn btn-secondary btn-sm" @click.prevent="add">
-                <circle-plus-icon class="text-white-50" size="18" />
+                <circle-plus-icon size="16" />
                 {{ t('Add') }}
             </button>
         </div>

@@ -28,3 +28,8 @@
         white-space: nowrap;
     }
 }
+@include color-mode(dark) {
+    .typicms-navbar-brand-logo {
+        filter: invert(1) brightness(1000) grayscale(100);
+    }
+}

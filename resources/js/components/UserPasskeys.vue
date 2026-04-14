@@ -19,7 +19,7 @@
                 <span class="visually-hidden">{{ t('Loading…') }}</span>
             </div>
             <ul v-if="passkeys.length > 0 && !loading" class="list-unstyled mb-0 d-flex flex-row flex-wrap gap-2">
-                <li v-for="passkey in passkeys" :key="passkey.id" class="px-3 border d-flex flex-row align-items-center gap-4 bg-light rounded">
+                <li v-for="passkey in passkeys" :key="passkey.id" class="px-3 border d-flex flex-row align-items-center gap-4 rounded">
                     <key-round-icon class="text-body-tertiary" size="40" stroke-width="1.5" />
                     <div class="d-flex flex-column py-3">
                         <div class="mb-1">{{ t('Name') }}: {{ passkey.name }}</div>

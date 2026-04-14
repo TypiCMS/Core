@@ -133,7 +133,7 @@
                 </div>
                 <div v-if="modelValue === null">
                     <button class="filemanager-field-btn-add" type="button" :disabled="disabled" @click="openFilePicker">
-                        <circle-plus-icon class="text-white-50" size="18" />
+                        <circle-plus-icon size="16" />
                         {{ t('Add') }}
                     </button>
                 </div>

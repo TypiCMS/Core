@@ -40,6 +40,11 @@ body {
         background-color: var(--bs-tertiary-bg);
     }
 }
+@include color-mode(dark) {
+    body {
+        background-color: $black;
+    }
+}
 .main {
     display: flex;
     align-items: flex-start;
