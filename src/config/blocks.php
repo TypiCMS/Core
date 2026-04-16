@@ -7,7 +7,7 @@ return [
         'name' => 'asc',
     ],
     'sidebar' => [
-        'icon' => '<i class="icon-text-select"></i>',
+        'icon' => '<i class="icon-square-dashed-text"></i>',
         'weight' => 100,
     ],
     'permissions' => [
