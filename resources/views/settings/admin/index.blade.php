@@ -19,15 +19,30 @@
     </div>
 
     <div class="content">
-        <label class="form-label">{{ __('Website title') }}</label>
-        @foreach (locales() as $locale)
-            <div class="mb-3">
-                <div class="input-group">
-                    <span class="input-group-text">{{ strtoupper($locale) }}</span>
-                    <input class="form-control" type="text" name="{{ $locale }}[website_title]" value="{{ $data->$locale->website_title ?? '' }}" />
+
+        <div class="mb-3">
+            <label class="form-label">{{ __('Website title') }}</label>
+            @foreach (locales() as $locale)
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">{{ strtoupper($locale) }}</span>
+                        <input class="form-control" type="text" name="{{ $locale }}[website_title]" value="{{ $data->$locale->website_title ?? '' }}" />
+                    </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">{{ __('Website description') }}</label>
+            @foreach (locales() as $locale)
+                <div class="mb-2">
+                    <div class="input-group">
+                        <span class="input-group-text">{{ strtoupper($locale) }}</span>
+                        <textarea class="form-control" name="{{ $locale }}[website_description]" rows="3" maxlength="400">{{ $data->$locale->website_description ?? '' }}</textarea>
+                    </div>
+                </div>
+            @endforeach
+        </div>
 
         <label class="form-label">{{ __('Publish website') }}</label>
 
