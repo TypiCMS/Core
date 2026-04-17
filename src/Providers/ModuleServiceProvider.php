@@ -63,6 +63,7 @@ class ModuleServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/dashboard.php');
         $this->loadRoutesFrom(__DIR__.'/../routes/files.php');
         $this->loadRoutesFrom(__DIR__.'/../routes/history.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/llms-txt.php');
         $this->loadRoutesFrom(__DIR__.'/../routes/menus.php');
         $this->loadRoutesFrom(__DIR__.'/../routes/roles.php');
         $this->loadRoutesFrom(__DIR__.'/../routes/search.php');

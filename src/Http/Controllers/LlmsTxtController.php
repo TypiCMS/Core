@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
@@ -26,22 +27,27 @@ final class LlmsTxtController extends Controller
 
     private function generateContent(): string
     {
-        $locale = 'en';
-        app()->setLocale($locale);
-
         $lines = [];
 
-        $lines[] = '## Key Pages';
+        $lines[] = '# '.websiteTitle();
         $lines[] = '';
 
-        $sectionPages = $this->getSectionPages($locale);
-        foreach ($sectionPages as $label => $url) {
-            $lines[] = "- [{$label}]({$url})";
+        foreach (enabledLocales() as $locale) {
+            $lines[] = '## '.mb_strtoupper($locale);
+            $lines[] = '';
+
+            $lines[] = '### Key Pages';
+            $lines[] = '';
+
+            $sectionPages = $this->getSectionPages($locale);
+            foreach ($sectionPages as $label => $url) {
+                $lines[] = "- [{$label}]({$url})";
+            }
+
+            $lines[] = '';
+
+            $lines = $this->addLatestModuleItems($lines, $locale);
         }
-
-        $lines[] = '';
-
-        // $lines = $this->addNews($lines, $locale);
 
         return implode("\n", $lines);
     }
@@ -61,14 +67,15 @@ final class LlmsTxtController extends Controller
             $pages['Home'] = $homePage->url($locale);
         }
 
-        $primaryMenu = Menu::query()
+        $menuNames = (array) config('typicms.llms_txt.menus', []);
+        $menus = Menu::query()
             ->published()
-            ->where('name', 'primary')
-            ->first();
+            ->whereIn('name', $menuNames)
+            ->get();
 
-        if ($primaryMenu) {
+        foreach ($menus as $menu) {
             $menulinks = Menulink::query()
-                ->where('menu_id', $primaryMenu->id)
+                ->where('menu_id', $menu->id)
                 ->whereNull('parent_id')
                 ->published()
                 ->orderBy('position')
@@ -86,28 +93,59 @@ final class LlmsTxtController extends Controller
             }
         }
 
-        $audiencePages = Page::query()
-            ->published()
-            ->where('template', 'landing-audience')
-            ->orderBy('position')
-            ->get();
-
-        foreach ($audiencePages as $page) {
-            $title = $page->translate('title', $locale);
-            if ($title) {
-                $cleanTitle = preg_replace('/\*([^*]+)\*/', '$1', (string) $title);
-                $pages[$cleanTitle] = $page->url($locale);
-            }
-        }
-
-        $modules = ['news'];
-        foreach ($modules as $module) {
-            $page = getPageLinkedToModule($module);
-            if ($page instanceof Page && $page->isPublished($locale)) {
-                $pages[$page->title] = $page->url($locale);
-            }
-        }
-
         return $pages;
+    }
+
+    /**
+     * @param  array<int, string>  $lines
+     * @return array<int, string>
+     */
+    private function addLatestModuleItems(array $lines, string $locale): array
+    {
+        foreach ((array) config('typicms.modules') as $moduleName => $properties) {
+            if (! ($properties['llms_txt'] ?? false)) {
+                continue;
+            }
+
+            $modelClass = $properties['model'] ?? null;
+            if (! is_string($modelClass) || ! is_subclass_of($modelClass, Model::class)) {
+                continue;
+            }
+
+            $page = getPageLinkedToModule($moduleName);
+            if (! $page instanceof Page || ! $page->isPublished($locale)) {
+                continue;
+            }
+
+            $items = $modelClass::query()
+                ->published()
+                ->latest()
+                ->take(20)
+                ->get();
+
+            if ($items->isEmpty()) {
+                continue;
+            }
+
+            $lines[] = "### {$page->translate('title', $locale)}";
+            $lines[] = '';
+
+            foreach ($items as $item) {
+                if (! $item->isPublished($locale)) {
+                    continue;
+                }
+
+                $url = $item->url($locale);
+                $title = $item->translate('title', $locale);
+
+                if ($url && $title) {
+                    $lines[] = "- [{$title}]({$url})";
+                }
+            }
+
+            $lines[] = '';
+        }
+
+        return $lines;
     }
 }
