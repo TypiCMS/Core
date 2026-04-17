@@ -87,7 +87,7 @@ window.emitter = emitter;
  * Helpers
  */
 import useHelpers from './composables/useHelpers.ts';
-const { formatDate, formatDateTime, $can } = useHelpers();
+const { formatDate, formatDateTime, formatDateRange, $can } = useHelpers();
 
 const app = createApp()
     .component('ItemListColumnHeader', ItemListColumnHeader)
@@ -110,6 +110,7 @@ const app = createApp()
     .use(i18n);
 app.config.globalProperties.emitter = emitter;
 app.config.globalProperties.formatDate = formatDate;
+app.config.globalProperties.formatDateRange = formatDateRange;
 app.config.globalProperties.formatDateTime = formatDateTime;
 app.config.globalProperties.$can = $can;
 app.mount('#app');
