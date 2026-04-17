@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace TypiCMS\Modules\Core\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 use TypiCMS\Modules\Core\Models\Page;
 
 final class SitemapPublicController extends Controller
@@ -41,17 +40,12 @@ final class SitemapPublicController extends Controller
                         $sitemap->add($url, $page->updated_at?->toDateTimeString());
                     }
 
-                    $module = ucfirst((string) $page->module);
-
-                    if (! class_exists($module)) {
+                    $modelClass = config("typicms.modules.{$page->module}.model");
+                    if (! is_string($modelClass) || ! is_subclass_of($modelClass, Model::class)) {
                         continue;
                     }
 
-                    if (! Route::has($locale.'::'.Str::singular(mb_strtolower($module)))) {
-                        continue;
-                    }
-
-                    foreach ($module::published()->get() as $item) {
+                    foreach ($modelClass::published()->get() as $item) {
                         $url = $item->url($locale);
                         if ($url) {
                             $sitemap->add($url, $item->updated_at?->toDateTimeString());
